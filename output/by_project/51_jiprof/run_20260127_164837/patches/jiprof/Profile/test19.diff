@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
+@@ -213,15 +213,18 @@
+     Profile.stop();
+     // No exception means the test passes.
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      Profile.initProfiler();
+-      Controller.OutputType controller_OutputType0 = Controller.OutputType.XML;
+-      Controller._outputType = controller_OutputType0;
+-      Profile.start("*\"lX[NZRfl", "<init>");
+-  }
++@Test(timeout = 4000)
++public void test19() throws Throwable {
++    // Arrange
++    Controller.OutputType expectedOutput = Controller.OutputType.XML;
++    Controller._outputType = expectedOutput;
++    // Act
++    Profile.initProfiler();
++    Profile.start("*\"lX[NZRfl", "<init>");
++    // Assert
++    assertEquals("Controller output type should remain unchanged after start", expectedOutput, Controller._outputType);
++}
++
+ @Test(timeout = 4000)
+     public void test20() throws Throwable {
+         // Provide valid arguments to avoid the NullPointerException that occurs with the no‑arg start()

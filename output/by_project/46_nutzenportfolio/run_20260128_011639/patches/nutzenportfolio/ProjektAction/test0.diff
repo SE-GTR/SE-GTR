@@ -1,0 +1,38 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/action/ProjektAction_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/action/ProjektAction_ESTest.java
+@@ -36,27 +36,20 @@
+     actionMapping0 = new ActionMapping();
+     projektAction0 = new ProjektAction((ProjektService) null, (ProjektgruppeService) null);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       NaOpNuIbatisDao naOpNuIbatisDao0 = new NaOpNuIbatisDao();
+       ProjektDaoService projektDaoService0 = new ProjektDaoService((ProjektDao) null, (ProjektgruppeService) null, naOpNuIbatisDao0);
+-    projektAction0 = new ProjektAction(projektDaoService0, (ProjektgruppeService) null);
++      ProjektAction projektAction0 = new ProjektAction(projektDaoService0, (ProjektgruppeService) null);
+       NaOpNuForm naOpNuForm0 = new NaOpNuForm();
+       HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+       doReturn((String) null).when(httpServletRequest0).getParameter(anyString());
+-      try { 
+-        projektAction0.deleteQuestion((ActionMapping) null, naOpNuForm0, httpServletRequest0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.action.ProjektAction", e);
+-      }
++      ActionMapping mapping = mock(ActionMapping.class);
++      HttpServletResponse response = mock(HttpServletResponse.class);
++      ActionForward forward = projektAction0.deleteQuestion(mapping, naOpNuForm0, httpServletRequest0, response);
++      assertNotNull(forward);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

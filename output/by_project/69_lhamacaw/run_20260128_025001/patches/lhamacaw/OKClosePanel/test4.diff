@@ -1,0 +1,28 @@
+--- a/evosuite-tests/macaw/util/OKClosePanel_ESTest.java
++++ b/evosuite-tests/macaw/util/OKClosePanel_ESTest.java
+@@ -61,13 +61,22 @@
+       JButton jButton0 = oKClosePanel0.getSaveButton();
+       assertFalse(jButton0.isFocusTraversalPolicyProvider());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test4() throws Throwable {
+       UserInterfaceFactory userInterfaceFactory0 = new UserInterfaceFactory();
+       Action action0 = TransferHandler.getCutAction();
+       ActionListener actionListener0 = AWTEventMulticaster.add((ActionListener) action0, (ActionListener) action0);
+       OKClosePanel oKClosePanel0 = new OKClosePanel(userInterfaceFactory0, actionListener0);
++      // Verify the default state (if any) before changing it
++      boolean defaultState = oKClosePanel0.getAllowWriteAccess();
++      // Act: change the write‑access flag
+       oKClosePanel0.setAllowWriteAccess(false);
++      // Assert: the flag reflects the new value
++      assertFalse(oKClosePanel0.getAllowWriteAccess());
++      // Optional sanity check: the state should differ from the default (if it was true)
++      if (defaultState) {
++          assertNotEquals(defaultState, oKClosePanel0.getAllowWriteAccess());
++      }
+   }
++
+ }

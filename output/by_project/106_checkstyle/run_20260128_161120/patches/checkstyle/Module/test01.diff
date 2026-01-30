@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/Module_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/Module_ESTest.java
+@@ -34,18 +34,26 @@
+       module0.setSeverity(severityLevel2);
+       assertFalse(severityLevel2.equals((Object)severityLevel0));
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      SeverityLevel severityLevel0 = SeverityLevel.ERROR;
+-      RuleGroupMetadata ruleGroupMetadata0 = mock(RuleGroupMetadata.class, new ViolatedAssumptionAnswer());
+-      SeverityLevel severityLevel1 = SeverityLevel.IGNORE;
+-      RuleMetadata ruleMetadata0 = new RuleMetadata("SiV[`g^+4<R~L%<?4", "\"<F#|", "\"<F#|", severityLevel0, false, true, false, false, ruleGroupMetadata0);
+-      Module module0 = new Module(ruleMetadata0, true);
+-      module0.setSeverity(severityLevel1);
+-      module0.setSeverity(severityLevel1);
+-      assertEquals("ignore", severityLevel1.getName());
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        SeverityLevel severityLevel0 = SeverityLevel.ERROR;
++        RuleGroupMetadata ruleGroupMetadata0 = mock(RuleGroupMetadata.class, new ViolatedAssumptionAnswer());
++        SeverityLevel severityLevel1 = SeverityLevel.IGNORE;
++        RuleMetadata ruleMetadata0 = new RuleMetadata("SiV[`g^+4<R~L%<?4", "\"<F#|", "\"<F#|", severityLevel0,
++                false, true, false, false, ruleGroupMetadata0);
++        Module module0 = new Module(ruleMetadata0, true);
++
++        // Verify that setSeverity changes the internal severity level
++        SeverityLevel originalSeverity = module0.getSeverityLevel();
++        assertEquals(severityLevel0, originalSeverity);
++
++        module0.setSeverity(severityLevel1);
++        assertEquals(severityLevel1, module0.getSeverityLevel());
++
++        // Additional sanity check on the SeverityLevel enum itself
++        assertEquals("ignore", severityLevel1.getName());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

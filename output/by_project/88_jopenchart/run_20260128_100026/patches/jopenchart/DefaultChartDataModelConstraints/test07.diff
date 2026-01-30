@@ -1,0 +1,46 @@
+--- a/evosuite-tests/de/progra/charting/model/DefaultChartDataModelConstraints_ESTest.java
++++ b/evosuite-tests/de/progra/charting/model/DefaultChartDataModelConstraints_ESTest.java
+@@ -118,22 +118,27 @@
+     Number minValue = defaultChartDataModelConstraints0.getMinimumValue();
+     assertTrue("Minimum value should be null or a Number", minValue == null || minValue instanceof Number);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      double[] doubleArray0 = new double[3];
+-      String[] stringArray0 = new String[2];
+-      Number[][] numberArray0 = new Number[1][7];
+-      Number[] numberArray1 = new Number[1];
+-      numberArray1[0] = (Number) (-841.0);
+-      numberArray0[0] = numberArray1;
+-      EditableChartDataModel editableChartDataModel0 = new EditableChartDataModel(numberArray0, doubleArray0, stringArray0);
+-      editableChartDataModel0.setAutoScale(true);
+-      DefaultChartDataModelConstraints defaultChartDataModelConstraints0 = new DefaultChartDataModelConstraints(editableChartDataModel0, 0);
+-      Number number0 = defaultChartDataModelConstraints0.getMinimumValue();
+-      assertEquals((-1000.0), number0);
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        double[] doubleArray0 = new double[3];
++        String[] stringArray0 = new String[2];
++        Number[][] numberArray0 = new Number[1][7];
++        Number[] numberArray1 = new Number[1];
++        numberArray1[0] = (Number) (-841.0);
++        numberArray0[0] = numberArray1;
++        EditableChartDataModel editableChartDataModel0 = new EditableChartDataModel(numberArray0, doubleArray0, stringArray0);
++        // capture the initial auto‑scale state
++        boolean beforeAutoScale = editableChartDataModel0.isAutoScale();
++        // act
++        editableChartDataModel0.setAutoScale(true);
++        // assert that the side‑effect is observable
++        assertTrue(editableChartDataModel0.isAutoScale());
++        assertNotEquals(beforeAutoScale, editableChartDataModel0.isAutoScale());
++        DefaultChartDataModelConstraints defaultChartDataModelConstraints0 = new DefaultChartDataModelConstraints(editableChartDataModel0, 0);
++        Number number0 = defaultChartDataModelConstraints0.getMinimumValue();
++        assertEquals((-1000.0), number0);
++    }
++
+ @Test(timeout = 4000)
+ public void test08() throws Throwable {
+     int[][] intArray0 = new int[1][2];

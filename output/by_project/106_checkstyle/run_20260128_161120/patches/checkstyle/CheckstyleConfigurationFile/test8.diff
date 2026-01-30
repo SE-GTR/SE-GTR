@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/CheckstyleConfigurationFile_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/CheckstyleConfigurationFile_ESTest.java
+@@ -77,22 +77,21 @@
+       checkstyleConfigurationFile0.setModificationStamp(1331L);
+       assertEquals(1331L, checkstyleConfigurationFile0.getModificationStamp());
+   }
++@Test(timeout = 4000)
++    public void test8() throws Throwable {
++        CheckstyleConfigurationFile file = new CheckstyleConfigurationFile();
++        byte[] bytes = "sample".getBytes(java.nio.charset.StandardCharsets.UTF_8);
++        java.lang.reflect.Field field = CheckstyleConfigurationFile.class.getDeclaredField("mCheckConfigFileBytes");
++        field.setAccessible(true);
++        field.set(file, bytes);
++        java.io.ByteArrayInputStream stream = file.getCheckConfigFileStream();
++        assertNotNull(stream);
++        byte[] read = new byte[bytes.length];
++        int len = stream.read(read);
++        assertEquals(bytes.length, len);
++        assertArrayEquals(bytes, read);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-      CheckstyleConfigurationFile checkstyleConfigurationFile0 = new CheckstyleConfigurationFile();
+-      // Undeclared exception!
+-      try { 
+-        checkstyleConfigurationFile0.getCheckConfigFileStream();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.io.ByteArrayInputStream", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test9()  throws Throwable  {

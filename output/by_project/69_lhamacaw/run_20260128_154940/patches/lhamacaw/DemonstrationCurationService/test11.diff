@@ -1,0 +1,37 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/DemonstrationCurationService_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/DemonstrationCurationService_ESTest.java
+@@ -189,23 +189,17 @@
+          verifyException("macaw.persistenceLayer.demo.InMemoryUserManager", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      DemonstrationCurationService demonstrationCurationService0 = new DemonstrationCurationService();
+-      User user0 = demonstrationCurationService0.admin;
+-      // Undeclared exception!
+-      try { 
+-        demonstrationCurationService0.getAliasFilePathIdentifier(user0, (Variable) null, (AliasFilePath) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("macaw.persistenceLayer.demo.InMemoryListChoiceManager", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    DemonstrationCurationService service = new DemonstrationCurationService();
++    User admin = service.admin;
++    Variable variable = new Variable();
++    AliasFilePath aliasFilePath = new AliasFilePath();
++    int identifier = service.getAliasFilePathIdentifier(admin, variable, aliasFilePath);
++    // Verify that a valid identifier is returned (non‑negative is a reasonable sanity check)
++    assertTrue(identifier >= 0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/yahoo/platform/yui/compressor/JavaScriptCompressor_ESTest.java
++++ b/evosuite-tests/com/yahoo/platform/yui/compressor/JavaScriptCompressor_ESTest.java
+@@ -44,17 +44,19 @@
+         assertTrue("Result should start with the original input", result.startsWith("t0\u007f&KC_"));
+         assertTrue("Result should end with a semicolon", result.endsWith(";"));
+     }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        String input = "1*nqt>oep2CHzK%TV,4";
++        ToolErrorReporter toolErrorReporter0 = new ToolErrorReporter(true);
++        StringWriter stringWriter0 = new StringWriter();
++        StringReader stringReader0 = new StringReader(input);
++        JavaScriptCompressor javaScriptCompressor0 = new JavaScriptCompressor(stringReader0, toolErrorReporter0);
++        int beforeLength = stringWriter0.getBuffer().length();
++        javaScriptCompressor0.compress(stringWriter0, 99, true, true, true, true);
++        assertEquals(input + ";", stringWriter0.toString());
++        assertEquals(beforeLength + input.length() + 1, stringWriter0.getBuffer().length());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      ToolErrorReporter toolErrorReporter0 = new ToolErrorReporter(true);
+-      StringWriter stringWriter0 = new StringWriter();
+-      StringReader stringReader0 = new StringReader("1*nqt>oep2CHzK%TV,4");
+-      JavaScriptCompressor javaScriptCompressor0 = new JavaScriptCompressor(stringReader0, toolErrorReporter0);
+-      javaScriptCompressor0.compress(stringWriter0, 99, true, true, true, true);
+-      assertEquals("1*nqt>oep2CHzK%TV,4;", stringWriter0.toString());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/framework/util/PropertyUtils_ESTest.java
++++ b/evosuite-tests/framework/util/PropertyUtils_ESTest.java
+@@ -374,14 +374,19 @@
+         PropertyUtils.setDebug(1130);
+         assertEquals(1130, PropertyUtils.getDebug());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test47()  throws Throwable  {
+-      PropertyUtils propertyUtils0 = new PropertyUtils();
+-      PropertyUtils.setDebug(']');
+-      Object object0 = new Object();
+-  }
++@Test(timeout = 4000)
++public void test47() throws Throwable {
++    // Record the current debug level
++    int originalDebug = PropertyUtils.getDebug();
++
++    // Change the debug level and verify the side‑effect
++    PropertyUtils.setDebug(1);
++    assertEquals(1, PropertyUtils.getDebug());
++
++    // Restore original state to avoid affecting other tests
++    PropertyUtils.setDebug(originalDebug);
++}
++
+ @Test(timeout = 4000, expected = NoSuchMethodException.class)
+ public void test48() throws Throwable {
+     PropertyUtils.setProperty("bytes", "bytes", "bytes");

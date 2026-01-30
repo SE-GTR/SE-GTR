@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
+@@ -80,26 +80,20 @@
+     assertTrue(string0.contains("<catalogue>HEAL.org</catalogue>"));
+     assertTrue(string0.endsWith("</metadatalist>"));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      RequirementBean requirementBean0 = new RequirementBean();
+-      completeMetadataBean0.addRequirement(requirementBean0);
+-      completeMetadataBean0.setLocation("upload");
+-      try { 
+-        HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, (OutputStream) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // javax.xml.transform.TransformerException: Result object passed to ''{0}'' is invalid.
+-         //
+-         verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    FileLocator fileLocator0 = new FileLocator();
++    CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++    RequirementBean requirementBean0 = new RequirementBean();
++    completeMetadataBean0.addRequirement(requirementBean0);
++    completeMetadataBean0.setLocation("upload");
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    // Should not throw IOException when a valid OutputStream is provided
++    HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, baos);
++    // Verify that some XML content was written
++    org.junit.Assert.assertTrue("Output should not be empty", baos.size() > 0);
++}
++
+ @Test(timeout = 4000)
+ public void test06() throws Throwable {
+     FileLocator fileLocator0 = new FileLocator();

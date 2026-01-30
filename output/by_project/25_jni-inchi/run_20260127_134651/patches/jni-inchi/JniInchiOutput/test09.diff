@@ -1,0 +1,30 @@
+--- a/evosuite-tests/net/sf/jniinchi/JniInchiOutput_ESTest.java
++++ b/evosuite-tests/net/sf/jniinchi/JniInchiOutput_ESTest.java
+@@ -94,15 +94,19 @@
+         INCHI_RET status = output.getReturnStatus();
+         assertNotNull(status);
+     }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        INCHI_RET status = INCHI_RET.BUSY;
++        JniInchiOutput output = new JniInchiOutput(status, "inchi", "initialAux", "initialMsg", "log");
++        // Verify initial auxiliary information
++        assertEquals("initialAux", output.getAuxInfo());
++        // Change auxiliary information and verify the side‑effect
++        output.setAuxInfo("updatedAux");
++        assertEquals("updatedAux", output.getAuxInfo());
++        // Ensure other fields remain unchanged
++        assertEquals("initialMsg", output.getMessage());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      INCHI_RET iNCHI_RET0 = INCHI_RET.BUSY;
+-      JniInchiOutput jniInchiOutput0 = new JniInchiOutput(iNCHI_RET0, (String) null, (String) null, (String) null, (String) null);
+-      jniInchiOutput0.setAuxInfo((String) null);
+-      assertNull(jniInchiOutput0.getMessage());
+-  }
+ @Test(timeout = 4000)
+ public void test10() throws Throwable {
+     JniInchiOutput jniInchiOutput0 = new JniInchiOutput(415, "UNKNOWN", "", "e1zP%}!%m", "");

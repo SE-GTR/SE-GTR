@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
+@@ -62,18 +62,22 @@
+     assertEquals(0, j2EEWebSession0.getSize());
+     assertEquals(0, j2EEWebSession0.getActiveRequests());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      J2EEWebSession j2EEWebSession0 = new J2EEWebSession();
+-      j2EEWebSession0.setStartTime("IeQuD/3KL");
+-      j2EEWebSession0.hashCode();
+-      assertEquals(0, j2EEWebSession0.getIdHash());
+-      assertEquals(0, j2EEWebSession0.getTimeout());
+-      assertEquals(0, j2EEWebSession0.getSize());
+-      assertEquals(0, j2EEWebSession0.getActiveRequests());
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        J2EEWebSession session = new J2EEWebSession();
++        int hashBefore = session.hashCode();
++        session.setStartTime("IeQuD/3KL");
++        int hashAfter = session.hashCode();
++        // Verify that setting the start time influences the object's state observable via hashCode
++        assertNotEquals("hashCode should change after setting startTime", hashBefore, hashAfter);
++        // Verify hashCode is stable after the change
++        assertEquals(hashAfter, session.hashCode());
++        assertEquals(0, session.getIdHash());
++        assertEquals(0, session.getTimeout());
++        assertEquals(0, session.getSize());
++        assertEquals(0, session.getActiveRequests());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

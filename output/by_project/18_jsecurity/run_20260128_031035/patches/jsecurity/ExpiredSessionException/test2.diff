@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/jsecurity/session/ExpiredSessionException_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/ExpiredSessionException_ESTest.java
+@@ -30,11 +30,18 @@
+       ExpiredSessionException expiredSessionException1 = new ExpiredSessionException(throwable0);
+       assertFalse(expiredSessionException1.equals((Object)expiredSessionException0));
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        String expectedMessage = "session expired";
++        Throwable expectedCause = new IllegalStateException("underlying cause");
++        Serializable expectedSessionId = "session-123";
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      ExpiredSessionException expiredSessionException0 = new ExpiredSessionException();
+-  }
++        ExpiredSessionException exception = new ExpiredSessionException(expectedMessage, expectedCause, expectedSessionId);
++
++        assertEquals(expectedMessage, exception.getMessage());
++        assertEquals(expectedCause, exception.getCause());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

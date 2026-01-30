@@ -1,0 +1,48 @@
+--- a/evosuite-tests/framework/util/FileUtils_ESTest.java
++++ b/evosuite-tests/framework/util/FileUtils_ESTest.java
+@@ -73,12 +73,39 @@
+   public void test05()  throws Throwable  {
+       FileUtils.mergeDirectoryFiles("/", "<->A\";v|0GTX$WjcMK", "<->A\";v|0GTX$WjcMK");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      FileUtils.mergeDirectoryFiles("/", "7", "");
+-      FileUtils.zipFile("7");
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    // create a temporary directory with a single file
++    java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("test06Dir");
++    java.nio.file.Path inputFile = tempDir.resolve("a.txt");
++    java.nio.file.Files.write(inputFile,
++            "sample content".getBytes(java.nio.charset.StandardCharsets.UTF_8));
++    // define the output file for the merge operation
++    java.nio.file.Path outputFile = tempDir.resolve("merged.txt");
++    // invoke the method under test
++    FileUtils.mergeDirectoryFiles(tempDir.toString(), outputFile.toString(), "");
++    java.io.File merged = outputFile.toFile();
++    // verify side‑effect of mergeDirectoryFiles
++    org.junit.Assert.assertTrue("Merged file should exist after mergeDirectoryFiles", merged.exists());
++    org.junit.Assert.assertTrue("Merged file should have non‑zero length", merged.length() > 0);
++    // capture size before zipping
++    long beforeSize = merged.length();
++    // invoke zipFile
++    FileUtils.zipFile(outputFile.toString());
++    // expected zip file (implementation creates <path>.zip)
++    java.io.File zipFile = new java.io.File(outputFile.toString() + ".zip");
++    // verify side‑effect of zipFile
++    org.junit.Assert.assertTrue("Zip file should be created after zipFile", zipFile.exists());
++    org.junit.Assert.assertTrue("Zip file size should be less than or equal to original",
++            zipFile.length() <= beforeSize);
++    // clean up temporary resources
++    merged.delete();
++    zipFile.delete();
++    java.nio.file.Files.deleteIfExists(inputFile);
++    java.nio.file.Files.deleteIfExists(outputFile);
++    java.nio.file.Files.deleteIfExists(tempDir);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/iter/StreamingIteratorAdapter_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/iter/StreamingIteratorAdapter_ESTest.java
+@@ -87,16 +87,19 @@
+       streamingIteratorAdapter0.close();
+       streamingIteratorAdapter0.close();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test5() throws Throwable {
+       LinkedList<Object> linkedList0 = new LinkedList<Object>();
++      linkedList0.add(new Object());
+       Iterator<Object> iterator0 = linkedList0.descendingIterator();
+       StreamingIteratorAdapter<Object> streamingIteratorAdapter0 = StreamingIteratorAdapter.adapt(iterator0);
++      // Verify that before closing the iterator has elements
++      assertTrue(streamingIteratorAdapter0.hasNext());
++      // Close the iterator and verify that it no longer reports any elements
+       streamingIteratorAdapter0.close();
+-      boolean boolean0 = streamingIteratorAdapter0.hasNext();
+-      assertFalse(boolean0);
++      assertFalse(streamingIteratorAdapter0.hasNext());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

@@ -1,0 +1,48 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/EditControlledVocabularyAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/EditControlledVocabularyAction_ESTest.java
+@@ -38,29 +38,32 @@
+     httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+       doReturn(completeMetadataBean0).when(httpSession0).getAttribute(anyString());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+       doReturn("").when(httpServletRequest0).getParameter(anyString());
+       doReturn((RequestDispatcher) null).when(httpServletRequest0).getRequestDispatcher(anyString());
+       doReturn(httpSession0).when(httpServletRequest0).getSession();
++      // Verify that the stubs return the expected values
++      assertEquals("", httpServletRequest0.getParameter("any"));
++      assertNull(httpServletRequest0.getRequestDispatcher("any"));
++      assertEquals(httpSession0, httpServletRequest0.getSession());
++
+       HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+       HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+       HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+       // Undeclared exception!
+-      try { 
+-        editControlledVocabularyAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.cataloger.EditControlledVocabularyAction", e);
++      try {
++          editControlledVocabularyAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
++          fail("Expecting exception: NullPointerException");
++      } catch (NullPointerException e) {
++          //
++          // no message in exception (getMessage() returned null)
++          //
++          verifyException("org.heal.servlet.cataloger.EditControlledVocabularyAction", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

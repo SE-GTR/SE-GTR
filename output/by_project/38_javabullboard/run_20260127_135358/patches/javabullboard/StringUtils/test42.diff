@@ -1,0 +1,23 @@
+--- a/evosuite-tests/framework/util/StringUtils_ESTest.java
++++ b/evosuite-tests/framework/util/StringUtils_ESTest.java
+@@ -331,12 +331,14 @@
+       boolean boolean0 = StringUtils.isEmail("ANCOS|", false);
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test42()  throws Throwable  {
+-      boolean boolean0 = StringUtils.isFloat("*:./2)cA", true);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test42() throws Throwable {
++        // Invalid float representation should return false
++        assertFalse(StringUtils.isFloat("*:./\u007f2)cA", true));
++        // Valid float representation should return true
++        assertTrue(StringUtils.isFloat("123.45", true));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test43()  throws Throwable  {

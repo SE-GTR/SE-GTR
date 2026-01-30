@@ -1,0 +1,33 @@
+--- a/evosuite-tests/jigl/signal/io/SignalInputStream_ESTest.java
++++ b/evosuite-tests/jigl/signal/io/SignalInputStream_ESTest.java
+@@ -108,18 +108,17 @@
+     int int0 = signalInputStream0.readMagic();
+     assertEquals(1, int0);
+ }
+-
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test07()  throws Throwable  {
+       EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("u)$G.dat");
+       byte[] byteArray0 = new byte[2];
+-      FileSystemHandling.appendDataToFile(evoSuiteFile0, byteArray0);
++      boolean appended = FileSystemHandling.appendDataToFile(evoSuiteFile0, byteArray0);
++      assertTrue("Appending data to file should succeed", appended);
+       SignalInputStream signalInputStream0 = new SignalInputStream("u)$G.dat");
+       try { 
+         signalInputStream0.readMagic();
+         fail("Expecting exception: Exception");
+-      
++
+       } catch(Exception e) {
+          //
+          // no message in exception (getMessage() returned null)
+@@ -127,6 +126,7 @@
+          verifyException("jigl.signal.io.SignalInputStream", e);
+       }
+   }
++
+ @Test(timeout = 4000, expected = java.io.FileNotFoundException.class)
+   public void test08() throws Throwable {
+       new SignalInputStream("");

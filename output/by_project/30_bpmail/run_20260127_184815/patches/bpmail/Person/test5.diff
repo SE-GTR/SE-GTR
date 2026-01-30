@@ -1,0 +1,34 @@
+--- a/evosuite-tests/ch/bluepenguin/email/client/Person_ESTest.java
++++ b/evosuite-tests/ch/bluepenguin/email/client/Person_ESTest.java
+@@ -52,13 +52,25 @@
+       person0.setLastname("");
+       assertNull(person0.getNickname());
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        Person person0 = new Person();
++        person0.setFirstname("John");
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      Person person0 = new Person();
+-      String string0 = person0.getFirstname();
+-      assertNull(string0);
+-  }
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(person0);
++        oos.flush();
++
++        byte[] serialized = baos.toByteArray();
++
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++                new java.io.ByteArrayInputStream(serialized));
++        Person deserialized = (Person) ois.readObject();
++
++        assertEquals("John", deserialized.getFirstname());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

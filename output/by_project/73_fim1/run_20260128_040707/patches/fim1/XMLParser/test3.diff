@@ -1,0 +1,41 @@
+--- a/evosuite-tests/osa/ora/server/utils/XMLParser_ESTest.java
++++ b/evosuite-tests/osa/ora/server/utils/XMLParser_ESTest.java
+@@ -88,16 +88,29 @@
+       String string0 = xMLParser0.getSingleProperty("yoo[bv8\bw,cs9<d");
+       assertEquals("", string0);
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    xMLParser0 = new XMLParser("osa.ora.server.utils.XMLParser");
++    Hashtable<Object, Object> hashtable0 = new Hashtable<Object, Object>();
++    hashtable0.put("osa.ora.server.utils.XMLParser", "osa.ora.server.utils.XMLParser");
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    xMLParser0 = new XMLParser("osa.ora.server.utils.XMLParser");
+-      Hashtable<Object, Object> hashtable0 = new Hashtable<Object, Object>();
+-      hashtable0.put("osa.ora.server.utils.XMLParser", "osa.ora.server.utils.XMLParser");
+-      xMLParser0.addProperty("osa.ora.server.utils.XMLParser", "osa.ora.server.utils.XMLParser", hashtable0);
+-      Vector vector0 = xMLParser0.getProperty("osa.ora.server.utils.XMLParser");
+-      assertEquals("[{osa.ora.server.utils.XMLParser=osa.ora.server.utils.XMLParser, id=osa.ora.server.utils.XMLParser}, {id=}]", vector0.toString());
+-  }
++    // Verify initial state before adding property
++    Vector<?> beforeVec = xMLParser0.getProperty("osa.ora.server.utils.XMLParser");
++    assertTrue(beforeVec == null || beforeVec.isEmpty());
++
++    // Capture hashtable state before call
++    int htSizeBefore = hashtable0.size();
++
++    xMLParser0.addProperty("osa.ora.server.utils.XMLParser", "osa.ora.server.utils.XMLParser", hashtable0);
++
++    // Ensure the input hashtable was not altered by addProperty
++    assertEquals(htSizeBefore, hashtable0.size());
++    assertEquals("osa.ora.server.utils.XMLParser", hashtable0.get("osa.ora.server.utils.XMLParser"));
++
++    Vector<?> vector0 = xMLParser0.getProperty("osa.ora.server.utils.XMLParser");
++    assertEquals("[{osa.ora.server.utils.XMLParser=osa.ora.server.utils.XMLParser, id=osa.ora.server.utils.XMLParser}, {id=}]", vector0.toString());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

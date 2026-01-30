@@ -1,0 +1,30 @@
+--- a/evosuite-tests/net/sf/xbus/admin/html/JournalBean_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/admin/html/JournalBean_ESTest.java
+@@ -314,12 +314,21 @@
+       JournalBean journalBean0 = new JournalBean();
+       journalBean0.setSorting((String) null);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test35()  throws Throwable  {
+-      JournalBean journalBean0 = new JournalBean();
+-      journalBean0.setSelectionMap("leer");
+-  }
++@Test(timeout = 4000)
++    public void test35() throws Throwable {
++        JournalBean journalBean0 = new JournalBean();
++        // capture the initial state of the selection map (may be null)
++        Object before = journalBean0.getSelectionMap();
++        // invoke the method under test
++        journalBean0.setSelectionMap("leer");
++        // verify that the selection map has been initialized/changed
++        Object after = journalBean0.getSelectionMap();
++        assertNotNull("selectionMap should not be null after setSelectionMap", after);
++        if (before != null) {
++            assertNotEquals("selectionMap should change after setSelectionMap", before, after);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test36()  throws Throwable  {

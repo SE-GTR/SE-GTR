@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -699,16 +699,17 @@
+       quickServer0.configQuickServer(quickServerConfig0);
+       assertEquals(2, quickServer0.getServiceState());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test052()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer();
+-      quickServer0.makeServerSocket();
+-      assertEquals((-1), quickServer0.getServiceState());
+-      
+-      quickServer0.run();
+-      assertEquals(5, quickServer0.getMaxAuthTry());
+-  }
++@Test(timeout = 4000)
++public void test052() throws Throwable {
++    QuickServer quickServer0 = new QuickServer();
++    quickServer0.makeServerSocket();
++    int initialState = quickServer0.getServiceState();
++    quickServer0.run();
++    int afterState = quickServer0.getServiceState();
++    // Verify that running the server changes its service state
++    assertNotEquals(initialState, afterState);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test053()  throws Throwable  {

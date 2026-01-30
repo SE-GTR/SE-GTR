@@ -1,0 +1,28 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/actions/ClearSelectedFilesAction_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/actions/ClearSelectedFilesAction_ESTest.java
+@@ -20,14 +20,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ClearSelectedFilesAction_ESTest extends ClearSelectedFilesAction_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        ClearSelectedFilesAction action = new ClearSelectedFilesAction();
++        TreeSelection emptySelection = TreeSelection.EMPTY;
++        // Act: invoke the method that changes internal state
++        action.selectionChanged((IAction) null, emptySelection);
++        // Assert: the internal selection should now reference the provided empty selection
++        assertSame("The action should store the given selection", emptySelection, action.getSelection());
++        // Additional sanity check on the selection object itself
++        assertEquals(0, emptySelection.size());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ClearSelectedFilesAction clearSelectedFilesAction0 = new ClearSelectedFilesAction();
+-      TreeSelection treeSelection0 = TreeSelection.EMPTY;
+-      clearSelectedFilesAction0.selectionChanged((IAction) null, treeSelection0);
+-      assertEquals(0, treeSelection0.size());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/Secure_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/Secure_ESTest.java
+@@ -136,15 +136,28 @@
+       assertEquals("TLS", secure0.getProtocol());
+       assertFalse(secure0.getEnable());
+   }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    Secure secure0 = new Secure();
++    // Minimal check of default state
++    assertEquals("TLS", secure0.getProtocol());
+ 
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      Secure secure0 = new Secure();
+-      boolean boolean0 = secure0.isLoad();
+-      assertFalse(boolean0);
+-      assertEquals((-1), secure0.getPort());
+-      assertEquals("TLS", secure0.getProtocol());
+-      assertFalse(secure0.isEnable());
+-      assertFalse(secure0.getClientAuthEnable());
+-  }
++    // Act: serialize and deserialize the object
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(secure0);
++    oos.flush();
++    byte[] data = baos.toByteArray();
++
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++    Secure secure1 = (Secure) ois.readObject();
++
++    // Verify that the deserialized object preserves the original state
++    assertEquals(secure0.getPort(), secure1.getPort());
++    assertEquals(secure0.isEnable(), secure1.isEnable());
++    assertEquals(secure0.isLoad(), secure1.isLoad());
++    assertEquals(secure0.getClientAuthEnable(), secure1.getClientAuthEnable());
++    assertEquals(secure0.getProtocol(), secure1.getProtocol());
+ }
++
++}

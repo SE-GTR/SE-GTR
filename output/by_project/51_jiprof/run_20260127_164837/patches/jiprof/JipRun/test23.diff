@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/tivo/jipviewer/JipRun_ESTest.java
++++ b/evosuite-tests/com/tivo/jipviewer/JipRun_ESTest.java
+@@ -270,18 +270,22 @@
+     // Exercise the getter; the default value is not asserted here to avoid redundant initialization checks
+     jipRun_PerMethodInfo0.getAllThreadAllFramesTimeIncludingReentrant();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      JipRun jipRun0 = new JipRun();
+-      jipRun0.startFrame("ChiY5s86b#", "ChiY5s86b#", 354L, 354L);
+-      jipRun0.endFrame();
+-      jipRun0.startFrame("", "", 354L, 354L);
+-      jipRun0.endFrame();
+-      List<JipRun.PerMethodInfo> list0 = jipRun0.perMethodsInTotalTimeOrder();
+-      assertEquals(2, list0.size());
+-  }
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        JipRun jipRun0 = new JipRun();
++        // First frame
++        jipRun0.startFrame("ChiY5s86b#", "ChiY5s86b#", 354L, 354L);
++        jipRun0.endFrame();
++        List<JipRun.PerMethodInfo> listAfterFirst = jipRun0.perMethodsInTotalTimeOrder();
++        assertEquals(1, listAfterFirst.size());
++
++        // Second (empty) frame
++        jipRun0.startFrame("", "", 354L, 354L);
++        jipRun0.endFrame();
++        List<JipRun.PerMethodInfo> listAfterSecond = jipRun0.perMethodsInTotalTimeOrder();
++        assertEquals(2, listAfterSecond.size());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

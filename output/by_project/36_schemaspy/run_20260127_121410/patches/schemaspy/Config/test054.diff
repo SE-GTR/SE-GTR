@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -824,23 +824,20 @@
+          verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test054()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.getMaxDetailedTables();
+-      // Undeclared exception!
+-      try { 
+-        config0.getRemainingParameters();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // org.evosuite.runtime.mock.java.lang.MockThrowable: Required parameter '-o' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test054() throws Throwable {
++        Config config0 = Config.getInstance();
++        int maxDetailedTables = config0.getMaxDetailedTables();
++        assertTrue("max detailed tables should be non‑negative", maxDetailedTables >= 0);
++        try {
++            config0.getRemainingParameters();
++            fail("Expecting exception: RuntimeException");
++        } catch (RuntimeException e) {
++            assertEquals("Required parameter '-o' was not specified.", e.getMessage());
++            verifyException("net.sourceforge.schemaspy.Config", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test055()  throws Throwable  {

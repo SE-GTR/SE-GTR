@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jsecurity/realm/text/PropertiesRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/text/PropertiesRealm_ESTest.java
+@@ -94,14 +94,25 @@
+       assertEquals("guest = guest,guest\npresidentskroob = 12345,president\ndarkhelmet = ludicrousspeed,darklord,schwartz\nroot = secret,root\nlonestarr = vespa,goodguy,schwartz\n", propertiesRealm0.getUserDefinitions());
+       assertEquals("goodguy = winnebago:drive:eagle5\nroot = *\nschwartz = lightsaber:*\n", propertiesRealm0.getRoleDefinitions());
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        propertiesRealm0 = new PropertiesRealm();
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-    propertiesRealm0 = new PropertiesRealm();
+-      propertiesRealm0.startReloadThread();
+-      propertiesRealm0.destroy();
+-      assertNull(propertiesRealm0.getRoleDefinitions());
+-  }
++        // Verify that no scheduler is present initially
++        assertNull(propertiesRealm0.getScheduler());
++
++        // Start the reload thread and verify that a scheduler is created
++        propertiesRealm0.startReloadThread();
++        assertNotNull("Scheduler should be initialized after startReloadThread()", propertiesRealm0.getScheduler());
++
++        // Destroy the realm and verify that the scheduler is cleared
++        propertiesRealm0.destroy();
++        assertNull("Scheduler should be cleared after destroy()", propertiesRealm0.getScheduler());
++
++        // Existing assertion
++        assertNull(propertiesRealm0.getRoleDefinitions());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

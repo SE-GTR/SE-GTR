@@ -1,0 +1,27 @@
+--- a/evosuite-tests/framework/persistence/jdbc/Attribute_ESTest.java
++++ b/evosuite-tests/framework/persistence/jdbc/Attribute_ESTest.java
+@@ -14,13 +14,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Attribute_ESTest extends Attribute_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    Attribute attribute0 = new Attribute();
++    // Verify initial nullable state (expected true)
++    boolean before = attribute0.isNullable();
++    assertTrue("Attribute should be nullable by default", before);
++    // Apply not‑null constraint
++    attribute0.setNotNull("notNullValue");
++    // After setting not null, nullable should be false
++    assertFalse("Attribute should not be nullable after setNotNull", attribute0.isNullable());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Attribute attribute0 = new Attribute();
+-      attribute0.setNotNull("$OF+}}mw;oX");
+-      assertTrue(attribute0.isNullable());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

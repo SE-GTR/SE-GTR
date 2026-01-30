@@ -1,0 +1,43 @@
+--- a/evosuite-tests/visu/handball/moves/actions/AnimationModusAction_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/actions/AnimationModusAction_ESTest.java
+@@ -28,18 +28,30 @@
+     offender0 = new Offender(1165, 1165);
+     moveEvent0 = new MoveEvent(offender0, 1);
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        offender0 = new Offender(868, 868);
++        moveEvent0 = new MoveEvent(offender0, 868);
++        handballModel0 = new HandballModel();
+ 
++        // Verify setActualMoveEvent side‑effect
++        handballModel0.setActualMoveEvent(moveEvent0);
++        assertSame("Actual move event should be set", moveEvent0, handballModel0.getActualMoveEvent());
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    offender0 = new Offender(868, 868);
+-    moveEvent0 = new MoveEvent(offender0, 868);
+-    handballModel0 = new HandballModel();
+-      handballModel0.setActualMoveEvent(moveEvent0);
+-      handballModel0.addMoveEvent(moveEvent0);
+-      AnimationModusAction animationModusAction0 = new AnimationModusAction(handballModel0);
+-      animationModusAction0.modelChanged();
+-  }
++        // Verify addMoveEvent side‑effect
++        int beforeSize = handballModel0.getMoveEvents().size();
++        handballModel0.addMoveEvent(moveEvent0);
++        assertEquals("Move events list size should increase by one", beforeSize + 1, handballModel0.getMoveEvents().size());
++        assertTrue("Move events list should contain the added event", handballModel0.getMoveEvents().contains(moveEvent0));
++
++        // Verify modelChanged side‑effect
++        AnimationModusAction animationModusAction0 = new AnimationModusAction(handballModel0);
++        HandballModel.State stateBefore = handballModel0.getState();
++        animationModusAction0.modelChanged();
++        HandballModel.State stateAfter = handballModel0.getState();
++        assertNotEquals("Model state should change after modelChanged", stateBefore, stateAfter);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

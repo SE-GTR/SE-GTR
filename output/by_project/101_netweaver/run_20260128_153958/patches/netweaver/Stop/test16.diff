@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Stop_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Stop_ESTest.java
+@@ -180,22 +180,21 @@
+       boolean boolean0 = stop0.equals(stop1);
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      Stop stop0 = new Stop();
+-      // Undeclared exception!
+-      try { 
+-        stop0.getOptions(0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.sap.engine.services.dc.wsgate.Stop", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        Stop stop0 = new Stop();
++        // Prepare a non‑null options array to avoid NullPointerException
++        com.sap.engine.services.dc.wsgate.Option[] opts = new com.sap.engine.services.dc.wsgate.Option[1];
++        opts[0] = new com.sap.engine.services.dc.wsgate.Option();
++        java.lang.reflect.Field optionsField = Stop.class.getDeclaredField("options");
++        optionsField.setAccessible(true);
++        optionsField.set(stop0, opts);
++        // Exercise the method under normal conditions
++        com.sap.engine.services.dc.wsgate.Option result = stop0.getOptions(0);
++        assertNotNull(result);
++        assertSame(opts[0], result);
++    }
++
+ @Test(timeout = 4000)
+ public void test17() throws Throwable {
+     Stop stop = new Stop();

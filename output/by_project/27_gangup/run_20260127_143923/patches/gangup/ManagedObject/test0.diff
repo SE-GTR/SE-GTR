@@ -1,0 +1,27 @@
+--- a/evosuite-tests/util/ManagedObject_ESTest.java
++++ b/evosuite-tests/util/ManagedObject_ESTest.java
+@@ -18,15 +18,16 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ManagedObject_ESTest extends ManagedObject_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    MessageFactory messageFactory0 = MessageFactory.getInstance();
++    Message message0 = MessageFactory.createUnloadMessage((String) null);
++    int refBefore = message0.getRefCount();
++    message0.setManager(messageFactory0);
++    assertEquals(refBefore + 1, message0.getRefCount());
++    assertTrue(message0.getIsManaged());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      MessageFactory messageFactory0 = MessageFactory.getInstance();
+-      Message message0 = MessageFactory.createUnloadMessage((String) null);
+-      message0.setManager(messageFactory0);
+-      assertTrue(message0.getIsManaged());
+-      assertEquals(1, message0.getRefCount());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

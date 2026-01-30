@@ -1,0 +1,30 @@
+--- a/evosuite-tests/corina/map/PngEncoderB_ESTest.java
++++ b/evosuite-tests/corina/map/PngEncoderB_ESTest.java
+@@ -15,15 +15,19 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class PngEncoderB_ESTest extends PngEncoderB_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    BufferedImage bufferedImage0 = new BufferedImage(2, 1, 7);
++    PngEncoderB pngEncoderB0 = new PngEncoderB(bufferedImage0, true, 7);
++    byte[] byteArray0 = pngEncoderB0.pngEncode();
++    assertNotNull(byteArray0);
++    // Verify PNG signature (first 8 bytes)
++    byte[] pngSignature = new byte[] {(byte) 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
++    assertArrayEquals(pngSignature, java.util.Arrays.copyOf(byteArray0, pngSignature.length));
++    // Ensure some data was produced
++    assertTrue(byteArray0.length > 0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      BufferedImage bufferedImage0 = new BufferedImage(2, 1, 7);
+-      PngEncoderB pngEncoderB0 = new PngEncoderB(bufferedImage0, true, 7);
+-      byte[] byteArray0 = pngEncoderB0.pngEncode();
+-      assertNotNull(byteArray0);
+-      assertEquals(77, byteArray0.length);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

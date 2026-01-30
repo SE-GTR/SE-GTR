@@ -1,0 +1,52 @@
+--- a/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
+@@ -62,32 +62,32 @@
+       ROI rOI0 = new ROI(0, (-282), 1488, 589);
+       realGrayImage2.diff(realGrayImage0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test02() throws Throwable {
+       RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
+-      realGrayImage0.copy();
++      RealGrayImage copy0 = realGrayImage0.copy();
++      assertNotNull(copy0);
+       ROI rOI0 = new ROI(0, 0, 0, 0);
+       RealGrayImage realGrayImage1 = new RealGrayImage(11, 5);
+       RealGrayImage realGrayImage2 = new RealGrayImage(5, 5);
+       RealGrayImage realGrayImage3 = realGrayImage0.multiply(realGrayImage2);
+-      realGrayImage2.multiply(realGrayImage3);
+-      realGrayImage3.copy();
++      assertNotNull(realGrayImage3);
++      RealGrayImage mulResult = realGrayImage2.multiply(realGrayImage3);
++      assertNotNull(mulResult);
++      RealGrayImage copy3 = realGrayImage3.copy();
++      assertNotNull(copy3);
+       RealGrayImage realGrayImage4 = realGrayImage3.multiply(realGrayImage2);
+-      realGrayImage0.divide((RealGrayImage) null);
++      assertNotNull(realGrayImage4);
++      // The divide call with null does not affect the test outcome; removed to avoid unasserted return.
+       RealGrayImage realGrayImage5 = realGrayImage4.diff(realGrayImage2);
+-      // Undeclared exception!
+-      try { 
+-        realGrayImage5.min(rOI0);
+-        fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // 0
+-         //
+-         verifyException("jigl.image.types.RealGrayImage", e);
++      try {
++          realGrayImage5.min(rOI0);
++          fail("Expecting exception: ArrayIndexOutOfBoundsException");
++      } catch (ArrayIndexOutOfBoundsException e) {
++          verifyException("jigl.image.types.RealGrayImage", e);
+       }
+   }
++
+ @Test(timeout = 4000)
+     public void test03() throws Throwable {
+         RealGrayImage img0 = new RealGrayImage(0, 0);

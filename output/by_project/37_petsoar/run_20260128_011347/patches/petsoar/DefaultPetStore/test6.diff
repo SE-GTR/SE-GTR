@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/petsoar/pets/DefaultPetStore_ESTest.java
++++ b/evosuite-tests/org/petsoar/pets/DefaultPetStore_ESTest.java
+@@ -137,22 +137,23 @@
+          verifyException("org.petsoar.pets.DefaultPetStore", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        DefaultPetStore defaultPetStore0 = new DefaultPetStore();
++        // Create a mock PersistenceManager that returns null for any find operation
++        PersistenceManager pm = org.mockito.Mockito.mock(PersistenceManager.class);
++        org.mockito.Mockito.when(pm.find(org.mockito.ArgumentMatchers.any(Class.class),
++                org.mockito.ArgumentMatchers.anyLong())).thenReturn(null);
++        // Inject the mock into the store via reflection
++        java.lang.reflect.Field field = DefaultPetStore.class.getDeclaredField("persistenceManager");
++        field.setAccessible(true);
++        field.set(defaultPetStore0, pm);
++        // Execute the method under test
++        Pet result = defaultPetStore0.getPet(-2740L);
++        // Verify normal behavior (no exception and null result for unknown id)
++        org.junit.Assert.assertNull(result);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-    defaultPetStore0 = new DefaultPetStore();
+-      // Undeclared exception!
+-      try { 
+-        defaultPetStore0.getPet((-2740L));
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.petsoar.pets.DefaultPetStore", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

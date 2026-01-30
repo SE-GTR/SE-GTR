@@ -1,0 +1,36 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermManager_ESTest.java
+@@ -51,20 +51,32 @@
+   }
+ @Test(timeout = 4000)
+ public void test1() throws Throwable {
++    // Verify that setTerm correctly updates the term field.
+     ontologyTerm0.setTerm("SUPPORTING_DOCUMENT");
+     assertEquals("SUPPORTING_DOCUMENT", ontologyTerm0.getTerm());
++
++    // Capture the identifier before the term is added to the manager.
++    int beforeId = inMemoryOntologyTermManager0.getOntologyTermIdentifier(ontologyTerm0);
++    assertEquals(-1, beforeId);
+ 
+     User user0 = new User("SUPPORTING_DOCUMENT", "SUPPORTING_DOCUMENT");
+     inMemoryOntologyTermManager0.addOntologyTerm(user0, ontologyTerm0);
+     assertFalse(ontologyTerm0.isNewRecord());
+ 
+-    int id0 = inMemoryOntologyTermManager0.getOntologyTermIdentifier(ontologyTerm0);
++    // Verify that the manager assigned a valid identifier after addition.
++    int afterId = inMemoryOntologyTermManager0.getOntologyTermIdentifier(ontologyTerm0);
++    assertTrue(afterId != -1);
++    assertTrue(afterId > beforeId);
++
++    // Re‑use the identifier for the existing assertion.
++    int id0 = afterId;
+     assertTrue(id0 != -1);
+ 
+     OntologyTerm ontologyTerm1 = new OntologyTerm();
+     int int0 = inMemoryOntologyTermManager0.getOntologyTermIdentifier(ontologyTerm1);
+     assertEquals(-1, int0);
+ }
++
+ @Test(timeout = 4000)
+ public void test2() throws Throwable {
+     InMemoryChangeEventManager changeMgr = new InMemoryChangeEventManager();

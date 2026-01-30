@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
+@@ -106,22 +106,12 @@
+          verifyException("org.quickserver.net.server.impl.NonBlockingClientHandler", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
+-      // Undeclared exception!
+-      try { 
+-        blockingClientHandler0.readBinary();
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // Can't read Binary :DataType.IN is not in DataMode.BINARY
+-         //
+-         verifyException("org.quickserver.net.server.impl.BasicClientHandler", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = IllegalStateException.class)
++public void test08() throws Throwable {
++    BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
++    blockingClientHandler0.readBinary();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

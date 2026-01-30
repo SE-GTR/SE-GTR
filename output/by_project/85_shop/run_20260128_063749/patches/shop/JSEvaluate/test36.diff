@@ -1,0 +1,34 @@
+--- a/evosuite-tests/umd/cs/shop/JSEvaluate_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSEvaluate_ESTest.java
+@@ -349,17 +349,20 @@
+       JSTerm jSTerm1 = JSEvaluate.applyOperator("min", jSTerm0, jSTerm0);
+       assertEquals("[1.0]", jSTerm1.toString());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test36()  throws Throwable  {
+-      JSTerm jSTerm0 = JSEvaluate.notequal((-969.72064F), (-969.72064F));
+-      jSTerm0.add((Object) ".");
+-      JSTerm jSTerm1 = JSEvaluate.floor((-969.72064F));
+-      jSTerm0.add((Object) jSTerm1);
+-      jSTerm0.add((Object) jSTerm0);
+-      // Undeclared exception!
+-      JSEvaluate.maxElement(jSTerm0);
+-  }
++@Test(timeout = 4000)
++public void test36() throws Throwable {
++    JSTerm jSTerm0 = JSEvaluate.notequal((-969.72064F), (-969.72064F));
++    boolean addedDot = jSTerm0.add((Object) ".");
++    assertTrue(addedDot);
++    JSTerm jSTerm1 = JSEvaluate.floor((-969.72064F));
++    boolean addedJSTerm1 = jSTerm0.add((Object) jSTerm1);
++    assertTrue(addedJSTerm1);
++    boolean addedSelf = jSTerm0.add((Object) jSTerm0);
++    assertTrue(addedSelf);
++    JSTerm max = JSEvaluate.maxElement(jSTerm0);
++    assertNotNull(max);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test37()  throws Throwable  {

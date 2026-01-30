@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/jsecurity/authc/credential/HashedCredentialsMatcher_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/credential/HashedCredentialsMatcher_ESTest.java
+@@ -32,15 +32,17 @@
+       sha512CredentialsMatcher0.getCredentials(simpleAuthenticationInfo0);
+       assertEquals(1, sha512CredentialsMatcher0.getHashIterations());
+   }
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
++      Md2CredentialsMatcher matcher = new Md2CredentialsMatcher();
++      int originalIterations = matcher.getHashIterations();
++      matcher.setHashIterations(5);
++      assertEquals(5, matcher.getHashIterations());
++      assertTrue(matcher.isStoredCredentialsHexEncoded());
++      assertFalse(matcher.isHashSalted());
++      assertEquals(1, originalIterations);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Md2CredentialsMatcher md2CredentialsMatcher0 = new Md2CredentialsMatcher();
+-      md2CredentialsMatcher0.setHashIterations(Integer.MIN_VALUE);
+-      assertEquals(1, md2CredentialsMatcher0.getHashIterations());
+-      assertTrue(md2CredentialsMatcher0.isStoredCredentialsHexEncoded());
+-      assertFalse(md2CredentialsMatcher0.isHashSalted());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

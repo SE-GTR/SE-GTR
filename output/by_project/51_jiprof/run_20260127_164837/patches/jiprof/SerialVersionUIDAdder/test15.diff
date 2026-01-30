@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/SerialVersionUIDAdder_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/SerialVersionUIDAdder_ESTest.java
+@@ -218,23 +218,17 @@
+       } catch(StringIndexOutOfBoundsException e) {
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      ClassWriter classWriter0 = new ClassWriter(157);
+-      SerialVersionUIDAdder serialVersionUIDAdder0 = new SerialVersionUIDAdder(classWriter0);
+-      String[] stringArray0 = new String[1];
+-      // Undeclared exception!
+-      try { 
+-        serialVersionUIDAdder0.visitMethod(157, "<clinit>", "%Oj?7<5|q>4g1_B$", "%Oj?7<5|q>4g1_B$", stringArray0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        ClassWriter classWriter0 = new ClassWriter(157);
++        SerialVersionUIDAdder serialVersionUIDAdder0 = new SerialVersionUIDAdder(classWriter0);
++        // Properly initialize the class visitor before visiting methods
++        serialVersionUIDAdder0.visit(0, 0, "TestClass", null, null);
++        String[] stringArray0 = new String[1];
++        MethodVisitor mv = serialVersionUIDAdder0.visitMethod(157, "<clinit>", "%Oj?7<5|q>4g1_B$", "%Oj?7<5|q>4g1_B$", stringArray0);
++        assertNotNull(mv);
++    }
++
+ @Test(timeout = 4000)
+     public void test16() throws Throwable {
+         ClassWriter classWriter0 = new ClassWriter(177);

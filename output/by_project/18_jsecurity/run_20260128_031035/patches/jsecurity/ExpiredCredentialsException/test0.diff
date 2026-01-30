@@ -1,0 +1,21 @@
+--- a/evosuite-tests/org/jsecurity/authc/ExpiredCredentialsException_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/ExpiredCredentialsException_ESTest.java
+@@ -15,11 +15,14 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ExpiredCredentialsException_ESTest extends ExpiredCredentialsException_ESTest_scaffolding {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
++      RuntimeException cause = new RuntimeException("inner");
++      ExpiredCredentialsException ex = new ExpiredCredentialsException("error", cause);
++      assertSame("The cause should be preserved", cause, ex.getCause());
++      assertEquals("The message should be preserved", "error", ex.getMessage());
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ExpiredCredentialsException expiredCredentialsException0 = new ExpiredCredentialsException("");
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

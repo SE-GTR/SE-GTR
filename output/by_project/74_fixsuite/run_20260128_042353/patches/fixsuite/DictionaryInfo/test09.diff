@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/fixsuite/message/info/DictionaryInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/DictionaryInfo_ESTest.java
+@@ -105,17 +105,21 @@
+       // Act: retrieve a component that does not exist; ensure no exception is thrown
+       dictionaryInfo0.getComponent("");
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test09() throws Throwable {
+       DictionaryInfo dictionaryInfo0 = new DictionaryInfo("vi(z~ba^t)");
+       ComponentInfo componentInfo0 = new ComponentInfo();
+       componentInfo0.setName("G9Oo~>qyH],:=;&W9RA");
+       dictionaryInfo0.addComponent(componentInfo0);
++      // Verify that the component was added and its name was set correctly
++      ComponentInfo componentInfoByName = dictionaryInfo0.getComponent("G9Oo~>qyH],:=;&W9RA");
++      assertNotNull(componentInfoByName);
++      assertSame(componentInfo0, componentInfoByName);
++      // Verify that requesting a component with an unknown id returns null
+       ComponentInfo componentInfo1 = dictionaryInfo0.getComponent((-211));
+       assertNull(componentInfo1);
+   }
++
+ @Test(timeout = 4000)
+ public void test10() throws Throwable {
+     DictionaryInfo dictionaryInfo0 = new DictionaryInfo("vi(z~ba^t)");

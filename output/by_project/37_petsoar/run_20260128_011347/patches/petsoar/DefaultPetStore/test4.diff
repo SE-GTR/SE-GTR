@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/petsoar/pets/DefaultPetStore_ESTest.java
++++ b/evosuite-tests/org/petsoar/pets/DefaultPetStore_ESTest.java
+@@ -93,22 +93,33 @@
+          verifyException("org.petsoar.pets.DefaultPetStore", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        DefaultPetStore defaultPetStore0 = new DefaultPetStore();
++        // Initialize the required PersistenceManager using a dynamic proxy
++        PersistenceManager pm = (PersistenceManager) java.lang.reflect.Proxy.newProxyInstance(
++                PersistenceManager.class.getClassLoader(),
++                new Class<?>[]{PersistenceManager.class},
++                (proxy, method, args) -> {
++                    Class<?> ret = method.getReturnType();
++                    if (java.util.List.class.isAssignableFrom(ret)) {
++                        return java.util.Collections.emptyList();
++                    }
++                    if (ret.isPrimitive()) {
++                        if (ret.equals(boolean.class)) return false;
++                        if (ret.equals(char.class)) return '\0';
++                        return 0;
++                    }
++                    return null;
++                });
++        java.lang.reflect.Field f = DefaultPetStore.class.getDeclaredField("persistenceManager");
++        f.setAccessible(true);
++        f.set(defaultPetStore0, pm);
++        java.util.List pets = defaultPetStore0.getPets();
++        assertNotNull(pets);
++        assertTrue(pets.isEmpty());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    defaultPetStore0 = new DefaultPetStore();
+-      // Undeclared exception!
+-      try { 
+-        defaultPetStore0.getPets();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.petsoar.pets.DefaultPetStore", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

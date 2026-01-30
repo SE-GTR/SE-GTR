@@ -1,0 +1,36 @@
+--- a/evosuite-tests/osa/ora/server/beans/BinaryMessage_ESTest.java
++++ b/evosuite-tests/osa/ora/server/beans/BinaryMessage_ESTest.java
+@@ -109,14 +109,27 @@
+     // Verify default toUserId remains unchanged
+     assertEquals(0, binaryMessage0.getToUserId());
+ }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        BinaryMessage binaryMessage0 = new BinaryMessage();
++        binaryMessage0.setFromUserId(-1);
++        assertEquals(-1, binaryMessage0.getFromUserId());
+ 
++        // Verify that the state is preserved through serialization (non‑trivial behavior)
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        try (java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos)) {
++            oos.writeObject(binaryMessage0);
++        }
++        byte[] serialized = baos.toByteArray();
+ 
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      BinaryMessage binaryMessage0 = new BinaryMessage();
+-      binaryMessage0.setFromUserId((-1));
+-      assertEquals((-1), binaryMessage0.getFromUserId());
+-  }
++        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(serialized);
++        BinaryMessage deserialized;
++        try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais)) {
++            deserialized = (BinaryMessage) ois.readObject();
++        }
++        assertEquals(-1, deserialized.getFromUserId());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

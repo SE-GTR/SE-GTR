@@ -1,0 +1,56 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/fragebogen/ProjektattraktivitaetDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/fragebogen/ProjektattraktivitaetDaoService_ESTest.java
+@@ -30,29 +30,31 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ProjektattraktivitaetDaoService_ESTest extends ProjektattraktivitaetDaoService_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    ProjektattraktivitaetIbatisDao projektattraktivitaetIbatisDao0 = new ProjektattraktivitaetIbatisDao();
++    AuswahlfeldIbatisDao auswahlfeldIbatisDao0 = new AuswahlfeldIbatisDao();
++    AuswahlfeldDaoService auswahlfeldDaoService0 = new AuswahlfeldDaoService(auswahlfeldIbatisDao0);
++    ProjektService projektServiceMock = mock(ProjektService.class);
++    StrategischeZieleService szServiceMock = mock(StrategischeZieleService.class);
++    DetailzieleService dzServiceMock = mock(DetailzieleService.class);
++    CustomizingService customizingServiceMock = mock(CustomizingService.class);
++    ProjektattraktivitaetDaoService projektattraktivitaetDaoService0 = new ProjektattraktivitaetDaoService(
++            projektattraktivitaetIbatisDao0,
++            projektServiceMock,
++            szServiceMock,
++            dzServiceMock,
++            auswahlfeldDaoService0,
++            customizingServiceMock);
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    HttpSession httpSessionMock = mock(HttpSession.class);
++    doReturn(httpSessionMock).when(httpServletRequest0).getSession();
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    ProjektattraktivitaetForm projektattraktivitaetForm0 = new ProjektattraktivitaetForm();
++    boolean result = projektattraktivitaetDaoService0.prepare(httpServletRequestWrapper0, projektattraktivitaetForm0);
++    assertTrue(result);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ProjektattraktivitaetIbatisDao projektattraktivitaetIbatisDao0 = new ProjektattraktivitaetIbatisDao();
+-      AuswahlfeldIbatisDao auswahlfeldIbatisDao0 = new AuswahlfeldIbatisDao();
+-      AuswahlfeldDaoService auswahlfeldDaoService0 = new AuswahlfeldDaoService(auswahlfeldIbatisDao0);
+-      ProjektattraktivitaetDaoService projektattraktivitaetDaoService0 = new ProjektattraktivitaetDaoService(projektattraktivitaetIbatisDao0, (ProjektService) null, (StrategischeZieleService) null, (DetailzieleService) null, auswahlfeldDaoService0, (CustomizingService) null);
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      ProjektattraktivitaetForm projektattraktivitaetForm0 = new ProjektattraktivitaetForm();
+-      // Undeclared exception!
+-      try { 
+-        projektattraktivitaetDaoService0.prepare(httpServletRequestWrapper0, projektattraktivitaetForm0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.service.fragebogen.ProjektattraktivitaetDaoService", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

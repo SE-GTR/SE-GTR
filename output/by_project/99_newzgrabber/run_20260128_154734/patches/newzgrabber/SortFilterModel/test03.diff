@@ -1,0 +1,42 @@
+--- a/evosuite-tests/Newzgrabber/SortFilterModel_ESTest.java
++++ b/evosuite-tests/Newzgrabber/SortFilterModel_ESTest.java
+@@ -58,16 +58,29 @@
+     assertEquals(beforeRowCount, sortFilterModel0.getRowCount());
+     assertEquals(beforeColumnCount, sortFilterModel0.getColumnCount());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      DefaultTableModel defaultTableModel0 = new DefaultTableModel(0, 3134);
+-      SortFilterModel sortFilterModel0 = new SortFilterModel(defaultTableModel0);
+-      JTable jTable0 = new JTable(sortFilterModel0);
+-      sortFilterModel0.setTable(jTable0);
+-      sortFilterModel0.sortTable((-1));
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        DefaultTableModel defaultTableModel0 = new DefaultTableModel(0, 3134);
++        SortFilterModel sortFilterModel0 = new SortFilterModel(defaultTableModel0);
++        JTable jTable0 = new JTable(sortFilterModel0);
++
++        // Verify setTable side‑effect: the JTable should reference the model we set
++        sortFilterModel0.setTable(jTable0);
++        assertSame("JTable model should be the SortFilterModel instance after setTable",
++                sortFilterModel0, jTable0.getModel());
++
++        // Capture state before sorting
++        int columnCountBefore = sortFilterModel0.getColumnCount();
++        int rowCountBefore = sortFilterModel0.getRowCount();
++
++        // Verify sortTable side‑effect (does not alter dimensions of the model)
++        sortFilterModel0.sortTable(-1);
++        assertEquals("Column count should remain unchanged after sortTable",
++                columnCountBefore, sortFilterModel0.getColumnCount());
++        assertEquals("Row count should remain unchanged after sortTable",
++                rowCountBefore, sortFilterModel0.getRowCount());
++    }
++
+ @Test(timeout = 4000)
+ public void test04() throws Throwable {
+     SortFilterModel model = new SortFilterModel(new DefaultTableModel());

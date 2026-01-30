@@ -1,0 +1,53 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/assembly/util/CompactedSliceMap_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/assembly/util/CompactedSliceMap_ESTest.java
+@@ -21,22 +21,35 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class CompactedSliceMap_ESTest extends CompactedSliceMap_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        GapQualityValueStrategy gapQualityValueStrategy0 = GapQualityValueStrategy.LOWEST_FLANKING;
++        // create an empty StreamingIterator of AssembledRead
++        StreamingIterator<AssembledRead> emptyIter = new StreamingIterator<AssembledRead>() {
++            @Override
++            public boolean hasNext() {
++                return false;
++            }
++            @Override
++            public AssembledRead next() {
++                return null;
++            }
++            @Override
++            public void close() {
++                // nothing to close
++            }
++            @Override
++            public void remove() {
++                throw new UnsupportedOperationException();
++            }
++        };
++        // use a default PhredQuality (e.g., 0)
++        PhredQuality defaultQuality = PhredQuality.valueOf((byte) 0);
++        // invoke the method with valid arguments
++        CompactedSliceMap map = CompactedSliceMap.create(emptyIter, 0, defaultQuality, gapQualityValueStrategy0);
++        assertNotNull(map);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      GapQualityValueStrategy gapQualityValueStrategy0 = GapQualityValueStrategy.LOWEST_FLANKING;
+-      // Undeclared exception!
+-      try { 
+-        CompactedSliceMap.create((StreamingIterator<AceAssembledReadAdapter>) null, 0, (QualitySequenceDataStore) null, gapQualityValueStrategy0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.internal.assembly.util.CompactedSliceMap", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

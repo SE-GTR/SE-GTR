@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
+@@ -30,18 +30,21 @@
+       assertEquals(0, j2EESession0.getActiveRequests());
+       assertEquals(0, j2EESession0.getIdHash());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      J2EESession j2EESession0 = new J2EESession();
+-      j2EESession0.setCorrupt("p0)OzT.Q).xri-9\"");
+-      j2EESession0.hashCode();
+-      assertEquals(0, j2EESession0.getActiveRequests());
+-      assertEquals(0, j2EESession0.getSize());
+-      assertEquals(0, j2EESession0.getTimeout());
+-      assertEquals(0, j2EESession0.getIdHash());
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    J2EESession j2EESession0 = new J2EESession();
++    j2EESession0.setCorrupt("p0)OzT.Q).xri-9\"");
++    // Verify that the corrupt field was set correctly
++    assertEquals("p0)OzT.Q).xri-9\"", j2EESession0.getCorrupt());
++    // Verify the return value of hashCode is stable
++    int hash = j2EESession0.hashCode();
++    assertEquals(hash, j2EESession0.hashCode());
++    assertEquals(0, j2EESession0.getActiveRequests());
++    assertEquals(0, j2EESession0.getSize());
++    assertEquals(0, j2EESession0.getTimeout());
++    assertEquals(0, j2EESession0.getIdHash());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

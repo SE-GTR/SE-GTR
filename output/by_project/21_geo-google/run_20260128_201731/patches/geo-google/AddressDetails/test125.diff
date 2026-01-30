@@ -1,0 +1,31 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -1252,13 +1252,21 @@
+       assertEquals("testStatus", string0);
+   }
+ @Test(timeout = 4000)
+-  public void test125() throws Throwable {
+-      AddressDetails addressDetails0 = new AddressDetails();
+-      String expected = "2021-12-31";
+-      addressDetails0.setValidFromDate(expected);
+-      String actual = addressDetails0.getValidFromDate();
+-      assertEquals(expected, actual);
+-  }
++public void test125() throws Throwable {
++    AddressDetails addressDetails0 = new AddressDetails();
++    String expected = "2021-12-31";
++    addressDetails0.setValidFromDate(expected);
++    String actual = addressDetails0.getValidFromDate();
++    assertEquals(expected, actual);
++    // Marshal the object to XML and verify the date appears in the output
++    javax.xml.bind.JAXBContext jaxbContext = javax.xml.bind.JAXBContext.newInstance(AddressDetails.class);
++    javax.xml.bind.Marshaller marshaller = jaxbContext.createMarshaller();
++    java.io.StringWriter sw = new java.io.StringWriter();
++    marshaller.marshal(addressDetails0, sw);
++    String xml = sw.toString();
++    assertTrue(xml.contains(expected));
++}
++
+ @Test(timeout = 4000)
+     public void test126() throws Throwable {
+         AddressDetails addressDetails0 = new AddressDetails();

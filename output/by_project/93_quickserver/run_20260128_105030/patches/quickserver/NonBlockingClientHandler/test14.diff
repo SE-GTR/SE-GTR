@@ -1,0 +1,22 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
+@@ -155,11 +155,15 @@
+          verifyException("org.quickserver.net.server.impl.NonBlockingClientHandler", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test14() throws Throwable {
++      int original = NonBlockingClientHandler.getMaxThreadAccessCount();
+       NonBlockingClientHandler.setMaxThreadAccessCount(3135);
+-  }
++      assertEquals(3135, NonBlockingClientHandler.getMaxThreadAccessCount());
++      // Restore original value to avoid affecting other tests
++      NonBlockingClientHandler.setMaxThreadAccessCount(original);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

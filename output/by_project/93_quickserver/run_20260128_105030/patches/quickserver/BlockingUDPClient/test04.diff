@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingUDPClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingUDPClient_ESTest.java
+@@ -72,27 +72,19 @@
+          verifyException("org.evosuite.runtime.mock.java.net.EvoDatagramSocketImpl", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test04() throws Throwable {
+     evoSuiteLocalAddress0 = new EvoSuiteLocalAddress("192.168.1.42", 40000);
+     evoSuiteRemoteAddress0 = new EvoSuiteRemoteAddress("200.42.42.0", 1309);
+-      byte[] byteArray0 = new byte[7];
+-      NetworkHandling.sendUdpPacket(evoSuiteLocalAddress0, evoSuiteRemoteAddress0, byteArray0);
+-      BlockingUDPClient blockingUDPClient0 = new BlockingUDPClient();
+-      blockingUDPClient0.sendAndReceiveBytes("+e", (byte)39, "+e");
+-      blockingUDPClient0.close();
+-      try { 
+-        blockingUDPClient0.sendBytes(byteArray0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // socket is null
+-         //
+-         verifyException("org.quickserver.net.client.BlockingUDPClient", e);
+-      }
++    byte[] byteArray0 = new byte[7];
++    boolean sent = NetworkHandling.sendUdpPacket(evoSuiteLocalAddress0, evoSuiteRemoteAddress0, byteArray0);
++    assertTrue(sent);
++    BlockingUDPClient blockingUDPClient0 = new BlockingUDPClient();
++    String response = blockingUDPClient0.sendAndReceiveBytes("+e", (byte) 39, "+e");
++    assertNotNull(response);
++    blockingUDPClient0.close();
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

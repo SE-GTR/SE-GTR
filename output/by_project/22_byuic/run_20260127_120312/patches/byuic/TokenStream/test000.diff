@@ -1,0 +1,53 @@
+--- a/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
+@@ -24,24 +24,32 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class TokenStream_ESTest extends TokenStream_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test000()  throws Throwable  {
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      StringReader stringReader0 = new StringReader("}\n");
+-      Parser parser0 = new Parser(compilerEnvirons0, (ErrorReporter) null);
+-      // Undeclared exception!
+-      try { 
+-        parser0.parse((Reader) stringReader0, "u^Eq{ja5[{(mNN8WWc", 53);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.mozilla.javascript.Parser", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test000() throws Throwable {
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        StringReader stringReader0 = new StringReader("}\n");
++        ErrorReporter reporter = new ErrorReporter() {
++            @Override
++            public void warning(String message, String sourceName, int line, String lineSource, int lineOffset) {
++                // no-op
++            }
++
++            @Override
++            public void error(String message, String sourceName, int line, String lineSource, int lineOffset) {
++                // no-op
++            }
++
++            @Override
++            public RuntimeException runtimeError(String message, String sourceName, int line, String lineSource,
++                    int lineOffset) {
++                return new EvaluatorException(message);
++            }
++        };
++        Parser parser0 = new Parser(compilerEnvirons0, reporter);
++        AstRoot result = parser0.parse(stringReader0, "u^Eq{ja5[{(mNN8WWc", 53);
++        assertNotNull(result);
++    }
++
+ @Test(timeout = 4000)
+   public void test001() throws Throwable {
+       StringReader stringReader0 = new StringReader("Can not overwrite existing SecurityController object");

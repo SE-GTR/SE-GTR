@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/quickserver/net/qsadmin/gui/Propertie_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/qsadmin/gui/Propertie_ESTest.java
+@@ -20,18 +20,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Propertie_ESTest extends Propertie_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Propertie propertie0 = new Propertie();
+-      DefaultFormatterFactory defaultFormatterFactory0 = new DefaultFormatterFactory();
+-      JFormattedTextField jFormattedTextField0 = new JFormattedTextField(defaultFormatterFactory0, defaultFormatterFactory0);
+-      GridBagConstraints gridBagConstraints0 = new GridBagConstraints();
+-      QSAdminMain qSAdminMain0 = new QSAdminMain();
+-      propertie0.addToPanel(jFormattedTextField0, gridBagConstraints0, (PropertiePanel) null, qSAdminMain0);
+-      assertEquals(6, gridBagConstraints0.gridx);
+-      assertEquals("server", propertie0.getTarget());
+-  }
++public void test00() throws Throwable {
++    Propertie propertie0 = new Propertie();
++    DefaultFormatterFactory defaultFormatterFactory0 = new DefaultFormatterFactory();
++    JFormattedTextField jFormattedTextField0 = new JFormattedTextField(defaultFormatterFactory0, defaultFormatterFactory0);
++    GridBagConstraints gridBagConstraints0 = new GridBagConstraints();
++    QSAdminMain qSAdminMain0 = new QSAdminMain();
++
++    int beforeComponentCount = jFormattedTextField0.getComponentCount();
++    int beforeGridX = gridBagConstraints0.gridx;
++
++    propertie0.addToPanel(jFormattedTextField0, gridBagConstraints0, (PropertiePanel) null, qSAdminMain0);
++
++    assertNotEquals(beforeGridX, gridBagConstraints0.gridx);
++    assertTrue(jFormattedTextField0.getComponentCount() > beforeComponentCount);
++    assertEquals("server", propertie0.getTarget());
++}
++
+ public void test01() throws Throwable {
+     Propertie propertie0 = new Propertie();
+     assertEquals("yes", propertie0.getTargetNeeded());

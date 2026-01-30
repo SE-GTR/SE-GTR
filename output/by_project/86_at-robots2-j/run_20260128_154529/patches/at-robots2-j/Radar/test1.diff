@@ -1,0 +1,26 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/hardware/scanning/radar/Radar_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/hardware/scanning/radar/Radar_ESTest.java
+@@ -22,11 +22,17 @@
+       Radar radar0 = new Radar();
+       radar0.setScanSource((ScanSource) null);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        Radar radar = new Radar();
++        PortHandler port = radar.getScanPort();
++        assertNotNull("Scan port should be initialized", port);
++        // Exercise the method again to ensure consistent behavior
++        PortHandler secondPort = radar.getScanPort();
++        assertNotNull("Second call should also return a handler", secondPort);
++        // Verify the returned objects are of the expected type
++        assertTrue(port instanceof PortHandler);
++        assertTrue(secondPort instanceof PortHandler);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Radar radar0 = new Radar();
+-      PortHandler portHandler0 = radar0.getScanPort();
+-      assertNotNull(portHandler0);
+-  }
+ }

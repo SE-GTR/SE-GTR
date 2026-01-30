@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/LargeFastqFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/LargeFastqFileDataStore_ESTest.java
+@@ -123,24 +123,15 @@
+          verifyException("org.jcvi.jillion.trace.fastq.LargeFastqFileDataStore", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
++@Test(timeout = 4000, expected = IllegalStateException.class)
++public void test6() throws Throwable {
+     mockFile0 = new MockFile("could not find ");
+     fastqQualityCodec0 = FastqQualityCodec.SOLEXA;
+-      mockFile0.mkdirs();
+-      FastqDataStore fastqDataStore0 = LargeFastqFileDataStore.create((File) mockFile0, fastqQualityCodec0);
+-      ((LargeFastqFileDataStore) fastqDataStore0).close();
+-      // Undeclared exception!
+-      try { 
+-        ((LargeFastqFileDataStore) fastqDataStore0).iterator();
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // datastore is closed
+-         //
+-         verifyException("org.jcvi.jillion.trace.fastq.LargeFastqFileDataStore", e);
+-      }
+-  }
++    boolean created = mockFile0.mkdirs();
++    assertTrue(created);
++    FastqDataStore fastqDataStore0 = LargeFastqFileDataStore.create((File) mockFile0, fastqQualityCodec0);
++    ((LargeFastqFileDataStore) fastqDataStore0).close();
++    ((LargeFastqFileDataStore) fastqDataStore0).iterator();
+ }
++
++}

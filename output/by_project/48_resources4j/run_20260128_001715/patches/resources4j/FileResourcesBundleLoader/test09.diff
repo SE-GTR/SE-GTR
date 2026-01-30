@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/mytdev/resources4j/impl/FileResourcesBundleLoader_ESTest.java
++++ b/evosuite-tests/com/mytdev/resources4j/impl/FileResourcesBundleLoader_ESTest.java
+@@ -110,14 +110,19 @@
+       fileResourcesBundleLoader0.setDirectory((File) null);
+       assertEquals(2, fileResourcesBundleLoader0.getDateFormatStyle());
+   }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    FileResourcesBundleLoader loader = new FileResourcesBundleLoader("dummyDir", "dummyBase");
++    Charset originalCharset = loader.getCharset();
++    Charset newCharset = Charset.forName("UTF-16LE");
++    if (originalCharset.equals(newCharset)) {
++        newCharset = Charset.forName("UTF-8");
++    }
++    loader.setCharset(newCharset);
++    assertEquals(newCharset, loader.getCharset());
++    assertEquals(java.text.DateFormat.MEDIUM, loader.getDateFormatStyle());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      FileResourcesBundleLoader fileResourcesBundleLoader0 = new FileResourcesBundleLoader("sGk>|A+Hilu>", "sGk>|A+Hilu>");
+-      Charset charset0 = fileResourcesBundleLoader0.getCharset();
+-      fileResourcesBundleLoader0.setCharset(charset0);
+-      assertEquals(2, fileResourcesBundleLoader0.getDateFormatStyle());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

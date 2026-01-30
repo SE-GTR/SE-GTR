@@ -1,0 +1,47 @@
+--- a/evosuite-tests/mygrid/web/Job_ESTest.java
++++ b/evosuite-tests/mygrid/web/Job_ESTest.java
+@@ -138,20 +138,30 @@
+         boolean boolean0 = job1.equals(job0);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      Job job0 = new Job();
+-      job0.setCurrentEngineId("M$MFn");
+-      Job job1 = new Job();
+-      assertFalse(job1.equals((Object)job0));
+-      
+-      job1.setCurrentEngineId("M$MFn");
+-      boolean boolean0 = job1.equals(job0);
+-      assertTrue(job1.equals((Object)job0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        Job job0 = new Job();
++        // Verify initial state before setting the engine id
++        assertNull(job0.getCurrentEngineId());
++
++        job0.setCurrentEngineId("M$MFn");
++        // Assert side‑effect of setCurrentEngineId
++        assertEquals("M$MFn", job0.getCurrentEngineId());
++
++        Job job1 = new Job();
++        // Different engine id should make jobs unequal
++        job1.setCurrentEngineId("differentEngine");
++        assertFalse(job1.equals((Object) job0));
++
++        // Align engine ids and verify equality
++        job1.setCurrentEngineId("M$MFn");
++        assertEquals("M$MFn", job1.getCurrentEngineId());
++
++        boolean boolean0 = job1.equals(job0);
++        assertTrue(job1.equals((Object) job0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

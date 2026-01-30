@@ -1,0 +1,33 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -540,13 +540,23 @@
+         assertEquals("home", type);
+     }
+ @Test(timeout = 4000)
+-  public void test053() throws Throwable {
+-      AddressDetails.Address addressDetails_Address0 = new AddressDetails.Address();
+-      String expected = "sample";
+-      addressDetails_Address0.setContent(expected);
+-      String actual = addressDetails_Address0.getContent();
+-      assertEquals(expected, actual);
+-  }
++public void test053() throws Throwable {
++    AddressDetails.Address address1 = new AddressDetails.Address();
++    String expected = "sample";
++    address1.setContent(expected);
++    assertEquals(expected, address1.getContent());
++
++    // Verify equals and hashCode behavior based on content
++    AddressDetails.Address address2 = new AddressDetails.Address();
++    address2.setContent(expected);
++    assertEquals(address1, address2);
++    assertEquals(address1.hashCode(), address2.hashCode());
++
++    // Changing the content should affect equality
++    address2.setContent("different");
++    assertNotEquals(address1, address2);
++}
++
+ @Test(timeout = 4000)
+   public void test054() throws Throwable {
+       AddressDetails.Address address = new AddressDetails.Address();

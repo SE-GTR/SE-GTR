@@ -1,0 +1,90 @@
+--- a/evosuite-tests/jigl/image/ops/Convolve_ESTest.java
++++ b/evosuite-tests/jigl/image/ops/Convolve_ESTest.java
+@@ -190,52 +190,41 @@
+         verifyException("jigl.image.types.GrayImage", e);
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      KernelType kernelType0 = KernelType.D_XX;
+-      ImageKernel imageKernel0 = new ImageKernel(kernelType0);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals(18.0, imageKernel0.sqrSum(), 0.01);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(12.0F, imageKernel0.absSum(), 0.01F);
+-      assertEquals(3, imageKernel0.Y());
+-      assertEquals(1.0F, imageKernel0.max(), 0.01F);
+-      assertEquals((-2.0F), imageKernel0.min(), 0.01F);
+-      
+-      Convolve convolve0 = new Convolve(imageKernel0);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals(18.0, imageKernel0.sqrSum(), 0.01);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(12.0F, imageKernel0.absSum(), 0.01F);
+-      assertEquals(3, imageKernel0.Y());
+-      assertEquals(1.0F, imageKernel0.max(), 0.01F);
+-      assertEquals((-2.0F), imageKernel0.min(), 0.01F);
+-      
+-      InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(2, 2);
+-      assertEquals(2, interpolatedGrayImage0.Y());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(2, interpolatedGrayImage0.X());
+-      
+-      GrayImage grayImage0 = convolve0.apply((GrayImage) interpolatedGrayImage0);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals(18.0, imageKernel0.sqrSum(), 0.01);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(12.0F, imageKernel0.absSum(), 0.01F);
+-      assertEquals(3, imageKernel0.Y());
+-      assertEquals(1.0F, imageKernel0.max(), 0.01F);
+-      assertEquals((-2.0F), imageKernel0.min(), 0.01F);
+-      assertEquals(2, interpolatedGrayImage0.Y());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(2, interpolatedGrayImage0.X());
+-      assertEquals(2, grayImage0.Y());
+-      assertEquals(0L, grayImage0.sqrSum());
+-      assertEquals(0, grayImage0.addSum());
+-      assertEquals(0, grayImage0.absSum());
+-      assertEquals(2, grayImage0.X());
+-      assertNotNull(grayImage0);
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    KernelType kernelType0 = KernelType.D_XX;
++    ImageKernel imageKernel0 = new ImageKernel(kernelType0);
++    // Verify kernel initialization (single set of assertions)
++    assertEquals(3, imageKernel0.X());
++    assertEquals(3, imageKernel0.Y());
++    assertEquals((-2.0F), imageKernel0.min(), 0.01F);
++    assertEquals(1.0F, imageKernel0.max(), 0.01F);
++    assertEquals(12.0F, imageKernel0.absSum(), 0.01F);
++    assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
++    assertEquals(18.0, imageKernel0.sqrSum(), 0.01);
++
++    Convolve convolve0 = new Convolve(imageKernel0);
++
++    InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(2, 2);
++    assertEquals(2, interpolatedGrayImage0.X());
++    assertEquals(2, interpolatedGrayImage0.Y());
++    assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
++
++    GrayImage grayImage0 = convolve0.apply((GrayImage) interpolatedGrayImage0);
++    // Verify result of convolution
++    assertNotNull(grayImage0);
++    assertEquals(2, grayImage0.X());
++    assertEquals(2, grayImage0.Y());
++    assertEquals(0, grayImage0.addSum());
++    assertEquals(0L, grayImage0.sqrSum());
++    assertEquals(0, grayImage0.absSum());
++
++    // Ensure kernel unchanged after operation
++    assertEquals(3, imageKernel0.X());
++    assertEquals(3, imageKernel0.Y());
++    assertEquals((-2.0F), imageKernel0.min(), 0.01F);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

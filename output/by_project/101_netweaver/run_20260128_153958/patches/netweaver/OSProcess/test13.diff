@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
+@@ -217,19 +217,25 @@
+     // Verify that the constructor correctly set the pid field
+     assertEquals(6128, oSProcess1.getPid());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      OSProcess oSProcess0 = new OSProcess();
+-      OSProcess oSProcess1 = new OSProcess();
+-      assertTrue(oSProcess1.equals((Object)oSProcess0));
+-      
++@Test(timeout = 4000)
++  public void test13() throws Throwable {
++      OSProcess oSProcess0 = new OSProcess();
++      OSProcess oSProcess1 = new OSProcess();
++      assertTrue(oSProcess1.equals((Object) oSProcess0));
++
++      // Verify initial state before setting dispstatus
++      assertNull(oSProcess1.getDispstatus());
++
+       STATECOLOR sTATECOLOR0 = STATECOLOR.value2;
+       oSProcess1.setDispstatus(sTATECOLOR0);
++
++      // Assert that the side‑effect of setDispstatus is observable
++      assertEquals(sTATECOLOR0, oSProcess1.getDispstatus());
++
+       boolean boolean0 = oSProcess0.equals(oSProcess1);
+       assertFalse(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

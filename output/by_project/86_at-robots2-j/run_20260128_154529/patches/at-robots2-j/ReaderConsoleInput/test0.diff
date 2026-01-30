@@ -1,0 +1,38 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/debugger/ReaderConsoleInput_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/debugger/ReaderConsoleInput_ESTest.java
+@@ -18,20 +18,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ReaderConsoleInput_ESTest extends ReaderConsoleInput_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Use an in‑memory stream to avoid external I/O dependencies.
++        PushbackInputStream pushbackInputStream = new PushbackInputStream(
++                new java.io.ByteArrayInputStream(new byte[0]));
++        // Close the stream so that subsequent reads throw IOException.
++        pushbackInputStream.close();
++        ReaderConsoleInput readerConsoleInput = new ReaderConsoleInput(pushbackInputStream);
++        try {
++            readerConsoleInput.readLine();
++            fail("Expected IOException to be thrown");
++        } catch (IOException e) {
++            // Expected exception – test passes.
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      PushbackInputStream pushbackInputStream0 = new PushbackInputStream((InputStream) null);
+-      ReaderConsoleInput readerConsoleInput0 = new ReaderConsoleInput(pushbackInputStream0);
+-      try { 
+-        readerConsoleInput0.readLine();
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Stream closed
+-         //
+-         verifyException("java.io.PushbackInputStream", e);
+-      }
+-  }
+ }

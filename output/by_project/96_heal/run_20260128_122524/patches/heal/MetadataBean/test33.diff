@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/heal/module/metadata/MetadataBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/MetadataBean_ESTest.java
+@@ -277,14 +277,17 @@
+     // (archived defaults to null, which should be interpreted as false)
+     assertFalse(metadataBean0.isArchived());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test33()  throws Throwable  {
+-    metadataBean0 = new MetadataBean();
+-      metadataBean0.setClinicalHistory("Source:SourceId:");
+-      assertNull(metadataBean0.getPublicationName());
+-  }
++@Test(timeout = 4000)
++    public void test33() throws Throwable {
++        metadataBean0 = new MetadataBean();
++        String clinical = "Source:SourceId:";
++        metadataBean0.setClinicalHistory(clinical);
++        // Verify that the setter correctly updates the internal state
++        assertEquals(clinical, metadataBean0.getClinicalHistory());
++        // Existing behavior: publication name remains null by default
++        assertNull(metadataBean0.getPublicationName());
++    }
++
+ @Test(timeout = 4000)
+ public void test34() throws Throwable {
+     MetadataBean metadataBean0 = new MetadataBean();

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/javathena/login/UserManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/login/UserManagement_ESTest.java
+@@ -372,11 +372,19 @@
+   public void test37()  throws Throwable  {
+       UserManagement.debugXML();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test38()  throws Throwable  {
+-      UserManagement.setAccountIdCount(0);
+-  }
++@Test(timeout = 4000)
++    public void test38() throws Throwable {
++        // Record the current count to avoid interfering with other tests
++        int originalCount = UserManagement.getAccountIdCount();
++        // Change the count to a new value
++        int newCount = originalCount + 5;
++        UserManagement.setAccountIdCount(newCount);
++        // Verify that the setter actually updated the internal state
++        assertEquals(newCount, UserManagement.getAccountIdCount());
++        // Restore original state
++        UserManagement.setAccountIdCount(originalCount);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test39()  throws Throwable  {

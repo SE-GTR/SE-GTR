@@ -1,0 +1,42 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/DemonstrationCurationService_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/DemonstrationCurationService_ESTest.java
+@@ -90,23 +90,22 @@
+       ArrayList<OntologyTerm> arrayList0 = demonstrationCurationService0.getAllOntologyTerms(user0);
+       assertEquals(5, arrayList0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      DemonstrationCurationService demonstrationCurationService0 = new DemonstrationCurationService();
+-      User user0 = new User();
+-      // Undeclared exception!
+-      try { 
+-        demonstrationCurationService0.getValueLabels(user0, (Variable) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("macaw.persistenceLayer.demo.InMemoryVariableManager", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    DemonstrationCurationService service = new DemonstrationCurationService();
++    // initialise the managers required for getValueLabels
++    service.variableManager = new InMemoryVariableManager();
++    service.valueLabelManager = new InMemoryValueLabelManager();
++    // create a user and a non‑null variable
++    User user = new User();
++    Variable variable = new Variable();
++    // invoke the method under test
++    java.util.ArrayList<macaw.businessLayer.ValueLabel> labels = service.getValueLabels(user, variable);
++    // verify normal behaviour
++    assertNotNull(labels);
++    assertTrue(labels.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

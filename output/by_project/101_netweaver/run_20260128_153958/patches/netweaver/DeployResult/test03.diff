@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/DeployResult_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/DeployResult_ESTest.java
+@@ -45,18 +45,24 @@
+     int hash2 = deployResult0.hashCode();
+     assertEquals(hash1, hash2);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      DeployResult deployResult0 = new DeployResult();
+-      DeployResult deployResult1 = new DeployResult();
+-      assertTrue(deployResult1.equals((Object)deployResult0));
+-      
+-      deployResult1.setStatusDetails("x[bj)wHlxJC_g]9");
+-      boolean boolean0 = deployResult0.equals(deployResult1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    DeployResult deployResult0 = new DeployResult();
++    DeployResult deployResult1 = new DeployResult();
++    assertTrue(deployResult1.equals((Object) deployResult0));
++
++    // Verify initial status details are null
++    assertNull(deployResult1.getStatusDetails());
++
++    // Set status details and assert the side effect
++    String newDetails = "x[bj)wHlxJC_g]9";
++    deployResult1.setStatusDetails(newDetails);
++    assertEquals(newDetails, deployResult1.getStatusDetails());
++
++    // The two objects should no longer be equal after the change
++    assertFalse(deployResult0.equals(deployResult1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

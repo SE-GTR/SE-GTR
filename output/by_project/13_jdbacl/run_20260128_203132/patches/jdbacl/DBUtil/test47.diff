@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
+@@ -642,21 +642,11 @@
+       Proxy proxy0 = (Proxy)DBUtil.createLoggingStatementHandler((Statement) null, true);
+       assertNotNull(proxy0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test47()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        DBUtil.countRows("B!wM/><~!9.F", (Connection) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.DBUtil", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class, timeout = 4000)
++    public void test47() throws Throwable {
++        DBUtil.countRows("B!wM/><~!9.F", null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test48()  throws Throwable  {

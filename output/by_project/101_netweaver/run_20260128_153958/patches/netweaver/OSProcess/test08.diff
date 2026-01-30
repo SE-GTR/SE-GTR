@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
+@@ -135,18 +135,25 @@
+         // equality should now reflect the state change
+         assertFalse(oSProcess0.equals(oSProcess1));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      OSProcess oSProcess0 = new OSProcess();
+-      OSProcess oSProcess1 = new OSProcess();
+-      assertTrue(oSProcess1.equals((Object)oSProcess0));
+-      
+-      oSProcess1.setElapsedtime(")zmq^fCDTU^5");
+-      boolean boolean0 = oSProcess1.equals(oSProcess0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        OSProcess oSProcess0 = new OSProcess();
++        OSProcess oSProcess1 = new OSProcess();
++        assertTrue(oSProcess1.equals((Object) oSProcess0));
++
++        // Verify initial state of elapsedtime
++        assertNull(oSProcess1.getElapsedtime());
++
++        // Exercise the void method and assert its side‑effect
++        String newElapsed = ")zmq^fCDTU^5";
++        oSProcess1.setElapsedtime(newElapsed);
++        assertEquals(newElapsed, oSProcess1.getElapsedtime());
++
++        // Equality should now differ because the state changed
++        boolean boolean0 = oSProcess1.equals(oSProcess0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

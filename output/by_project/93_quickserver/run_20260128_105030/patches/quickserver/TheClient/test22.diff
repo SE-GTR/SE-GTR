@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/server/TheClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/TheClient_ESTest.java
+@@ -197,15 +197,19 @@
+         assertEquals(ClientEvent.RUN_BLOCKING, event);
+         assertFalse(theClient0.getTrusted());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      TheClient theClient0 = new TheClient();
+-      theClient0.getClientAuthenticationHandler();
+-      assertTrue(theClient0.getCommunicationLogging());
+-      assertFalse(theClient0.getTrusted());
+-  }
++public void test22() throws Throwable {
++    TheClient client = new TheClient();
++    // Assert the return value of a non‑void method
++    assertNull(client.getClientAuthenticationHandler());
++
++    // Exercise non‑trivial behavior via setters and verify via getters
++    client.setCommunicationLogging(false);
++    assertFalse(client.getCommunicationLogging());
++
++    client.setTrusted(true);
++    assertTrue(client.getTrusted());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

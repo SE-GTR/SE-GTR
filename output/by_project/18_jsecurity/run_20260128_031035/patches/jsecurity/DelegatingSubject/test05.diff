@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/subject/DelegatingSubject_ESTest.java
++++ b/evosuite-tests/org/jsecurity/subject/DelegatingSubject_ESTest.java
+@@ -80,15 +80,18 @@
+       DelegatingSubject delegatingSubject0 = new DelegatingSubject(simplePrincipalCollection0, true, inetAddress0, proxiedSession0, defaultSecurityManager0);
+       assertTrue(delegatingSubject0.isAuthenticated());
+   }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
++    SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
++    simpleAccountRealm0.addAccount("user", "pass");
++    DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager(simpleAccountRealm0);
++    DelegatingSubject delegatingSubject0 = new DelegatingSubject(simplePrincipalCollection0, false, (InetAddress) null, (Session) null, defaultSecurityManager0);
++    org.jsecurity.authc.UsernamePasswordToken token = new org.jsecurity.authc.UsernamePasswordToken("user", "pass");
++    delegatingSubject0.login(token);
++    assertTrue(delegatingSubject0.isAuthenticated());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager(simpleAccountRealm0);
+-      DelegatingSubject delegatingSubject0 = new DelegatingSubject(simplePrincipalCollection0, false, (InetAddress) null, (Session) null, defaultSecurityManager0);
+-      assertFalse(delegatingSubject0.isAuthenticated());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

@@ -1,0 +1,45 @@
+--- a/evosuite-tests/module/ModuleInfo_ESTest.java
++++ b/evosuite-tests/module/ModuleInfo_ESTest.java
+@@ -37,23 +37,27 @@
+       Kernel kernel0 = new Kernel();
+       assertEquals("module.Kernel", kernel0.getClass().getName());
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    moduleInfo0 = new ModuleInfo();
++    // Properly initialize required fields to avoid NullPointerException
++    moduleInfo0.name = "testModule";
++    moduleInfo0.file = "moduleFile";
++    moduleInfo0.author = "author";
++    moduleInfo0.date = "2024-01-01";
++    moduleInfo0.topics = "topic1,topic2";
+ 
++    // Execute the method under test and ensure no exception is thrown
++    try {
++        moduleInfo0.update();
++    } catch (Exception e) {
++        fail("Unexpected exception thrown: " + e);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    moduleInfo0 = new ModuleInfo();
+-      // Undeclared exception!
+-      try { 
+-        moduleInfo0.update();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.util.Hashtable", e);
+-      }
+-  }
++    // Verify that the state remains as expected after update
++    assertEquals("testModule", moduleInfo0.name);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

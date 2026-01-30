@@ -1,0 +1,31 @@
+--- a/evosuite-tests/jigl/image/utils/ImageOps_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/ImageOps_ESTest.java
+@@ -106,14 +106,21 @@
+       ImageOps.main(stringArray0);
+       assertEquals(1, stringArray0.length);
+   }
++@Test(timeout = 4000)
++  public void test11() throws Throwable {
++      String[] args = new String[] { "-debug" };
++      java.io.ByteArrayOutputStream outContent = new java.io.ByteArrayOutputStream();
++      java.io.PrintStream originalOut = System.out;
++      System.setOut(new java.io.PrintStream(outContent));
++      try {
++          ImageOps.main(args);
++      } finally {
++          System.setOut(originalOut);
++      }
++      String output = outContent.toString();
++      assertFalse("Expected debug output to be printed", output.isEmpty());
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      String[] stringArray0 = new String[1];
+-      stringArray0[0] = "-debug";
+-      ImageOps.main(stringArray0);
+-      assertEquals(1, stringArray0.length);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

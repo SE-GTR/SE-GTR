@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/RequirementRecordModifier_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/RequirementRecordModifier_ESTest.java
+@@ -20,18 +20,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class RequirementRecordModifier_ESTest extends RequirementRecordModifier_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("-1", "-1", "-1", "-1", "-1").when(servletRequest0).getParameter(anyString());
++        ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
++        RequirementRecordModifier requirementRecordModifier0 = new RequirementRecordModifier();
++        CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("-1", "-1", "-1", "-1", "-1").when(servletRequest0).getParameter(anyString());
+-      ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
+-      RequirementRecordModifier requirementRecordModifier0 = new RequirementRecordModifier();
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      requirementRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
+-      requirementRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
+-      assertNull(completeMetadataBean0.getRadiographType());
+-  }
++        // Verify initial state
++        assertNull(completeMetadataBean0.getRadiographType());
++
++        // Act
++        requirementRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
++
++        // Verify that the call does not unintentionally modify the radiograph type
++        assertNull(completeMetadataBean0.getRadiographType());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

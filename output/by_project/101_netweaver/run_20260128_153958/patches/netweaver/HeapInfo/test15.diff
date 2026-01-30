@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/HeapInfo_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/HeapInfo_ESTest.java
+@@ -211,16 +211,23 @@
+       assertEquals(1024L, heapInfo0.getSize());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      HeapInfo heapInfo0 = new HeapInfo();
+-      heapInfo0.setProcessname("L)NajVvQp2-d K");
+-      HeapInfo heapInfo1 = new HeapInfo();
+-      boolean boolean0 = heapInfo0.equals(heapInfo1);
+-      assertFalse(heapInfo1.equals((Object)heapInfo0));
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    HeapInfo heapInfo0 = new HeapInfo();
++    // Verify initial state before setting the process name
++    assertNull(heapInfo0.getProcessname());
++    heapInfo0.setProcessname("L)NajVvQp2-d K");
++    // Assert that the side‑effect of setProcessname is observable
++    assertEquals("L)NajVvQp2-d K", heapInfo0.getProcessname());
++
++    HeapInfo heapInfo1 = new HeapInfo();
++    assertNull(heapInfo1.getProcessname());
++
++    boolean boolean0 = heapInfo0.equals(heapInfo1);
++    assertFalse(heapInfo1.equals((Object) heapInfo0));
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/browsersoft/aacs/Person_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/Person_ESTest.java
+@@ -74,16 +74,23 @@
+     person0.addAllowedip("}SWE@[KC/UnW");
+     assertEquals("}SWE@[KC/UnW", person0.getAllowedips());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      Person person0 = new Person("krb5KeyVersionNumber", "0");
+-      person0.addAllowedip("0");
+-      assertEquals("", person0.getAllowedips());
+-      assertEquals("0", person0.getCn());
+-      assertEquals("krb5KeyVersionNumber", person0.getUid());
+-  }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    Person person0 = new Person("krb5KeyVersionNumber", "0");
++    // Verify constructor initialization (single init assertion)
++    assertEquals("krb5KeyVersionNumber", person0.getUid());
++
++    // Observe side‑effect of addAllowedip
++    String before = person0.getAllowedips();
++    person0.addAllowedip("0");
++    String after = person0.getAllowedips();
++
++    // Assert that the allowed IPs field changed and now contains the added IP
++    assertNotEquals(before, after);
++    assertNotNull(after);
++    assertTrue(after.contains("0"));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

@@ -1,0 +1,55 @@
+--- a/evosuite-tests/com/pmdesigns/jvc/JVCRequestContext_ESTest.java
++++ b/evosuite-tests/com/pmdesigns/jvc/JVCRequestContext_ESTest.java
+@@ -314,32 +314,26 @@
+         assertNotNull(stringArray0);
+         assertEquals("L11$dT}{2", jVCRequestContext0.controller);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("Vqc7").when(httpServletRequest0).getMethod();
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession();
+-      doReturn(httpSession0).when(httpServletRequest0).getSession(anyBoolean());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
+-      JVCDispatcher jVCDispatcher0 = new JVCDispatcher();
+-      JVCRequestContext jVCRequestContext0 = new JVCRequestContext(httpServletRequestWrapper0, httpServletResponse0, jVCDispatcher0, hashMap0, "pkg_prefix", "Vqc7");
+-      // Undeclared exception!
+-      try { 
+-        jVCRequestContext0.getSessionAttrNames();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.pmdesigns.jvc.JVCRequestContext", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test18() throws Throwable {
++        HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("Vqc7").when(httpServletRequest0).getMethod();
++        doReturn(httpSession0).when(httpServletRequest0).getSession();
++        doReturn(httpSession0).when(httpServletRequest0).getSession(anyBoolean());
++        doReturn(java.util.Collections.emptyEnumeration()).when(httpSession0).getAttributeNames();
++
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        HashMap<String, String> hashMap0 = new HashMap<String, String>();
++        JVCDispatcher jVCDispatcher0 = new JVCDispatcher();
++        JVCRequestContext jVCRequestContext0 = new JVCRequestContext(httpServletRequestWrapper0, httpServletResponse0, jVCDispatcher0, hashMap0, "pkg_prefix", "Vqc7");
++
++        String[] names = jVCRequestContext0.getSessionAttrNames();
++        assertNotNull(names);
++        assertEquals(0, names.length);
++    }
++
+ @Test(timeout = 4000)
+     public void test19() throws Throwable {
+         HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class);

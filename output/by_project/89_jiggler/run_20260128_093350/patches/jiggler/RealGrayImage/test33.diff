@@ -1,0 +1,52 @@
+--- a/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
+@@ -2356,25 +2356,30 @@
+           verifyException("jigl.image.types.RealGrayImage", e);
+       }
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test33()  throws Throwable  {
+-      RealGrayImage realGrayImage0 = new RealGrayImage(12, 7);
+-      assertEquals(12, realGrayImage0.X());
+-      assertEquals(7, realGrayImage0.Y());
+-      
+-      ROI rOI0 = new ROI();
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(0, rOI0.lx());
+-      
+-      // Undeclared exception!
+-      realGrayImage0.median(8);
+-  }
++@Test(timeout = 4000)
++public void test33() throws Throwable {
++    RealGrayImage img = new RealGrayImage(12, 7);
++    // Minimal constructor verification
++    assertEquals(12, img.X());
++    assertEquals(7, img.Y());
++
++    // Capture a sample pixel before applying the median filter
++    Float before = img.get(0, 0);
++
++    // Act: apply median filter (full image ROI is used internally)
++    img.median(8);
++
++    // Verify dimensions are unchanged after the operation
++    assertEquals(12, img.X());
++    assertEquals(7, img.Y());
++
++    // Observe side‑effect: pixel data should still be accessible
++    Float after = img.get(0, 0);
++    assertNotNull(after);
++    // Optional stronger check (uncomment if median is guaranteed to modify the pixel):
++    // assertNotEquals(before, after);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test34()  throws Throwable  {

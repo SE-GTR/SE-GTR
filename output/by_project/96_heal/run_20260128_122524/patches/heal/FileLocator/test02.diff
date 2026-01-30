@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/util/FileLocator_ESTest.java
++++ b/evosuite-tests/org/heal/util/FileLocator_ESTest.java
+@@ -31,19 +31,20 @@
+       String result = fileLocator0.getUniqueFileLocation("fERGpHI7. M;*3 n", "h0{n[");
+       assertEquals("fERGpHI7. M;*3 n/h0{n[", result);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      fileLocator0.setBaseFilePath("Z5dYX,");
+-      fileLocator0.generateFullDirectories();
+-      String string0 = fileLocator0.getUniqueFileLocation("fERGpHI7. M;*3 n", "h0{n[");
+-      assertEquals("Z5dYX,/upload", fileLocator0.getUploadFilePath());
+-      assertEquals(536870912L, fileLocator0.getMaxUploadSize());
+-      assertEquals("Z5dYX,/content", fileLocator0.getContentFilePath());
+-      assertEquals("fERGpHI7. M;*3 n/h0{n[", string0);
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        FileLocator fileLocator0 = new FileLocator();
++        fileLocator0.setBaseFilePath("Z5dYX,");
++        // Verify that the base path alone does not yet produce the expected upload path
++        assertNotEquals("Z5dYX,/upload", fileLocator0.getUploadFilePath());
++        fileLocator0.generateFullDirectories();
++        String string0 = fileLocator0.getUniqueFileLocation("fERGpHI7. M;*3 n", "h0{n[");
++        assertEquals("Z5dYX,/upload", fileLocator0.getUploadFilePath());
++        assertEquals(536870912L, fileLocator0.getMaxUploadSize());
++        assertEquals("Z5dYX,/content", fileLocator0.getContentFilePath());
++        assertEquals("fERGpHI7. M;*3 n/h0{n[", string0);
++    }
++
+ @Test(timeout = 4000)
+ public void test03() throws Throwable {
+     FileLocator fileLocator0 = new FileLocator();

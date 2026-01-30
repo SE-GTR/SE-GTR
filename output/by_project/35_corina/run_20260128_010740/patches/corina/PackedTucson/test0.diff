@@ -1,0 +1,49 @@
+--- a/evosuite-tests/corina/formats/PackedTucson_ESTest.java
++++ b/evosuite-tests/corina/formats/PackedTucson_ESTest.java
+@@ -30,27 +30,26 @@
+     packedTucson0 = new PackedTucson();
+     sample0 = new Sample();
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        packedTucson0 = new PackedTucson();
++        sample0 = new Sample();
++        LinkedList<Object> linkedList0 = new LinkedList<Object>();
++        boolean added = linkedList0.add((Object) packedTucson0);
++        assertTrue("Element should be added to the list", added);
++        sample0.elements = (List) linkedList0;
++        // Undeclared exception!
++        try {
++            packedTucson0.save(sample0, (BufferedWriter) null);
++            fail("Expecting exception: ClassCastException");
++        } catch (ClassCastException e) {
++            //
++            // corina.formats.PackedTucson cannot be cast to corina.Element
++            //
++            verifyException("corina.formats.PackedTucson", e);
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    packedTucson0 = new PackedTucson();
+-    sample0 = new Sample();
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      linkedList0.add((Object) packedTucson0);
+-      sample0.elements = (List) linkedList0;
+-      // Undeclared exception!
+-      try { 
+-        packedTucson0.save(sample0, (BufferedWriter) null);
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // corina.formats.PackedTucson cannot be cast to corina.Element
+-         //
+-         verifyException("corina.formats.PackedTucson", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

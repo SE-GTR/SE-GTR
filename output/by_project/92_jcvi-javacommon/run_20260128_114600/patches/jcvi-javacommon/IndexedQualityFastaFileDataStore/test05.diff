@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/fasta/qual/IndexedQualityFastaFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/fasta/qual/IndexedQualityFastaFileDataStore_ESTest.java
+@@ -100,21 +100,21 @@
+          verifyException("org.jcvi.jillion.internal.fasta.qual.IndexedQualityFastaFileDataStore", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-    mockFile0 = new MockFile("E.aO%UX");
+-      try { 
+-        IndexedQualityFastaFileDataStore.create((File) mockFile0, (DataStoreFilter) null);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // /PATH/TO/SF110-20130704-src/92_jcvi-javacommon/E.aO%UX
+-         //
+-         verifyException("org.jcvi.jillion.internal.fasta.qual.IndexedQualityFastaFileDataStore", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        java.io.File tempFile = java.io.File.createTempFile("temp", ".fasta");
++        // Delete the file to guarantee it does not exist
++        if (!tempFile.delete()) {
++            fail("Unable to delete temporary file");
++        }
++        try {
++            IndexedQualityFastaFileDataStore.create(tempFile, null);
++            fail("Expecting exception: FileNotFoundException");
++        } catch (FileNotFoundException e) {
++            // Expected exception
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -206,11 +206,18 @@
+       String string0 = ConfigurationManagement.getAccess_deny();
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test25() throws Throwable {
++      // Preserve original value to avoid side effects on other tests
++      int original = ConfigurationManagement.getServer_num();
++      // Act: set the server number to a known value
+       ConfigurationManagement.setServer_num(0);
+-  }
++      // Assert: the getter reflects the change
++      assertEquals(0, ConfigurationManagement.getServer_num());
++      // Restore original state
++      ConfigurationManagement.setServer_num(original);
++  }
++
+ @Test(timeout = 4000)
+     public void test26() throws Throwable {
+         // Verify that setting the allowed number updates the internal state

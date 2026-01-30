@@ -1,0 +1,29 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -343,11 +343,21 @@
+   }
+ @Test(timeout = 4000)
+ public void test030() throws Throwable {
+-    AddressDetails.PostalServiceElements.AddressIdentifier identifier = new AddressDetails.PostalServiceElements.AddressIdentifier();
+-    identifier.setCode("ABC");
+-    String code = identifier.getCode();
+-    assertEquals("ABC", code);
+-}
++    AddressDetails.PostalServiceElements.AddressIdentifier identifier1 = new AddressDetails.PostalServiceElements.AddressIdentifier();
++    identifier1.setCode("ABC");
++    // Verify that the setter correctly updates the value
++    assertEquals("ABC", identifier1.getCode());
++
++    AddressDetails.PostalServiceElements.AddressIdentifier identifier2 = new AddressDetails.PostalServiceElements.AddressIdentifier();
++    // Objects with different state should not be equal
++    assertFalse(identifier1.equals(identifier2));
++
++    // Align the state of the second object
++    identifier2.setCode("ABC");
++    // Now the two objects should be considered equal
++    assertTrue(identifier1.equals(identifier2));
++}
++
+ @Test(timeout = 4000)
+ public void test031() throws Throwable {
+     AddressDetails.PostalServiceElements.AddressIdentifier addressDetails_PostalServiceElements_AddressIdentifier0 = new AddressDetails.PostalServiceElements.AddressIdentifier();

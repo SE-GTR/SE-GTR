@@ -1,0 +1,30 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSZipUtils_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSZipUtils_ESTest.java
+@@ -143,16 +143,18 @@
+          verifyException("edu.uiuc.ndiipp.hubandspoke.utils.HaSZipUtils", e);
+       }
+   }
++@Test(timeout = 4000)
++  public void test7() throws Throwable {
++    file0 = MockFile.createTempFile("jUre:58W", "jUre:58W", (File) null);
++    long lengthBefore = file0.length();
++    HaSZipUtils.addFileToExistingZip(file0, file0);
++    assertTrue("File length should increase after adding to zip", file0.length() > lengthBefore);
++    MockPrintStream mockPrintStream0 = new MockPrintStream("jUre:58W");
++    ZipOutputStream zipOutputStream0 = new ZipOutputStream(mockPrintStream0);
++    HaSZipUtils.addFilesToZip(file0, zipOutputStream0);
++    assertEquals(150L, file0.length());
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-    file0 = MockFile.createTempFile("jUre:58W", "jUre:58W", (File) null);
+-      HaSZipUtils.addFileToExistingZip(file0, file0);
+-      MockPrintStream mockPrintStream0 = new MockPrintStream("jUre:58W");
+-      ZipOutputStream zipOutputStream0 = new ZipOutputStream(mockPrintStream0);
+-      HaSZipUtils.addFilesToZip(file0, zipOutputStream0);
+-      assertEquals(150L, file0.length());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

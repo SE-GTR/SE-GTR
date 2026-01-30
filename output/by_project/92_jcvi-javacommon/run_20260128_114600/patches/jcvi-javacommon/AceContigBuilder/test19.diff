@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceContigBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceContigBuilder_ESTest.java
+@@ -213,17 +213,18 @@
+       NucleotideSequence emptySeq = new NucleotideSequenceBuilder("").build();
+       new AceContigBuilder((String) null, emptySeq, 5);
+   }
+-
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test19()  throws Throwable  {
+       NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+       doReturn((Iterator) null).when(nucleotideSequence0).iterator();
++      // Verify that the stubbed iterator method returns null as configured
++      Iterator<?> iteratorResult = nucleotideSequence0.iterator();
++      assertNull(iteratorResult);
+       AceContigBuilder aceContigBuilder0 = null;
+       try {
+         aceContigBuilder0 = new AceContigBuilder("l#Qx<w}mncXON%;g%", nucleotideSequence0, 1231);
+         fail("Expecting exception: NullPointerException");
+-      
++
+       } catch(NullPointerException e) {
+          //
+          // no message in exception (getMessage() returned null)
+@@ -231,6 +232,7 @@
+          verifyException("org.jcvi.jillion.core.residue.nt.NucleotideSequenceBuilder$NewValues", e);
+       }
+   }
++
+ @Test(expected = NullPointerException.class, timeout = 4000)
+ public void test20() throws Throwable {
+     new AceContigBuilder("aAB<De", (NucleotideSequence) null);

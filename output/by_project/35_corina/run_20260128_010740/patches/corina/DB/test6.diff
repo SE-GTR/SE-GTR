@@ -1,0 +1,46 @@
+--- a/evosuite-tests/corina/db/DB_ESTest.java
++++ b/evosuite-tests/corina/db/DB_ESTest.java
+@@ -106,22 +106,29 @@
+     DB dB0 = new DB((Connection) null);
+     dB0.dump("c");
+ }
++@Test(timeout = 4000)
++public void test6() throws Throwable {
++    // Mock a PreparedStatement that always reports a successful update
++    PreparedStatement preparedStatement = mock(PreparedStatement.class);
++    when(preparedStatement.executeUpdate()).thenReturn(-7);
+ 
++    // Mock a Connection that always returns the same PreparedStatement
++    Connection connection = mock(Connection.class);
++    when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      PreparedStatement preparedStatement0 = mock(PreparedStatement.class, new ViolatedAssumptionAnswer());
+-      doReturn((-7), (-7)).when(preparedStatement0).executeUpdate();
+-      PreparedStatement preparedStatement1 = mock(PreparedStatement.class, new ViolatedAssumptionAnswer());
+-      doReturn(0, 0).when(preparedStatement1).executeUpdate();
+-      PreparedStatement preparedStatement2 = mock(PreparedStatement.class, new ViolatedAssumptionAnswer());
+-      doReturn(0, 0).when(preparedStatement2).executeUpdate();
+-      Connection connection0 = mock(Connection.class, new ViolatedAssumptionAnswer());
+-      doReturn(preparedStatement0, preparedStatement1, preparedStatement2).when(connection0).prepareStatement(anyString());
+-      DB dB0 = new DB(connection0);
+-      dB0.delete((-7));
+-      dB0.delete(15);
+-  }
++    // Create the DB instance with the mocked connection
++    DB dB = new DB(connection);
++
++    // Act: invoke delete twice with different ids
++    dB.delete(-7);
++    dB.delete(15);
++
++    // Assert side‑effects: verify that the DB interacted with the connection
++    verify(connection, atLeast(2)).prepareStatement(anyString());
++    // Verify that the update was executed for each delete call
++    verify(preparedStatement, times(2)).executeUpdate();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

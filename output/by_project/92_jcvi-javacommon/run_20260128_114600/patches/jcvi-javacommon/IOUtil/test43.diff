@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
+@@ -400,22 +400,19 @@
+   public void test42()  throws Throwable  {
+       IOUtil.deleteIgnoreError((File) null);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test43()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("");
+-      mockFile0.setReadOnly();
+-      try { 
++@Test(timeout = 4000)
++public void test43() throws Throwable {
++    MockFile mockFile0 = new MockFile("");
++    boolean readOnlyResult = mockFile0.setReadOnly();
++    assertFalse(readOnlyResult);
++    try {
+         IOUtil.delete(mockFile0);
+         fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // unable to delete 
+-         //
+-         verifyException("org.jcvi.jillion.core.io.IOUtil", e);
+-      }
+-  }
++    } catch (IOException e) {
++        verifyException("org.jcvi.jillion.core.io.IOUtil", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test44()  throws Throwable  {

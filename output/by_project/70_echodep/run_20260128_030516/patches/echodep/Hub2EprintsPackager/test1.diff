@@ -1,0 +1,49 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Hub2EprintsPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Hub2EprintsPackager_ESTest.java
+@@ -34,28 +34,28 @@
+         assertEquals(uRI0, haSMETSProfile0.getBaseURI());
+         assertEquals(haSMETSProfile0, haSMasterMETSProfile0.getMostRecentEchoDepMETS());
+     }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    URI uRI0 = MockURI.create("http://www.loc.gov/AMD/");
++    HaSMETSProfile haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
++    doReturn(uRI0).when(haSMETSProfile0).getBaseURI();
++    HaSMasterMETSProfile haSMasterMETSProfile0 = mock(HaSMasterMETSProfile.class, new ViolatedAssumptionAnswer());
++    doReturn(haSMETSProfile0, (HaSMETSProfile) null).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
+ 
++    // Verify that the stubbed methods return the expected values
++    assertEquals(uRI0, haSMETSProfile0.getBaseURI());
++    assertEquals(haSMETSProfile0, haSMasterMETSProfile0.getMostRecentEchoDepMETS());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      URI uRI0 = MockURI.create("http://www.loc.gov/AMD/");
+-      HaSMETSProfile haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(uRI0).when(haSMETSProfile0).getBaseURI();
+-      HaSMasterMETSProfile haSMasterMETSProfile0 = mock(HaSMasterMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(haSMETSProfile0, (HaSMETSProfile) null).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
+-      Hub2EprintsPackager hub2EprintsPackager0 = new Hub2EprintsPackager();
+-      // Undeclared exception!
+-      try { 
++    Hub2EprintsPackager hub2EprintsPackager0 = new Hub2EprintsPackager();
++    try {
+         hub2EprintsPackager0.createRepositoryPackage(haSMasterMETSProfile0, "");
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("edu.uiuc.ndiipp.hubandspoke.packager.FromHubPackager", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        // no message in exception (getMessage() returned null)
++        verifyException("edu.uiuc.ndiipp.hubandspoke.packager.FromHubPackager", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Thoroughfare_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Thoroughfare_ESTest.java
+@@ -71,14 +71,20 @@
+       List<Object> list1 = thoroughfare_DependentThoroughfare0.getAny();
+       assertSame(list1, list0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      Thoroughfare.DependentThoroughfare thoroughfare_DependentThoroughfare0 = new Thoroughfare.DependentThoroughfare();
+-      List<ThoroughfareNameType> list0 = thoroughfare_DependentThoroughfare0.getThoroughfareName();
+-      List<ThoroughfareNameType> list1 = thoroughfare_DependentThoroughfare0.getThoroughfareName();
+-      assertSame(list1, list0);
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        Thoroughfare.DependentThoroughfare dependent = new Thoroughfare.DependentThoroughfare();
++        List<ThoroughfareNameType> listA = dependent.getThoroughfareName();
++        // Act: modify the list returned by the getter
++        ThoroughfareNameType name = new ThoroughfareNameType();
++        listA.add(name);
++        // Assert: the modification is reflected via another call to the getter
++        List<ThoroughfareNameType> listB = dependent.getThoroughfareName();
++        assertEquals(1, listB.size());
++        assertSame(listA, listB);
++        assertSame(name, listB.get(0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

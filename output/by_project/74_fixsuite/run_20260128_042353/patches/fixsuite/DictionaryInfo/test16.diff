@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/fixsuite/message/info/DictionaryInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/DictionaryInfo_ESTest.java
+@@ -183,17 +183,22 @@
+         DictionaryInfo dictionaryInfo0 = new DictionaryInfo("");
+         assertNull(dictionaryInfo0.getField("nonexistent"));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      DictionaryInfo dictionaryInfo0 = new DictionaryInfo("G!72-+%DWX(U%");
+-      FieldInfo fieldInfo0 = new FieldInfo();
+-      fieldInfo0.setName("G!72-+%DWX(U%");
+-      dictionaryInfo0.addField(fieldInfo0);
+-      FieldInfo fieldInfo1 = dictionaryInfo0.getField(5);
+-      assertNull(fieldInfo1);
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        String fieldName = "G!72-+%DWX(U%";
++        DictionaryInfo dictionaryInfo0 = new DictionaryInfo(fieldName);
++        FieldInfo fieldInfo0 = new FieldInfo();
++        fieldInfo0.setName(fieldName);
++        // Verify that setName correctly updates the field's name
++        assertEquals(fieldName, fieldInfo0.getName());
++        // Add the field to the dictionary and verify the addition
++        dictionaryInfo0.addField(fieldInfo0);
++        assertSame(fieldInfo0, dictionaryInfo0.getField(fieldName));
++        // Original check: requesting a non‑existent tag should return null
++        FieldInfo fieldInfo1 = dictionaryInfo0.getField(5);
++        assertNull(fieldInfo1);
++    }
++
+ @Test(timeout = 4000)
+ public void test17() throws Throwable {
+     DictionaryInfo dictionaryInfo0 = new DictionaryInfo("org.fixsuite.message.info.ComponentInfo");

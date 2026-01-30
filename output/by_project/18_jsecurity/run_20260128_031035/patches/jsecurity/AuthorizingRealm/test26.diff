@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -348,21 +348,28 @@
+     boolean result = realm.isPermittedAll(perms, info);
+     org.junit.Assert.assertFalse(result);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm("}");
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection("}", "}");
+-      HashtableCache hashtableCache0 = new HashtableCache("}");
+-      simpleAccountRealm0.setAuthorizationCache(hashtableCache0);
+-      simpleAccountRealm0.addAccount("}", "}");
+-      LinkedList<Permission> linkedList0 = new LinkedList<Permission>();
+-      WildcardPermission wildcardPermission0 = new WildcardPermission("}");
+-      linkedList0.add((Permission) wildcardPermission0);
+-      boolean boolean0 = simpleAccountRealm0.isPermittedAll((PrincipalCollection) simplePrincipalCollection0, (Collection<Permission>) linkedList0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test26() throws Throwable {
++    SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm("}");
++    SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection("}", "}");
++    HashtableCache hashtableCache0 = new HashtableCache("}");
++
++    // Verify that the authorization cache is initially null and is set correctly
++    assertNull(simpleAccountRealm0.getAuthorizationCache());
++    simpleAccountRealm0.setAuthorizationCache(hashtableCache0);
++    assertSame(hashtableCache0, simpleAccountRealm0.getAuthorizationCache());
++
++    // Add an account and verify that it is stored in the realm
++    simpleAccountRealm0.addAccount("}", "}");
++    assertNotNull(simpleAccountRealm0.getAccount("}"));
++
++    LinkedList<Permission> linkedList0 = new LinkedList<Permission>();
++    WildcardPermission wildcardPermission0 = new WildcardPermission("}");
++    linkedList0.add(wildcardPermission0);
++    boolean boolean0 = simpleAccountRealm0.isPermittedAll(simplePrincipalCollection0, linkedList0);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

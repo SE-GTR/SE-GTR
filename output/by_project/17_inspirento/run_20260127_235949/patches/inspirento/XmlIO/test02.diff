@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/allenstudio/ir/util/XmlIO_ESTest.java
++++ b/evosuite-tests/com/allenstudio/ir/util/XmlIO_ESTest.java
+@@ -66,20 +66,19 @@
+     MockFileOutputStream mockFileOutputStream0 = new MockFileOutputStream("com.allenstudio.ir.util.XmlElement");
+     xmlIO0.write(mockFileOutputStream0);
+ }
+-
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test02()  throws Throwable  {
+       Hashtable<String, String> hashtable0 = new Hashtable<String, String>();
+-      hashtable0.put("&apos;", "%-('%OPO");
++      String previousValue = hashtable0.put("&apos;", "%-('%OPO");
++      assertNull(previousValue);
+       XmlElement xmlElement0 = new XmlElement("com.allenstudio.ir.util.XmlElement", hashtable0);
+-    xmlIO0 = new XmlIO(xmlElement0);
++      xmlIO0 = new XmlIO(xmlElement0);
+       MockFileOutputStream mockFileOutputStream0 = new MockFileOutputStream("com.allenstudio.ir.util.XmlElement");
+       // Undeclared exception!
+       try { 
+         xmlIO0.write(mockFileOutputStream0);
+         fail("Expecting exception: NullPointerException");
+-      
++
+       } catch(NullPointerException e) {
+          //
+          // no message in exception (getMessage() returned null)
+@@ -87,6 +86,7 @@
+          verifyException("com.allenstudio.ir.util.XmlIO", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

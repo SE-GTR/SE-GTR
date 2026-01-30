@@ -1,0 +1,33 @@
+--- a/evosuite-tests/mygrid/web/_Progress_ESTest.java
++++ b/evosuite-tests/mygrid/web/_Progress_ESTest.java
+@@ -103,18 +103,21 @@
+         boolean result = progress.equals(progress);
+         assertTrue(result);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test09() throws Throwable {
+     job0 = new Job();
+     _Progress0 = new _Progress();
+-      _Progress0.setJob(job0);
+-      _Progress _Progress1 = new _Progress();
+-      boolean boolean0 = _Progress1.equals(_Progress0);
+-      assertFalse(boolean0);
+-      assertFalse(_Progress0.equals((Object)_Progress1));
++    // Verify initial job is null before setting
++    assertNull(_Progress0.getJob());
++    _Progress0.setJob(job0);
++    // Verify that setJob correctly updates the internal state
++    assertSame(job0, _Progress0.getJob());
++    _Progress _Progress1 = new _Progress();
++    boolean boolean0 = _Progress1.equals(_Progress0);
++    assertFalse(boolean0);
++    assertFalse(_Progress0.equals((Object) _Progress1));
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

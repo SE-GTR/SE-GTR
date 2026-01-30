@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
+@@ -464,25 +464,19 @@
+         Parser parser0 = new Parser(compilerEnvirons0, errorReporter0);
+         parser0.parse("while", "while", 1207);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test48()  throws Throwable  {
+-      DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+-      // Undeclared exception!
+-      try { 
+-        parser0.parse("L(C,@3c$N", "L(C,@3c$N", 933);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // missing name after .@ (L(C,@3c$N#933)
+-         //
+-         verifyException("org.mozilla.javascript.DefaultErrorReporter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test48() throws Throwable {
++        DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
++        try {
++            parser0.parse("L(C,@3c$N", "L(C,@3c$N", 933);
++            fail("Expected RuntimeException");
++        } catch (RuntimeException e) {
++            assertTrue(e.getMessage().contains("missing name after .@"));
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test49()  throws Throwable  {

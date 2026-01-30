@@ -1,0 +1,44 @@
+--- a/evosuite-tests/de/progra/charting/model/StackedChartDataModelConstraints_ESTest.java
++++ b/evosuite-tests/de/progra/charting/model/StackedChartDataModelConstraints_ESTest.java
+@@ -103,30 +103,17 @@
+     Number number0 = stackedChartDataModelConstraints0.getMinimumValue();
+     assertEquals((-4.0), number0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      int[][] intArray0 = new int[1][4];
+-      int[] intArray1 = new int[2];
+-      intArray1[0] = (-24);
+-      intArray0[0] = intArray1;
+-      String[] stringArray0 = new String[10];
+-      ObjectChartDataModel objectChartDataModel0 = new ObjectChartDataModel(intArray0, intArray0, stringArray0);
+-      objectChartDataModel0.setManualScale(true);
+-      StackedChartDataModelConstraints stackedChartDataModelConstraints0 = new StackedChartDataModelConstraints(objectChartDataModel0, (-24));
+-      // Undeclared exception!
+-      try { 
+-        stackedChartDataModelConstraints0.getMinimumValue();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.progra.charting.model.StackedChartDataModelConstraints", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        int[][] data = new int[][]{{-5, 10}, {3, -2}};
++        String[] labels = new String[]{"col1", "col2"};
++        ObjectChartDataModel model = new ObjectChartDataModel(data, data, labels);
++        StackedChartDataModelConstraints constraints = new StackedChartDataModelConstraints(model, 0);
++        Number min = constraints.getMinimumValue();
++        assertNotNull(min);
++        assertEquals(-7, min.intValue());
++    }
++
+ @Test(timeout = 4000)
+ public void test08() throws Throwable {
+     int[][] intArray0 = new int[1][4];

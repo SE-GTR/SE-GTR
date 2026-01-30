@@ -1,0 +1,31 @@
+--- a/evosuite-tests/jahuwaldt/plot/AxisLimitData_ESTest.java
++++ b/evosuite-tests/jahuwaldt/plot/AxisLimitData_ESTest.java
+@@ -14,9 +14,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AxisLimitData_ESTest extends AxisLimitData_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    AxisLimitData original = new AxisLimitData();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      AxisLimitData axisLimitData0 = new AxisLimitData();
+-  }
++    // Act: serialize and then deserialize the object
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(original);
++    oos.flush();
++    byte[] data = baos.toByteArray();
++
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++    AxisLimitData deserialized = (AxisLimitData) ois.readObject();
++
++    // Assert: the deserialized instance retains the same field values as the original
++    assertEquals(original.lb, deserialized.lb, 0.0);
++    assertEquals(original.ub, deserialized.ub, 0.0);
++    assertEquals(original.quantum, deserialized.quantum, 0.0);
+ }
++
++}

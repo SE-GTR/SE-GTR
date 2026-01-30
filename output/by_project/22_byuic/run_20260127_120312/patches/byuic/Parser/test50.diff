@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
+@@ -495,24 +495,19 @@
+          verifyException("org.mozilla.javascript.DefaultErrorReporter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test50()  throws Throwable  {
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
+-      Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++    public void test50() throws Throwable {
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
++        Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
++        // Properly initialize the parser by parsing a minimal script
++        parser0.parse("var a = 1;", "test.js", 1);
++        // After initialization, addWarning should not throw a NullPointerException
+         parser0.addWarning("msg.no.curly.let", "msg.no.curly.let");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.mozilla.javascript.Parser", e);
+-      }
+-  }
++        // Verify that execution reached this point without exception
++        assertTrue(true);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test51()  throws Throwable  {

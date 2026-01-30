@@ -1,0 +1,39 @@
+--- a/evosuite-tests/dsachat/gm/gui/MultiHeroTreeModel_ESTest.java
++++ b/evosuite-tests/dsachat/gm/gui/MultiHeroTreeModel_ESTest.java
+@@ -30,19 +30,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class MultiHeroTreeModel_ESTest extends MultiHeroTreeModel_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      MultiHeroTreeModel multiHeroTreeModel0 = new MultiHeroTreeModel("java.lang.Object@0000000002");
+-      BaseElement baseElement0 = new BaseElement("gJ\"G");
+-      DefaultDocumentType defaultDocumentType0 = new DefaultDocumentType("[x?e%TS:VT{HdY", "java.lang.String@0000000012", "Attributes");
+-      DefaultDocument defaultDocument0 = new DefaultDocument("gJ\"G", baseElement0, defaultDocumentType0);
+-      Hero hero0 = new Hero(defaultDocument0);
+-      Stack<Hero> stack0 = new Stack<Hero>();
+-      stack0.add(hero0);
+-      multiHeroTreeModel0.fireTreeStructureChanged(stack0);
+-      assertEquals(1, stack0.size());
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        MultiHeroTreeModel multiHeroTreeModel0 = new MultiHeroTreeModel("java.lang.Object@0000000002");
++        BaseElement baseElement0 = new BaseElement("gJ\"G");
++        DefaultDocumentType defaultDocumentType0 = new DefaultDocumentType("[x?e%TS:VT{HdY", "java.lang.String@0000000012", "Attributes");
++        DefaultDocument defaultDocument0 = new DefaultDocument("gJ\"G", baseElement0, defaultDocumentType0);
++        Hero hero0 = new Hero(defaultDocument0);
++        Stack<Hero> stack0 = new Stack<Hero>();
++        boolean added = stack0.add(hero0);
++        assertTrue(added);
++        multiHeroTreeModel0.fireTreeStructureChanged(stack0);
++        // Verify that the side‑effect of fireTreeStructureChanged updated the model's hero collection
++        assertEquals(1, multiHeroTreeModel0.heros.size());
++        // Verify that the stack still contains the hero
++        assertEquals(1, stack0.size());
++    }
++
+ @Test(timeout = 4000)
+ public void test01() throws Throwable {
+     MultiHeroTreeModel model = new MultiHeroTreeModel("java.langString@000000010");

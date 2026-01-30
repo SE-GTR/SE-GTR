@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
+@@ -267,12 +267,20 @@
+     // The flag should be either 0 (disabled) or 1 (enabled)
+     assertTrue(useMd5 == 0 || useMd5 == 1);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test32() throws Throwable {
++      // Capture the original value (expected to be true by default)
++      boolean original = MySQLConfig.isLogin_gm_read();
++      // Act: change the configuration
+       MySQLConfig.setLogin_gm_read(false);
+-  }
++      // Assert: the change is reflected via the getter
++      assertFalse(MySQLConfig.isLogin_gm_read());
++      // Additional sanity check: ensure the value actually changed if it was true before
++      if (original) {
++          assertNotEquals(original, MySQLConfig.isLogin_gm_read());
++      }
++  }
++
+ @Test(timeout = 4000)
+     public void test33() throws Throwable {
+         int original = MySQLConfig.getDynamic_account_ban_class();

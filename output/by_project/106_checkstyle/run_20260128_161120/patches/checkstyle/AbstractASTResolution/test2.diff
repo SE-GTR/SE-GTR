@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/quickfixes/AbstractASTResolution_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/quickfixes/AbstractASTResolution_ESTest.java
+@@ -56,18 +56,25 @@
+       designForExtensionQuickfix0.run(iMarker0);
+       assertEquals((-1L), iMarker0.getId());
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    doReturn((String) null).when(iFile0).getFileExtension();
++    doReturn((IProject) null).when(iFile0).getProject();
++    doReturn(true).when(iFile0).isAccessible();
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      doReturn((String) null).when(iFile0).getFileExtension();
+-      doReturn((IProject) null).when(iFile0).getProject();
+-      doReturn(true).when(iFile0).isAccessible();
+-      MarkerInfo markerInfo0 = new MarkerInfo();
+-      MarkerDelta markerDelta0 = new MarkerDelta(512, iFile0, markerInfo0);
+-      IMarker iMarker0 = markerDelta0.getMarker();
+-      arrayTypeStyleQuickfix0.run(iMarker0);
+-      assertEquals((-1L), iMarker0.getId());
+-  }
++    MarkerInfo markerInfo0 = new MarkerInfo();
++    MarkerDelta markerDelta0 = new MarkerDelta(512, iFile0, markerInfo0);
++    IMarker iMarker0 = markerDelta0.getMarker();
++
++    long beforeId = iMarker0.getId();
++
++    arrayTypeStyleQuickfix0.run(iMarker0);
++
++    assertSame(markerDelta0.getMarker(), iMarker0);
++    assertEquals(beforeId, iMarker0.getId());
++    assertNotNull(iMarker0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

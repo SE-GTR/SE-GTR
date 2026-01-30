@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Deploy_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Deploy_ESTest.java
+@@ -174,23 +174,20 @@
+     assertTrue(deploy.equals(deploy));
+     assertFalse(deploy.equals(null));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      Deploy deploy0 = new Deploy();
+-      // Undeclared exception!
+-      try { 
+-        deploy0.getOptions(53);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.sap.engine.services.dc.wsgate.Deploy", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        Deploy deploy0 = new Deploy();
++        // Prepare a valid Option array and inject it via reflection
++        Option opt = new Option();
++        Option[] opts = new Option[] { opt };
++        java.lang.reflect.Field optionsField = Deploy.class.getDeclaredField("options");
++        optionsField.setAccessible(true);
++        optionsField.set(deploy0, opts);
++        // Invoke the method under test and verify the expected result
++        Option result = deploy0.getOptions(0);
++        assertSame(opt, result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

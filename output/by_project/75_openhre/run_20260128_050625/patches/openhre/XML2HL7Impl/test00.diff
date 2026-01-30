@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/XML2HL7Impl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/XML2HL7Impl_ESTest.java
+@@ -33,16 +33,23 @@
+     convertorXMLToHL7_0 = new ConvertorXMLToHL7();
+       xML2HL7Impl0.setHandler(convertorXMLToHL7_0);
+   }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        xML2HL7Impl0 = new XML2HL7Impl();
++        convertorXMLToHL7_0 = new ConvertorXMLToHL7();
+ 
++        // Verify initial state: no handler set
++        assertNull(xML2HL7Impl0.getHandler());
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-    xML2HL7Impl0 = new XML2HL7Impl();
+-    convertorXMLToHL7_0 = new ConvertorXMLToHL7();
+-      xML2HL7Impl0.setHandler(convertorXMLToHL7_0);
+-      SAXParseException sAXParseException0 = new SAXParseException("", (Locator) null);
+-      xML2HL7Impl0.fatalError(sAXParseException0);
+-  }
++        // Set the handler and verify the side‑effect
++        xML2HL7Impl0.setHandler(convertorXMLToHL7_0);
++        assertSame(convertorXMLToHL7_0, xML2HL7Impl0.getHandler());
++
++        // Invoke a method that uses the handler to ensure normal operation
++        SAXParseException sAXParseException0 = new SAXParseException("", (Locator) null);
++        xML2HL7Impl0.fatalError(sAXParseException0);
++    }
++
+ @Test(timeout = 4000)
+   public void test01() throws Throwable {
+       SAXParseException exception = new SAXParseException("test", null, null, 0, 0);

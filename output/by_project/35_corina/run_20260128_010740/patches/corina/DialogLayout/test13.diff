@@ -1,0 +1,30 @@
+--- a/evosuite-tests/corina/gui/layouts/DialogLayout_ESTest.java
++++ b/evosuite-tests/corina/gui/layouts/DialogLayout_ESTest.java
+@@ -178,13 +178,19 @@
+       dialogLayout0.invalidateLayout(jProgressBar0);
+       assertFalse(jProgressBar0.isFocusTraversalPolicyProvider());
+   }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    DialogLayout dialogLayout0 = new DialogLayout();
++    Box box0 = Box.createHorizontalBox();
++    dialogLayout0.addLayoutComponent("negative exponent", (Component) box0);
++    int beforeCount = box0.getComponentCount();
++    dialogLayout0.layoutContainer(box0);
++    // Verify that layoutContainer does not change the number of components in the container
++    assertEquals(beforeCount, box0.getComponentCount());
++    // Verify that the container's size dimensions are non‑negative after layout
++    assertTrue(box0.getWidth() >= 0 && box0.getHeight() >= 0);
++    // Original assertion retained
++    assertTrue(box0.getFocusTraversalKeysEnabled());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      DialogLayout dialogLayout0 = new DialogLayout();
+-      Box box0 = Box.createHorizontalBox();
+-      dialogLayout0.addLayoutComponent("negative exponent", (Component) box0);
+-      dialogLayout0.layoutContainer(box0);
+-      assertTrue(box0.getFocusTraversalKeysEnabled());
+-  }
+ }

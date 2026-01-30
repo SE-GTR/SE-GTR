@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
+@@ -14,16 +14,36 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Item_ESTest extends Item_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Item item0 = new Item();
+-      item0.set(10, "sI", "sI", "sI");
+-      Item item1 = new Item(868, item0);
+-      item1.set(Integer.MAX_VALUE, "sI", "sI", "lHb8_K}&U,xF-(G");
+-      boolean boolean0 = item0.isEqualTo(item1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    Item item0 = new Item();
++    // verify initial state
++    assertEquals(0, item0.type);
++    assertNull(item0.strVal1);
++    assertNull(item0.strVal2);
++    assertNull(item0.strVal3);
++    // act: set fields on item0
++    item0.set(10, "sI", "sI", "sI");
++    // assert side effects of set
++    assertEquals(10, item0.type);
++    assertEquals("sI", item0.strVal1);
++    assertEquals("sI", item0.strVal2);
++    assertEquals("sI", item0.strVal3);
++    // create second item
++    Item item1 = new Item(868, item0);
++    assertEquals(868, item1.index);
++    // act: set fields on item1
++    item1.set(Integer.MAX_VALUE, "sI", "sI", "lHb8_K}&U,xF-(G");
++    // assert side effects of set
++    assertEquals(Integer.MAX_VALUE, item1.type);
++    assertEquals("sI", item1.strVal1);
++    assertEquals("sI", item1.strVal2);
++    assertEquals("lHb8_K}&U,xF-(G", item1.strVal3);
++    // verify inequality
++    boolean boolean0 = item0.isEqualTo(item1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

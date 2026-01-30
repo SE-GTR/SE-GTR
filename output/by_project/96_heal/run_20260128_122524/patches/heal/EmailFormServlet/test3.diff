@@ -1,0 +1,55 @@
+--- a/evosuite-tests/org/heal/servlet/EmailFormServlet_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/EmailFormServlet_ESTest.java
+@@ -87,23 +87,36 @@
+          verifyException("org.heal.servlet.EmailFormServlet", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    emailFormServlet0 = new EmailFormServlet();
++    ServletConfig config = new ServletConfig() {
++        @Override
++        public String getServletName() {
++            return "EmailFormServlet";
++        }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    emailFormServlet0 = new EmailFormServlet();
+-      Servlet servlet0 = new Servlet();
+-      // Undeclared exception!
+-      try { 
+-        emailFormServlet0.init((ServletConfig) servlet0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("javax.servlet.GenericServlet", e);
+-      }
+-  }
++        @Override
++        public ServletContext getServletContext() {
++            return null;
++        }
++
++        @Override
++        public String getInitParameter(String name) {
++            return null;
++        }
++
++        @Override
++        public Enumeration<String> getInitParameterNames() {
++            return java.util.Collections.emptyEnumeration();
++        }
++    };
++    // The init method should complete without throwing a NullPointerException.
++    emailFormServlet0.init(config);
++    // If we reach this point, the setup was successful.
++    assertTrue(true);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

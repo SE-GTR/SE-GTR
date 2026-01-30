@@ -1,0 +1,32 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSFileUtils_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSFileUtils_ESTest.java
+@@ -47,17 +47,19 @@
+       boolean boolean0 = HaSFileUtils.deleteDirectory(mockFile0);
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    mockFile0 = new MockFile("\"@0[");
++    File tempFile = MockFile.createTempFile("SQ_GR30rQYw`PoR#", "\"@0[", (File) mockFile0);
++    assertNotNull("Temp file should be created", tempFile);
++    MockFile mockFile1 = new MockFile("/PATH/TO/SF110-20130704-src/70_echodep/\"@0[",
++            "/PATH/TO/SF110-20130704-src/70_echodep/\"@0[");
++    HaSFileUtils.copyDirectory(mockFile0, mockFile1);
++    boolean boolean0 = HaSFileUtils.deleteDirectory(mockFile0);
++    assertTrue("Target directory should exist after copy", mockFile1.exists());
++    assertTrue("deleteDirectory should return true", boolean0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    mockFile0 = new MockFile("\"@0[");
+-      MockFile.createTempFile("SQ_GR30rQYw`PoR#", "\"@0[", (File) mockFile0);
+-      MockFile mockFile1 = new MockFile("/PATH/TO/SF110-20130704-src/70_echodep/\"@0[", "/PATH/TO/SF110-20130704-src/70_echodep/\"@0[");
+-      HaSFileUtils.copyDirectory(mockFile0, mockFile1);
+-      boolean boolean0 = HaSFileUtils.deleteDirectory(mockFile0);
+-      assertFalse(mockFile0.canWrite());
+-      assertTrue(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/regular/ExpressionMatrixImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/regular/ExpressionMatrixImpl_ESTest.java
+@@ -163,15 +163,22 @@
+         String string0 = expressionMatrixImpl0.outNoStandardConnections(true, (ExpressionElementMapper) null);
+         assertEquals("1 --- A ---> 256\n", string0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      ExpressionMatrixImpl expressionMatrixImpl0 = new ExpressionMatrixImpl();
+-      expressionMatrixImpl0.addNewNode();
+-      expressionMatrixImpl0.setValue(0, (-90), 873);
+-      assertEquals(1, expressionMatrixImpl0.getNumberOfNodes());
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        ExpressionMatrixImpl matrix = new ExpressionMatrixImpl();
++        // Initially there are no nodes
++        assertEquals(0, matrix.getNumberOfNodes());
++        // Add a node and verify the count
++        matrix.addNewNode();
++        assertEquals(1, matrix.getNumberOfNodes());
++        // Record node count before setting a value
++        int nodesBefore = matrix.getNumberOfNodes();
++        // Invoke the void method under test
++        matrix.setValue(0, -90, 873);
++        // Ensure that setting a value does not alter the node count
++        assertEquals(nodesBefore, matrix.getNumberOfNodes());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

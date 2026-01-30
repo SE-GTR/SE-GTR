@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/Cas2Consed_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/Cas2Consed_ESTest.java
+@@ -125,23 +125,30 @@
+     CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
+     new Cas2Consed(mockFile0, casGappedReferenceDataStore0, null, "phdBall");
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-    mockFile0 = new MockFile("prefix can not be null");
+-    streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(streamingIterator0).hasNext();
+-      StreamingIterator<NucleotideSequence> streamingIterator1 = (StreamingIterator<NucleotideSequence>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
+-      doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
+-      doReturn(streamingIterator1).when(casGappedReferenceDataStore0).iterator();
+-      Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "prefix can not be null");
+-      Range range0 = Range.of(0L, 0L);
+-      AceContig aceContig0 = mock(AceContig.class, new ViolatedAssumptionAnswer());
+-      cas2Consed0.visitAce(range0, aceContig0);
+-      assertFalse(range0.isEmpty());
+-  }
++@Test(timeout = 4000)
++  public void test06() throws Throwable {
++    mockFile0 = new MockFile("prefix can not be null");
++    streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(streamingIterator0).hasNext();
++    // verify stubbed return value
++    assertFalse(streamingIterator0.hasNext());
++
++    StreamingIterator<NucleotideSequence> streamingIterator1 = (StreamingIterator<NucleotideSequence>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++    CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
++    doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
++    doReturn(streamingIterator1).when(casGappedReferenceDataStore0).iterator();
++
++    // verify stubbed iterators are returned as expected
++    assertNotNull(casGappedReferenceDataStore0.idIterator());
++    assertNotNull(casGappedReferenceDataStore0.iterator());
++
++    Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "prefix can not be null");
++    Range range0 = Range.of(0L, 0L);
++    AceContig aceContig0 = mock(AceContig.class, new ViolatedAssumptionAnswer());
++    cas2Consed0.visitAce(range0, aceContig0);
++    assertFalse(range0.isEmpty());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

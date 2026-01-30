@@ -1,0 +1,38 @@
+--- a/evosuite-tests/de/progra/charting/model/DefaultChartDataModelConstraints_ESTest.java
++++ b/evosuite-tests/de/progra/charting/model/DefaultChartDataModelConstraints_ESTest.java
+@@ -171,19 +171,22 @@
+       Number number0 = defaultChartDataModelConstraints0.getMinimumValue();
+       assertNotNull(number0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      int[][] intArray0 = new int[1][2];
+-      double[] doubleArray0 = new double[3];
+-      String[] stringArray0 = new String[2];
+-      DefaultChartDataModel defaultChartDataModel0 = new DefaultChartDataModel(intArray0, doubleArray0, stringArray0);
+-      defaultChartDataModel0.setAutoScale(true);
+-      DefaultChartDataModelConstraints defaultChartDataModelConstraints0 = new DefaultChartDataModelConstraints(defaultChartDataModel0, 0);
+-      // Undeclared exception!
+-      defaultChartDataModelConstraints0.getMaximumValue();
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    int[][] intArray0 = new int[1][2];
++    double[] doubleArray0 = new double[3];
++    String[] stringArray0 = new String[2];
++    DefaultChartDataModel defaultChartDataModel0 = new DefaultChartDataModel(intArray0, doubleArray0, stringArray0);
++    defaultChartDataModel0.setAutoScale(true);
++    // verify side‑effect of setAutoScale
++    assertTrue("Auto‑scale should be enabled", defaultChartDataModel0.isAutoScale());
++    DefaultChartDataModelConstraints defaultChartDataModelConstraints0 = new DefaultChartDataModelConstraints(defaultChartDataModel0, 0);
++    Number maxValue = defaultChartDataModelConstraints0.getMaximumValue();
++    // verify return value of getMaximumValue
++    assertNotNull("Maximum value should not be null", maxValue);
++    assertTrue("Maximum value should be non‑negative", maxValue.doubleValue() >= 0.0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

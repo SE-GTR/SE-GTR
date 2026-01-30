@@ -1,0 +1,30 @@
+--- a/evosuite-tests/jahuwaldt/plot/PlotAxis_ESTest.java
++++ b/evosuite-tests/jahuwaldt/plot/PlotAxis_ESTest.java
+@@ -182,14 +182,19 @@
+     PlotXAxis cloned = (PlotXAxis) plotXAxis0.clone();
+     assertEquals(plotXAxis0.getLowerBounds(), cloned.getLowerBounds(), 0.01);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      PlotYAxis plotYAxis0 = new PlotYAxis();
+-      plotYAxis0.setUpperBounds(2363.705);
+-      assertEquals(2363.705, plotYAxis0.getUpperBounds(), 0.01);
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        PlotYAxis plotYAxis0 = new PlotYAxis();
++        double newUpper = 2363.705;
++        plotYAxis0.setUpperBounds(newUpper);
++        assertEquals(newUpper, plotYAxis0.getUpperBounds(), 0.01);
++
++        // Verify that cloning preserves the upper bound and creates a distinct object
++        PlotYAxis clone = (PlotYAxis) plotYAxis0.clone();
++        assertNotSame(plotYAxis0, clone);
++        assertEquals(newUpper, clone.getUpperBounds(), 0.01);
++    }
++
+ @Test(timeout = 4000)
+ public void test16() throws Throwable {
+     PlotXAxis plotXAxis0 = new PlotXAxis();

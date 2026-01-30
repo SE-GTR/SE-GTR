@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/gui/renderers/ScanRenderer_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/gui/renderers/ScanRenderer_ESTest.java
+@@ -82,22 +82,27 @@
+          verifyException("net.virtualinfinity.atrobots.measures.AngleBracket", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
+     scanRenderer0 = new ScanRenderer();
+-      assertFalse(scanRenderer0.isFillArcs());
++    assertFalse(scanRenderer0.isFillArcs());
+     graphics2D0 = mock(Graphics2D.class, new ViolatedAssumptionAnswer());
+     absoluteAngle0 = AbsoluteAngle.fromRadians(3576.699027229266);
+     angleBracket0 = AngleBracket.all();
+     vector0 = Vector.createPolar(absoluteAngle0, 0);
+-      ScanSnapshot scanSnapshot0 = new ScanSnapshot(angleBracket0, 0.0, true, vector0, false, (-1));
+-      scanSnapshot0.setPositionVector(vector0);
+-      LinkedHashSet<Integer> linkedHashSet0 = new LinkedHashSet<Integer>();
+-      scanRenderer0.setFillArcs(true);
+-      scanRenderer0.render(graphics2D0, scanSnapshot0, (Set<Integer>) linkedHashSet0);
+-      assertTrue(scanRenderer0.isFillArcs());
++    ScanSnapshot scanSnapshot0 = new ScanSnapshot(angleBracket0, 0.0, true, vector0, false, (-1));
++    // verify that setPositionVector updates the snapshot's position vector
++    scanSnapshot0.setPositionVector(vector0);
++    assertEquals(vector0, scanSnapshot0.getPositionVector());
++    LinkedHashSet<Integer> linkedHashSet0 = new LinkedHashSet<Integer>();
++    int beforeSize = linkedHashSet0.size();
++    scanRenderer0.setFillArcs(true);
++    scanRenderer0.render(graphics2D0, scanSnapshot0, (Set<Integer>) linkedHashSet0);
++    // render should not modify the supplied set of selected robot ids
++    assertEquals(beforeSize, linkedHashSet0.size());
++    assertTrue(scanRenderer0.isFillArcs());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,28 @@
+--- a/evosuite-tests/bible/util/DbConnectionAttributes_ESTest.java
++++ b/evosuite-tests/bible/util/DbConnectionAttributes_ESTest.java
+@@ -220,15 +220,16 @@
+     String query = dbConnectionAttributes0.getQuery();
+     assertNull(query);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-    dbConnectionAttributes0 = new DbConnectionAttributes(0);
+-      dbConnectionAttributes0.reset();
+-      String string0 = dbConnectionAttributes0.toString();
+-      assertEquals("bible.util.DbConnectionAttributes:[index=0, status=Free (Connected-Not Used), query=\"\", creationDate=Wed Dec 31 23:59:59 GMT 1969, e=<evosuite>.<evosuite>(<evosuite>)\n<evosuite>.<evosuite>(<evosuite>)\n<evosuite>.<evosuite>(<evosuite>)\n]", string0);
+-  }
++@Test(timeout = 4000)
++public void test23() throws Throwable {
++    dbConnectionAttributes0 = new DbConnectionAttributes(0);
++    String before = dbConnectionAttributes0.toString();
++    dbConnectionAttributes0.reset();
++    String after = dbConnectionAttributes0.toString();
++    assertNotEquals("State should change after reset", before, after);
++    assertEquals("bible.util.DbConnectionAttributes:[index=0, status=Free (Connected-Not Used), query=\"\", creationDate=Wed Dec 31 23:59:59 GMT 1969, e=<evosuite>.<evosuite>(<evosuite>)\n<evosuite>.<evosuite>(<evosuite>)\n<evosuite>.<evosuite>(<evosuite>)\n]", after);
++}
++
+ @Test(timeout = 4000)
+     public void test24() throws Throwable {
+         dbConnectionAttributes0 = new DbConnectionAttributes(-4344);

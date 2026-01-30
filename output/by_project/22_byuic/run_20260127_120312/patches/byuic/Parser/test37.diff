@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
+@@ -361,25 +361,21 @@
+         Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+         parser0.parse("L:dwG :*[)i", "L:dwG :*[)i", 84);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test37()  throws Throwable  {
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      ErrorReporter errorReporter0 = compilerEnvirons0.getErrorReporter();
+-      Parser parser0 = new Parser(compilerEnvirons0, errorReporter0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test37() throws Throwable {
++    CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++    ErrorReporter errorReporter0 = compilerEnvirons0.getErrorReporter();
++    Parser parser0 = new Parser(compilerEnvirons0, errorReporter0);
++    try {
+         parser0.parse("N_pcJB:W}yB4bzu`", "N_pcJB:W}yB4bzu`", 4847);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // syntax error (N_pcJB:W}yB4bzu`#4847)
+-         //
+-         verifyException("org.mozilla.javascript.DefaultErrorReporter", e);
+-      }
+-  }
++        fail("Expected RuntimeException");
++    } catch (RuntimeException e) {
++        // Ensure the exception is due to a syntax error and references the source string
++        assertTrue(e.getMessage().contains("syntax error"));
++        assertTrue(e.getMessage().contains("N_pcJB:W}yB4bzu`"));
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test38()  throws Throwable  {

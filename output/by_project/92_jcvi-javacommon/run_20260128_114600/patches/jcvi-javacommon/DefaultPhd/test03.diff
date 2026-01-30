@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/DefaultPhd_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/DefaultPhd_ESTest.java
+@@ -72,9 +72,8 @@
+       boolean boolean0 = defaultPhd0.equals(artificialPhd1);
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test03() throws Throwable {
+       NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+       doReturn(2833L).when(nucleotideSequence0).getLength();
+       QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+@@ -82,9 +81,12 @@
+       ArtificialPhd artificialPhd0 = ArtificialPhd.createNewbler454Phd("", nucleotideSequence0, qualitySequence0, (Map<String, String>) hashMap0);
+       PositionSequence positionSequence0 = artificialPhd0.getPositionSequence();
+       DefaultPhd defaultPhd0 = new DefaultPhd("", nucleotideSequence0, qualitySequence0, positionSequence0);
+-      boolean boolean0 = defaultPhd0.equals(artificialPhd0);
+-      assertTrue(boolean0);
++      // Verify the stubbed length behavior (NARV)
++      assertEquals(2833L, nucleotideSequence0.getLength());
++      // Verify equality behavior
++      assertTrue(defaultPhd0.equals(artificialPhd0));
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

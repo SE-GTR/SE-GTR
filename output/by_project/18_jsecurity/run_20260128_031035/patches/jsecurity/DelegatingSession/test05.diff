@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/DelegatingSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/DelegatingSession_ESTest.java
+@@ -114,23 +114,16 @@
+          verifyException("org.jsecurity.session.mgt.DelegatingSession", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      DefaultSessionManager defaultSessionManager0 = new DefaultSessionManager();
+-      DelegatingSession delegatingSession0 = new DelegatingSession(defaultSessionManager0, 3600000L);
+-      // Undeclared exception!
+-      try { 
+-        delegatingSession0.getLastAccessTime();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // There is no session with id [3600000]
+-         //
+-         verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        DefaultSessionManager manager = new DefaultSessionManager();
++        org.jsecurity.session.mgt.SessionContext ctx = new org.jsecurity.session.mgt.SimpleSessionContext();
++        org.jsecurity.session.Session session = manager.start(ctx);
++        DelegatingSession delegatingSession = new DelegatingSession(manager, session.getId());
++        java.util.Date lastAccess = delegatingSession.getLastAccessTime();
++        assertNotNull(lastAccess);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

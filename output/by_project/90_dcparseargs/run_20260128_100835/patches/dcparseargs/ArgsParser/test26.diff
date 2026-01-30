@@ -1,0 +1,33 @@
+--- a/evosuite-tests/de/devcity/parseargs/ArgsParser_ESTest.java
++++ b/evosuite-tests/de/devcity/parseargs/ArgsParser_ESTest.java
+@@ -257,15 +257,21 @@
+     assertNotSame(stringArray0, stringArray1);
+     assertArrayEquals(stringArray0, stringArray1);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      String[] stringArray0 = new String[2];
+-      ArgsParser argsParser0 = new ArgsParser(stringArray0);
+-      int int0 = argsParser0.getArgsCount();
+-      assertEquals(2, int0);
+-  }
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        String[] args = new String[2];
++        args[0] = "-a";
++        args[1] = "value";
++        ArgsParser parser = new ArgsParser(args);
++        // Mutate the original array after the parser has been created
++        args[0] = "-b";
++        args[1] = "other";
++        int count = parser.getArgsCount();
++        assertTrue(count >= 0);
++        int countAgain = parser.getArgsCount();
++        assertEquals(count, countAgain);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

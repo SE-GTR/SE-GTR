@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/ztr/data/DataFactory_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/ztr/data/DataFactory_ESTest.java
+@@ -18,22 +18,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DataFactory_ESTest extends DataFactory_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        byte[] byteArray0 = new byte[4];
++        byteArray0[0] = (byte) (-22);
++        org.jcvi.jillion.trace.TraceDecoderException thrown = 
++            org.junit.Assert.assertThrows(org.jcvi.jillion.trace.TraceDecoderException.class,
++                () -> org.jcvi.jillion.internal.trace.chromat.ztr.data.DataFactory.getDataImplementation(byteArray0));
++        // Verify that the exception message indicates an unsupported format
++        org.junit.Assert.assertTrue(thrown.getMessage().contains("-22"));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      byte[] byteArray0 = new byte[4];
+-      byteArray0[0] = (byte) (-22);
+-      try { 
+-        DataFactory.getDataImplementation(byteArray0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // format not supported : -22
+-         //
+-         verifyException("org.jcvi.jillion.internal.trace.chromat.ztr.data.DataFactory", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

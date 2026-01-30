@@ -1,0 +1,31 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/ValidationsImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/ValidationsImpl_ESTest.java
+@@ -30,16 +30,23 @@
+       Integer integer1 = validationsImpl0.getFirstNotNull(integerArray0);
+       assertTrue(integer1.equals((Object)integer0));
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
+       FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
+       FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+       ValidationsImpl validationsImpl0 = new ValidationsImpl(factoryImpl0);
++
++      // Case 1: all elements are null, should return null
+       Integer[] integerArray0 = new Integer[3];
+-      Integer integer0 = validationsImpl0.getFirstNotNull(integerArray0);
+-      assertNull(integer0);
++      Integer resultNull = validationsImpl0.getFirstNotNull(integerArray0);
++      assertNull(resultNull);
++
++      // Case 2: first non‑null element should be returned
++      Integer[] integerArray1 = new Integer[] { Integer.valueOf(42), null, Integer.valueOf(7) };
++      Integer resultFirst = validationsImpl0.getFirstNotNull(integerArray1);
++      assertEquals(Integer.valueOf(42), resultFirst);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

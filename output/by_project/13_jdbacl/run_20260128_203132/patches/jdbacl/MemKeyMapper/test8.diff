@@ -1,0 +1,23 @@
+--- a/evosuite-tests/org/databene/jdbacl/identity/mem/MemKeyMapper_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/identity/mem/MemKeyMapper_ESTest.java
+@@ -165,11 +165,14 @@
+          verifyException("org.databene.jdbacl.identity.NoIdentity", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test8() throws Throwable {
++        identityProvider0 = new IdentityProvider();
++        memKeyMapper0 = new MemKeyMapper((Connection) null, "xxT_OXL#2T_", (Connection) null, "xxT_OXL#2T_", identityProvider0, (Database) null);
++        // Act: register a source with a specific identifier
++        memKeyMapper0.registerSource("xxT_OXL#2T_", (Connection) null);
++        // Assert: the source mapper should now be available via the public accessor
++        assertNotNull("Source mapper should be registered and retrievable", memKeyMapper0.getSourceDatabaseMapper("xxT_OXL#2T_"));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-    identityProvider0 = new IdentityProvider();
+-    memKeyMapper0 = new MemKeyMapper((Connection) null, "xxT_OXL#2T_", (Connection) null, "xxT_OXL#2T_", identityProvider0, (Database) null);
+-      memKeyMapper0.registerSource("xxT_OXL#2T_", (Connection) null);
+-  }
+ }

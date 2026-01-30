@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/heal/servlet/EmailFormServlet_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/EmailFormServlet_ESTest.java
+@@ -48,24 +48,21 @@
+          verifyException("org.heal.servlet.EmailFormServlet", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        emailFormServlet0 = new EmailFormServlet();
++        httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class);
++        doReturn("wnIlX@8ya;[*tdBD8fe").when(httpServletRequest0).getParameter(anyString());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    emailFormServlet0 = new EmailFormServlet();
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("wnIlX@8ya;[*tdBD8fe").when(httpServletRequest0).getParameter(anyString());
+-      // Undeclared exception!
+-      try { 
+-        emailFormServlet0.doPost(httpServletRequest0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.EmailFormServlet", e);
+-      }
+-  }
++        // Execute the servlet with valid (non‑null) arguments
++        emailFormServlet0.doPost(httpServletRequest0, httpServletResponse0);
++
++        // Verify that the request was interacted with and the response is non‑null
++        verify(httpServletRequest0, atLeastOnce()).getParameter(anyString());
++        assertNotNull(httpServletResponse0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

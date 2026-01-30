@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/browsersoft/aacs/Group_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/Group_ESTest.java
+@@ -115,17 +115,20 @@
+     // Verify that the distinguished name is correctly constructed from the common name.
+     assertEquals("cn=PYT9u+9^l5_9,ou=groups,dc=arch,dc=org", group0.getDn());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      Group group0 = new Group("(~AK");
+-      String[] stringArray0 = new String[3];
+-      SearchControls searchControls0 = new SearchControls((-1), (-1), 1199, stringArray0, false, false);
+-      group0.search("", "7Gob6y", searchControls0);
+-      assertEquals("(~AK", group0.getCn());
+-      assertEquals("cn=(~AK,ou=groups,dc=arch,dc=org", group0.getDn());
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        Group group0 = new Group("(~AK");
++        String[] stringArray0 = new String[3];
++        SearchControls searchControls0 = new SearchControls(-1, -1, 1199, stringArray0, false, false);
++        javax.naming.NamingEnumeration<?> result = group0.search("", "7Gob6y", searchControls0);
++        assertNotNull("Search result should not be null", result);
++        try {
++            result.hasMoreElements();
++        } catch (Exception e) {
++            fail("Exception when accessing search enumeration: " + e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

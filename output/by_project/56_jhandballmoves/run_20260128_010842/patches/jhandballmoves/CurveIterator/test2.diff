@@ -1,0 +1,52 @@
+--- a/evosuite-tests/visu/handball/moves/model/animation/CurveIterator_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/animation/CurveIterator_ESTest.java
+@@ -47,26 +47,30 @@
+       boolean boolean0 = curveIterator0.isDone();
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        offender0 = new Offender(1318, 1318);
++        moveEvent0 = new MoveEvent(offender0, 19, -927);
++        moveEvent0.setDestinationPoint(-927, -927, true);
++        moveEvent0.setControlPoint(1423, 2, true);
++        curveIterator0 = new CurveIterator(moveEvent0);
++        double[] coords = new double[6];
++        int segment = curveIterator0.currentSegment(coords);
++        // Verify that a valid segment type is returned
++        assertTrue("Segment type should be within PathIterator range",
++                segment >= java.awt.geom.PathIterator.SEG_MOVETO
++                        && segment <= java.awt.geom.PathIterator.SEG_CLOSE);
++        // Verify that the coordinates array has been populated (at least one non‑zero value)
++        boolean anyNonZero = false;
++        for (double v : coords) {
++            if (v != 0.0) {
++                anyNonZero = true;
++                break;
++            }
++        }
++        assertTrue("Coordinates should be populated", anyNonZero);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    offender0 = new Offender(1318, 1318);
+-    moveEvent0 = new MoveEvent(offender0, 19, (-927));
+-      moveEvent0.setDestinationPoint((-927), (-927), true);
+-      moveEvent0.setControlPoint(1423, 2, true);
+-    curveIterator0 = new CurveIterator(moveEvent0);
+-      // Undeclared exception!
+-      try { 
+-        curveIterator0.currentSegment((double[]) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("visu.handball.moves.model.animation.CurveIterator", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

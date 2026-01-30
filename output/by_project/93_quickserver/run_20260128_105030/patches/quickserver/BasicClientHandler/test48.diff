@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
+@@ -586,14 +586,15 @@
+     NonBlockingClientHandler handler = new NonBlockingClientHandler(-1);
+     assertNotNull(handler);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test48()  throws Throwable  {
+-      BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
+-      blockingClientHandler0.getObjectOutputStream();
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:29>", blockingClientHandler0.getName());
+-  }
++@Test(timeout = 4000)
++    public void test48() throws Throwable {
++        BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
++        java.io.ObjectOutputStream oos1 = blockingClientHandler0.getObjectOutputStream();
++        assertNull(oos1);
++        java.io.ObjectOutputStream oos2 = blockingClientHandler0.getObjectOutputStream();
++        assertSame(oos1, oos2);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test49()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -215,15 +215,18 @@
+          verifyException("org.jsecurity.realm.AuthorizingRealm", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      LinkedHashSet<String> linkedHashSet0 = new LinkedHashSet<String>();
+-      SimpleAuthorizationInfo simpleAuthorizationInfo0 = new SimpleAuthorizationInfo(linkedHashSet0);
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      simpleAccountRealm0.checkPermissions((Collection<Permission>) null, (AuthorizationInfo) simpleAuthorizationInfo0);
+-      assertEquals("org.jsecurity.realm.SimpleAccountRealm_0", simpleAccountRealm0.getName());
+-  }
++@Test(timeout = 4000)
++    public void test17() throws Throwable {
++        LinkedHashSet<String> linkedHashSet0 = new LinkedHashSet<>();
++        SimpleAuthorizationInfo simpleAuthorizationInfo0 = new SimpleAuthorizationInfo(linkedHashSet0);
++        SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
++        // Use an empty permission collection to avoid NPE in checkPermissions
++        Collection<org.jsecurity.authz.Permission> emptyPermissions = java.util.Collections.emptyList();
++        simpleAccountRealm0.checkPermissions(emptyPermissions, simpleAuthorizationInfo0);
++        // Verify that the authorization info remains unchanged (no permissions added)
++        assertTrue(linkedHashSet0.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

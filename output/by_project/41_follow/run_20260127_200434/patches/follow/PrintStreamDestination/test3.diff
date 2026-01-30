@@ -1,0 +1,32 @@
+--- a/evosuite-tests/ghm/follow/io/PrintStreamDestination_ESTest.java
++++ b/evosuite-tests/ghm/follow/io/PrintStreamDestination_ESTest.java
+@@ -36,20 +36,14 @@
+       PrintStreamDestination printStreamDestination0 = new PrintStreamDestination((PrintStream) null);
+       printStreamDestination0.clear();
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.PrintStream ps = new java.io.PrintStream(baos);
++        PrintStreamDestination dest = new PrintStreamDestination(ps);
++        dest.print("hello");
++        ps.flush();
++        org.junit.Assert.assertEquals("hello", baos.toString());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      PrintStreamDestination printStreamDestination0 = new PrintStreamDestination((PrintStream) null);
+-      // Undeclared exception!
+-      try { 
+-        printStreamDestination0.print("");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ghm.follow.io.PrintStreamDestination", e);
+-      }
+-  }
+ }

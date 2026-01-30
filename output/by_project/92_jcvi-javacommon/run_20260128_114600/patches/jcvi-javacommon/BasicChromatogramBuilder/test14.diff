@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/BasicChromatogramBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/BasicChromatogramBuilder_ESTest.java
+@@ -185,22 +185,19 @@
+          verifyException("org.jcvi.jillion.internal.trace.chromat.BasicChromatogramBuilder", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test14() throws Throwable {
+       BasicChromatogramBuilder basicChromatogramBuilder0 = new BasicChromatogramBuilder("");
+       short[] shortArray0 = new short[1];
+-      basicChromatogramBuilder0.aPositions(shortArray0);
+-      // Undeclared exception!
+-      try { 
+-        basicChromatogramBuilder0.build();
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // positions must all have the same length
+-         //
+-         verifyException("org.jcvi.jillion.internal.trace.chromat.DefaultChannelGroup", e);
+-      }
+-  }
+-}
++      BasicChromatogramBuilder returnedBuilder = basicChromatogramBuilder0.aPositions(shortArray0);
++      assertSame(basicChromatogramBuilder0, returnedBuilder);
++      try {
++          basicChromatogramBuilder0.build();
++          fail("Expecting exception: IllegalArgumentException");
++      } catch (IllegalArgumentException e) {
++          // positions must all have the same length
++          verifyException("org.jcvi.jillion.internal.trace.chromat.DefaultChannelGroup", e);
++      }
++  }
++
++}

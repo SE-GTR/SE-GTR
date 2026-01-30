@@ -1,0 +1,38 @@
+--- a/evosuite-tests/gui/gl/ParticleManager_ESTest.java
++++ b/evosuite-tests/gui/gl/ParticleManager_ESTest.java
+@@ -35,15 +35,27 @@
+       assertEquals((-563), particleSystem2.getType());
+       assertEquals(0.05F, particleSystem2.particleLocationRandomness, 0.01F);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        ParticleManager particleManager0 = new ParticleManager();
++        Transform3D transform3D0 = new Transform3D();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ParticleManager particleManager0 = new ParticleManager();
+-      Transform3D transform3D0 = new Transform3D();
+-      particleManager0.updateSystems(transform3D0);
+-      particleManager0.updateSystems(transform3D0);
+-      //  // Unstable assertion: assertEquals(3L, transform3D0.getStateId());
+-  }
++        // Capture the initial state
++        long before = particleManager0.getNextTime();
++
++        // First update – verify that the internal time advances or stays the same
++        particleManager0.updateSystems(transform3D0);
++        long afterFirst = particleManager0.getNextTime();
++        assertTrue("nextTime should not decrease after first update",
++                afterFirst >= before);
++
++        // Second update – verify monotonic progression
++        particleManager0.updateSystems(transform3D0);
++        long afterSecond = particleManager0.getNextTime();
++        assertTrue("nextTime should not decrease after second update",
++                afterSecond >= afterFirst);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

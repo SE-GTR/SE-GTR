@@ -1,0 +1,35 @@
+--- a/evosuite-tests/corina/ui/I18n_ESTest.java
++++ b/evosuite-tests/corina/ui/I18n_ESTest.java
+@@ -28,21 +28,18 @@
+       Character character0 = I18n.getMnemonic("cancel");
+       assertNull(character0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        // Properly initialise the I18n resource bundle to avoid NullPointerException
++        java.lang.reflect.Field bundleField = I18n.class.getDeclaredField("bundle");
++        bundleField.setAccessible(true);
++        bundleField.set(null, java.util.ResourceBundle.getBundle("TextBundle"));
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        I18n.getKeyStroke("open");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.ui.I18n", e);
+-      }
+-  }
++        // Invoke the method under test and verify it returns a non‑null keystroke string
++        String keyStroke = I18n.getKeyStroke("open");
++        assertNotNull("Expected a keystroke string for key 'open'", keyStroke);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

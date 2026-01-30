@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/IlluminaUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/IlluminaUtil_ESTest.java
+@@ -75,21 +75,15 @@
+          verifyException("org.jcvi.jillion.trace.fastq.IlluminaUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        IlluminaUtil.getMultiplexIndex((String) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.trace.fastq.IlluminaUtil", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    // Use a sample Illumina read identifier
++    String readId = "HWUSI-EAS100R:6:73:941:1973#0/1";
++    int index = IlluminaUtil.getMultiplexIndex(readId);
++    // Verify that a valid index is returned (non‑negative)
++    assertTrue("Expected non‑negative multiplex index", index >= 0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

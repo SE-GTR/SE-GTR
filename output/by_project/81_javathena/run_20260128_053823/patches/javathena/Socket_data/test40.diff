@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/javathena/core/data/Socket_data_ESTest.java
++++ b/evosuite-tests/org/javathena/core/data/Socket_data_ESTest.java
+@@ -458,15 +458,17 @@
+     int listenPort = socket_data0.getListenPort();
+     assertTrue("Listen port should be non‑negative", listenPort >= 0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test40()  throws Throwable  {
+-      MockSocket mockSocket0 = new MockSocket();
+-      Socket_data socket_data0 = new Socket_data(mockSocket0);
+-      int int0 = socket_data0.getEof();
+-      assertEquals(0, int0);
+-  }
++@Test(timeout = 4000)
++    public void test40() throws Throwable {
++        MockSocket mockSocket0 = new MockSocket();
++        try {
++            new Socket_data(mockSocket0);
++            fail("Expected SocketException to be thrown");
++        } catch (java.net.SocketException e) {
++            // Expected exception due to unconnected mock socket
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test41()  throws Throwable  {

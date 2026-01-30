@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ConstraintBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ConstraintBean_ESTest.java
+@@ -41,22 +41,23 @@
+         assertEquals("", constraintBean0.getColumnName());
+         assertEquals("", constraintBean0.getConstraintName());
+     }
+-
+-public void test03() throws Throwable {
++@Test
++public void test03() throws Exception {
+     ConstraintBean bean = new ConstraintBean();
+     bean.setConstraintName("testName");
+-    assertEquals("testName", bean.getConstraintName());
+ 
+     java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+-    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
+-    oos.writeObject(bean);
+-    oos.close();
++    try (java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos)) {
++        oos.writeObject(bean);
++    }
+ 
+-    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
+-            new java.io.ByteArrayInputStream(baos.toByteArray()));
+-    ConstraintBean deserialized = (ConstraintBean) ois.readObject();
+-    assertEquals("testName", deserialized.getConstraintName());
++    try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++            new java.io.ByteArrayInputStream(baos.toByteArray()))) {
++        ConstraintBean deserialized = (ConstraintBean) ois.readObject();
++        assertEquals("testName", deserialized.getConstraintName());
++    }
+ }
++
+ @Test(timeout = 4000)
+   public void test04() throws Throwable {
+       ConstraintBean constraintBean0 = new ConstraintBean();

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
+@@ -200,14 +200,19 @@
+       user0.addAllowedip("dn: ");
+       assertFalse(user0.getPasschange());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-    user0 = new User("", "");
+-      user0.addActivegroup("");
+-      user0.addActivegroup("");
+-      assertFalse(user0.getPasschange());
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        user0 = new User("", "");
++        int sizeBefore = user0.getActivegroups() != null ? user0.getActivegroups().size() : 0;
++        user0.addActivegroup("");
++        user0.addActivegroup("");
++        // The active groups set should contain the added (empty) group
++        assertTrue(user0.getActivegroups().contains(""));
++        // Adding the same group twice should not increase the set size beyond one new element
++        assertEquals(sizeBefore + 1, user0.getActivegroups().size());
++        assertFalse(user0.getPasschange());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

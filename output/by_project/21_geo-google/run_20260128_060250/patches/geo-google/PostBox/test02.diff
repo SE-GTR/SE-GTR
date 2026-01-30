@@ -1,0 +1,32 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostBox_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostBox_ESTest.java
+@@ -36,13 +36,22 @@
+       List<AddressLine> list1 = postBox0.getAddressLine();
+       assertSame(list1, list0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      PostBox.PostBoxNumberExtension postBox_PostBoxNumberExtension0 = new PostBox.PostBoxNumberExtension();
+-      postBox_PostBoxNumberExtension0.setContent("td,h-");
+-      assertEquals("td,h-", postBox_PostBoxNumberExtension0.getContent());
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        PostBox.PostBoxNumberExtension ext1 = new PostBox.PostBoxNumberExtension();
++        ext1.setContent("td,h-");
++        assertEquals("td,h-", ext1.getContent());
++
++        PostBox.PostBoxNumberExtension ext2 = new PostBox.PostBoxNumberExtension();
++        ext2.setContent("different");
++        assertEquals("different", ext2.getContent());
++
++        // Objects with different content should not be equal
++        org.junit.Assert.assertNotEquals(ext1, ext2);
++        // Their hash codes should also differ
++        org.junit.Assert.assertNotEquals(ext1.hashCode(), ext2.hashCode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

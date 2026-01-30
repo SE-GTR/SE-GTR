@@ -1,0 +1,46 @@
+--- a/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
+@@ -494,22 +494,27 @@
+       moveEvent0.setSequenceNr(1116);
+       assertEquals(1116, moveEvent0.getSequenceNr());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test39()  throws Throwable  {
+-      Offender offender0 = new Offender(0, 0);
+-      MoveEvent moveEvent0 = new MoveEvent(offender0, 0);
+-      MoveEvent moveEvent1 = new MoveEvent(offender0, 0, 0);
+-      moveEvent0.setDestinationPoint(756, 0, false);
+-      MovePoint movePoint0 = moveEvent0.destinationPoint;
+-      moveEvent1.destinationPoint = movePoint0;
+-      moveEvent0.setControlPoint(0, 0, false);
+-      moveEvent1.setControlPoint(0, 0, false);
+-      boolean boolean0 = moveEvent1.equals(moveEvent0);
+-      assertTrue(moveEvent1.equals((Object)moveEvent0));
+-      assertTrue(moveEvent1.isControlPointSet());
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test39() throws Throwable {
++        Offender offender0 = new Offender(0, 0);
++        MoveEvent moveEvent0 = new MoveEvent(offender0, 0);
++        MoveEvent moveEvent1 = new MoveEvent(offender0, 0, 0);
++        moveEvent0.setDestinationPoint(756, 0, false);
++        // verify side‑effects of setDestinationPoint
++        assertNotNull(moveEvent0.destinationPoint);
++        assertFalse(moveEvent0.destinationPointTemporary);
++        MovePoint movePoint0 = moveEvent0.destinationPoint;
++        moveEvent1.destinationPoint = movePoint0;
++        moveEvent0.setControlPoint(0, 0, false);
++        // verify side‑effects of setControlPoint
++        assertFalse(moveEvent0.controlPointTemporary);
++        moveEvent1.setControlPoint(0, 0, false);
++        boolean boolean0 = moveEvent1.equals(moveEvent0);
++        assertTrue(moveEvent1.equals((Object) moveEvent0));
++        assertTrue(moveEvent1.isControlPointSet());
++        assertTrue(boolean0);
++    }
++
+ @Test(timeout = 4000)
+ public void test40() throws Throwable {
+     Defender defender0 = new Defender(-240, -240);

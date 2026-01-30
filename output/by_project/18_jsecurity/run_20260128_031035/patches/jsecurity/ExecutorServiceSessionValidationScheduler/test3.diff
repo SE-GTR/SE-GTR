@@ -1,0 +1,57 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/ExecutorServiceSessionValidationScheduler_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/ExecutorServiceSessionValidationScheduler_ESTest.java
+@@ -239,29 +239,31 @@
+       assertEquals(3600000L, executorServiceSessionValidationScheduler0.getInterval());
+       assertFalse(executorServiceSessionValidationScheduler0.isEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      ExecutorServiceSessionValidationScheduler executorServiceSessionValidationScheduler0 = new ExecutorServiceSessionValidationScheduler();
+-      assertFalse(executorServiceSessionValidationScheduler0.isEnabled());
+-      assertEquals(3600000L, executorServiceSessionValidationScheduler0.getInterval());
+-      
+-      DefaultSessionManager defaultSessionManager0 = new DefaultSessionManager();
+-      assertEquals(1800000L, AbstractValidatingSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT);
+-      assertEquals(3600000L, AbstractValidatingSessionManager.DEFAULT_SESSION_VALIDATION_INTERVAL);
+-      assertEquals(3600000L, defaultSessionManager0.getSessionValidationInterval());
+-      assertTrue(defaultSessionManager0.isSessionValidationSchedulerEnabled());
+-      assertEquals(1800000L, defaultSessionManager0.getGlobalSessionTimeout());
+-      
+-      executorServiceSessionValidationScheduler0.setSessionManager(defaultSessionManager0);
+-      assertEquals(1800000L, AbstractValidatingSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT);
+-      assertEquals(3600000L, AbstractValidatingSessionManager.DEFAULT_SESSION_VALIDATION_INTERVAL);
+-      assertFalse(executorServiceSessionValidationScheduler0.isEnabled());
+-      assertEquals(3600000L, executorServiceSessionValidationScheduler0.getInterval());
+-      assertEquals(3600000L, defaultSessionManager0.getSessionValidationInterval());
+-      assertTrue(defaultSessionManager0.isSessionValidationSchedulerEnabled());
+-      assertEquals(1800000L, defaultSessionManager0.getGlobalSessionTimeout());
+-  }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        ExecutorServiceSessionValidationScheduler scheduler = new ExecutorServiceSessionValidationScheduler();
++        assertFalse(scheduler.isEnabled());
++        assertEquals(3600000L, scheduler.getInterval());
++
++        DefaultSessionManager manager = new DefaultSessionManager();
++        assertEquals(3600000L, manager.getSessionValidationInterval());
++        assertTrue(manager.isSessionValidationSchedulerEnabled());
++        assertEquals(1800000L, manager.getGlobalSessionTimeout());
++
++        long intervalBefore = scheduler.getInterval();
++        scheduler.setSessionManager(manager);
++        // After setting the manager, the scheduler should adopt the manager's validation interval
++        assertEquals(manager.getSessionValidationInterval(), scheduler.getInterval());
++        // The enabled flag should remain unchanged (still false) after association
++        assertFalse(scheduler.isEnabled());
++        // Ensure the manager's state is unchanged
++        assertEquals(3600000L, manager.getSessionValidationInterval());
++        assertTrue(manager.isSessionValidationSchedulerEnabled());
++        assertEquals(1800000L, manager.getGlobalSessionTimeout());
++        // Verify that the interval actually changed only if it differed from the previous value
++        assertTrue(scheduler.getInterval() == intervalBefore || scheduler.getInterval() == manager.getSessionValidationInterval());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

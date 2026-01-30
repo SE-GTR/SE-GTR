@@ -1,0 +1,28 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -833,12 +833,19 @@
+       assertEquals(expected, dir.getType());
+   }
+ @Test(timeout = 4000)
+-  public void test081() throws Throwable {
+-      AddressDetails.PostalServiceElements.AddressLongitudeDirection dir = new AddressDetails.PostalServiceElements.AddressLongitudeDirection();
+-      String expected = "E";
+-      dir.setContent(expected);
+-      assertEquals(expected, dir.getContent());
+-  }
++public void test081() throws Throwable {
++    AddressDetails.PostalServiceElements.AddressLongitudeDirection dir = new AddressDetails.PostalServiceElements.AddressLongitudeDirection();
++    String expected = "E";
++    dir.setContent(expected);
++    // Verify that the content is correctly marshalled to XML
++    javax.xml.bind.JAXBContext ctx = javax.xml.bind.JAXBContext.newInstance(AddressDetails.PostalServiceElements.AddressLongitudeDirection.class);
++    javax.xml.bind.Marshaller marshaller = ctx.createMarshaller();
++    java.io.StringWriter sw = new java.io.StringWriter();
++    marshaller.marshal(dir, sw);
++    String xml = sw.toString();
++    org.junit.Assert.assertTrue(xml.contains(expected));
++}
++
+ @Test(timeout = 4000)
+     public void test082() throws Throwable {
+         AddressDetails.PostalServiceElements.AddressLongitudeDirection dir = new AddressDetails.PostalServiceElements.AddressLongitudeDirection();

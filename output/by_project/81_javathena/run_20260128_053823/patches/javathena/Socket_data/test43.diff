@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/javathena/core/data/Socket_data_ESTest.java
++++ b/evosuite-tests/org/javathena/core/data/Socket_data_ESTest.java
+@@ -481,15 +481,27 @@
+     byte[] byteArray0 = Login.getMd5Data(socket_data0);
+     assertNotNull(byteArray0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test43()  throws Throwable  {
+-      MockSocket mockSocket0 = new MockSocket();
+-      Socket_data socket_data0 = new Socket_data(mockSocket0);
+-      Calendar calendar0 = socket_data0.getRdata_tick();
+-      assertNull(calendar0);
+-  }
++@Test(timeout = 4000)
++    public void test43() throws Throwable {
++        Socket socket = new Socket() {
++            @Override
++            public java.io.InputStream getInputStream() {
++                return new java.io.ByteArrayInputStream(new byte[0]);
++            }
++
++            @Override
++            public java.io.OutputStream getOutputStream() {
++                return new java.io.ByteArrayOutputStream();
++            }
++        };
++        Socket_data socket_data0 = new Socket_data(socket);
++        // Exercise a non‑trivial method to avoid a pure accessor test
++        socket_data0.run();
++        Calendar calendar0 = socket_data0.getRdata_tick();
++        // After running with no input, the tick should remain null
++        assertNull(calendar0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test44()  throws Throwable  {

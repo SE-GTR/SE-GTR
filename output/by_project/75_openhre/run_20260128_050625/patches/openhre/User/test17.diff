@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
+@@ -216,14 +216,20 @@
+       user0.addGroup("{sha}+8q*");
+       assertFalse(user0.getPasschange());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-    user0 = new User("_[F~TDe\"5,,PIg?7", "_[F~TDe\"5,,PIg?7");
+-      user0.addRole("_[F~TDe\"5,,PIg?7");
+-      user0.addRole("_[F~TDe\"5,,PIg?7");
+-      assertFalse(user0.getPasschange());
+-  }
++@Test(timeout = 4000)
++    public void test17() throws Throwable {
++        user0 = new User("_[F~TDe\"5,,PIg?7", "_[F~TDe\"5,,PIg?7");
++        int sizeBefore = user0.getRoles().size();
++        user0.addRole("_[F~TDe\"5,,PIg?7");
++        // first addition should increase the size by one
++        assertEquals(sizeBefore + 1, user0.getRoles().size());
++        assertTrue(user0.getRoles().contains("_[F~TDe\"5,,PIg?7"));
++        // adding the same role again should not change the size (Set semantics)
++        user0.addRole("_[F~TDe\"5,,PIg?7");
++        assertEquals(sizeBefore + 1, user0.getRoles().size());
++        assertFalse(user0.getPasschange());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletRequest_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletRequest_ESTest.java
+@@ -240,22 +240,14 @@
+       assertNull(principal0);
+       assertFalse(jSecurityHttpServletRequest0.isHttpSessions());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-    httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-    jSecurityHttpServletRequest0 = new JSecurityHttpServletRequest(httpServletRequestWrapper0, (ServletContext) null, false);
+-      // Undeclared exception!
+-      try { 
+-        jSecurityHttpServletRequest0.getSession();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.servlet.JSecurityHttpServletRequest", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test17() throws Throwable {
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
++        JSecurityHttpServletRequest jSecurityHttpServletRequest0 = new JSecurityHttpServletRequest(httpServletRequestWrapper0, servletContext0, false);
++        HttpSession session = jSecurityHttpServletRequest0.getSession();
++        assertNull(session);
++    }
++
+ }

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/SecureStore_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/SecureStore_ESTest.java
+@@ -199,14 +199,16 @@
+     assertEquals("SunX509", secureStore0.getAlgorithm());
+     assertEquals("org.quickserver.security.SecureStoreManager", secureStore0.getSecureStoreManager());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      SecureStore secureStore0 = new SecureStore();
+-      secureStore0.setType("@YDi[g}v<secure-store>\n@YDi[g}v\t<type>JKS</type>\n@YDi[g}v\t<algorithm>SunX509</algorithm>\n@YDi[g}v\t<secure-store-manager>M]</secure-store-manager>\n@YDi[g}v</secure-store>\n");
+-      assertEquals("@YDi[g}v<secure-store>\n@YDi[g}v\t<type>JKS</type>\n@YDi[g}v\t<algorithm>SunX509</algorithm>\n@YDi[g}v\t<secure-store-manager>M]</secure-store-manager>\n@YDi[g}v</secure-store>\n", secureStore0.getType());
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    SecureStore secureStore0 = new SecureStore();
++    String originalType = secureStore0.getType();
++    String newType = "@YDi[g}v<secure-store>\n@YDi[g}v\t<type>JKS</type>\n@YDi[g}v\t<algorithm>SunX509</algorithm>\n@YDi[g}v\t<secure-store-manager>M]</secure-store-manager>\n@YDi[g}v</secure-store>\n";
++    secureStore0.setType(newType);
++    assertNotEquals(originalType, secureStore0.getType());
++    assertEquals(newType, secureStore0.getType());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

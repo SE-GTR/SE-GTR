@@ -1,0 +1,48 @@
+--- a/evosuite-tests/mygrid/web/Job_ESTest.java
++++ b/evosuite-tests/mygrid/web/Job_ESTest.java
+@@ -227,21 +227,30 @@
+     boolean boolean0 = job1.equals(job0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      Job job0 = new Job();
+-      Job job1 = new Job();
+-      ArrayOfDependency arrayOfDependency0 = new ArrayOfDependency();
+-      job0.setDependencies(arrayOfDependency0);
+-      assertFalse(job0.equals((Object)job1));
+-      
+-      job1.setDependencies(arrayOfDependency0);
+-      boolean boolean0 = job0.equals(job1);
+-      assertTrue(job1.equals((Object)job0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    Job job0 = new Job();
++    Job job1 = new Job();
++    ArrayOfDependency arrayOfDependency0 = new ArrayOfDependency();
++
++    // Verify initial state of dependencies
++    assertNull(job0.getDependencies());
++
++    // Set dependencies and assert the side‑effect
++    job0.setDependencies(arrayOfDependency0);
++    assertSame(arrayOfDependency0, job0.getDependencies());
++
++    assertFalse(job0.equals((Object) job1));
++
++    // Set the same dependencies on the second job and assert
++    job1.setDependencies(arrayOfDependency0);
++    assertSame(arrayOfDependency0, job1.getDependencies());
++
++    boolean boolean0 = job0.equals(job1);
++    assertTrue(job1.equals((Object) job0));
++    assertTrue(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

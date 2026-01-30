@@ -1,0 +1,32 @@
+--- a/evosuite-tests/ch/bluepenguin/tapestry/components/menu/model/impl/DefaultMenuModel_ESTest.java
++++ b/evosuite-tests/ch/bluepenguin/tapestry/components/menu/model/impl/DefaultMenuModel_ESTest.java
+@@ -98,17 +98,20 @@
+     assertEquals(1, defaultMenuItem0.getDepth());
+     assertFalse(defaultMenuItem0.isLeaf());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
++@Test(timeout = 4000)
++public void test07() throws Throwable {
+     defaultMenuModel0 = new DefaultMenuModel();
+     defaultMenuItem0 = new DefaultMenuItem(defaultMenuModel0);
+-      defaultMenuModel0.addMenuItem((IMenuItem) defaultMenuItem0);
+-      defaultMenuItem0.setParent(defaultMenuItem0);
+-      defaultMenuModel0.addMenuItem((IMenuItem) defaultMenuItem0);
+-      assertEquals(0, defaultMenuItem0.getDepth());
+-  }
++    // Verify initial parent state
++    assertNull(defaultMenuItem0.getParent());
++    defaultMenuModel0.addMenuItem((IMenuItem) defaultMenuItem0);
++    defaultMenuItem0.setParent(defaultMenuItem0);
++    // Verify that the parent was set correctly
++    assertSame(defaultMenuItem0, defaultMenuItem0.getParent());
++    defaultMenuModel0.addMenuItem((IMenuItem) defaultMenuItem0);
++    assertEquals(0, defaultMenuItem0.getDepth());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

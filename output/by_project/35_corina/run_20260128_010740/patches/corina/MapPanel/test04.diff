@@ -1,0 +1,47 @@
+--- a/evosuite-tests/corina/map/MapPanel_ESTest.java
++++ b/evosuite-tests/corina/map/MapPanel_ESTest.java
+@@ -111,27 +111,23 @@
+          verifyException("corina.map.MapPanel", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      Site site0 = new Site();
+-      GridBagLayout gridBagLayout0 = new GridBagLayout();
+-      Point point0 = gridBagLayout0.location(2630, 3433);
+-      MapPanel mapPanel0 = new MapPanel((MapFrame) null, (LabelSet) null);
+-      mapPanel0.setSelection(site0);
+-      View view0 = mapPanel0.getView();
+-      // Undeclared exception!
+-      try { 
+-        mapPanel0.drawLabel((Graphics2D) null, point0, site0, 465, view0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.map.layers.SitesLayer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        Site site0 = new Site();
++        GridBagLayout gridBagLayout0 = new GridBagLayout();
++        Point point0 = gridBagLayout0.location(2630, 3433);
++        MapFrame frame = new MapFrame();
++        LabelSet labelSet = new LabelSet();
++        MapPanel mapPanel0 = new MapPanel(frame, labelSet);
++        mapPanel0.setSelection(site0);
++        View view0 = mapPanel0.getView();
++        BufferedImage img = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
++        Graphics2D g2 = img.createGraphics();
++        mapPanel0.drawLabel(g2, point0, site0, 465, view0);
++        assertNotNull(view0);
++        g2.dispose();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

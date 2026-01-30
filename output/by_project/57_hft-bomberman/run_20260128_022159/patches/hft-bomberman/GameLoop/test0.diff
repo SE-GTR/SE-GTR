@@ -1,0 +1,42 @@
+--- a/evosuite-tests/common/GameLoop_ESTest.java
++++ b/evosuite-tests/common/GameLoop_ESTest.java
+@@ -22,27 +22,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class GameLoop_ESTest extends GameLoop_ESTest_scaffolding {
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test0() throws Throwable {
++        GameModel gameModel0 = new GameModel();
++        GameCanvas gameCanvas0 = new GameCanvas(1636, 1636);
++        GameView gameView0 = new GameView(gameCanvas0);
++        ClientGameLoop clientGameLoop0 = new ClientGameLoop((ClientGameRound) null, gameModel0, gameView0);
++        Point point0 = new Point();
++        ClientPlayer clientPlayer0 = new ClientPlayer(point0, -1221);
++        LocalControl localControl0 = new LocalControl(clientPlayer0);
++        clientGameLoop0.setLocalControl(localControl0);
++        clientGameLoop0.run();
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      GameModel gameModel0 = new GameModel();
+-      GameCanvas gameCanvas0 = new GameCanvas(1636, 1636);
+-      GameView gameView0 = new GameView(gameCanvas0);
+-      ClientGameLoop clientGameLoop0 = new ClientGameLoop((ClientGameRound) null, gameModel0, gameView0);
+-      Point point0 = new Point();
+-      ClientPlayer clientPlayer0 = new ClientPlayer(point0, (-1221));
+-      LocalControl localControl0 = new LocalControl(clientPlayer0);
+-      clientGameLoop0.setLocalControl(localControl0);
+-      // Undeclared exception!
+-      try { 
+-        clientGameLoop0.run();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("client.ClientGameLoop", e);
+-      }
+-  }
+ }

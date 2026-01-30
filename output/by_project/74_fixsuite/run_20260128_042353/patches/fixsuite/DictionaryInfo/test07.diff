@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/fixsuite/message/info/DictionaryInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/DictionaryInfo_ESTest.java
+@@ -79,17 +79,26 @@
+         dictionaryInfo0.addComponent(componentInfo0);
+         dictionaryInfo0.addComponent((ComponentInfo) null);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      DictionaryInfo dictionaryInfo0 = new DictionaryInfo("");
+-      MessageInfo messageInfo0 = new MessageInfo();
+-      messageInfo0.setName("");
+-      dictionaryInfo0.addComponent(messageInfo0);
+-      ComponentInfo componentInfo0 = dictionaryInfo0.getComponent("");
+-      assertNull(componentInfo0.getComponentType());
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    DictionaryInfo dictionaryInfo0 = new DictionaryInfo("");
++    MessageInfo messageInfo0 = new MessageInfo();
++    messageInfo0.setName("");
++    // Verify that setName correctly updates the name field
++    assertEquals("", messageInfo0.getName());
++
++    dictionaryInfo0.addComponent(messageInfo0);
++    ComponentInfo componentInfo0 = dictionaryInfo0.getComponent("");
++    // The component should be present after addition
++    assertNotNull(componentInfo0);
++    // It should be the same instance that was added
++    assertSame(messageInfo0, componentInfo0);
++    // Its name should reflect the value set earlier
++    assertEquals("", componentInfo0.getName());
++    // Existing behavior check
++    assertNull(componentInfo0.getComponentType());
++}
++
+ @Test(timeout = 4000)
+   public void test08() throws Throwable {
+       DictionaryInfo dictionaryInfo0 = new DictionaryInfo("");

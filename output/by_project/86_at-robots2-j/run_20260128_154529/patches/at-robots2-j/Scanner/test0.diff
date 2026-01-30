@@ -1,0 +1,32 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/hardware/scanning/scanner/Scanner_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/hardware/scanning/scanner/Scanner_ESTest.java
+@@ -18,13 +18,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Scanner_ESTest extends Scanner_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        Scanner scanner0 = new Scanner(-1.0);
++        // capture initial state
++        int initialAccuracy = scanner0.getAccuracy();
++        // exercise a mutating operation
++        scanner0.setScanSource(null);
++        // invoke non‑trivial behavior defined by Resettable
++        scanner0.reset();
++        // verify the side‑effect of reset
++        assertEquals(0, scanner0.getAccuracy());
++        // ensure that the reset actually changed the state when it was not already zero
++        if (initialAccuracy != 0) {
++            assertNotEquals(initialAccuracy, scanner0.getAccuracy());
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Scanner scanner0 = new Scanner((-1.0));
+-      scanner0.setScanSource((ScanSource) null);
+-      assertEquals(0, scanner0.getAccuracy());
+-  }
+ @Test(timeout = 4000)
+ public void test1() throws Throwable {
+     Scanner scanner0 = new Scanner(0.0);

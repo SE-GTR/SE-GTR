@@ -1,0 +1,43 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
+@@ -103,25 +103,23 @@
+          verifyException("fi.vtt.noen.mfw.bundle.server.plugins.webui.WebUIPlugin", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-    webUIPlugin0 = new WebUIPlugin(bundleContext0);
+-      Value value0 = new Value();
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++    doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString(), anyString());
++    // Verify that the stubbed method returns null as configured
++    org.osgi.framework.ServiceReference[] refs = bundleContext0.getServiceReferences("any", "any");
++    assertNull(refs);
++    webUIPlugin0 = new WebUIPlugin(bundleContext0);
++    Value value0 = new Value();
++    try {
+         webUIPlugin0.process(value0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("fi.vtt.noen.mfw.bundle.server.shared.datamodel.Value", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        verifyException("fi.vtt.noen.mfw.bundle.server.shared.datamodel.Value", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

@@ -1,0 +1,53 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/properties/SimpleFileSetsEditor_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/properties/SimpleFileSetsEditor_ESTest.java
+@@ -32,21 +32,37 @@
+     checkstylePropertyPage0 = new CheckstylePropertyPage();
+     simpleFileSetsEditor0 = new SimpleFileSetsEditor(checkstylePropertyPage0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
+     checkstylePropertyPage0 = new CheckstylePropertyPage();
+     simpleFileSetsEditor0 = new SimpleFileSetsEditor(checkstylePropertyPage0);
+-      ArrayList<Object> arrayList0 = new ArrayList<Object>();
+-      RemoteConfigurationType remoteConfigurationType0 = new RemoteConfigurationType();
+-      HashMap<Version, FileSet> hashMap0 = new HashMap<Version, FileSet>();
+-      CheckConfiguration checkConfiguration0 = new CheckConfiguration("com.atlassw.tools.eclipse.checkstyle.properties.SimpleFileSetsEditor", "com.atlassw.tools.eclipse.checkstyle.properties.SimpleFileSetsEditor", "com.atlassw.tools.eclipse.checkstyle.properties.SimpleFileSetsEditor", remoteConfigurationType0, true, arrayList0, hashMap0);
+-      FileSet fileSet0 = new FileSet("com.atlassw.tools.eclipse.checkstyle.properties.SimpleFileSetsEditor", checkConfiguration0);
+-      arrayList0.add((Object) fileSet0);
+-      simpleFileSetsEditor0.setFileSets(arrayList0);
+-      assertFalse(arrayList0.contains("com.atlassw.tools.eclipse.checkstyle.properties.SimpleFileSetsEditor"));
+-  }
++    ArrayList<Object> arrayList0 = new ArrayList<Object>();
++    RemoteConfigurationType remoteConfigurationType0 = new RemoteConfigurationType();
++    HashMap<Version, FileSet> hashMap0 = new HashMap<Version, FileSet>();
++    CheckConfiguration checkConfiguration0 = new CheckConfiguration(
++        "com.atlassw.tools.eclipse.checkstyle.properties.SimpleFileSetsEditor",
++        "com.atlassw.tools.eclipse.checkstyle.properties.SimpleFileSetsEditor",
++        "com.atlassw.tools.eclipse.checkstyle.properties.SimpleFileSetsEditor",
++        remoteConfigurationType0, true, arrayList0, hashMap0);
++    FileSet fileSet0 = new FileSet(
++        "com.atlassw.tools.eclipse.checkstyle.properties.SimpleFileSetsEditor",
++        checkConfiguration0);
++    boolean added = arrayList0.add(fileSet0);
++    assertTrue(added);
++    // Capture size before setting file sets (expected to be 0 or null)
++    int beforeSize = 0;
++    try {
++        beforeSize = simpleFileSetsEditor0.getFileSets().size();
++    } catch (Exception e) {
++        // ignore if getFileSets not initialized
++    }
++    simpleFileSetsEditor0.setFileSets(arrayList0);
++    List<?> afterFileSets = simpleFileSetsEditor0.getFileSets();
++    assertNotNull(afterFileSets);
++    assertEquals(arrayList0.size(), afterFileSets.size());
++    assertTrue(afterFileSets.contains(fileSet0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/gui/battlefield/BattlefieldCell_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/gui/battlefield/BattlefieldCell_ESTest.java
+@@ -113,19 +113,24 @@
+       battlefieldCell0.setSectorBorder((-998));
+       assertFalse(battlefieldCell0.isFocusTraversalPolicySet());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      CharacterClass characterClass0 = CharacterClass.WORKER;
+-      SimpleSector simpleSector0 = new SimpleSector((-1512), true, true, (-1512), (-1512), true, 3, characterClass0);
+-      SimpleArea simpleArea0 = new SimpleArea((-1512), (-1512), simpleSector0);
+-      AreaStatistic areaStatistic0 = mock(AreaStatistic.class, new ViolatedAssumptionAnswer());
+-      BattlefieldCell battlefieldCell0 = new BattlefieldCell(simpleArea0, areaStatistic0);
+-      CombatantSide combatantSide0 = CombatantSide.ATTACKER;
+-      simpleSector0.gainControl(combatantSide0);
+-      battlefieldCell0.setSectorBorder(1);
+-      assertFalse(battlefieldCell0.isFocusTraversalPolicyProvider());
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    CharacterClass characterClass0 = CharacterClass.WORKER;
++    SimpleSector simpleSector0 = new SimpleSector(-1512, true, true, -1512, -1512, true, 3, characterClass0);
++    SimpleArea simpleArea0 = new SimpleArea(-1512, -1512, simpleSector0);
++    AreaStatistic areaStatistic0 = mock(AreaStatistic.class, new ViolatedAssumptionAnswer());
++    BattlefieldCell battlefieldCell0 = new BattlefieldCell(simpleArea0, areaStatistic0);
++    CombatantSide combatantSide0 = CombatantSide.ATTACKER;
++    // Verify side effect of gainControl
++    simpleSector0.gainControl(combatantSide0);
++    assertEquals(combatantSide0, simpleSector0.getOccupier());
++    // Verify side effect of setSectorBorder
++    assertNull(battlefieldCell0.getBorder());
++    battlefieldCell0.setSectorBorder(1);
++    assertNotNull(battlefieldCell0.getBorder());
++    assertFalse(battlefieldCell0.isFocusTraversalPolicyProvider());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

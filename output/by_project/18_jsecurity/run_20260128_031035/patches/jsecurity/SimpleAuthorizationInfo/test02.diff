@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleAuthorizationInfo_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleAuthorizationInfo_ESTest.java
+@@ -54,14 +54,20 @@
+          verifyException("java.util.AbstractCollection", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        SimpleAuthorizationInfo simpleAuthorizationInfo0 = new SimpleAuthorizationInfo();
++        AllPermission allPermission0 = new AllPermission();
++        simpleAuthorizationInfo0.addObjectPermission(allPermission0);
++        // Verify that the permission was added
++        org.junit.Assert.assertTrue(simpleAuthorizationInfo0.getObjectPermissions().contains(allPermission0));
++        // Adding the same permission again should not change the set size
++        int sizeBefore = simpleAuthorizationInfo0.getObjectPermissions().size();
++        simpleAuthorizationInfo0.addObjectPermission(allPermission0);
++        int sizeAfter = simpleAuthorizationInfo0.getObjectPermissions().size();
++        org.junit.Assert.assertEquals(sizeBefore, sizeAfter);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      SimpleAuthorizationInfo simpleAuthorizationInfo0 = new SimpleAuthorizationInfo();
+-      AllPermission allPermission0 = new AllPermission();
+-      simpleAuthorizationInfo0.addObjectPermission(allPermission0);
+-      simpleAuthorizationInfo0.addObjectPermission(allPermission0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

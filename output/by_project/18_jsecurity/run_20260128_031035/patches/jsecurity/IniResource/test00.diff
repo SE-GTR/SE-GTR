@@ -1,0 +1,22 @@
+--- a/evosuite-tests/org/jsecurity/io/IniResource_ESTest.java
++++ b/evosuite-tests/org/jsecurity/io/IniResource_ESTest.java
+@@ -21,12 +21,14 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class IniResource_ESTest extends IniResource_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        String invalid = IniResource.getSectionName("[#");
++        assertNull(invalid);
++        String valid = IniResource.getSectionName("[mySection]");
++        assertEquals("mySection", valid);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      String string0 = IniResource.getSectionName("[#");
+-      assertNull(string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

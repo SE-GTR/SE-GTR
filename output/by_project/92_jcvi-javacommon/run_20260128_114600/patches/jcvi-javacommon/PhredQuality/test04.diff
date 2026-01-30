@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/qual/PhredQuality_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/qual/PhredQuality_ESTest.java
+@@ -54,15 +54,23 @@
+       assertFalse(boolean0);
+       assertEquals(1.0, phredQuality1.getErrorProbability(), 0.01);
+   }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        DefaultQualitySymbolCodec codec = DefaultQualitySymbolCodec.INSTANCE;
++        // Test empty quality sequence
++        ArrayDeque<PhredQuality> emptyDeque = new ArrayDeque<>();
++        EncodedQualitySequence emptySeq = new EncodedQualitySequence(codec, emptyDeque);
++        byte[] emptyResult = PhredQuality.toArray(emptySeq);
++        assertEquals(0, emptyResult.length);
++        // Test non‑empty quality sequence
++        ArrayDeque<PhredQuality> deque = new ArrayDeque<>();
++        PhredQuality q = PhredQuality.valueOf((byte) 30);
++        deque.add(q);
++        EncodedQualitySequence seq = new EncodedQualitySequence(codec, deque);
++        byte[] result = PhredQuality.toArray(seq);
++        assertArrayEquals(new byte[] { 30 }, result);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      DefaultQualitySymbolCodec defaultQualitySymbolCodec0 = DefaultQualitySymbolCodec.INSTANCE;
+-      ArrayDeque<PhredQuality> arrayDeque0 = new ArrayDeque<PhredQuality>();
+-      EncodedQualitySequence encodedQualitySequence0 = new EncodedQualitySequence(defaultQualitySymbolCodec0, arrayDeque0);
+-      byte[] byteArray0 = PhredQuality.toArray(encodedQualitySequence0);
+-      assertArrayEquals(new byte[] {}, byteArray0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Premise_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Premise_ESTest.java
+@@ -139,14 +139,19 @@
+       List<PremiseNumberPrefix> list1 = premise0.getPremiseNumberPrefix();
+       assertSame(list1, list0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-    premise0 = new Premise();
+-    list0 = premise0.getPremiseNumber();
+-      List<PremiseNumber> list1 = premise0.getPremiseNumber();
+-      assertSame(list1, list0);
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    premise0 = new Premise();
++    List<PremiseNumber> list0 = premise0.getPremiseNumber();
++    List<PremiseNumber> list1 = premise0.getPremiseNumber();
++    // Verify both references point to the same mutable list
++    assertSame(list0, list1);
++    PremiseNumber pn = new PremiseNumber();
++    list0.add(pn);
++    assertTrue(list1.contains(pn));
++    assertEquals(1, list1.size());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

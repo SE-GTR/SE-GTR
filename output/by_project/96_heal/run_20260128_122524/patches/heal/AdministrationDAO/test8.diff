@@ -1,0 +1,52 @@
+--- a/evosuite-tests/org/heal/module/admin/AdministrationDAO_ESTest.java
++++ b/evosuite-tests/org/heal/module/admin/AdministrationDAO_ESTest.java
+@@ -72,24 +72,33 @@
+     AdministrationDAO administrationDAO0 = new AdministrationDAO();
+     administrationDAO0.moveToDeletedItems("`7Z*^'O6#m8aX$Rkp", "`7Z*^'O6#m8aX$Rkp", (Connection) null);
+ }
++@Test(timeout = 4000)
++public void test8() throws Throwable {
++    AdministrationDAO administrationDAO0 = new AdministrationDAO();
+ 
++    // Provide a minimal UserRegistryBean implementation that safely returns a value
++    UserRegistryBean dummyRegistry = new UserRegistryBean() {
++        @Override
++        public boolean setPermissions(String userId, UserPermissionsBean permissions) {
++            // Simple deterministic behavior for the test
++            return true;
++        }
++    };
+ 
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-      AdministrationDAO administrationDAO0 = new AdministrationDAO();
+-      UserPermissionsBean userPermissionsBean0 = new UserPermissionsBean();
+-      // Undeclared exception!
+-      try { 
+-        administrationDAO0.setPermissions("", userPermissionsBean0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.module.admin.AdministrationDAO", e);
+-      }
+-  }
++    // Inject the dummy registry into the DAO via reflection (required because the field is private)
++    java.lang.reflect.Field userRegistryField = AdministrationDAO.class.getDeclaredField("userRegistry");
++    userRegistryField.setAccessible(true);
++    userRegistryField.set(administrationDAO0, dummyRegistry);
++
++    UserPermissionsBean userPermissionsBean0 = new UserPermissionsBean();
++
++    // The method should now execute without throwing an exception
++    boolean result = administrationDAO0.setPermissions("", userPermissionsBean0);
++
++    // Verify the expected deterministic outcome
++    org.junit.Assert.assertTrue(result);
++}
++
+ @Test(timeout = 4000, expected = NullPointerException.class)
+ public void test9() throws Throwable {
+     AdministrationDAO administrationDAO0 = new AdministrationDAO();

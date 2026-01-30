@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/HeapInfo_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/HeapInfo_ESTest.java
+@@ -93,17 +93,23 @@
+         // after the change the objects are no longer equal
+         assertFalse(heapInfo0.equals(heapInfo1));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      HeapInfo heapInfo0 = new HeapInfo();
+-      HeapInfo heapInfo1 = new HeapInfo();
+-      heapInfo1.setMaxSize(1024L);
+-      boolean boolean0 = heapInfo0.equals(heapInfo1);
+-      assertEquals(1024L, heapInfo1.getMaxSize());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        HeapInfo heapInfo0 = new HeapInfo();
++        HeapInfo heapInfo1 = new HeapInfo();
++        // Verify initial state before the side‑effect
++        assertEquals(0L, heapInfo1.getMaxSize());
++        assertEquals(0L, heapInfo0.getMaxSize());
++
++        heapInfo1.setMaxSize(1024L);
++        boolean boolean0 = heapInfo0.equals(heapInfo1);
++        // Verify the side‑effect via the public getter
++        assertEquals(1024L, heapInfo1.getMaxSize());
++        // Ensure the other instance remains unchanged
++        assertEquals(0L, heapInfo0.getMaxSize());
++        assertFalse(boolean0);
++    }
++
+ @Test(timeout = 4000)
+   public void test06() throws Throwable {
+       HeapInfo heapInfo0 = new HeapInfo();

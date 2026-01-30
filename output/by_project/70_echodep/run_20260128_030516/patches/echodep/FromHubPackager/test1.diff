@@ -1,0 +1,40 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/FromHubPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/FromHubPackager_ESTest.java
+@@ -38,21 +38,23 @@
+ 
+     FromHubPackager.addFilesToZip(haSMasterMETSProfile0, (ZipOutputStream) null);
+ }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    MetsFileType[] metsFileTypeArray0 = new MetsFileType[0];
++    HaSMETSProfile haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
++    doReturn(metsFileTypeArray0).when(haSMETSProfile0).getAllFiles();
++    HaSMasterMETSProfile haSMasterMETSProfile0 = mock(HaSMasterMETSProfile.class, new ViolatedAssumptionAnswer());
++    doReturn(haSMETSProfile0).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
++    MockFileOutputStream mockFileOutputStream0 = new MockFileOutputStream("'.Aw>)p=)tQO");
++    ObjectOutputStream objectOutputStream0 = new ObjectOutputStream(mockFileOutputStream0);
++    MockPrintStream mockPrintStream0 = new MockPrintStream(objectOutputStream0, true);
++    ZipOutputStream zipOutputStream0 = new ZipOutputStream(mockPrintStream0);
++    FromHubPackager.addFilesToZip(haSMasterMETSProfile0, zipOutputStream0);
++    // Verify interactions to observe side effects
++    verify(haSMasterMETSProfile0, times(1)).getMostRecentEchoDepMETS();
++    verify(haSMETSProfile0, times(1)).getAllFiles();
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      MetsFileType[] metsFileTypeArray0 = new MetsFileType[0];
+-      HaSMETSProfile haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(metsFileTypeArray0).when(haSMETSProfile0).getAllFiles();
+-      HaSMasterMETSProfile haSMasterMETSProfile0 = mock(HaSMasterMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(haSMETSProfile0).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
+-      MockFileOutputStream mockFileOutputStream0 = new MockFileOutputStream("'.Aw>)p=)tQO");
+-      ObjectOutputStream objectOutputStream0 = new ObjectOutputStream(mockFileOutputStream0);
+-      MockPrintStream mockPrintStream0 = new MockPrintStream(objectOutputStream0, true);
+-      ZipOutputStream zipOutputStream0 = new ZipOutputStream(mockPrintStream0);
+-      FromHubPackager.addFilesToZip(haSMasterMETSProfile0, zipOutputStream0);
+-  }
+ @Test(timeout = 4000)
+ public void test2() throws Throwable {
+     Hub2EprintsPackager hub2EprintsPackager0 = new Hub2EprintsPackager();

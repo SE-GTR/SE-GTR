@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Deploy_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Deploy_ESTest.java
+@@ -88,17 +88,24 @@
+     assertFalse(deploy0.equals(null));
+     assertFalse(deploy0.equals(new Object()));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      Deploy deploy0 = new Deploy();
+-      ArchiveFile[] archiveFileArray0 = new ArchiveFile[1];
+-      deploy0.setArchiveFiles(archiveFileArray0);
+-      Deploy deploy1 = new Deploy();
+-      boolean boolean0 = deploy0.equals(deploy1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    Deploy deploy0 = new Deploy();
++    ArchiveFile[] archiveFileArray0 = new ArchiveFile[1];
++    // Verify that the archive files are initially unset
++    assertNull(deploy0.getArchiveFiles());
++    // Act: set the archive files
++    deploy0.setArchiveFiles(archiveFileArray0);
++    // Assert the side‑effect of setArchiveFiles
++    ArchiveFile[] stored = deploy0.getArchiveFiles();
++    assertNotNull(stored);
++    assertSame(archiveFileArray0, stored);
++    assertEquals(1, stored.length);
++    // Additional behavior: equality with a different Deploy instance
++    Deploy deploy1 = new Deploy();
++    assertFalse(deploy0.equals(deploy1));
++}
++
+ @Test(timeout = 4000)
+ public void test07() throws Throwable {
+     Deploy deploy0 = new Deploy();

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jsecurity/cache/ehcache/EhCacheManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/cache/ehcache/EhCacheManager_ESTest.java
+@@ -22,14 +22,20 @@
+     ehCacheManager0 = new EhCacheManager();
+       ehCacheManager0.init();
+   }
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    // Ensure a clean state before initialization
++    ehCacheManager0.manager = null;
++    // Initialize the manager (creates an underlying Ehcache manager)
++    ehCacheManager0.init();
++    assertNotNull(ehCacheManager0.manager);
++    // Destroy should clear the manager reference
++    ehCacheManager0.destroy();
++    assertNull(ehCacheManager0.manager);
++    // The configuration file should remain unchanged
++    assertEquals("classpath:org/jsecurity/cache/ehcache/ehcache.xml", ehCacheManager0.getCacheManagerConfigFile());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ehCacheManager0.manager = null;
+-      ehCacheManager0.destroy();
+-      assertEquals("classpath:org/jsecurity/cache/ehcache/ehcache.xml", ehCacheManager0.getCacheManagerConfigFile());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

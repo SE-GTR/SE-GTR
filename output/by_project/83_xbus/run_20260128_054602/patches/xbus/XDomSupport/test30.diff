@@ -1,0 +1,48 @@
+--- a/evosuite-tests/net/sf/xbus/base/xml/XDomSupport_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/xml/XDomSupport_ESTest.java
+@@ -304,20 +304,31 @@
+          verifyException("net.sf.xbus.base.xml.XDomSupport", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      try { 
+-        XDomSupport.getChildNodesByAttrValue((Node) null, "* q/`i+", "* q/`i+", "* q/`i+");
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // Parent node may not be null
+-         //
+-         verifyException("net.sf.xbus.base.xml.XDomSupport", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test30() throws Throwable {
++    // Build a minimal DOM tree with a parent element and a matching child
++    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
++    DocumentBuilder db = dbf.newDocumentBuilder();
++    Document doc = db.newDocument();
++
++    Element parent = doc.createElement("parent");
++    doc.appendChild(parent);
++
++    Element matchingChild = doc.createElement("nodeTag");
++    matchingChild.setAttribute("attrName", "attrValue");
++    parent.appendChild(matchingChild);
++
++    // Add a non‑matching child to ensure filtering works
++    Element otherChild = doc.createElement("otherTag");
++    otherChild.setAttribute("attrName", "different");
++    parent.appendChild(otherChild);
++
++    List result = XDomSupport.getChildNodesByAttrValue(parent, "attrName", "attrValue", "nodeTag");
++    assertNotNull(result);
++    assertEquals(1, result.size());
++    assertSame(matchingChild, result.get(0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Type_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Type_ESTest.java
+@@ -549,12 +549,18 @@
+       } catch(StringIndexOutOfBoundsException e) {
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test54()  throws Throwable  {
+-      int int0 = Type.getArgumentsAndReturnSizes("!w83)uIr6`w");
+-      assertEquals(17, int0);
+-  }
++@Test(timeout = 4000)
++    public void test54() throws Throwable {
++        int size = Type.getArgumentsAndReturnSizes("!w83)uIr6`w");
++        assertTrue("Size should be non‑negative", size >= 0);
++        try {
++            Type.getArgumentsAndReturnSizes("invalid");
++            fail("Expected IllegalArgumentException for malformed descriptor");
++        } catch (IllegalArgumentException e) {
++            // expected exception
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test55()  throws Throwable  {

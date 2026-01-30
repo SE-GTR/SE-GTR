@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPControl_BindingStub_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPControl_BindingStub_ESTest.java
+@@ -323,26 +323,16 @@
+         SAPControl_BindingStub sAPControl_BindingStub0 = new SAPControl_BindingStub(service0);
+         sAPControl_BindingStub0.j2EEGetVMHeapInfo();
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test026()  throws Throwable  {
+-      URL uRL0 = MockURL.getFileExample();
+-      BasicServerConfig basicServerConfig0 = new BasicServerConfig();
+-      AxisClient axisClient0 = new AxisClient(basicServerConfig0);
+-      Service service0 = new Service(basicServerConfig0, axisClient0);
+-      SAPControl_BindingStub sAPControl_BindingStub0 = new SAPControl_BindingStub(uRL0, service0);
+-      try { 
+-        sAPControl_BindingStub0.j2EEGetVMHeapInfo();
+-        fail("Expecting exception: AxisFault");
+-      
+-      } catch(AxisFault e) {
+-         //
+-         // No client transport named 'null' found!
+-         //
+-         verifyException("org.apache.axis.client.AxisClient", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = AxisFault.class)
++    public void test026() throws Throwable {
++        URL url = new URL("http://localhost:12345/invalid");
++        BasicServerConfig config = new BasicServerConfig();
++        AxisClient client = new AxisClient(config);
++        Service service = new Service(config, client);
++        SAPControl_BindingStub stub = new SAPControl_BindingStub(url, service);
++        stub.j2EEGetVMHeapInfo();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test027()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
+@@ -106,14 +106,19 @@
+       label0.visitSubroutine(label0, 32L, 50);
+       label0.visitSubroutine(label0, 50, (-1));
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      Label label0 = new Label();
+-      label0.addToSubroutine(0L, 363);
+-      boolean boolean0 = label0.inSameSubroutine(label0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        Label label0 = new Label();
++        // Exercise the void method whose side‑effects we want to verify
++        label0.addToSubroutine(0L, 363);
++        // The label should now be considered in the same subroutine as itself
++        assertTrue(label0.inSameSubroutine(label0));
++        // A different label that has not been added to any subroutine must not be
++        // in the same subroutine as label0
++        Label label1 = new Label();
++        assertFalse(label0.inSameSubroutine(label1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

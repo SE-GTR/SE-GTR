@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/quickserver/util/io/ByteBufferOutputStream_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/io/ByteBufferOutputStream_ESTest.java
+@@ -122,26 +122,17 @@
+         boolean result = byteBufferOutputStream0.writeAllByteBuffer();
+         assertTrue(result);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      ServerHooks serverHooks0 = new ServerHooks();
+-      serverHooks0.add((Object) null);
+-      ByteBufferOutputStream byteBufferOutputStream0 = new ByteBufferOutputStream(serverHooks0, nonBlockingClientHandler0);
+-      nonBlockingClientHandler0.setSecure(true);
+-      try { 
++@Test(timeout = 4000, expected = IOException.class)
++    public void test07() throws Throwable {
++        NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
++        ServerHooks serverHooks0 = new ServerHooks();
++        boolean added = serverHooks0.add((Object) null);
++        assertTrue(added);
++        ByteBufferOutputStream byteBufferOutputStream0 = new ByteBufferOutputStream(serverHooks0, nonBlockingClientHandler0);
++        nonBlockingClientHandler0.setSecure(true);
+         byteBufferOutputStream0.writeAllByteBuffer();
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.net.server.impl.NonBlockingClientHandler", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

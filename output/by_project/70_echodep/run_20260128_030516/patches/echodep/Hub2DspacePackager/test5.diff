@@ -1,0 +1,50 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Hub2DspacePackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Hub2DspacePackager_ESTest.java
+@@ -93,27 +93,31 @@
+       Hub2DspacePackager.main(stringArray0);
+       assertEquals(3, stringArray0.length);
+   }
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test5()  throws Throwable  {
+     hub2DspacePackager0 = new Hub2DspacePackager();
+     mETSProfile_PackageType0 = METSProfile.PackageType.DIP;
+     uRI0 = MockURI.aFileURI;
+     haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(mETSProfile_PackageType0).when(haSMETSProfile0).guessPackageType();
+-      doReturn(uRI0).when(haSMETSProfile0).getBaseURI();
++    doReturn(mETSProfile_PackageType0).when(haSMETSProfile0).guessPackageType();
++    doReturn(uRI0).when(haSMETSProfile0).getBaseURI();
+     haSMasterMETSProfile0 = mock(HaSMasterMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(haSMETSProfile0, (HaSMETSProfile) null).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
+-      // Undeclared exception!
+-      try { 
+-        hub2DspacePackager0.createRepositoryPackage(haSMasterMETSProfile0, "<???/>");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("edu.uiuc.ndiipp.hubandspoke.packager.FromHubPackager", e);
+-      }
++    doReturn(haSMETSProfile0, (HaSMETSProfile) null).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
++    // Verify that the stubbed return values are as expected
++    assertEquals(mETSProfile_PackageType0, haSMETSProfile0.guessPackageType());
++    assertEquals(uRI0, haSMETSProfile0.getBaseURI());
++    assertEquals(haSMETSProfile0, haSMasterMETSProfile0.getMostRecentEchoDepMETS());
++    // Undeclared exception!
++    try { 
++      hub2DspacePackager0.createRepositoryPackage(haSMasterMETSProfile0, "<???/>");
++      fail("Expecting exception: NullPointerException");
++
++    } catch(NullPointerException e) {
++       //
++       // no message in exception (getMessage() returned null)
++       //
++       verifyException("edu.uiuc.ndiipp.hubandspoke.packager.FromHubPackager", e);
++    }
+   }
++
+ }

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -86,18 +86,26 @@
+     assertEquals(0, iCMProxyConnection0.getPeerPort());
+     assertEquals(0, iCMProxyConnection0.getLocalPort());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+-      iCMProxyConnection0.setPartner("org.apa;he.:og4j.PlopertyConfigurator");
+-      iCMProxyConnection0.hashCode();
+-      assertEquals(0, iCMProxyConnection0.getSocket());
+-      assertEquals(0, iCMProxyConnection0.getLocalPort());
+-      assertEquals(0, iCMProxyConnection0.getPeerPort());
+-      assertEquals(0, iCMProxyConnection0.getNihdl());
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    ICMProxyConnection conn = new ICMProxyConnection();
++    int initialSocket = conn.getSocket();
++    int initialLocalPort = conn.getLocalPort();
++    int initialPeerPort = conn.getPeerPort();
++    int initialNihdl = conn.getNihdl();
++
++    conn.setPartner("org.apa;he.:og4j.PlopertyConfigurator");
++
++    int hash1 = conn.hashCode();
++    int hash2 = conn.hashCode();
++    assertEquals(hash1, hash2);
++
++    assertEquals(initialSocket, conn.getSocket());
++    assertEquals(initialLocalPort, conn.getLocalPort());
++    assertEquals(initialPeerPort, conn.getPeerPort());
++    assertEquals(initialNihdl, conn.getNihdl());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

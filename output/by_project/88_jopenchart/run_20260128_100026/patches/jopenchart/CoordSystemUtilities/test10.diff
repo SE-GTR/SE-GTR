@@ -1,0 +1,49 @@
+--- a/evosuite-tests/de/progra/charting/CoordSystemUtilities_ESTest.java
++++ b/evosuite-tests/de/progra/charting/CoordSystemUtilities_ESTest.java
+@@ -232,26 +232,26 @@
+          verifyException("de.progra.charting.CoordSystemUtilities", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      EditableChartDataModel editableChartDataModel0 = new EditableChartDataModel();
+-      editableChartDataModel0.setMinimumColumnValue(1090.282831551931);
+-      editableChartDataModel0.setManualScale(true);
+-      CoordSystem coordSystem0 = new CoordSystem(editableChartDataModel0);
+-      CoordSystemUtilities coordSystemUtilities0 = coordSystem0.c;
+-      // Undeclared exception!
+-      try { 
+-        coordSystemUtilities0.drawYAxisTicks((Graphics2D) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.progra.charting.CoordSystemUtilities", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    EditableChartDataModel editableChartDataModel0 = new EditableChartDataModel();
++    editableChartDataModel0.setMinimumColumnValue(1090.282831551931);
++    editableChartDataModel0.setManualScale(true);
++    CoordSystem coordSystem0 = new CoordSystem(editableChartDataModel0);
++    CoordSystemUtilities coordSystemUtilities0 = coordSystem0.c;
++
++    java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(10, 10,
++            java.awt.image.BufferedImage.TYPE_INT_ARGB);
++    Graphics2D g2d = img.createGraphics();
++
++    // The method should execute without throwing an exception when provided a valid Graphics2D.
++    coordSystemUtilities0.drawYAxisTicks(g2d);
++
++    // Basic sanity check to ensure the graphics context is still usable.
++    org.junit.Assert.assertNotNull(g2d);
++    g2d.dispose();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

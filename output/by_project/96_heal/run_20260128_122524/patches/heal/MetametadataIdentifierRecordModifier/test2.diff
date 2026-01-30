@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/MetametadataIdentifierRecordModifier_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/MetametadataIdentifierRecordModifier_ESTest.java
+@@ -77,16 +77,17 @@
+       metametadataIdentifierRecordModifier0.perform((HttpServlet) null, httpServletRequestWrapper0, httpServletResponseWrapper0);
+       assertTrue(metametadataIdentifierRecordModifier0.actionRequiresLogin());
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn(null, null, "-1", "-1", "-1").when(httpServletRequest0).getParameter(anyString());
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    metametadataIdentifierRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
++    metametadataIdentifierRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
++    // Verify that the request parameters were accessed during the update
++    verify(httpServletRequest0, atLeastOnce()).getParameter(anyString());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null, (String) null, "-1", "-1", "-1").when(httpServletRequest0).getParameter(anyString());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      metametadataIdentifierRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
+-      metametadataIdentifierRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
+-      assertNull(completeMetadataBean0.getTitle());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

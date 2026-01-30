@@ -1,0 +1,28 @@
+--- a/evosuite-tests/corina/manip/Redate_ESTest.java
++++ b/evosuite-tests/corina/manip/Redate_ESTest.java
+@@ -17,14 +17,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Redate_ESTest extends Redate_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        Sample sample0 = new Sample();
++        // Capture the original range before any modification
++        corina.Range originalRange = sample0.range;
++        Redate redate0 = Redate.redate(sample0, sample0.range, "?=PWmXs=@");
++        // Undo should revert the sample's range to its original value
++        redate0.undo();
++        assertFalse(sample0.isModified());
++        assertEquals(originalRange, sample0.range);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      Redate redate0 = Redate.redate(sample0, sample0.range, "?=PWmXs=@");
+-      redate0.undo();
+-      assertFalse(sample0.isModified());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

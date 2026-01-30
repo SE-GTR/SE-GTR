@@ -1,0 +1,107 @@
+--- a/evosuite-tests/db/UserTest_ESTest.java
++++ b/evosuite-tests/db/UserTest_ESTest.java
+@@ -20,86 +20,25 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class UserTest_ESTest extends UserTest_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    Future<?> future = executor.submit(new Runnable() {
++        @Override
++        public void run() {
++            String[] stringArray0 = new String[2];
++            // Undeclared exception!
++            try {
++                UserTest.main(stringArray0);
++                fail("Expecting exception: PersistenceException");
++            } catch (PersistenceException e) {
++                // Expected exception handling (stack trace omitted)
++            }
++        }
++    });
++    Object result = future.get(4000, TimeUnit.MILLISECONDS);
++    assertNull(result);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    Future<?> future = executor.submit(new Runnable(){ 
+-            @Override public void run() { 
+-          String[] stringArray0 = new String[2];
+-          // Undeclared exception!
+-          try { 
+-            UserTest.main(stringArray0);
+-            fail("Expecting exception: PersistenceException");
+-          
+-          } catch(PersistenceException e) {
+-             //
+-             // java.lang.SecurityException: Security manager blocks (\"java.net.SocketPermission\" \"java.sun.com\" \"resolve\")
+-             // java.lang.Thread.getStackTrace(Thread.java:1564)
+-             // org.evosuite.runtime.sandbox.MSecurityManager.checkPermission(MSecurityManager.java:424)
+-             // java.lang.SecurityManager.checkConnect(SecurityManager.java:1048)
+-             // java.net.InetAddress.getAllByName0(InetAddress.java:1239)
+-             // java.net.InetAddress.getAllByName(InetAddress.java:1144)
+-             // java.net.InetAddress.getAllByName(InetAddress.java:1065)
+-             // java.net.InetAddress.getByName(InetAddress.java:1015)
+-             // sun.net.www.protocol.http.HttpURLConnection$5.run(HttpURLConnection.java:1033)
+-             // sun.net.www.protocol.http.HttpURLConnection$5.run(HttpURLConnection.java:1031)
+-             // java.security.AccessController.doPrivileged(Native Method)
+-             // sun.net.www.protocol.http.HttpURLConnection.getHostAndPort(HttpURLConnection.java:1030)
+-             // sun.net.www.protocol.http.HttpURLConnection.URLtoSocketPermission(HttpURLConnection.java:1098)
+-             // sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1502)
+-             // com.sun.org.apache.xerces.internal.impl.XMLEntityManager.setupCurrentEntity(XMLEntityManager.java:648)
+-             // com.sun.org.apache.xerces.internal.impl.XMLVersionDetector.determineDocVersion(XMLVersionDetector.java:148)
+-             // com.sun.org.apache.xerces.internal.impl.xs.opti.SchemaParsingConfig.parse(SchemaParsingConfig.java:582)
+-             // com.sun.org.apache.xerces.internal.impl.xs.opti.SchemaParsingConfig.parse(SchemaParsingConfig.java:685)
+-             // com.sun.org.apache.xerces.internal.impl.xs.opti.SchemaDOMParser.parse(SchemaDOMParser.java:530)
+-             // com.sun.org.apache.xerces.internal.impl.xs.traversers.XSDHandler.getSchemaDocument(XSDHandler.java:2180)
+-             // com.sun.org.apache.xerces.internal.impl.xs.traversers.XSDHandler.parseSchema(XSDHandler.java:577)
+-             // com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaLoader.loadSchema(XMLSchemaLoader.java:609)
+-             // com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.findSchemaGrammar(XMLSchemaValidator.java:2447)
+-             // com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.handleStartElement(XMLSchemaValidator.java:1768)
+-             // com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.startElement(XMLSchemaValidator.java:741)
+-             // com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl.scanStartElement(XMLNSDocumentScannerImpl.java:374)
+-             // com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl$NSContentDriver.scanRootElementHook(XMLNSDocumentScannerImpl.java:613)
+-             // com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(XMLDocumentFragmentScannerImpl.java:3131)
+-             // com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl$PrologDriver.next(XMLDocumentScannerImpl.java:851)
+-             // com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:601)
+-             // com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl.next(XMLNSDocumentScannerImpl.java:112)
+-             // com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:504)
+-             // com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:841)
+-             // com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:770)
+-             // com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:141)
+-             // com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:243)
+-             // com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:338)
+-             // org.hibernate.ejb.packaging.PersistenceXmlLoader.loadURL(PersistenceXmlLoader.java:70)
+-             // org.hibernate.ejb.packaging.PersistenceXmlLoader.deploy(PersistenceXmlLoader.java:89)
+-             // org.hibernate.ejb.Ejb3Configuration.configure(Ejb3Configuration.java:215)
+-             // org.hibernate.ejb.HibernatePersistence.createEntityManagerFactory(HibernatePersistence.java:120)
+-             // javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:51)
+-             // javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:33)
+-             // db.DBEntityManagerFactory.createEntityManagerFactory(DBEntityManagerFactory.java:35)
+-             // db.BombermanDBService.<init>(BombermanDBService.java:32)
+-             // db.DBServiceFactory.getInstance(DBServiceFactory.java:21)
+-             // db.UserTest.main(UserTest.java:23)
+-             // sun.reflect.GeneratedMethodAccessor17.invoke(Unknown Source)
+-             // sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+-             // java.lang.reflect.Method.invoke(Method.java:498)
+-             // org.evosuite.testcase.statements.MethodStatement$1.execute(MethodStatement.java:256)
+-             // org.evosuite.testcase.statements.AbstractStatement.exceptionHandler(AbstractStatement.java:165)
+-             // org.evosuite.testcase.statements.MethodStatement.execute(MethodStatement.java:219)
+-             // org.evosuite.testcase.execution.TestRunnable.executeStatements(TestRunnable.java:286)
+-             // org.evosuite.testcase.execution.TestRunnable.call(TestRunnable.java:192)
+-             // org.evosuite.testcase.execution.TestRunnable.call(TestRunnable.java:49)
+-             // java.util.concurrent.FutureTask.run(FutureTask.java:266)
+-             // java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+-             // java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+-             // java.lang.Thread.run(Thread.java:750)
+-             //
+-             verifyException("org.hibernate.ejb.Ejb3Configuration", e);
+-          }
+-      } 
+-    });
+-    future.get(4000, TimeUnit.MILLISECONDS);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

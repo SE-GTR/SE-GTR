@@ -1,0 +1,64 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/AbstractSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/AbstractSessionManager_ESTest.java
+@@ -256,32 +256,32 @@
+         long timeout = defaultSessionManager0.getTimeout(sessionId);
+         assertTrue("Timeout should be non‑negative", timeout >= 0L);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-    defaultSessionManager0 = new DefaultSessionManager();
+-      defaultSessionManager0.validateSessions();
+-      LinkedList<DefaultSessionManager> linkedList0 = new LinkedList<DefaultSessionManager>();
+-      linkedList0.add(defaultSessionManager0);
+-      DefaultSessionManager[] defaultSessionManagerArray0 = new DefaultSessionManager[5];
+-      defaultSessionManagerArray0[0] = defaultSessionManager0;
+-      defaultSessionManagerArray0[1] = defaultSessionManager0;
+-      defaultSessionManager0.setGlobalSessionTimeout((-1));
+-      defaultSessionManagerArray0[2] = defaultSessionManager0;
+-      defaultSessionManagerArray0[3] = defaultSessionManager0;
+-      defaultSessionManagerArray0[4] = defaultSessionManager0;
+-      DefaultSessionManager[] defaultSessionManagerArray1 = linkedList0.toArray(defaultSessionManagerArray0);
+-      linkedList0.pollFirst();
+-      try { 
+-        defaultSessionManager0.getAttribute(defaultSessionManagerArray1, defaultSessionManager0);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // There is no session with id [[Lorg.jsecurity.session.mgt.DefaultSessionManager;@679d854d]
+-         //
+-         verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+-      }
+-  }
+-}
++@Test(timeout = 4000)
++  public void test13() throws Throwable {
++    defaultSessionManager0 = new DefaultSessionManager();
++    defaultSessionManager0.validateSessions();
++    LinkedList<DefaultSessionManager> linkedList0 = new LinkedList<DefaultSessionManager>();
++    boolean added = linkedList0.add(defaultSessionManager0);
++    assertTrue("Element should be added to the list", added);
++    DefaultSessionManager[] defaultSessionManagerArray0 = new DefaultSessionManager[5];
++    defaultSessionManagerArray0[0] = defaultSessionManager0;
++    defaultSessionManagerArray0[1] = defaultSessionManager0;
++    defaultSessionManager0.setGlobalSessionTimeout((-1));
++    defaultSessionManagerArray0[2] = defaultSessionManager0;
++    defaultSessionManagerArray0[3] = defaultSessionManager0;
++    defaultSessionManagerArray0[4] = defaultSessionManager0;
++    DefaultSessionManager[] defaultSessionManagerArray1 = linkedList0.toArray(defaultSessionManagerArray0);
++    DefaultSessionManager polled = linkedList0.pollFirst();
++    assertSame("Polled element should be the same as the one added", defaultSessionManager0, polled);
++    try {
++      defaultSessionManager0.getAttribute(defaultSessionManagerArray1, defaultSessionManager0);
++      fail("Expecting exception: RuntimeException");
++    } catch (RuntimeException e) {
++      //
++      // There is no session with id [[Lorg.jsecurity.session.mgt.DefaultSessionManager;@679d854d]
++      //
++      verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
++    }
++  }
++
++}

@@ -1,0 +1,51 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Hub2SwordPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Hub2SwordPackager_ESTest.java
+@@ -59,31 +59,29 @@
+          verifyException("edu.uiuc.ndiipp.hubandspoke.packager.FromHubPackager", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     hub2SwordPackager0 = new Hub2SwordPackager();
+     mETSProfile_PackageType0 = METSProfile.PackageType.UNKNOWN;
+     uRI0 = MockURI.aFileURI;
+     haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(mETSProfile_PackageType0).when(haSMETSProfile0).guessPackageType();
+-      doReturn(uRI0).when(haSMETSProfile0).getBaseURIMinusFile();
++    doReturn(mETSProfile_PackageType0).when(haSMETSProfile0).guessPackageType();
++    doReturn(uRI0).when(haSMETSProfile0).getBaseURIMinusFile();
++
+     haSMETSProfile1 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn((MetsFileType[]) null).when(haSMETSProfile1).getAllFiles();
++    doReturn(new gov.loc.mets.MetsFileType[0]).when(haSMETSProfile1).getAllFiles();
++
+     haSMasterMETSProfile0 = mock(HaSMasterMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(haSMETSProfile0, haSMETSProfile1).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
+-      // Undeclared exception!
+-      try { 
+-        hub2SwordPackager0.createRepositoryPackage(haSMasterMETSProfile0, (String) null, "http://hul.harvard.edu/ois/xml/ns/jhove");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("edu.uiuc.ndiipp.hubandspoke.packager.FromHubPackager", e);
+-      }
+-  }
++    doReturn(haSMETSProfile0, haSMETSProfile1).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
++
++    String outputDir = System.getProperty("java.io.tmpdir");
++    File result = hub2SwordPackager0.createRepositoryPackage(
++            haSMasterMETSProfile0,
++            outputDir,
++            "http://hul.harvard.edu/ois/xml/ns/jhove");
++    assertNotNull(result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

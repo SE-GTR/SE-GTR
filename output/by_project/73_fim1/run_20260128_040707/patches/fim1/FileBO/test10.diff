@@ -1,0 +1,53 @@
+--- a/evosuite-tests/osa/ora/server/bo/FileBO_ESTest.java
++++ b/evosuite-tests/osa/ora/server/bo/FileBO_ESTest.java
+@@ -100,23 +100,33 @@
+         FileBO fileBO0 = new FileBO((String) null, (ModernChatServer) null);
+         fileBO0.createGroup(group0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      FileBO fileBO0 = new FileBO("", (ModernChatServer) null);
+-      // Undeclared exception!
+-      try { 
+-        fileBO0.delGroup((Group) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("osa.ora.server.bo.FileBO", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        // Create a temporary directory with the expected config files to avoid initialization failures
++        java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("filebo_test");
++        java.nio.file.Path configDir = java.nio.file.Files.createDirectories(tempDir.resolve("config"));
++        java.nio.file.Files.createFile(configDir.resolve("data1.xml"));
++        java.nio.file.Files.createFile(configDir.resolve("data2.xml"));
++        java.nio.file.Files.createFile(configDir.resolve("data3.xml"));
++        java.nio.file.Files.createFile(configDir.resolve("trans.dat"));
++        // Instantiate a non‑null ModernChatServer (assumes a no‑arg constructor is available)
++        ModernChatServer server = new ModernChatServer();
++        // Construct FileBO with a valid path and server
++        FileBO fileBO0 = new FileBO(tempDir.toString(), server);
++        // Use a valid Group instance instead of null
++        Group group = new Group();
++        // Invoke delGroup and verify normal behavior (no exception and non‑null result)
++        Group result = fileBO0.delGroup(group);
++        assertNotNull(result);
++        // Cleanup temporary files
++        java.nio.file.Files.deleteIfExists(configDir.resolve("data1.xml"));
++        java.nio.file.Files.deleteIfExists(configDir.resolve("data2.xml"));
++        java.nio.file.Files.deleteIfExists(configDir.resolve("data3.xml"));
++        java.nio.file.Files.deleteIfExists(configDir.resolve("trans.dat"));
++        java.nio.file.Files.deleteIfExists(configDir);
++        java.nio.file.Files.deleteIfExists(tempDir);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

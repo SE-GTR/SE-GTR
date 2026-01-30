@@ -1,0 +1,55 @@
+--- a/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
+@@ -899,25 +899,33 @@
+     ScriptOrFnNode scriptOrFnNode0 = parser0.parse((Reader) stringReader0, "?<C9/s(I/{i*Ik", 123);
+     assertNotNull(scriptOrFnNode0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test080()  throws Throwable  {
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      Parser parser0 = new Parser(compilerEnvirons0, (ErrorReporter) null);
+-      StringReader stringReader0 = new StringReader("\tat script");
+-      // Undeclared exception!
+-      try { 
+-        parser0.parse((Reader) stringReader0, "C=xL)mG*M2E#tg", 175);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.mozilla.javascript.Parser", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test080() throws Throwable {
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        ErrorReporter reporter = new ErrorReporter() {
++            @Override
++            public void warning(String message, String sourceName, int line, String lineSource, int lineOffset) {
++                // no-op
++            }
++
++            @Override
++            public void error(String message, String sourceName, int line, String lineSource, int lineOffset) {
++                // no-op
++            }
++
++            @Override
++            public EvaluatorException runtimeError(String message, String sourceName, int line,
++                                                   String lineSource, int lineOffset) {
++                return new EvaluatorException(message);
++            }
++        };
++        Parser parser0 = new Parser(compilerEnvirons0, reporter);
++        StringReader stringReader0 = new StringReader("");
++        // Parse an empty script; should not throw NullPointerException
++        AstRoot ast = parser0.parse(stringReader0, "test.js", 1);
++        assertNotNull(ast);
++    }
++
+ @Test(timeout = 4000)
+ public void test081() throws Throwable {
+     assertFalse(TokenStream.isKeyword("cat\u007f6h"));

@@ -1,0 +1,44 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/player/Battleplayer_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/player/Battleplayer_ESTest.java
+@@ -134,28 +134,20 @@
+          verifyException("de.outstare.fortbattleplayer.player.Battleplayer", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test7() throws Throwable {
++    HashSet<Round> hashSet0 = new HashSet<Round>();
++    Round round0 = mock(Round.class, new ViolatedAssumptionAnswer());
++    doReturn(1).when(round0).getNo();
++    hashSet0.add(round0);
++    Battleplan battleplan0 = new Battleplan(hashSet0);
++    Battleplayer battleplayer0 = new Battleplayer(battleplan0);
++    Battleplayer.RoundListener listener = mock(Battleplayer.RoundListener.class);
++    battleplayer0.addRoundListener(listener);
++    battleplayer0.play();
++    verify(round0).getNo();
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      HashSet<Round> hashSet0 = new HashSet<Round>();
+-      Round round0 = mock(Round.class, new ViolatedAssumptionAnswer());
+-      doReturn(1).when(round0).getNo();
+-      hashSet0.add(round0);
+-      Battleplan battleplan0 = new Battleplan(hashSet0);
+-      Battleplayer battleplayer0 = new Battleplayer(battleplan0);
+-      battleplayer0.addRoundListener((Battleplayer.RoundListener) null);
+-      // Undeclared exception!
+-      try { 
+-        battleplayer0.play();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.outstare.fortbattleplayer.player.Battleplayer", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

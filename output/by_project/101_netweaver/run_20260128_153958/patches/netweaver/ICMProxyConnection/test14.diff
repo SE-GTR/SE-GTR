@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -238,20 +238,23 @@
+         assertTrue(iCMProxyConnection1.equals((Object) iCMProxyConnection0));
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+-      iCMProxyConnection0.setDisconnectTime("peer-port");
+-      ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
+-      boolean boolean0 = iCMProxyConnection1.equals(iCMProxyConnection0);
+-      assertEquals(0, iCMProxyConnection1.getSocket());
+-      assertEquals(0, iCMProxyConnection1.getPeerPort());
+-      assertFalse(boolean0);
+-      assertEquals(0, iCMProxyConnection1.getNihdl());
+-      assertEquals(0, iCMProxyConnection1.getLocalPort());
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
++    iCMProxyConnection0.setDisconnectTime("peer-port");
++    ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
++    // Initially the two objects are not equal because only the first has a disconnectTime set
++    assertFalse(iCMProxyConnection1.equals(iCMProxyConnection0));
++    // Setting the same disconnectTime on the second object should make them equal
++    iCMProxyConnection1.setDisconnectTime("peer-port");
++    assertTrue(iCMProxyConnection1.equals(iCMProxyConnection0));
++    // Existing state assertions
++    assertEquals(0, iCMProxyConnection1.getSocket());
++    assertEquals(0, iCMProxyConnection1.getPeerPort());
++    assertEquals(0, iCMProxyConnection1.getNihdl());
++    assertEquals(0, iCMProxyConnection1.getLocalPort());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

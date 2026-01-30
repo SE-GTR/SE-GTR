@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/projectconfig/filters/AbstractFilter_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/projectconfig/filters/AbstractFilter_ESTest.java
+@@ -62,14 +62,23 @@
+         assertNotNull(representation);
+         assertTrue(representation.contains("PackageFilter"));
+     }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    NonSrcDirsFilter filter0 = new NonSrcDirsFilter();
++    NonSrcDirsFilter filter1 = new NonSrcDirsFilter();
+ 
++    // Manipulate state of both filters
++    filter0.setEnabled(false);
++    filter1.setEnabled(true);
+ 
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      NonSrcDirsFilter nonSrcDirsFilter0 = new NonSrcDirsFilter();
+-      nonSrcDirsFilter0.setEnabled(false);
+-      assertFalse(nonSrcDirsFilter0.isEnabled());
+-  }
++    // Verify the side‑effect of setEnabled via the getter
++    assertFalse(filter0.isEnabled());
++    assertTrue(filter1.isEnabled());
++
++    // Non‑trivial behavior: equals should reflect the differing enabled state
++    assertNotEquals(filter0, filter1);
++}
++
+ @Test(timeout = 4000)
+     public void test08() throws Throwable {
+         WriteProtectedFilter filter = new WriteProtectedFilter();

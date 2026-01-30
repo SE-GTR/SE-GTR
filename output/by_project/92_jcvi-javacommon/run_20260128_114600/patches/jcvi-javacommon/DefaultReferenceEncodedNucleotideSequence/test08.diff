@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/residue/nt/DefaultReferenceEncodedNucleotideSequence_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/residue/nt/DefaultReferenceEncodedNucleotideSequence_ESTest.java
+@@ -119,17 +119,24 @@
+       assertFalse(defaultReferenceEncodedNucleotideSequence1.equals((Object)defaultReferenceEncodedNucleotideSequence0));
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      Nucleotide nucleotide0 = Nucleotide.Adenine;
+-      Set<Nucleotide> set0 = nucleotide0.getBasesFor();
+-      ACGTNNucloetideCodec aCGTNNucloetideCodec0 = ACGTNNucloetideCodec.INSTANCE;
+-      NucleotideSequence nucleotideSequence0 = DefaultNucleotideSequence.create(set0, aCGTNNucloetideCodec0);
+-      DefaultReferenceEncodedNucleotideSequence defaultReferenceEncodedNucleotideSequence0 = new DefaultReferenceEncodedNucleotideSequence(nucleotideSequence0, "*", 0);
+-      boolean boolean0 = defaultReferenceEncodedNucleotideSequence0.isGap(0);
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    Nucleotide nucleotide0 = Nucleotide.Adenine;
++    Set<Nucleotide> set0 = nucleotide0.getBasesFor();
++    ACGTNNucloetideCodec codec = ACGTNNucloetideCodec.INSTANCE;
++    NucleotideSequence refSeq = DefaultNucleotideSequence.create(set0, codec);
++    DefaultReferenceEncodedNucleotideSequence seq = new DefaultReferenceEncodedNucleotideSequence(refSeq, "*", 0);
++    // Verify that calling isGap with an out‑of‑range index results in an exception,
++    // exercising behavior rather than merely checking constructor‑initialized state.
++    boolean exceptionThrown = false;
++    try {
++        seq.isGap(1);
++    } catch (Exception e) {
++        exceptionThrown = true;
++    }
++    assertTrue(exceptionThrown);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

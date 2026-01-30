@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -94,12 +94,16 @@
+         // Ensure the stream size matches the input length
+         assertEquals(4, stream.size());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test007()  throws Throwable  {
+-      ANTLRStringStream aNTLRStringStream0 = new ANTLRStringStream("\u0001r\u0003\uFFFF\u0001qo:\u0001p");
+-  }
++@Test(timeout = 4000)
++    public void test007() throws Throwable {
++        String input = "\u0001r\u0003\uFFFF\u0001qo:\u0001p";
++        ANTLRStringStream stream = new ANTLRStringStream(input);
++        // Verify that the stream correctly reflects the provided input
++        assertEquals(input.length(), stream.size());
++        assertEquals((int) input.charAt(0), stream.LA(1));
++        assertEquals(input, stream.toString());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test008()  throws Throwable  {

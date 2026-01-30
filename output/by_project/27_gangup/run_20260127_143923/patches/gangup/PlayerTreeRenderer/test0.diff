@@ -1,0 +1,39 @@
+--- a/evosuite-tests/gui/PlayerTreeRenderer_ESTest.java
++++ b/evosuite-tests/gui/PlayerTreeRenderer_ESTest.java
+@@ -20,18 +20,25 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class PlayerTreeRenderer_ESTest extends PlayerTreeRenderer_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        PlayerTreeRenderer playerTreeRenderer0 = new PlayerTreeRenderer();
++        GameState gameState0 = new GameState();
++        JTree jTree0 = new JTree();
++        Player player0 = new Player();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      PlayerTreeRenderer playerTreeRenderer0 = new PlayerTreeRenderer();
+-      GameState gameState0 = new GameState();
+-      JTree jTree0 = new JTree();
+-      Player player0 = new Player();
+-      gameState0.setMe(player0);
+-      playerTreeRenderer0.setState(gameState0);
+-      Component component0 = playerTreeRenderer0.getTreeCellRendererComponent(jTree0, player0, false, false, true, 34511, true);
+-      assertSame(playerTreeRenderer0, component0);
+-  }
++        // Verify that setMe correctly updates the GameState
++        gameState0.setMe(player0);
++        assertSame("GameState should reference the player set via setMe", player0, gameState0.getMe());
++
++        // Verify that setState correctly updates the renderer's state
++        playerTreeRenderer0.setState(gameState0);
++        assertSame("Renderer should hold the GameState set via setState", gameState0, playerTreeRenderer0.getState());
++
++        Component component0 = playerTreeRenderer0.getTreeCellRendererComponent(jTree0, player0, false, false, true, 34511, true);
++        assertSame("Renderer component should be the renderer itself", playerTreeRenderer0, component0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

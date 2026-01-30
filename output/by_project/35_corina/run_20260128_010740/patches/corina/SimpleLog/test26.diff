@@ -1,0 +1,38 @@
+--- a/evosuite-tests/corina/util/SimpleLog_ESTest.java
++++ b/evosuite-tests/corina/util/SimpleLog_ESTest.java
+@@ -271,15 +271,26 @@
+       assertFalse(simpleLog0.isDebugEnabled());
+       assertTrue(simpleLog0.isInfoEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      SimpleLog simpleLog0 = new SimpleLog("39FiV_1q-Cyc@S");
+-      boolean boolean0 = simpleLog0.isWarnEnabled();
+-      assertFalse(simpleLog0.isDebugEnabled());
+-      assertTrue(boolean0);
+-      assertTrue(simpleLog0.isInfoEnabled());
+-  }
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        PrintStream originalErr = System.err;
++        ByteArrayOutputStream baos = new ByteArrayOutputStream();
++        System.setErr(new PrintStream(baos));
++        try {
++            SimpleLog simpleLog0 = new SimpleLog("testLogger");
++            // Debug level is disabled by default, so this should not produce output
++            simpleLog0.debug("debugMsg");
++            // Warn level is enabled, this should produce output
++            simpleLog0.warn("warnMsg");
++            System.err.flush();
++            String output = baos.toString();
++            assertTrue(output.contains("warnMsg"));
++            assertFalse(output.contains("debugMsg"));
++        } finally {
++            System.setErr(originalErr);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

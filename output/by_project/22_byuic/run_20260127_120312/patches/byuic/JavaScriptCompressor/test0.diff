@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/yahoo/platform/yui/compressor/JavaScriptCompressor_ESTest.java
++++ b/evosuite-tests/com/yahoo/platform/yui/compressor/JavaScriptCompressor_ESTest.java
+@@ -20,16 +20,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class JavaScriptCompressor_ESTest extends JavaScriptCompressor_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        StringReader stringReader0 = new StringReader("debugger");
++        ToolErrorReporter toolErrorReporter0 = new ToolErrorReporter(true);
++        JavaScriptCompressor javaScriptCompressor0 = new JavaScriptCompressor(stringReader0, toolErrorReporter0);
++        StringWriter stringWriter0 = new StringWriter();
++        int beforeLength = stringWriter0.getBuffer().length();
++        javaScriptCompressor0.compress(stringWriter0, 170, true, true, true, true);
++        int afterLength = stringWriter0.getBuffer().length();
++        assertEquals(";", stringWriter0.toString());
++        assertTrue(stringWriter0.toString().endsWith(";"));
++        assertEquals(1, afterLength - beforeLength);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      StringReader stringReader0 = new StringReader("debugger");
+-      ToolErrorReporter toolErrorReporter0 = new ToolErrorReporter(true);
+-      JavaScriptCompressor javaScriptCompressor0 = new JavaScriptCompressor(stringReader0, toolErrorReporter0);
+-      StringWriter stringWriter0 = new StringWriter();
+-      javaScriptCompressor0.compress(stringWriter0, 170, true, true, true, true);
+-      assertEquals(";", stringWriter0.toString());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/heal/servlet/EmailFeedbackAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/EmailFeedbackAction_ESTest.java
+@@ -53,29 +53,31 @@
+         verifyException("org.heal.servlet.EmailFeedbackAction", e);
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test1()  throws Throwable  {
+     emailFeedbackAction0 = new EmailFeedbackAction("DTh&Tz<#;!1;(", "DTh&Tz<#;!1;(");
+     servlet0 = new Servlet("info@healcentral.org");
+     httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((Map) null).when(httpServletRequest0).getParameterMap();
++    doReturn((Map) null).when(httpServletRequest0).getParameterMap();
++    // Verify that the stubbed method returns null as expected
++    Map<String, String[]> paramMap = httpServletRequest0.getParameterMap();
++    assertNull(paramMap);
+     httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+     httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      // Undeclared exception!
+-      try { 
+-        emailFeedbackAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.EmailFeedbackAction", e);
+-      }
++    HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++    // Undeclared exception!
++    try { 
++      emailFeedbackAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
++      fail("Expecting exception: NullPointerException");
++
++    } catch(NullPointerException e) {
++       //
++       // no message in exception (getMessage() returned null)
++       //
++       verifyException("org.heal.servlet.EmailFeedbackAction", e);
++    }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

@@ -1,0 +1,26 @@
+--- a/evosuite-tests/br/com/jnfe/base/TransportKeyStoreBean_ESTest.java
++++ b/evosuite-tests/br/com/jnfe/base/TransportKeyStoreBean_ESTest.java
+@@ -79,11 +79,17 @@
+       transportKeyStoreBean0.afterPropertiesSet();
+       transportKeyStoreBean0.afterPropertiesSet();
+   }
++@Test(timeout = 4000)
++    public void test8() throws Throwable {
++        TransportKeyStoreBean transportKeyStoreBean0 = new TransportKeyStoreBean();
++        // Verify initial state (password should be null)
++        assertNull(transportKeyStoreBean0.getKeyStorePassword());
++        // Set password to empty string and verify the side‑effect
++        transportKeyStoreBean0.setKeyStorePassword("");
++        assertEquals("", transportKeyStoreBean0.getKeyStorePassword());
++        // Invoke afterPropertiesSet and ensure it does not alter the password
++        transportKeyStoreBean0.afterPropertiesSet();
++        assertEquals("", transportKeyStoreBean0.getKeyStorePassword());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-      TransportKeyStoreBean transportKeyStoreBean0 = new TransportKeyStoreBean();
+-      transportKeyStoreBean0.setKeyStorePassword("");
+-      transportKeyStoreBean0.afterPropertiesSet();
+-  }
+ }

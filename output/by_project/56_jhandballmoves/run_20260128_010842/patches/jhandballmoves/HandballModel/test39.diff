@@ -1,0 +1,47 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -503,21 +503,29 @@
+         // Verify that the saved flag remains true.
+         assertTrue(handballModel0.isSaved());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test39()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Offender offender0 = new Offender(96, 96);
+-      handballModel0.setFirstBallOwner(offender0);
+-      HandballModel handballModel1 = new HandballModel();
+-      handballModel1.initWithLoadedModel(handballModel0);
+-      MoveEvent moveEvent0 = new MoveEvent(offender0, 0);
+-      handballModel1.setActualMoveEvent(moveEvent0);
+-      boolean boolean0 = handballModel1.isSaved();
+-      assertEquals(HandballModel.State.EDIT_EVENT, handballModel1.getState());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test39() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        Offender offender0 = new Offender(96, 96);
++        handballModel0.setFirstBallOwner(offender0);
++        // Verify that the first ball owner was set correctly
++        assertSame(offender0, handballModel0.getFirstBallOwner());
++
++        HandballModel handballModel1 = new HandballModel();
++        handballModel1.initWithLoadedModel(handballModel0);
++        // Verify that the loaded model transferred the first ball owner
++        assertSame(offender0, handballModel1.getFirstBallOwner());
++
++        MoveEvent moveEvent0 = new MoveEvent(offender0, 0);
++        handballModel1.setActualMoveEvent(moveEvent0);
++        // Verify that the actual move event was recorded
++        assertSame(moveEvent0, handballModel1.getActualMoveEvent());
++
++        boolean boolean0 = handballModel1.isSaved();
++        assertEquals(HandballModel.State.EDIT_EVENT, handballModel1.getState());
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test40()  throws Throwable  {

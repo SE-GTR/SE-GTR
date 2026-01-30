@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
+@@ -47,29 +47,18 @@
+     // Passing a null host should trigger a NullPointerException
+     blockingClientPool0.getStats(null);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      BlockingClient blockingClient0 = new BlockingClient();
+-      PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      doReturn(blockingClient0).when(poolableBlockingClient0).createBlockingClient(any(org.quickserver.net.client.SocketBasedHost.class));
+-      SocketBasedHost socketBasedHost0 = new SocketBasedHost();
+-      PooledBlockingClient pooledBlockingClient0 = new PooledBlockingClient(poolableBlockingClient0, socketBasedHost0);
+-      PoolableBlockingClient poolableBlockingClient1 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      BlockingClientPool blockingClientPool0 = new BlockingClientPool("5;T_N#f)_*m-,#QhF", poolableBlockingClient1);
+-      // Undeclared exception!
+-      try { 
+-        blockingClientPool0.returnBlockingClient(pooledBlockingClient0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.net.client.pool.BlockingClientPool", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    BlockingClient blockingClient0 = new BlockingClient();
++    PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
++    doReturn(blockingClient0).when(poolableBlockingClient0).createBlockingClient(any(org.quickserver.net.client.SocketBasedHost.class));
++    SocketBasedHost socketBasedHost0 = new SocketBasedHost();
++    BlockingClientPool blockingClientPool0 = new BlockingClientPool("testPool", poolableBlockingClient0);
++    BlockingClient result = blockingClientPool0.createBlockingClient(socketBasedHost0);
++    assertNotNull(result);
++    assertSame(blockingClient0, result);
++}
++
+ @Test(timeout = 4000)
+ public void test04() throws Throwable {
+     PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());

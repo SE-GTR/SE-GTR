@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/databene/jdbacl/JDBCDriverInfo_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/JDBCDriverInfo_ESTest.java
+@@ -150,14 +150,17 @@
+         assertNotNull(id);
+         assertTrue(id.startsWith("H"));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      JDBCDriverInfo jDBCDriverInfo0 = JDBCDriverInfo.HSQL;
+-      jDBCDriverInfo0.setUrlPattern("sJo+z");
+-      assertEquals("sJo+z", jDBCDriverInfo0.getUrlPattern());
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        JDBCDriverInfo driverInfo = JDBCDriverInfo.HSQL;
++        String originalPattern = driverInfo.getUrlPattern();
++        driverInfo.setUrlPattern("sJo+z");
++        assertEquals("sJo+z", driverInfo.getUrlPattern());
++        assertNotEquals(originalPattern, driverInfo.getUrlPattern());
++        // verify that unrelated properties remain unchanged
++        assertEquals(JDBCDriverInfo.HSQL.getId(), driverInfo.getId());
++    }
++
+ @Test(timeout = 4000)
+ public void test20() throws Throwable {
+     JDBCDriverInfo info = new JDBCDriverInfo((String) null, "7", "7itj<T<79|;bd~@M*");

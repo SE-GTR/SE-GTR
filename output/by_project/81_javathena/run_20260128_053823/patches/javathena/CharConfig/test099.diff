@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/character/data/config/CharConfig_ESTest.java
++++ b/evosuite-tests/org/character/data/config/CharConfig_ESTest.java
+@@ -786,14 +786,21 @@
+         assertNotEquals("The value should change after setting a new maxConnectUser", defaultVal, newVal);
+         assertEquals("The getter should return the value set by the setter", 1024, newVal);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test099()  throws Throwable  {
+-      CharConfig charConfig0 = new CharConfig();
+-      charConfig0.setFameListSizeTaekwon(0);
+-      assertEquals(0, charConfig0.getFameListSizeTaekwon());
+-  }
++@Test(timeout = 4000)
++    public void test099() throws Throwable {
++        CharConfig config = new CharConfig();
++        // Verify the default value
++        assertEquals(0, config.getFameListSizeTaekwon());
++        // Change the value and verify the side‑effect
++        config.setFameListSizeTaekwon(7);
++        assertEquals(7, config.getFameListSizeTaekwon());
++        // Change again to ensure the setter updates the state
++        config.setFameListSizeTaekwon(3);
++        assertEquals(3, config.getFameListSizeTaekwon());
++        // Confirm the previous value is no longer present
++        assertNotEquals(7, config.getFameListSizeTaekwon());
++    }
++
+ @Test(timeout = 4000)
+ public void test100() throws Throwable {
+     CharConfig charConfig0 = new CharConfig();

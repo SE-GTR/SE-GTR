@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/EncodedSequence_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/EncodedSequence_ESTest.java
+@@ -82,17 +82,20 @@
+          verifyException("org.jcvi.jillion.internal.core.EncodedSequence", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test03() throws Throwable {
+       byte[] byteArray0 = new byte[8];
+       GlyphCodec<EncodedSequence<Object>> glyphCodec0 = (GlyphCodec<EncodedSequence<Object>>) mock(GlyphCodec.class, new ViolatedAssumptionAnswer());
+       doReturn(1302).when(glyphCodec0).decodedLengthOf(any(byte[].class));
++      // Verify that the stubbed method returns the expected value
++      int decodedLength = glyphCodec0.decodedLengthOf(new byte[0]);
++      assertEquals(1302, decodedLength);
+       EncodedSequence<EncodedSequence<Object>> encodedSequence0 = new EncodedSequence<EncodedSequence<Object>>(glyphCodec0, byteArray0);
+       Range range0 = Range.of(367L);
+       Iterator<EncodedSequence<Object>> iterator0 = encodedSequence0.iterator(range0);
+       assertNotNull(iterator0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

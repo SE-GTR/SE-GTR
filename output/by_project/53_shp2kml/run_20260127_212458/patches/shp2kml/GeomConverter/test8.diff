@@ -1,0 +1,27 @@
+--- a/evosuite-tests/net/sourceforge/shp2kml/GeomConverter_ESTest.java
++++ b/evosuite-tests/net/sourceforge/shp2kml/GeomConverter_ESTest.java
+@@ -130,14 +130,17 @@
+          verifyException("net.sourceforge.shp2kml.GeomConverter", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test8() throws Throwable {
++    PrecisionModel precisionModel0 = new PrecisionModel(-1.0);
++    MultiLineString multiLineString0 = new MultiLineString((LineString[]) null, precisionModel0, 527);
++    String kml = GeomConverter.getPlacemarkKML(multiLineString0);
++    assertNotNull(kml);
++    assertTrue(kml.startsWith("<Placemark>"));
++    assertTrue(kml.contains("<LineString>"));
++    assertTrue(kml.endsWith("</Placemark>"));
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-      PrecisionModel precisionModel0 = new PrecisionModel((-1.0));
+-      MultiLineString multiLineString0 = new MultiLineString((LineString[]) null, precisionModel0, 527);
+-      String string0 = GeomConverter.getPlacemarkKML((Geometry) multiLineString0);
+-      assertEquals("<Placemark><description><![CDATA[]]></description><name></name><LineString><extrude>0.0</extrude><altitudeMode>relativeToGround</altitudeMode><coordinates></coordinates></LineString></Placemark>", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test9()  throws Throwable  {

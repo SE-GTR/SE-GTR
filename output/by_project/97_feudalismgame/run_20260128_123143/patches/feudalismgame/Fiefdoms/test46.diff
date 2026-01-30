@@ -1,0 +1,38 @@
+--- a/evosuite-tests/src/Fiefdoms_ESTest.java
++++ b/evosuite-tests/src/Fiefdoms_ESTest.java
+@@ -501,13 +501,28 @@
+       fiefdoms0.setValue((-630));
+       assertEquals((-630), fiefdoms0.getValue());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test46()  throws Throwable  {
+-      Fiefdoms fiefdoms0 = new Fiefdoms();
+-      fiefdoms0.setKingdom(true);
+-      assertTrue(fiefdoms0.isKingdom());
+-  }
++@Test(timeout = 4000)
++public void test46() throws Throwable {
++    Fiefdoms fiefdoms0 = new Fiefdoms();
++    // Verify the default state before mutation
++    assertFalse(fiefdoms0.isKingdom());
++    // Mutate the state
++    fiefdoms0.setKingdom(true);
++    // Observe the side‑effect via the getter
++    assertTrue(fiefdoms0.isKingdom());
++
++    // Additional non‑trivial behavior: serialize and deserialize the object
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(fiefdoms0);
++    oos.flush();
++    java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++    Fiefdoms deserialized = (Fiefdoms) ois.readObject();
++    // Verify that the persisted state is restored correctly
++    assertTrue(deserialized.isKingdom());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test47()  throws Throwable  {

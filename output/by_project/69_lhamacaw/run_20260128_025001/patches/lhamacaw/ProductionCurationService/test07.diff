@@ -1,0 +1,36 @@
+--- a/evosuite-tests/macaw/persistenceLayer/production/ProductionCurationService_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/production/ProductionCurationService_ESTest.java
+@@ -128,25 +128,14 @@
+     ProductionCurationService productionCurationService0 = new ProductionCurationService(sessionProperties0);
+     productionCurationService0.filterOntologyTerms((User) null, "code_book_number VARCHAR(255),", "KUR#e=UNSJU'=*x");
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      SessionProperties sessionProperties0 = new SessionProperties();
+-      ProductionCurationService productionCurationService0 = new ProductionCurationService(sessionProperties0);
+-      User user0 = new User();
+-      // Undeclared exception!
+-      try { 
+-        productionCurationService0.getAllOntologyTerms(user0);
+-        fail("Expecting exception: NoClassDefFoundError");
+-      
+-      } catch(NoClassDefFoundError e) {
+-         //
+-         // Could not initialize class com.mysql.jdbc.CharsetMapping
+-         //
+-         verifyException("com.mysql.jdbc.Connection", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NoClassDefFoundError.class)
++  public void test07() throws Throwable {
++      SessionProperties sessionProperties0 = new SessionProperties();
++      ProductionCurationService productionCurationService0 = new ProductionCurationService(sessionProperties0);
++      User user0 = new User();
++      productionCurationService0.getAllOntologyTerms(user0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

@@ -1,0 +1,48 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceFileUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceFileUtil_ESTest.java
+@@ -167,31 +167,20 @@
+       assertEquals(31, byteArrayOutputStream0.size());
+       assertEquals("CT{\nnull   0 0 320703:000111\n}\n", byteArrayOutputStream0.toString());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-    iterator0 = (Iterator<Nucleotide>) mock(Iterator.class, new ViolatedAssumptionAnswer());
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn((Iterator) null).when(nucleotideSequence0).iterator();
+-      doReturn(9223372036854775807L, 1050L).when(nucleotideSequence0).getLength();
+-      AceContig aceContig0 = mock(AceContig.class, new ViolatedAssumptionAnswer());
+-      doReturn(nucleotideSequence0).when(aceContig0).getConsensusSequence();
+-      doReturn("").when(aceContig0).getId();
+-      doReturn(9223372036854775807L).when(aceContig0).getNumberOfReads();
+-      doReturn(false).when(aceContig0).isComplemented();
+-      ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
+-      // Undeclared exception!
+-      try { 
+-        AceFileUtil.writeAceContig(aceContig0, (PhdDataStore) null, byteArrayOutputStream0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.assembly.consed.ace.AceFileUtil", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test06() throws Throwable {
++    NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++    doReturn((Iterator<Nucleotide>) null).when(nucleotideSequence0).iterator();
++    doReturn(9223372036854775807L, 1050L).when(nucleotideSequence0).getLength();
++    AceContig aceContig0 = mock(AceContig.class, new ViolatedAssumptionAnswer());
++    doReturn(nucleotideSequence0).when(aceContig0).getConsensusSequence();
++    doReturn("").when(aceContig0).getId();
++    doReturn(9223372036854775807L).when(aceContig0).getNumberOfReads();
++    doReturn(false).when(aceContig0).isComplemented();
++    ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
++    AceFileUtil.writeAceContig(aceContig0, null, byteArrayOutputStream0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

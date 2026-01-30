@@ -1,0 +1,27 @@
+--- a/evosuite-tests/Newzgrabber/CustomFileOutputStream_ESTest.java
++++ b/evosuite-tests/Newzgrabber/CustomFileOutputStream_ESTest.java
+@@ -39,12 +39,17 @@
+         int after = customFileOutputStream0.getCarriages();
+         assertEquals(before, after);
+     }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        java.io.File tempFile = java.io.File.createTempFile("customFOS", ".tmp");
++        tempFile.deleteOnExit();
++        CustomFileOutputStream customFileOutputStream0 = new CustomFileOutputStream(tempFile.getAbsolutePath());
++        // Write a carriage return character which should affect the internal carriage count
++        customFileOutputStream0.write('\r');
++        customFileOutputStream0.flush();
++        int carriages = customFileOutputStream0.getCarriages();
++        assertEquals(1, carriages);
++        customFileOutputStream0.close();
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      CustomFileOutputStream customFileOutputStream0 = new CustomFileOutputStream("5Sk` pfTm%r9,;\"\"g");
+-      int int0 = customFileOutputStream0.getCarriages();
+-      assertEquals(0, int0);
+-  }
+ }

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/yahoo/platform/yui/compressor/CssCompressor_ESTest.java
++++ b/evosuite-tests/com/yahoo/platform/yui/compressor/CssCompressor_ESTest.java
+@@ -78,16 +78,19 @@
+         int afterLength = stringWriter0.getBuffer().length();
+         assertTrue("Compressed output should be written to the writer", afterLength > beforeLength);
+     }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        stringReader0 = new StringReader("/*");
++        stringWriter0 = new StringWriter();
++        cssCompressor0 = new CssCompressor(stringReader0);
++        int beforeLength = stringWriter0.getBuffer().length();
++        cssCompressor0.compress(stringWriter0, -928);
++        assertEquals(0, beforeLength);
++        String result = stringWriter0.toString();
++        assertEquals("/*___YUICSSMIN_PRESERVE_CANDIDATE_COMMENT_0___", result);
++        assertTrue(stringWriter0.getBuffer().length() > beforeLength);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    stringReader0 = new StringReader("/*");
+-    stringWriter0 = new StringWriter();
+-    cssCompressor0 = new CssCompressor(stringReader0);
+-      cssCompressor0.compress(stringWriter0, (-928));
+-      assertEquals("/*___YUICSSMIN_PRESERVE_CANDIDATE_COMMENT_0___", stringWriter0.toString());
+-  }
+ @Test(timeout = 4000)
+ public void test6() throws Throwable {
+     StringReader stringReader0 = new StringReader("(:|s)(#f7a500)(;|})");

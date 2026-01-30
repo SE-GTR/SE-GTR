@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/FastqRecordBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/FastqRecordBuilder_ESTest.java
+@@ -93,23 +93,13 @@
+          verifyException("org.jcvi.jillion.trace.fastq.FastqRecordBuilder", e);
+       }
+   }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test4() throws Throwable {
++        nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++        qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
++        new FastqRecordBuilder((String) null, nucleotideSequence0, qualitySequence0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-    qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+-      FastqRecordBuilder fastqRecordBuilder0 = null;
+-      try {
+-        fastqRecordBuilder0 = new FastqRecordBuilder((String) null, nucleotideSequence0, qualitySequence0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // id can not be null
+-         //
+-         verifyException("org.jcvi.jillion.trace.fastq.FastqRecordBuilder", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

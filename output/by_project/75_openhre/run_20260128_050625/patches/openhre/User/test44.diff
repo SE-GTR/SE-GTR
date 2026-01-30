@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
+@@ -446,15 +446,24 @@
+          verifyException("com.browsersoft.aacs.User", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test44()  throws Throwable  {
+-    user0 = new User("{sha}pache.log4j.helpers.loglog", "] with value");
+-      user0.getPassvalidstart();
+-      assertFalse(user0.getPasschange());
+-      assertEquals("{sha}pache.log4j.helpers.loglog", user0.getUserId());
+-      assertEquals("] with value", user0.getUserName());
+-  }
++@Test(timeout = 4000)
++    public void test44() throws Throwable {
++        User user0 = new User("{sha}pache.log4j.helpers.loglog", "] with value");
++        // Verify constructor‑provided values
++        assertEquals("{sha}pache.log4j.helpers.loglog", user0.getUserId());
++        assertEquals("] with value", user0.getUserName());
++
++        // Use the return value of a non‑void method
++        assertEquals("", user0.getPassvalidstart());
++
++        // Exercise a non‑trivial behavior (Comparable implementation)
++        User sameUser = new User("{sha}pache.log4j.helpers.loglog", "] with value");
++        assertEquals(0, user0.compareTo(sameUser));
++
++        User differentUser = new User("differentId", "differentName");
++        assertTrue(user0.compareTo(differentUser) != 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test45()  throws Throwable  {

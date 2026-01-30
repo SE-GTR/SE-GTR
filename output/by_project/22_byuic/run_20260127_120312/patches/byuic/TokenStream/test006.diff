@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
+@@ -109,23 +109,19 @@
+          verifyException("org.mozilla.javascript.Parser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test006()  throws Throwable  {
+-      TokenStream tokenStream0 = new TokenStream((Parser) null, (Reader) null, "=?FF_*3nNe U", 91);
+-      tokenStream0.getToken();
+-      // Undeclared exception!
+-      try { 
+-        tokenStream0.getFirstXMLToken();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.mozilla.javascript.TokenStream", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test006() throws Throwable {
++        // Use valid, non‑null arguments to avoid unintended NullPointerException
++        Parser parser = new Parser();
++        Reader reader = new StringReader("");
++        TokenStream tokenStream = new TokenStream(parser, reader, "test", 1);
++        // Advance the stream once (mirrors original test flow)
++        tokenStream.getToken();
++        // Verify normal behavior of getFirstXMLToken on an empty source
++        int firstXmlToken = tokenStream.getFirstXMLToken();
++        assertEquals(-1, firstXmlToken);
++    }
++
+ @Test(timeout = 4000)
+   public void test007() throws Throwable {
+       TokenStream tokenStream0 = new TokenStream((Parser) null, (Reader) null, "jo/{", 104);

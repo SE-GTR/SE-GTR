@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/petsoar/actions/cart/AddPetToShoppingCart_ESTest.java
++++ b/evosuite-tests/org/petsoar/actions/cart/AddPetToShoppingCart_ESTest.java
+@@ -28,25 +28,27 @@
+     simpleShoppingCart0 = new SimpleShoppingCart();
+       addPetToShoppingCart0.shoppingCart = (ShoppingCart) simpleShoppingCart0;
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        addPetToShoppingCart0 = new AddPetToShoppingCart();
++        simpleShoppingCart0 = new SimpleShoppingCart();
++        addPetToShoppingCart0.shoppingCart = simpleShoppingCart0;
++        addPetToShoppingCart0.setPetId(1L);
+ 
++        // Provide a minimal PetStore implementation that returns a non‑null Pet.
++        PetStore stubStore = new PetStore() {
++            @Override
++            public Pet getPet(Long id) {
++                return new Pet();
++            }
++        };
++        addPetToShoppingCart0.setPetStore(stubStore);
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    addPetToShoppingCart0 = new AddPetToShoppingCart();
+-    simpleShoppingCart0 = new SimpleShoppingCart();
+-      addPetToShoppingCart0.shoppingCart = (ShoppingCart) simpleShoppingCart0;
+-      addPetToShoppingCart0.setPetId(2195L);
+-      try { 
+-        addPetToShoppingCart0.execute();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.petsoar.actions.cart.AddPetToShoppingCart", e);
+-      }
+-  }
++        // Execute the action and verify it completes without throwing.
++        String result = addPetToShoppingCart0.execute();
++        assertNotNull("execute() should return a non‑null result", result);
++    }
++
+ @Test(timeout = 4000)
+   public void test1() throws Throwable {
+       String result = addPetToShoppingCart0.execute();

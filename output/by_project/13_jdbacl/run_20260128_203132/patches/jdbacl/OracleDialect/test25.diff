@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
+@@ -333,17 +333,26 @@
+       String string0 = oracleDialect0.renderCreateSequence(dBSequence0);
+       assertEquals("CREATE SEQUENCE \"\"", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      DBSequence dBSequence0 = new DBSequence("Imported trigger: {}", "o7f$|rnDh", "$w]5b|5-TmYS3s:/$l");
+-      ValueBoolean valueBoolean0 = ValueBoolean.get(false);
+-      Boolean boolean0 = valueBoolean0.getBoolean();
+-      dBSequence0.setOrder(boolean0);
+-      String string0 = oracleDialect0.renderCreateSequence(dBSequence0);
+-      assertEquals("CREATE SEQUENCE \"$w]5b|5-TmYS3s:/$l\".\"Imported trigger: {}\"NOORDER", string0);
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        DBSequence dBSequence0 = new DBSequence("Imported trigger: {}", "o7f$|rnDh", "$w]5b|5-TmYS3s:/$l");
++        ValueBoolean valueBoolean0 = ValueBoolean.get(false);
++        Boolean boolean0 = valueBoolean0.getBoolean();
++
++        // Observe the initial order state (expected to be null before setting)
++        Boolean beforeOrder = dBSequence0.getOrder();
++
++        dBSequence0.setOrder(boolean0);
++
++        // Verify that the order flag was correctly updated
++        assertEquals(boolean0, dBSequence0.getOrder());
++
++        // Ensure that the renderCreateSequence reflects the order setting
++        String string0 = oracleDialect0.renderCreateSequence(dBSequence0);
++        assertEquals("CREATE SEQUENCE \"$w]5b|5-TmYS3s:/$l\".\"Imported trigger: {}\"NOORDER", string0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

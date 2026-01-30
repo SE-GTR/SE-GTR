@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/SerialVersionUIDAdder_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/SerialVersionUIDAdder_ESTest.java
+@@ -84,18 +84,22 @@
+     assertNotNull(bytes);
+     assertTrue(bytes.length > 0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      ClassWriter classWriter0 = new ClassWriter((-2));
+-      SerialVersionUIDAdder serialVersionUIDAdder0 = new SerialVersionUIDAdder(classWriter0);
+-      String[] stringArray0 = new String[2];
+-      stringArray0[0] = "java/lang/Throwable";
+-      stringArray0[1] = "java/lang/Throwable";
+-      serialVersionUIDAdder0.visit((-1994894525), 3470, "o&/D4>", "java/lang/Throwable", "()V", stringArray0);
+-      serialVersionUIDAdder0.visitInnerClass("RuntimeInvisibleParameterAnnotations", "RuntimeInvisibleParameterAnnotations", "java/lang/Throwable", 83);
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    ClassWriter classWriter0 = new ClassWriter((-2));
++    SerialVersionUIDAdder serialVersionUIDAdder0 = new SerialVersionUIDAdder(classWriter0);
++    String[] stringArray0 = new String[2];
++    stringArray0[0] = "java/lang/Throwable";
++    stringArray0[1] = "java/lang/Throwable";
++    byte[] before = classWriter0.toByteArray();
++    serialVersionUIDAdder0.visit((-1994894525), 3470, "o&/D4>", "java/lang/Throwable", "()V", stringArray0);
++    byte[] afterVisit = classWriter0.toByteArray();
++    assertTrue("ClassWriter should contain data after visit", afterVisit.length > before.length);
++    serialVersionUIDAdder0.visitInnerClass("RuntimeInvisibleParameterAnnotations", "RuntimeInvisibleParameterAnnotations", "java/lang/Throwable", 83);
++    byte[] afterInner = classWriter0.toByteArray();
++    assertTrue("ClassWriter should not shrink after visitInnerClass", afterInner.length >= afterVisit.length);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

@@ -1,0 +1,43 @@
+--- a/evosuite-tests/umd/cs/shop/JSEvaluate_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSEvaluate_ESTest.java
+@@ -287,26 +287,22 @@
+     assertEquals(2, jSTerm1.size());
+     assertEquals("[1.0]", jSTerm0.toString());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      JSTerm jSTerm0 = JSEvaluate.div((-969.72064F), (-969.72064F));
+-      JSTerm jSTerm1 = JSEvaluate.applyOperator(".", jSTerm0, jSTerm0);
+-      jSTerm1.add((Object) ".");
+-      jSTerm1.add((Object) jSTerm1);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test29() throws Throwable {
++    JSTerm jSTerm0 = JSEvaluate.div((-969.72064F), (-969.72064F));
++    JSTerm jSTerm1 = JSEvaluate.applyOperator(".", jSTerm0, jSTerm0);
++    boolean addedDot = jSTerm1.add((Object) ".");
++    assertTrue(addedDot);
++    boolean addedSelf = jSTerm1.add((Object) jSTerm1);
++    assertTrue(addedSelf);
++    try {
+         JSEvaluate.member(jSTerm1, jSTerm1);
+         fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // 2 >= 2
+-         //
+-         verifyException("java.util.Vector", e);
+-      }
+-  }
++    } catch (ArrayIndexOutOfBoundsException e) {
++        verifyException("java.util.Vector", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

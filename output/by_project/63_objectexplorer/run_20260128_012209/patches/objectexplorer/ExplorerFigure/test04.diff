@@ -1,0 +1,35 @@
+--- a/evosuite-tests/de/paragon/explorer/figure/ExplorerFigure_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/figure/ExplorerFigure_ESTest.java
+@@ -76,16 +76,23 @@
+       Figure figure0 = explorerFigure0.getListBoxFigureForPoint(point0);
+       assertNull(figure0);
+   }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        explorerFigure0 = new ExplorerFigure();
++        // Initially the panel should be null
++        assertNull("Panel should be null before setting", explorerFigure0.getPanel());
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-    explorerFigure0 = new ExplorerFigure();
+-    filledRectangleFigure0 = new FilledRectangleFigure((-1), (-1), (-1), (-1));
+-      explorerFigure0.add(filledRectangleFigure0);
+-      ExplorerDrawingPanel explorerDrawingPanel0 = new ExplorerDrawingPanel();
+-      explorerFigure0.setPanel(explorerDrawingPanel0);
+-      explorerFigure0.repaint();
+-  }
++        filledRectangleFigure0 = new FilledRectangleFigure(-1, -1, -1, -1);
++        explorerFigure0.add(filledRectangleFigure0);
++
++        ExplorerDrawingPanel explorerDrawingPanel0 = new ExplorerDrawingPanel();
++        explorerFigure0.setPanel(explorerDrawingPanel0);
++        // Verify that setPanel correctly updates the internal panel reference
++        assertSame("Panel should be set to the provided instance", explorerDrawingPanel0, explorerFigure0.getPanel());
++
++        explorerFigure0.repaint();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

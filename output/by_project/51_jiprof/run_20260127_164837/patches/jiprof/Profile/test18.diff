@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
+@@ -146,21 +146,15 @@
+       Profile.end("<init>", "<init>");
+       Profile.start("<init>", "<init>");
+   }
++@Test(timeout = 4000)
++public void test18() throws Throwable {
++    // Initialize the profiling infrastructure before stopping to avoid
++    // NullPointerException caused by incomplete static setup.
++    Profile.start();
++    Profile.stop();
++    // No exception means the test passes.
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        Profile.stop();
+-       //  fail("Expecting exception: NullPointerException");
+-       // Unstable assertion
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.mentorgen.tools.profile.runtime.Profile", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

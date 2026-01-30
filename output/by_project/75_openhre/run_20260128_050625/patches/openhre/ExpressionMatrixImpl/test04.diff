@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/regular/ExpressionMatrixImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/regular/ExpressionMatrixImpl_ESTest.java
+@@ -77,18 +77,22 @@
+         String string0 = expressionMatrixImpl0.outNoStandardConnections(true, (ExpressionElementMapper) null);
+         assertEquals("", string0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      ExpressionMatrixImpl expressionMatrixImpl0 = new ExpressionMatrixImpl();
+-      expressionMatrixImpl0.addNewNode();
+-      expressionMatrixImpl0.creatMatrix(256);
+-      expressionMatrixImpl0.addNewNode();
+-      expressionMatrixImpl0.setValue(1, 189, 1);
+-      expressionMatrixImpl0.outNoStandardConnections(false, (ExpressionElementMapper) null);
+-      assertEquals(256, expressionMatrixImpl0.getNumberOfElements());
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        ExpressionMatrixImpl expressionMatrixImpl0 = new ExpressionMatrixImpl();
++        int firstNode = expressionMatrixImpl0.addNewNode();
++        assertTrue(firstNode >= 0);
++        expressionMatrixImpl0.creatMatrix(256);
++        assertEquals(256, expressionMatrixImpl0.getNumberOfElements());
++        int secondNode = expressionMatrixImpl0.addNewNode();
++        assertTrue(secondNode > firstNode);
++        expressionMatrixImpl0.setValue(1, 189, 1);
++        // Verify that setValue does not alter the number of elements
++        assertEquals(256, expressionMatrixImpl0.getNumberOfElements());
++        String out = expressionMatrixImpl0.outNoStandardConnections(false, (ExpressionElementMapper) null);
++        assertNotNull(out);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

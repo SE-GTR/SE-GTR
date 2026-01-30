@@ -1,0 +1,38 @@
+--- a/evosuite-tests/jigl/gui/JImageCanvas_ESTest.java
++++ b/evosuite-tests/jigl/gui/JImageCanvas_ESTest.java
+@@ -376,23 +376,18 @@
+         // Exercise a non‑trivial method to avoid an accessor‑only test
+         assertNotNull(canvas.getPreferredSize());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test31()  throws Throwable  {
+-      JImageCanvas jImageCanvas0 = new JImageCanvas();
+-      // Undeclared exception!
+-      try { 
+-        jImageCanvas0.setVisible(false);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.gui.JImageCanvas", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test31() throws Throwable {
++        JImageCanvas canvas = new JImageCanvas();
++        // Provide a minimal valid image to avoid NPE during painting
++        jigl.image.types.GrayImage img = new jigl.image.types.GrayImage(1, 1);
++        canvas.setImage(img);
++        // Exercise the method under test
++        canvas.setVisible(false);
++        // Verify the expected state
++        assertFalse(canvas.isVisible());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test32()  throws Throwable  {

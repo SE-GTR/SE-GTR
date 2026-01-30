@@ -1,0 +1,39 @@
+--- a/evosuite-tests/net/sf/xbus/technical/ReceiverSingle_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/technical/ReceiverSingle_ESTest.java
+@@ -25,23 +25,21 @@
+     receiverSingle0 = new ReceiverSingle();
+     vector0 = new Vector<String>();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      vector0.add("$");
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    boolean added = vector0.add("$");
++    assertTrue(added);
++    try {
+         receiverSingle0.start(vector0);
+         fail("Expecting exception: System.SystemExitException");
+-      
+-      } catch(System.SystemExitException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.System", e);
+-      }
+-  }
++    } catch (System.SystemExitException e) {
++        //
++        // no message in exception (getMessage() returned null)
++        //
++        verifyException("org.evosuite.runtime.System", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

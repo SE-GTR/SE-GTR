@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
+@@ -401,15 +401,17 @@
+       nonBlockingClientHandler0.sendSystemMsg("c`", false);
+       assertEquals("<ClientHandler-Pool#-2468-ID:1>", nonBlockingClientHandler0.getName());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test36()  throws Throwable  {
+-      NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      MockSocket mockSocket0 = new MockSocket();
+-      nonBlockingClientHandler0.setSocket(mockSocket0);
+-      boolean boolean0 = nonBlockingClientHandler0.isClosed();
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test36() throws Throwable {
++        NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
++        MockSocket mockSocket0 = new MockSocket();
++        nonBlockingClientHandler0.setSocket(mockSocket0);
++        // Verify that the socket was correctly set
++        assertSame(mockSocket0, nonBlockingClientHandler0.getSocket());
++        // Verify that the handler is not considered closed after setting the socket
++        assertFalse(nonBlockingClientHandler0.isClosed());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test37()  throws Throwable  {

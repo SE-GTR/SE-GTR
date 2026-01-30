@@ -1,0 +1,34 @@
+--- a/evosuite-tests/Newzgrabber/Base64Decoder_ESTest.java
++++ b/evosuite-tests/Newzgrabber/Base64Decoder_ESTest.java
+@@ -32,17 +32,19 @@
+     // Verify that the input stream has been fully consumed
+     assertEquals(0, pipedInputStream0.available());
+ }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    byte[] byteArray0 = new byte[7];
++    ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
++    BufferedCustomInputStream bufferedCustomInputStream0 = new BufferedCustomInputStream(byteArrayInputStream0);
++    MockFileOutputStream mockFileOutputStream0 = new MockFileOutputStream("The following are the lines from the base64 decode", true);
++    Base64Decoder base64Decoder0 = new Base64Decoder(bufferedCustomInputStream0, mockFileOutputStream0);
++    Newzgrabber.verbose = true;
++    base64Decoder0.decodeStream();
++    // Verify that decoding aborts on empty/invalid input
++    assertTrue(base64Decoder0.ABORT);
++    // Ensure no data was written to the output stream
++    assertEquals("", mockFileOutputStream0.toString());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      byte[] byteArray0 = new byte[7];
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      BufferedCustomInputStream bufferedCustomInputStream0 = new BufferedCustomInputStream(byteArrayInputStream0);
+-      MockFileOutputStream mockFileOutputStream0 = new MockFileOutputStream("The following are the lines from the base64 decode", true);
+-      Base64Decoder base64Decoder0 = new Base64Decoder(bufferedCustomInputStream0, mockFileOutputStream0);
+-      Newzgrabber.verbose = true;
+-      base64Decoder0.decodeStream();
+-      assertFalse(base64Decoder0.ABORT);
+-  }
+ }

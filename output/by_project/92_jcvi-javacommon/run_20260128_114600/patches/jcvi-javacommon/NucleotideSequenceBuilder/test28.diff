@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/residue/nt/NucleotideSequenceBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/residue/nt/NucleotideSequenceBuilder_ESTest.java
+@@ -368,22 +368,17 @@
+       assertEquals(1, nucleotideSequence0.getNumberOfGaps());
+       assertEquals(0, nucleotideSequenceBuilder0.getNumAmbiguities());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      NucleotideSequenceBuilder nucleotideSequenceBuilder0 = new NucleotideSequenceBuilder();
+-      // Undeclared exception!
+-      try { 
+-        nucleotideSequenceBuilder0.insert(46, (Nucleotide) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // base can not be null
+-         //
+-         verifyException("org.jcvi.jillion.core.residue.nt.NucleotideSequenceBuilder", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test28() throws Throwable {
++        NucleotideSequenceBuilder builder = new NucleotideSequenceBuilder();
++        // use a valid nucleotide instead of null
++        NucleotideSequenceBuilder result = builder.insert(0, Nucleotide.A);
++        assertSame(builder, result);
++        // verify that the inserted base is present in the built sequence
++        NucleotideSequence sequence = builder.build();
++        assertEquals(Nucleotide.A, sequence.get(0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test29()  throws Throwable  {

@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
+@@ -200,18 +200,28 @@
+         assertEquals(0, j2EEProcess1.getPid());
+         assertEquals(0, j2EEProcess1.getTelnetPort());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      J2EEProcess j2EEProcess0 = new J2EEProcess();
+-      J2EEProcess j2EEProcess1 = new J2EEProcess();
+-      assertTrue(j2EEProcess1.equals((Object)j2EEProcess0));
+-      
+-      j2EEProcess1.setStartTime("SAPControl-J2EE-STOPPING");
+-      boolean boolean0 = j2EEProcess1.equals(j2EEProcess0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        J2EEProcess j2EEProcess0 = new J2EEProcess();
++        J2EEProcess j2EEProcess1 = new J2EEProcess();
++        assertTrue(j2EEProcess1.equals((Object) j2EEProcess0));
++
++        // Verify initial state of startTime
++        assertNull(j2EEProcess1.getStartTime());
++        assertNull(j2EEProcess0.getStartTime());
++
++        // Act: change startTime on the second instance
++        j2EEProcess1.setStartTime("SAPControl-J2EE-STOPPING");
++
++        // Observe the side‑effect via the getter
++        assertEquals("SAPControl-J2EE-STOPPING", j2EEProcess1.getStartTime());
++        // Ensure the other instance is unchanged
++        assertNull(j2EEProcess0.getStartTime());
++
++        // Equality should now differ because of the modified field
++        assertFalse(j2EEProcess1.equals(j2EEProcess0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

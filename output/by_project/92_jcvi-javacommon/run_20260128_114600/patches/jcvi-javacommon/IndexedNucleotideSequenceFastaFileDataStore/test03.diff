@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/jcvi/jillion/fasta/nt/IndexedNucleotideSequenceFastaFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/fasta/nt/IndexedNucleotideSequenceFastaFileDataStore_ESTest.java
+@@ -75,23 +75,22 @@
+       NucleotideFastaRecord nucleotideFastaRecord0 = indexedNucleotideSequenceFastaFileDataStore_IndexedNucleotideSequenceFastaFileDataStore2_0.get("org.jcvi.jillion.fasta.nt.IndexedNucleotideSequenceFastaFileDataStore");
+       assertNull(nucleotideFastaRecord0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test03() throws Throwable {
+       MockFile mockFile0 = new MockFile(":6H@6v=/)R%VL'31", ", comment=");
+-      MockFile.createTempFile(", comment=", ":6H@6v=/)R%VL'31", (File) mockFile0);
+-      // Undeclared exception!
+-      try { 
+-        IndexedNucleotideSequenceFastaFileDataStore.create((File) mockFile0, (DataStoreFilter) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // filter can not be null
+-         //
+-         verifyException("org.jcvi.jillion.fasta.nt.IndexedNucleotideSequenceFastaFileDataStore", e);
+-      }
+-  }
++      File tempFile = MockFile.createTempFile(", comment=", ":6H@6v=/)R%VL'31", mockFile0);
++      assertNotNull(tempFile);
++      assertTrue(tempFile.getName().startsWith(", comment="));
++      assertTrue(tempFile.getName().endsWith(":6H@6v=/)R%VL'31"));
++      try {
++          IndexedNucleotideSequenceFastaFileDataStore.create(mockFile0, null);
++          fail("Expecting exception: NullPointerException");
++      } catch (NullPointerException e) {
++          // filter can not be null
++          verifyException("org.jcvi.jillion.fasta.nt.IndexedNucleotideSequenceFastaFileDataStore", e);
++      }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

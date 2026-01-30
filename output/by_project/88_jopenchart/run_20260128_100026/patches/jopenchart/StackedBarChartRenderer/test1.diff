@@ -1,0 +1,32 @@
+--- a/evosuite-tests/de/progra/charting/render/StackedBarChartRenderer_ESTest.java
++++ b/evosuite-tests/de/progra/charting/render/StackedBarChartRenderer_ESTest.java
+@@ -42,16 +42,20 @@
+          verifyException("de.progra.charting.render.StackedBarChartRenderer", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        ObjectChartDataModel objectChartDataModel0 = new ObjectChartDataModel();
++        CoordSystem coordSystem0 = new CoordSystem(objectChartDataModel0);
++        StackedBarChartRenderer stackedBarChartRenderer0 = new StackedBarChartRenderer(coordSystem0, objectChartDataModel0);
++        AffineTransform affineTransform0 = AffineTransform.getQuadrantRotateInstance(20);
++        coordSystem0.setTransform(affineTransform0, 0);
++        // Verify that the transform was correctly stored in the coordinate system
++        assertSame(affineTransform0, coordSystem0.getTransform(0));
++        stackedBarChartRenderer0.renderChart((Graphics2D) null);
++        // Verify that the renderer still references the original data model after rendering
++        assertSame(objectChartDataModel0, stackedBarChartRenderer0.getChartDataModel());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ObjectChartDataModel objectChartDataModel0 = new ObjectChartDataModel();
+-      CoordSystem coordSystem0 = new CoordSystem(objectChartDataModel0);
+-      StackedBarChartRenderer stackedBarChartRenderer0 = new StackedBarChartRenderer(coordSystem0, objectChartDataModel0);
+-      AffineTransform affineTransform0 = AffineTransform.getQuadrantRotateInstance(20);
+-      coordSystem0.setTransform(affineTransform0, 0);
+-      stackedBarChartRenderer0.renderChart((Graphics2D) null);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

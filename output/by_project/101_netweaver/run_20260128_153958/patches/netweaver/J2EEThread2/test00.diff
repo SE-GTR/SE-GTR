@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
+@@ -19,15 +19,26 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class J2EEThread2_ESTest extends J2EEThread2_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      J2EEThread2 j2EEThread2_0 = new J2EEThread2();
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
++      J2EEThread2 j2EEThread2_0 = new J2EEThread2();
++      int hashBefore = j2EEThread2_0.hashCode();
++
+       STATECOLOR sTATECOLOR0 = STATECOLOR.value2;
+       j2EEThread2_0.setDispstatus(sTATECOLOR0);
+-      j2EEThread2_0.hashCode();
+-      assertEquals(0, j2EEThread2_0.getIndex());
+-  }
++
++      int hashAfter = j2EEThread2_0.hashCode();
++
++      // Verify that the dispstatus field was updated
++      assertEquals(sTATECOLOR0, j2EEThread2_0.getDispstatus());
++
++      // Verify that the hashCode reflects the state change
++      assertNotEquals(hashBefore, hashAfter);
++
++      // Existing assertion on index
++      assertEquals(0, j2EEThread2_0.getIndex());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

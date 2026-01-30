@@ -1,0 +1,33 @@
+--- a/evosuite-tests/net/sf/lavalamp/site/BuildProperties_ESTest.java
++++ b/evosuite-tests/net/sf/lavalamp/site/BuildProperties_ESTest.java
+@@ -37,15 +37,22 @@
+     BuildProperties buildProperties0 = new BuildProperties();
+     assertNull(buildProperties0.getBuild());
+ }
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
++      BuildProperties buildProperties0 = new BuildProperties();
++      // Verify initial state before mutation
++      assertNull(buildProperties0.getBuild());
++      // Side‑effect: set the build value
++      String expected = "A:X[GPL;`]_`ma";
++      buildProperties0.setBuild(expected);
++      // Observe the side‑effect directly via the getter
++      assertEquals(expected, buildProperties0.getBuild());
++      // Additional operation that should not alter the build value
++      buildProperties0.check();
++      // Ensure the value remains unchanged after check()
++      assertEquals(expected, buildProperties0.getBuild());
++  }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      BuildProperties buildProperties0 = new BuildProperties();
+-      buildProperties0.setBuild("A:X[GPL;`]_`ma");
+-      buildProperties0.check();
+-      assertEquals("A:X[GPL;`]_`ma", buildProperties0.getBuild());
+-  }
+ @Test(timeout = 4000)
+   public void test3() throws Throwable {
+       BuildProperties original = new BuildProperties();

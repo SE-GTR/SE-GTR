@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
+@@ -175,13 +175,15 @@
+       String string0 = oracleDialect0.regexQuery("", false, "");
+       assertEquals("REGEXP_LIKE(, '')", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      boolean boolean0 = oracleDialect0.isDeterministicIndexName("yyyy-MM-dd HH:mm:ss.SSSSSSSSS");
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        // Verify deterministic index name detection for a matching pattern
++        assertTrue(oracleDialect0.isDeterministicIndexName("yyyy-MM-dd HH:mm:ss.SSSSSSSSS"));
++        // Verify that a non‑matching pattern is correctly identified as non‑deterministic
++        assertFalse(oracleDialect0.isDeterministicIndexName("non-deterministic"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

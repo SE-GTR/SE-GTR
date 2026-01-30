@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
+@@ -94,19 +94,30 @@
+     assertEquals(0, iCMConnection0.getKeepaliveTimeout());
+     assertEquals(0, iCMConnection0.getProcTimeout());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      ICMConnection iCMConnection0 = new ICMConnection();
+-      iCMConnection0.setProtocol("");
+-      iCMConnection0.hashCode();
+-      assertEquals(0, iCMConnection0.getNihdl());
+-      assertEquals(0, iCMConnection0.getLocalPort());
+-      assertEquals(0, iCMConnection0.getProcTimeout());
+-      assertEquals(0, iCMConnection0.getKeepaliveTimeout());
+-      assertEquals(0, iCMConnection0.getPeerPort());
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    ICMConnection iCMConnection0 = new ICMConnection();
++
++    // capture initial hash code
++    int hashBefore = iCMConnection0.hashCode();
++
++    // set a distinct protocol value and verify the side‑effect
++    String protocol = "test-protocol";
++    iCMConnection0.setProtocol(protocol);
++    assertEquals(protocol, iCMConnection0.getProtocol());
++
++    // assert that hashCode is stable (return value is observed)
++    int hashAfter = iCMConnection0.hashCode();
++    assertEquals(hashAfter, iCMConnection0.hashCode());
++
++    // other default fields remain unchanged
++    assertEquals(0, iCMConnection0.getNihdl());
++    assertEquals(0, iCMConnection0.getLocalPort());
++    assertEquals(0, iCMConnection0.getProcTimeout());
++    assertEquals(0, iCMConnection0.getKeepaliveTimeout());
++    assertEquals(0, iCMConnection0.getPeerPort());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/imsmart/main/MImageMigrator_ESTest.java
++++ b/evosuite-tests/com/imsmart/main/MImageMigrator_ESTest.java
+@@ -31,18 +31,24 @@
+       assertEquals(daemonBefore, mImageMigrator0.isDaemon());
+       assertEquals(stateBefore, mImageMigrator0.getState());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
+       MockFile mockFile0 = new MockFile("");
+       EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("migrated");
+       FileSystemHandling.appendLineToFile(evoSuiteFile0, "");
+       MImageMigrator.setDirectoryToMigrate(mockFile0);
+-      MImageMigrator mImageMigrator0 = new MImageMigrator("+wEB0P[] yD_");
++      String threadName = "+wEB0P[] yD_";
++      MImageMigrator mImageMigrator0 = new MImageMigrator(threadName);
++      // Verify that the thread was created with the expected name
++      assertEquals(threadName, mImageMigrator0.getName());
++      // Run the migrator logic
+       mImageMigrator0.run();
++      // The thread should not be interrupted after execution
+       assertFalse(mImageMigrator0.isInterrupted());
++      // Since run was invoked directly (not started), the thread should not be alive
++      assertFalse(mImageMigrator0.isAlive());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

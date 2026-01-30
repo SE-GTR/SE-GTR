@@ -1,0 +1,37 @@
+--- a/evosuite-tests/framework/util/PropertyUtils_ESTest.java
++++ b/evosuite-tests/framework/util/PropertyUtils_ESTest.java
+@@ -302,21 +302,19 @@
+          verifyException("framework.util.PropertyUtils", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test40()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        PropertyUtils.getIndexedProperty((Object) "bytes", "bytes", 1573);
+-        fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.lang.reflect.Array", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test40() throws Throwable {
++        byte[] data = new byte[] { (byte) 5, (byte) 10, (byte) 15 };
++        class ByteBean {
++            private final byte[] bytes;
++            ByteBean(byte[] bytes) { this.bytes = bytes; }
++            public byte[] getBytes() { return bytes; }
++        }
++        ByteBean bean = new ByteBean(data);
++        Object value = PropertyUtils.getIndexedProperty(bean, "bytes", 2);
++        assertEquals(Byte.valueOf((byte) 15), value);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test41()  throws Throwable  {

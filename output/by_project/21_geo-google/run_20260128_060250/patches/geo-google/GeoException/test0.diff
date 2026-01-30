@@ -1,0 +1,24 @@
+--- a/evosuite-tests/geo/google/GeoException_ESTest.java
++++ b/evosuite-tests/geo/google/GeoException_ESTest.java
+@@ -15,14 +15,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class GeoException_ESTest extends GeoException_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       GeoStatusCode geoStatusCode0 = GeoStatusCode.G_GEO_TOO_MANY_QUERIES;
+       GeoException geoException0 = new GeoException("", geoStatusCode0);
+       GeoException geoException1 = new GeoException("", geoException0);
+-      assertFalse(geoException1.equals((Object)geoException0));
++      // Verify that the cause of geoException1 is the previously created exception
++      assertSame(geoException0, geoException1.getCause());
++      // Verify that the first exception has no cause
++      assertNull(geoException0.getCause());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

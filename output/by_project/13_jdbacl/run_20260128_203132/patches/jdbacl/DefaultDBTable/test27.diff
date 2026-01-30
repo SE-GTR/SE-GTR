@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DefaultDBTable_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DefaultDBTable_ESTest.java
+@@ -364,23 +364,13 @@
+          verifyException("org.databene.commons.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
+-      String string0 = "8'4% ";
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable("8'4% ");
+-      DefaultDBTable defaultDBTable1 = new DefaultDBTable();
+-      defaultDBTable1.addReferrer(defaultDBTable0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test27() throws Throwable {
++        String string0 = "8'4% ";
++        DefaultDBTable defaultDBTable0 = new DefaultDBTable("8'4% ");
++        DefaultDBTable defaultDBTable1 = new DefaultDBTable();
++        defaultDBTable1.addReferrer(defaultDBTable0);
+         defaultDBTable1.queryPKs((Connection) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.QueryIterator", e);
+-      }
+-  }
++    }
++
+ }

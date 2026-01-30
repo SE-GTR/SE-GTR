@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/ApplicationConfiguration_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/ApplicationConfiguration_ESTest.java
+@@ -31,18 +31,22 @@
+       String string0 = applicationConfiguration0.toXML((String) null);
+       assertEquals("<application-configuration>\n\t<prompt-type>gui</prompt-type></application-configuration>\n", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
++      int beforeSize = applicationConfiguration0.size();
+       property0.setName("");
+       property0.setValue("M0NbS^0{daGj1;y");
+       applicationConfiguration0.addProperty(property0);
++      // verify that the property was added to the underlying map
++      assertEquals(beforeSize + 1, applicationConfiguration0.size());
++      assertTrue(applicationConfiguration0.containsKey(""));
+       Property property1 = applicationConfiguration0.findProperty("");
++      assertNotNull(property1);
++      assertEquals("", property1.getName());
+       assertEquals("M0NbS^0{daGj1;y", property1.getValue());
+       assertEquals("gui", applicationConfiguration0.getPromptType());
+-      assertNotNull(property1);
+-      assertEquals("", property1.getName());
+   }
++
+ @Test(timeout = 4000)
+   public void test2() throws Throwable {
+     applicationConfiguration0 = new ApplicationConfiguration();

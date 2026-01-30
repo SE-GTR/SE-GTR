@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/PooledBlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/PooledBlockingClient_ESTest.java
+@@ -178,20 +178,22 @@
+     // simple assertion to ensure the test validates behavior
+     assertNotNull(queue);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      BlockingClient blockingClient0 = new BlockingClient();
+-      PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      doReturn(blockingClient0).when(poolableBlockingClient0).createBlockingClient(any(org.quickserver.net.client.SocketBasedHost.class));
+-      SocketBasedHost socketBasedHost0 = new SocketBasedHost();
+-      PooledBlockingClient pooledBlockingClient0 = new PooledBlockingClient(poolableBlockingClient0, socketBasedHost0);
+-      assertEquals((-1L), pooledBlockingClient0.getHandedOutSince());
+-      
+-      pooledBlockingClient0.setHandedOutSince(0L);
+-      assertFalse(pooledBlockingClient0.isHandedOut());
+-  }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    BlockingClient blockingClient0 = new BlockingClient();
++    PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
++    doReturn(blockingClient0).when(poolableBlockingClient0).createBlockingClient(any(org.quickserver.net.client.SocketBasedHost.class));
++    // Verify that the stubbed method returns the expected client
++    assertSame(blockingClient0, poolableBlockingClient0.createBlockingClient(new SocketBasedHost()));
++    SocketBasedHost socketBasedHost0 = new SocketBasedHost();
++    PooledBlockingClient pooledBlockingClient0 = new PooledBlockingClient(poolableBlockingClient0, socketBasedHost0);
++    assertEquals((-1L), pooledBlockingClient0.getHandedOutSince());
++
++    pooledBlockingClient0.setHandedOutSince(0L);
++    assertEquals(0L, pooledBlockingClient0.getHandedOutSince());
++    assertFalse(pooledBlockingClient0.isHandedOut());
++}
++
+ @Test(timeout = 4000)
+ public void test13() throws Throwable {
+     BlockingClient blockingClient0 = new BlockingClient();

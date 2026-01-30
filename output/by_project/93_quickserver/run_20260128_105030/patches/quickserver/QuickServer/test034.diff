@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -439,14 +439,20 @@
+       quickServer0.setLoggingLevel(level0);
+       assertEquals("FINER", quickServer0.getConsoleLoggingLevel());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test034()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer();
+-      Level level0 = Level.OFF;
+-      quickServer0.setLoggingLevel(level0);
+-      assertEquals("OFF", quickServer0.getConsoleLoggingLevel());
+-  }
++@Test(timeout = 4000)
++    public void test034() throws Throwable {
++        QuickServer quickServer0 = new QuickServer();
++        // Capture the initial logging level (if any) to ensure the setter changes it
++        Level initialLevel = quickServer0.getLoggingLevel();
++        Level level0 = Level.OFF;
++        quickServer0.setLoggingLevel(level0);
++        // Verify that both the console logging level string and the actual Level were updated
++        assertEquals("OFF", quickServer0.getConsoleLoggingLevel());
++        assertEquals(Level.OFF, quickServer0.getLoggingLevel());
++        // Ensure the level really changed from its previous state
++        assertNotEquals(initialLevel, quickServer0.getLoggingLevel());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test035()  throws Throwable  {

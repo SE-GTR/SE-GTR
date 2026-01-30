@@ -1,0 +1,31 @@
+--- a/evosuite-tests/net/sf/lavalamp/site/SiteProperties_ESTest.java
++++ b/evosuite-tests/net/sf/lavalamp/site/SiteProperties_ESTest.java
+@@ -54,11 +54,22 @@
+       siteProperties0.setUrl("");
+       assertEquals("net.sf.lavalamp.site.UrlGetter", siteProperties0.getGetterClass());
+   }
++@Test(timeout = 4000)
++public void test6() throws Throwable {
++    SiteProperties original = new SiteProperties();
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      SiteProperties siteProperties0 = new SiteProperties();
+-      String string0 = siteProperties0.getGetterClass();
+-      assertEquals("net.sf.lavalamp.site.UrlGetter", string0);
+-  }
++    // Act: serialize and then deserialize the object
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(original);
++    oos.flush();
++
++    java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++    SiteProperties deserialized = (SiteProperties) ois.readObject();
++
++    // Assert that the deserialized instance preserves the getterClass value
++    assertEquals(original.getGetterClass(), deserialized.getGetterClass());
+ }
++
++}

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
+@@ -86,25 +86,14 @@
+         Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+         parser0.parse("\"?X\"{8w", "Y(RE,mDmD.%mQf", -1752);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = RuntimeException.class)
++    public void test08() throws Throwable {
++        DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+         parser0.parse(";/?:@&=+$,#", ";/?:@&=+$,#", 67);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // unterminated regular expression literal (;/?:@&=+$,##67)
+-         //
+-         verifyException("org.mozilla.javascript.DefaultErrorReporter", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

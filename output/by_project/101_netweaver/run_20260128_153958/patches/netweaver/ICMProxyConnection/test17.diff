@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -289,21 +289,26 @@
+       iCMProxyConnection2.setFailoverStatus("5EiJ|irj");
+       assertTrue(iCMProxyConnection0.equals(iCMProxyConnection2));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+-      Integer integer0 = new Integer(745);
+-      iCMProxyConnection0.setSncContextLength(integer0);
+-      ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
+-      assertFalse(iCMProxyConnection1.equals((Object)iCMProxyConnection0));
+-      
+-      iCMProxyConnection1.setSncContextLength(integer0);
+-      boolean boolean0 = iCMProxyConnection0.equals(iCMProxyConnection1);
+-      assertTrue(iCMProxyConnection1.equals((Object)iCMProxyConnection0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test17() throws Throwable {
++    ICMProxyConnection conn0 = new ICMProxyConnection();
++    Integer length = Integer.valueOf(745);
++    // initial state should have no SNC context length
++    assertNull(conn0.getSncContextLength());
++    conn0.setSncContextLength(length);
++    assertEquals(length, conn0.getSncContextLength());
++
++    ICMProxyConnection conn1 = new ICMProxyConnection();
++    assertNull(conn1.getSncContextLength());
++    assertFalse(conn1.equals((Object) conn0));
++
++    conn1.setSncContextLength(length);
++    assertEquals(length, conn1.getSncContextLength());
++
++    assertTrue(conn0.equals(conn1));
++    assertTrue(conn1.equals((Object) conn0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

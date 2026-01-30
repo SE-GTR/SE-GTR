@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/databene/jdbacl/identity/NKBuilder_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/identity/NKBuilder_ESTest.java
+@@ -14,14 +14,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class NKBuilder_ESTest extends NKBuilder_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        NKBuilder nKBuilder0 = new NKBuilder();
++        Object object0 = new Object();
++        String beforeFirst = nKBuilder0.toString();
++        nKBuilder0.addComponent(object0);
++        String afterFirst = nKBuilder0.toString();
++        assertNotEquals("Adding a non‑null component should modify the builder state", beforeFirst, afterFirst);
++        String beforeSecond = afterFirst;
++        nKBuilder0.addComponent((Object) null);
++        String afterSecond = nKBuilder0.toString();
++        assertEquals("Adding a null component should not modify the builder state", beforeSecond, afterSecond);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      NKBuilder nKBuilder0 = new NKBuilder();
+-      Object object0 = new Object();
+-      nKBuilder0.addComponent(object0);
+-      nKBuilder0.addComponent((Object) null);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

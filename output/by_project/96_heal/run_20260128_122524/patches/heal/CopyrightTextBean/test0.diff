@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/module/metadata/CopyrightTextBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/CopyrightTextBean_ESTest.java
+@@ -14,13 +14,27 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class CopyrightTextBean_ESTest extends CopyrightTextBean_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    CopyrightTextBean bean = new CopyrightTextBean();
++    String cost = "`kg\"$g+,]vA'y1zgQ#/";
++    bean.setCost(cost);
++    assertEquals(cost, bean.getCost());
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      CopyrightTextBean copyrightTextBean0 = new CopyrightTextBean();
+-      copyrightTextBean0.setCost("`kg\"$g+,]vA'y1zgQ#/");
+-      assertEquals("`kg\"$g+,]vA'y1zgQ#/", copyrightTextBean0.getCost());
+-  }
++    // Verify that the object's state survives serialization/deserialization
++    java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(bos);
++    out.writeObject(bean);
++    out.flush();
++    byte[] data = bos.toByteArray();
++
++    java.io.ObjectInputStream in = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++    Object deserializedObj = in.readObject();
++    assertTrue(deserializedObj instanceof CopyrightTextBean);
++    CopyrightTextBean deserialized = (CopyrightTextBean) deserializedObj;
++    assertEquals(cost, deserialized.getCost());
++}
++
+ @Test(timeout = 4000)
+     public void test1() throws Throwable {
+         CopyrightTextBean bean = new CopyrightTextBean();

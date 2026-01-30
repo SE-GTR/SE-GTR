@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jsecurity/mgt/DefaultSecurityManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/mgt/DefaultSecurityManager_ESTest.java
+@@ -147,18 +147,25 @@
+          verifyException("org.jsecurity.mgt.DefaultSecurityManager", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager();
+-      AllPermission allPermission0 = new AllPermission();
+-      BlowfishCipher blowfishCipher0 = new BlowfishCipher();
+-      WebRememberMeManager webRememberMeManager0 = new WebRememberMeManager();
+-      webRememberMeManager0.setCipher(blowfishCipher0);
+-      defaultSecurityManager0.setRememberMeManager(webRememberMeManager0);
+-      PrincipalCollection principalCollection0 = defaultSecurityManager0.getRememberedIdentity();
+-      assertNull(principalCollection0);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager();
++        BlowfishCipher blowfishCipher0 = new BlowfishCipher();
++        WebRememberMeManager webRememberMeManager0 = new WebRememberMeManager();
++
++        // Verify that setCipher correctly stores the cipher
++        webRememberMeManager0.setCipher(blowfishCipher0);
++        assertSame(blowfishCipher0, webRememberMeManager0.getCipher());
++
++        // Verify that setRememberMeManager correctly stores the manager
++        defaultSecurityManager0.setRememberMeManager(webRememberMeManager0);
++        assertSame(webRememberMeManager0, defaultSecurityManager0.getRememberMeManager());
++
++        // Original behavior check
++        PrincipalCollection principalCollection0 = defaultSecurityManager0.getRememberedIdentity();
++        assertNull(principalCollection0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

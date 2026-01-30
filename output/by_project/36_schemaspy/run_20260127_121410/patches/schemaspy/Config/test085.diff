@@ -1,0 +1,38 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -1234,23 +1234,18 @@
+       assertEquals("\"S>jA/\"", string0);
+       assertFalse(config0.hasRoutines());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test085()  throws Throwable  {
+-      Config config0 = new Config();
+-      config0.setMaxDbThreads((-3710));
+-      // Undeclared exception!
+-      try { 
+-        config0.getRemainingParameters();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // org.evosuite.runtime.mock.java.lang.MockThrowable: Required parameter '-o' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test085() throws Throwable {
++        Config config0 = new Config();
++        // Provide the required '-o' parameter to avoid the RuntimeException
++        config0.setOutputDir(new java.io.File(System.getProperty("java.io.tmpdir")));
++        // Use a sensible value for maxDbThreads
++        config0.setMaxDbThreads(1);
++        java.util.List<String> remaining = config0.getRemainingParameters();
++        // When only the required option is set, there should be no remaining parameters
++        org.junit.Assert.assertTrue(remaining.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test086()  throws Throwable  {

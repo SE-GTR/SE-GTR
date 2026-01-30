@@ -1,0 +1,26 @@
+--- a/evosuite-tests/com/hf/sfm/util/BasePara_ESTest.java
++++ b/evosuite-tests/com/hf/sfm/util/BasePara_ESTest.java
+@@ -14,16 +14,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class BasePara_ESTest extends BasePara_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
+       BasePara basePara0 = new BasePara();
+       String[] stringArray0 = new String[7];
++      // Verify that the query parameters are stored after the call
+       basePara0.setQueryparams(stringArray0);
++      assertSame("The queryparams field should reference the array passed to setQueryparams",
++                 stringArray0, basePara0.getQueryparams());
++
+       String[][] stringArray1 = basePara0.single2plannar();
+       assertNull(stringArray1);
+       assertFalse(basePara0.isPaging());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

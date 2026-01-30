@@ -1,0 +1,35 @@
+--- a/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
++++ b/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
+@@ -142,14 +142,24 @@
+       assertEquals("z", geoUsAddress0.getState());
+       assertEquals("&EZlo+vpL/K@+", geoUsAddress0.getCountry());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      GeoUsAddress geoUsAddress0 = new GeoUsAddress();
+-      GeoCoordinate geoCoordinate0 = new GeoCoordinate();
+-      geoUsAddress0.setCoordinate(geoCoordinate0);
+-      assertEquals("", geoUsAddress0.getAddressLine1());
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    GeoUsAddress address = new GeoUsAddress();
++    GeoCoordinate coordinate = new GeoCoordinate();
++    address.setCoordinate(coordinate);
++    // Verify default address line remains empty
++    assertEquals("", address.getAddressLine1());
++    // The address with a coordinate should differ from a fresh instance
++    GeoUsAddress different = new GeoUsAddress();
++    assertNotEquals(address, different);
++    // Another instance with the same coordinate should be equal
++    GeoUsAddress same = new GeoUsAddress();
++    same.setCoordinate(coordinate);
++    assertEquals(address, same);
++    // Hash codes should also match for equal objects
++    assertEquals(address.hashCode(), same.hashCode());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

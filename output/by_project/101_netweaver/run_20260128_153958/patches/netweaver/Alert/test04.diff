@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/Alert_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/Alert_ESTest.java
+@@ -80,18 +80,22 @@
+       assertTrue(alert1.equals((Object) alert0));
+       assertTrue(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      Alert alert0 = new Alert();
+-      Alert alert1 = new Alert();
+-      assertTrue(alert1.equals((Object)alert0));
+-      
+-      alert0.setTid("Value");
+-      boolean boolean0 = alert1.equals(alert0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    Alert alert0 = new Alert();
++    Alert alert1 = new Alert();
++    assertTrue(alert1.equals((Object) alert0));
++
++    alert0.setTid("Value");
++    // Verify that setting tid makes alerts with the same tid equal
++    Alert alert2 = new Alert();
++    alert2.setTid("Value");
++    assertTrue(alert0.equals(alert2));
++
++    // Alerts with different tid should not be equal
++    assertFalse(alert1.equals(alert0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

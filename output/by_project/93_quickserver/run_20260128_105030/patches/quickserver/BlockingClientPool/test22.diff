@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
+@@ -339,15 +339,21 @@
+     boolean boolean0 = blockingClientPool0.isDebug();
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      BlockingClientPool blockingClientPool0 = new BlockingClientPool((String) null, (PoolableBlockingClient) null);
+-      blockingClientPool0.setName((String) null);
+-      assertFalse(blockingClientPool0.isDebug());
+-      assertEquals(0, blockingClientPool0.getLogPoolStatsTimeInMinute());
+-  }
++@Test(timeout = 4000)
++public void test22() throws Throwable {
++    BlockingClientPool blockingClientPool0 = new BlockingClientPool((String) null, (PoolableBlockingClient) null);
++    // initial state assertions
++    assertFalse(blockingClientPool0.isDebug());
++    assertEquals(0, blockingClientPool0.getLogPoolStatsTimeInMinute());
++
++    // exercise a state‑changing operation and verify its effect
++    blockingClientPool0.setDebug(true);
++    assertTrue(blockingClientPool0.isDebug());
++
++    // invoke setter for name (null) to keep original behavior
++    blockingClientPool0.setName((String) null);
++}
++
+ @Test(timeout = 4000)
+ public void test23() throws Throwable {
+     BlockingClientPool blockingClientPool0 = new BlockingClientPool("B}<{aD", (PoolableBlockingClient) null);

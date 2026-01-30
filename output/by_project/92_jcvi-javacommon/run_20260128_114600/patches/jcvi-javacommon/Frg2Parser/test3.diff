@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/ca/frg/Frg2Parser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/ca/frg/Frg2Parser_ESTest.java
+@@ -47,22 +47,17 @@
+       Frg2Parser.parse2((InputStream) byteArrayInputStream0, frg2Visitor0);
+       assertEquals(0, byteArrayInputStream0.available());
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    Frg2Visitor frg2Visitor0 = mock(Frg2Visitor.class, new ViolatedAssumptionAnswer());
++    File tempFile = File.createTempFile("frg2", ".txt");
++    tempFile.deleteOnExit();
++    try (java.io.FileWriter writer = new java.io.FileWriter(tempFile)) {
++        writer.write("{FRG}\n");
++    }
++    Frg2Parser.parse2(tempFile, frg2Visitor0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      Frg2Visitor frg2Visitor0 = mock(Frg2Visitor.class, new ViolatedAssumptionAnswer());
+-      // Undeclared exception!
+-      try { 
+-        Frg2Parser.parse2((File) null, frg2Visitor0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

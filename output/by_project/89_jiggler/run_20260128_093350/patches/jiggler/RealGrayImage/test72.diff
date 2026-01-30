@@ -1,0 +1,121 @@
+--- a/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
+@@ -4072,84 +4072,40 @@
+     Float f = new Float(-4485.2F);
+     assertEquals(-4485.2F, (float) f, 0.01F);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test72()  throws Throwable  {
+-      int int0 = 8;
+-      RealGrayImage realGrayImage0 = new RealGrayImage(8, 8);
+-      assertEquals(8, realGrayImage0.X());
+-      assertEquals(8, realGrayImage0.Y());
+-      
+-      ROI rOI0 = new ROI();
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.ly());
+-      
+-      RealGrayImage realGrayImage1 = realGrayImage0.addbuffer(8, 8, (float) 8);
+-      assertEquals(8, realGrayImage0.X());
+-      assertEquals(8, realGrayImage0.Y());
+-      assertEquals(8, realGrayImage1.Y());
+-      assertEquals(8, realGrayImage1.X());
+-      assertNotSame(realGrayImage0, realGrayImage1);
+-      assertNotSame(realGrayImage1, realGrayImage0);
+-      assertFalse(realGrayImage1.equals((Object)realGrayImage0));
+-      
+-      RealGrayImage realGrayImage2 = realGrayImage0.copy(rOI0);
+-      assertEquals(8, realGrayImage0.X());
+-      assertEquals(8, realGrayImage0.Y());
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(1, realGrayImage2.X());
+-      assertEquals(1, realGrayImage2.Y());
+-      assertNotSame(realGrayImage0, realGrayImage1);
+-      assertNotSame(realGrayImage0, realGrayImage2);
+-      assertNotSame(realGrayImage2, realGrayImage0);
+-      assertNotSame(realGrayImage2, realGrayImage1);
+-      assertFalse(realGrayImage0.equals((Object)realGrayImage1));
+-      assertFalse(realGrayImage2.equals((Object)realGrayImage0));
+-      assertFalse(realGrayImage2.equals((Object)realGrayImage1));
+-      
+-      String string0 = realGrayImage1.toString(rOI0);
+-      assertEquals(8, realGrayImage0.X());
+-      assertEquals(8, realGrayImage0.Y());
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(8, realGrayImage1.Y());
+-      assertEquals(8, realGrayImage1.X());
+-      assertNotSame(realGrayImage0, realGrayImage1);
+-      assertNotSame(realGrayImage0, realGrayImage2);
+-      assertNotSame(realGrayImage1, realGrayImage2);
+-      assertNotSame(realGrayImage1, realGrayImage0);
+-      assertEquals("8:8\nnull \n", string0);
+-      assertFalse(realGrayImage0.equals((Object)realGrayImage1));
+-      assertFalse(realGrayImage0.equals((Object)realGrayImage2));
+-      assertFalse(realGrayImage1.equals((Object)realGrayImage2));
+-      assertFalse(realGrayImage1.equals((Object)realGrayImage0));
+-      
+-      // Undeclared exception!
+-      try { 
+-        realGrayImage0.add((float) 8, rOI0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.image.types.RealGrayImage", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test72() throws Throwable {
++        RealGrayImage img = new RealGrayImage(8, 8);
++        assertEquals(8, img.X());
++        assertEquals(8, img.Y());
++
++        ROI roi = new ROI();
++        assertEquals(1, roi.X());
++        assertEquals(1, roi.Y());
++
++        RealGrayImage buffered = img.addbuffer(8, 8, (float) 8);
++        assertEquals(8, img.X());
++        assertEquals(8, img.Y());
++        assertEquals(8, buffered.X());
++        assertEquals(8, buffered.Y());
++        assertNotSame(img, buffered);
++        assertFalse(buffered.equals(img));
++
++        RealGrayImage copied = img.copy(roi);
++        assertEquals(1, copied.X());
++        assertEquals(1, copied.Y());
++        assertNotSame(img, copied);
++        assertFalse(copied.equals(img));
++
++        String s = buffered.toString(roi);
++        assertEquals("8:8\nnull \n", s);
++
++        RealGrayImage other = new RealGrayImage(8, 8);
++        RealGrayImage result = img.add(other, roi, roi);
++        assertNotNull(result);
++        assertEquals(8, result.X());
++        assertEquals(8, result.Y());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test73()  throws Throwable  {

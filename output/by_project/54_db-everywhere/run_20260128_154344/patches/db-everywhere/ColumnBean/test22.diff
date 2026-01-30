@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
+@@ -200,11 +200,19 @@
+     assertEquals(2, columnBean0.getDec());
+ }
+ @Test(timeout = 4000)
+-    public void test22() throws Throwable {
+-        ColumnBean columnBean0 = new ColumnBean();
+-        java.util.ArrayList<?> constraints = columnBean0.getConstraintList();
+-        assertNotNull(constraints);
+-    }
++public void test22() throws Throwable {
++    ColumnBean columnBean0 = new ColumnBean();
++
++    // Verify the constraint list is initialized (non‑null) and initially empty
++    java.util.List<?> constraints = columnBean0.getConstraintList();
++    assertNotNull(constraints);
++    assertTrue(constraints.isEmpty());
++
++    // Exercise a mutating operation and assert its effect
++    columnBean0.setLen(5);
++    assertEquals(5, columnBean0.getLen());
++}
++
+ @Test(timeout = 4000)
+     public void test23() throws Throwable {
+         ColumnBean columnBean0 = new ColumnBean();

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/profile/HaSMasterMETSProfileFactory_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/profile/HaSMasterMETSProfileFactory_ESTest.java
+@@ -68,21 +68,20 @@
+          verifyException("org.apache.xmlbeans.impl.xpath.saxon.XBeansXPath", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        // Create a minimal temporary zip file to pass a valid argument
++        File tempZip = File.createTempFile("test", ".zip");
++        tempZip.deleteOnExit();
++        try (java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(new java.io.FileOutputStream(tempZip))) {
++            // No entries needed for this minimal zip
++        }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        HaSMasterMETSProfileFactory.newInstance((File) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("edu.uiuc.ndiipp.hubandspoke.profile.HaSMasterMETSProfileFactory", e);
+-      }
+-  }
++        // Invoke the factory with a valid File and verify normal behavior
++        edu.uiuc.ndiipp.hubandspoke.profile.HaSMasterMETSProfile profile = HaSMasterMETSProfileFactory.newInstance(tempZip);
++        assertNotNull(profile);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

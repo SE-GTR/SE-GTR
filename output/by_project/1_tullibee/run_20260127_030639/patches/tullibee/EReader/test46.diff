@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/ib/client/EReader_ESTest.java
++++ b/evosuite-tests/com/ib/client/EReader_ESTest.java
+@@ -767,25 +767,15 @@
+          verifyException("java.io.DataInputStream", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test46()  throws Throwable  {
+-      byte[] byteArray0 = new byte[4];
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      DataInputStream dataInputStream0 = new DataInputStream(byteArrayInputStream0);
+-      EReader eReader0 = new EReader(dataInputStream0, (EWrapper) null, 15);
+-      // Undeclared exception!
+-      try { 
+-        eReader0.processMsg(15);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.ib.client.EReader", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test46() throws Throwable {
++    byte[] byteArray0 = new byte[4];
++    ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
++    DataInputStream dataInputStream0 = new DataInputStream(byteArrayInputStream0);
++    EReader eReader0 = new EReader(dataInputStream0, (EWrapper) null, 15);
++    eReader0.processMsg(15);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test47()  throws Throwable  {

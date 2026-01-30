@@ -1,0 +1,70 @@
+--- a/evosuite-tests/org/quickserver/util/pool/thread/ClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/thread/ClientPool_ESTest.java
+@@ -78,23 +78,50 @@
+       clientPool0.getClient();
+       assertFalse(clientPool0.isClientAvailable());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      StackObjectPool stackObjectPool0 = new StackObjectPool((PoolableObjectFactory) null);
+-      MakeQSObjectPool makeQSObjectPool0 = new MakeQSObjectPool(stackObjectPool0);
+-      ClientPool clientPool0 = new ClientPool(makeQSObjectPool0, (PoolConfig) null);
+-      try { 
+-        clientPool0.addClient((Runnable) null, false);
+-        fail("Expecting exception: NoSuchElementException");
+-      
+-      } catch(NoSuchElementException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.apache.commons.pool.impl.StackObjectPool", e);
+-      }
+-  }
++@Test(expected = NoSuchElementException.class, timeout = 4000)
++    public void test06() throws Throwable {
++        org.apache.commons.pool.PoolableObjectFactory<Runnable> factory = new org.apache.commons.pool.PoolableObjectFactory<Runnable>() {
++            @Override
++            public Runnable makeObject() {
++                return new Runnable() {
++                    @Override
++                    public void run() {
++                        // no-op
++                    }
++                };
++            }
++
++            @Override
++            public void destroyObject(Runnable obj) {
++                // no-op
++            }
++
++            @Override
++            public boolean validateObject(Runnable obj) {
++                return true;
++            }
++
++            @Override
++            public void activateObject(Runnable obj) {
++                // no-op
++            }
++
++            @Override
++            public void passivateObject(Runnable obj) {
++                // no-op
++            }
++        };
++        StackObjectPool stackObjectPool0 = new StackObjectPool(factory);
++        MakeQSObjectPool makeQSObjectPool0 = new MakeQSObjectPool(stackObjectPool0);
++        ClientPool clientPool0 = new ClientPool(makeQSObjectPool0, null);
++        clientPool0.addClient(new Runnable() {
++            @Override
++            public void run() {
++                // no-op
++            }
++        }, false);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

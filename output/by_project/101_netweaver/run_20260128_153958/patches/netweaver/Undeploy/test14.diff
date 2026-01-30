@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Undeploy_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Undeploy_ESTest.java
+@@ -173,17 +173,23 @@
+     TypeDesc td2 = Undeploy.getTypeDesc();
+     assertSame(td1, td2);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      Undeploy undeploy0 = new Undeploy();
+-      Option[] optionArray0 = new Option[0];
+-      undeploy0.setOptions(optionArray0);
+-      Undeploy undeploy1 = new Undeploy();
+-      boolean boolean0 = undeploy0.equals(undeploy1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        Undeploy undeploy0 = new Undeploy();
++        // Verify initial state before setting options
++        assertNull("options should be null before setOptions", undeploy0.getOptions());
++
++        Option[] optionArray0 = new Option[0];
++        undeploy0.setOptions(optionArray0);
++
++        // Verify that setOptions correctly updates the internal options array
++        assertSame("options should reference the array passed to setOptions", optionArray0, undeploy0.getOptions());
++
++        Undeploy undeploy1 = new Undeploy();
++        boolean boolean0 = undeploy0.equals(undeploy1);
++        assertFalse(boolean0);
++    }
++
+ @Test(expected = NullPointerException.class, timeout = 4000)
+   public void test15() throws Throwable {
+       Undeploy undeploy0 = new Undeploy();

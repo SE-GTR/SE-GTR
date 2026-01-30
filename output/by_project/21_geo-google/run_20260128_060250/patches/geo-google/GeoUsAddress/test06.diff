@@ -1,0 +1,33 @@
+--- a/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
++++ b/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
+@@ -60,13 +60,23 @@
+       String string0 = geoUsAddress0.toAddressLine();
+       assertEquals(", ,  ", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      GeoUsAddress geoUsAddress0 = new GeoUsAddress();
+-      GeoCoordinate geoCoordinate0 = geoUsAddress0.getCoordinate();
+-      assertEquals((-1.0), geoCoordinate0.getLongitude(), 0.01);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        // Arrange: create a coordinate with known values
++        GeoCoordinate expectedCoordinate = new GeoCoordinate(10.0, 20.0);
++        // Use the full‑argument constructor to set the coordinate
++        GeoUsAddress address = new GeoUsAddress(
++                "", "", "", "", "", "", "", 
++                expectedCoordinate, 
++                GeoAddressAccuracy.UNKNOWN_LOCATION);
++        // Act: retrieve the coordinate from the address
++        GeoCoordinate actualCoordinate = address.getCoordinate();
++        // Assert: the stored coordinate matches the one provided
++        assertNotNull(actualCoordinate);
++        assertEquals(10.0, actualCoordinate.getLatitude(), 0.01);
++        assertEquals(20.0, actualCoordinate.getLongitude(), 0.01);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

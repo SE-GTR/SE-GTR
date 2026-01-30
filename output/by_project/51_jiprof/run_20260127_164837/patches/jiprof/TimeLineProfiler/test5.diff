@@ -1,0 +1,26 @@
+--- a/evosuite-tests/net/sourceforge/jiprof/timeline/TimeLineProfiler_ESTest.java
++++ b/evosuite-tests/net/sourceforge/jiprof/timeline/TimeLineProfiler_ESTest.java
+@@ -83,11 +83,19 @@
+          verifyException("net.sourceforge.jiprof.timeline.TimeLineProfiler", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        // Initialize the profiler to set up internal structures
++        TimeLineProfiler.initProfiler();
++        // Capture the number of recorded events before the call
++        int before = TimeLineProfiler.getTimeLine().size();
++        // Execute the method whose side‑effect we want to verify
++        TimeLineProfiler.beginWait("cufoa4", "include:");
++        // Verify that a new event has been recorded
++        int after = TimeLineProfiler.getTimeLine().size();
++        assertEquals(before + 1, after);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      TimeLineProfiler.beginWait("cufoa4", "include:");
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

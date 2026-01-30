@@ -1,0 +1,50 @@
+--- a/evosuite-tests/Newzgrabber/Ini_ESTest.java
++++ b/evosuite-tests/Newzgrabber/Ini_ESTest.java
+@@ -54,28 +54,27 @@
+     long lengthAfterSecond = file0.length();
+     assertTrue("File length should not decrease after second writeIni", lengthAfterSecond >= lengthAfterFirst);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("|*_Cg$KY^dW~ |ZJ&", "=", (File) null);
+-      Ini ini0 = new Ini(file0, "Active Groups (Required for Search)");
+-      Hashtable hashtable0 = ini0.readIni();
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      ini0.writeIni(linkedList0);
+-      linkedList0.add((Object) hashtable0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    File file0 = MockFile.createTempFile("|*_Cg$KY^dW~ |ZJ&", "=", (File) null);
++    Ini ini0 = new Ini(file0, "Active Groups (Required for Search)");
++    Hashtable hashtable0 = ini0.readIni();
++    LinkedList<Object> linkedList0 = new LinkedList<Object>();
++    ini0.writeIni(linkedList0);
++    boolean added = linkedList0.add((Object) hashtable0);
++    assertTrue(added);
++    // Undeclared exception!
++    try {
+         ini0.writeIni(linkedList0);
+         fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.util.Hashtable cannot be cast to [Ljava.lang.String;
+-         //
+-         verifyException("Newzgrabber.Ini", e);
+-      }
+-  }
++    } catch (ClassCastException e) {
++        //
++        // java.util.Hashtable cannot be cast to [Ljava.lang.String;
++        //
++        verifyException("Newzgrabber.Ini", e);
++    }
++}
++
+ @Test(timeout = 4000)
+     public void test3() throws Throwable {
+         File file0 = MockFile.createTempFile("|*_Cg$KY^dW~ |ZJ&", "=", (File) null);

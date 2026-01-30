@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -462,13 +462,26 @@
+       assertFalse(boolean0);
+       assertFalse(iCMProxyConnection0.equals((Object)iCMProxyConnection1));
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test37()  throws Throwable  {
+-      ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+-      boolean boolean0 = iCMProxyConnection0.equals("-mg4}9,e~_YR_tW");
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test37() throws Throwable {
++        ICMProxyConnection conn1 = new ICMProxyConnection(
++                "c1", "r1", "pA", 1, "lA", 2, "s1", 3, 4,
++                "partner", "int", "ext", Integer.valueOf(5),
++                "fail", "disc", "obj", "tid");
++        ICMProxyConnection conn2 = new ICMProxyConnection(
++                "c1", "r1", "pA", 1, "lA", 2, "s1", 3, 4,
++                "partner", "int", "ext", Integer.valueOf(5),
++                "fail", "disc", "obj", "tid");
++        // Objects with identical state should be equal
++        assertTrue(conn1.equals(conn2));
++        // Objects differing in at least one field should not be equal
++        ICMProxyConnection conn3 = new ICMProxyConnection(
++                "c1", "r1", "pA", 1, "lA", 2, "s1", 3, 4,
++                "partner", "int", "ext", Integer.valueOf(6),
++                "fail", "disc", "obj", "tid");
++        assertFalse(conn1.equals(conn3));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test38()  throws Throwable  {

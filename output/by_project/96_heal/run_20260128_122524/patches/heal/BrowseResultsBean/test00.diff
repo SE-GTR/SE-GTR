@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/heal/module/browse/BrowseResultsBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/browse/BrowseResultsBean_ESTest.java
+@@ -15,13 +15,32 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class BrowseResultsBean_ESTest extends BrowseResultsBean_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        BrowseResultsBean browseResultsBean0 = new BrowseResultsBean();
++        // Verify default count
++        assertEquals(0, browseResultsBean0.getCount());
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      BrowseResultsBean browseResultsBean0 = new BrowseResultsBean();
+-      browseResultsBean0.setCount((-1));
+-      assertEquals((-1), browseResultsBean0.getCount());
+-  }
++        // Set a specific count and verify getter
++        browseResultsBean0.setCount(-1);
++        assertEquals(-1, browseResultsBean0.getCount());
++
++        // Serialize the bean
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(browseResultsBean0);
++        oos.flush();
++        byte[] serialized = baos.toByteArray();
++
++        // Deserialize the bean
++        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(serialized);
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++        BrowseResultsBean deserializedBean = (BrowseResultsBean) ois.readObject();
++
++        // Verify that the count was preserved through serialization
++        assertEquals(-1, deserializedBean.getCount());
++    }
++
+ @Test(timeout = 4000)
+ public void test01() throws Throwable {
+     BrowseResultsBean browseResultsBean0 = new BrowseResultsBean();

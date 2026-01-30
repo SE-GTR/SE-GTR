@@ -1,0 +1,35 @@
+--- a/evosuite-tests/bible/util/DbConnectionAttributes_ESTest.java
++++ b/evosuite-tests/bible/util/DbConnectionAttributes_ESTest.java
+@@ -122,18 +122,20 @@
+     String string0 = dbConnectionAttributes0.getException();
+     assertNotNull(string0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-    dbConnectionAttributes0 = new DbConnectionAttributes(2494);
+-    statement0 = mock(Statement.class, new ViolatedAssumptionAnswer());
+-    connection0 = mock(Connection.class, new ViolatedAssumptionAnswer());
+-      doReturn(statement0).when(connection0).createStatement();
+-      dbConnectionAttributes0.connect(connection0);
+-      dbConnectionAttributes0.close();
+-      assertEquals("Free (Connected-Not Used)", dbConnectionAttributes0.getStatusString());
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    DbConnectionAttributes dbConnectionAttributes0 = new DbConnectionAttributes(2494);
++    Statement statement0 = mock(Statement.class, new ViolatedAssumptionAnswer());
++    Connection connection0 = mock(Connection.class, new ViolatedAssumptionAnswer());
++    doReturn(statement0).when(connection0).createStatement();
++    dbConnectionAttributes0.connect(connection0);
++    // Verify state after a successful connection
++    assertEquals("Free (Connected-Not Used)", dbConnectionAttributes0.getStatusString());
++    dbConnectionAttributes0.close();
++    // Ensure the close operation leaves the status unchanged as defined by the implementation
++    assertEquals("Free (Connected-Not Used)", dbConnectionAttributes0.getStatusString());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

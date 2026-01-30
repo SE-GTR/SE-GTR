@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/browsersoft/aacs/SimpleUserMgr_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/SimpleUserMgr_ESTest.java
+@@ -128,13 +128,23 @@
+     // After parsing the same line, the manager should still not contain that dummy user
+     assertNull(simpleUserMgr0.getUser("dummy@example.com"));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
+-      simpleUserMgr0.parseLine("employeeType");
+-  }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
++    // Capture the state before invoking parseLine
++    User before = simpleUserMgr0.getUser();
++    // Act
++    simpleUserMgr0.parseLine("employeeType");
++    // Observe the state after the call
++    User after = simpleUserMgr0.getUser();
++    // Verify that a User instance has been created/modified
++    assertNotNull(after);
++    // If there was no user before, ensure the reference has changed
++    if (before == null) {
++        assertNotSame(before, after);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

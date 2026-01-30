@@ -1,0 +1,40 @@
+--- a/evosuite-tests/state/GameState_ESTest.java
++++ b/evosuite-tests/state/GameState_ESTest.java
+@@ -68,17 +68,26 @@
+         assertNotNull(packed);
+         assertTrue(packed.length > 0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      GameState gameState0 = new GameState();
+-      Player player0 = new Player(4);
+-      gameState0.addPlayer(player0);
+-      byte[] byteArray0 = gameState0.pack();
+-      gameState0.unpack(byteArray0);
+-      assertEquals(1, gameState0.getNumOfPlayers());
+-  }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    GameState gameState0 = new GameState();
++    Player player0 = new Player(4);
++    // Verify that adding a player changes the player count.
++    assertEquals(0, gameState0.getNumOfPlayers());
++    gameState0.addPlayer(player0);
++    assertEquals(1, gameState0.getNumOfPlayers());
++
++    // Pack the state and ensure the resulting byte array is valid.
++    byte[] byteArray0 = gameState0.pack();
++    assertNotNull(byteArray0);
++    assertTrue(byteArray0.length > 0);
++
++    // Unpack should preserve the number of players.
++    int beforeUnpack = gameState0.getNumOfPlayers();
++    gameState0.unpack(byteArray0);
++    assertEquals(beforeUnpack, gameState0.getNumOfPlayers());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

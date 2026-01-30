@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/DeployWSServiceLocator_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/DeployWSServiceLocator_ESTest.java
+@@ -131,22 +131,11 @@
+     public void test09() throws Throwable {
+         new DeployWSServiceLocator("DeployWSPort", (QName) null);
+     }
++@Test(expected = LinkageError.class, timeout = 4000)
++    public void test10() throws Throwable {
++        new DeployWSServiceLocator();
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-    deployWSServiceLocator0 = null;
+-      try {
+-        deployWSServiceLocator0 = new DeployWSServiceLocator();
+-        fail("Expecting exception: LinkageError");
+-      
+-      } catch(LinkageError e) {
+-         //
+-         // loader constraint violation: when resolving method \"org.apache.commons.discovery.resource.classes.DiscoverClasses.findResourceClasses(Lorg/apache/commons/discovery/ResourceNameIterator;)Lorg/apache/commons/discovery/ResourceClassIterator;\" the class loader (instance of org/evosuite/instrumentation/InstrumentingClassLoader) of the current class, org/apache/axis/AxisProperties, and the class loader (instance of sun/misc/Launcher$AppClassLoader) for the method's defining class, org/apache/commons/discovery/resource/classes/ResourceClassDiscoverImpl, have different Class objects for the type org/apache/commons/discovery/ResourceNameIterator used in the signature
+-         //
+-         verifyException("org.apache.axis.AxisProperties", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+ public void test11() throws Throwable {
+     BasicClientConfig basicClientConfig0 = new BasicClientConfig();

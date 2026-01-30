@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jsecurity/web/DefaultWebSecurityManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/DefaultWebSecurityManager_ESTest.java
+@@ -167,22 +167,17 @@
+          verifyException("org.jsecurity.web.DefaultWebSecurityManager", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-    defaultWebSecurityManager0 = new DefaultWebSecurityManager();
+-      // Undeclared exception!
+-      try { 
+-        defaultWebSecurityManager0.setSessionIdCookieMaxAge((-309618151));
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // The convenience passthrough methods for setting session id cookie attributes are only available when the underlying SessionManager implementation is org.jsecurity.web.session.DefaultWebSessionManager, which is enabled by default when the sessionMode is 'jsecurity'.
+-         //
+-         verifyException("org.jsecurity.web.DefaultWebSecurityManager", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        defaultWebSecurityManager0 = new DefaultWebSecurityManager();
++        // Configure the manager to use the jsecurity session mode so that cookie attribute methods are enabled
++        defaultWebSecurityManager0.setSessionMode(DefaultWebSecurityManager.JSECURITY_SESSION_MODE);
++        // This call should now succeed without throwing an exception
++        defaultWebSecurityManager0.setSessionIdCookieMaxAge(300);
++        // Verify that the session mode was correctly set
++        assertEquals(DefaultWebSecurityManager.JSECURITY_SESSION_MODE, defaultWebSecurityManager0.getSessionMode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

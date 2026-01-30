@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/heal/module/download/DownloadDAO_ESTest.java
++++ b/evosuite-tests/org/heal/module/download/DownloadDAO_ESTest.java
+@@ -49,16 +49,23 @@
+       boolean boolean0 = downloadDAO0.deletePackage("application/x-gzip");
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        DownloadDAO downloadDAO0 = new DownloadDAO();
++        FileLocator fileLocator0 = new FileLocator();
++        // Verify that setting the server base URL updates the locator's state
++        fileLocator0.setServerBaseURL("application/x-gzip");
++        assertEquals("application/x-gzip", fileLocator0.getServerBaseURL());
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      DownloadDAO downloadDAO0 = new DownloadDAO();
+-      FileLocator fileLocator0 = new FileLocator();
+-      fileLocator0.setServerBaseURL("application/x-gzip");
+-      downloadDAO0.setFileLocator(fileLocator0);
+-      boolean boolean0 = downloadDAO0.deletePackage("upload");
+-      assertFalse(boolean0);
+-  }
++        // Verify that the DAO stores the provided FileLocator
++        downloadDAO0.setFileLocator(fileLocator0);
++        assertSame(fileLocator0, downloadDAO0.getFileLocator());
++
++        // Exercise deletePackage and assert its result
++        boolean boolean0 = downloadDAO0.deletePackage("upload");
++        assertFalse(boolean0);
++    }
++
+ @Test(timeout = 4000)
+ public void test3() throws Throwable {
+     DownloadDAO downloadDAO0 = new DownloadDAO();

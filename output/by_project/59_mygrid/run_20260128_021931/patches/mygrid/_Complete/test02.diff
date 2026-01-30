@@ -1,0 +1,40 @@
+--- a/evosuite-tests/mygrid/web/_Complete_ESTest.java
++++ b/evosuite-tests/mygrid/web/_Complete_ESTest.java
+@@ -59,19 +59,26 @@
+     assertTrue(_Complete0.equals(_Complete1));
+     assertTrue(_Complete1.equals((Object) _Complete0));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
++@Test(timeout = 4000)
++public void test02() throws Throwable {
+     _Complete0 = new _Complete();
+     _Complete1 = new _Complete();
+-      assertTrue(_Complete1.equals((Object)_Complete0));
+-      
+-      Job job0 = new Job();
+-      _Complete1.setJob(job0);
+-      boolean boolean0 = _Complete0.equals(_Complete1);
+-      assertFalse(boolean0);
+-  }
++    assertTrue(_Complete1.equals((Object) _Complete0));
++
++    Job job0 = new Job();
++    // verify initial state before setting the job
++    assertNull(_Complete1.getJob());
++    assertNull(_Complete0.getJob());
++
++    _Complete1.setJob(job0);
++    // assert the side‑effect of setJob
++    assertSame(job0, _Complete1.getJob());
++    assertNull(_Complete0.getJob());
++
++    boolean boolean0 = _Complete0.equals(_Complete1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

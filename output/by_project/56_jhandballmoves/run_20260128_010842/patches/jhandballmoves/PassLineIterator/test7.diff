@@ -1,0 +1,36 @@
+--- a/evosuite-tests/visu/handball/moves/model/animation/PassLineIterator_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/animation/PassLineIterator_ESTest.java
+@@ -118,17 +118,21 @@
+          verifyException("visu.handball.moves.model.animation.PassLineIterator", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test7() throws Throwable {
++        Offender offender0 = new Offender(1, -1);
++        PassEvent passEvent0 = new PassEvent(offender0, -1, -1582);
++        // verify side effect of setDestinationPlayer
++        passEvent0.setDestinationPlayer(offender0, false);
++        assertSame(offender0, passEvent0.getDestinationPlayer());
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      Offender offender0 = new Offender(1, (-1));
+-      PassEvent passEvent0 = new PassEvent(offender0, (-1), (-1582));
+-      passEvent0.setDestinationPlayer(offender0, false);
+-      PassLineIterator passLineIterator0 = new PassLineIterator(passEvent0);
+-      assertFalse(passLineIterator0.isDone());
+-      
+-      double[] doubleArray0 = new double[2];
+-      passLineIterator0.currentSegment(doubleArray0);
+-      assertArrayEquals(new double[] {1.0, (-1.0)}, doubleArray0, 0.01);
+-  }
++        PassLineIterator passLineIterator0 = new PassLineIterator(passEvent0);
++        assertFalse(passLineIterator0.isDone());
++
++        double[] doubleArray0 = new double[2];
++        int segmentType = passLineIterator0.currentSegment(doubleArray0);
++        assertEquals(java.awt.geom.PathIterator.SEG_MOVETO, segmentType);
++        assertArrayEquals(new double[] {1.0, -1.0}, doubleArray0, 0.01);
++    }
++
+ }

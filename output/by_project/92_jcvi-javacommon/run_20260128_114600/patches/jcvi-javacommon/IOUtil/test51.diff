@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
+@@ -472,15 +472,17 @@
+       short short0 = IOUtil.readUnsignedByte(byteArray0);
+       assertEquals((short)0, short0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test51()  throws Throwable  {
+-      Enumeration<BufferedInputStream> enumeration0 = (Enumeration<BufferedInputStream>) mock(Enumeration.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(enumeration0).hasMoreElements();
+-      SequenceInputStream sequenceInputStream0 = new SequenceInputStream(enumeration0);
+-      String string0 = IOUtil.toString((InputStream) sequenceInputStream0);
+-      assertEquals("", string0);
+-  }
++@Test(timeout = 4000)
++public void test51() throws Throwable {
++    Enumeration<BufferedInputStream> enumeration0 = (Enumeration<BufferedInputStream>) mock(Enumeration.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(enumeration0).hasMoreElements();
++    boolean hasMore = enumeration0.hasMoreElements();
++    assertFalse(hasMore);
++    SequenceInputStream sequenceInputStream0 = new SequenceInputStream(enumeration0);
++    String string0 = IOUtil.toString((InputStream) sequenceInputStream0);
++    assertEquals("", string0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test52()  throws Throwable  {

@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
+@@ -1023,23 +1023,31 @@
+          verifyException("org.mozilla.javascript.DefaultErrorReporter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test094()  throws Throwable  {
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      Parser parser0 = new Parser(compilerEnvirons0, (ErrorReporter) null);
+-      // Undeclared exception!
+-      try { 
+-        parser0.parse("DNmkV]J!^m3", "org.mozilla.javascript.IRFactory", (-296));
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.mozilla.javascript.Parser", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test094() throws Throwable {
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        ErrorReporter reporter = new ErrorReporter() {
++            @Override
++            public void warning(String message, String sourceName, int line, String lineSource, int lineOffset) {
++                // no-op
++            }
++
++            @Override
++            public void error(String message, String sourceName, int line, String lineSource, int lineOffset) {
++                // no-op
++            }
++
++            @Override
++            public RuntimeException runtimeError(String message, String sourceName, int line, String lineSource,
++                    int lineOffset) {
++                return new RuntimeException(message);
++            }
++        };
++        Parser parser0 = new Parser(compilerEnvirons0, reporter);
++        org.mozilla.javascript.ast.AstRoot result = parser0.parse("DNmkV]J!^m3", "org.mozilla.javascript.IRFactory", -296);
++        assertNotNull(result);
++    }
++
+ @Test(timeout = 4000)
+     public void test095() throws Throwable {
+         // Verify that a non‑keyword string is correctly identified

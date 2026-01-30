@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -372,12 +372,17 @@
+       boolean boolean0 = ConfigurationManagement.isLogin_ip_set_();
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test56()  throws Throwable  {
+-      int int0 = ConfigurationManagement.getAuth_before_save_file();
+-      assertEquals(0, int0);
+-  }
++@Test(timeout = 4000)
++  public void test56() throws Throwable {
++      int original = ConfigurationManagement.getAuth_before_save_file();
++      // Change the configuration value using the corresponding setter
++      ConfigurationManagement.setAuth_before_save_file(original + 1);
++      int updated = ConfigurationManagement.getAuth_before_save_file();
++      assertEquals(original + 1, updated);
++      // Restore original value to avoid affecting other tests
++      ConfigurationManagement.setAuth_before_save_file(original);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test57()  throws Throwable  {

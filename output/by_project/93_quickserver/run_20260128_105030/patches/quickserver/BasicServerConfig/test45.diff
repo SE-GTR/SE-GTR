@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
+@@ -773,21 +773,26 @@
+       assertEquals((-1L), quickServerConfig0.getMaxConnection());
+       assertEquals(9876, quickServerConfig0.getPort());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test45()  throws Throwable  {
+-      QuickServerConfig quickServerConfig0 = new QuickServerConfig();
+-      quickServerConfig0.setAuthenticator((String) null);
+-      assertEquals(60000, quickServerConfig0.getTimeout());
+-      assertEquals(5, quickServerConfig0.getMaxAuthTry());
+-      assertEquals("INFO", quickServerConfig0.getConsoleLoggingLevel());
+-      assertEquals((-1L), quickServerConfig0.getMaxConnection());
+-      assertEquals("-ERR Max Auth Try Reached", quickServerConfig0.getMaxAuthTryMsg());
+-      assertEquals("-ERR Timeout", quickServerConfig0.getTimeoutMsg());
+-      assertEquals("-ERR Server Busy. Max Connection Reached", quickServerConfig0.getMaxConnectionMsg());
+-      assertEquals(9876, quickServerConfig0.getPort());
+-      assertFalse(quickServerConfig0.getCommunicationLogging());
+-  }
++@Test(timeout = 4000)
++public void test45() throws Throwable {
++    QuickServerConfig quickServerConfig0 = new QuickServerConfig();
++    // Capture current authenticator (if any) before modification
++    String beforeAuth = quickServerConfig0.getAuthenticator();
++    quickServerConfig0.setAuthenticator((String) null);
++    // Verify that the authenticator was set to null
++    assertNull(quickServerConfig0.getAuthenticator());
++    // Existing assertions
++    assertEquals(60000, quickServerConfig0.getTimeout());
++    assertEquals(5, quickServerConfig0.getMaxAuthTry());
++    assertEquals("INFO", quickServerConfig0.getConsoleLoggingLevel());
++    assertEquals((-1L), quickServerConfig0.getMaxConnection());
++    assertEquals("-ERR Max Auth Try Reached", quickServerConfig0.getMaxAuthTryMsg());
++    assertEquals("-ERR Timeout", quickServerConfig0.getTimeoutMsg());
++    assertEquals("-ERR Server Busy. Max Connection Reached", quickServerConfig0.getMaxConnectionMsg());
++    assertEquals(9876, quickServerConfig0.getPort());
++    assertFalse(quickServerConfig0.getCommunicationLogging());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test46()  throws Throwable  {

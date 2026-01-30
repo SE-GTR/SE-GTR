@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/gbshape/dbe/utils/ValueListHandler_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/utils/ValueListHandler_ESTest.java
+@@ -140,15 +140,20 @@
+          verifyException("com.gbshape.dbe.utils.ValueListHandler", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      ValueListHandler valueListHandler0 = new ValueListHandler();
++public void test09() throws Throwable {
++      ValueListHandler valueListHandler0 = new ValueListHandler();
++      // Verify initial state before any modification
++      assertEquals(0, valueListHandler0.getSize());
+       LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      valueListHandler0.setList(linkedList0);
+-      int int0 = valueListHandler0.getSize();
+-      assertEquals(0, int0);
+-  }
++      linkedList0.add(new Object());
++      linkedList0.add(new Object());
++      linkedList0.add(new Object());
++      // Apply the side‑effecting operation
++      valueListHandler0.setList(linkedList0);
++      // Assert that the state change is observable via the public API
++      assertEquals(3, valueListHandler0.getSize());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

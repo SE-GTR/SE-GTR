@@ -1,0 +1,47 @@
+--- a/evosuite-tests/net/sf/sugar/fspath/FSPathResultListImpl_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/fspath/FSPathResultListImpl_ESTest.java
+@@ -76,27 +76,27 @@
+     FSPathResultModificationList fSPathResultModificationList0 = fSPathResultListImpl0.copy("/");
+     assertEquals(1, fSPathResultModificationList0.size());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test04() throws Throwable {
+     fSPathResultListImpl0 = new FSPathResultListImpl();
+     mockFile0 = new MockFile("");
+     fSPathResult0 = new FSPathResult(mockFile0);
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("/PATH/TO/SF110-20130704-src/60_sugar");
+-      FileSystemHandling.setPermissions(evoSuiteFile0, false, false, false);
+-      fSPathResultListImpl0.add(fSPathResult0);
+-      try { 
+-        fSPathResultListImpl0.move("");
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // Desination path /PATH/TO/SF110-20130704-src/60_sugar is not writable
+-         //
+-         verifyException("net.sf.sugar.fspath.FSPathResultListImpl", e);
+-      }
++    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("/PATH/TO/SF110-20130704-src/60_sugar");
++    boolean setPermResult = FileSystemHandling.setPermissions(evoSuiteFile0, false, false, false);
++    assertTrue(setPermResult);
++    boolean addResult = fSPathResultListImpl0.add(fSPathResult0);
++    assertTrue(addResult);
++    try {
++      fSPathResultListImpl0.move("");
++      fail("Expecting exception: Exception");
++    } catch (Exception e) {
++      //
++      // Desination path /PATH/TO/SF110-20130704-src/60_sugar is not writable
++      //
++      verifyException("net.sf.sugar.fspath.FSPathResultListImpl", e);
++    }
+   }
++
+ @Test(timeout = 4000)
+ public void test05() throws Throwable {
+     fSPathResultListImpl0 = new FSPathResultListImpl();

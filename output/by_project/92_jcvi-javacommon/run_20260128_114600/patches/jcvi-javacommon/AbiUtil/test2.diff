@@ -1,0 +1,24 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/abi/AbiUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/abi/AbiUtil_ESTest.java
+@@ -33,11 +33,15 @@
+       String string0 = AbiUtil.parsePascalStringFrom(byteArray0);
+       assertEquals("\u0000", string0);
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    // An array that is too short should not be recognized as the ABI magic number
++    byte[] shortArray = new byte[2];
++    assertFalse(AbiUtil.isABIMagicNumber(shortArray));
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      byte[] byteArray0 = new byte[2];
+-      boolean boolean0 = AbiUtil.isABIMagicNumber(byteArray0);
+-      assertFalse(boolean0);
+-  }
++    // The exact magic number should be recognized
++    byte[] magic = new byte[] {'A', 'B', 'I', 'F'};
++    assertTrue(AbiUtil.isABIMagicNumber(magic));
+ }
++
++}

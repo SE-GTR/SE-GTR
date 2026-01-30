@@ -1,0 +1,28 @@
+--- a/evosuite-tests/visu/handball/moves/Main_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/Main_ESTest.java
+@@ -46,13 +46,19 @@
+         JFrame w2 = Main.getWindow();
+         assertSame(w1, w2);
+     }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        // Run in headless mode to avoid UI related exceptions
++        System.setProperty("java.awt.headless", "true");
++        try {
++            ColorModel colorModel0 = Main.getColorModel();
++            // Verify that the getter can be invoked without throwing and returns the expected default
++            assertNull(colorModel0);
++        } catch (HeadlessException e) {
++            fail("Unexpected HeadlessException thrown by Main.getColorModel()");
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      ColorModel colorModel0 = Main.getColorModel();
+-      assertNull(colorModel0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

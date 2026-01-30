@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/QSAdminServerConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/QSAdminServerConfig_ESTest.java
+@@ -134,18 +134,23 @@
+     assertEquals("QSAdminServer v 2.0", config.getName());
+     assertEquals("false", config.getCommandShellEnable());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      QSAdminServerConfig qSAdminServerConfig0 = new QSAdminServerConfig();
+-      qSAdminServerConfig0.setCommandShellPromptName((String) null);
+-      assertEquals(1L, qSAdminServerConfig0.getMaxConnection());
+-      assertEquals("QSAdminServer v 2.0", qSAdminServerConfig0.getName());
+-      assertEquals("false", qSAdminServerConfig0.getCommandShellEnable());
+-      assertEquals("QSAdmin", qSAdminServerConfig0.getCommandShellPromptName());
+-      assertEquals(9877, qSAdminServerConfig0.getPort());
+-  }
++@Test(timeout = 4000)
++  public void test10() throws Throwable {
++      QSAdminServerConfig config = new QSAdminServerConfig();
++      // Verify default prompt name before modification
++      assertEquals("QSAdmin", config.getCommandShellPromptName());
++      // Change the command shell prompt name
++      String newPrompt = "AdminPrompt";
++      config.setCommandShellPromptName(newPrompt);
++      // Assert that the prompt name was updated
++      assertEquals(newPrompt, config.getCommandShellPromptName());
++      // Verify other default properties remain unchanged
++      assertEquals(1L, config.getMaxConnection());
++      assertEquals("QSAdminServer v 2.0", config.getName());
++      assertEquals("false", config.getCommandShellEnable());
++      assertEquals(9877, config.getPort());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

@@ -1,0 +1,49 @@
+--- a/evosuite-tests/de/paragon/explorer/util/PropertyManager_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/util/PropertyManager_ESTest.java
+@@ -16,18 +16,35 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class PropertyManager_ESTest extends PropertyManager_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("/HOME/USER/explorer.ini");
++    byte[] byteArray0 = new byte[9];
++    FileSystemHandling.appendDataToFile(evoSuiteFile0, byteArray0);
++    // verify file side‑effect
++    assertTrue(evoSuiteFile0.exists());
++    assertEquals(9L, evoSuiteFile0.length());
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("/HOME/USER/explorer.ini");
+-      byte[] byteArray0 = new byte[9];
+-      FileSystemHandling.appendDataToFile(evoSuiteFile0, byteArray0);
+-      PropertyManager propertyManager0 = PropertyManager.getInstance();
+-      propertyManager0.setHideAttributes(false, false, false);
+-      assertFalse(propertyManager0.getHideStaticAttribut());
+-      assertFalse(propertyManager0.getHideNullAttribut());
+-      assertFalse(propertyManager0.getHideUnexploredAttribut());
+-  }
++    PropertyManager propertyManager0 = PropertyManager.getInstance();
++    // capture initial state
++    boolean beforeHideNull = propertyManager0.getHideNullAttribut();
++    boolean beforeHideStatic = propertyManager0.getHideStaticAttribut();
++    boolean beforeHideUnexplored = propertyManager0.getHideUnexploredAttribut();
++
++    // apply a distinct configuration
++    propertyManager0.setHideAttributes(true, true, true);
++
++    // verify that the state changed as expected
++    assertTrue(propertyManager0.getHideNullAttribut());
++    assertTrue(propertyManager0.getHideStaticAttribut());
++    assertTrue(propertyManager0.getHideUnexploredAttribut());
++
++    // ensure at least one flag actually changed
++    assertTrue(beforeHideNull != propertyManager0.getHideNullAttribut()
++            || beforeHideStatic != propertyManager0.getHideStaticAttribut()
++            || beforeHideUnexplored != propertyManager0.getHideUnexploredAttribut());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

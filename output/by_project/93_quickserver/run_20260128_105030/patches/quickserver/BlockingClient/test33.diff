@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
+@@ -349,18 +349,18 @@
+     boolean afterSecure = blockingClient0.isSecure();
+     assertEquals(beforeSecure, afterSecure);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test33()  throws Throwable  {
+-      BlockingClient blockingClient0 = new BlockingClient();
+-      PipedOutputStream pipedOutputStream0 = new PipedOutputStream();
+-      PipedInputStream pipedInputStream0 = new PipedInputStream(pipedOutputStream0);
+-      BufferedInputStream bufferedInputStream0 = new BufferedInputStream(pipedInputStream0);
+-      SequenceInputStream sequenceInputStream0 = new SequenceInputStream(bufferedInputStream0, pipedInputStream0);
+-      blockingClient0.setClientAuthKeystoreInputStream(sequenceInputStream0);
+-      assertFalse(blockingClient0.isUseDummyTrustManager());
+-  }
++@Test(timeout = 4000)
++public void test33() throws Throwable {
++    BlockingClient blockingClient0 = new BlockingClient();
++    PipedOutputStream pipedOutputStream0 = new PipedOutputStream();
++    PipedInputStream pipedInputStream0 = new PipedInputStream(pipedOutputStream0);
++    BufferedInputStream bufferedInputStream0 = new BufferedInputStream(pipedInputStream0);
++    SequenceInputStream sequenceInputStream0 = new SequenceInputStream(bufferedInputStream0, pipedInputStream0);
++    blockingClient0.setClientAuthKeystoreInputStream(sequenceInputStream0);
++    assertSame(sequenceInputStream0, blockingClient0.getClientAuthKeystoreInputStream());
++    assertFalse(blockingClient0.isUseDummyTrustManager());
++}
++
+ @Test(timeout = 4000, expected = IOException.class)
+ public void test34() throws Throwable {
+     BlockingClient blockingClient0 = new BlockingClient();

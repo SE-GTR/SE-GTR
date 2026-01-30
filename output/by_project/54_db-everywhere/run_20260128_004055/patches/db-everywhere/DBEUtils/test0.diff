@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/gbshape/dbe/utils/DBEUtils_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/utils/DBEUtils_ESTest.java
+@@ -28,22 +28,22 @@
+       doReturn(true, false).when(enumeration0).hasMoreElements();
+       doReturn((Object) null).when(enumeration0).nextElement();
+   }
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    when(httpSession0.getAttribute(anyString())).thenReturn(null);
++    when(httpSession0.getAttributeNames()).thenReturn(Collections.emptyEnumeration());
+ 
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    when(httpServletRequest0.getSession(anyBoolean())).thenReturn(httpSession0);
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
+-      doReturn(enumeration0).when(httpSession0).getAttributeNames();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession(anyBoolean());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpSession httpSession1 = httpServletRequestWrapper0.getSession(true);
+-      HttpServletRequest httpServletRequest1 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession1).when(httpServletRequest1).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper1 = new HttpServletRequestWrapper(httpServletRequest1);
+-      DBEUtils.dumpSession(httpServletRequestWrapper1);
+-  }
++    HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(httpServletRequest0);
++    DBEUtils.dumpSession(wrapper);
++
++    verify(httpSession0).getAttributeNames();
++    verify(httpSession0, atLeast(0)).getAttribute(anyString());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

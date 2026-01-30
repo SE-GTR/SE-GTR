@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/heal/module/metadata/KeywordBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/KeywordBean_ESTest.java
+@@ -48,14 +48,33 @@
+     // Verify that the keyword remains null after a serialization round‑trip
+     assertNull(deserialized.getKeyword());
+ }
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
++      KeywordBean keywordBean0 = new KeywordBean();
++      String id = "T&F2%'owXqC5B=*U6#$";
++      keywordBean0.setKeywordId(id);
+ 
++      // Serialize the bean
++      byte[] serialized;
++      try (java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
++           java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(bos)) {
++          out.writeObject(keywordBean0);
++          out.flush();
++          serialized = bos.toByteArray();
++      }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      KeywordBean keywordBean0 = new KeywordBean();
+-      keywordBean0.setKeywordId("T&F2%'owXqC5B=*U6#$");
+-      assertNull(keywordBean0.getMetadataId());
++      // Deserialize the bean
++      KeywordBean deserialized;
++      try (java.io.ByteArrayInputStream bis = new java.io.ByteArrayInputStream(serialized);
++           java.io.ObjectInputStream in = new java.io.ObjectInputStream(bis)) {
++          deserialized = (KeywordBean) in.readObject();
++      }
++
++      // Verify that the state was correctly persisted and observed
++      assertEquals(id, deserialized.getKeywordId());
++      assertNull(deserialized.getMetadataId());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/net/sourceforge/jiprof/timeline/TextOutput_ESTest.java
++++ b/evosuite-tests/net/sourceforge/jiprof/timeline/TextOutput_ESTest.java
+@@ -19,12 +19,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class TextOutput_ESTest extends TextOutput_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Arrange
++        Controller._fileName = "profiler";
++        long before = System.currentTimeMillis();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Controller._fileName = "profiler";
+-      TimeLineProfiler.initProfiler();
+-  }
++        // Act
++        TimeLineProfiler.initProfiler();
++
++        // Assert – verify that the profiler recorded a start time after the call
++        assertTrue("Start time should be set after initProfiler",
++                TimeLineProfiler.getStartTime() >= before);
++        // Assert – verify that a timeline structure has been created (not null and initially empty)
++        assertNotNull("Timeline should be initialized", TimeLineProfiler.getTimeLine());
++        assertTrue("Timeline should be empty after initialization",
++                TimeLineProfiler.getTimeLine().isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

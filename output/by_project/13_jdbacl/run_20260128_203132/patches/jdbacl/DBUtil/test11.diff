@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
+@@ -195,16 +195,19 @@
+          verifyException("org.databene.jdbacl.DBUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      Result result0 = Result.newSetSavepointRequest("Wnk@@:B.");
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      List<Object[]> list0 = DBUtil.query("Wnk@@:B.", jdbcConnection0);
+-      assertEquals(0, list0.size());
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    Result result0 = Result.newSetSavepointRequest("Wnk@@:B.");
++    Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++    doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
++    // Verify that the stubbed execute method returns the expected result
++    Result execResult = session0.execute(Result.newSetSavepointRequest("dummy"));
++    assertSame(result0, execResult);
++    jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++    List<Object[]> list0 = DBUtil.query("Wnk@@:B.", jdbcConnection0);
++    assertEquals(0, list0.size());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

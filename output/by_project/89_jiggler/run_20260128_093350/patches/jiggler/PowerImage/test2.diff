@@ -1,0 +1,27 @@
+--- a/evosuite-tests/jigl/image/types/PowerImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/PowerImage_ESTest.java
+@@ -47,12 +47,19 @@
+          verifyException("jigl.image.AbstractArrayImage", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    // Create a small complex image with a known pixel value
++    ComplexImage complex = new ComplexImage(2, 2);
++    // Set the real and imaginary components of pixel (0,0) to 3 and 4 respectively.
++    // The expected power for this pixel is 3^2 + 4^2 = 25.
++    complex.set(0, 0, 3.0f, 4.0f);
++    // Build the PowerImage from the complex image
++    PowerImage power = new PowerImage(complex);
++    // Verify that the computed power at (0,0) matches the expected value.
++    assertEquals(25.0, power.get(0, 0), 1e-6);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      PowerImage powerImage0 = new PowerImage(787, 787);
+-      assertEquals(787, powerImage0.Y());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

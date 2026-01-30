@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/quickserver/net/client/monitoring/impl/HttpMonitor_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/monitoring/impl/HttpMonitor_ESTest.java
+@@ -126,12 +126,28 @@
+     // Verify that monitor returns a letter status character
+     assertTrue("Monitor should return a letter character", Character.isLetter(char0));
+ }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        HttpMonitor httpMonitor0 = new HttpMonitor();
++        // first invocation – verify side‑effects are created
++        httpMonitor0.makeSSLSocketFactory();
++        assertNotNull("sslSocketFactory should be initialized", httpMonitor0.getSSLSocketFactory());
++        assertNotNull("sslContext should be initialized", httpMonitor0.getSSLContext());
++        assertNotNull("trustManager should be initialized", httpMonitor0.getTrustManager());
+ 
++        // capture current state
++        javax.net.ssl.SSLSocketFactory beforeFactory = httpMonitor0.getSSLSocketFactory();
++        javax.net.ssl.SSLContext beforeContext = httpMonitor0.getSSLContext();
++        javax.net.ssl.TrustManager[] beforeTrust = httpMonitor0.getTrustManager();
+ 
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      HttpMonitor httpMonitor0 = new HttpMonitor();
+-      httpMonitor0.makeSSLSocketFactory();
+-      httpMonitor0.makeSSLSocketFactory();
+-  }
++        // second invocation – should leave the state unchanged (idempotent)
++        httpMonitor0.makeSSLSocketFactory();
++        assertSame("sslSocketFactory should remain the same after second call", beforeFactory,
++                httpMonitor0.getSSLSocketFactory());
++        assertSame("sslContext should remain the same after second call", beforeContext,
++                httpMonitor0.getSSLContext());
++        assertArrayEquals("trustManager should remain the same after second call", beforeTrust,
++                httpMonitor0.getTrustManager());
++    }
++
+ }

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -251,18 +251,26 @@
+         boolean equalAfterChange = j2EEEJBSession0.equals(j2EEEJBSession1);
+         assertFalse(equalAfterChange);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      assertTrue(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      
+-      j2EEEJBSession0.setEjb("C..X");
+-      boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    J2EEEJBSession session0 = new J2EEEJBSession();
++    J2EEEJBSession session1 = new J2EEEJBSession();
++    // initially both sessions should be equal
++    assertTrue(session1.equals(session0));
++
++    // verify initial ejb values are null
++    assertNull(session0.getEjb());
++    assertNull(session1.getEjb());
++
++    // set ejb on first session and verify side effect
++    session0.setEjb("C..X");
++    assertEquals("C..X", session0.getEjb());
++    assertNull(session1.getEjb());
++
++    // after modification, sessions should no longer be equal
++    assertFalse(session0.equals(session1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SyslogEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SyslogEntry_ESTest.java
+@@ -67,17 +67,21 @@
+         assertTrue(syslogEntry1.equals((Object) syslogEntry0));
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      SyslogEntry syslogEntry0 = new SyslogEntry();
+-      STATECOLOR sTATECOLOR0 = STATECOLOR.value2;
+-      syslogEntry0.setSeverity(sTATECOLOR0);
+-      SyslogEntry syslogEntry1 = new SyslogEntry();
+-      boolean boolean0 = syslogEntry1.equals(syslogEntry0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        SyslogEntry syslogEntry0 = new SyslogEntry();
++        STATECOLOR sTATECOLOR0 = STATECOLOR.value2;
++        // Verify initial state before mutation
++        assertNull(syslogEntry0.getSeverity());
++        // Act: change severity
++        syslogEntry0.setSeverity(sTATECOLOR0);
++        // Assert: side‑effect is observable via the getter
++        assertEquals(sTATECOLOR0, syslogEntry0.getSeverity());
++        SyslogEntry syslogEntry1 = new SyslogEntry();
++        boolean boolean0 = syslogEntry1.equals(syslogEntry0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

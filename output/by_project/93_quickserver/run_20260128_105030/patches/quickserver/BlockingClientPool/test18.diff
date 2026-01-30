@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
+@@ -309,14 +309,16 @@
+         String description = blockingClientPool0.toString();
+         assertNotNull(description);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      BlockingClientPool blockingClientPool0 = new BlockingClientPool("#_5A9vE6'=8tpAKV_7", (PoolableBlockingClient) null);
+-      blockingClientPool0.setIdlePoolSize(1156);
+-      assertEquals(1156, blockingClientPool0.getIdlePoolSize());
+-  }
++@Test(timeout = 4000)
++public void test18() throws Throwable {
++    BlockingClientPool blockingClientPool0 = new BlockingClientPool("#_5A9vE6'=8tpAKV_7", (PoolableBlockingClient) null);
++    int previous = blockingClientPool0.getIdlePoolSize();
++    blockingClientPool0.setIdlePoolSize(1156);
++    int current = blockingClientPool0.getIdlePoolSize();
++    assertNotEquals(previous, current);
++    assertEquals(1156, current);
++}
++
+ @Test(timeout = 4000)
+ public void test19() throws Throwable {
+     PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());

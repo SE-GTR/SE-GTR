@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/residue/nt/ACGTNNucloetideCodec_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/residue/nt/ACGTNNucloetideCodec_ESTest.java
+@@ -45,15 +45,22 @@
+     int result = codec.getUngappedOffsetFor(encoded, gappedOffset);
+     assertEquals(ungappedOffset, result);
+ }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    ACGTNNucloetideCodec codec = ACGTNNucloetideCodec.INSTANCE;
++    byte[] empty = new byte[4];
++    List<Integer> gaps = codec.getGapOffsets(empty);
++    assertTrue(gaps.isEmpty());
+ 
++    // Verify that the returned list is immutable
++    try {
++        gaps.add(0);
++        org.junit.Assert.fail("List should be immutable");
++    } catch (UnsupportedOperationException expected) {
++        // expected behavior
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      ACGTNNucloetideCodec aCGTNNucloetideCodec0 = ACGTNNucloetideCodec.INSTANCE;
+-      byte[] byteArray0 = new byte[4];
+-      List<Integer> list0 = aCGTNNucloetideCodec0.getGapOffsets(byteArray0);
+-      assertTrue(list0.isEmpty());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

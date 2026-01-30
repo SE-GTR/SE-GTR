@@ -1,0 +1,23 @@
+--- a/evosuite-tests/net/sf/lavalamp/LavaLogger_ESTest.java
++++ b/evosuite-tests/net/sf/lavalamp/LavaLogger_ESTest.java
+@@ -56,9 +56,16 @@
+       MockPrintStream mockPrintStream0 = new MockPrintStream("z[");
+       LavaLogger.setErr(mockPrintStream0);
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        // Preserve the original output stream
++        PrintStream originalOut = LavaLogger.getOut();
++        // Set the output stream to null and verify the change
++        LavaLogger.setOut(null);
++        assertNull(LavaLogger.getOut());
++        // Restore the original output stream and verify restoration
++        LavaLogger.setOut(originalOut);
++        assertSame(originalOut, LavaLogger.getOut());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      LavaLogger.setOut((PrintStream) null);
+-  }
+ }

@@ -1,0 +1,28 @@
+--- a/evosuite-tests/state/GameState_ESTest.java
++++ b/evosuite-tests/state/GameState_ESTest.java
+@@ -384,14 +384,17 @@
+         // Verify that reload sets the game state to the waiting state
+         assertEquals(GameState.STATE_WAITING, gameState0.getGameState());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      GameState gameState0 = new GameState();
+-      gameState0.setCurrentRound(128);
+-      assertEquals(128, gameState0.getCurrentRound());
+-  }
++@Test(timeout = 4000)
++    public void test34() throws Throwable {
++        GameState gameState0 = new GameState();
++        GameState otherState = new GameState();
++        // Verify that two distinct instances are not considered equal after a state change
++        gameState0.setCurrentRound(128);
++        assertNotEquals(otherState, gameState0);
++        // Confirm the setter correctly updated the round
++        assertEquals(128, gameState0.getCurrentRound());
++    }
++
+ @Test(timeout = 4000)
+ public void test35() throws Throwable {
+     GameState gameState0 = new GameState();

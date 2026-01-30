@@ -1,0 +1,34 @@
+--- a/evosuite-tests/mygrid/web/Job_ESTest.java
++++ b/evosuite-tests/mygrid/web/Job_ESTest.java
+@@ -22,15 +22,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Job_ESTest extends Job_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Job job0 = new Job();
+-      GridJobStatus gridJobStatus0 = GridJobStatus.Acquired;
+-      job0.setStatus(gridJobStatus0);
+-      job0.hashCode();
+-      assertEquals(0, job0.getProgress());
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    Job job0 = new Job();
++    GridJobStatus gridJobStatus0 = GridJobStatus.Acquired;
++    // Verify that the status is set correctly
++    job0.setStatus(gridJobStatus0);
++    assertEquals(gridJobStatus0, job0.getStatus());
++
++    // Verify that hashCode is deterministic after the state change
++    int hash = job0.hashCode();
++    assertEquals(hash, job0.hashCode());
++
++    // Existing behavior check
++    assertEquals(0, job0.getProgress());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

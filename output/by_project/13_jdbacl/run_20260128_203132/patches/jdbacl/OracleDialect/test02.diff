@@ -1,0 +1,48 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
+@@ -74,27 +74,24 @@
+          verifyException("org.databene.jdbacl.dialect.OracleDialect", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      Result result0 = new Result(335544346);
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0, (Result) null).when(session0).execute(any(org.hsqldb.Result.class));
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      DBSchema dBSchema0 = new DBSchema("jG)I");
+-      // Undeclared exception!
+-      try { 
+-        oracleDialect0.queryPackages(dBSchema0, jdbcConnection0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.hsqldb.jdbc.jdbcStatement", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        Result result0 = new Result(335544346);
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        org.mockito.stubbing.OngoingStubbing<Result> stubbing = doReturn(result0, (Result) null)
++                .when(session0).execute(any(org.hsqldb.Result.class));
++        assertNotNull(stubbing);
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++        DBSchema dBSchema0 = new DBSchema("jG)I");
++        try {
++            oracleDialect0.queryPackages(dBSchema0, jdbcConnection0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            verifyException("org.hsqldb.jdbc.jdbcStatement", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

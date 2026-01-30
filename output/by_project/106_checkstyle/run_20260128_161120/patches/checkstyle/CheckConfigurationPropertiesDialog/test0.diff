@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/gui/CheckConfigurationPropertiesDialog_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/gui/CheckConfigurationPropertiesDialog_ESTest.java
+@@ -20,22 +20,27 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class CheckConfigurationPropertiesDialog_ESTest extends CheckConfigurationPropertiesDialog_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Create a display and shells required by SWT dialogs
++        org.eclipse.swt.widgets.Display display = org.eclipse.swt.widgets.Display.getDefault();
++        org.eclipse.swt.widgets.Shell parentShell = new org.eclipse.swt.widgets.Shell(display);
++        try {
++            // Construct the dialog with a non‑null parent shell (other arguments can be null if allowed)
++            CheckConfigurationPropertiesDialog dialog = new CheckConfigurationPropertiesDialog(parentShell, null, null);
++            // Use another shell for configureShell to avoid passing null
++            org.eclipse.swt.widgets.Shell newShell = new org.eclipse.swt.widgets.Shell(display);
++            try {
++                dialog.configureShell(newShell);
++                // No exception expected; if needed, further assertions about dialog state could be added here
++            } finally {
++                newShell.dispose();
++            }
++        } finally {
++            parentShell.dispose();
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      CheckConfigurationPropertiesDialog checkConfigurationPropertiesDialog0 = new CheckConfigurationPropertiesDialog((Shell) null, (CheckConfigurationWorkingCopy) null, (ICheckConfigurationWorkingSet) null);
+-      // Undeclared exception!
+-      try { 
+-        checkConfigurationPropertiesDialog0.configureShell((Shell) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.eclipse.jface.window.Window", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

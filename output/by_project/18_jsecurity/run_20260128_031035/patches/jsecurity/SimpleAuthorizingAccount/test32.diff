@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
+@@ -336,18 +336,25 @@
+       simpleAuthorizingAccount0.addPrivateRole(simplePrincipalCollection0, (Collection<Permission>) null);
+       assertFalse(simpleAuthorizingAccount0.isLocked());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
+-      LinkedHashSet<Permission> linkedHashSet0 = new LinkedHashSet<Permission>();
+-      LinkedHashSet<String> linkedHashSet1 = new LinkedHashSet<String>();
+-      SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount((PrincipalCollection) simplePrincipalCollection0, (Object) simplePrincipalCollection0, "FZ", (Set<String>) linkedHashSet1, (Set<Permission>) linkedHashSet0);
+-      SimpleRole simpleRole0 = new SimpleRole("User is not permitted [", linkedHashSet0);
+-      simpleAuthorizingAccount0.merge(simpleRole0);
+-      simpleAuthorizingAccount0.merge(simpleRole0);
+-      assertFalse(simpleAuthorizingAccount0.isLocked());
+-  }
++@Test(timeout = 4000)
++public void test32() throws Throwable {
++    SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
++    LinkedHashSet<Permission> linkedHashSet0 = new LinkedHashSet<Permission>();
++    LinkedHashSet<String> linkedHashSet1 = new LinkedHashSet<String>();
++    SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount(
++            (PrincipalCollection) simplePrincipalCollection0,
++            (Object) simplePrincipalCollection0,
++            "FZ",
++            (Set<String>) linkedHashSet1,
++            (Set<Permission>) linkedHashSet0);
++    SimpleRole simpleRole0 = new SimpleRole("User is not permitted [", linkedHashSet0);
++    simpleAuthorizingAccount0.merge(simpleRole0);
++    simpleAuthorizingAccount0.merge(simpleRole0);
++    // After merging the same role twice, the account should contain the role only once
++    assertEquals(1, simpleAuthorizingAccount0.getRoles().size());
++    assertTrue(simpleAuthorizingAccount0.getRoles().contains("User is not permitted ["));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test33()  throws Throwable  {

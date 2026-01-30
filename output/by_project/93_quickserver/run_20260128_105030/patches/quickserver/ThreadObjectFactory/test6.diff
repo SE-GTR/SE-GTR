@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/util/pool/thread/ThreadObjectFactory_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/thread/ThreadObjectFactory_ESTest.java
+@@ -69,14 +69,18 @@
+       threadObjectFactory0.activateObject(clientThread0);
+       assertEquals(1, clientThread0.getInstanceId());
+   }
++@Test(timeout = 4000)
++  public void test6() throws Throwable {
++    threadObjectFactory0 = new ThreadObjectFactory();
++    MakeQSObjectPool makeQSObjectPool0 = new MakeQSObjectPool();
++    PoolConfig poolConfig0 = new PoolConfig();
++    ClientPool clientPool0 = new ClientPool(makeQSObjectPool0, poolConfig0);
++    threadObjectFactory0.setClientPool(clientPool0);
++    // Verify that the client pool was configured correctly
++    assertEquals(10, clientPool0.getMaxThreadsForNioWrite());
++    // Exercise a non‑trivial behavior that depends on the previously set pool
++    Object created = threadObjectFactory0.makeObject();
++    assertNotNull(created);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-    threadObjectFactory0 = new ThreadObjectFactory();
+-      MakeQSObjectPool makeQSObjectPool0 = new MakeQSObjectPool();
+-      PoolConfig poolConfig0 = new PoolConfig();
+-      ClientPool clientPool0 = new ClientPool(makeQSObjectPool0, poolConfig0);
+-      threadObjectFactory0.setClientPool(clientPool0);
+-      assertEquals(10, clientPool0.getMaxThreadsForNioWrite());
+-  }
+ }

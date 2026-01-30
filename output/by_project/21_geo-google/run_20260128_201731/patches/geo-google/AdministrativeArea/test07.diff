@@ -1,0 +1,20 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -96,7 +96,16 @@
+     String expected = "SampleName";
+     name.setContent(expected);
+     assertEquals(expected, name.getContent());
+-}
++
++    // Marshal the object to XML and verify that the expected content appears in the output.
++    javax.xml.bind.JAXBContext jaxbContext = javax.xml.bind.JAXBContext.newInstance(AdministrativeArea.AdministrativeAreaName.class);
++    javax.xml.bind.Marshaller marshaller = jaxbContext.createMarshaller();
++    java.io.StringWriter writer = new java.io.StringWriter();
++    marshaller.marshal(name, writer);
++    String xml = writer.toString();
++    org.junit.Assert.assertTrue("Marshalled XML should contain the expected content", xml.contains(expected));
++}
++
+ @Test(timeout = 4000)
+     public void test08() throws Throwable {
+         AdministrativeArea.AdministrativeAreaName name = new AdministrativeArea.AdministrativeAreaName();

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/TasmContigFileDataStoreBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/TasmContigFileDataStoreBuilder_ESTest.java
+@@ -45,23 +45,16 @@
+          verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("", "");
+-      NucleotideFastaDataStore nucleotideFastaDataStore0 = mock(NucleotideFastaDataStore.class, new ViolatedAssumptionAnswer());
+-      TasmContigFileDataStoreBuilder tasmContigFileDataStoreBuilder0 = new TasmContigFileDataStoreBuilder(mockFile0, nucleotideFastaDataStore0);
+-      try { 
+-        tasmContigFileDataStoreBuilder0.build();
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        java.io.File tempFile = java.io.File.createTempFile("tasm", ".txt");
++        tempFile.deleteOnExit();
++        NucleotideFastaDataStore nucleotideFastaDataStore0 = mock(NucleotideFastaDataStore.class, new ViolatedAssumptionAnswer());
++        TasmContigFileDataStoreBuilder tasmContigFileDataStoreBuilder0 = new TasmContigFileDataStoreBuilder(tempFile, nucleotideFastaDataStore0);
++        TasmContigDataStore result = tasmContigFileDataStoreBuilder0.build();
++        assertNotNull(result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

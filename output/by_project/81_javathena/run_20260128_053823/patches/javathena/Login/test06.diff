@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/javathena/login/Login_ESTest.java
++++ b/evosuite-tests/org/javathena/login/Login_ESTest.java
+@@ -79,18 +79,23 @@
+         login0.do_initTXT();
+         assertEquals(0, login0.getAuth_max());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      Login login0 = new Login();
+-      ConfigurationManagement.setAccess_denynum(251);
+-      ConfigurationManagement.setAccess_allownum(2);
+-      ACO aCO0 = ACO.ALLOW_DENY;
+-      ConfigurationManagement.setAccess_order(aCO0);
+-      login0.save_config_in_log();
+-      assertEquals(0, login0.getAuth_max());
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    // Verify that configuration setters correctly update the corresponding values
++    ConfigurationManagement.setAccess_denynum(251);
++    assertEquals(251, ConfigurationManagement.getAccess_denynum());
++
++    ConfigurationManagement.setAccess_allownum(2);
++    assertEquals(2, ConfigurationManagement.getAccess_allownum());
++
++    ConfigurationManagement.setAccess_order(ACO.ALLOW_DENY);
++    assertEquals(ACO.ALLOW_DENY, ConfigurationManagement.getAccess_order());
++
++    Login login0 = new Login();
++    login0.save_config_in_log();
++    assertEquals(0, login0.getAuth_max());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

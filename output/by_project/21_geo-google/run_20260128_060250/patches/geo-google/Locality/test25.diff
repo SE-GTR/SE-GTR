@@ -1,0 +1,31 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Locality_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Locality_ESTest.java
+@@ -206,13 +206,21 @@
+       Thoroughfare thoroughfare0 = locality0.getThoroughfare();
+       assertNull(thoroughfare0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      Locality locality0 = new Locality();
+-      LargeMailUserType largeMailUserType0 = locality0.getLargeMailUser();
+-      assertNull(largeMailUserType0);
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        Locality locality0 = new Locality();
++
++        // Exercise setter/getter for LargeMailUser
++        LargeMailUserType largeMailUser = new LargeMailUserType();
++        locality0.setLargeMailUser(largeMailUser);
++        assertSame(largeMailUser, locality0.getLargeMailUser());
++
++        // Exercise list handling for address lines
++        AddressLine addressLine = new AddressLine();
++        locality0.getAddressLine().add(addressLine);
++        assertEquals(1, locality0.getAddressLine().size());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

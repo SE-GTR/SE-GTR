@@ -1,0 +1,33 @@
+--- a/evosuite-tests/net/sf/xbus/base/xml/XMLHelper_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/xml/XMLHelper_ESTest.java
+@@ -91,21 +91,15 @@
+       Document document0 = XMLHelper.parseXML((String) null, (String) null, (String) null);
+       assertNull(document0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        XMLHelper.parseXML("W", "W", "W");
+-        fail("Expecting exception: System.SystemExitException");
+-      
+-      } catch(System.SystemExitException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.System", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        String xml = "<root><child>value</child></root>";
++        Document doc = XMLHelper.parseXML(xml, "msg", "sys");
++        assertNotNull(doc);
++        Element root = doc.getDocumentElement();
++        assertEquals("root", root.getNodeName());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

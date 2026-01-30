@@ -1,0 +1,34 @@
+--- a/evosuite-tests/ioproject/client/network/ServerToMessageHandlerAdapter_ESTest.java
++++ b/evosuite-tests/ioproject/client/network/ServerToMessageHandlerAdapter_ESTest.java
+@@ -56,26 +56,15 @@
+   public void test1() throws Throwable {
+       serverToMessageHandlerAdapter0.messageReceived(server0, server0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000, expected = IllegalStateException.class)
++public void test2() throws Throwable {
+     stateMultiplexer0 = new StateMultiplexer();
+     messageMultiplexer0 = new MessageMultiplexer(stateMultiplexer0);
+     serverToMessageHandlerAdapter0 = new ServerToMessageHandlerAdapter(messageMultiplexer0, stateMultiplexer0);
+     server0 = new Server();
+-      // Undeclared exception!
+-      try { 
+-        serverToMessageHandlerAdapter0.connectionClosed(server0);
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // You must set a state before events can be handled.
+-         //
+-         verifyException("ioproject.client.network.StateMultiplexer", e);
+-      }
+-  }
++    serverToMessageHandlerAdapter0.connectionClosed(server0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

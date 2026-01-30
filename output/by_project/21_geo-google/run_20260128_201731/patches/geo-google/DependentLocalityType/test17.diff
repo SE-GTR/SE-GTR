@@ -1,0 +1,27 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
+@@ -193,14 +193,22 @@
+     }
+ @Test(timeout = 4000)
+ public void test17() throws Throwable {
+-    dependentLocalityType0 = new DependentLocalityType();
++    DependentLocalityType dependentLocalityType0 = new DependentLocalityType();
+     dependentLocalityType0.setIndicator("9,>1*,Oqz;");
+     assertEquals("9,>1*,Oqz;", dependentLocalityType0.getIndicator());
+ 
+-    // Verify that the object differs from a fresh instance (non‑accessor behavior)
++    // Verify list handling (non‑trivial behavior)
++    assertTrue(dependentLocalityType0.getAddressLine().isEmpty());
++    oasis.names.tc.ciq.xsdschema.xal._2.AddressLine line = new oasis.names.tc.ciq.xsdschema.xal._2.AddressLine();
++    dependentLocalityType0.getAddressLine().add(line);
++    assertEquals(1, dependentLocalityType0.getAddressLine().size());
++    assertSame(line, dependentLocalityType0.getAddressLine().get(0));
++
++    // Verify that a fresh instance differs from the populated one
+     DependentLocalityType other = new DependentLocalityType();
+     assertNotEquals(other, dependentLocalityType0);
+ }
++
+ @Test(timeout = 4000)
+ public void test18() throws Throwable {
+     DependentLocalityType dependentLocalityType0 = new DependentLocalityType();

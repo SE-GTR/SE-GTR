@@ -1,0 +1,38 @@
+--- a/evosuite-tests/macaw/system/StartupOptions_ESTest.java
++++ b/evosuite-tests/macaw/system/StartupOptions_ESTest.java
+@@ -200,19 +200,22 @@
+         startupOptions0.setMaximumNumberOfConnections(223);
+         assertEquals(223, startupOptions0.getMaximumNumberOfConnections());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      StartupOptions startupOptions0 = new StartupOptions();
+-      assertEquals("macaw", startupOptions0.getDatabaseName());
+-      
+-      startupOptions0.setDatabaseName("macaw");
+-      assertEquals("com.mysql.jdbc.Driver", startupOptions0.getDbDriverName());
+-      assertEquals(20, startupOptions0.getMaximumNumberOfConnections());
+-      assertTrue(startupOptions0.useDemo());
+-      assertEquals("localhost", startupOptions0.getServer());
+-  }
++@Test(timeout = 4000)
++public void test19() throws Throwable {
++    StartupOptions startupOptions0 = new StartupOptions();
++    // Verify default values
++    assertEquals("macaw", startupOptions0.getDatabaseName());
++    assertEquals("com.mysql.jdbc.Driver", startupOptions0.getDbDriverName());
++    assertEquals(20, startupOptions0.getMaximumNumberOfConnections());
++    assertTrue(startupOptions0.useDemo());
++    assertEquals("localhost", startupOptions0.getServer());
++
++    // Change the database name and assert the side effect
++    String newName = "testdb";
++    startupOptions0.setDatabaseName(newName);
++    assertEquals(newName, startupOptions0.getDatabaseName());
++}
++
+ @Test(timeout = 4000)
+ public void test20() throws Throwable {
+     StartupOptions startupOptions0 = new StartupOptions();

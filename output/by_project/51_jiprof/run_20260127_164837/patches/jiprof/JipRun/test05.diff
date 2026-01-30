@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/tivo/jipviewer/JipRun_ESTest.java
++++ b/evosuite-tests/com/tivo/jipviewer/JipRun_ESTest.java
+@@ -74,18 +74,30 @@
+         List<JipRun.PerMethodInfo> listAfterSecond = jipRun0.perMethodsInTotalTimeOrder();
+         assertEquals(2, listAfterSecond.size());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      JipRun jipRun0 = new JipRun();
+-      jipRun0.startFrame("g]jd#;b8yKg|3Zai", "g]jd#;b8yKg|3Zai", (-3548L), (-3548L));
+-      jipRun0.endFrame();
+-      jipRun0.startFrame((String) null, "eEq", 354L, 354L);
+-      jipRun0.endFrame();
+-      List<JipRun.PerMethodInfo> list0 = jipRun0.perMethodsInTotalTimeOrder();
+-      assertFalse(list0.isEmpty());
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        JipRun jipRun0 = new JipRun();
++
++        // Observe initial state
++        int sizeBefore = jipRun0.perMethodsInTotalTimeOrder().size();
++
++        // First frame
++        jipRun0.startFrame("g]jd#;b8yKg|3Zai", "g]jd#;b8yKg|3Zai", -3548L, -3548L);
++        jipRun0.endFrame();
++        int sizeAfterFirst = jipRun0.perMethodsInTotalTimeOrder().size();
++        assertTrue("First frame should contribute to per-method info", sizeAfterFirst > sizeBefore);
++
++        // Second frame with a null class name
++        jipRun0.startFrame(null, "eEq", 354L, 354L);
++        jipRun0.endFrame();
++        int sizeAfterSecond = jipRun0.perMethodsInTotalTimeOrder().size();
++        assertTrue("Second frame should further increase per-method info", sizeAfterSecond > sizeAfterFirst);
++
++        // Final verification that the list is not empty
++        List<JipRun.PerMethodInfo> list0 = jipRun0.perMethodsInTotalTimeOrder();
++        assertFalse(list0.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/br/com/jnfe/base/TransportKeyStoreBean_ESTest.java
++++ b/evosuite-tests/br/com/jnfe/base/TransportKeyStoreBean_ESTest.java
+@@ -29,13 +29,20 @@
+       transportKeyStoreBean0.setTrustStoreType("=#q\"");
+       transportKeyStoreBean0.afterPropertiesSet();
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        TransportKeyStoreBean bean = new TransportKeyStoreBean();
++        // Verify initial state
++        assertNull(bean.getTrustStore());
++        // Act: set trust store and verify side‑effect
++        String expectedTrustStore = "Using default keyStoreType.";
++        bean.setTrustStore(expectedTrustStore);
++        assertEquals(expectedTrustStore, bean.getTrustStore());
++        // Act: invoke afterPropertiesSet and ensure it does not alter the trust store
++        bean.afterPropertiesSet();
++        assertEquals(expectedTrustStore, bean.getTrustStore());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      TransportKeyStoreBean transportKeyStoreBean0 = new TransportKeyStoreBean();
+-      transportKeyStoreBean0.setTrustStore("Using default keyStoreType.");
+-      transportKeyStoreBean0.afterPropertiesSet();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

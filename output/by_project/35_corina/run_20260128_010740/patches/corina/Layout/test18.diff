@@ -1,0 +1,45 @@
+--- a/evosuite-tests/corina/gui/Layout_ESTest.java
++++ b/evosuite-tests/corina/gui/Layout_ESTest.java
+@@ -225,22 +225,26 @@
+       JPanel jPanel0 = Layout.flowLayoutC("0~l l'E=73F");
+       assertTrue(jPanel0.getFocusTraversalKeysEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      JPanel jPanel0 = Layout.buttonLayout((Component) null, (Component) null, (Component) null, (Component) null);
+-      // Undeclared exception!
+-      try { 
+-        Layout.boxLayoutY((Component) jPanel0, (Component) null, (Component) jPanel0, (Component) jPanel0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.awt.Container", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test18() throws Throwable {
++        // Create non‑null dummy components
++        JPanel comp1 = new JPanel();
++        JPanel comp2 = new JPanel();
++        JPanel comp3 = new JPanel();
++        JPanel comp4 = new JPanel();
++
++        // Use a valid call to buttonLayout (the overload with four components)
++        JPanel jPanel0 = Layout.buttonLayout(comp1, comp2, comp3, comp4);
++        assertNotNull("buttonLayout should not return null", jPanel0);
++
++        // Call boxLayoutY with valid (non‑null) components
++        JPanel result = Layout.boxLayoutY(jPanel0, comp1, comp2, comp3, comp4);
++        assertNotNull("boxLayoutY should not return null", result);
++        // Verify that the resulting panel uses a vertical BoxLayout
++        assertTrue("Resulting panel should have a BoxLayout",
++                result.getLayout() instanceof BoxLayout);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

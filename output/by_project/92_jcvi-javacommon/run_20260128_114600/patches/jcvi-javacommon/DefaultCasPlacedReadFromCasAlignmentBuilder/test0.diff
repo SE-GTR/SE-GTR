@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/read/DefaultCasPlacedReadFromCasAlignmentBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/read/DefaultCasPlacedReadFromCasAlignmentBuilder_ESTest.java
+@@ -26,8 +26,7 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DefaultCasPlacedReadFromCasAlignmentBuilder_ESTest extends DefaultCasPlacedReadFromCasAlignmentBuilder_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test0()  throws Throwable  {
+       LinkedList<Nucleotide> linkedList0 = new LinkedList<Nucleotide>();
+       Iterator<Nucleotide> iterator0 = linkedList0.iterator();
+@@ -35,13 +34,17 @@
+       doReturn(iterator0).when(nucleotideSequence0).iterator();
+       doReturn(0L).when(nucleotideSequence0).getLength();
+       doReturn(22L).when(nucleotideSequence0).getUngappedLength();
++      // Verify that the stubs return the expected values
++      assertSame(iterator0, nucleotideSequence0.iterator());
++      assertEquals(0L, nucleotideSequence0.getLength());
++      assertEquals(22L, nucleotideSequence0.getUngappedLength());
+       Range range0 = Range.of(22L, 22L);
+       DefaultCasPlacedReadFromCasAlignmentBuilder defaultCasPlacedReadFromCasAlignmentBuilder0 = new DefaultCasPlacedReadFromCasAlignmentBuilder("alignment region %s extends beyond read; (current offset = %d total read length = %d)", nucleotideSequence0, nucleotideSequence0, true, 22L, range0);
+       // Undeclared exception!
+       try { 
+         defaultCasPlacedReadFromCasAlignmentBuilder0.build();
+         fail("Expecting exception: IllegalArgumentException");
+-      
++
+       } catch(IllegalArgumentException e) {
+          //
+          // invalid offset 22 is beyond reference length 0
+@@ -49,6 +52,7 @@
+          verifyException("org.jcvi.jillion.core.residue.nt.NucleotideSequenceBuilder$AlignedReference", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

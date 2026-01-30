@@ -1,0 +1,50 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/GenericPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/GenericPackager_ESTest.java
+@@ -38,26 +38,29 @@
+     genericPackager0 = new GenericPackager();
+     mETSProfile_PREMISIdentifierType0 = METSProfile.PREMISIdentifierType.ARK;
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      XmlObject[] xmlObjectArray0 = new XmlObject[1];
+-      MetsMetsDocument metsMetsDocument0 = mock(MetsMetsDocument.class, new ViolatedAssumptionAnswer());
+-      doReturn(xmlObjectArray0).when(metsMetsDocument0).selectPath(anyString());
+-      HaSMETSProfile haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(metsMetsDocument0).when(haSMETSProfile0).getMetsDocument();
+-      try { 
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    XmlObject[] xmlObjectArray0 = new XmlObject[1];
++    MetsMetsDocument metsMetsDocument0 = mock(MetsMetsDocument.class, new ViolatedAssumptionAnswer());
++    doReturn(xmlObjectArray0).when(metsMetsDocument0).selectPath(anyString());
++    HaSMETSProfile haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
++    doReturn(metsMetsDocument0).when(haSMETSProfile0).getMetsDocument();
++
++    // Verify that the stubs return the expected values
++    assertSame(xmlObjectArray0, metsMetsDocument0.selectPath("any"));
++    assertSame(metsMetsDocument0, haSMETSProfile0.getMetsDocument());
++
++    try {
+         genericPackager0.setOBJID("http://www.loc.gov/VMD/", mETSProfile_PREMISIdentifierType0, haSMETSProfile0);
+         fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // Problem setting the OBJID of the echodepmets.xml filenull
+-         //
+-         verifyException("edu.uiuc.ndiipp.hubandspoke.packager.GenericPackager", e);
+-      }
+-  }
++    } catch (Exception e) {
++        //
++        // Problem setting the OBJID of the echodepmets.xml filenull
++        //
++        verifyException("edu.uiuc.ndiipp.hubandspoke.packager.GenericPackager", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

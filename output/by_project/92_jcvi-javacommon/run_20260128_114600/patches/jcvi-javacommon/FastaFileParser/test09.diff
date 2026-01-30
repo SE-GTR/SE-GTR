@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jcvi/jillion/fasta/FastaFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/fasta/FastaFileParser_ESTest.java
+@@ -197,23 +197,13 @@
+          verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("org.jcvi.jillion.fasta.FastaFileParser$FileFastaParser", "org.jcvi.jillion.fasta.FastaFileParser$FileFastaParser");
+-    fastaFileParser0 = FastaFileParser.create(file0);
+-      // Undeclared exception!
+-      try { 
+-        fastaFileParser0.parseFile((TextLineParser) null, (-513L), (FastaVisitor) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.fasta.FastaFileParser", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test09() throws Throwable {
++        File file0 = MockFile.createTempFile("org.jcvi.jillion.fasta.FastaFileParser$FileFastaParser", "org.jcvi.jillion.fasta.FastaFileParser$FileFastaParser");
++        fastaFileParser0 = FastaFileParser.create(file0);
++        fastaFileParser0.parseFile((TextLineParser) null, -513L, (FastaVisitor) null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

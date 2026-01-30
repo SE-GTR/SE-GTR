@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -87,17 +87,18 @@
+         int lengthAfter = classWriter0.pool.length;
+         assertTrue("ByteVector length should increase after put", lengthAfter > lengthBefore);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      ClassWriter classWriter0 = new ClassWriter(200);
+-      ClassReader classReader0 = new ClassReader("org.objectweb.asm.jip.Attribute");
+-      classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 200);
+-      ByteVector byteVector0 = classWriter0.pool;
+-      MethodWriter methodWriter0 = classWriter0.lastMethod;
+-      methodWriter0.put(byteVector0);
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    ClassWriter classWriter0 = new ClassWriter(200);
++    ClassReader classReader0 = new ClassReader("org.objectweb.asm.jip.Attribute");
++    classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 200);
++    ByteVector byteVector0 = classWriter0.pool;
++    int beforeLength = byteVector0.length;
++    MethodWriter methodWriter0 = classWriter0.lastMethod;
++    methodWriter0.put(byteVector0);
++    assertTrue("ByteVector length should increase after put", byteVector0.length > beforeLength);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

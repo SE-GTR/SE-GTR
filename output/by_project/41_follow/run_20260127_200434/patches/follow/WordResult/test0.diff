@@ -1,0 +1,33 @@
+--- a/evosuite-tests/ghm/follow/search/WordResult_ESTest.java
++++ b/evosuite-tests/ghm/follow/search/WordResult_ESTest.java
+@@ -14,16 +14,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class WordResult_ESTest extends WordResult_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        WordResult wordResult0 = new WordResult(1, 1, "lo]@_{%w[/B/7xE4rLd");
++        assertEquals(0, wordResult0.termStartLine);
++        int beforeEnd = wordResult0.termEndLine;
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      WordResult wordResult0 = new WordResult(1, 1, "lo]@_{%w[/B/7xE4rLd");
+-      assertEquals(0, wordResult0.termStartLine);
+-      
+-      wordResult0.setLineOffset(0);
+-      wordResult0.toString();
+-      assertEquals(2, wordResult0.termStartLine);
+-  }
++        wordResult0.setLineOffset(0);
++        assertEquals(2, wordResult0.termStartLine);
++        // Verify that termEndLine was affected by setLineOffset
++        assertNotEquals(beforeEnd, wordResult0.termEndLine);
++
++        String result = wordResult0.toString();
++        assertNotNull(result);
++    }
++
+ public void test1() throws Throwable {
+     WordResult wordResult0 = new WordResult(0, -2126, "Line ", 0);
+     wordResult0.end = 1;

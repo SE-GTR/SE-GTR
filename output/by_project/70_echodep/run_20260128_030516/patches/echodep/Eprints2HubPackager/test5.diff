@@ -1,0 +1,40 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Eprints2HubPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Eprints2HubPackager_ESTest.java
+@@ -81,20 +81,22 @@
+     Eprints2HubPackager eprints2HubPackager0 = new Eprints2HubPackager();
+     eprints2HubPackager0.createHubPackage((ZipFile) null, "eprints.xml", "eprints.xml");
+ }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        Eprints2HubPackager packager = new Eprints2HubPackager();
++        java.nio.file.Path exportDir = java.nio.file.Files.createTempDirectory("export");
++        java.nio.file.Path hubFile = java.nio.file.Files.createTempFile("hub", ".zip");
++        java.nio.file.Path missingEprints = exportDir.resolve("missing_eprints.xml");
++        try {
++            packager.createHubPackage(exportDir.toString(), missingEprints.toString(), hubFile.toString());
++            fail("Expecting exception: FileNotFoundException");
++        } catch (FileNotFoundException e) {
++            // Expected exception for the missing eprints file
++            assertTrue(e.getMessage().contains("missing_eprints.xml"));
++        } finally {
++            java.nio.file.Files.deleteIfExists(hubFile);
++            java.nio.file.Files.deleteIfExists(exportDir);
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      Eprints2HubPackager eprints2HubPackager0 = new Eprints2HubPackager();
+-      try { 
+-        eprints2HubPackager0.createHubPackage("eprints.xml", "eprints.xml", "eprints.xml");
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // eprints.xml (No such file or directory)
+-         //
+-         verifyException("java.util.zip.ZipFile", e);
+-      }
+-  }
+ }

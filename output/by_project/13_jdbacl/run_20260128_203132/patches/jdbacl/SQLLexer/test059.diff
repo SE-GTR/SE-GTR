@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -658,22 +658,16 @@
+          verifyException("org.antlr.runtime.Lexer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test059()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mGE();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test059() throws Throwable {
++    org.antlr.runtime.ANTLRStringStream input = new org.antlr.runtime.ANTLRStringStream("GE");
++    SQLLexer lexer = new SQLLexer(input);
++    lexer.mGE();
++    org.antlr.runtime.Token token = lexer.getToken();
++    assertNotNull(token);
++    assertEquals("GE", token.getText());
++}
++
+ @Test(timeout = 4000)
+     public void test060() throws Throwable {
+         ANTLRStringStream stream = new ANTLRStringStream("+u0vOAJ*BzAd");

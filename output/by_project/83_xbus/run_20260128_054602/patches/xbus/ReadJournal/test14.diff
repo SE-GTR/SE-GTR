@@ -1,0 +1,42 @@
+--- a/evosuite-tests/net/sf/xbus/admin/html/ReadJournal_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/admin/html/ReadJournal_ESTest.java
+@@ -165,24 +165,23 @@
+           verifyException("org.evosuite.runtime.System", e);
+       }
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
+-      hashMap0.put("RequestTimeMin", "RequestTimeMin");
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    HashMap<String, String> hashMap0 = new HashMap<String, String>();
++    String previous = hashMap0.put("RequestTimeMin", "RequestTimeMin");
++    assertNull(previous);
++    // Undeclared exception!
++    try {
+         ReadJournal.readSelected(hashMap0, "i4-xu", "i4-xu");
+         fail("Expecting exception: System.SystemExitException");
+-      
+-      } catch(System.SystemExitException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.System", e);
+-      }
+-  }
++    } catch (System.SystemExitException e) {
++        //
++        // no message in exception (getMessage() returned null)
++        //
++        verifyException("org.evosuite.runtime.System", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

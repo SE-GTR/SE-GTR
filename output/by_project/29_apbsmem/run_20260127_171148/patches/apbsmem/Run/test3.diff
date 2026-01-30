@@ -1,0 +1,75 @@
+--- a/evosuite-tests/apbs_mem_gui/Run_ESTest.java
++++ b/evosuite-tests/apbs_mem_gui/Run_ESTest.java
+@@ -92,40 +92,39 @@
+     Object result = future.get(4000, TimeUnit.MILLISECONDS);
+     assertNull("The future should complete normally with a null result after handling the exception", result);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        Future<?> future = executor.submit(new Runnable() {
++            @Override
++            public void run() {
++                try {
++                    inFile0 = new InFile();
++                    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("dielx_1.dx");
++                    FileSystemHandling.appendStringToFile(evoSuiteFile0, "i*_2T_o;Y7");
++                    file0 = MockFile.createTempFile("i*_2T_o;Y7", "i*_2T_o;Y7");
++                    inFile0.setMdie("8");
++                    SmarterJmolAdapter smarterJmolAdapter0 = new SmarterJmolAdapter();
++                    JProgressBar jProgressBar0 = new JProgressBar();
++                    JmolViewer jmolViewer0 = JmolViewer.allocateViewer((Component) jProgressBar0,
++                            (JmolAdapter) smarterJmolAdapter0);
++                    Run run0 = new Run((Main) null, inFile0, file0, jmolViewer0, jProgressBar0, false, "8", false);
++                    try {
++                        run0.run();
++                        fail("Expecting exception: HeadlessException");
++                    } catch (HeadlessException e) {
++                        // expected
++                        verifyException("java.awt.GraphicsEnvironment", e);
++                    }
++                } catch (Throwable t) {
++                    // ignore declared exceptions
++                }
++            }
++        });
++        Object result = future.get(4000, TimeUnit.MILLISECONDS);
++        assertNull(result);
++        assertEquals("8", inFile0.getMdie());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    Future<?> future = executor.submit(new Runnable(){ 
+-            @Override public void run() { 
+-        try {
+-    inFile0 = new InFile();
+-          EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("dielx_1.dx");
+-          FileSystemHandling.appendStringToFile(evoSuiteFile0, "i*_2T_o;Y7");
+-    file0 = MockFile.createTempFile("i*_2T_o;Y7", "i*_2T_o;Y7");
+-          inFile0.setMdie("8");
+-          SmarterJmolAdapter smarterJmolAdapter0 = new SmarterJmolAdapter();
+-          JProgressBar jProgressBar0 = new JProgressBar();
+-          JmolViewer jmolViewer0 = JmolViewer.allocateViewer((Component) jProgressBar0, (JmolAdapter) smarterJmolAdapter0);
+-          Run run0 = new Run((Main) null, inFile0, file0, jmolViewer0, jProgressBar0, false, "8", false);
+-          // Undeclared exception!
+-          try { 
+-            run0.run();
+-            fail("Expecting exception: HeadlessException");
+-          
+-          } catch(HeadlessException e) {
+-             //
+-             // no message in exception (getMessage() returned null)
+-             //
+-             verifyException("java.awt.GraphicsEnvironment", e);
+-          }
+-        } catch(Throwable t) {
+-            // Need to catch declared exceptions
+-        }
+-      } 
+-    });
+-    future.get(4000, TimeUnit.MILLISECONDS);
+-  }
+ @Test(timeout = 4000, expected = NullPointerException.class)
+ public void test4() throws Throwable {
+     inFile0.setMdie("8");

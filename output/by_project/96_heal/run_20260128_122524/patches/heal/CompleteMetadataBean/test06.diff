@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/heal/module/metadata/CompleteMetadataBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/CompleteMetadataBean_ESTest.java
+@@ -85,15 +85,18 @@
+       // Existing behavior check
+       assertFalse(completeMetadataBean0.isPrivate());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      completeMetadataBean0.setFormats((ArrayList) null);
+-      String string0 = completeMetadataBean0.toString();
+-      assertEquals("Basic metadata:\nmetadataId: null\ntitle: null\ndescription: null\nlocation: null\ncontributeName: null\ncontributeUserId: null\nfileName: null\nfileExtension: null\nfileHeight: null\nfileWidth: null\nformat: null\nglobalId: null\nsourceCollection: null\nthumbnail: null\nsourcecollections: null\n\nExtended Metadata:  sourceCollectionId:null annotated:false inappropriate:false archived:false private:false specimenType:null radiographType:null orientation:null magnification:null clinicalHistory:null duration:null publicationId:null publicationName:null publicationDate:null approveDate:null catalogDate:null rejectDate:null creationDate:null languageType:null\nComplete Metadata: Disease Diagnoses: \nCopyrights: \nTaxonPaths: \nCopyrightHolders: \nContextURLs: \nrequirements: \nMetametadata Identifiers: \nMetametadata Contributors: \nrelations: \nkeywords: \nTargetUserGroups: \n", string0);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++        String before = completeMetadataBean0.toString();
++        completeMetadataBean0.setFormats((ArrayList) null);
++        String after = completeMetadataBean0.toString();
++        // Verify that the setFormats call changes the observable state
++        assertTrue("toString should reflect formats information after setting formats",
++                after.contains("formats:"));
++        assertNotEquals("toString output should differ after invoking setFormats", before, after);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

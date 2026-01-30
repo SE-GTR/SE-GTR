@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/heal/module/metadata/MetadataDAO_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/MetadataDAO_ESTest.java
+@@ -595,15 +595,18 @@
+     SQLServerConnection sQLServerConnection0 = new SQLServerConnection();
+     metadataDAO0.updateCompleteMetadata(null, sQLServerConnection0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test40()  throws Throwable  {
+-      SQLServerConnection sQLServerConnection0 = new SQLServerConnection();
+-      MetadataDAO metadataDAO0 = new MetadataDAO();
+-      metadataDAO0.saveMetadata((MetadataBean) null, (Connection) sQLServerConnection0);
+-      assertTrue(sQLServerConnection0.isClosed());
+-  }
++@Test(timeout = 4000)
++public void test40() throws Throwable {
++    SQLServerConnection connection = new SQLServerConnection();
++    MetadataDAO dao = new MetadataDAO();
++    // Act
++    dao.saveMetadata(null, connection);
++    // Assert side effect: the connection should be closed after saveMetadata
++    assertTrue(connection.isClosed());
++    // Additional sanity check
++    assertNotNull(dao);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test41()  throws Throwable  {

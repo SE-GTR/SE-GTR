@@ -1,0 +1,42 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/FromHubPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/FromHubPackager_ESTest.java
+@@ -25,26 +25,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class FromHubPackager_ESTest extends FromHubPackager_ESTest_scaffolding {
++@Test(expected = NullPointerException.class, timeout = 4000)
++public void test0() throws Throwable {
++    MetsFileType[] metsFileTypeArray0 = new MetsFileType[2];
++    HaSMETSProfile haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
++    doReturn(metsFileTypeArray0).when(haSMETSProfile0).getAllFiles();
++    HaSMasterMETSProfile haSMasterMETSProfile0 = mock(HaSMasterMETSProfile.class, new ViolatedAssumptionAnswer());
++    doReturn(haSMETSProfile0).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      MetsFileType[] metsFileTypeArray0 = new MetsFileType[2];
+-      HaSMETSProfile haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(metsFileTypeArray0).when(haSMETSProfile0).getAllFiles();
+-      HaSMasterMETSProfile haSMasterMETSProfile0 = mock(HaSMasterMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(haSMETSProfile0).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
+-      // Undeclared exception!
+-      try { 
+-        FromHubPackager.addFilesToZip(haSMasterMETSProfile0, (ZipOutputStream) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("edu.uiuc.ndiipp.hubandspoke.packager.FromHubPackager", e);
+-      }
+-  }
++    // Verify that the stubbed method returns the expected array
++    assertSame(metsFileTypeArray0, haSMETSProfile0.getAllFiles());
++
++    FromHubPackager.addFilesToZip(haSMasterMETSProfile0, (ZipOutputStream) null);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

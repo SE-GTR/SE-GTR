@@ -1,0 +1,31 @@
+--- a/evosuite-tests/br/com/jnfe/base/service/NFeCalculatorImpl_ESTest.java
++++ b/evosuite-tests/br/com/jnfe/base/service/NFeCalculatorImpl_ESTest.java
+@@ -93,18 +93,17 @@
+       BigDecimal bigDecimal1 = nFeCalculatorImpl0.calculate(iPI0);
+       assertEquals((short)1, bigDecimal1.shortValue());
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    NFeCalculatorImpl calculator = new NFeCalculatorImpl();
++    COFINS cofins = mock(COFINS.class, new ViolatedAssumptionAnswer());
++    doReturn(BigDecimal.ZERO, BigDecimal.ZERO).when(cofins).getCOFINSVBC();
++    doReturn(BigDecimal.ZERO, BigDecimal.ZERO).when(cofins).getPCOFINS();
++    doReturn(null).when(cofins).getVCOFINS();
++    BigDecimal result = calculator.calculate(cofins);
++    assertEquals(BigDecimal.ZERO, result);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      NFeCalculatorImpl nFeCalculatorImpl0 = new NFeCalculatorImpl();
+-      BigDecimal bigDecimal0 = BigDecimal.ZERO;
+-      COFINS cOFINS0 = mock(COFINS.class, new ViolatedAssumptionAnswer());
+-      doReturn(bigDecimal0, bigDecimal0).when(cOFINS0).getCOFINSVBC();
+-      doReturn(bigDecimal0, bigDecimal0).when(cOFINS0).getPCOFINS();
+-      doReturn((BigDecimal) null).when(cOFINS0).getVCOFINS();
+-      BigDecimal bigDecimal1 = nFeCalculatorImpl0.calculate(cOFINS0);
+-      assertSame(bigDecimal0, bigDecimal1);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

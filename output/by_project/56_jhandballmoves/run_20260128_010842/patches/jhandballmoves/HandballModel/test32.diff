@@ -1,0 +1,38 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -429,17 +429,24 @@
+     HandballModel handballModel0 = new HandballModel();
+     handballModel0.pauseAnimation(false);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Defender defender0 = new Defender(4, 3);
+-      MoveEvent moveEvent0 = new MoveEvent(defender0, 3, (-284));
+-      handballModel0.setActualMoveEvent(moveEvent0);
+-      handballModel0.startAnimation(false);
+-      assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
+-  }
++@Test(timeout = 4000)
++public void test32() throws Throwable {
++    HandballModel handballModel0 = new HandballModel();
++    Defender defender0 = new Defender(4, 3);
++    MoveEvent moveEvent0 = new MoveEvent(defender0, 3, -284);
++    // Verify initial state before any mutation
++    assertNull(handballModel0.getActualMoveEvent());
++    // Act: set the actual move event
++    handballModel0.setActualMoveEvent(moveEvent0);
++    // Assert side‑effects of setActualMoveEvent
++    assertSame(moveEvent0, handballModel0.getActualMoveEvent());
++    assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
++    // Act: start the animation
++    handballModel0.startAnimation(false);
++    // Assert that the state remains as expected after startAnimation
++    assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test33()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/macaw/io/ImportValueLabels_ESTest.java
++++ b/evosuite-tests/macaw/io/ImportValueLabels_ESTest.java
+@@ -18,17 +18,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ImportValueLabels_ESTest extends ImportValueLabels_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    File file0 = MockFile.createTempFile("rR~", "rR~");
++    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("/tmp/rR~0rR~");
++    boolean appended = FileSystemHandling.appendStringToFile(evoSuiteFile0, "rR~");
++    assertTrue(appended);
++    ImportValueLabels importValueLabels0 = new ImportValueLabels();
++    int beforeSize = importValueLabels0.getValueLabelsFromVariableName().size();
++    importValueLabels0.readVariableLabelsFile(file0);
++    int afterSize = importValueLabels0.getValueLabelsFromVariableName().size();
++    assertTrue(afterSize >= beforeSize);
++    importValueLabels0.readVariableLabelsFile(file0);
++    int afterSecondSize = importValueLabels0.getValueLabelsFromVariableName().size();
++    assertEquals(afterSize, afterSecondSize);
++    assertFalse(file0.isDirectory());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("rR~", "rR~");
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("/tmp/rR~0rR~");
+-      FileSystemHandling.appendStringToFile(evoSuiteFile0, "rR~");
+-      ImportValueLabels importValueLabels0 = new ImportValueLabels();
+-      importValueLabels0.readVariableLabelsFile(file0);
+-      importValueLabels0.readVariableLabelsFile(file0);
+-      assertFalse(file0.isDirectory());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

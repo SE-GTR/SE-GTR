@@ -1,0 +1,46 @@
+--- a/evosuite-tests/corina/db/DB_ESTest.java
++++ b/evosuite-tests/corina/db/DB_ESTest.java
+@@ -66,27 +66,24 @@
+     // Basic sanity check that the DB instance was created
+     assertNotNull(dB0);
+ }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
++        PreparedStatement preparedStatement0 = mock(PreparedStatement.class, new ViolatedAssumptionAnswer());
++        Connection connection0 = mock(Connection.class, new ViolatedAssumptionAnswer());
+ 
++        // Properly stub the connection to return a prepared statement,
++        // and the statement to return an empty result set.
++        when(connection0.prepareStatement(anyString())).thenReturn(preparedStatement0);
++        when(preparedStatement0.executeQuery()).thenReturn(resultSet0);
++        when(resultSet0.next()).thenReturn(false);
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
+-      PreparedStatement preparedStatement0 = mock(PreparedStatement.class, new ViolatedAssumptionAnswer());
+-      Connection connection0 = mock(Connection.class, new ViolatedAssumptionAnswer());
+-      doReturn((PreparedStatement) null).when(connection0).prepareStatement(anyString());
+-      DB dB0 = new DB(connection0);
+-      // Undeclared exception!
+-      try { 
+-        dB0.getElements("*.F/yCkS&\"");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.db.DB", e);
+-      }
+-  }
++        DB dB0 = new DB(connection0);
++        List result = dB0.getElements("*.F/yCkS&\"");
++        assertNotNull(result);
++        assertTrue(result.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

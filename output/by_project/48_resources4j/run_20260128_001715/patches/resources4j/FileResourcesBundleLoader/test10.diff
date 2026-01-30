@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/mytdev/resources4j/impl/FileResourcesBundleLoader_ESTest.java
++++ b/evosuite-tests/com/mytdev/resources4j/impl/FileResourcesBundleLoader_ESTest.java
+@@ -122,14 +122,19 @@
+     assertEquals(newCharset, loader.getCharset());
+     assertEquals(java.text.DateFormat.MEDIUM, loader.getDateFormatStyle());
+ }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        FileResourcesBundleLoader loader = new FileResourcesBundleLoader("", "");
++        loader.setDateFormatStyle(java.text.DateFormat.SHORT);
++        assertEquals(java.text.DateFormat.SHORT, loader.getDateFormatStyle());
++        try {
++            loader.loadResourcesBundle(java.util.Locale.US);
++            fail("Expected ResourcesException");
++        } catch (com.mytdev.resources4j.ResourcesException e) {
++            assertNotNull(e.getMessage());
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      FileResourcesBundleLoader fileResourcesBundleLoader0 = new FileResourcesBundleLoader("", "");
+-      fileResourcesBundleLoader0.setDateFormatStyle((-544));
+-      assertEquals((-544), fileResourcesBundleLoader0.getDateFormatStyle());
+-  }
+ public void test11() throws Throwable {
+     String currentDir = System.getProperty("user.dir");
+     FileResourcesBundleLoader loader = new FileResourcesBundleLoader(currentDir, "ci[QsdS9#Kq'[mK{-e");

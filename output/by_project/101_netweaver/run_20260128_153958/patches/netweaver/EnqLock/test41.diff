@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -619,18 +619,21 @@
+     TypeDesc typeDesc0 = EnqLock.getTypeDesc();
+     assertNotNull(typeDesc0.getXmlType());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test41()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
+-      enqLock0.setUser("transaction");
+-      EnqLock enqLock1 = new EnqLock();
+-      boolean boolean0 = enqLock0.equals(enqLock1);
+-      assertFalse(boolean0);
+-      assertEquals(0, enqLock1.getUseCountOwnerVb());
+-      assertEquals(0, enqLock1.getUseCountOwner());
+-  }
++@Test(timeout = 4000)
++public void test41() throws Throwable {
++    EnqLock enqLock0 = new EnqLock();
++    enqLock0.setUser("transaction");
++    // Verify that the user was set correctly
++    assertEquals("transaction", enqLock0.getUser());
++    // Ensure the second instance remains unaffected
++    EnqLock enqLock1 = new EnqLock();
++    assertNull(enqLock1.getUser());
++    boolean boolean0 = enqLock0.equals(enqLock1);
++    assertFalse(boolean0);
++    assertEquals(0, enqLock1.getUseCountOwnerVb());
++    assertEquals(0, enqLock1.getUseCountOwner());
++}
++
+ @Test(timeout = 4000)
+     public void test42() throws Throwable {
+         Class<Object> class0 = Object.class;

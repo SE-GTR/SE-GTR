@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/LogFile_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/LogFile_ESTest.java
+@@ -78,18 +78,24 @@
+     assertFalse(boolean0);
+     assertFalse(logFile0.equals((Object) logFile1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      LogFile logFile0 = new LogFile();
+-      LogFile logFile1 = new LogFile();
+-      assertTrue(logFile1.equals((Object)logFile0));
+-      
+-      logFile1.setModtime("], Rendered class: [");
+-      boolean boolean0 = logFile1.equals(logFile0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        LogFile logFile0 = new LogFile();
++        LogFile logFile1 = new LogFile();
++        assertTrue(logFile1.equals((Object) logFile0));
++
++        // Verify initial state of modtime (expected to be null)
++        assertNull(logFile1.getModtime());
++
++        // Exercise the void method and assert its side‑effect
++        logFile1.setModtime("], Rendered class: [");
++        assertEquals("], Rendered class: [", logFile1.getModtime());
++
++        // Ensure the equality logic reflects the changed state
++        boolean boolean0 = logFile1.equals(logFile0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

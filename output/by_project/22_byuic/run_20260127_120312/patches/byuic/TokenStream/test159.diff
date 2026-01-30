@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
+@@ -1729,23 +1729,13 @@
+       String string0 = tokenStream0.tokenToString(16);
+       assertEquals("", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test159()  throws Throwable  {
++@Test(timeout = 4000, expected = RuntimeException.class)
++  public void test159() throws Throwable {
+       CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+       DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
+       Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+       StringReader stringReader0 = new StringReader("delete");
+-      // Undeclared exception!
+-      try { 
+-        parser0.parse((Reader) stringReader0, "0rX;6}/", 2557);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Unexpected end of file (0rX;6}/#2557)
+-         //
+-         verifyException("org.mozilla.javascript.DefaultErrorReporter", e);
+-      }
+-  }
+-}
++      parser0.parse(stringReader0, "0rX;6}/", 2557);
++  }
++
++}

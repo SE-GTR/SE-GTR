@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/quickserver/util/pool/MakeQSObjectPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/MakeQSObjectPool_ESTest.java
+@@ -69,23 +69,13 @@
+     QSObjectPool pool2 = makeQSObjectPool0.getQSObjectPool(stackObjectPool0);
+     assertNotSame(pool1, pool2);
+ }
++@Test(expected = NullPointerException.class, timeout = 4000)
++  public void test03() throws Throwable {
++    MakeQSObjectPool pool = new MakeQSObjectPool((ObjectPool) null);
++    Object obj = new Object();
++    pool.invalidateObject(obj);
++  }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    makeQSObjectPool0 = new MakeQSObjectPool((ObjectPool) null);
+-      Object object0 = new Object();
+-      try { 
+-        makeQSObjectPool0.invalidateObject(object0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.util.pool.MakeQSObjectPool", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

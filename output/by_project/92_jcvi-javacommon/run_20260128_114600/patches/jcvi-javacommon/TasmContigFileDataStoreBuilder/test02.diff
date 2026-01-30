@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/TasmContigFileDataStoreBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/TasmContigFileDataStoreBuilder_ESTest.java
+@@ -62,24 +62,14 @@
+          verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("");
+-      NucleotideSequenceDataStore nucleotideSequenceDataStore0 = mock(NucleotideSequenceDataStore.class, new ViolatedAssumptionAnswer());
+-      TasmContigFileDataStoreBuilder tasmContigFileDataStoreBuilder0 = new TasmContigFileDataStoreBuilder(mockFile0, nucleotideSequenceDataStore0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test02() throws Throwable {
++        MockFile mockFile0 = new MockFile("");
++        NucleotideSequenceDataStore nucleotideSequenceDataStore0 = mock(NucleotideSequenceDataStore.class, new ViolatedAssumptionAnswer());
++        TasmContigFileDataStoreBuilder tasmContigFileDataStoreBuilder0 = new TasmContigFileDataStoreBuilder(mockFile0, nucleotideSequenceDataStore0);
+         tasmContigFileDataStoreBuilder0.hint((DataStoreProviderHint) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // hint can not be null
+-         //
+-         verifyException("org.jcvi.jillion.assembly.tigr.tasm.TasmContigFileDataStoreBuilder", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

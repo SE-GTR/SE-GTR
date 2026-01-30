@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/heal/module/metadata/MetadataBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/MetadataBean_ESTest.java
+@@ -193,14 +193,18 @@
+     String actual = metadataBean0.getDuration();
+     assertEquals(expected, actual);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-    metadataBean0 = new MetadataBean();
+-      metadataBean0.setPublicationName("");
+-      assertFalse(metadataBean0.isArchived());
+-  }
++@Test(timeout = 4000)
++public void test23() throws Throwable {
++    metadataBean0 = new MetadataBean();
++    // Verify initial publication name is null (default)
++    assertNull(metadataBean0.getPublicationName());
++    // Set publication name to empty string and verify the side effect
++    metadataBean0.setPublicationName("");
++    assertEquals("", metadataBean0.getPublicationName());
++    // Existing behavior check
++    assertFalse(metadataBean0.isArchived());
++}
++
+ @Test(timeout = 4000)
+ public void test24() throws Throwable {
+     MetadataBean metadataBean0 = new MetadataBean();

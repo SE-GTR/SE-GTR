@@ -1,0 +1,44 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -763,21 +763,26 @@
+     handballModel1.initWithLoadedModel(handballModel0);
+     assertEquals(0, handballModel0.getAcutalSequenceNr());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test61()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Offender offender0 = new Offender((-366), (-366));
+-      MoveEvent moveEvent0 = new MoveEvent(offender0, (-366));
+-      handballModel0.addMoveEvent(moveEvent0);
+-      HandballModel handballModel1 = new HandballModel();
+-      handballModel1.setDestinationPointForEvent(moveEvent0, (-366), 0, false);
+-      assertTrue(moveEvent0.isDestinationPointSet());
+-      
+-      handballModel1.initWithLoadedModel(handballModel0);
+-      assertEquals(0, handballModel0.getAcutalSequenceNr());
+-  }
++@Test(timeout = 4000)
++    public void test61() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        // observe the effect of adding a move event
++        int beforeSize = handballModel0.getEvents().size();
++        Offender offender0 = new Offender(-366, -366);
++        MoveEvent moveEvent0 = new MoveEvent(offender0, -366);
++        handballModel0.addMoveEvent(moveEvent0);
++        int afterSize = handballModel0.getEvents().size();
++        assertEquals(beforeSize + 1, afterSize);
++        assertTrue(handballModel0.getEvents().contains(moveEvent0));
++
++        HandballModel handballModel1 = new HandballModel();
++        handballModel1.setDestinationPointForEvent(moveEvent0, -366, 0, false);
++        assertTrue(moveEvent0.isDestinationPointSet());
++
++        handballModel1.initWithLoadedModel(handballModel0);
++        assertEquals(0, handballModel0.getAcutalSequenceNr());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test62()  throws Throwable  {

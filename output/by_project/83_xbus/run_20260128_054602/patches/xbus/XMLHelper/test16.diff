@@ -1,0 +1,28 @@
+--- a/evosuite-tests/net/sf/xbus/base/xml/XMLHelper_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/xml/XMLHelper_ESTest.java
+@@ -189,14 +189,17 @@
+       Hashtable hashtable0 = XMLHelper.getTagTextList(pSVIDocumentImpl0, "NamespaceAware");
+       assertNull(hashtable0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      HTMLDocumentImpl hTMLDocumentImpl0 = new HTMLDocumentImpl();
+-      hTMLDocumentImpl0.getLinks();
+-      String string0 = XMLHelper.getNodeText(hTMLDocumentImpl0);
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        HTMLDocumentImpl doc = new HTMLDocumentImpl();
++        org.w3c.dom.Element root = doc.createElement("root");
++        doc.appendChild(root);
++        String expected = "sample text";
++        root.appendChild(doc.createTextNode(expected));
++        String actual = XMLHelper.getNodeText(doc);
++        assertEquals(expected, actual);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

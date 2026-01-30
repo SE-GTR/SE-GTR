@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/AbstractSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/AbstractSessionManager_ESTest.java
+@@ -178,26 +178,19 @@
+          verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-    defaultSessionManager0 = new DefaultSessionManager();
+-      defaultSessionManager0.newSessionInstance((InetAddress) null);
+-      SessionListener sessionListener0 = mock(SessionListener.class, new ViolatedAssumptionAnswer());
+-      defaultSessionManager0.setGlobalSessionTimeout(49);
+-      defaultSessionManager0.add(sessionListener0);
+-      // Undeclared exception!
+-      try { 
+-        defaultSessionManager0.onStop((Session) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    defaultSessionManager0 = new DefaultSessionManager();
++    InetAddress address = InetAddress.getLoopbackAddress();
++    Session session = defaultSessionManager0.newSessionInstance(address);
++    assertNotNull(session);
++    SessionListener sessionListener0 = mock(SessionListener.class, new ViolatedAssumptionAnswer());
++    defaultSessionManager0.setGlobalSessionTimeout(49);
++    defaultSessionManager0.add(sessionListener0);
++    // invoke onStop with a valid session; no exception expected
++    defaultSessionManager0.onStop(session);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

@@ -1,0 +1,52 @@
+--- a/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
+@@ -129,27 +129,28 @@
+          verifyException("org.databene.jdbacl.DBUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      Result result0 = Result.newRollbackToSavepointRequest("Wnk@@:B.");
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      result0.add((Object[]) null);
+-      result0.add((Object[]) null);
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      // Undeclared exception!
+-      try { 
+-        DBUtil.querySingleRow("COMMENT", jdbcConnection0);
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // One-row database query returned multiple rows: COMMENT
+-         //
+-         verifyException("org.databene.jdbacl.DBUtil", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        Result result0 = Result.newRollbackToSavepointRequest("Wnk@@:B.");
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        // Capture the stubbing object and assert it is not null to avoid NARV
++        org.mockito.stubbing.OngoingStubbing<Result> stub = doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
++        assertNotNull(stub);
++        result0.add((Object[]) null);
++        result0.add((Object[]) null);
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++        // Undeclared exception!
++        try {
++            DBUtil.querySingleRow("COMMENT", jdbcConnection0);
++            fail("Expecting exception: IllegalStateException");
++        } catch (IllegalStateException e) {
++            //
++            // One-row database query returned multiple rows: COMMENT
++            //
++            verifyException("org.databene.jdbacl.DBUtil", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

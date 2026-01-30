@@ -1,0 +1,29 @@
+--- a/evosuite-tests/umd/cs/shop/JSJshop_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSJshop_ESTest.java
+@@ -184,13 +184,19 @@
+          verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      String[] stringArray0 = new String[0];
+-      JSJshop.main(stringArray0);
+-      assertEquals(0, stringArray0.length);
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    // Capture the initial state of the observable flag level
++    int beforeFlagLevel = JSJshop.getFlagLevel();
++
++    String[] args = new String[0];
++    JSJshop.main(args);
++
++    // Verify that invoking main with no arguments does not alter the flag level
++    int afterFlagLevel = JSJshop.getFlagLevel();
++    assertEquals(beforeFlagLevel, afterFlagLevel);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

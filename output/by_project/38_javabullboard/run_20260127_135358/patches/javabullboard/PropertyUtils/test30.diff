@@ -1,0 +1,41 @@
+--- a/evosuite-tests/framework/util/PropertyUtils_ESTest.java
++++ b/evosuite-tests/framework/util/PropertyUtils_ESTest.java
+@@ -213,21 +213,23 @@
+         Object result = PropertyUtils.getNestedProperty(bean, "time");
+         assertEquals(Long.valueOf(0L), result);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      try { 
+-        PropertyUtils.getNestedProperty("j.ko5Kd", "j.ko5Kd");
+-        fail("Expecting exception: NoSuchMethodException");
+-      
+-      } catch(NoSuchMethodException e) {
+-         //
+-         // Unknown property 'j'
+-         //
+-         verifyException("framework.util.PropertyUtils", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test30() throws Throwable {
++        class Inner {
++            public String getValue() {
++                return "nested";
++            }
++        }
++        class Bean {
++            public Inner getInner() {
++                return new Inner();
++            }
++        }
++        Bean bean = new Bean();
++        Object result = PropertyUtils.getNestedProperty(bean, "inner.value");
++        assertEquals("nested", result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

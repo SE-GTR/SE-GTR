@@ -1,0 +1,39 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -427,14 +427,28 @@
+     // ensure other fields remain unchanged
+     assertNull(data.getCode());
+ }
+-
+-@Test(timeout = 4000)
+-    public void test040() throws Throwable {
+-        AddressDetails.PostalServiceElements.SupplementaryPostalServiceData data = new AddressDetails.PostalServiceElements.SupplementaryPostalServiceData();
+-        String expected = "sampleContent";
+-        data.setContent(expected);
+-        assertEquals(expected, data.getContent());
+-    }
++@Test(timeout = 4000)
++public void test040() throws Throwable {
++    AddressDetails.PostalServiceElements.SupplementaryPostalServiceData data1 =
++        new AddressDetails.PostalServiceElements.SupplementaryPostalServiceData();
++    AddressDetails.PostalServiceElements.SupplementaryPostalServiceData data2 =
++        new AddressDetails.PostalServiceElements.SupplementaryPostalServiceData();
++
++    String content = "sampleContent";
++    data1.setContent(content);
++    data2.setContent(content);
++
++    // Verify that the getter returns the set value
++    assertEquals(content, data1.getContent());
++
++    // Verify logical equality based on content
++    assertEquals(data1, data2);
++
++    // Changing content should affect equality
++    data2.setContent("differentContent");
++    assertNotEquals(data1, data2);
++}
++
+ @Test(timeout = 4000)
+ public void test041() throws Throwable {
+     AddressDetails.PostalServiceElements.SupplementaryPostalServiceData data0 = new AddressDetails.PostalServiceElements.SupplementaryPostalServiceData();

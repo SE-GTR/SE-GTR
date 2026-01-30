@@ -1,0 +1,36 @@
+--- a/evosuite-tests/macaw/presentationLayer/ChangeHistoryTableModel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/ChangeHistoryTableModel_ESTest.java
+@@ -47,19 +47,24 @@
+         assertEquals(1, model.getRowCount());
+         assertEquals("", model.getValueAt(0, 1));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
+     changeHistoryTableModel0 = new ChangeHistoryTableModel();
+     arrayList0 = new ArrayList<MacawChangeEvent>();
+     changeEventType0 = ChangeEventType.LIST_CHOICE;
+-      MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent(changeEventType0, "", "");
+-      arrayList0.add(macawChangeEvent0);
+-      changeHistoryTableModel0.setChangeEvents(arrayList0);
+-      Object object0 = changeHistoryTableModel0.getValueAt(0, 0);
+-      assertEquals("14-Feb-2014 08:21:21", object0);
++    MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent(changeEventType0, "", "");
++    // verify that adding to the list succeeds (NARV)
++    boolean added = arrayList0.add(macawChangeEvent0);
++    assertTrue(added);
++    // ensure the model is initially empty
++    assertEquals(0, changeHistoryTableModel0.getRowCount());
++    // set the change events (void method) and verify its side‑effect (NASE, TSVM)
++    changeHistoryTableModel0.setChangeEvents(arrayList0);
++    assertEquals(1, changeHistoryTableModel0.getRowCount());
++    Object object0 = changeHistoryTableModel0.getValueAt(0, 0);
++    assertEquals("14-Feb-2014 08:21:21", object0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,28 @@
+--- a/evosuite-tests/module/Message_ESTest.java
++++ b/evosuite-tests/module/Message_ESTest.java
+@@ -80,13 +80,18 @@
+       assertEquals(4, message0.getState());
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-    message0 = new Message();
+-      message0.setDelivered(false);
+-      assertEquals(0, message0.getState());
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        message0 = new Message();
++        int beforeState = message0.getState();
++        message0.setDelivered(false);
++        int afterState = message0.getState();
++        // The state should remain unchanged when delivered is set to false
++        assertEquals(beforeState, afterState);
++        // For a newly created message, the expected state is UNDEFINED (0)
++        assertEquals(Message.UNDEFINED, afterState);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

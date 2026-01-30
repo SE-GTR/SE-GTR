@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/AbstractCasFileVisitor_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/AbstractCasFileVisitor_ESTest.java
+@@ -30,9 +30,8 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AbstractCasFileVisitor_ESTest extends AbstractCasFileVisitor_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       MockFile mockFile0 = new MockFile("consensus caller can not be null", ";/km2g21xg@F/z^Aj");
+       StreamingIterator<String> streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+       doReturn(false).when(streamingIterator0).hasNext();
+@@ -40,9 +39,16 @@
+       CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
+       doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
+       doReturn(streamingIterator1).when(casGappedReferenceDataStore0).iterator();
++
++      // Assert the stubbed return values
++      assertFalse(streamingIterator0.hasNext());
++      assertSame(streamingIterator0, casGappedReferenceDataStore0.idIterator());
++      assertSame(streamingIterator1, casGappedReferenceDataStore0.iterator());
++
+       Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "org.jcvi.jillion.assembly.clc.cas.AbstractCasFileVisitor");
+       cas2Consed0.visitNumberOfReferenceFiles(1456L);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

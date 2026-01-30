@@ -1,0 +1,38 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -559,14 +559,27 @@
+       assertEquals(1, map.size());
+       assertEquals("value", map.get(key));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test055()  throws Throwable  {
+-      AddressDetails.Address addressDetails_Address0 = new AddressDetails.Address();
+-      addressDetails_Address0.setContent((String) null);
+-      assertNull(addressDetails_Address0.getCode());
+-  }
++@Test(timeout = 4000)
++    public void test055() throws Throwable {
++        AddressDetails.Address address = new AddressDetails.Address();
++        // initial state: content and code should be null
++        assertNull(address.getContent());
++        assertNull(address.getCode());
++
++        // set a non‑null content and verify the side‑effect
++        String sample = "sampleContent";
++        address.setContent(sample);
++        assertEquals(sample, address.getContent());
++        // code should remain unchanged
++        assertNull(address.getCode());
++
++        // set content back to null and verify
++        address.setContent(null);
++        assertNull(address.getContent());
++        // code still unchanged
++        assertNull(address.getCode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test056()  throws Throwable  {

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/net/sf/xbus/base/core/timeoutcall/FutureResult_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/core/timeoutcall/FutureResult_ESTest.java
+@@ -89,14 +89,21 @@
+         futureResult0.clear();
+         assertEquals(before, futureResult0.isReady());
+     }
++@Test(timeout = 4000)
++  public void test7() throws Throwable {
++      FutureResult futureResult0 = new FutureResult();
++      // Verify initial state
++      assertFalse(futureResult0.isReady());
+ 
++      // Exercise non‑trivial behavior
++      String expected = "value";
++      futureResult0.set(expected);
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      FutureResult futureResult0 = new FutureResult();
+-      boolean boolean0 = futureResult0.isReady();
+-      assertFalse(boolean0);
++      // Verify state after setting the result
++      assertTrue(futureResult0.isReady());
++      assertEquals(expected, futureResult0.get());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

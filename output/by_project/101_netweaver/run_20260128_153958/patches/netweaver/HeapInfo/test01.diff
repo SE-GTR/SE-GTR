@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/HeapInfo_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/HeapInfo_ESTest.java
+@@ -28,14 +28,16 @@
+         assertEquals(hash1, hash2);
+         assertEquals(1073741824L, heapInfo0.getMaxSize());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      HeapInfo heapInfo0 = new HeapInfo();
+-      heapInfo0.setProcessname("-TL");
+-      heapInfo0.hashCode();
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    HeapInfo heapInfo0 = new HeapInfo();
++    int hashBefore = heapInfo0.hashCode();
++    heapInfo0.setProcessname("-TL");
++    int hashAfter = heapInfo0.hashCode();
++    assertEquals("-TL", heapInfo0.getProcessname());
++    assertNotEquals(hashBefore, hashAfter);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

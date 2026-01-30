@@ -1,0 +1,28 @@
+--- a/evosuite-tests/framework/persistence/jdbc/pool/JDBCPool_ESTest.java
++++ b/evosuite-tests/framework/persistence/jdbc/pool/JDBCPool_ESTest.java
+@@ -170,13 +170,19 @@
+       String string0 = oraclePoolImpl0.getQueryUsername();
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      OraclePoolImpl oraclePoolImpl0 = new OraclePoolImpl();
++@Test(timeout = 4000)
++  public void test16() throws Throwable {
++      OraclePoolImpl oraclePoolImpl0 = new OraclePoolImpl();
++      // Exercise a non‑trivial operation of the pool: obtain a connection.
++      java.sql.Connection conn = oraclePoolImpl0.getConnection();
++      assertNotNull("Connection should not be null after pool initialization", conn);
++      // Verify the default validation flag remains false.
+       boolean boolean0 = oraclePoolImpl0.doValidation();
+-      assertFalse(boolean0);
+-  }
++      assertFalse("doValidation should be false by default", boolean0);
++      // Clean up the obtained connection.
++      conn.close();
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

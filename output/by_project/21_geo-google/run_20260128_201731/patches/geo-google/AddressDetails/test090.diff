@@ -1,0 +1,31 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -912,15 +912,19 @@
+         // ensure unrelated attribute remains unchanged
+         assertNull(addressDetails_PostalServiceElements_AddressLongitude0.getType());
+     }
+-
+-@Test(timeout = 4000)
+-    public void test090() throws Throwable {
+-        AddressDetails.PostalServiceElements.AddressLongitude addressLongitude = new AddressDetails.PostalServiceElements.AddressLongitude();
+-        String expected = "ABC123";
+-        addressLongitude.setCode(expected);
+-        String actual = addressLongitude.getCode();
+-        assertEquals(expected, actual);
+-    }
++@Test(timeout = 4000)
++public void test090() throws Throwable {
++    AddressDetails.PostalServiceElements.AddressLongitude addressLongitude = new AddressDetails.PostalServiceElements.AddressLongitude();
++    String expected = "ABC123";
++    addressLongitude.setCode(expected);
++    // Verify that the setter correctly updates the value retrieved by the getter
++    assertEquals(expected, addressLongitude.getCode());
++    // Additional non‑trivial assertion: hashCode should be stable for the same object state
++    int firstHash = addressLongitude.hashCode();
++    int secondHash = addressLongitude.hashCode();
++    assertEquals(firstHash, secondHash);
++}
++
+ @Test(timeout = 4000)
+     public void test091() throws Throwable {
+         AddressDetails.Country addressDetails_Country0 = new AddressDetails.Country();

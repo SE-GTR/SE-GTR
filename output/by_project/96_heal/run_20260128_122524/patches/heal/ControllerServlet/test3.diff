@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/heal/servlet/ControllerServlet_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/ControllerServlet_ESTest.java
+@@ -72,18 +72,20 @@
+         // Verify expected interaction
+         verify(httpServletRequest0).getPathInfo();
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++public void test3() throws Throwable {
+     controllerServlet0 = new ControllerServlet();
+     httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(httpServletRequest0).getPathInfo();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      controllerServlet0.doGet(httpServletRequestWrapper0, httpServletResponseWrapper0);
+-  }
++    doReturn((String) null).when(httpServletRequest0).getPathInfo();
++    // Verify that the stubbed method returns the expected value
++    String pathInfo = httpServletRequest0.getPathInfo();
++    assertNull(pathInfo);
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++    HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++    controllerServlet0.doGet(httpServletRequestWrapper0, httpServletResponseWrapper0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

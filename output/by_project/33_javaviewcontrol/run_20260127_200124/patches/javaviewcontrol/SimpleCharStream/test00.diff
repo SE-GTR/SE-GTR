@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/pmdesigns/jvc/tools/SimpleCharStream_ESTest.java
++++ b/evosuite-tests/com/pmdesigns/jvc/tools/SimpleCharStream_ESTest.java
+@@ -24,16 +24,19 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SimpleCharStream_ESTest extends SimpleCharStream_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      StringReader stringReader0 = new StringReader("_7");
+-      SimpleCharStream simpleCharStream0 = new SimpleCharStream(stringReader0, (-308), 4096);
+-      simpleCharStream0.available = 0;
+-      simpleCharStream0.readChar();
+-      simpleCharStream0.adjustBeginLineColumn((-308), (-750));
+-      assertEquals(4096, simpleCharStream0.bufpos);
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    StringReader stringReader0 = new StringReader("_7");
++    SimpleCharStream simpleCharStream0 = new SimpleCharStream(stringReader0, -308, 4096);
++    int initialPos = simpleCharStream0.bufpos;
++    char first = simpleCharStream0.readChar();
++    assertEquals('_', first);
++    assertEquals(initialPos + 1, simpleCharStream0.bufpos);
++    simpleCharStream0.adjustBeginLineColumn(-308, -750);
++    char second = simpleCharStream0.readChar();
++    assertEquals('7', second);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

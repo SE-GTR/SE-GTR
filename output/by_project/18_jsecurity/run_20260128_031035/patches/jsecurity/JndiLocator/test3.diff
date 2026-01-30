@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jsecurity/jndi/JndiLocator_ESTest.java
++++ b/evosuite-tests/org/jsecurity/jndi/JndiLocator_ESTest.java
+@@ -72,14 +72,20 @@
+          verifyException("org.jsecurity.jndi.JndiLocator", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        JndiLocator locator = new JndiLocator();
++        JndiTemplate template = new JndiTemplate();
++        // Verify that setting the JndiTemplate updates the internal state
++        locator.setJndiTemplate(template);
++        assertSame("JndiTemplate should be stored correctly", template, locator.getJndiTemplate());
++        // Default value for resourceRef should be false
++        assertFalse("resourceRef should be false by default", locator.isResourceRef());
++        // Change resourceRef and verify the side‑effect
++        locator.setResourceRef(true);
++        assertTrue("resourceRef should reflect the set value", locator.isResourceRef());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    jndiLocator0 = new JndiLocator();
+-      JndiTemplate jndiTemplate0 = new JndiTemplate();
+-      jndiLocator0.setJndiTemplate(jndiTemplate0);
+-      assertFalse(jndiLocator0.isResourceRef());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

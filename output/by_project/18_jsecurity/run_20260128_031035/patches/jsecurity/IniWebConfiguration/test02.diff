@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
+@@ -65,16 +65,20 @@
+       } catch(StringIndexOutOfBoundsException e) {
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
+-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
+-      hashMap0.put("wvv7sE~", "configUrl");
+-      HashMap<String, Filter> hashMap1 = new HashMap<String, Filter>();
+-      Map<String, List<Filter>> map0 = iniWebConfiguration0.createChains(hashMap0, hashMap1);
+-      assertNull(map0);
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        IniWebConfiguration config = new IniWebConfiguration();
++        HashMap<String, String> urls = new HashMap<String, String>();
++        urls.put("wvv7sE~", "configUrl");
++        HashMap<String, Filter> filters = new HashMap<String, Filter>();
++        Map<String, List<Filter>> chains = config.createChains(urls, filters);
++        assertNull(chains);
++        // verify that the input maps remain unchanged after the call
++        assertEquals(1, urls.size());
++        assertTrue(urls.containsKey("wvv7sE~"));
++        assertEquals(0, filters.size());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

@@ -1,0 +1,24 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -649,11 +649,16 @@
+       sQLLexer0.mVALUE_LIST();
+       assertEquals((-1), BaseRecognizer.MEMO_RULE_UNKNOWN);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test048()  throws Throwable  {
+-      ANTLRStringStream aNTLRStringStream0 = new ANTLRStringStream("= @2~R/b9?S&{_");
+-  }
++@Test(timeout = 4000)
++    public void test048() throws Throwable {
++        ANTLRStringStream stream = new ANTLRStringStream("= @2~R/b\u007f9?S&{_");
++        // Verify that the first character is '='
++        assertEquals('=', stream.LA(1));
++        // Consume the first character and verify the next one is a space
++        stream.consume();
++        assertEquals(' ', stream.LA(1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test049()  throws Throwable  {

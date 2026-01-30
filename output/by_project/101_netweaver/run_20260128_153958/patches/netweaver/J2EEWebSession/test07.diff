@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
+@@ -108,22 +108,28 @@
+       assertTrue(j2EEWebSession1.equals((Object) j2EEWebSession0));
+       assertTrue(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test07() throws Throwable {
+       J2EEWebSession j2EEWebSession0 = new J2EEWebSession();
+       j2EEWebSession0.setUpdateTime("WARN");
+       j2EEWebSession0.setUser("WARN");
++      // Verify side effects of the setters on the first instance
++      assertEquals("WARN", j2EEWebSession0.getUpdateTime());
++      assertEquals("WARN", j2EEWebSession0.getUser());
++
+       J2EEWebSession j2EEWebSession1 = new J2EEWebSession();
+       j2EEWebSession1.setUpdateTime("WARN");
+-      boolean boolean0 = j2EEWebSession1.equals(j2EEWebSession0);
+-      assertEquals(0, j2EEWebSession1.getActiveRequests());
+-      assertEquals(0, j2EEWebSession1.getIdHash());
+-      assertFalse(boolean0);
+-      assertEquals(0, j2EEWebSession1.getTimeout());
+-      assertEquals(0, j2EEWebSession1.getSize());
+-  }
++      // Verify side effect of setUpdateTime on the second instance
++      assertEquals("WARN", j2EEWebSession1.getUpdateTime());
++
++      boolean boolean0 = j2EEWebSession1.equals(j2EEWebSession0);
++      assertEquals(0, j2EEWebSession1.getActiveRequests());
++      assertEquals(0, j2EEWebSession1.getIdHash());
++      assertFalse(boolean0);
++      assertEquals(0, j2EEWebSession1.getTimeout());
++      assertEquals(0, j2EEWebSession1.getSize());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

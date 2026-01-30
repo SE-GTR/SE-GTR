@@ -1,0 +1,38 @@
+--- a/evosuite-tests/corina/Element_ESTest.java
++++ b/evosuite-tests/corina/Element_ESTest.java
+@@ -199,22 +199,19 @@
+       assertEquals("?", element0.getBasename());
+       assertEquals("?", element0.getFilename());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-    element0 = new Element("?");
+-      // Undeclared exception!
+-      try { 
+-        element0.compareTo((Object) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.Element", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        Element e1 = new Element("a");
++        Element e2 = new Element("b");
++        // e1's filename is lexicographically smaller than e2's
++        assertTrue(e1.compareTo(e2) < 0);
++        // reverse order should be greater
++        assertTrue(e2.compareTo(e1) > 0);
++        // identical filenames should compare as equal
++        Element e3 = new Element("a");
++        assertEquals(0, e1.compareTo(e3));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

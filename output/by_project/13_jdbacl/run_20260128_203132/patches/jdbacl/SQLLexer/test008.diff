@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -103,23 +103,16 @@
+         assertEquals((int) input.charAt(0), stream.LA(1));
+         assertEquals(input, stream.toString());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test008()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mBETWEEN();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test008() throws Throwable {
++        org.antlr.runtime.CharStream cs = new org.antlr.runtime.ANTLRStringStream("BETWEEN");
++        SQLLexer lexer = new SQLLexer(cs);
++        lexer.mBETWEEN();
++        org.antlr.runtime.Token token = lexer.getToken();
++        assertNotNull(token);
++        assertEquals("BETWEEN", token.getText());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test009()  throws Throwable  {

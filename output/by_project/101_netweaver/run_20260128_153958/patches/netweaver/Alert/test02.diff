@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/Alert_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/Alert_ESTest.java
+@@ -43,18 +43,26 @@
+         assertTrue(alert1.equals((Object) alert0));
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      Alert alert0 = new Alert();
+-      Alert alert1 = new Alert();
+-      assertTrue(alert1.equals((Object)alert0));
+-      
+-      alert1.setAid("r*-n|E.\"Q");
+-      boolean boolean0 = alert1.equals(alert0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    Alert alert0 = new Alert();
++    Alert alert1 = new Alert();
++    assertTrue(alert1.equals((Object) alert0));
++
++    // Verify initial state before setting aid
++    assertNull(alert1.getAid());
++
++    // Act: set the aid value
++    alert1.setAid("r*-n|E.\"Q");
++
++    // Assert: side‑effect of setAid is observable via the getter
++    assertEquals("r*-n|E.\"Q", alert1.getAid());
++
++    // Ensure the equality logic reflects the changed state
++    boolean boolean0 = alert1.equals(alert0);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

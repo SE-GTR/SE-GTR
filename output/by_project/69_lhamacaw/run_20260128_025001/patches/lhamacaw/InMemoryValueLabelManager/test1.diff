@@ -1,0 +1,57 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryValueLabelManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryValueLabelManager_ESTest.java
+@@ -49,34 +49,28 @@
+           verifyException("java.util.regex.Pattern", e);
+       }
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+-      User user0 = new User();
+-      DerivedVariable derivedVariable0 = new DerivedVariable();
+-      ArrayList<ValueLabel> arrayList0 = derivedVariable0.getValueLabels();
+-      ValueLabel valueLabel0 = new ValueLabel();
+-      arrayList0.add(valueLabel0);
+-      ValueLabel valueLabel1 = new ValueLabel();
+-      valueLabel1.setValue("7,9g>vj*X{Qi");
+-      arrayList0.add(valueLabel1);
+-      InMemoryValueLabelManager inMemoryValueLabelManager0 = new InMemoryValueLabelManager(inMemoryChangeEventManager0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
++    User user0 = new User();
++    DerivedVariable derivedVariable0 = new DerivedVariable();
++    ArrayList<ValueLabel> arrayList0 = derivedVariable0.getValueLabels();
++    ValueLabel valueLabel0 = new ValueLabel();
++    boolean added0 = arrayList0.add(valueLabel0);
++    assertTrue(added0);
++    ValueLabel valueLabel1 = new ValueLabel();
++    valueLabel1.setValue("7,9g>vj*X{Qi");
++    boolean added1 = arrayList0.add(valueLabel1);
++    assertTrue(added1);
++    InMemoryValueLabelManager inMemoryValueLabelManager0 = new InMemoryValueLabelManager(inMemoryChangeEventManager0);
++    try {
+         inMemoryValueLabelManager0.addValueLabels(user0, derivedVariable0, arrayList0);
+         fail("Expecting exception: PatternSyntaxException");
+-      
+-      } catch(PatternSyntaxException e) {
+-         //
+-         // Illegal repetition near index 10
+-         // .*7,9G>VJ*X{QI.*
+-         //           ^
+-         //
+-         verifyException("java.util.regex.Pattern", e);
+-      }
+-  }
++    } catch (PatternSyntaxException e) {
++        verifyException("java.util.regex.Pattern", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

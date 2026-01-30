@@ -1,0 +1,35 @@
+--- a/evosuite-tests/jigl/image/ops/levelOps/ClipNeg_ESTest.java
++++ b/evosuite-tests/jigl/image/ops/levelOps/ClipNeg_ESTest.java
+@@ -36,18 +36,21 @@
+       assertEquals(1.0F, imageKernel0.addSum(), 0.01F);
+       assertEquals(5.0F, imageKernel0.absSum(), 0.01F);
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    ROI rOI0 = new ROI();
++    ClipNeg clipNeg0 = new ClipNeg();
++    KernelType kernelType0 = KernelType.LAPLACIAN_8;
++    ImageKernel imageKernel0 = new ImageKernel(kernelType0);
++    Image result = clipNeg0.apply((RealGrayImage) imageKernel0, rOI0);
++    assertNotNull(result);
++    assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
++    assertEquals(16.0F, imageKernel0.absSum(), 0.01F);
++    RealGrayImage returned = (RealGrayImage) result;
++    assertEquals(0.0F, returned.addSum(), 0.01F);
++    assertEquals(16.0F, returned.absSum(), 0.01F);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ROI rOI0 = new ROI();
+-      ClipNeg clipNeg0 = new ClipNeg();
+-      KernelType kernelType0 = KernelType.LAPLACIAN_8;
+-      ImageKernel imageKernel0 = new ImageKernel(kernelType0);
+-      clipNeg0.apply((RealGrayImage) imageKernel0, rOI0);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals(16.0F, imageKernel0.absSum(), 0.01F);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

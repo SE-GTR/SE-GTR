@@ -1,0 +1,48 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DBRowIterator_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DBRowIterator_ESTest.java
+@@ -106,26 +106,24 @@
+          verifyException("org.databene.jdbacl.model.DBRowIterator", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        dBSchema0 = new DBSchema("Error wurying table ");
++        defaultDBTable0 = new DefaultDBTable("Error wurying table ", dBSchema0);
++        result0 = Result.newRollbackToSavepointRequest("Error wurying table ");
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
++        // Verify that the stubbed execute method returns the expected result
++        Result execResult = session0.execute(Result.newRollbackToSavepointRequest("verify"));
++        assertSame(result0, execResult);
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++        DBRowIterator dBRowIterator0 = new DBRowIterator(defaultDBTable0, jdbcConnection0, "Error wurying table ");
++        try {
++            dBRowIterator0.remove();
++            fail("Expecting exception: UnsupportedOperationException");
++        } catch (UnsupportedOperationException e) {
++            verifyException("org.databene.jdbacl.model.DBRowIterator", e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    dBSchema0 = new DBSchema("Error wurying table ");
+-    defaultDBTable0 = new DefaultDBTable("Error wurying table ", dBSchema0);
+-    result0 = Result.newRollbackToSavepointRequest("Error wurying table ");
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      DBRowIterator dBRowIterator0 = new DBRowIterator(defaultDBTable0, jdbcConnection0, "Error wurying table ");
+-      // Undeclared exception!
+-      try { 
+-        dBRowIterator0.remove();
+-        fail("Expecting exception: UnsupportedOperationException");
+-      
+-      } catch(UnsupportedOperationException e) {
+-         //
+-         // remove() is not supported by class org.databene.jdbacl.model.DBRowIterator
+-         //
+-         verifyException("org.databene.jdbacl.model.DBRowIterator", e);
+-      }
+-  }
+ }

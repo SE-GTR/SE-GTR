@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jsecurity/authc/SimpleAccount_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/SimpleAccount_ESTest.java
+@@ -283,22 +283,17 @@
+          verifyException("org.jsecurity.authc.SimpleAccount", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-    simpleAccount0 = new SimpleAccount();
+-      // Undeclared exception!
+-      try { 
+-        simpleAccount0.getObjectPermissions();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.authc.SimpleAccount", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        // Initialize SimpleAccount with empty roles and permissions to avoid NPE
++        java.util.Set<String> emptyRoles = new java.util.HashSet<>();
++        java.util.Set<org.jsecurity.authz.Permission> emptyPermissions = new java.util.HashSet<>();
++        SimpleAccount account = new SimpleAccount("user", "pass", emptyRoles, emptyPermissions);
++        java.util.Collection<org.jsecurity.authz.Permission> perms = account.getObjectPermissions();
++        assertNotNull(perms);
++        assertTrue(perms.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

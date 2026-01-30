@@ -1,0 +1,45 @@
+--- a/evosuite-tests/bible/util/Queue_ESTest.java
++++ b/evosuite-tests/bible/util/Queue_ESTest.java
+@@ -50,20 +50,31 @@
+     assertNotEquals(before, after);
+     assertTrue(after.contains(object0.toString()));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test04() throws Throwable {
+     queue0 = new Queue(537);
+     object0 = new Object();
+-      Object object1 = new Object();
+-      queue0.enqueue(object1);
+-      queue0.refreshElement(object0);
+-      queue0.enqueue(object0);
+-      int int0 = queue0.remove(object0);
+-      assertFalse(queue0.isEmpty());
+-      assertEquals(2, int0);
++    // Verify initial state before any modifications
++    assertTrue(queue0.isEmpty());
++
++    Object object1 = new Object();
++    queue0.enqueue(object1);
++    // enqueue should make the queue non‑empty
++    assertFalse(queue0.isEmpty());
++
++    queue0.refreshElement(object0);
++    // refreshElement should not empty the queue
++    assertFalse(queue0.isEmpty());
++
++    queue0.enqueue(object0);
++    // second enqueue should still keep the queue non‑empty
++    assertFalse(queue0.isEmpty());
++
++    int int0 = queue0.remove(object0);
++    assertFalse(queue0.isEmpty());
++    assertEquals(2, int0);
+   }
++
+ @Test(timeout = 4000)
+ public void test05() throws Throwable {
+     queue0.enqueue(object0);

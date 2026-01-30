@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -327,11 +327,18 @@
+       int int0 = ConfigurationManagement.getAutosave_interval();
+       assertEquals(0, int0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test42()  throws Throwable  {
+-      ConfigurationManagement.setNew_reg_tick(0);
+-  }
++@Test(timeout = 4000)
++public void test42() throws Throwable {
++    // Preserve original value to avoid side effects on other tests
++    long original = ConfigurationManagement.getNew_reg_tick();
++    // Act: set a new registration tick value
++    ConfigurationManagement.setNew_reg_tick(0L);
++    // Assert: the getter reflects the updated value
++    assertEquals(0L, ConfigurationManagement.getNew_reg_tick());
++    // Restore original state
++    ConfigurationManagement.setNew_reg_tick(original);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test43()  throws Throwable  {

@@ -1,0 +1,110 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpSession_ESTest.java
+@@ -236,20 +236,91 @@
+          verifyException("org.jsecurity.web.servlet.JSecurityHttpSession", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-    jSecurityHttpSession0 = new JSecurityHttpSession((Session) null, (HttpServletRequest) null, (ServletContext) null);
+-      // Undeclared exception!
+-      try { 
+-        jSecurityHttpSession0.setMaxInactiveInterval(1);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.servlet.JSecurityHttpSession", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        // Create a minimal stub Session implementation
++        Session stubSession = new Session() {
++            private long timeout;
++
++            @Override
++            public Serializable getId() {
++                return "stub";
++            }
++
++            @Override
++            public Date getStartTimestamp() {
++                return new Date();
++            }
++
++            @Override
++            public Date getLastAccessTime() {
++                return new Date();
++            }
++
++            @Override
++            public Date getStopTimestamp() {
++                return null;
++            }
++
++            @Override
++            public long getTimeout() {
++                return timeout;
++            }
++
++            @Override
++            public void setTimeout(long timeout) {
++                this.timeout = timeout;
++            }
++
++            @Override
++            public void touch() {
++                // no-op
++            }
++
++            @Override
++            public void stop() {
++                // no-op
++            }
++
++            @Override
++            public String getHost() {
++                return null;
++            }
++
++            @Override
++            public Collection<Object> getAttributeKeys() {
++                return Collections.emptyList();
++            }
++
++            @Override
++            public Object getAttribute(Object key) {
++                return null;
++            }
++
++            @Override
++            public void setAttribute(Object key, Object value) {
++                // no-op
++            }
++
++            @Override
++            public Object removeAttribute(Object key) {
++                return null;
++            }
++
++            @Override
++            public boolean isExpired() {
++                return false;
++            }
++        };
++
++        // Construct the JSecurityHttpSession with a valid Session (request and context can be null)
++        JSecurityHttpSession session = new JSecurityHttpSession(stubSession, null, null);
++
++        // Invoke the method under test
++        session.setMaxInactiveInterval(1);
++
++        // Verify that the underlying session timeout was set (seconds are converted to milliseconds)
++        assertEquals(1000L, stubSession.getTimeout());
++    }
++
+ }

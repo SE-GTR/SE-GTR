@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/HL7DefaultConvertorImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/HL7DefaultConvertorImpl_ESTest.java
+@@ -76,15 +76,18 @@
+         assertNotNull(description);
+         assertTrue(description.contains("HL7DefaultConvertorImpl"));
+     }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        HL7DefaultConvertorImpl cut = new HL7DefaultConvertorImpl();
++        Convertor handler = new Convertor();
++        cut.setHandler(handler);
++        // Verify that the handler was correctly set
++        assertSame("Handler should be stored in the convertor", handler, cut.getHandler());
++        // Invoke error and ensure it does not alter the handler reference
++        cut.error(-5481, 1, "", "", "");
++        assertSame("Handler reference should remain unchanged after error()", handler, cut.getHandler());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      HL7DefaultConvertorImpl hL7DefaultConvertorImpl0 = new HL7DefaultConvertorImpl();
+-      Convertor convertor0 = new Convertor();
+-      hL7DefaultConvertorImpl0.setHandler(convertor0);
+-      hL7DefaultConvertorImpl0.error((-5481), 1, "", "", "");
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

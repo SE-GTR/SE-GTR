@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
+@@ -391,20 +391,31 @@
+ 
+       assertFalse(iCMConnection1.equals(iCMConnection0));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      ICMConnection iCMConnection0 = new ICMConnection();
++@Test(timeout = 4000)
++  public void test23() throws Throwable {
++      ICMConnection iCMConnection0 = new ICMConnection();
++      // verify initial state
++      assertNull(iCMConnection0.getProtocol());
++      // act
+       iCMConnection0.setProtocol("");
+-      ICMConnection iCMConnection1 = new ICMConnection();
+-      assertFalse(iCMConnection1.equals((Object)iCMConnection0));
+-      
++      // assert side‑effect
++      assertEquals("", iCMConnection0.getProtocol());
++
++      ICMConnection iCMConnection1 = new ICMConnection();
++      // initial objects differ because protocol differs (null vs "")
++      assertFalse(iCMConnection1.equals((Object) iCMConnection0));
++
++      // act on second instance
+       iCMConnection1.setProtocol("");
+-      boolean boolean0 = iCMConnection0.equals(iCMConnection1);
+-      assertTrue(iCMConnection1.equals((Object)iCMConnection0));
++      // assert side‑effect on second instance
++      assertEquals("", iCMConnection1.getProtocol());
++
++      // now both objects should be equal
++      boolean boolean0 = iCMConnection0.equals(iCMConnection1);
++      assertTrue(iCMConnection1.equals((Object) iCMConnection0));
+       assertTrue(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/net/sf/xbus/base/xml/XDomSupport_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/xml/XDomSupport_ESTest.java
+@@ -289,21 +289,13 @@
+          verifyException("net.sf.xbus.base.xml.XDomSupport", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      HTMLDocumentImpl hTMLDocumentImpl0 = new HTMLDocumentImpl();
+-      try { 
+-        XDomSupport.getChildNodesByAttrValue(hTMLDocumentImpl0, (String) null, (String) null, "net.sf.xbus.base.xml.XDomSupport");
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // Attribute name may not be empty
+-         //
+-         verifyException("net.sf.xbus.base.xml.XDomSupport", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = IllegalArgumentException.class)
++    public void test29() throws Throwable {
++        HTMLDocumentImpl hTMLDocumentImpl0 = new HTMLDocumentImpl();
++        // Trigger IllegalArgumentException by providing an empty attribute name
++        XDomSupport.getChildNodesByAttrValue(hTMLDocumentImpl0, "", "value", "net.sf.xbus.base.xml.XDomSupport");
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

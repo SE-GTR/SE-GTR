@@ -1,0 +1,32 @@
+--- a/evosuite-tests/corina/site/Site_ESTest.java
++++ b/evosuite-tests/corina/site/Site_ESTest.java
+@@ -42,14 +42,21 @@
+       Object object0 = site0.clone();
+       assertTrue(object0.equals((Object)site0));
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      Site site0 = new Site();
+-      site0.setCountry("olive");
+-      Object object0 = site0.clone();
+-      assertTrue(object0.equals((Object)site0));
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        Site site0 = new Site();
++        // Verify initial state (country should be null or empty)
++        assertNull(site0.getCountry());
++        // Apply the side‑effect we want to test
++        site0.setCountry("olive");
++        // Assert that the side‑effect took place
++        assertEquals("olive", site0.getCountry());
++        // Clone should preserve the state
++        Site clone = (Site) site0.clone();
++        assertEquals(site0, clone);
++        assertEquals("olive", clone.getCountry());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

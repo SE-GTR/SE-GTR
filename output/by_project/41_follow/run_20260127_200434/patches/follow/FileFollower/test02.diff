@@ -1,0 +1,72 @@
+--- a/evosuite-tests/ghm/follow/FileFollower_ESTest.java
++++ b/evosuite-tests/ghm/follow/FileFollower_ESTest.java
+@@ -79,28 +79,47 @@
+       fileFollower1.start();
+       fileFollower1.start();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("1FdK>}m'eWy*", "1FdK>}m'eWy*");
+-      JTextPane jTextPane0 = new JTextPane();
+-      JTextPaneDestination jTextPaneDestination0 = new JTextPaneDestination(jTextPane0, false);
+-      OutputDestination[] outputDestinationArray0 = new OutputDestination[1];
+-      outputDestinationArray0[0] = (OutputDestination) jTextPaneDestination0;
+-      FileFollower fileFollower0 = new FileFollower(file0, outputDestinationArray0);
+-      OutputDestination[] outputDestinationArray1 = new OutputDestination[2];
+-      outputDestinationArray1[0] = (OutputDestination) jTextPaneDestination0;
+-      FileFollower fileFollower1 = new FileFollower(file0, outputDestinationArray1);
+-      FileFollower.Runner fileFollower_Runner0 = fileFollower1.new Runner();
+-      FileFollower.Runner fileFollower_Runner1 = fileFollower0.new Runner();
+-      fileFollower_Runner1.runAction();
+-      fileFollower0.isPaused();
+-      fileFollower0.start();
+-      FileFollower fileFollower2 = new FileFollower(file0, outputDestinationArray0);
+-      System.setCurrentTimeMillis(7);
+-      fileFollower2.start();
+-      fileFollower_Runner1.runAction();
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        File file0 = MockFile.createTempFile("1FdK>}m'eWy*", "1FdK>}m'eWy*");
++        JTextPane jTextPane0 = new JTextPane();
++        JTextPaneDestination jTextPaneDestination0 = new JTextPaneDestination(jTextPane0, false);
++        OutputDestination[] outputDestinationArray0 = new OutputDestination[1];
++        outputDestinationArray0[0] = jTextPaneDestination0;
++        FileFollower fileFollower0 = new FileFollower(file0, outputDestinationArray0);
++        OutputDestination[] outputDestinationArray1 = new OutputDestination[2];
++        outputDestinationArray1[0] = jTextPaneDestination0;
++        FileFollower fileFollower1 = new FileFollower(file0, outputDestinationArray1);
++        FileFollower.Runner fileFollower_Runner0 = fileFollower1.new Runner();
++        FileFollower.Runner fileFollower_Runner1 = fileFollower0.new Runner();
++
++        // Capture pause state before actions
++        boolean pausedBefore = fileFollower0.isPaused();
++
++        // runAction should not change pause state
++        fileFollower_Runner1.runAction();
++        boolean pausedAfterRun = fileFollower0.isPaused();
++        assertEquals("runAction should not modify pause state", pausedBefore, pausedAfterRun);
++
++        // start should not change pause state (or at least remain consistent)
++        fileFollower0.start();
++        boolean pausedAfterStart = fileFollower0.isPaused();
++        assertEquals("start should not modify pause state", pausedBefore, pausedAfterStart);
++
++        // Create a new follower and start it after setting a deterministic time
++        FileFollower fileFollower2 = new FileFollower(file0, outputDestinationArray0);
++        System.setCurrentTimeMillis(7);
++        fileFollower2.start();
++        boolean pausedAfterSecondStart = fileFollower2.isPaused();
++        // The new instance should have the same initial pause state as the original
++        assertEquals("New FileFollower should have same initial pause state", pausedBefore, pausedAfterSecondStart);
++
++        // Run action again and verify pause state remains unchanged
++        fileFollower_Runner1.runAction();
++        boolean pausedAfterSecondRun = fileFollower0.isPaused();
++        assertEquals("Second runAction should not modify pause state", pausedBefore, pausedAfterSecondRun);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/de/paragon/explorer/model/AttributeModelComparator_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/model/AttributeModelComparator_ESTest.java
+@@ -24,18 +24,28 @@
+     attributeModelComparator0 = new AttributeModelComparator();
+     arrayAttributeModel0 = new ArrayAttributeModel();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
+     attributeModelComparator0 = new AttributeModelComparator();
+     arrayAttributeModel0 = new ArrayAttributeModel();
+-      arrayAttributeModel0.setName("");
+-      ArrayAttributeModel arrayAttributeModel1 = new ArrayAttributeModel();
+-      arrayAttributeModel1.setName("3]>t");
+-      int int0 = attributeModelComparator0.compare((AttributeModel) arrayAttributeModel1, (AttributeModel) arrayAttributeModel0);
+-      assertEquals(5, int0);
+-  }
++
++    // Verify the side‑effect of setName on arrayAttributeModel0
++    String beforeName = arrayAttributeModel0.getName();
++    arrayAttributeModel0.setName("");
++    assertEquals("", arrayAttributeModel0.getName());
++    if (beforeName != null) {
++        assertNotEquals(beforeName, arrayAttributeModel0.getName());
++    }
++
++    ArrayAttributeModel arrayAttributeModel1 = new ArrayAttributeModel();
++    arrayAttributeModel1.setName("3]>t");
++    assertEquals("3]>t", arrayAttributeModel1.getName());
++
++    int int0 = attributeModelComparator0.compare((AttributeModel) arrayAttributeModel1,
++                                                (AttributeModel) arrayAttributeModel0);
++    assertEquals(5, int0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

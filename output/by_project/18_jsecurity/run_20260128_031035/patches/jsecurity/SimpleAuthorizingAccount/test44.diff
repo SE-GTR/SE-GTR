@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
+@@ -468,12 +468,25 @@
+       SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount(object0, object0, "org.jsecurity.authz.SimpleAuthorizingAccount", (Set<String>) null, linkedHashSet0);
+       assertFalse(simpleAuthorizingAccount0.isLocked());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test44()  throws Throwable  {
+-      SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount("E3',ZZ/'@](sa", (Object) null, "", (Set<String>) null, (Set<Permission>) null);
+-      assertFalse(simpleAuthorizingAccount0.isCredentialsExpired());
+-  }
++@Test(timeout = 4000)
++    public void test44() throws Throwable {
++        java.util.Set<org.jsecurity.authz.Permission> perms = new java.util.HashSet<>();
++        perms.add(new org.jsecurity.authz.Permission() {
++            @Override
++            public boolean implies(org.jsecurity.authz.Permission p) {
++                return true;
++            }
++
++            @Override
++            public String toString() {
++                return "alwaysTrue";
++            }
++        });
++        SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount(
++                "E3',ZZ/'@](sa", (Object) null, "", (java.util.Set<String>) null, perms);
++        assertTrue(simpleAuthorizingAccount0.isPermitted("anyPermission"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test45()  throws Throwable  {

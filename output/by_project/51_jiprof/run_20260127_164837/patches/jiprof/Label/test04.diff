@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
+@@ -99,13 +99,28 @@
+          verifyException("org.objectweb.asm.jip.Label", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      Label label0 = new Label();
+-      label0.visitSubroutine(label0, 32L, 50);
+-      label0.visitSubroutine(label0, 50, (-1));
+-  }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    Label label0 = new Label();
++    int beforeStatus = label0.status;
++    // First subroutine registration
++    label0.visitSubroutine(label0, 32L, 50);
++    // Verify that the SUBROUTINE flag has been set
++    assertTrue((label0.status & Label.SUBROUTINE) != 0);
++    // Verify that some info has been stored
++    assertNotNull(label0.info);
++    // Verify that a successor edge has been created
++    assertNotNull(label0.successors);
++    Edge firstEdge = label0.successors;
++    // Second subroutine registration with different id
++    label0.visitSubroutine(label0, 50L, -1);
++    // Verify that the successors chain now contains at least two edges
++    assertNotNull(label0.successors);
++    assertNotNull(label0.successors.next);
++    // Ensure the new edge is distinct from the first one
++    assertNotSame(firstEdge, label0.successors);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

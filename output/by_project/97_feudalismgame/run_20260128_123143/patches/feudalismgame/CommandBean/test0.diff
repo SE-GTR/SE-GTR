@@ -1,0 +1,28 @@
+--- a/evosuite-tests/src/CommandBean_ESTest.java
++++ b/evosuite-tests/src/CommandBean_ESTest.java
+@@ -15,13 +15,19 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class CommandBean_ESTest extends CommandBean_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        ArrayList<String> args = new ArrayList<>();
++        args.add("first");
++        CommandBean commandBean0 = new CommandBean("testCommand", args);
++        // The bean should expose the same argument list instance
++        assertSame(args, commandBean0.getArgs());
++        // Modifying the list should be reflected in the bean
++        args.add("second");
++        assertEquals(2, commandBean0.getArgs().size());
++        assertEquals("second", commandBean0.getArgs().get(1));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      CommandBean commandBean0 = new CommandBean();
+-      ArrayList arrayList0 = commandBean0.getArgs();
+-      assertNull(arrayList0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

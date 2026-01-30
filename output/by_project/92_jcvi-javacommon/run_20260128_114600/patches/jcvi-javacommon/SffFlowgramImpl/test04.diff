@@ -1,0 +1,54 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/SffFlowgramImpl_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/SffFlowgramImpl_ESTest.java
+@@ -76,30 +76,29 @@
+       boolean boolean0 = sffFlowgramImpl0.equals(sffFlowgramImpl0);
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(0L).when(nucleotideSequence0).getLength();
+-      QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(0L).when(qualitySequence0).getLength();
+-      Range range0 = Range.of(0L);
+-      byte[] byteArray0 = new byte[0];
+-      DefaultSffReadHeader defaultSffReadHeader0 = new DefaultSffReadHeader(65, range0, range0, "SffFlowgram [id=");
+-      short[] shortArray0 = new short[0];
+-      DefaultSffReadData defaultSffReadData0 = new DefaultSffReadData(nucleotideSequence0, byteArray0, shortArray0, qualitySequence0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++    doReturn(0L).when(nucleotideSequence0).getLength();
++    long length0 = nucleotideSequence0.getLength();
++    assertEquals(0L, length0);
++    QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
++    doReturn(0L).when(qualitySequence0).getLength();
++    long length1 = qualitySequence0.getLength();
++    assertEquals(0L, length1);
++    Range range0 = Range.of(0L);
++    byte[] byteArray0 = new byte[0];
++    DefaultSffReadHeader defaultSffReadHeader0 = new DefaultSffReadHeader(65, range0, range0, "SffFlowgram [id=");
++    short[] shortArray0 = new short[0];
++    DefaultSffReadData defaultSffReadData0 = new DefaultSffReadData(nucleotideSequence0, byteArray0, shortArray0, qualitySequence0);
++    try {
+         SffFlowgramImpl.create(defaultSffReadHeader0, defaultSffReadData0);
+         fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // read data must contain Flowgram values
+-         //
+-         verifyException("org.jcvi.jillion.trace.sff.SffFlowgramImpl", e);
+-      }
+-  }
++    } catch (IllegalArgumentException e) {
++        verifyException("org.jcvi.jillion.trace.sff.SffFlowgramImpl", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

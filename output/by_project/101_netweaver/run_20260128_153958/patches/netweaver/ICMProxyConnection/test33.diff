@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -566,18 +566,24 @@
+     assertEquals(860, iCMProxyConnection1.getSocket());
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test33()  throws Throwable  {
+-      ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+-      ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
+-      assertTrue(iCMProxyConnection1.equals((Object)iCMProxyConnection0));
+-      
+-      iCMProxyConnection1.setRole("S9! hSs:^D2#~I K~");
+-      boolean boolean0 = iCMProxyConnection0.equals(iCMProxyConnection1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test33() throws Throwable {
++        ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
++        ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
++        assertTrue(iCMProxyConnection1.equals((Object) iCMProxyConnection0));
++
++        // Verify initial state before setting role
++        assertNull(iCMProxyConnection1.getRole());
++
++        String newRole = "S9! hSs:^D2#~I K~";
++        iCMProxyConnection1.setRole(newRole);
++        // Observe side‑effect of setRole
++        assertEquals(newRole, iCMProxyConnection1.getRole());
++
++        boolean boolean0 = iCMProxyConnection0.equals(iCMProxyConnection1);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test34()  throws Throwable  {

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/allenstudio/ir/ui/calendar/MonthlyCalendar_ESTest.java
++++ b/evosuite-tests/com/allenstudio/ir/ui/calendar/MonthlyCalendar_ESTest.java
+@@ -569,14 +569,23 @@
+       assertTrue(monthlyCalendar0.getMouseListeningEnabled());
+       assertEquals(2, monthlyCalendar0.getMonth());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test49()  throws Throwable  {
+-      MonthlyCalendar monthlyCalendar0 = new MonthlyCalendar();
+-      monthlyCalendar0.setHeaderFont((Font) null);
+-      assertEquals(2, monthlyCalendar0.getMonth());
+-      assertEquals(2014, monthlyCalendar0.getYear());
+-  }
++@Test(timeout = 4000)
++    public void test49() throws Throwable {
++        MonthlyCalendar monthlyCalendar0 = new MonthlyCalendar();
++        // verify default month and year
++        assertEquals(2, monthlyCalendar0.getMonth());
++        assertEquals(2014, monthlyCalendar0.getYear());
++
++        // side‑effect: set header font to null and observe it via getter
++        monthlyCalendar0.setHeaderFont(null);
++        assertNull(monthlyCalendar0.getHeaderFont());
++
++        // invoke a non‑trivial method and assert its result
++        Dimension prefSize = monthlyCalendar0.getPreferredSize();
++        assertNotNull(prefSize);
++        assertTrue(prefSize.width > 0 && prefSize.height > 0);
++    }
++
+ @Test(timeout = 4000)
+   public void test50() throws Throwable {
+       MonthlyCalendar monthlyCalendar0 = new MonthlyCalendar();

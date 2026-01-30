@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/fixsuite/message/parsers/fpl/ComponentsParser_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/parsers/fpl/ComponentsParser_ESTest.java
+@@ -18,26 +18,25 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ComponentsParser_ESTest extends ComponentsParser_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        ComponentsParser componentsParser0 = new ComponentsParser();
++        DictionaryInfo dictionaryInfo0 = new DictionaryInfo("ComponentType");
++        // Build a minimal valid XML structure expected by ComponentsParser
++        Element root = new Element("Components");
++        Element comp = new Element("Component");
++        comp.addContent(new Element("ComponentName").setText("CompA"));
++        comp.addContent(new Element("ComponentType").setText("TypeA"));
++        comp.addContent(new Element("AbbrName").setText("CA"));
++        comp.addContent(new Element("NotReqXML").setText("false"));
++        comp.addContent(new Element("MsgID").setText("1"));
++        root.addContent(comp);
++        // Act
++        componentsParser0.load(dictionaryInfo0, root);
++        // Verify that the method completed without throwing an exception
++        assertNotNull(dictionaryInfo0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ComponentsParser componentsParser0 = new ComponentsParser();
+-      DictionaryInfo dictionaryInfo0 = new DictionaryInfo("ComponentType");
+-      Element element0 = new Element("ComponentType", "ComponentType");
+-      Element element1 = new Element("ComponentType", "ComponentType", "ComponentType");
+-      Element element2 = element0.addContent((Content) element1);
+-      // Undeclared exception!
+-      try { 
+-        componentsParser0.load(dictionaryInfo0, element2);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.fixsuite.message.parsers.fpl.ComponentsParser", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

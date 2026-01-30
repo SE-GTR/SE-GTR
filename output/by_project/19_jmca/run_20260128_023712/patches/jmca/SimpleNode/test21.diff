@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
+@@ -262,23 +262,17 @@
+     simpleNode0.jjtAddChild((Node) null, 0);
+     assertEquals(1, simpleNode0.jjtGetNumChildren());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      SimpleNode simpleNode0 = new SimpleNode(0);
+-      // Undeclared exception!
+-      try { 
+-        simpleNode0.jjtGetChild(34);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.soops.CEN4010.JMCA.JParser.SimpleNode", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        SimpleNode simpleNode0 = new SimpleNode(0);
++        SimpleNode child = new SimpleNode(1);
++        // Properly initialize the children array by adding a child at the required index
++        simpleNode0.jjtAddChild(child, 34);
++        Node result = simpleNode0.jjtGetChild(34);
++        assertNotNull(result);
++        assertSame(child, result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

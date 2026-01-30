@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
+@@ -248,19 +248,30 @@
+       assertEquals((-355), iCMConnection1.getPeerPort());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      ICMConnection iCMConnection0 = new ICMConnection();
+-      iCMConnection0.setPeerAddress("{sR^k*='$7Z29");
+-      ICMConnection iCMConnection1 = new ICMConnection();
+-      assertFalse(iCMConnection1.equals((Object)iCMConnection0));
+-      
+-      iCMConnection1.setPeerAddress("{sR^k*='$7Z29");
+-      boolean boolean0 = iCMConnection0.equals(iCMConnection1);
+-      assertTrue(iCMConnection1.equals((Object)iCMConnection0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    ICMConnection iCMConnection0 = new ICMConnection();
++    // Verify initial peer address is null (default)
++    assertNull(iCMConnection0.getPeerAddress());
++
++    String addr = "{sR^k*='$7Z29";
++    iCMConnection0.setPeerAddress(addr);
++    // Assert that the setter correctly updated the state
++    assertEquals(addr, iCMConnection0.getPeerAddress());
++
++    ICMConnection iCMConnection1 = new ICMConnection();
++    // Different objects with different peer addresses are not equal
++    assertFalse(iCMConnection1.equals((Object) iCMConnection0));
++
++    iCMConnection1.setPeerAddress(addr);
++    // Verify the second object's state after setting the same address
++    assertEquals(addr, iCMConnection1.getPeerAddress());
++
++    boolean boolean0 = iCMConnection0.equals(iCMConnection1);
++    assertTrue(iCMConnection1.equals((Object) iCMConnection0));
++    assertTrue(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

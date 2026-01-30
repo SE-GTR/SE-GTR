@@ -1,0 +1,26 @@
+--- a/evosuite-tests/com/browsersoft/aacs/SimpleUserMgr_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/SimpleUserMgr_ESTest.java
+@@ -112,12 +112,17 @@
+       SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
+       simpleUserMgr0.parseLine("ip");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
+-      simpleUserMgr0.addUser("sn");
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
++        // Verify that the user does not exist before adding
++        assertNull(simpleUserMgr0.getUser("sn"));
++        // Act: add a new user
++        simpleUserMgr0.addUser("sn");
++        // Assert that the user is now present
++        assertNotNull(simpleUserMgr0.getUser("sn"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

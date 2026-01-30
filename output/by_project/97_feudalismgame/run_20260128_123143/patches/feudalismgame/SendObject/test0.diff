@@ -1,0 +1,31 @@
+--- a/evosuite-tests/src/SendObject_ESTest.java
++++ b/evosuite-tests/src/SendObject_ESTest.java
+@@ -15,12 +15,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SendObject_ESTest extends SendObject_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        MockSocket mockSocket0 = new MockSocket();
++        SendObject sendObject0 = new SendObject(mockSocket0, mockSocket0);
++        java.io.OutputStream os = mockSocket0.getOutputStream();
++        int before = 0;
++        if (os instanceof java.io.ByteArrayOutputStream) {
++            before = ((java.io.ByteArrayOutputStream) os).size();
++        }
++        sendObject0.run();
++        int after = 0;
++        if (os instanceof java.io.ByteArrayOutputStream) {
++            after = ((java.io.ByteArrayOutputStream) os).size();
++        }
++        org.junit.Assert.assertTrue("Output stream should contain data after run", after > before);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      MockSocket mockSocket0 = new MockSocket();
+-      SendObject sendObject0 = new SendObject(mockSocket0, mockSocket0);
+-      sendObject0.run();
+-      //  // Unstable assertion: assertFalse(sendObject0.isDaemon());
+-  }
+ }

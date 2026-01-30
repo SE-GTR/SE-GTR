@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/heal/servlet/approver/ModifyApprovalQueueEntryAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/approver/ModifyApprovalQueueEntryAction_ESTest.java
+@@ -21,28 +21,27 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ModifyApprovalQueueEntryAction_ESTest extends ModifyApprovalQueueEntryAction_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    Servlet servlet0 = new Servlet("7");
++    HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    doReturn(null).when(httpSession0).getAttribute(anyString());
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn("7", "7").when(httpServletRequest0).getParameter(anyString());
++    doReturn(httpSession0).when(httpServletRequest0).getSession();
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Servlet servlet0 = new Servlet("7");
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("7", "7").when(httpServletRequest0).getParameter(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      ModifyApprovalQueueEntryAction modifyApprovalQueueEntryAction0 = new ModifyApprovalQueueEntryAction();
+-      // Undeclared exception!
+-      try { 
+-        modifyApprovalQueueEntryAction0.perform(servlet0, httpServletRequest0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.approver.ModifyApprovalQueueEntryAction", e);
+-      }
+-  }
++    ModifyApprovalQueueEntryAction action = new ModifyApprovalQueueEntryAction();
++
++    // Execute the action; no exception is expected with a non‑null response.
++    action.perform(servlet0, httpServletRequest0, httpServletResponse0);
++
++    // Verify that the request and session were accessed as part of the action.
++    verify(httpServletRequest0, atLeastOnce()).getParameter(anyString());
++    verify(httpServletRequest0).getSession();
++    verify(httpSession0).getAttribute(anyString());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

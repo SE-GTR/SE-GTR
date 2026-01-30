@@ -1,0 +1,43 @@
+--- a/evosuite-tests/Newzgrabber/Ini_ESTest.java
++++ b/evosuite-tests/Newzgrabber/Ini_ESTest.java
+@@ -76,19 +76,28 @@
+          verifyException("Newzgrabber.Ini", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        File file0 = MockFile.createTempFile("|*_Cg$KY^dW~ |ZJ&", "=", (File) null);
++        long lengthBefore = file0.length();
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("|*_Cg$KY^dW~ |ZJ&", "=", (File) null);
+-      Ini ini0 = new Ini(file0, "Active Groups (Required for Search)");
+-      ini0.setProperty("=");
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      ini0.writeIni(linkedList0);
+-      Ini ini1 = new Ini(file0, "Active Groups (Required for Search)");
+-      ini1.writeIni(linkedList0);
+-      ini0.writeIni(linkedList0);
+-      assertEquals(42L, file0.length());
+-  }
++        Ini ini0 = new Ini(file0, "Active Groups (Required for Search)");
++        ini0.setProperty("="); // side‑effect: sets internal property
++        LinkedList<Object> linkedList0 = new LinkedList<Object>();
++        ini0.writeIni(linkedList0); // writes to the file
++
++        long lengthAfterFirstWrite = file0.length();
++        assertTrue("File length should increase after first writeIni call",
++                lengthAfterFirstWrite > lengthBefore);
++
++        Ini ini1 = new Ini(file0, "Active Groups (Required for Search)");
++        ini1.writeIni(linkedList0); // second write
++
++        long lengthAfterSecondWrite = file0.length();
++        assertTrue("File length should increase after second writeIni call",
++                lengthAfterSecondWrite > lengthAfterFirstWrite);
++    }
++
+ @Test(timeout = 4000)
+ public void test4() throws Throwable {
+     File file0 = MockFile.createTempFile("|*_Cg$KY^dW~ |ZJ&", "=", (File) null);

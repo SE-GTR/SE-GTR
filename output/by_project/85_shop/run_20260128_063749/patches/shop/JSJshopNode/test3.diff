@@ -1,0 +1,39 @@
+--- a/evosuite-tests/umd/cs/shop/JSJshopNode_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSJshopNode_ESTest.java
+@@ -74,15 +74,28 @@
+       JSJshopNode jSJshopNode0 = new JSJshopNode(jSTaskAtom0, jSState0);
+       jSJshopNode0.print();
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    // Verify that adding the atom to the state actually modifies the state.
++    jSState0.add((Object) jSTaskAtom0);
++    assertTrue(jSState0.contains(jSTaskAtom0));
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      jSState0.add((Object) jSTaskAtom0);
+-      JSJshopNode jSJshopNode0 = new JSJshopNode(jSTaskAtom0, jSState0);
+-      JSJshopNode jSJshopNode1 = new JSJshopNode(jSJshopNode0, jSTaskAtom0);
+-      jSJshopNode1.print();
+-      assertNotSame(jSJshopNode1, jSJshopNode0);
+-  }
++    JSJshopNode jSJshopNode0 = new JSJshopNode(jSTaskAtom0, jSState0);
++    JSJshopNode jSJshopNode1 = new JSJshopNode(jSJshopNode0, jSTaskAtom0);
++
++    // Capture and assert the side‑effect of the void print() method.
++    java.io.ByteArrayOutputStream outContent = new java.io.ByteArrayOutputStream();
++    java.io.PrintStream originalOut = System.out;
++    System.setOut(new java.io.PrintStream(outContent));
++    try {
++        jSJshopNode1.print();
++    } finally {
++        System.setOut(originalOut);
++    }
++    String printed = outContent.toString();
++    assertFalse(printed.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

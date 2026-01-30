@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -130,23 +130,13 @@
+         assertNotNull("Lexer should produce a token", token);
+         assertEquals("Token type should be EOF for empty input", SQLLexer.EOF, token.getType());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test010()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mT__71();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = org.antlr.runtime.RecognitionException.class)
++    public void test010() throws Throwable {
++        org.antlr.runtime.CharStream cs = new org.antlr.runtime.ANTLRStringStream("invalid");
++        SQLLexer lexer = new SQLLexer(cs);
++        lexer.mT__71();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test011()  throws Throwable  {

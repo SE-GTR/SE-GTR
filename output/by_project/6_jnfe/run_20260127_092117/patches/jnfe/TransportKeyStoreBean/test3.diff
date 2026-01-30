@@ -1,0 +1,27 @@
+--- a/evosuite-tests/br/com/jnfe/base/TransportKeyStoreBean_ESTest.java
++++ b/evosuite-tests/br/com/jnfe/base/TransportKeyStoreBean_ESTest.java
+@@ -36,13 +36,18 @@
+       transportKeyStoreBean0.setTrustStore("Using default keyStoreType.");
+       transportKeyStoreBean0.afterPropertiesSet();
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        TransportKeyStoreBean transportKeyStoreBean0 = new TransportKeyStoreBean();
++        String password = "br.com.jnfe.base.TransportKeyStoreBean@1 [javax.net.ssl.keyStore='file:#{ systemProperties['user.home'] }/jnfe.pfx' javax.net.ssl.keyStoreType='pkcs12' javax.net.ssl.trustStoreType='=#q\"' javax.net.ssl.trustStore='p@8,z+qoJ\"ax;)Pe%' ]";
++        transportKeyStoreBean0.setKeyStorePassword(password);
++        // verify that the password was stored correctly
++        assertEquals(password, transportKeyStoreBean0.getKeyStorePassword());
++        transportKeyStoreBean0.afterPropertiesSet();
++        // ensure the password remains unchanged after initialization
++        assertEquals(password, transportKeyStoreBean0.getKeyStorePassword());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      TransportKeyStoreBean transportKeyStoreBean0 = new TransportKeyStoreBean();
+-      transportKeyStoreBean0.setKeyStorePassword("br.com.jnfe.base.TransportKeyStoreBean@1 [javax.net.ssl.keyStore='file:#{ systemProperties['user.home'] }/jnfe.pfx' javax.net.ssl.keyStoreType='pkcs12' javax.net.ssl.trustStoreType='=#q\"' javax.net.ssl.trustStore='p@8,z+qoJ\"ax;)Pe%' ]");
+-      transportKeyStoreBean0.afterPropertiesSet();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

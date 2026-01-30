@@ -1,0 +1,30 @@
+--- a/evosuite-tests/jigl/signal/RealSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/RealSignal_ESTest.java
+@@ -79,15 +79,18 @@
+         assertEquals(2, realSignal0.length());
+         assertEquals(0.0F, realSignal0.min(), 0.01F);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      ROI rOI0 = new ROI();
+-      RealSignal realSignal0 = new RealSignal(1);
+-      realSignal0.clip(1, (-17), rOI0);
+-      assertEquals(1.0F, realSignal0.max(), 0.01F);
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    ROI rOI0 = new ROI();
++    RealSignal realSignal0 = new RealSignal(1);
++    float beforeMax = realSignal0.max();
++    realSignal0.clip(1, -17, rOI0);
++    float afterMax = realSignal0.max();
++    // Verify that the clip operation changes the signal's max value
++    assertTrue("Clip should modify max value", afterMax != beforeMax);
++    assertEquals(1.0F, afterMax, 0.01F);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

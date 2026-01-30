@@ -1,0 +1,33 @@
+--- a/evosuite-tests/net/sf/xbus/base/xml/XMLHelper_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/xml/XMLHelper_ESTest.java
+@@ -206,13 +206,23 @@
+       String string0 = XMLHelper.getTagText(document0, "n5xZV");
+       assertEquals("n5xZV", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      PSVIDocumentImpl pSVIDocumentImpl0 = new PSVIDocumentImpl();
+-      String string0 = XMLHelper.getTagText(pSVIDocumentImpl0, "org.apache.xerces.impl.xs.opti.NodeImpl");
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++    public void test18() throws Throwable {
++        // Arrange: create a simple XML document with a known element and text
++        javax.xml.parsers.DocumentBuilderFactory factory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
++        javax.xml.parsers.DocumentBuilder builder = factory.newDocumentBuilder();
++        org.w3c.dom.Document doc = builder.newDocument();
++        org.w3c.dom.Element root = doc.createElement("root");
++        doc.appendChild(root);
++        org.w3c.dom.Element child = doc.createElement("test");
++        child.appendChild(doc.createTextNode("value"));
++        root.appendChild(child);
++        // Act: retrieve the text of the "test" tag
++        String result = XMLHelper.getTagText(doc, "test");
++        // Assert: the helper returns the expected text content
++        org.junit.Assert.assertEquals("value", result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

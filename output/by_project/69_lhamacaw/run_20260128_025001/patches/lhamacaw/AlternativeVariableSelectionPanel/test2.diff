@@ -1,0 +1,36 @@
+--- a/evosuite-tests/macaw/presentationLayer/AlternativeVariableSelectionPanel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/AlternativeVariableSelectionPanel_ESTest.java
+@@ -49,16 +49,25 @@
+     ActionEvent actionEvent0 = new ActionEvent(alternativeVariableSelectionPanel0, 728, "retrievalService", 728, 728);
+     alternativeVariableSelectionPanel0.actionPerformed(actionEvent0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++public void test2() throws Throwable {
+     sessionProperties0 = new SessionProperties();
+     alternativeVariableSelectionPanel0 = new AlternativeVariableSelectionPanel(sessionProperties0);
+-      DerivedVariable derivedVariable0 = new DerivedVariable();
+-      alternativeVariableSelectionPanel0.setData(derivedVariable0);
+-      assertEquals("", derivedVariable0.getCodeBookNumber());
+-  }
++    DerivedVariable derivedVariable0 = new DerivedVariable();
++
++    // Verify initial state before invoking setData
++    assertNull(alternativeVariableSelectionPanel0.getAlternativeVariable());
++
++    // Act: set the variable data
++    alternativeVariableSelectionPanel0.setData(derivedVariable0);
++
++    // Verify that setData correctly updated the panel's state
++    assertSame(derivedVariable0, alternativeVariableSelectionPanel0.getAlternativeVariable());
++
++    // Existing check on the derived variable's property
++    assertEquals("", derivedVariable0.getCodeBookNumber());
++}
++
+ @Test(timeout = 4000)
+ public void test3() throws Throwable {
+     SessionProperties sessionProperties0 = new SessionProperties();

@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/PhdBallWriter_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/PhdBallWriter_ESTest.java
+@@ -89,9 +89,8 @@
+          verifyException("org.jcvi.jillion.assembly.consed.phd.PhdBallWriter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test02() throws Throwable {
+       MockFile mockFile0 = new MockFile("5Vjr&=", "5Vjr&=");
+       PhdBallWriter phdBallWriter0 = new PhdBallWriter(mockFile0, "5Vjr&=");
+       Iterator<Nucleotide> iterator0 = (Iterator<Nucleotide>) mock(Iterator.class, new ViolatedAssumptionAnswer());
+@@ -105,17 +104,23 @@
+       QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+       doReturn(iterator1).when(qualitySequence0).iterator();
+       DefaultPhd defaultPhd0 = new DefaultPhd("5Vjr&=", nucleotideSequence0, qualitySequence0, (PositionSequence) null);
+-      try { 
+-        phdBallWriter0.write((Phd) defaultPhd0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // error writing phd record for 5Vjr&=
+-         //
+-         verifyException("org.jcvi.jillion.assembly.consed.phd.PhdBallWriter", e);
+-      }
+-  }
++
++      // Assert the stubbed return values to eliminate NARV smell
++      assertTrue(iterator0.hasNext());
++      assertNull(iterator0.next());
++      assertNotNull(nucleotideSequence0.iterator());
++      assertEquals(772L, nucleotideSequence0.getLength());
++      assertNull(iterator1.next());
++
++      try {
++          phdBallWriter0.write((Phd) defaultPhd0);
++          fail("Expecting exception: IOException");
++      } catch (IOException e) {
++          // error writing phd record for 5Vjr&=
++          verifyException("org.jcvi.jillion.assembly.consed.phd.PhdBallWriter", e);
++      }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

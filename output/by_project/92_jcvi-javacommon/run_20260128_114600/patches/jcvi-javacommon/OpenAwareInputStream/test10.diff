@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/io/OpenAwareInputStream_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/io/OpenAwareInputStream_ESTest.java
+@@ -132,23 +132,23 @@
+          verifyException("java.io.PushbackInputStream", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        InputStream throwingStream = new InputStream() {
++            @Override
++            public int read() throws IOException {
++                throw new IOException();
++            }
++        };
++        OpenAwareInputStream openAwareInputStream0 = new OpenAwareInputStream(throwingStream);
++        try {
++            openAwareInputStream0.read();
++            fail("Expecting IOException");
++        } catch (IOException e) {
++            // Expected exception
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      FileDescriptor fileDescriptor0 = new FileDescriptor();
+-      MockFileInputStream mockFileInputStream0 = new MockFileInputStream(fileDescriptor0);
+-      OpenAwareInputStream openAwareInputStream0 = new OpenAwareInputStream(mockFileInputStream0);
+-      try { 
+-        openAwareInputStream0.read();
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.NativeMockedIO", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

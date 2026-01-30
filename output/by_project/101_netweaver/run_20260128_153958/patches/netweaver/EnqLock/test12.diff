@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -168,20 +168,30 @@
+         assertEquals(0, enqLock0.getUseCountOwner());
+         assertEquals(0, enqLock0.getUseCountOwnerVb());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
++@Test(timeout = 4000)
++  public void test12() throws Throwable {
++      EnqLock enqLock0 = new EnqLock();
++      // initial state should have no transaction
++      assertNull(enqLock0.getTransaction());
++
+       enqLock0.setTransaction("\"");
+-      EnqLock enqLock1 = new EnqLock();
+-      assertFalse(enqLock1.equals((Object)enqLock0));
+-      
++      // verify side‑effect of setTransaction
++      assertEquals("\"", enqLock0.getTransaction());
++
++      EnqLock enqLock1 = new EnqLock();
++      assertNull(enqLock1.getTransaction());
++
++      assertFalse(enqLock1.equals((Object) enqLock0));
++
+       enqLock1.setTransaction("\"");
+-      boolean boolean0 = enqLock0.equals(enqLock1);
+-      assertTrue(enqLock1.equals((Object)enqLock0));
+-      assertTrue(boolean0);
+-  }
++      // verify side‑effect on the second instance as well
++      assertEquals("\"", enqLock1.getTransaction());
++
++      boolean boolean0 = enqLock0.equals(enqLock1);
++      assertTrue(enqLock1.equals((Object) enqLock0));
++      assertTrue(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

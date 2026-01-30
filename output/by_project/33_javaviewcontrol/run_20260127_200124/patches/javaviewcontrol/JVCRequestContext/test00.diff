@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/pmdesigns/jvc/JVCRequestContext_ESTest.java
++++ b/evosuite-tests/com/pmdesigns/jvc/JVCRequestContext_ESTest.java
+@@ -29,12 +29,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class JVCRequestContext_ESTest extends JVCRequestContext_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      JVCRequestContext.setCachedBlock("_:6=", "Vq7");
+-      JVCRequestContext.setCachedBlock((String) null, "=xR0| Z1}Ka)i+3RJ");
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        // Store a value in the cache and verify it can be retrieved
++        JVCRequestContext.setCachedBlock("_:6=", "Vq7");
++        assertEquals("Vq7", JVCRequestContext.getCachedBlock("_:6="));
++
++        // Attempt to store a value with a null key – this should not affect the existing entry
++        JVCRequestContext.setCachedBlock(null, "=xR0| Z1}Ka)i+3RJ");
++        assertEquals("Vq7", JVCRequestContext.getCachedBlock("_:6="));
++        assertNull(JVCRequestContext.getCachedBlock(null));
++    }
++
+ @Test(timeout = 4000)
+     public void test01() throws Throwable {
+         String result1 = JVCRequestContext.getCachedBlock(JVCRequestContext.BINARY_VALUE);

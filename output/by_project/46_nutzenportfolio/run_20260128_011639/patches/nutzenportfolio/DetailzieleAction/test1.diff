@@ -1,0 +1,50 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/action/DetailzieleAction_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/action/DetailzieleAction_ESTest.java
+@@ -55,30 +55,24 @@
+          verifyException("ch.bfh.egov.nutzenportfolio.action.DetailzieleAction", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    StrategischeZieleIbatisDao strategischeZieleIbatisDao0 = new StrategischeZieleIbatisDao();
++    ProjektattraktivitaetForm projektattraktivitaetForm0 = new ProjektattraktivitaetForm();
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++    DetailzieleDaoService detailzieleDaoService0 = new DetailzieleDaoService((DetailzieleDao) null);
++    StrategischeZieleDaoService strategischeZieleDaoService0 = new StrategischeZieleDaoService(strategischeZieleIbatisDao0);
++    DetailzieleAction detailzieleAction0 = new DetailzieleAction(detailzieleDaoService0, strategischeZieleDaoService0, (CommonService) null, (CustomizingService) null);
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    when(httpServletRequest0.getParameter(anyString())).thenReturn("test");
++    HttpSession sessionMock = mock(HttpSession.class);
++    when(httpServletRequest0.getSession()).thenReturn(sessionMock);
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    ActionMapping mappingMock = mock(ActionMapping.class);
++    ActionForward forward = detailzieleAction0.next(mappingMock, projektattraktivitaetForm0, httpServletRequestWrapper0, httpServletResponse0);
++    assertNotNull("ActionForward should not be null", forward);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      StrategischeZieleIbatisDao strategischeZieleIbatisDao0 = new StrategischeZieleIbatisDao();
+-      ProjektattraktivitaetForm projektattraktivitaetForm0 = new ProjektattraktivitaetForm();
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      DetailzieleDaoService detailzieleDaoService0 = new DetailzieleDaoService((DetailzieleDao) null);
+-      StrategischeZieleDaoService strategischeZieleDaoService0 = new StrategischeZieleDaoService(strategischeZieleIbatisDao0);
+-      DetailzieleAction detailzieleAction0 = new DetailzieleAction(detailzieleDaoService0, strategischeZieleDaoService0, (CommonService) null, (CustomizingService) null);
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(httpServletRequest0).getParameter(anyString());
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      try { 
+-        detailzieleAction0.next((ActionMapping) null, projektattraktivitaetForm0, httpServletRequestWrapper0, httpServletResponse0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.action.DetailzieleAction", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

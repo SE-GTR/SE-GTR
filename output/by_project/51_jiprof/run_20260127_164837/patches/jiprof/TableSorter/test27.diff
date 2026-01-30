@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/tivo/jipviewer/TableSorter_ESTest.java
++++ b/evosuite-tests/com/tivo/jipviewer/TableSorter_ESTest.java
+@@ -344,22 +344,16 @@
+          verifyException("com.tivo.jipviewer.TableSorter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
+-      TableSorter tableSorter0 = new TableSorter();
+-      // Undeclared exception!
+-      try { 
+-        tableSorter0.getColumnName(0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.tivo.jipviewer.TableSorter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test27() throws Throwable {
++        javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
++                new Object[][] { { "value" } },
++                new Object[] { "colName" });
++        TableSorter tableSorter0 = new TableSorter(model);
++        String columnName = tableSorter0.getColumnName(0);
++        assertEquals("colName", columnName);
++    }
++
+ @Test(timeout = 4000)
+     public void test28() throws Throwable {
+         // Arrange: create a simple table model with sample data

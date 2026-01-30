@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
+@@ -372,8 +372,7 @@
+       String string0 = jSecurityHttpServletResponse0.encodeRedirectURL((String) null);
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test19()  throws Throwable  {
+       HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+       HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+@@ -394,7 +393,14 @@
+       JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(httpServletResponseWrapper0, servletContext2, jSecurityHttpServletRequest0);
+       String string0 = jSecurityHttpServletResponse0.encodeURL("/org.jsecurity.web.servlet.JSecurityHttpServletRequest_REFERENCED_SESSION_IS_NEW");
+       assertEquals("/org.jsecurity.web.servlet.JSecurityHttpServletRequest_REFERENCED_SESSION_IS_NEW", string0);
+-  }
++      // Assert the stubbed return values to eliminate NARV smell
++      assertEquals("https", httpServletRequest1.getScheme());
++      assertEquals("https", httpServletRequest1.getServerName());
++      assertEquals(163, httpServletRequest1.getServerPort());
++      assertEquals("JSESSIONID", httpServletRequest1.getContextPath());
++      assertSame(jSecurityHttpSession0, httpServletRequest1.getSession(anyBoolean()));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

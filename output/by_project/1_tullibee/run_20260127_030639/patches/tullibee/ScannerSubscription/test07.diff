@@ -1,0 +1,50 @@
+--- a/evosuite-tests/com/ib/client/ScannerSubscription_ESTest.java
++++ b/evosuite-tests/com/ib/client/ScannerSubscription_ESTest.java
+@@ -127,22 +127,31 @@
+         assertEquals(5.5, sub.couponRateAbove(), 0.01);
+         assertEquals(1_000_000_000.0, sub.marketCapBelow(), 0.01);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      ScannerSubscription scannerSubscription0 = new ScannerSubscription();
+-      scannerSubscription0.maturityDateAbove();
+-      assertEquals(Integer.MAX_VALUE, scannerSubscription0.aboveVolume());
+-      assertEquals((-1), scannerSubscription0.numberOfRows());
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.couponRateAbove(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.belowPrice(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.marketCapAbove(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.marketCapBelow(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.abovePrice(), 0.01);
+-      assertEquals(Integer.MAX_VALUE, scannerSubscription0.averageOptionVolumeAbove());
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.couponRateBelow(), 0.01);
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        ScannerSubscription sub = new ScannerSubscription();
++        // Act: set various fields
++        sub.aboveVolume(123);
++        sub.numberOfRows(10);
++        sub.marketCapAbove(1_000_000.0);
++        sub.marketCapBelow(500_000.0);
++        sub.couponRateAbove(2.5);
++        sub.couponRateBelow(1.5);
++        sub.abovePrice(150.0);
++        sub.belowPrice(100.0);
++        sub.maturityDateAbove("20231231");
++        // Assert that getters reflect the values set above
++        assertEquals(123, sub.aboveVolume());
++        assertEquals(10, sub.numberOfRows());
++        assertEquals(1_000_000.0, sub.marketCapAbove(), 0.001);
++        assertEquals(500_000.0, sub.marketCapBelow(), 0.001);
++        assertEquals(2.5, sub.couponRateAbove(), 0.001);
++        assertEquals(1.5, sub.couponRateBelow(), 0.001);
++        assertEquals(150.0, sub.abovePrice(), 0.001);
++        assertEquals(100.0, sub.belowPrice(), 0.001);
++        assertEquals("20231231", sub.maturityDateAbove());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

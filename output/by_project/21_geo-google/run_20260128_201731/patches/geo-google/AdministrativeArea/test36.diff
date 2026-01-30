@@ -1,0 +1,55 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -409,25 +409,33 @@
+         assertEquals("test", string0);
+     }
+ @Test(timeout = 4000)
+-    public void test36() throws Throwable {
+-        AdministrativeArea administrativeArea0 = new AdministrativeArea();
+-
+-        // Verify initial state
+-        assertNull(administrativeArea0.getPostOffice());
+-        assertNull(administrativeArea0.getType());
+-
+-        // Set post office to null and verify the side‑effect
+-        administrativeArea0.setPostOffice((PostOffice) null);
+-        assertNull(administrativeArea0.getPostOffice());
+-
+-        // Set a real PostOffice instance and verify it is stored correctly
+-        PostOffice po = new PostOffice();
+-        administrativeArea0.setPostOffice(po);
+-        assertSame(po, administrativeArea0.getPostOffice());
+-
+-        // Ensure that setting a new value does not affect the unrelated 'type' property
+-        assertNull(administrativeArea0.getType());
+-    }
++public void test36() throws Throwable {
++    AdministrativeArea administrativeArea0 = new AdministrativeArea();
++
++    // initial state
++    assertNull(administrativeArea0.getPostOffice());
++    assertNull(administrativeArea0.getType());
++
++    // set post office to null (no change) and verify
++    administrativeArea0.setPostOffice((PostOffice) null);
++    assertNull(administrativeArea0.getPostOffice());
++
++    // set a real PostOffice instance
++    PostOffice po = new PostOffice();
++    administrativeArea0.setPostOffice(po);
++    assertSame(po, administrativeArea0.getPostOffice());
++
++    // set the unrelated 'type' property and verify it does not interfere with postOffice
++    administrativeArea0.setType("city");
++    assertEquals("city", administrativeArea0.getType());
++    assertSame(po, administrativeArea0.getPostOffice());
++
++    // clear post office again and ensure 'type' remains unchanged
++    administrativeArea0.setPostOffice((PostOffice) null);
++    assertNull(administrativeArea0.getPostOffice());
++    assertEquals("city", administrativeArea0.getType());
++}
++
+ 
+ @Test(timeout = 4000)
+   public void test37() throws Throwable {

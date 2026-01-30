@@ -1,0 +1,21 @@
+--- a/evosuite-tests/macaw/presentationLayer/CleaningStatePanel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/CleaningStatePanel_ESTest.java
+@@ -33,10 +33,15 @@
+     derivedVariable0.setCleaned(true);
+     assertTrue(derivedVariable0.isCleaned());
+     CleaningStatePanel cleaningStatePanel0 = new CleaningStatePanel(sessionProperties0, stringArray0, true);
++    // capture change‑event list size before initialise
++    int beforeSize = cleaningStatePanel0.getChangeEvents().size();
+     cleaningStatePanel0.initialise(derivedVariable0);
+-    ArrayList<MacawChangeEvent> arrayList0 = cleaningStatePanel0.getChangeEvents();
+-    assertFalse(arrayList0.isEmpty());
+-}
++    ArrayList<MacawChangeEvent> afterList = cleaningStatePanel0.getChangeEvents();
++    // verify that initialise produced a change event
++    assertEquals(beforeSize + 1, afterList.size());
++    assertFalse(afterList.isEmpty());
++}
++
+ 
+ 
+   @Test(timeout = 4000)

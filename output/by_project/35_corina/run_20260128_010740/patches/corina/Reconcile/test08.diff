@@ -1,0 +1,41 @@
+--- a/evosuite-tests/corina/manip/Reconcile_ESTest.java
++++ b/evosuite-tests/corina/manip/Reconcile_ESTest.java
+@@ -132,20 +132,24 @@
+          verifyException("corina.manip.Reconcile", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      try { 
+-        Reconcile.guessOtherReading("Ttlfe<{'6<v~ev}a");
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.manip.Reconcile", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    // Create a temporary file to avoid external file‑system dependencies
++    java.io.File tempFile = java.io.File.createTempFile("reconcile_test", ".txt");
++    tempFile.deleteOnExit();
++
++    // Write minimal content so the file is not empty (the actual content is irrelevant for this test)
++    try (java.io.FileWriter writer = new java.io.FileWriter(tempFile)) {
++        writer.write("dummy");
++    }
++
++    // Call the method under test with a valid existing file path
++    String result = corina.manip.Reconcile.guessOtherReading(tempFile.getAbsolutePath());
++
++    // Verify that the method returns a non‑null result when the file exists
++    org.junit.Assert.assertNotNull("Result should not be null for an existing file", result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

@@ -1,0 +1,28 @@
+--- a/evosuite-tests/com/pmdesigns/jvc/tools/SimpleCharStream_ESTest.java
++++ b/evosuite-tests/com/pmdesigns/jvc/tools/SimpleCharStream_ESTest.java
+@@ -131,17 +131,19 @@
+       } catch(Throwable e) {
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test09() throws Throwable {
+       StringReader stringReader0 = new StringReader("");
+       SimpleCharStream simpleCharStream0 = new SimpleCharStream(stringReader0, 308, 308);
++      int initialBufPos = simpleCharStream0.bufpos;
++      assertEquals(-1, initialBufPos);
+       simpleCharStream0.Done();
+       PipedInputStream pipedInputStream0 = new PipedInputStream();
+       PushbackInputStream pushbackInputStream0 = new PushbackInputStream(pipedInputStream0, 4096);
+-      simpleCharStream0.ReInit((InputStream) pushbackInputStream0, 0, (-308), 0);
+-      assertEquals((-1), simpleCharStream0.bufpos);
+-  }
++      simpleCharStream0.ReInit((InputStream) pushbackInputStream0, 0, -308, 0);
++      assertEquals(initialBufPos, simpleCharStream0.bufpos);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

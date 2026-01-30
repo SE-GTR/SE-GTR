@@ -1,0 +1,39 @@
+--- a/evosuite-tests/net/sf/xbus/tools/ConfigSearcher_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/tools/ConfigSearcher_ESTest.java
+@@ -98,24 +98,20 @@
+          verifyException("org.evosuite.runtime.System", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      linkedList0.add((Object) "a");
+-      ConfigSearcher configSearcher0 = new ConfigSearcher();
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    LinkedList<Object> linkedList0 = new LinkedList<Object>();
++    boolean added = linkedList0.add((Object) "a");
++    assertTrue(added);
++    ConfigSearcher configSearcher0 = new ConfigSearcher();
++    try {
+         configSearcher0.writeCSVFile(linkedList0, "a");
+         fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.lang.String cannot be cast to net.sf.xbus.tools.ConfigSearcher$Entry
+-         //
+-         verifyException("net.sf.xbus.tools.ConfigSearcher", e);
+-      }
+-  }
++    } catch (ClassCastException e) {
++        verifyException("net.sf.xbus.tools.ConfigSearcher", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

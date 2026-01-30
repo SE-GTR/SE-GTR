@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -565,15 +565,20 @@
+       Serializer serializer0 = EnqLock.getSerializer("user", class0, qName0);
+       assertEquals("Axis SAX Mechanism", serializer0.getMechanismType());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test36()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
++@Test(timeout = 4000)
++  public void test36() throws Throwable {
++      EnqLock enqLock0 = new EnqLock();
++      // Verify initial state before setting owner
++      assertNull(enqLock0.getOwner());
++      // Act: set the owner
+       enqLock0.setOwner(" faultActor: ");
+-      EnqLock enqLock1 = new EnqLock();
+-      boolean boolean0 = enqLock0.equals(enqLock1);
+-      assertFalse(boolean0);
+-  }
++      // Assert side‑effect of setOwner
++      assertEquals(" faultActor: ", enqLock0.getOwner());
++      EnqLock enqLock1 = new EnqLock();
++      boolean boolean0 = enqLock0.equals(enqLock1);
++      assertFalse(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test37()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Locality_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Locality_ESTest.java
+@@ -185,13 +185,22 @@
+       Premise premise0 = locality0.getPremise();
+       assertNull(premise0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      Locality locality0 = new Locality();
+-      locality0.setThoroughfare((Thoroughfare) null);
+-      assertNull(locality0.getUsageType());
+-  }
++@Test(timeout = 4000)
++    public void test22() throws Throwable {
++        Locality locality = new Locality();
++        // Verify initial state
++        assertNull(locality.getThoroughfare());
++        assertNull(locality.getUsageType());
++
++        // Apply side‑effect operations
++        locality.setThoroughfare(null);
++        locality.setUsageType("residential");
++
++        // Observe the side effects
++        assertNull(locality.getThoroughfare());
++        assertEquals("residential", locality.getUsageType());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

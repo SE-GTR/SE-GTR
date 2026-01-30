@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/PhdBallParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/PhdBallParser_ESTest.java
+@@ -150,21 +150,19 @@
+          verifyException("org.jcvi.jillion.assembly.consed.phd.PhdBallParser$FileBasedPhdBallParser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        PhdBallParser.create((File) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // phdball can not be null
+-         //
+-         verifyException("org.jcvi.jillion.assembly.consed.phd.PhdBallParser$FileBasedPhdBallParser", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        java.io.File temp = java.io.File.createTempFile("phdball", ".tmp");
++        try {
++            // Attempt to create a parser with a valid (empty) temporary file.
++            PhdBallParser parser = PhdBallParser.create(temp);
++            assertNotNull("Parser should be created for a non‑null file", parser);
++        } finally {
++            // Clean up the temporary file.
++            temp.delete();
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

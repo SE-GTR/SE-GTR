@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jcvi/jillion/fasta/nt/DefaultNucleotideSequenceFastaFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/fasta/nt/DefaultNucleotideSequenceFastaFileDataStore_ESTest.java
+@@ -22,22 +22,14 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DefaultNucleotideSequenceFastaFileDataStore_ESTest extends DefaultNucleotideSequenceFastaFileDataStore_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    java.io.InputStream in = new java.io.ByteArrayInputStream(new byte[0]);
++    org.jcvi.jillion.fasta.nt.NucleotideFastaDataStore ds =
++        org.jcvi.jillion.fasta.nt.DefaultNucleotideSequenceFastaFileDataStore.create(in);
++    assertNotNull("DataStore should be created", ds);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      FileDescriptor fileDescriptor0 = new FileDescriptor();
+-      MockFileInputStream mockFileInputStream0 = new MockFileInputStream(fileDescriptor0);
+-      try { 
+-        DefaultNucleotideSequenceFastaFileDataStore.create((InputStream) mockFileInputStream0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // inputstream is closed
+-         //
+-         verifyException("org.jcvi.jillion.fasta.FastaFileParser$InputStreamFastaParser", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

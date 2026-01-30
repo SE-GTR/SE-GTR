@@ -1,0 +1,36 @@
+--- a/evosuite-tests/state/Action_ESTest.java
++++ b/evosuite-tests/state/Action_ESTest.java
+@@ -25,17 +25,24 @@
+     actionFactory0 = ActionFactory.getInstance();
+     action0 = actionFactory0.createMoveAction(763, (byte)6, (byte)6, (byte)89);
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Capture the original state before packing/unpacking
++        int originalTarget = action0.getTarget();
+ 
++        // Serialize the action to a byte array and then deserialize it back
++        byte[] byteArray0 = action0.pack();
++        ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
++        DataInputStream dataInputStream0 = new DataInputStream(byteArrayInputStream0);
++        action0.unpack(dataInputStream0);
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      byte[] byteArray0 = action0.pack();
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      DataInputStream dataInputStream0 = new DataInputStream(byteArrayInputStream0);
+-      action0.unpack(dataInputStream0);
+-      assertEquals(0, byteArrayInputStream0.available());
+-      assertEquals((-1), action0.getTarget());
+-  }
++        // Verify that the input stream has been fully consumed
++        assertEquals(0, byteArrayInputStream0.available());
++
++        // Verify that unpack restored the target field to its original value
++        assertEquals(originalTarget, action0.getTarget());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

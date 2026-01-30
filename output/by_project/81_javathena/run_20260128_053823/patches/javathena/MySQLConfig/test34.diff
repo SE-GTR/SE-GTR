@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
+@@ -292,12 +292,21 @@
+             MySQLConfig.setDynamic_account_ban_class(original);
+         }
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      MySQLConfig.setLogin_db("Tq):dR><F(");
+-  }
++@Test(timeout = 4000)
++public void test34() throws Throwable {
++    // Preserve original value to avoid affecting other tests
++    String originalLoginDb = MySQLConfig.getLogin_db();
++
++    // Act: change the login_db configuration
++    MySQLConfig.setLogin_db("Tq):dR><F(");
++
++    // Assert: the new value is correctly stored
++    assertEquals("Tq):dR><F(", MySQLConfig.getLogin_db());
++
++    // Clean up: restore original configuration
++    MySQLConfig.setLogin_db(originalLoginDb);
++}
++
+ @Test(timeout = 4000)
+ public void test35() throws Throwable {
+     EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("user_pass");

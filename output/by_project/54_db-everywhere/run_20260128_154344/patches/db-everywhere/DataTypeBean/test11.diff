@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/DataTypeBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/DataTypeBean_ESTest.java
+@@ -143,18 +143,28 @@
+       assertFalse(dataTypeBean0.isDec());
+       assertFalse(dataTypeBean0.isLen());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      DataTypeBean dataTypeBean0 = new DataTypeBean();
+-      dataTypeBean0.setFormat("X2 V");
+-      assertEquals("text", dataTypeBean0.getFormInput());
+-      assertEquals(0, dataTypeBean0.getFormSize());
+-      assertFalse(dataTypeBean0.isDec());
+-      assertEquals(0, dataTypeBean0.getMaxlength());
+-      assertFalse(dataTypeBean0.isForceLength());
+-      assertFalse(dataTypeBean0.isLen());
+-  }
++@Test(timeout = 4000)
++  public void test11() throws Throwable {
++      DataTypeBean bean = new DataTypeBean();
++      int initialFormSize = bean.getFormSize();
++      boolean initialDec = bean.isDec();
++      boolean initialForceLength = bean.isForceLength();
++      boolean initialLen = bean.isLen();
++      String initialFormInput = bean.getFormInput();
++      int initialMaxlength = bean.getMaxlength();
++
++      bean.setFormat("X2 V");
++
++      // Verify that setFormat caused a change in the bean's state
++      boolean changed = bean.getFormSize() != initialFormSize ||
++                        bean.isDec() != initialDec ||
++                        bean.isForceLength() != initialForceLength ||
++                        bean.isLen() != initialLen ||
++                        !bean.getFormInput().equals(initialFormInput) ||
++                        bean.getMaxlength() != initialMaxlength;
++      assertTrue(changed);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

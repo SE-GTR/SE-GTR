@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/SffWriterUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/SffWriterUtil_ESTest.java
+@@ -120,22 +120,21 @@
+          verifyException("org.jcvi.jillion.trace.sff.SffWriterUtil", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        java.math.BigInteger bigInteger0 = java.math.BigInteger.ZERO;
++        org.jcvi.jillion.core.residue.nt.NucleotideSequence seq = new org.jcvi.jillion.core.residue.nt.NucleotideSequenceBuilder("A").build();
++        org.jcvi.jillion.trace.sff.DefaultSffCommonHeader defaultSffCommonHeader0 = new org.jcvi.jillion.trace.sff.DefaultSffCommonHeader(
++                bigInteger0, -780L, -142L, -142L, seq, seq);
++        java.io.PipedOutputStream pipedOutputStream0 = new java.io.PipedOutputStream();
++        java.io.PipedInputStream pipedInputStream0 = new java.io.PipedInputStream(pipedOutputStream0);
++        int bytesWritten = org.jcvi.jillion.trace.sff.SffWriterUtil.writeCommonHeader(defaultSffCommonHeader0, pipedOutputStream0);
++        org.junit.Assert.assertTrue("Expected some bytes to be written", bytesWritten > 0);
++        byte[] buffer = new byte[bytesWritten];
++        int read = pipedInputStream0.read(buffer);
++        org.junit.Assert.assertEquals("Number of bytes read should match bytes written", bytesWritten, read);
++        pipedOutputStream0.close();
++        pipedInputStream0.close();
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      BigInteger bigInteger0 = BigInteger.ZERO;
+-      DefaultSffCommonHeader defaultSffCommonHeader0 = new DefaultSffCommonHeader(bigInteger0, (-780L), (-142), (-142), (NucleotideSequence) null, (NucleotideSequence) null);
+-      PipedOutputStream pipedOutputStream0 = new PipedOutputStream();
+-      // Undeclared exception!
+-      try { 
+-        SffWriterUtil.writeCommonHeader(defaultSffCommonHeader0, pipedOutputStream0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.trace.sff.SffWriterUtil", e);
+-      }
+-  }
+ }

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/quickserver/util/TextFile_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/TextFile_ESTest.java
+@@ -80,20 +80,19 @@
+          verifyException("java.io.File", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        java.nio.file.Path temp = java.nio.file.Files.createTempFile("test4", ".txt");
++        try {
++            TextFile.write(temp.toString(), "sample");
++            java.nio.file.Path readPath = java.nio.file.Paths.get(temp.toString());
++            String content = new String(java.nio.file.Files.readAllBytes(readPath));
++            org.junit.Assert.assertEquals("sample", content);
++        } finally {
++            java.nio.file.Files.deleteIfExists(temp);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      try { 
+-        TextFile.write("", "");
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileOutputStream", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

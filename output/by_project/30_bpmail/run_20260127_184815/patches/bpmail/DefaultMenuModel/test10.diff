@@ -1,0 +1,35 @@
+--- a/evosuite-tests/ch/bluepenguin/tapestry/components/menu/model/impl/DefaultMenuModel_ESTest.java
++++ b/evosuite-tests/ch/bluepenguin/tapestry/components/menu/model/impl/DefaultMenuModel_ESTest.java
+@@ -138,18 +138,22 @@
+     defaultMenuModel0.addMenuItem((IMenuItem) defaultMenuItem1);
+     assertEquals(0, defaultMenuItem1.getDepth());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
++@Test(timeout = 4000)
++public void test10() throws Throwable {
+     defaultMenuModel0 = new DefaultMenuModel();
+     defaultMenuItem0 = new DefaultMenuItem(defaultMenuModel0);
+-      defaultMenuItem0.setParent(defaultMenuModel0);
+-      defaultMenuModel0.addMenuItem((IMenuItem) defaultMenuItem0);
+-      defaultMenuItem0.setParent((Object) null);
+-      defaultMenuModel0.addMenuItem((IMenuItem) defaultMenuItem0);
+-      assertEquals(0, defaultMenuItem0.getDepth());
+-  }
++    // Verify that setting the parent updates the internal state
++    defaultMenuItem0.setParent(defaultMenuModel0);
++    assertEquals(defaultMenuModel0, defaultMenuItem0.getParent());
++    defaultMenuModel0.addMenuItem((IMenuItem) defaultMenuItem0);
++    // Verify that resetting the parent to null is reflected
++    defaultMenuItem0.setParent((Object) null);
++    assertNull(defaultMenuItem0.getParent());
++    defaultMenuModel0.addMenuItem((IMenuItem) defaultMenuItem0);
++    // Existing check on depth
++    assertEquals(0, defaultMenuItem0.getDepth());
++}
++
+ @Test(timeout = 4000)
+   public void test11() throws Throwable {
+     DefaultMenuModel model = new DefaultMenuModel();

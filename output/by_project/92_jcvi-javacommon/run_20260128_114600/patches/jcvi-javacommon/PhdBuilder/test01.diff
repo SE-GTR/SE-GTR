@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/PhdBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/PhdBuilder_ESTest.java
+@@ -44,19 +44,21 @@
+       Phd phd0 = phdBuilder0.build();
+       assertEquals("~|R", phd0.getId());
+   }
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test01()  throws Throwable  {
+       NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+       doReturn(0L).when(nucleotideSequence0).getLength();
+       QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+       doReturn(0L).when(qualitySequence0).getLength();
++      // Assert the stubbed return values to eliminate NARV
++      assertEquals(0L, nucleotideSequence0.getLength());
++      assertEquals(0L, qualitySequence0.getLength());
+       PhdBuilder phdBuilder0 = new PhdBuilder("", nucleotideSequence0, qualitySequence0);
+       // Undeclared exception!
+       try { 
+         phdBuilder0.fakePeaks(964, 0);
+         fail("Expecting exception: IllegalArgumentException");
+-      
++
+       } catch(IllegalArgumentException e) {
+          //
+          // peak spacing must be >0
+@@ -64,6 +66,7 @@
+          verifyException("org.jcvi.jillion.assembly.consed.phd.PhdBuilder", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

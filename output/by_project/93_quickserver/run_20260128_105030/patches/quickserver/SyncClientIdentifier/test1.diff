@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/SyncClientIdentifier_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/SyncClientIdentifier_ESTest.java
+@@ -43,15 +43,24 @@
+          verifyException("org.quickserver.net.server.impl.SyncClientIdentifier", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        SyncClientIdentifier syncClientIdentifier0 = new SyncClientIdentifier();
++        BasicObjectPool basicObjectPool0 = new BasicObjectPool();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      SyncClientIdentifier syncClientIdentifier0 = new SyncClientIdentifier();
+-      BasicObjectPool basicObjectPool0 = new BasicObjectPool();
+-      syncClientIdentifier0.setClientHandlerPool(basicObjectPool0);
+-      Iterator iterator0 = syncClientIdentifier0.findAllClientByKey("");
+-      assertNotNull(iterator0);
+-  }
++        // Verify initial state before setting the pool
++        assertNull(syncClientIdentifier0.getClientHandlerPool());
++
++        // Set the client handler pool and verify the side‑effect
++        syncClientIdentifier0.setClientHandlerPool(basicObjectPool0);
++        assertSame(basicObjectPool0, syncClientIdentifier0.getClientHandlerPool());
++
++        // The identifier should return a non‑null, empty iterator for an unknown key
++        Iterator iterator0 = syncClientIdentifier0.findAllClientByKey("");
++        assertNotNull(iterator0);
++        assertFalse(iterator0.hasNext());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

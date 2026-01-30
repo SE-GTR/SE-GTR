@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
+@@ -151,22 +151,28 @@
+     assertEquals("-ERR Timeout", quickServerConfig0.getTimeoutMsg());
+     assertEquals(60000, quickServerConfig0.getTimeout());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      QSAdminServerConfig qSAdminServerConfig0 = new QSAdminServerConfig();
+-      qSAdminServerConfig0.setClientBinaryHandler((ClientBinaryHandler) null);
+-      assertEquals("INFO", qSAdminServerConfig0.getConsoleLoggingLevel());
+-      assertEquals("-ERR Timeout", qSAdminServerConfig0.getTimeoutMsg());
+-      assertEquals("-ERR Max Auth Try Reached", qSAdminServerConfig0.getMaxAuthTryMsg());
+-      assertEquals("-ERR Server Busy. Max Connection Reached", qSAdminServerConfig0.getMaxConnectionMsg());
+-      assertEquals(9877, qSAdminServerConfig0.getPort());
+-      assertFalse(qSAdminServerConfig0.getCommunicationLogging());
+-      assertEquals(60000, qSAdminServerConfig0.getTimeout());
+-      assertEquals(5, qSAdminServerConfig0.getMaxAuthTry());
+-      assertEquals(1L, qSAdminServerConfig0.getMaxConnection());
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        QSAdminServerConfig qSAdminServerConfig0 = new QSAdminServerConfig();
++        // capture initial state (expected to be null)
++        String beforeHandler = qSAdminServerConfig0.getClientBinaryHandler();
++        assertNull("Initial clientBinaryHandler should be null", beforeHandler);
++        // act: set handler to null
++        qSAdminServerConfig0.setClientBinaryHandler((ClientBinaryHandler) null);
++        // verify side‑effect of the void method
++        assertNull("clientBinaryHandler should remain null after setting null", qSAdminServerConfig0.getClientBinaryHandler());
++        // existing assertions
++        assertEquals("INFO", qSAdminServerConfig0.getConsoleLoggingLevel());
++        assertEquals("-ERR Timeout", qSAdminServerConfig0.getTimeoutMsg());
++        assertEquals("-ERR Max Auth Try Reached", qSAdminServerConfig0.getMaxAuthTryMsg());
++        assertEquals("-ERR Server Busy. Max Connection Reached", qSAdminServerConfig0.getMaxConnectionMsg());
++        assertEquals(9877, qSAdminServerConfig0.getPort());
++        assertFalse(qSAdminServerConfig0.getCommunicationLogging());
++        assertEquals(60000, qSAdminServerConfig0.getTimeout());
++        assertEquals(5, qSAdminServerConfig0.getMaxAuthTry());
++        assertEquals(1L, qSAdminServerConfig0.getMaxConnection());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

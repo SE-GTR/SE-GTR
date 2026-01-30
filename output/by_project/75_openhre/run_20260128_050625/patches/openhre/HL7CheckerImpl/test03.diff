@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerImpl_ESTest.java
+@@ -46,15 +46,27 @@
+       HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
+       hL7CheckerImpl0.subComponent("");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
+-      HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
+-      hL7CheckerStateImpl0.setSeriousError(true);
+-      hL7CheckerImpl0.setState(hL7CheckerStateImpl0);
+-      hL7CheckerImpl0.subComponent("S{'4*-09+LCk&gIk");
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
++    HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
++
++    // Verify initial seriousError flag is false (if a getter exists)
++    assertFalse(hL7CheckerStateImpl0.isSeriousError());
++
++    // Set serious error and verify the side‑effect
++    hL7CheckerStateImpl0.setSeriousError(true);
++    assertTrue(hL7CheckerStateImpl0.isSeriousError());
++
++    // Set the state in the checker and verify it was stored
++    hL7CheckerImpl0.setState(hL7CheckerStateImpl0);
++    assertSame(hL7CheckerStateImpl0, hL7CheckerImpl0.getState());
++
++    // Invoke subComponent and ensure it does not clear the serious error flag
++    hL7CheckerImpl0.subComponent("S{'4*-09+LCk&gIk");
++    assertTrue(hL7CheckerStateImpl0.isSeriousError());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

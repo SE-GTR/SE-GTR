@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/netweaver/porta/ide/eclipse/server/ui/wizard/SapNWRuntimeWizardFragment_ESTest.java
++++ b/evosuite-tests/com/sap/netweaver/porta/ide/eclipse/server/ui/wizard/SapNWRuntimeWizardFragment_ESTest.java
+@@ -33,22 +33,24 @@
+     sapNWRuntimeWizardFragment0 = new SapNWRuntimeWizardFragment();
+     taskModel0 = new TaskModel();
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        java.io.File src = java.io.File.createTempFile("src", ".tmp");
++        src.deleteOnExit();
++        java.io.File dest = java.io.File.createTempFile("dest", ".tmp");
++        dest.deleteOnExit();
+ 
++        try (java.io.FileOutputStream out = new java.io.FileOutputStream(src)) {
++            out.write("test data".getBytes());
++        }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("com.sap.netweaver.porta.ide.eclipse.server.ui.wizard.SapNWRuntimeWizardFragment", "com.sap.netweaver.porta.ide.eclipse.server.ui.wizard.SapNWRuntimeWizardFragment");
+-      try { 
+-        SapNWRuntimeWizardFragment.copyFile(mockFile0, mockFile0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // transferFrom is not supported yet
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.EvoFileChannel", e);
+-      }
+-  }
++        SapNWRuntimeWizardFragment.copyFile(src, dest);
++
++        byte[] srcBytes = java.nio.file.Files.readAllBytes(src.toPath());
++        byte[] destBytes = java.nio.file.Files.readAllBytes(dest.toPath());
++        assertArrayEquals(srcBytes, destBytes);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

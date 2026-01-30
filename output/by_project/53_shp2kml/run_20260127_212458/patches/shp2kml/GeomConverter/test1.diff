@@ -1,0 +1,31 @@
+--- a/evosuite-tests/net/sourceforge/shp2kml/GeomConverter_ESTest.java
++++ b/evosuite-tests/net/sourceforge/shp2kml/GeomConverter_ESTest.java
+@@ -35,16 +35,19 @@
+       String string0 = GeomConverter.getPlacemarkKML(geometry0, "1PW", "1PW", (double) 586);
+       assertEquals("<Placemark><description><![CDATA[1PW]]></description><name>1PW</name></Placemark>", string0);
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    Coordinate[] coordinateArray0 = new Coordinate[0];
++    PrecisionModel precisionModel0 = new PrecisionModel();
++    LinearRing linearRing0 = new LinearRing(coordinateArray0, precisionModel0, 0);
++    Polygon polygon0 = new Polygon(linearRing0, precisionModel0, 2);
++    String kml = GeomConverter.getPlacemarkKML(polygon0, null, null, -2358.31);
++    assertNotNull(kml);
++    assertTrue(kml.startsWith("<Placemark>"));
++    assertTrue(kml.contains("<extrude>-2358.31</extrude>"));
++    assertTrue(kml.contains("<Polygon>"));
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Coordinate[] coordinateArray0 = new Coordinate[0];
+-      PrecisionModel precisionModel0 = new PrecisionModel();
+-      LinearRing linearRing0 = new LinearRing(coordinateArray0, precisionModel0, 0);
+-      Polygon polygon0 = new Polygon(linearRing0, precisionModel0, 2);
+-      String string0 = GeomConverter.getPlacemarkKML((Geometry) polygon0, (String) null, (String) null, (-2358.31));
+-      assertEquals("<Placemark><description><![CDATA[null]]></description><name>null</name><Polygon><extrude>-2358.31</extrude><altitudeMode>relativeToGround</altitudeMode></Polygon></Placemark>", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

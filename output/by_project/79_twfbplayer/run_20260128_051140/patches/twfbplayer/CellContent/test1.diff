@@ -1,0 +1,49 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/gui/battlefield/CellContent_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/gui/battlefield/CellContent_ESTest.java
+@@ -32,31 +32,22 @@
+     MouseWheelEvent mouseWheelEvent0 = new MouseWheelEvent(moveTarget0, 0, 0, 0, 0, 2435, 0, 0, (-954), true, 1, 1860, 0, 2430.7178);
+     moveTarget0.getToolTipText((MouseEvent) mouseWheelEvent0);
+ }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        Combatant combatant0 = mock(Combatant.class);
++        MoveTarget moveTarget0 = new MoveTarget(combatant0);
++        MouseWheelEvent mouseWheelEvent0 = new MouseWheelEvent(moveTarget0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0);
++        CharacterClass characterClass0 = CharacterClass.GREENHORN;
++        SimpleSector simpleSector0 = new SimpleSector(2517, true, false, 0, 4674, false, 0, characterClass0);
++        SimpleArea simpleArea0 = new SimpleArea(1402, 4674, simpleSector0);
++        AreaStatistic areaStatistic0 = mock(AreaStatistic.class);
++        when(areaStatistic0.toString()).thenReturn("stat");
++        BattlefieldCell battlefieldCell0 = new BattlefieldCell(simpleArea0, areaStatistic0);
++        moveTarget0.moveToCell(battlefieldCell0);
++        String tooltip = moveTarget0.getToolTipText(mouseWheelEvent0);
++        assertNotNull("Tooltip should not be null", tooltip);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      MoveTarget moveTarget0 = new MoveTarget((Combatant) null);
+-      MouseWheelEvent mouseWheelEvent0 = new MouseWheelEvent(moveTarget0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0);
+-      CharacterClass characterClass0 = CharacterClass.GREENHORN;
+-      SimpleSector simpleSector0 = new SimpleSector(2517, true, false, 0, 4674, false, 0, characterClass0);
+-      SimpleArea simpleArea0 = new SimpleArea(1402, 4674, simpleSector0);
+-      AreaStatistic areaStatistic0 = mock(AreaStatistic.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(areaStatistic0).toString();
+-      BattlefieldCell battlefieldCell0 = new BattlefieldCell(simpleArea0, areaStatistic0);
+-      moveTarget0.moveToCell(battlefieldCell0);
+-      // Undeclared exception!
+-      try { 
+-        moveTarget0.getToolTipText((MouseEvent) mouseWheelEvent0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.outstare.fortbattleplayer.gui.battlefield.MoveTarget", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

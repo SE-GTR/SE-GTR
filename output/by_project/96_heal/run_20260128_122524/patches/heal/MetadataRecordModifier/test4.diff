@@ -1,0 +1,60 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/MetadataRecordModifier_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/MetadataRecordModifier_ESTest.java
+@@ -84,31 +84,33 @@
+         verifyException("org.heal.servlet.cataloger.MetadataRecordModifier", e);
+     }
+ }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        completeMetadataBean0 = new CompleteMetadataBean();
++        String[] stringArray0 = new String[9];
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("^fileWidtl", "^fileWidtl", "^fileWidtl", "^fileWidtl", "^fileWidtl")
++                .when(httpServletRequest0).getParameter(anyString());
++        doReturn((Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0)
++                .when(httpServletRequest0).getParameterValues(anyString());
++        ArrayList<Object> arrayList0 = new ArrayList<Object>();
++        boolean added = arrayList0.add((Object) "^fileWidtl");
++        assertTrue(added);
++        // Verify mocked return values
++        String param = httpServletRequest0.getParameter("any");
++        assertEquals("^fileWidtl", param);
++        String[] params = httpServletRequest0.getParameterValues("any");
++        assertArrayEquals(stringArray0, params);
++        completeMetadataBean0.setRelations(arrayList0);
++        metadataRecordModifier0 = new MetadataRecordModifier();
++        try {
++            metadataRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequest0);
++            fail("Expecting exception: ClassCastException");
++        } catch (ClassCastException e) {
++            verifyException("org.heal.servlet.cataloger.MetadataRecordModifier", e);
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    completeMetadataBean0 = new CompleteMetadataBean();
+-      String[] stringArray0 = new String[9];
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("^fileWidtl", "^fileWidtl", "^fileWidtl", "^fileWidtl", "^fileWidtl").when(httpServletRequest0).getParameter(anyString());
+-      doReturn((Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0).when(httpServletRequest0).getParameterValues(anyString());
+-      ArrayList<Object> arrayList0 = new ArrayList<Object>();
+-      arrayList0.add((Object) "^fileWidtl");
+-      completeMetadataBean0.setRelations(arrayList0);
+-    metadataRecordModifier0 = new MetadataRecordModifier();
+-      // Undeclared exception!
+-      try { 
+-        metadataRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequest0);
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.lang.String cannot be cast to org.heal.module.metadata.RelationBean
+-         //
+-         verifyException("org.heal.servlet.cataloger.MetadataRecordModifier", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+   public void test5() throws Throwable {
+     metadataRecordModifier0 = new MetadataRecordModifier();

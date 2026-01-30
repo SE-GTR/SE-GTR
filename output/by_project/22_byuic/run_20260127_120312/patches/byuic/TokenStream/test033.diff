@@ -1,0 +1,55 @@
+--- a/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
+@@ -456,25 +456,33 @@
+          verifyException("org.mozilla.javascript.RhinoException", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test033()  throws Throwable  {
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      Parser parser0 = new Parser(compilerEnvirons0, (ErrorReporter) null);
+-      TokenStream tokenStream0 = new TokenStream(parser0, (Reader) null, "[!MP<B>s}&", 96);
+-      tokenStream0.getToken();
+-      // Undeclared exception!
+-      try { 
+-        tokenStream0.getFirstXMLToken();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.mozilla.javascript.Parser", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test033() throws Throwable {
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        ErrorReporter reporter = new ErrorReporter() {
++            @Override
++            public void warning(String message, String sourceName, int line, String lineSource, int lineOffset) {
++            }
++
++            @Override
++            public void error(String message, String sourceName, int line, String lineSource, int lineOffset) {
++            }
++
++            @Override
++            public EvaluatorException runtimeError(String message, String sourceName, int line, String lineSource,
++                    int lineOffset) {
++                return new EvaluatorException(message);
++            }
++        };
++        Parser parser0 = new Parser(compilerEnvirons0, reporter);
++        java.io.Reader reader = new java.io.StringReader("[!MP<B>s}&");
++        TokenStream tokenStream0 = new TokenStream(parser0, reader, "[!MP<B>s}&", 96);
++        int token = tokenStream0.getToken();
++        assertTrue(token >= -1);
++        int firstXmlToken = tokenStream0.getFirstXMLToken();
++        assertTrue(firstXmlToken >= -1);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test034()  throws Throwable  {

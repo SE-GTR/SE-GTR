@@ -1,0 +1,25 @@
+--- a/evosuite-tests/osa/ora/server/utils/FileEncrypter_ESTest.java
++++ b/evosuite-tests/osa/ora/server/utils/FileEncrypter_ESTest.java
+@@ -25,16 +25,18 @@
+         fileEncrypter0.fileDecrypt((byte[]) null, (File) null);
+         assertSame(before, FileEncrypter.getInstance());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
+       FileEncrypter fileEncrypter0 = FileEncrypter.getInstance();
+       MockFile mockFile0 = new MockFile("#|yV&%c", "#|yV&%c");
++      long lengthBefore = mockFile0.length();
+       byte[] byteArray0 = fileEncrypter0.fileEncrypt(mockFile0, mockFile0);
+       fileEncrypter0.fileDecrypt(byteArray0, mockFile0);
++      long lengthAfter = mockFile0.length();
++      assertEquals(lengthBefore, lengthAfter);
+       assertEquals(8, byteArray0.length);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

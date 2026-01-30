@@ -1,0 +1,120 @@
+--- a/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
+@@ -2639,75 +2639,48 @@
+          verifyException("jigl.image.types.RealGrayImage", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test36()  throws Throwable  {
+-      RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      
+-      String string0 = realGrayImage0.toString();
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals("0:0\n", string0);
+-      
+-      RealGrayImage realGrayImage1 = realGrayImage0.multiply(255.0F);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage1.X());
+-      assertEquals(0.0, realGrayImage1.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage1.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage1.Y());
+-      assertEquals(32767.0F, realGrayImage1.min(), 0.01F);
+-      assertEquals(0.0F, realGrayImage1.addSum(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage1.max(), 0.01F);
+-      assertSame(realGrayImage0, realGrayImage1);
+-      assertSame(realGrayImage1, realGrayImage0);
+-      
+-      ROI rOI0 = new ROI();
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(0, rOI0.ly());
+-      
+-      Float float0 = new Float((float) 810);
+-      assertEquals(810.0F, (float)float0, 0.01F);
+-      
+-      realGrayImage1.byteSize();
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage1.X());
+-      assertEquals(0.0, realGrayImage1.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage1.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage1.Y());
+-      assertEquals(32767.0F, realGrayImage1.min(), 0.01F);
+-      assertEquals(0.0F, realGrayImage1.addSum(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage1.max(), 0.01F);
+-      assertSame(realGrayImage0, realGrayImage1);
+-      assertSame(realGrayImage1, realGrayImage0);
+-  }
++@Test(timeout = 4000)
++    public void test36() throws Throwable {
++        RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
++        // Initial state assertions
++        assertEquals(0, realGrayImage0.X());
++        assertEquals(0, realGrayImage0.Y());
++        assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
++        assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
++        assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
++        assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
++        assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
++        assertEquals("0:0\n", realGrayImage0.toString());
++
++        // Multiply by a scalar – should return the same instance with unchanged values
++        RealGrayImage realGrayImage1 = realGrayImage0.multiply(255.0F);
++        assertSame(realGrayImage0, realGrayImage1);
++        assertEquals(0.0F, realGrayImage1.addSum(), 0.01F);
++        assertEquals(0.0, realGrayImage1.sqrSum(), 0.01);
++        assertEquals((-32768.0F), realGrayImage1.max(), 0.01F);
++        assertEquals(32767.0F, realGrayImage1.min(), 0.01F);
++        assertEquals(0, realGrayImage1.X());
++        assertEquals(0, realGrayImage1.Y());
++
++        // Verify ROI defaults
++        ROI rOI0 = new ROI();
++        assertEquals(1, rOI0.Y());
++        assertEquals(1, rOI0.X());
++
++        // Verify Float wrapper
++        Float float0 = new Float((float) 810);
++        assertEquals(810.0F, (float) float0, 0.01F);
++
++        // Invoke void method and assert state is unchanged (observable side‑effect)
++        realGrayImage1.byteSize();
++        assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
++        assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
++        assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
++        assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
++        assertEquals(0, realGrayImage0.X());
++        assertEquals(0, realGrayImage0.Y());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test37()  throws Throwable  {

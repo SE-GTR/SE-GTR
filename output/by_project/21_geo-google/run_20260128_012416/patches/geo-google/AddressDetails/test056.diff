@@ -1,0 +1,37 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -579,14 +579,26 @@
+         // code still unchanged
+         assertNull(address.getCode());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test056()  throws Throwable  {
+-      AddressDetails.Address addressDetails_Address0 = new AddressDetails.Address();
+-      addressDetails_Address0.setCode((String) null);
+-      assertNull(addressDetails_Address0.getCode());
+-  }
++@Test(timeout = 4000)
++    public void test056() throws Throwable {
++        AddressDetails.Address address = new AddressDetails.Address();
++        // initial state should be null
++        assertNull(address.getCode());
++
++        // explicitly set null and verify no change
++        address.setCode(null);
++        assertNull(address.getCode());
++
++        // set a non‑null value and verify the side effect
++        String testCode = "ABC123";
++        address.setCode(testCode);
++        assertEquals(testCode, address.getCode());
++
++        // reset to null again and verify
++        address.setCode(null);
++        assertNull(address.getCode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test057()  throws Throwable  {

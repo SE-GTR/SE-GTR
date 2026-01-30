@@ -1,0 +1,46 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/player/Battleplayer_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/player/Battleplayer_ESTest.java
+@@ -81,26 +81,25 @@
+       battleplayer0.pause();
+       assertFalse(battleplayer0.isPaused());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      HashSet<Round> hashSet0 = new HashSet<Round>();
+-      Round round0 = mock(Round.class, new ViolatedAssumptionAnswer());
+-      doReturn(3).when(round0).getNo();
+-      hashSet0.add(round0);
+-      Battleplan battleplan0 = new Battleplan(hashSet0);
+-      Battleplayer battleplayer0 = new Battleplayer(battleplan0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    HashSet<Round> hashSet0 = new HashSet<Round>();
++    Round round0 = mock(Round.class, new ViolatedAssumptionAnswer());
++    doReturn(3).when(round0).getNo();
++    int no = round0.getNo();
++    assertEquals(3, no);
++    boolean added = hashSet0.add(round0);
++    assertTrue(added);
++    Battleplan battleplan0 = new Battleplan(hashSet0);
++    Battleplayer battleplayer0 = new Battleplayer(battleplan0);
++    try {
+         battleplayer0.gotoRound(20);
+         fail("Expecting exception: AssertionError");
+-      
+-      } catch(AssertionError e) {
+-         //
+-         // round with number 20 must exist!
+-         //
+-      }
+-  }
++    } catch (AssertionError e) {
++        // round with number 20 must exist!
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

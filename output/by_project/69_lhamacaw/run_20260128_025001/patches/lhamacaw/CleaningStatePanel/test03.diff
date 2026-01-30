@@ -1,0 +1,41 @@
+--- a/evosuite-tests/macaw/presentationLayer/CleaningStatePanel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/CleaningStatePanel_ESTest.java
+@@ -67,21 +67,23 @@
+     // verify that restore does not unintentionally change the description
+     assertEquals(beforeRestore, cleaningStatePanel0.getCleaningDescription());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      SessionProperties sessionProperties0 = new SessionProperties();
+-      String[] stringArray0 = new String[24];
+-      User user0 = new User();
+-      sessionProperties0.setProperty("currentUser", user0);
+-      DerivedVariable derivedVariable0 = new DerivedVariable();
+-      derivedVariable0.setCleaned(true);
+-      CleaningStatePanel cleaningStatePanel0 = new CleaningStatePanel(sessionProperties0, stringArray0, true);
+-      cleaningStatePanel0.initialise(derivedVariable0);
+-      cleaningStatePanel0.restore();
+-      assertEquals("Unknown", cleaningStatePanel0.getCleaningStatus());
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    SessionProperties sessionProperties0 = new SessionProperties();
++    String[] stringArray0 = new String[24];
++    User user0 = new User();
++    sessionProperties0.setProperty("currentUser", user0);
++    DerivedVariable derivedVariable0 = new DerivedVariable();
++    derivedVariable0.setCleaned(true);
++    CleaningStatePanel cleaningStatePanel0 = new CleaningStatePanel(sessionProperties0, stringArray0, true);
++    cleaningStatePanel0.initialise(derivedVariable0);
++    // Verify that initialise reflected the cleaned flag set on the variable
++    String statusAfterInitialise = cleaningStatePanel0.getCleaningStatus();
++    assertNotEquals("Unknown", statusAfterInitialise);
++    cleaningStatePanel0.restore();
++    assertEquals("Unknown", cleaningStatePanel0.getCleaningStatus());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

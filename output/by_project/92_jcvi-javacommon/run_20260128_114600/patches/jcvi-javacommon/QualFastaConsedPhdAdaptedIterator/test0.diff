@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/QualFastaConsedPhdAdaptedIterator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/QualFastaConsedPhdAdaptedIterator_ESTest.java
+@@ -30,26 +30,28 @@
+     phredQuality0 = PhredQuality.valueOf(31);
+     mockFile0 = new MockFile("*AiwE");
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        StreamingIterator<NucleotideFastaRecord> emptyIter = new StreamingIterator<NucleotideFastaRecord>() {
++            @Override
++            public boolean hasNext() {
++                return false;
++            }
+ 
++            @Override
++            public NucleotideFastaRecord next() {
++                throw new java.util.NoSuchElementException();
++            }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("*AiwE.qual");
+-      FileSystemHandling.appendLineToFile(evoSuiteFile0, "*AiwE");
+-      MockDate mockDate0 = new MockDate((byte)0, 31, (byte)127, 31, (byte)127, (byte)127);
+-      QualFastaConsedPhdAdaptedIterator qualFastaConsedPhdAdaptedIterator0 = new QualFastaConsedPhdAdaptedIterator((StreamingIterator<NucleotideFastaRecord>) null, mockFile0, mockDate0, phredQuality0);
+-      // Undeclared exception!
+-      try { 
+-        qualFastaConsedPhdAdaptedIterator0.getQualitiesFor((NucleotideFastaRecord) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.assembly.clc.cas.consed.QualFastaConsedPhdAdaptedIterator", e);
+-      }
+-  }
++            @Override
++            public void close() {
++                // no resources to close
++            }
++        };
++        QualFastaConsedPhdAdaptedIterator iterator = new QualFastaConsedPhdAdaptedIterator(emptyIter, mockFile0, mockDate0, phredQuality0);
++        assertNotNull(iterator);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
+@@ -100,18 +100,27 @@
+          verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      KeywordBean keywordBean0 = new KeywordBean();
+-      completeMetadataBean0.addKeyword(keywordBean0);
+-      completeMetadataBean0.setLocation("package");
+-      ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
+-      HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, byteArrayOutputStream0);
+-      assertEquals(1068, byteArrayOutputStream0.size());
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    FileLocator fileLocator0 = new FileLocator();
++    CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++    KeywordBean keywordBean0 = new KeywordBean();
++    completeMetadataBean0.addKeyword(keywordBean0);
++    // Verify initial state before setting location
++    assertNull(completeMetadataBean0.getLocation());
++    // Act: set location
++    completeMetadataBean0.setLocation("package");
++    // Assert side‑effect of setLocation
++    assertEquals("package", completeMetadataBean0.getLocation());
++    ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
++    HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, byteArrayOutputStream0);
++    // Existing size assertion
++    assertEquals(1068, byteArrayOutputStream0.size());
++    // Additional check that the location appears in the generated XML
++    String xml = byteArrayOutputStream0.toString();
++    assertTrue(xml.contains("package"));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

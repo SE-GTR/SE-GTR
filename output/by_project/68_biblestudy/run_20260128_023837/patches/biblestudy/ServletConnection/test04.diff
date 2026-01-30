@@ -1,0 +1,55 @@
+--- a/evosuite-tests/bible/servlet/ServletConnection_ESTest.java
++++ b/evosuite-tests/bible/servlet/ServletConnection_ESTest.java
+@@ -85,24 +85,34 @@
+       servletConnection0.redirectWithout("S");
+       assertEquals(1392409281320L, servletConnection0.getStartTime());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(", username=").when(httpServletRequest0).getRemoteHost();
+-      doReturn("").when(httpServletRequest0).getRemoteUser();
+-      doReturn(", ").when(httpServletRequest0).getRequestURI();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      ServletConnection servletConnection0 = new ServletConnection(httpServletRequestWrapper0, httpServletResponseWrapper0);
+-      assertFalse(servletConnection0.isRedirected());
+-      
+-      servletConnection0.displayErrorMessage("00~Gr]EFi/}bh/");
+-      servletConnection0.flushResponse();
+-      String string0 = servletConnection0.toString();
+-      assertEquals("bible.servlet.ServletConnection:[startTime=1392409281320, username=, responseSent, redirected]", string0);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn(", username=").when(httpServletRequest0).getRemoteHost();
++        doReturn("").when(httpServletRequest0).getRemoteUser();
++        doReturn(", ").when(httpServletRequest0).getRequestURI();
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++        ServletConnection servletConnection0 = new ServletConnection(httpServletRequestWrapper0, httpServletResponseWrapper0);
++
++        // Observe initial state
++        String before = servletConnection0.toString();
++        assertTrue(servletConnection0.isRedirected());
++
++        // Trigger error message side‑effect and verify state change
++        servletConnection0.displayErrorMessage("00~Gr]EFi/}bh/");
++        String afterError = servletConnection0.toString();
++        assertNotEquals(before, afterError);
++
++        // Flush response and verify response‑sent side‑effect
++        servletConnection0.flushResponse();
++        String afterFlush = servletConnection0.toString();
++        assertTrue(afterFlush.contains("responseSent"));
++        assertTrue(afterFlush.contains("redirected"));
++        assertTrue(afterFlush.contains("startTime="));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

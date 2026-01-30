@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPInstance_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPInstance_ESTest.java
+@@ -163,19 +163,27 @@
+     boolean boolean0 = sAPInstance0.equals(sAPInstance1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      SAPInstance sAPInstance0 = new SAPInstance();
+-      SAPInstance sAPInstance1 = new SAPInstance();
+-      assertTrue(sAPInstance1.equals((Object)sAPInstance0));
+-      
+-      sAPInstance0.setStartPriority("SAPControl-GREEN");
+-      boolean boolean0 = sAPInstance0.equals(sAPInstance1);
+-      assertFalse(sAPInstance1.equals((Object)sAPInstance0));
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        SAPInstance sAPInstance0 = new SAPInstance();
++        SAPInstance sAPInstance1 = new SAPInstance();
++        assertTrue(sAPInstance1.equals((Object) sAPInstance0));
++
++        // Verify initial state of startPriority (expected to be null)
++        assertNull(sAPInstance0.getStartPriority());
++
++        // Act: change startPriority
++        sAPInstance0.setStartPriority("SAPControl-GREEN");
++
++        // Observe side‑effect via getter
++        assertEquals("SAPControl-GREEN", sAPInstance0.getStartPriority());
++
++        // Equality should now differ because the internal state changed
++        boolean boolean0 = sAPInstance0.equals(sAPInstance1);
++        assertFalse(sAPInstance1.equals((Object) sAPInstance0));
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

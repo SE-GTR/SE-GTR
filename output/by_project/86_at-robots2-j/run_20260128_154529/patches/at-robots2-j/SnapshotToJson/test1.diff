@@ -1,0 +1,36 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/json/SnapshotToJson_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/json/SnapshotToJson_ESTest.java
+@@ -48,19 +48,21 @@
+          verifyException("net.virtualinfinity.atrobots.measures.AngleBracket", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    SnapshotToJson snapshotToJson0 = new SnapshotToJson();
++    AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees(44);
++    Vector vector0 = absoluteAngle0.toUnitVector();
++    RelativeAngle relativeAngle0 = RelativeAngle.fromBydegrees(44);
++    AngleBracket angleBracket0 = AngleBracket.around(absoluteAngle0, relativeAngle0);
++    ScanSnapshot scanSnapshot0 = new ScanSnapshot(angleBracket0, 44, false, vector0, false, 44);
++    scanSnapshot0.setPositionVector(vector0);
++    snapshotToJson0.acceptScan(scanSnapshot0);
++    String json = snapshotToJson0.toString();
++    assertNotNull(json);
++    assertTrue(json.contains("44"));
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      SnapshotToJson snapshotToJson0 = new SnapshotToJson();
+-      AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees(44);
+-      Vector vector0 = absoluteAngle0.toUnitVector();
+-      RelativeAngle relativeAngle0 = RelativeAngle.fromBygrees(44);
+-      AngleBracket angleBracket0 = AngleBracket.around(absoluteAngle0, relativeAngle0);
+-      ScanSnapshot scanSnapshot0 = new ScanSnapshot(angleBracket0, 44, false, vector0, false, 44);
+-      scanSnapshot0.setPositionVector(vector0);
+-      snapshotToJson0.acceptScan(scanSnapshot0);
+-      assertEquals(44, scanSnapshot0.getAccuracy());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

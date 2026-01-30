@@ -1,0 +1,35 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/OCAPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/OCAPackager_ESTest.java
+@@ -38,25 +38,14 @@
+   public void test02() throws Throwable {
+       assertTrue(OCAPackager.isMetadata("_dc.xml"));
+   }
++@Test(expected = NullPointerException.class, timeout = 4000)
++public void test03() throws Throwable {
++    MockFile mockFile0 = new MockFile("UndeclaredElementInCientSpec");
++    MockFile.createTempFile("UndeclaredElementInCientSpec", "UndeclaredElementInCientSpec", (File) mockFile0);
++    OCAPackager oCAPackager0 = new OCAPackager();
++    oCAPackager0.createFileSec(mockFile0, (HaSMETSProfile) null);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("UndeclaredElementInCientSpec");
+-      MockFile.createTempFile("UndeclaredElementInCientSpec", "UndeclaredElementInCientSpec", (File) mockFile0);
+-      OCAPackager oCAPackager0 = new OCAPackager();
+-      // Undeclared exception!
+-      try { 
+-        oCAPackager0.createFileSec(mockFile0, (HaSMETSProfile) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("edu.uiuc.ndiipp.hubandspoke.packager.OCAPackager", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

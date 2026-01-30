@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/AnnotationWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/AnnotationWriter_ESTest.java
+@@ -26,15 +26,17 @@
+     classWriter0 = new ClassWriter(0);
+     annotationVisitor0 = classWriter0.visitAnnotation("*Hn#C#", false);
+   }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        classWriter0 = new ClassWriter(0);
++        byte[] before = classWriter0.toByteArray();
++        AnnotationWriter annotationWriter0 = (AnnotationWriter) classWriter0.visitAnnotation("*Hn#C#", false);
++        ByteVector byteVector0 = new ByteVector(2);
++        annotationWriter0.put(byteVector0);
++        byte[] after = classWriter0.toByteArray();
++        assertTrue("ClassWriter bytecode should grow after putting an annotation", after.length > before.length);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-    classWriter0 = new ClassWriter(0);
+-      AnnotationWriter annotationWriter0 = (AnnotationWriter)classWriter0.visitAnnotation("*Hn#C#", false);
+-      ByteVector byteVector0 = new ByteVector(2);
+-      annotationWriter0.put(byteVector0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

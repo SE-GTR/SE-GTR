@@ -1,0 +1,33 @@
+--- a/evosuite-tests/geo/google/datamodel/GeoAddress_ESTest.java
++++ b/evosuite-tests/geo/google/datamodel/GeoAddress_ESTest.java
+@@ -45,13 +45,24 @@
+       geoAddress0.setCoordinate((GeoCoordinate) null);
+       assertEquals("", geoAddress0.getAddressLine());
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        GeoAddress address1 = new GeoAddress();
++        GeoAddress address2 = new GeoAddress();
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      GeoAddress geoAddress0 = new GeoAddress();
+-      geoAddress0.setAddressDetails((AddressDetails) null);
+-      assertEquals("", geoAddress0.getAddressLine());
+-  }
++        // Explicitly set address details to null on both instances
++        address1.setAddressDetails(null);
++        address2.setAddressDetails(null);
++
++        // Verify default address line is empty
++        assertEquals("", address1.getAddressLine());
++
++        // Verify that the two instances are considered equal (non‑trivial logic)
++        assertEquals(address1, address2);
++        // Verify that hash codes are consistent for equal objects
++        assertEquals(address1.hashCode(), address2.hashCode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

@@ -1,0 +1,54 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSFileUtils_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSFileUtils_ESTest.java
+@@ -58,22 +58,36 @@
+       assertFalse(mockFile0.canWrite());
+       assertTrue(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        // Create a temporary source directory with a file inside
++        File sourceDir = File.createTempFile("srcDir", "");
++        sourceDir.delete();
++        sourceDir.mkdir();
++        File srcFile = new File(sourceDir, "sample.txt");
++        try (FileOutputStream fos = new FileOutputStream(srcFile)) {
++            fos.write("sample content".getBytes());
++        }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    mockFile0 = new MockFile("SQ_GR30rQYw`PoR#");
+-      File file0 = MockFile.createTempFile("SQ_GR30rQYw`PoR#", "SQ_GR30rQYw`PoR#", (File) mockFile0);
+-      try { 
+-        HaSFileUtils.copyDirectory(mockFile0, file0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileOutputStream", e);
+-      }
+-  }
++        // Create a temporary target directory
++        File targetDir = File.createTempFile("tgtDir", "");
++        targetDir.delete();
++        targetDir.mkdir();
++
++        // Perform the copy operation
++        HaSFileUtils.copyDirectory(sourceDir, targetDir);
++
++        // Verify that the file was copied to the target directory
++        File copiedFile = new File(targetDir, "sample.txt");
++        assertTrue("The file should be copied to the target directory", copiedFile.exists());
++
++        // Clean up temporary files and directories
++        srcFile.delete();
++        copiedFile.delete();
++        sourceDir.delete();
++        targetDir.delete();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

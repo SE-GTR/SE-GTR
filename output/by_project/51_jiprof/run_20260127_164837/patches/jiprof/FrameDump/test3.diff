@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/output/FrameDump_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/output/FrameDump_ESTest.java
+@@ -90,14 +90,22 @@
+          verifyException("com.mentorgen.tools.profile.output.FrameDump", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        Controller._compactThreadDepth = true;
++        frame0 = mock(Frame.class, new ViolatedAssumptionAnswer());
++        doReturn(false).when(frame0).hasChildren();
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      Controller._compactThreadDepth = true;
+-    frame0 = mock(Frame.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(frame0).hasChildren();
+-      FrameDump.dump((PrintWriter) null, frame0, (-748));
+-  }
++        // Act
++        FrameDump.dump((PrintWriter) null, frame0, -748);
++
++        // Assert that dump queried the frame's children status
++        verify(frame0, atLeastOnce()).hasChildren();
++
++        // Verify the static flag remains set
++        assertTrue(Controller._compactThreadDepth);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

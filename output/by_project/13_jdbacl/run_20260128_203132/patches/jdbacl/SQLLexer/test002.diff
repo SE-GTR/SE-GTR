@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -37,12 +37,19 @@
+         int after = stream.index();
+         org.junit.Assert.assertEquals(before + 1, after);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test002()  throws Throwable  {
+-      ANTLRStringStream aNTLRStringStream0 = new ANTLRStringStream("9|_Lq$RBz-1hQ");
+-  }
++@Test(timeout = 4000)
++    public void test002() throws Throwable {
++        String input = "9|_Lq$RBz-1hQ";
++        ANTLRStringStream stream = new ANTLRStringStream(input);
++        // Verify that the stream reports the correct size
++        assertEquals(input.length(), stream.size());
++        // Verify the first character via lookahead
++        assertEquals((int) input.charAt(0), stream.LA(1));
++        // Consume the first character and verify the next one
++        stream.consume();
++        assertEquals((int) input.charAt(1), stream.LA(1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test003()  throws Throwable  {

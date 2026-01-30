@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerImpl_ESTest.java
+@@ -66,16 +66,24 @@
+     hL7CheckerImpl0.subComponent("S{'4*-09+LCk&gIk");
+     assertTrue(hL7CheckerStateImpl0.isSeriousError());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
+-      HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
+-      hL7CheckerStateImpl0.setSeriousError(true);
+-      hL7CheckerImpl0.setState(hL7CheckerStateImpl0);
+-      hL7CheckerImpl0.component("handler");
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
++        HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
++        hL7CheckerStateImpl0.setSeriousError(true);
++        // Verify that the seriousError flag was set
++        assertTrue("Serious error flag should be true after setSeriousError(true)",
++                hL7CheckerStateImpl0.isSeriousError());
++        hL7CheckerImpl0.setState(hL7CheckerStateImpl0);
++        // Verify that the state was correctly stored in the checker
++        assertSame("Checker should hold the same state instance that was set",
++                hL7CheckerStateImpl0, hL7CheckerImpl0.getState());
++        hL7CheckerImpl0.component("handler");
++        // Ensure the seriousError flag remains unchanged after component execution
++        assertTrue("Serious error flag should remain true after component call",
++                hL7CheckerStateImpl0.isSeriousError());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

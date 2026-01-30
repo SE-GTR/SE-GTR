@@ -1,0 +1,36 @@
+--- a/evosuite-tests/umd/cs/shop/JSTerm_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSTerm_ESTest.java
+@@ -114,21 +114,24 @@
+     assertNotSame(jSTerm1, jSTerm0);
+     assertTrue(jSTerm1.isFunction());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test07() throws Throwable {
+       StringReader stringReader0 = new StringReader("(f.faJ)5%S");
+       StreamTokenizer streamTokenizer0 = new StreamTokenizer(stringReader0);
+       JSTerm jSTerm0 = new JSTerm(streamTokenizer0);
+       JSTerm jSTerm1 = new JSTerm(streamTokenizer0);
+       jSTerm1.makeVariable();
++      assertTrue(jSTerm1.isVariable());
++
++      // Verify that the term is ground before adding a variable element
++      boolean beforeGround = jSTerm0.isGround();
++      assertTrue("Term should be ground before adding a variable element", beforeGround);
++
++      // Add the variable element and verify the side‑effect
+       jSTerm0.addElement(jSTerm1);
+-      assertTrue(jSTerm1.isVariable());
+-      
+-      boolean boolean0 = jSTerm0.isGround();
+-      assertFalse(boolean0);
+-  }
++      assertFalse("Term should no longer be ground after adding a variable element", jSTerm0.isGround());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

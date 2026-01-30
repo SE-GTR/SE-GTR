@@ -1,0 +1,31 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
+@@ -23,14 +23,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ContentHandlerFixer_ESTest extends ContentHandlerFixer_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
+-      ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0);
+-      contentHandlerFixer0.startPrefixMapping("", "");
+-      contentHandlerFixer0.startPrefixMapping("", "");
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
++    ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0);
++    // Verify initial state before any prefix mapping
++    assertFalse(contentHandlerFixer0.getContextPushed());
++    // First call should set the context as pushed
++    contentHandlerFixer0.startPrefixMapping("", "");
++    assertTrue(contentHandlerFixer0.getContextPushed());
++    // Second call should leave the context pushed
++    contentHandlerFixer0.startPrefixMapping("", "");
++    assertTrue(contentHandlerFixer0.getContextPushed());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
+@@ -71,17 +71,28 @@
+     // Exercise the method under test
+     item0.isEqualTo(item1);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      Item item0 = new Item();
+-      item0.set(0, "86X'g%/?h!Z9", "D `rF&u3]5AP'B", "86X'g%/?h!Z9");
+-      Item item1 = new Item(2218, item0);
+-      item1.set(12, "86X'g%/?h!Z9", "org.objectweb.asm.jip.Item", "86X'g%/?h!Z9");
+-      boolean boolean0 = item1.isEqualTo(item0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        Item item0 = new Item();
++        item0.set(0, "86X'g%/?h!Z9", "D `rF&u3]5AP'B", "86X'g%/?h!Z9");
++        // Verify side‑effects of the first set call
++        assertEquals(0, item0.type);
++        assertEquals("86X'g%/?h!Z9", item0.strVal1);
++        assertEquals("D `rF&u3]5AP'B", item0.strVal2);
++        assertEquals("86X'g%/?h!Z9", item0.strVal3);
++
++        Item item1 = new Item(2218, item0);
++        item1.set(12, "86X'g%/?h!Z9", "org.objectweb.asm.jip.Item", "86X'g%/?h!Z9");
++        // Verify side‑effects of the second set call
++        assertEquals(12, item1.type);
++        assertEquals("86X'g%/?h!Z9", item1.strVal1);
++        assertEquals("org.objectweb.asm.jip.Item", item1.strVal2);
++        assertEquals("86X'g%/?h!Z9", item1.strVal3);
++
++        boolean boolean0 = item1.isEqualTo(item0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

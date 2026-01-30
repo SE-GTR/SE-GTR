@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/datastore/DataStoreStreamingIterator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/datastore/DataStoreStreamingIterator_ESTest.java
+@@ -50,26 +50,25 @@
+          verifyException("org.jcvi.jillion.internal.core.datastore.DataStoreStreamingIterator", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        dataStore0 = (DataStore<Object>) mock(DataStore.class, new ViolatedAssumptionAnswer());
++        doReturn(false).when(dataStore0).isClosed();
++        // Verify the stubbed behavior of isClosed()
++        assertFalse(dataStore0.isClosed());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    dataStore0 = (DataStore<Object>) mock(DataStore.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(dataStore0).isClosed();
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      Iterator<Object> iterator0 = linkedList0.iterator();
+-      DataStoreStreamingIterator<Object> dataStoreStreamingIterator0 = DataStoreStreamingIterator.create((DataStore<?>) dataStore0, iterator0);
+-      // Undeclared exception!
+-      try { 
+-        dataStoreStreamingIterator0.next();
+-        fail("Expecting exception: NoSuchElementException");
+-      
+-      } catch(NoSuchElementException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.util.LinkedList$ListItr", e);
+-      }
+-  }
++        LinkedList<Object> linkedList0 = new LinkedList<Object>();
++        Object element = new Object();
++        linkedList0.add(element);
++        Iterator<Object> iterator0 = linkedList0.iterator();
++        DataStoreStreamingIterator<Object> dataStoreStreamingIterator0 = DataStoreStreamingIterator.create((DataStore<?>) dataStore0, iterator0);
++        // Normal operation: next() should return the element
++        Object result = dataStoreStreamingIterator0.next();
++        assertEquals(element, result);
++        // After consuming the only element, hasNext() should be false
++        assertFalse(dataStoreStreamingIterator0.hasNext());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

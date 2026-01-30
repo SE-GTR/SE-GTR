@@ -1,0 +1,24 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemorySupportingDocumentFilter_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemorySupportingDocumentFilter_ESTest.java
+@@ -67,16 +67,19 @@
+     SupportingDocument supportingDocument1 = new SupportingDocument();
+     String docCode = "<8AU5N_Ai<-\",h";
+     supportingDocument1.setDocumentCode(docCode);
+-    // verify side‑effect of setDocumentCode
+     assertEquals(docCode, supportingDocument1.getDocumentCode());
+     arrayList0.add(supportingDocument1);
++    User user0 = new User();
+     inMemorySupportingDocumentFilter0.setSupportingDocuments(arrayList0);
+-    User user0 = new User();
++    // verify that the supporting documents were stored correctly
++    ArrayList<SupportingDocument> allDocs = inMemorySupportingDocumentFilter0.filterSupportingDocuments(user0, "", "");
++    assertEquals(2, allDocs.size());
+     // filter by document code (title left empty)
+     ArrayList<SupportingDocument> result = inMemorySupportingDocumentFilter0.filterSupportingDocuments(user0, "", docCode);
+     assertEquals(1, result.size());
+     assertEquals(docCode, result.get(0).getDocumentCode());
+ }
++
+ @Test(timeout = 4000)
+ public void test4() throws Throwable {
+     inMemorySupportingDocumentFilter0 = new InMemorySupportingDocumentFilter();

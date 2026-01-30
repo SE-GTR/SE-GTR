@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/residue/nt/NucleotideCodecs_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/residue/nt/NucleotideCodecs_ESTest.java
+@@ -36,14 +36,17 @@
+       NucleotideCodec nucleotideCodec0 = NucleotideCodecs.getCodecForGappedSequence(48, 48, 48);
+       assertEquals(DefaultNucleotideCodec.INSTANCE, nucleotideCodec0);
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    Nucleotide nucleotide0 = Nucleotide.Adenine;
++    Set<Nucleotide> set0 = nucleotide0.getAllPossibleAmbiguities();
++    NucleotideCodec nucleotideCodec0 = NucleotideCodecs.getNucleotideCodecFor(set0);
++    // Verify that the codec correctly round‑trips the Adenine nucleotide
++    byte encoded = nucleotideCodec0.encode(Nucleotide.Adenine);
++    Nucleotide decoded = nucleotideCodec0.decode(encoded);
++    assertEquals(Nucleotide.Adenine, decoded);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      Nucleotide nucleotide0 = Nucleotide.Adenine;
+-      Set<Nucleotide> set0 = nucleotide0.getAllPossibleAmbiguities();
+-      NucleotideCodec nucleotideCodec0 = NucleotideCodecs.getNucleotideCodecFor(set0);
+-      assertEquals(DefaultNucleotideCodec.INSTANCE, nucleotideCodec0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

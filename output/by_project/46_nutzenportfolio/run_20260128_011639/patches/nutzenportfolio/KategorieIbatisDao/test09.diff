@@ -1,0 +1,35 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/persistence/kategorie/KategorieIbatisDao_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/persistence/kategorie/KategorieIbatisDao_ESTest.java
+@@ -175,22 +175,16 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    kategorieIbatisDao0 = new KategorieIbatisDao();
+-      // Undeclared exception!
+-      try { 
+-        kategorieIbatisDao0.deleteAssignments((Integer) null);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++@Test(expected = IllegalArgumentException.class)
++public void test09() throws Throwable {
++    kategorieIbatisDao0 = new KategorieIbatisDao();
++    // Provide a mock SqlMapClient to satisfy the DAO's internal requirements
++    com.ibatis.sqlmap.client.SqlMapClient mockClient = org.mockito.Mockito.mock(com.ibatis.sqlmap.client.SqlMapClient.class);
++    kategorieIbatisDao0.setSqlMapClient(mockClient);
++    // Trigger the IllegalArgumentException by passing a null argument
++    kategorieIbatisDao0.deleteAssignments(null);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

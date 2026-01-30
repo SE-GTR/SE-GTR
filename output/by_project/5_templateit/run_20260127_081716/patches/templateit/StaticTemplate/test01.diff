@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/templateit/StaticTemplate_ESTest.java
++++ b/evosuite-tests/org/templateit/StaticTemplate_ESTest.java
+@@ -29,23 +29,16 @@
+     StaticTemplate staticTemplate0 = new StaticTemplate("test", sheet);
+     assertNotNull(staticTemplate0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      StaticTemplate staticTemplate0 = new StaticTemplate((String) null, (HSSFSheet) null);
+-      // Undeclared exception!
+-      try { 
+-        staticTemplate0.width();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.templateit.StaticTemplate", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    org.apache.poi.hssf.usermodel.HSSFWorkbook workbook = new org.apache.poi.hssf.usermodel.HSSFWorkbook();
++    org.apache.poi.hssf.usermodel.HSSFSheet sheet = workbook.createSheet("sheet1");
++    StaticTemplate staticTemplate0 = new StaticTemplate("template", sheet);
++    int width = staticTemplate0.width();
++    // For an empty sheet the expected width is 0
++    assertEquals(0, width);
++}
++
+ @Test(timeout = 4000)
+   public void test02() throws Throwable {
+       StaticTemplate staticTemplate0 = new StaticTemplate(",", (HSSFSheet) null);

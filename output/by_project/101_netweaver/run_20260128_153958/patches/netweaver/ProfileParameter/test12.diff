@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
+@@ -228,18 +228,25 @@
+         boolean boolean0 = profileParameter1.equals(profileParameter0);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      ProfileParameter profileParameter0 = new ProfileParameter();
+-      ProfileParameter profileParameter1 = new ProfileParameter();
+-      assertTrue(profileParameter1.equals((Object)profileParameter0));
+-      
++@Test(timeout = 4000)
++  public void test12() throws Throwable {
++      ProfileParameter profileParameter0 = new ProfileParameter();
++      ProfileParameter profileParameter1 = new ProfileParameter();
++      assertTrue(profileParameter1.equals((Object) profileParameter0));
++
++      // Act: change the value of profileParameter1
+       profileParameter1.setValue("Q-27r");
+-      boolean boolean0 = profileParameter1.equals(profileParameter0);
+-      assertFalse(boolean0);
+-  }
++
++      // Verify that the side‑effect of setValue is observable
++      ProfileParameter profileParameter2 = new ProfileParameter();
++      profileParameter2.setValue("Q-27r");
++      assertTrue(profileParameter1.equals(profileParameter2));
++
++      // The objects are no longer equal to the original instance without a value
++      boolean boolean0 = profileParameter1.equals(profileParameter0);
++      assertFalse(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

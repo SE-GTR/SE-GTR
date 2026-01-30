@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/LargeAceFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/LargeAceFileDataStore_ESTest.java
+@@ -84,21 +84,18 @@
+          //
+       }
+   }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        File file = new File("nonexistent_file_12345.tmp");
++        try {
++            LargeAceFileDataStore.create(file);
++            fail("Expecting exception: FileNotFoundException");
++        } catch (FileNotFoundException e) {
++            // expected exception for a non‑existent file
++            verifyException("org.jcvi.jillion.assembly.consed.ace.LargeAceFileDataStore", e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("^7m&K(bWP,[po}-'C");
+-      try { 
+-        LargeAceFileDataStore.create((File) mockFile0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // ace file /PATH/TO/SF110-20130704-src/92_jcvi-javacommon/^7m&K(bWP,[po}-'C does not exist
+-         //
+-         verifyException("org.jcvi.jillion.assembly.consed.ace.LargeAceFileDataStore", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

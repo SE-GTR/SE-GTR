@@ -1,0 +1,31 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/tos/NaOpNu_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/tos/NaOpNu_ESTest.java
+@@ -180,13 +180,21 @@
+     integer0 = naOpNu0.getNutzenattraktivitaetOperativerNutzenId();
+       assertNull(integer0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-    naOpNu0 = new NaOpNu();
+-      Long long0 = naOpNu0.getNaOpNuUID();
+-      assertNull(long0);
+-  }
++@Test(timeout = 4000)
++public void test22() throws Throwable {
++    naOpNu0 = new NaOpNu();
++    // Act: serialize and deserialize the object
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(naOpNu0);
++    oos.flush();
++    byte[] data = baos.toByteArray();
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++    NaOpNu deserialized = (NaOpNu) ois.readObject();
++    // Assert: the UID remains null after the round‑trip
++    org.junit.Assert.assertNull(deserialized.getNaOpNuUID());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

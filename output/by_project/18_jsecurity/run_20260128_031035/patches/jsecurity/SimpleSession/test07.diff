@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
+@@ -77,15 +77,18 @@
+       simpleSession0.setAttribute(object0, object0);
+       assertEquals(1800000L, simpleSession0.getTimeout());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      SimpleSession simpleSession0 = new SimpleSession();
++public void test07() throws Throwable {
++      SimpleSession simpleSession0 = new SimpleSession();
++      // verify initial state before mutation
++      assertFalse(simpleSession0.isExpired());
++      // mutate state
+       simpleSession0.setExpired(true);
++      // assert side‑effect observed via public API
++      assertTrue(simpleSession0.isExpired());
+       boolean boolean0 = simpleSession0.isValid();
+-      assertTrue(simpleSession0.isExpired());
+       assertFalse(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

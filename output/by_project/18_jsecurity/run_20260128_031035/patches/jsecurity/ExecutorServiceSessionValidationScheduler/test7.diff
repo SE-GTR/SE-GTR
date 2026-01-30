@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/ExecutorServiceSessionValidationScheduler_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/ExecutorServiceSessionValidationScheduler_ESTest.java
+@@ -372,19 +372,29 @@
+       assertFalse(executorServiceSessionValidationScheduler0.isEnabled());
+       assertEquals((-2995L), executorServiceSessionValidationScheduler0.getInterval());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      DefaultSessionManager defaultSessionManager0 = new DefaultSessionManager();
+-      ExecutorServiceSessionValidationScheduler executorServiceSessionValidationScheduler0 = new ExecutorServiceSessionValidationScheduler(defaultSessionManager0);
+-      assertFalse(executorServiceSessionValidationScheduler0.isEnabled());
+-      
+-      executorServiceSessionValidationScheduler0.enableSessionValidation();
+-      executorServiceSessionValidationScheduler0.enableSessionValidation();
+-      executorServiceSessionValidationScheduler0.setSessionManager(defaultSessionManager0);
+-      boolean boolean0 = executorServiceSessionValidationScheduler0.isEnabled();
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test7() throws Throwable {
++    DefaultSessionManager defaultSessionManager0 = new DefaultSessionManager();
++    ExecutorServiceSessionValidationScheduler executorServiceSessionValidationScheduler0 =
++            new ExecutorServiceSessionValidationScheduler(defaultSessionManager0);
++    assertFalse(executorServiceSessionValidationScheduler0.isEnabled());
++
++    executorServiceSessionValidationScheduler0.enableSessionValidation();
++    executorServiceSessionValidationScheduler0.enableSessionValidation();
++
++    // Verify that the scheduler initially holds the manager passed to the constructor
++    ValidatingSessionManager before = executorServiceSessionValidationScheduler0.getSessionManager();
++    assertSame(defaultSessionManager0, before);
++
++    // Set the session manager explicitly and verify the side‑effect
++    executorServiceSessionValidationScheduler0.setSessionManager(defaultSessionManager0);
++    ValidatingSessionManager after = executorServiceSessionValidationScheduler0.getSessionManager();
++    assertSame(defaultSessionManager0, after);
++
++    boolean boolean0 = executorServiceSessionValidationScheduler0.isEnabled();
++    assertTrue(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

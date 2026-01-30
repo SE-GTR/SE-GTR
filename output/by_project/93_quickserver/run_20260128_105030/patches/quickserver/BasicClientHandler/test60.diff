@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
+@@ -630,18 +630,25 @@
+         assertNotNull(name);
+         assertTrue(name.startsWith("<ClientHandler-"));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test60()  throws Throwable  {
+-      NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      MockSocket mockSocket0 = new MockSocket();
+-      nonBlockingClientHandler0.setSocket(mockSocket0);
+-      //  // Unstable assertion: assertFalse(nonBlockingClientHandler0.isClosed());
+-      
+-      nonBlockingClientHandler0.clean();
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:9>", nonBlockingClientHandler0.getName());
+-  }
++@Test(timeout = 4000)
++    public void test60() throws Throwable {
++        NonBlockingClientHandler handler = new NonBlockingClientHandler();
++        MockSocket socket = new MockSocket();
++
++        // Verify initial state before setting the socket
++        assertNull("Socket should be null before setSocket()", handler.getSocket());
++
++        // Exercise the method under test
++        handler.setSocket(socket);
++
++        // Verify that setSocket correctly stores the provided socket
++        assertSame("Socket should be the one set via setSocket()", socket, handler.getSocket());
++
++        // Clean the handler and verify that the socket reference is cleared
++        handler.clean();
++        assertNull("Socket should be cleared after clean()", handler.getSocket());
++    }
++
+ @Test(timeout = 4000)
+ public void test61() throws Throwable {
+     BlockingClientHandler handler = new BlockingClientHandler(32);

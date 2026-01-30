@@ -1,0 +1,38 @@
+--- a/evosuite-tests/jahuwaldt/plot/PlotAxis_ESTest.java
++++ b/evosuite-tests/jahuwaldt/plot/PlotAxis_ESTest.java
+@@ -30,15 +30,26 @@
+     linearAxisScale0 = new LinearAxisScale();
+     decimalFormat0 = new DecimalFormat();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      PlotYAxis plotYAxis0 = new PlotYAxis();
+-      plotYAxis0.setAxisTickLimits();
+-      plotYAxis0.setAxisTickLimits();
+-      assertEquals(Double.NaN, plotYAxis0.getUpperBounds(), 0.01);
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        PlotYAxis plotYAxis0 = new PlotYAxis();
++        double ubBefore = plotYAxis0.getUpperBounds();
++        plotYAxis0.setAxisTickLimits();
++        double ubAfterFirst = plotYAxis0.getUpperBounds();
++        plotYAxis0.setAxisTickLimits();
++        double ubAfterSecond = plotYAxis0.getUpperBounds();
++
++        // Verify that the upper bound changes as a result of setAxisTickLimits
++        assertTrue("Upper bound should be NaN after first call",
++                Double.isNaN(ubAfterFirst));
++        assertTrue("Upper bound should remain NaN after second call",
++                Double.isNaN(ubAfterSecond));
++
++        // Ensure the initial state was different (sanity check)
++        assertFalse("Initial upper bound should not be NaN",
++                Double.isNaN(ubBefore));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
+@@ -197,27 +197,19 @@
+     HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, byteArrayOutputStream0);
+     assertEquals(1211, byteArrayOutputStream0.size());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      RelationBean relationBean0 = new RelationBean();
+-      relationBean0.setDescription("package");
+-      completeMetadataBean0.addRelation(relationBean0);
+-      completeMetadataBean0.setLocation("upload");
+-      try { 
+-        HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, (OutputStream) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // javax.xml.transform.TransformerException: Result object passed to ''{0}'' is invalid.
+-         //
+-         verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        FileLocator fileLocator0 = new FileLocator();
++        CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++        RelationBean relationBean0 = new RelationBean();
++        relationBean0.setDescription("package");
++        completeMetadataBean0.addRelation(relationBean0);
++        completeMetadataBean0.setLocation("upload");
++        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
++        HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, out);
++        assertTrue("Output should not be empty", out.size() > 0);
++    }
++
+ @Test(timeout = 4000)
+ public void test14() throws Throwable {
+     FileLocator fileLocator0 = new FileLocator();

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -422,18 +422,27 @@
+         assertEquals(0, workProcess1.getNo());
+         assertEquals(0, workProcess1.getPid());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
+-      WorkProcess workProcess1 = new WorkProcess();
+-      assertTrue(workProcess1.equals((Object)workProcess0));
+-      
+-      workProcess0.setStart("Header");
+-      boolean boolean0 = workProcess0.equals(workProcess1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        WorkProcess workProcess0 = new WorkProcess();
++        WorkProcess workProcess1 = new WorkProcess();
++        assertTrue(workProcess1.equals((Object) workProcess0));
++
++        // Verify initial state before invoking setStart
++        assertNull(workProcess0.getStart());
++        assertNull(workProcess1.getStart());
++
++        // Act: change start value of workProcess0
++        workProcess0.setStart("Header");
++
++        // Observe side‑effect via the public getter
++        assertEquals("Header", workProcess0.getStart());
++        assertNull(workProcess1.getStart());
++
++        // The equality relationship should now differ
++        assertFalse(workProcess0.equals(workProcess1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

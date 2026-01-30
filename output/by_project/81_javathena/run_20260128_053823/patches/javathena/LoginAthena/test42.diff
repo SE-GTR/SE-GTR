@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/javathena/conf/LoginAthena_ESTest.java
++++ b/evosuite-tests/org/javathena/conf/LoginAthena_ESTest.java
+@@ -392,17 +392,22 @@
+         // Verify default client version to connect
+         assertEquals(0, loginAthena0.getClient_version_to_connect());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test42()  throws Throwable  {
+-      LoginAthena loginAthena0 = new LoginAthena();
+-      loginAthena0.setDynamic_pass_failure_ban(true);
+-      assertTrue(loginAthena0.isDynamic_pass_failure_ban());
+-      assertEquals("127.0.0.1", loginAthena0.getBind_ip_str());
+-      assertFalse(loginAthena0.isConsole());
+-      assertTrue(loginAthena0.isIpban());
+-  }
++@Test(timeout = 4000)
++    public void test42() throws Throwable {
++        LoginAthena loginAthena0 = new LoginAthena();
++        // verify default configuration values
++        assertEquals("127.0.0.1", loginAthena0.getBind_ip_str());
++        assertFalse(loginAthena0.isConsole());
++        assertTrue(loginAthena0.isIpban());
++
++        // exercise the setter/getter for dynamic_pass_failure_ban and assert the side‑effect
++        loginAthena0.setDynamic_pass_failure_ban(false);
++        assertFalse(loginAthena0.isDynamic_pass_failure_ban());
++
++        loginAthena0.setDynamic_pass_failure_ban(true);
++        assertTrue(loginAthena0.isDynamic_pass_failure_ban());
++    }
++
+ @Test(timeout = 4000)
+ public void test43() throws Throwable {
+     LoginAthena loginAthena0 = new LoginAthena();

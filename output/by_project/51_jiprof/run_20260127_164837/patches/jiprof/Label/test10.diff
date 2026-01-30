@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
+@@ -163,13 +163,18 @@
+       label0.visitSubroutine((Label) null, 190, 190);
+       label0.visitSubroutine((Label) null, 0L, (-1538));
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      Label label0 = new Label();
+-      label0.visitSubroutine((Label) null, 50, 1614);
+-      label0.visitSubroutine((Label) null, 1614, 1614);
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        Label label0 = new Label();
++        Object infoBefore = label0.getInfo();
++        label0.visitSubroutine((Label) null, 50, 1614);
++        Object infoAfterFirst = label0.getInfo();
++        assertNotEquals("info should change after first visitSubroutine", infoBefore, infoAfterFirst);
++        label0.visitSubroutine((Label) null, 1614, 1614);
++        Object infoAfterSecond = label0.getInfo();
++        assertNotEquals("info should change after second visitSubroutine", infoAfterFirst, infoAfterSecond);
++    }
++
+ @Test(timeout = 4000)
+ public void test11() throws Throwable {
+     Label label0 = new Label();

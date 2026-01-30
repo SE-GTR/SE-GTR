@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/yahoo/platform/yui/compressor/Bootstrap_ESTest.java
++++ b/evosuite-tests/com/yahoo/platform/yui/compressor/Bootstrap_ESTest.java
+@@ -20,26 +20,28 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Bootstrap_ESTest extends Bootstrap_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    Future<?> future = executor.submit(new Runnable(){ 
+-            @Override public void run() { 
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
++    Future<?> future = executor.submit(new Runnable() {
++      @Override
++      public void run() {
+         try {
+           String[] stringArray0 = new String[0];
+-          try { 
++          try {
+             Bootstrap.main(stringArray0);
+             fail("Expecting exception: InvocationTargetException");
+-          
+-          } catch(InvocationTargetException e) {
++          } catch (InvocationTargetException e) {
++            // expected
+           }
+-        } catch(Throwable t) {
+-            // Need to catch declared exceptions
++        } catch (Throwable t) {
++          // Need to catch declared exceptions
+         }
+-      } 
++      }
+     });
+-    future.get(4000, TimeUnit.MILLISECONDS);
++    Object result = future.get(4000, TimeUnit.MILLISECONDS);
++    assertNull(result);
+   }
++
+ @Test(timeout = 4000)
+   public void test1() throws Throwable {
+       Bootstrap bootstrap0 = new Bootstrap();

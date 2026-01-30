@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
+@@ -1151,22 +1151,15 @@
+          verifyException("com.soops.CEN4010.JMCA.JParser.JavaParser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test077()  throws Throwable  {
+-      JavaParser javaParser0 = new JavaParser((JavaParserTokenManager) null);
+-      // Undeclared exception!
+-      try { 
+-        javaParser0.NameList();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.soops.CEN4010.JMCA.JParser.JavaParser", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = ParseException.class)
++public void test077() throws Throwable {
++    java.io.StringReader sr = new java.io.StringReader("");
++    com.soops.CEN4010.JMCA.JParser.SimpleCharStream charStream = new com.soops.CEN4010.JMCA.JParser.SimpleCharStream(sr);
++    JavaParserTokenManager tokenManager = new JavaParserTokenManager(charStream);
++    JavaParser javaParser0 = new JavaParser(tokenManager);
++    javaParser0.NameList();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test078()  throws Throwable  {

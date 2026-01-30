@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/AbstractCasFileVisitor_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/AbstractCasFileVisitor_ESTest.java
+@@ -48,20 +48,23 @@
+       Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "org.jcvi.jillion.assembly.clc.cas.AbstractCasFileVisitor");
+       cas2Consed0.visitNumberOfReferenceFiles(1456L);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        File file0 = MockFile.createTempFile("}@''86m-+~\"HR<?o&", "}@''86m-+~\"HR<?o&");
++        StreamingIterator<String> streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++        doReturn(false).when(streamingIterator0).hasNext();
++        CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
++        doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
++        doReturn((StreamingIterator<NucleotideSequence>) null).when(casGappedReferenceDataStore0).iterator();
++        // Verify stubbed return values
++        assertFalse(streamingIterator0.hasNext());
++        assertSame(streamingIterator0, casGappedReferenceDataStore0.idIterator());
++        assertNull(casGappedReferenceDataStore0.iterator());
++        MockFile mockFile0 = new MockFile("");
++        Cas2Consed cas2Consed0 = new Cas2Consed(file0, casGappedReferenceDataStore0, mockFile0, "}@''86m-+~\"HR<?o&");
++        cas2Consed0.visitMetaData(0L, 0L);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("}@''86m-+~\"HR<?o&", "}@''86m-+~\"HR<?o&");
+-      StreamingIterator<String> streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(streamingIterator0).hasNext();
+-      CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
+-      doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
+-      doReturn((StreamingIterator<NucleotideSequence>) null).when(casGappedReferenceDataStore0).iterator();
+-      MockFile mockFile0 = new MockFile("");
+-      Cas2Consed cas2Consed0 = new Cas2Consed(file0, casGappedReferenceDataStore0, mockFile0, "}@''86m-+~\"HR<?o&");
+-      cas2Consed0.visitMetaData(0L, 0L);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

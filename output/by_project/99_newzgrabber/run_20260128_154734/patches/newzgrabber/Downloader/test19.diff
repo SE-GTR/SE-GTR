@@ -1,0 +1,27 @@
+--- a/evosuite-tests/Newzgrabber/Downloader_ESTest.java
++++ b/evosuite-tests/Newzgrabber/Downloader_ESTest.java
+@@ -186,12 +186,15 @@
+     assertFalse(downloader0.ABORT);
+     assertEquals(-1, downloader0.getTimeout());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-    downloader0 = new Downloader();
+-      downloader0.setTotalLines(2068);
+-      assertEquals(2068L, downloader0.getTotalLines());
+-  }
+-}
++@Test(timeout = 4000)
++public void test19() throws Throwable {
++    downloader0 = new Downloader();
++    long defaultLines = downloader0.getTotalLines();
++    downloader0.setTotalLines(2068L);
++    assertEquals(2068L, downloader0.getTotalLines());
++    assertNotEquals(defaultLines, downloader0.getTotalLines());
++    downloader0.setTotalLines(5000L);
++    assertEquals(5000L, downloader0.getTotalLines());
++}
++
++}

@@ -1,0 +1,26 @@
+--- a/evosuite-tests/jahuwaldt/plot/PlotXAxis_ESTest.java
++++ b/evosuite-tests/jahuwaldt/plot/PlotXAxis_ESTest.java
+@@ -32,16 +32,19 @@
+       assertEquals(-1.0, plotXAxis0.getLowerBounds(), 0.01);
+       assertEquals(beforeUpper, plotXAxis0.getUpperBounds(), 0.01);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
+       PlotXAxis plotXAxis0 = new PlotXAxis();
+       plotXAxis0.manualLB = true;
+       PlotRunList plotRunList0 = new PlotRunList();
+       plotXAxis0.setAxisBounds(plotRunList0);
++      // Verify the upper bound side‑effect
+       assertEquals(1.0, plotXAxis0.getUpperBounds(), 0.01);
++      // Verify the lower bound side‑effect is observable and finite
++      double lowerBound = plotXAxis0.getLowerBounds();
++      assertTrue(Double.isFinite(lowerBound));
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

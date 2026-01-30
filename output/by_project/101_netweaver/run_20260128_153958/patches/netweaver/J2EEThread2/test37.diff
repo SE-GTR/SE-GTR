@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
+@@ -621,18 +621,25 @@
+     // Verify that objects with different state are not equal
+     assertFalse(j2EEThread2_0.equals(j2EEThread2_1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test37()  throws Throwable  {
+-      J2EEThread2 j2EEThread2_0 = new J2EEThread2();
+-      J2EEThread2 j2EEThread2_1 = new J2EEThread2();
+-      assertTrue(j2EEThread2_1.equals((Object)j2EEThread2_0));
+-      
++@Test(timeout = 4000)
++  public void test37() throws Throwable {
++      J2EEThread2 j2EEThread2_0 = new J2EEThread2();
++      J2EEThread2 j2EEThread2_1 = new J2EEThread2();
++      assertTrue(j2EEThread2_1.equals((Object) j2EEThread2_0));
++
++      // Verify initial state before mutation
++      assertNull(j2EEThread2_1.getProcessname());
++
++      // Act: change the process name
+       j2EEThread2_1.setProcessname("P^");
+-      boolean boolean0 = j2EEThread2_0.equals(j2EEThread2_1);
+-      assertFalse(boolean0);
+-  }
++
++      // Assert: side‑effect is observable via the getter
++      assertEquals("P^", j2EEThread2_1.getProcessname());
++
++      boolean boolean0 = j2EEThread2_0.equals(j2EEThread2_1);
++      assertFalse(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test38()  throws Throwable  {

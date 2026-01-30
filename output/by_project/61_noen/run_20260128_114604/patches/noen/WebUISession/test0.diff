@@ -1,0 +1,35 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUISession_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUISession_ESTest.java
+@@ -20,17 +20,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class WebUISession_ESTest extends WebUISession_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    LocalConnector localConnector0 = new LocalConnector();
++    byte[] byteArray0 = new byte[3];
++    ByteArrayEndPoint byteArrayEndPoint0 = new ByteArrayEndPoint(byteArray0, 134217728);
++    Server server0 = new Server();
++    HttpConnection httpConnection0 = new HttpConnection(localConnector0, byteArrayEndPoint0, server0);
++    Request request0 = new Request(httpConnection0);
++    ServletWebRequest servletWebRequest0 = new ServletWebRequest(request0);
++    WebUISession webUISession0 = new WebUISession(servletWebRequest0);
++    // Act: invalidate the session
++    webUISession0.invalidateNow();
++    // Verify that the session is marked as invalidated
++    assertTrue(webUISession0.isSessionInvalidated());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      LocalConnector localConnector0 = new LocalConnector();
+-      byte[] byteArray0 = new byte[3];
+-      ByteArrayEndPoint byteArrayEndPoint0 = new ByteArrayEndPoint(byteArray0, 134217728);
+-      Server server0 = new Server();
+-      HttpConnection httpConnection0 = new HttpConnection(localConnector0, byteArrayEndPoint0, server0);
+-      Request request0 = new Request(httpConnection0);
+-      ServletWebRequest servletWebRequest0 = new ServletWebRequest(request0);
+-      WebUISession webUISession0 = new WebUISession(servletWebRequest0);
+-      assertFalse(webUISession0.isSessionInvalidated());
+-  }
+ }

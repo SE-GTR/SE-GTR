@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/quickserver/net/client/loaddistribution/impl/RandomLoadPattern_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/loaddistribution/impl/RandomLoadPattern_ESTest.java
+@@ -60,28 +60,22 @@
+           verifyException("org.quickserver.net.client.loaddistribution.impl.RandomLoadPattern", e);
+       }
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      RandomLoadPattern randomLoadPattern0 = new RandomLoadPattern();
+-      HostList hostList0 = new HostList("");
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      randomLoadPattern0.setHostList(hostList0);
+-      linkedList0.add((Object) hostList0);
+-      hostList0.setActiveList(linkedList0);
+-      // Undeclared exception!
+-      try { 
++public void test2() throws Throwable {
++    RandomLoadPattern randomLoadPattern0 = new RandomLoadPattern();
++    HostList hostList0 = new HostList("");
++    LinkedList<Object> linkedList0 = new LinkedList<Object>();
++    randomLoadPattern0.setHostList(hostList0);
++    boolean added = linkedList0.add((Object) hostList0);
++    assertTrue(added);
++    hostList0.setActiveList(linkedList0);
++    try {
+         randomLoadPattern0.getHost((ClientInfo) null);
+         fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // org.quickserver.net.client.HostList cannot be cast to org.quickserver.net.client.Host
+-         //
+-         verifyException("org.quickserver.net.client.loaddistribution.impl.RandomLoadPattern", e);
+-      }
+-  }
++    } catch (ClassCastException e) {
++        verifyException("org.quickserver.net.client.loaddistribution.impl.RandomLoadPattern", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

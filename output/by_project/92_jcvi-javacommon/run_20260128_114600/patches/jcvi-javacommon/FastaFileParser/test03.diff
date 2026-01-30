@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/jcvi/jillion/fasta/FastaFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/fasta/FastaFileParser_ESTest.java
+@@ -95,30 +95,27 @@
+          verifyException("org.jcvi.jillion.fasta.FastaFileParser$FileFastaParser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("J8&", "J8&");
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    File file0 = MockFile.createTempFile("J8&", "J8&");
+     fastaFileParser0 = FastaFileParser.create(file0);
+-      DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
+-      doReturn(true).when(dataStoreFilter0).accept(anyString());
+-    defaultQualityFastaFileDataStoreBuilder0 = new DefaultQualityFastaFileDataStoreBuilder(dataStoreFilter0);
+-      AtomicBoolean atomicBoolean0 = new AtomicBoolean();
+-      FastaVisitorCallback fastaVisitorCallback0 = mock(FastaVisitorCallback.class, new ViolatedAssumptionAnswer());
+-      atomicBoolean0.set(true);
+-      FastaRecordVisitor fastaRecordVisitor0 = defaultQualityFastaFileDataStoreBuilder0.visitDefline(fastaVisitorCallback0, "J8&", "org.jcvi.jillion.fasta.FastaFileParser$MementoCallback");
+-      // Undeclared exception!
+-      try { 
++    DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
++    doReturn(true).when(dataStoreFilter0).accept(anyString());
++    DefaultQualityFastaFileDataStoreBuilder defaultQualityFastaFileDataStoreBuilder0 = new DefaultQualityFastaFileDataStoreBuilder(dataStoreFilter0);
++    // Verify that the stubbed accept method returns true
++    assertTrue(dataStoreFilter0.accept("test"));
++    AtomicBoolean atomicBoolean0 = new AtomicBoolean();
++    FastaVisitorCallback fastaVisitorCallback0 = mock(FastaVisitorCallback.class, new ViolatedAssumptionAnswer());
++    atomicBoolean0.set(true);
++    FastaRecordVisitor fastaRecordVisitor0 = defaultQualityFastaFileDataStoreBuilder0.visitDefline(fastaVisitorCallback0, "J8&", "org.jcvi.jillion.fasta.FastaFileParser$MementoCallback");
++    try {
+         fastaFileParser0.handleEndOfFile(defaultQualityFastaFileDataStoreBuilder0, atomicBoolean0, fastaRecordVisitor0);
+         fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // initial capacity should be > 0 :0
+-         //
+-         verifyException("org.jcvi.jillion.internal.core.util.GrowableByteArray", e);
+-      }
+-  }
++    } catch (IllegalArgumentException e) {
++        verifyException("org.jcvi.jillion.internal.core.util.GrowableByteArray", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

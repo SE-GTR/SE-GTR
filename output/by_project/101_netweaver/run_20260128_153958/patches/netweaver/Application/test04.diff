@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
+@@ -89,18 +89,24 @@
+         // Objects are no longer equal after vendor change
+         assertFalse(application0.equals(application1));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-    application0 = new Application();
+-    application1 = new Application();
+-      assertTrue(application1.equals((Object)application0));
+-      
+-      application1.setStatus("2znS%=");
+-      boolean boolean0 = application1.equals(application0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        application0 = new Application();
++        application1 = new Application();
++        assertTrue(application1.equals((Object) application0));
++
++        // invoke the void method whose side‑effect we want to verify
++        application1.setStatus("2znS%=");
++
++        // verify that the status change is observable via equality with another instance
++        Application application2 = new Application();
++        application2.setStatus("2znS%=");
++        assertTrue(application1.equals(application2));
++
++        // the original instance should no longer be equal after the status change
++        assertFalse(application1.equals(application0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

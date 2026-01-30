@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jsecurity/web/WebUtils_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/WebUtils_ESTest.java
+@@ -77,14 +77,15 @@
+       boolean boolean0 = WebUtils.isTrue(httpServletRequest0, "on");
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("true").when(httpServletRequest0).getParameter(anyString());
+-      boolean boolean0 = WebUtils.isTrue(httpServletRequest0, "true");
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn("true").when(httpServletRequest0).getParameter(anyString());
++    boolean result = WebUtils.isTrue(httpServletRequest0, "true");
++    verify(httpServletRequest0).getParameter("true");
++    assertTrue(result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

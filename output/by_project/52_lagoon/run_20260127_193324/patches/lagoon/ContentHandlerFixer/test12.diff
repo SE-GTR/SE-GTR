@@ -1,0 +1,38 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
+@@ -161,15 +161,26 @@
+       ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0, true, true);
+       contentHandlerFixer0.startElement("9", "BJbH4K\"D@Q6", "E<p<<;aAN$q", attributes2Impl0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
+-      ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0);
+-      Attributes2Impl attributes2Impl0 = new Attributes2Impl();
+-      attributes2Impl0.addAttribute("", "", "", "b>q4C6", "");
+-      contentHandlerFixer0.startElement("", "", "", attributes2Impl0);
+-  }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
++    ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0);
++    Attributes2Impl attributes2Impl0 = new Attributes2Impl();
++    attributes2Impl0.addAttribute("", "", "", "b>q4C6", "");
++    // Observe state before invoking the method
++    boolean before = contentHandlerFixer0.isContextPushed();
++    // Act
++    contentHandlerFixer0.startElement("", "", "", attributes2Impl0);
++    // Observe state after invocation
++    boolean after = contentHandlerFixer0.isContextPushed();
++    // The startElement call should have pushed the context
++    assertTrue(after);
++    // Verify that the state actually changed when it was initially false
++    if (!before) {
++        assertNotEquals(before, after);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -891,14 +891,21 @@
+       assertFalse(config0.hasOrphans());
+       assertFalse(config0.hasRoutines());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test058()  throws Throwable  {
+-      Config config0 = new Config();
+-      config0.setOutputDir("\"S>jA/\"");
+-      assertFalse(config0.hasRoutines());
+-      assertFalse(config0.hasOrphans());
+-  }
++@Test(timeout = 4000)
++    public void test058() throws Throwable {
++        Config config0 = new Config();
++        java.io.File before = config0.getOutputDir();
++        config0.setOutputDir("\"S>jA/\"");
++        java.io.File after = config0.getOutputDir();
++        assertNotNull(after);
++        assertEquals(new java.io.File("\"S>jA/\""), after);
++        if (before != null) {
++            assertNotEquals(before, after);
++        }
++        assertFalse(config0.hasRoutines());
++        assertFalse(config0.hasOrphans());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test059()  throws Throwable  {

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ShoppingCart_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ShoppingCart_ESTest.java
+@@ -52,16 +52,21 @@
+     String string0 = shoppingCart0.getNumItems();
+     assertEquals("0", string0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-    shoppingCart0 = new ShoppingCart();
+-    items0 = new Items();
+-      shoppingCart0.setItems(items0);
+-      String string0 = shoppingCart0.getNumItems();
+-      assertEquals("0", string0);
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    shoppingCart0 = new ShoppingCart();
++    items0 = new Items();
++    // Verify initial state before setting items
++    assertNull(shoppingCart0.getItems());
++    // Act
++    shoppingCart0.setItems(items0);
++    // Assert side‑effect of setItems
++    assertSame(items0, shoppingCart0.getItems());
++    // Additional behavior check
++    String string0 = shoppingCart0.getNumItems();
++    assertEquals("0", string0);
++}
++
+ @Test(timeout = 4000)
+   public void test03() throws Throwable {
+     shoppingCart0 = new ShoppingCart();

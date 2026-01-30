@@ -1,0 +1,77 @@
+--- a/evosuite-tests/jigl/image/ops/Convolve_ESTest.java
++++ b/evosuite-tests/jigl/image/ops/Convolve_ESTest.java
+@@ -224,47 +224,33 @@
+     assertEquals(3, imageKernel0.Y());
+     assertEquals((-2.0F), imageKernel0.min(), 0.01F);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      KernelType kernelType0 = KernelType.D_XY;
+-      ImageKernel imageKernel0 = new ImageKernel(kernelType0);
+-      assertEquals(4.0F, imageKernel0.absSum(), 0.01F);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(1.0F, imageKernel0.max(), 0.01F);
+-      assertEquals(3, imageKernel0.Y());
+-      assertEquals((-1.0F), imageKernel0.min(), 0.01F);
+-      assertEquals(4.0, imageKernel0.sqrSum(), 0.01);
+-      
+-      Convolve convolve0 = new Convolve(imageKernel0);
+-      assertEquals(4.0F, imageKernel0.absSum(), 0.01F);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(1.0F, imageKernel0.max(), 0.01F);
+-      assertEquals(3, imageKernel0.Y());
+-      assertEquals((-1.0F), imageKernel0.min(), 0.01F);
+-      assertEquals(4.0, imageKernel0.sqrSum(), 0.01);
+-      
+-      Convolve.Threader convolve_Threader0 = convolve0.new Threader((GrayImage) null, imageKernel0);
+-      assertEquals(4.0F, imageKernel0.absSum(), 0.01F);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(1.0F, imageKernel0.max(), 0.01F);
+-      assertEquals(3, imageKernel0.Y());
+-      assertEquals((-1.0F), imageKernel0.min(), 0.01F);
+-      assertEquals(4.0, imageKernel0.sqrSum(), 0.01);
+-      
+-      convolve_Threader0.run();
+-      assertEquals(4.0F, imageKernel0.absSum(), 0.01F);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(1.0F, imageKernel0.max(), 0.01F);
+-      assertEquals(3, imageKernel0.Y());
+-      assertEquals((-1.0F), imageKernel0.min(), 0.01F);
+-      assertEquals(4.0, imageKernel0.sqrSum(), 0.01);
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        KernelType kernelType0 = KernelType.D_XY;
++        ImageKernel imageKernel0 = new ImageKernel(kernelType0);
++        // Verify initial kernel state
++        assertEquals(4.0F, imageKernel0.absSum(), 0.01F);
++        assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
++        assertEquals(3, imageKernel0.X());
++        assertEquals(1.0F, imageKernel0.max(), 0.01F);
++        assertEquals(3, imageKernel0.Y());
++        assertEquals((-1.0F), imageKernel0.min(), 0.01F);
++        assertEquals(4.0, imageKernel0.sqrSum(), 0.01);
++
++        Convolve convolve0 = new Convolve(imageKernel0);
++        Convolve.Threader convolve_Threader0 = convolve0.new Threader((GrayImage) null, imageKernel0);
++        convolve_Threader0.run();
++
++        // Verify that running the threader does not alter the kernel
++        assertEquals(4.0F, imageKernel0.absSum(), 0.01F);
++        assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
++        assertEquals(3, imageKernel0.X());
++        assertEquals(1.0F, imageKernel0.max(), 0.01F);
++        assertEquals(3, imageKernel0.Y());
++        assertEquals((-1.0F), imageKernel0.min(), 0.01F);
++        assertEquals(4.0, imageKernel0.sqrSum(), 0.01);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

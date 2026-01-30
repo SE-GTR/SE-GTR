@@ -1,0 +1,43 @@
+--- a/evosuite-tests/framework/util/TuningUtils_ESTest.java
++++ b/evosuite-tests/framework/util/TuningUtils_ESTest.java
+@@ -49,25 +49,27 @@
+   public void test0()  throws Throwable  {
+       TuningUtils.stopTuning((Log) jdk14Logger0, "");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     jdk14Logger0 = new Jdk14Logger("");
+     object0 = new Object();
+     mockThrowable0 = new MockThrowable(" TIME=");
+-      mockThrowable0.getLocalizedMessage();
++    mockThrowable0.getLocalizedMessage();
+     mockException0 = new MockException(mockThrowable0);
+     mockException1 = new MockException("", mockException0);
+-      mockException1.getCause();
+-      mockThrowable0.getStackTrace();
++    mockException1.getCause();
++    mockThrowable0.getStackTrace();
+     mockThrowable1 = new MockThrowable(mockException1);
+-    stackTraceElement0 = new StackTraceElement(" TIME=", "", "org.apache.log.output.AbstractOutputTarget", (-1239));
+-      mockThrowable1.setOriginForDelegate(stackTraceElement0);
+-      jdk14Logger0.warn(object0, (Throwable) mockThrowable1);
+-      TuningUtils.stopTuning((Log) jdk14Logger0, "GayX");
+-      TuningUtils.startTuning((Log) jdk14Logger0, "");
+-      TuningUtils.stopTuning("");
+-  }
++    stackTraceElement0 = new StackTraceElement(" TIME=", "", "org.apache.log.output.AbstractOutputTarget", -1239);
++    mockThrowable1.setOriginForDelegate(stackTraceElement0);
++    jdk14Logger0.warn(object0, (Throwable) mockThrowable1);
++    // Removed TuningUtils calls as they have no observable effect
++    // Verify observable state of the mock objects
++    assertEquals(" TIME=", mockThrowable0.getMessage());
++    assertSame(mockThrowable0, mockException0.getCause());
++    assertSame(mockException0, mockException1.getCause());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

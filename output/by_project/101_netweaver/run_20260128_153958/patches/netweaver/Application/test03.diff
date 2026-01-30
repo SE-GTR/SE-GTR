@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
+@@ -67,18 +67,29 @@
+     // Equality should now differ because versions differ
+     assertFalse(application1.equals(application0));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    application0 = new Application();
+-    application1 = new Application();
+-      assertTrue(application1.equals((Object)application0));
+-      
+-      application1.setVendor("id");
+-      boolean boolean0 = application0.equals(application1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        application0 = new Application();
++        application1 = new Application();
++
++        // Verify initial state
++        assertNull(application0.getVendor());
++        assertNull(application1.getVendor());
++
++        // Objects are equal before setting vendor
++        assertTrue(application1.equals((Object) application0));
++
++        // Exercise the void method
++        application1.setVendor("id");
++
++        // Assert the side‑effect of setVendor
++        assertEquals("id", application1.getVendor());
++        assertNull(application0.getVendor());
++
++        // Objects are no longer equal after vendor change
++        assertFalse(application0.equals(application1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

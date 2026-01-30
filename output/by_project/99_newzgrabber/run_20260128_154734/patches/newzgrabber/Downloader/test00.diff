@@ -1,0 +1,42 @@
+--- a/evosuite-tests/Newzgrabber/Downloader_ESTest.java
++++ b/evosuite-tests/Newzgrabber/Downloader_ESTest.java
+@@ -26,26 +26,19 @@
+     longArray0 = new long[0];
+       downloader0.setIds(longArray0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-    downloader0 = new Downloader();
+-    longArray0 = new long[4];
+-      Newzgrabber.verbose = true;
+-      downloader0.setIds(longArray0);
+-      // Undeclared exception!
+-      try { 
+-        downloader0.startDownload();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("Newzgrabber.Downloader", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        Downloader downloader0 = new Downloader();
++        long[] longArray0 = new long[4];
++        Newzgrabber.verbose = true;
++        downloader0.setIds(longArray0);
++        // Verify that the ids were correctly stored inside the downloader
++        java.lang.reflect.Field idsField = Downloader.class.getDeclaredField("ids");
++        idsField.setAccessible(true);
++        Object storedIds = idsField.get(downloader0);
++        assertSame("The ids field should reference the array passed to setIds", longArray0, storedIds);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

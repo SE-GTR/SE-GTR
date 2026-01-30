@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/ArtificialPhd_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/ArtificialPhd_ESTest.java
+@@ -221,14 +221,17 @@
+     String qsString = qualitySequence0.toString();
+     assertNull(qsString);
+ }
+-
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test13()  throws Throwable  {
+       QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+       NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+       doReturn((String) null).when(nucleotideSequence0).toString();
+       doReturn(0L, 0L).when(nucleotideSequence0).getLength();
++      // capture and assert stubbed return values
++      String seqString = nucleotideSequence0.toString();
++      assertNull(seqString);
++      long seqLength = nucleotideSequence0.getLength();
++      assertEquals(0L, seqLength);
+       ArtificialPhd artificialPhd0 = new ArtificialPhd("u/0dgAF8{.{i1U6w^?", nucleotideSequence0, qualitySequence0, (-1882));
+       Map<String, String> map0 = artificialPhd0.getComments();
+       ArtificialPhd artificialPhd1 = ArtificialPhd.createNewbler454Phd("u/0dgAF8{.{i1U6w^?", nucleotideSequence0, qualitySequence0, map0);
+@@ -236,7 +239,7 @@
+       try { 
+         artificialPhd1.equals(artificialPhd0);
+         fail("Expecting exception: IllegalArgumentException");
+-      
++
+       } catch(IllegalArgumentException e) {
+          //
+          // initial capacity should be > 0 :0
+@@ -244,6 +247,7 @@
+          verifyException("org.jcvi.jillion.internal.core.util.GrowableShortArray", e);
+       }
+   }
++
+ @Test(timeout = 4000)
+ public void test14()  throws Throwable  {
+     NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());

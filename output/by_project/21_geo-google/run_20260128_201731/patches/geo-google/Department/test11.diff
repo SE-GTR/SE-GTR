@@ -1,0 +1,55 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Department_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Department_ESTest.java
+@@ -140,26 +140,32 @@
+     String actual = department_DepartmentName0.getContent();
+     assertEquals(expected, actual);
+ }
+-@Test(timeout = 4000)
+-    public void test11() throws Throwable {
+-        Department department0 = new Department();
+-
+-        // Initial state should have a null type
+-        assertNull(department0.getType());
+-
+-        // Set type to null and verify the setter/getter behavior
+-        department0.setType(null);
+-        assertNull(department0.getType());
+-
+-        // Set a non‑null value and verify it is stored correctly
+-        String expected = "Finance";
+-        department0.setType(expected);
+-        assertEquals(expected, department0.getType());
+-
+-        // Verify that other parts of the object are initialized and unchanged
+-        assertNotNull(department0.getAddressLine());
+-        assertTrue(department0.getAddressLine().isEmpty());
+-    }
++public void test11() throws Throwable {
++    Department department0 = new Department();
++
++    // Initial state should have a null type
++    assertNull(department0.getType());
++
++    // Verify setter/getter behavior for null
++    department0.setType(null);
++    assertNull(department0.getType());
++
++    // Verify setter/getter behavior for a non‑null value
++    String expected = "Finance";
++    department0.setType(expected);
++    assertEquals(expected, department0.getType());
++
++    // Verify addressLine list is initialized, empty, and mutable
++    List<AddressLine> lines = department0.getAddressLine();
++    assertNotNull(lines);
++    assertTrue(lines.isEmpty());
++
++    AddressLine line = new AddressLine();
++    lines.add(line);
++    assertEquals(1, lines.size());
++    assertSame(line, department0.getAddressLine().get(0));
++}
++
+ 
+ @Test(timeout = 4000)
+     public void test12() throws Throwable {

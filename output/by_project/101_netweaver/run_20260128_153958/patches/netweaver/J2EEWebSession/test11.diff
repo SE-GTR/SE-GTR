@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
+@@ -194,18 +194,25 @@
+       boolean boolean0 = j2EEWebSession0.equals(j2EEWebSession1);
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      J2EEWebSession j2EEWebSession0 = new J2EEWebSession();
+-      J2EEWebSession j2EEWebSession1 = new J2EEWebSession();
+-      assertTrue(j2EEWebSession1.equals((Object)j2EEWebSession0));
+-      
+-      j2EEWebSession0.setBackingStore("mustUndestand");
+-      boolean boolean0 = j2EEWebSession0.equals(j2EEWebSession1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    J2EEWebSession j2EEWebSession0 = new J2EEWebSession();
++    J2EEWebSession j2EEWebSession1 = new J2EEWebSession();
++    assertTrue(j2EEWebSession1.equals((Object) j2EEWebSession0));
++
++    // Verify initial state before mutation
++    assertNull(j2EEWebSession0.getBackingStore());
++
++    // Act: change backing store
++    j2EEWebSession0.setBackingStore("mustUndestand");
++
++    // Observe the side‑effect via the public getter
++    assertEquals("mustUndestand", j2EEWebSession0.getBackingStore());
++
++    // The mutation should affect equality with the untouched instance
++    assertFalse(j2EEWebSession0.equals(j2EEWebSession1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

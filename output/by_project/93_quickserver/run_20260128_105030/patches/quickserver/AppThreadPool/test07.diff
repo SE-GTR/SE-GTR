@@ -1,0 +1,24 @@
+--- a/evosuite-tests/org/quickserver/util/pool/thread/app/AppThreadPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/thread/app/AppThreadPool_ESTest.java
+@@ -59,11 +59,17 @@
+   public void test06()  throws Throwable  {
+       AppThreadPool.setDefaultKeepAliveTime(0);
+   }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    int original = AppThreadPool.getDefaultMaximumPoolSize();
++    try {
++        AppThreadPool.setDefaultMaximumPoolSize(0);
++        assertEquals(0, AppThreadPool.getDefaultMaximumPoolSize());
++    } finally {
++        AppThreadPool.setDefaultMaximumPoolSize(original);
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      AppThreadPool.setDefaultMaximumPoolSize(0);
+-  }
+ @Test(timeout = 4000)
+   public void test08() throws Throwable {
+       int keepAlive = AppThreadPool.getDefaultKeepAliveTime();

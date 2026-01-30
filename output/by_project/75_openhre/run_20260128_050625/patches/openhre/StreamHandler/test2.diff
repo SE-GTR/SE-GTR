@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/browsersoft/aacs/StreamHandler_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/StreamHandler_ESTest.java
+@@ -44,15 +44,18 @@
+     assertFalse(streamHandler0.isDaemon());
+     assertEquals(Thread.NORM_PRIORITY, streamHandler0.getPriority());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++public void test2() throws Throwable {
+     byteArray0 = new byte[6];
+     byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      BufferedInputStream bufferedInputStream0 = new BufferedInputStream(byteArrayInputStream0);
+-      StreamHandler streamHandler0 = new StreamHandler(bufferedInputStream0, "OUTPUT");
+-      streamHandler0.run();
+-      //  // Unstable assertion: assertFalse(streamHandler0.isDaemon());
+-  }
++    BufferedInputStream bufferedInputStream0 = new BufferedInputStream(byteArrayInputStream0);
++    StreamHandler streamHandler0 = new StreamHandler(bufferedInputStream0, "OUTPUT");
++    // Verify initial thread state before invoking run()
++    assertFalse(streamHandler0.isAlive());
++    streamHandler0.run();
++    // Verify thread state after run() to observe side‑effects
++    assertFalse(streamHandler0.isAlive());
++    assertFalse(streamHandler0.isDaemon());
+ }
++
++}

@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/jsecurity/SecurityUtils_ESTest.java
++++ b/evosuite-tests/org/jsecurity/SecurityUtils_ESTest.java
+@@ -22,12 +22,42 @@
+       Subject subject0 = SecurityUtils.getSubject();
+       assertNull(subject0);
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    // Verify initial state is null
++    assertNull(SecurityUtils.getSecurityManager());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      SecurityManager securityManager0 = SecurityUtils.getSecurityManager();
+-      assertNull(securityManager0);
+-  }
++    // Create a dummy SecurityManager using a dynamic proxy
++    SecurityManager dummy = (SecurityManager) java.lang.reflect.Proxy.newProxyInstance(
++        SecurityManager.class.getClassLoader(),
++        new Class<?>[]{SecurityManager.class},
++        (proxy, method, args) -> {
++            Class<?> ret = method.getReturnType();
++            if (ret.isPrimitive()) {
++                if (ret.equals(boolean.class)) return false;
++                if (ret.equals(byte.class)) return (byte) 0;
++                if (ret.equals(short.class)) return (short) 0;
++                if (ret.equals(int.class)) return 0;
++                if (ret.equals(long.class)) return 0L;
++                if (ret.equals(float.class)) return 0f;
++                if (ret.equals(double.class)) return 0d;
++                if (ret.equals(char.class)) return '\0';
++            }
++            return null;
++        });
++
++    // Inject the dummy into SecurityUtils via reflection
++    java.lang.reflect.Field field = SecurityUtils.class.getDeclaredField("securityManager");
++    field.setAccessible(true);
++    field.set(null, dummy);
++
++    // Act: retrieve the manager
++    SecurityManager retrieved = SecurityUtils.getSecurityManager();
++
++    // Verify that the retrieved instance matches the dummy we set
++    assertSame(dummy, retrieved);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

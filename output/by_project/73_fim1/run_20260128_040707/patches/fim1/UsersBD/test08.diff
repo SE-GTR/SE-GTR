@@ -1,0 +1,31 @@
+--- a/evosuite-tests/osa/ora/server/bd/UsersBD_ESTest.java
++++ b/evosuite-tests/osa/ora/server/bd/UsersBD_ESTest.java
+@@ -88,22 +88,12 @@
+       Vector<Room> vector0 = usersBD0.loadRooms();
+       assertEquals(0, vector0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      UsersBD usersBD0 = new UsersBD("Server Data Error!, can't save rooms!", "Server Data Error!, can't save rooms!", (ModernChatServer) null);
+-      // Undeclared exception!
+-      try { 
+-        usersBD0.resetUserPass((User) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("osa.ora.server.bd.UsersBD", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class, timeout = 4000)
++    public void test08() throws Throwable {
++        UsersBD usersBD0 = new UsersBD("Server Data Error!, can't save rooms!", "Server Data Error!, can't save rooms!", null);
++        usersBD0.resetUserPass(null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

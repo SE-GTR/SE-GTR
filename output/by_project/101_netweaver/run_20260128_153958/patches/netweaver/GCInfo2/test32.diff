@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
+@@ -463,17 +463,23 @@
+       assertEquals(1073741824L, gCInfo2_0.getClsBytesBefore());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test32() throws Throwable {
+       GCInfo2 gCInfo2_0 = new GCInfo2();
+       gCInfo2_0.setReason("goto");
+-      GCInfo2 gCInfo2_1 = new GCInfo2();
+-      assertFalse(gCInfo2_1.equals((Object)gCInfo2_0));
+-      
++      // verify side‑effect of setReason
++      assertEquals("goto", gCInfo2_0.getReason());
++
++      GCInfo2 gCInfo2_1 = new GCInfo2();
++      // initially objects differ because reason is null in gCInfo2_1
++      assertFalse(gCInfo2_1.equals((Object) gCInfo2_0));
++
+       gCInfo2_1.setReason("goto");
+-      boolean boolean0 = gCInfo2_1.equals(gCInfo2_0);
+-      assertTrue(gCInfo2_1.equals((Object)gCInfo2_0));
+-      assertTrue(boolean0);
+-  }
+-}
++      // verify side‑effect on the second instance
++      assertEquals("goto", gCInfo2_1.getReason());
++
++      // now both objects should be equal
++      assertTrue(gCInfo2_1.equals(gCInfo2_0));
++  }
++
++}

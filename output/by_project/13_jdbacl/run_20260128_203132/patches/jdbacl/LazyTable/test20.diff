@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/jdbc/LazyTable_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/jdbc/LazyTable_ESTest.java
+@@ -363,24 +363,15 @@
+          verifyException("org.databene.jdbacl.model.jdbc.JDBCDBImporter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter("x7W^qN", "x7W^qN", "x7W^qN", "x7W^qN", "x7W^qN", "x7W^qN");
+-      DBSchema dBSchema0 = new DBSchema("x7W^qN");
+-      LazyTable lazyTable0 = new LazyTable(jDBCDBImporter0, dBSchema0, "x7W^qN", "x7W^qN");
+-      // Undeclared exception!
+-      try { 
+-        lazyTable0.getOwner();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.model.jdbc.JDBCDBImporter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test20() throws Throwable {
++        JDBCDBImporter importer = new JDBCDBImporter("x7W^qN", "x7W^qN", "x7W^qN", "x7W^qN", "x7W^qN", "x7W^qN");
++        DBSchema schema = new DBSchema("x7W^qN");
++        LazyTable lazyTable = new LazyTable(importer, schema, "x7W^qN", "x7W^qN");
++        org.databene.jdbacl.model.DBObject owner = lazyTable.getOwner();
++        assertSame(schema, owner);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

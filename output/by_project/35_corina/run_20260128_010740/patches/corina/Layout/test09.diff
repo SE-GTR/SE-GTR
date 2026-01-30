@@ -1,0 +1,37 @@
+--- a/evosuite-tests/corina/gui/Layout_ESTest.java
++++ b/evosuite-tests/corina/gui/Layout_ESTest.java
+@@ -137,22 +137,18 @@
+          verifyException("corina.gui.Layout", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      Object object0 = new Object();
+-      // Undeclared exception!
+-      try { 
+-        Layout.flowLayoutL(object0, object0, object0);
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.lang.Object cannot be cast to java.awt.Component
+-         //
+-         verifyException("corina.gui.Layout", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        // Use valid Swing components instead of generic Objects to avoid ClassCastException
++        JLabel label1 = new JLabel("Label 1");
++        JLabel label2 = new JLabel("Label 2");
++        JLabel label3 = new JLabel("Label 3");
++        JPanel panel = Layout.flowLayoutL(label1, label2, label3);
++        assertNotNull(panel);
++        assertEquals(3, panel.getComponentCount());
++        assertTrue(panel.getLayout() instanceof FlowLayout);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/mygrid/JobProcessor_ESTest.java
++++ b/evosuite-tests/mygrid/JobProcessor_ESTest.java
+@@ -94,17 +94,19 @@
+     String string0 = JobProcessor.getContextByName(job0, "$A:7mY$k");
+     assertEquals("$A:7mY$k", string0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++public void test3() throws Throwable {
+     job0 = new Job();
+     arrayOfContextElement0 = new ArrayOfContextElement();
+     contextElementArray0 = new ContextElement[0];
+-      arrayOfContextElement0.setContextElement(contextElementArray0);
+-      job0.setContext(arrayOfContextElement0);
+-      JobProcessor.setContextElement(job0, "$A:7mY$k", "$A:7mY$k");
+-      String string0 = JobProcessor.getContextByName(job0, "$A:7mY$");
+-      assertNull(string0);
+-  }
++    arrayOfContextElement0.setContextElement(contextElementArray0);
++    job0.setContext(arrayOfContextElement0);
++    JobProcessor.setContextElement(job0, "$A:7mY$k", "$A:7mY$k");
++    // Verify that the context element was stored correctly
++    String retrieved = JobProcessor.getContextByName(job0, "$A:7mY$k");
++    assertEquals("$A:7mY$k", retrieved);
++    // Verify that a different name is not present
++    assertNull(JobProcessor.getContextByName(job0, "$A:7mY$"));
+ }
++
++}

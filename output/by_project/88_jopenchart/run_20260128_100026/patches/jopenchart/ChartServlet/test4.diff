@@ -1,0 +1,60 @@
+--- a/evosuite-tests/de/progra/charting/servlet/ChartServlet_ESTest.java
++++ b/evosuite-tests/de/progra/charting/servlet/ChartServlet_ESTest.java
+@@ -116,30 +116,34 @@
+          //
+       }
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        objectChartDataModel0 = new ObjectChartDataModel();
++        DefaultChart defaultChart0 = new DefaultChart(objectChartDataModel0, "jpeg", 0, "jpeg", "jpeg");
++        HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++        doReturn(defaultChart0).when(httpSession0).getAttribute(anyString());
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("jpeg").when(httpServletRequest0).getParameter(anyString());
++        doReturn(httpSession0).when(httpServletRequest0).getSession(anyBoolean());
++        chartServlet0 = new ChartServlet();
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        doReturn((ServletOutputStream) null).when(httpServletResponse0).getOutputStream();
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    objectChartDataModel0 = new ObjectChartDataModel();
+-      DefaultChart defaultChart0 = new DefaultChart(objectChartDataModel0, "jpeg", 0, "jpeg", "jpeg");
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(defaultChart0).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("jpeg").when(httpServletRequest0).getParameter(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession(anyBoolean());
+-    chartServlet0 = new ChartServlet();
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      doReturn((ServletOutputStream) null).when(httpServletResponse0).getOutputStream();
+-      try { 
+-        chartServlet0.doPost(httpServletRequest0, httpServletResponse0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // An Error occurred encoding the Image file.
+-         //
+-         verifyException("de.progra.charting.servlet.ChartServlet", e);
+-      }
+-  }
++        // Verify that the stubs return the expected values (address NARV)
++        assertSame(defaultChart0, httpSession0.getAttribute("anyKey"));
++        assertEquals("jpeg", httpServletRequest0.getParameter("anyParam"));
++        assertSame(httpSession0, httpServletRequest0.getSession(true));
++        assertNull(httpServletResponse0.getOutputStream());
++
++        try {
++            chartServlet0.doPost(httpServletRequest0, httpServletResponse0);
++            fail("Expecting exception: IOException");
++        } catch (IOException e) {
++            // An Error occurred encoding the Image file.
++            verifyException("de.progra.charting.servlet.ChartServlet", e);
++        }
++    }
++
+ @Test(timeout = 4000)
+ public void test5() throws Throwable {
+     ChartServlet chartServlet0 = new ChartServlet();

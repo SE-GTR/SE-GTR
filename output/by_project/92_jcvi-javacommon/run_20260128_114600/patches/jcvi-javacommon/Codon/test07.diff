@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/residue/aa/Codon_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/residue/aa/Codon_ESTest.java
+@@ -98,23 +98,20 @@
+          verifyException("org.jcvi.jillion.core.residue.aa.Codon", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test07() throws Throwable {
+       NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+       doReturn(0L, 0L).when(nucleotideSequence0).getLength();
+-      // Undeclared exception!
+-      try { 
+-        Codon.getCodonFor(nucleotideSequence0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // must have at least 3 nucleotides after given offset -3
+-         //
+-         verifyException("org.jcvi.jillion.core.residue.aa.Codon", e);
+-      }
+-  }
++      long length = nucleotideSequence0.getLength();
++      assertEquals(0L, length);
++      try {
++          Codon.getCodonFor(nucleotideSequence0);
++          fail("Expecting exception: IllegalArgumentException");
++      } catch (IllegalArgumentException e) {
++          verifyException("org.jcvi.jillion.core.residue.aa.Codon", e);
++      }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

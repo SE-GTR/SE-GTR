@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/heal/util/FileLocator_ESTest.java
++++ b/evosuite-tests/org/heal/util/FileLocator_ESTest.java
+@@ -312,20 +312,30 @@
+       assertEquals("content/package/", fileLocator0.getPackageURL());
+       assertEquals(536870912L, fileLocator0.getMaxUploadSize());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      fileLocator0.setBaseFilePath("upload");
+-      assertEquals("package", fileLocator0.getPackageDirectory());
+-      
+-      fileLocator0.setPackageDirectory((String) null);
+-      fileLocator0.generateFullDirectories();
+-      assertEquals("upload/upload", fileLocator0.getUploadFilePath());
+-      assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
+-      assertEquals("upload/content", fileLocator0.getContentFilePath());
+-      assertEquals(536870912L, fileLocator0.getMaxUploadSize());
+-  }
++@Test(timeout = 4000)
++    public void test30() throws Throwable {
++        FileLocator fileLocator0 = new FileLocator();
++        // Verify initial state
++        assertEquals("package", fileLocator0.getPackageDirectory());
++
++        // Observe effect of setBaseFilePath via subsequent path generation
++        fileLocator0.setBaseFilePath("upload");
++
++        // Verify that before generating directories the upload path is not yet resolved
++        assertNull(fileLocator0.getUploadFilePath());
++
++        // Verify effect of setting package directory to null
++        fileLocator0.setPackageDirectory((String) null);
++        assertNull(fileLocator0.getPackageDirectory());
++
++        // Generate full directories and assert the resulting paths
++        fileLocator0.generateFullDirectories();
++        assertEquals("upload/upload", fileLocator0.getUploadFilePath());
++        assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
++        assertEquals("upload/content", fileLocator0.getContentFilePath());
++        assertEquals(536870912L, fileLocator0.getMaxUploadSize());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/mygrid/web/_Logon_ESTest.java
++++ b/evosuite-tests/mygrid/web/_Logon_ESTest.java
+@@ -43,20 +43,25 @@
+     int hashAfter = logon.hashCode();
+     assertNotEquals("Hash code should change after setting clusterUrl", hashBefore, hashAfter);
+ }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    _Logon logon0 = new _Logon();
++    logon0.setPassword("org.apache.axis.description.FieldDesc");
++    // Verify that the password was set correctly on the first instance
++    assertEquals("org.apache.axis.description.FieldDesc", logon0.getPassword());
+ 
++    _Logon logon1 = new _Logon();
++    assertFalse(logon1.equals((Object) logon0));
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      _Logon _Logon0 = new _Logon();
+-      _Logon0.setPassword("org.apache.axis.description.FieldDesc");
+-      _Logon _Logon1 = new _Logon();
+-      assertFalse(_Logon1.equals((Object)_Logon0));
+-      
+-      _Logon1.setPassword("org.apache.axis.description.FieldDesc");
+-      boolean boolean0 = _Logon0.equals(_Logon1);
+-      assertTrue(_Logon1.equals((Object)_Logon0));
+-      assertTrue(boolean0);
+-  }
++    logon1.setPassword("org.apache.axis.description.FieldDesc");
++    // Verify that the password was set correctly on the second instance
++    assertEquals("org.apache.axis.description.FieldDesc", logon1.getPassword());
++
++    boolean equal = logon0.equals(logon1);
++    assertTrue(logon1.equals((Object) logon0));
++    assertTrue(equal);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

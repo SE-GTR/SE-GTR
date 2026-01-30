@@ -1,0 +1,37 @@
+--- a/evosuite-tests/visu/handball/moves/model/PassEvent_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/PassEvent_ESTest.java
+@@ -40,24 +40,29 @@
+       boolean boolean0 = passEvent1.equals(passEvent0);
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test01() throws Throwable {
+       Defender defender0 = new Defender((-1), (-1));
+       PassEvent passEvent0 = new PassEvent(defender0, (-1), (-1));
+       passEvent0.setDestinationPoint(1, 1, true);
+       PassEvent passEvent1 = new PassEvent(defender0, (-1), (-1));
+       assertFalse(passEvent1.isDestinationPointSet());
+-      
++
++      // verify initial state before setting destination player
++      assertNull(passEvent1.getDestinationPlayer());
++
+       Offender offender0 = new Offender(1, (-1));
+       passEvent1.setDestinationPlayer(offender0, false);
++      // observe side‑effect of setDestinationPlayer
++      assertEquals(offender0, passEvent1.getDestinationPlayer());
++
+       MovePoint movePoint0 = passEvent0.getDestinationPoint();
+       passEvent1.destinationPoint = movePoint0;
+       boolean boolean0 = passEvent0.equals(passEvent1);
+       assertTrue(passEvent1.isDestinationPointSet());
+       assertFalse(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

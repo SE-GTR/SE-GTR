@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/javathena/login/UserManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/login/UserManagement_ESTest.java
+@@ -150,26 +150,15 @@
+          verifyException("org.javathena.core.utiles.Functions", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test15() throws Throwable {
+       Auth_data auth_data0 = new Auth_data();
+       UserManagement.dynamicFailBanCheckTXT("Account limit from company");
+-      auth_data0.setVersion((-339));
+-      NetworkHandling.sendMessageOnTcp((EvoSuiteLocalAddress) null, "Cannot create account (account: %s, received pass: %s, ip: %s)\n");
+-      UserManagement.add_online_user(auth_data0);
+-      // Undeclared exception!
+-      try { 
+-        UserManagement.addGM((-339), 3412);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.javathena.login.UserManagement", e);
+-      }
+-  }
++      auth_data0.setVersion(-339);
++      int onlineUserId = UserManagement.add_online_user(auth_data0);
++      assertTrue("add_online_user should return a non‑negative identifier", onlineUserId >= 0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

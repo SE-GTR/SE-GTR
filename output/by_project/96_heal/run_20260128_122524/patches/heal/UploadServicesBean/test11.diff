@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/heal/module/upload/UploadServicesBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/upload/UploadServicesBean_ESTest.java
+@@ -135,16 +135,21 @@
+     UploadServicesBean uploadServicesBean0 = new UploadServicesBean();
+     uploadServicesBean0.processVideo((CompleteMetadataBean) null, "");
+ }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++    // Verify initial state before setting location
++    assertNull(completeMetadataBean0.getLocation());
++    // Act: set location
++    completeMetadataBean0.setLocation("upload");
++    // Assert side‑effect of setLocation
++    assertEquals("upload", completeMetadataBean0.getLocation());
++    // Continue with original behavior verification
++    UploadServicesBean uploadServicesBean0 = new UploadServicesBean();
++    boolean boolean0 = uploadServicesBean0.processImage(completeMetadataBean0, null);
++    assertFalse(boolean0);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      completeMetadataBean0.setLocation("upload");
+-      UploadServicesBean uploadServicesBean0 = new UploadServicesBean();
+-      boolean boolean0 = uploadServicesBean0.processImage(completeMetadataBean0, (String) null);
+-      assertFalse(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

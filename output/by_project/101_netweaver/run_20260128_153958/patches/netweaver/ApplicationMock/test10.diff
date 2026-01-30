@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/sap/netweaver/porta/core/mock/ApplicationMock_ESTest.java
++++ b/evosuite-tests/com/sap/netweaver/porta/core/mock/ApplicationMock_ESTest.java
+@@ -132,18 +132,20 @@
+         // Verify that id still contains expected vendor information (non‑trivial logic)
+         assertTrue(applicationMock0.getId().contains("vendor: 'sap.com'"));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test10() throws Throwable {
+       MockFile mockFile0 = new MockFile("");
+       ApplicationMock applicationMock0 = new ApplicationMock(mockFile0);
+       ApplicationStatus applicationStatus0 = ApplicationStatus.STARTED;
+       applicationMock0.setStatus(applicationStatus0);
++      // Verify that the status setter had the expected effect
++      assertEquals(applicationStatus0, applicationMock0.getStatus());
++      // Existing assertions for other fields
+       assertEquals("7.1003.20140214202121.0000", applicationMock0.getVersion());
+       assertEquals("SAP AG", applicationMock0.getLocation());
+       assertEquals("name: '', vendor: 'sap.com'", applicationMock0.getId());
+   }
++
+ @Test(timeout = 4000)
+ public void test11() throws Throwable {
+     File file0 = MockFile.createTempFile("starting", "starting");

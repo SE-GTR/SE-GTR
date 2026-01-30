@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/KeyStoreInfo_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/KeyStoreInfo_ESTest.java
+@@ -31,14 +31,20 @@
+       String string0 = keyStoreInfo0.toXML((String) null);
+       assertEquals("<key-store-info>\n\t<store-file>NONE</store-file>\n\t</store-password>\n\t</key-password>\n</key-store-info>\n", string0);
+   }
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
++      KeyStoreInfo keyStoreInfo0 = new KeyStoreInfo();
++      // Verify initial state before setting the password
++      assertNull(keyStoreInfo0.getKeyPassword());
++      // Set a specific key password and assert the side‑effect via the getter
++      String expectedPassword = "secret";
++      keyStoreInfo0.setKeyPassword(expectedPassword);
++      assertEquals(expectedPassword, keyStoreInfo0.getKeyPassword());
++      // Verify that the XML representation reflects the set password
++      String xml = keyStoreInfo0.toXML("");
++      assertTrue(xml.contains("<key-password>" + expectedPassword + "</key-password>"));
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      KeyStoreInfo keyStoreInfo0 = new KeyStoreInfo();
+-      keyStoreInfo0.setKeyPassword("");
+-      String string0 = keyStoreInfo0.toXML("");
+-      assertEquals("<key-store-info>\n\t<store-file>NONE</store-file>\n\t</store-password>\n\t<key-password></key-password>\n</key-store-info>\n", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

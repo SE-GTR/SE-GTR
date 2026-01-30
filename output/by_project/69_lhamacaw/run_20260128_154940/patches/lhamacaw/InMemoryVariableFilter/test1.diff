@@ -1,0 +1,41 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryVariableFilter_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryVariableFilter_ESTest.java
+@@ -51,21 +51,26 @@
+     assertEquals(arrayList0.size(), afterList.size());
+     assertFalse(afterList.isEmpty());
+ }
+-
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     inMemoryVariableFilter0 = new InMemoryVariableFilter();
+     user0 = new User();
+     arrayList0 = new ArrayList<Variable>();
+-      RawVariable rawVariable0 = new RawVariable();
+-      arrayList0.add((Variable) rawVariable0);
+-      inMemoryVariableFilter0.setVariables(arrayList0);
+-      VariableTypeFilter variableTypeFilter0 = VariableTypeFilter.RAW;
+-      ArrayList<VariableSummary> arrayList1 = inMemoryVariableFilter0.filterVariableSummaries(user0, ".", ".", ".", variableTypeFilter0);
+-      assertTrue(arrayList1.isEmpty());
+-  }
++    RawVariable rawVariable0 = new RawVariable();
++    arrayList0.add(rawVariable0);
++    // Verify initial state before setting variables
++    assertTrue(inMemoryVariableFilter0.getVariables().isEmpty());
++    // Act: set the variables
++    inMemoryVariableFilter0.setVariables(arrayList0);
++    // Assert side‑effect of setVariables
++    assertEquals(1, inMemoryVariableFilter0.getVariables().size());
++    assertSame(rawVariable0, inMemoryVariableFilter0.getVariables().get(0));
++    // Additional behavior verification
++    VariableTypeFilter variableTypeFilter0 = VariableTypeFilter.RAW;
++    ArrayList<VariableSummary> arrayList1 = inMemoryVariableFilter0.filterVariableSummaries(user0, ".", ".", ".", variableTypeFilter0);
++    assertTrue(arrayList1.isEmpty());
++}
++
+ @Test(timeout = 4000)
+     public void test2() throws Throwable {
+         inMemoryVariableFilter0 = new InMemoryVariableFilter();

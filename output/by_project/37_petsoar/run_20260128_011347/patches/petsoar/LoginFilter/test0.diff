@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/petsoar/security/LoginFilter_ESTest.java
++++ b/evosuite-tests/org/petsoar/security/LoginFilter_ESTest.java
+@@ -21,14 +21,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class LoginFilter_ESTest extends LoginFilter_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    LoginFilter loginFilter0 = new LoginFilter();
++    FilterConfig filterConfig0 = mock(FilterConfig.class, new ViolatedAssumptionAnswer());
++    doReturn("loggedIn", "loggedIn", "loggedIn").when(filterConfig0).getInitParameter(anyString());
++    loginFilter0.init(filterConfig0);
++    // Verify that init queried the filter config (side‑effect observation)
++    verify(filterConfig0, atLeastOnce()).getInitParameter(anyString());
++    // Assert the return value of the stubbed method (unasserted return value)
++    assertEquals("loggedIn", filterConfig0.getInitParameter("anyParam"));
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      LoginFilter loginFilter0 = new LoginFilter();
+-      FilterConfig filterConfig0 = mock(FilterConfig.class, new ViolatedAssumptionAnswer());
+-      doReturn("loggedIn", "loggedIn", "loggedIn").when(filterConfig0).getInitParameter(anyString());
+-      loginFilter0.init(filterConfig0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

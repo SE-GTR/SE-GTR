@@ -1,0 +1,20 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
+@@ -376,7 +376,16 @@
+ 
+     // Ensure other fields remain unaffected
+     assertNull(dependentLocalityType0.getType());
+-}
++
++    // Verify that the live list returned by getAddressLine() can be mutated
++    assertTrue(dependentLocalityType0.getAddressLine().isEmpty());
++    AddressLine line = new AddressLine();
++    line.setValue("testLine");
++    dependentLocalityType0.getAddressLine().add(line);
++    assertEquals(1, dependentLocalityType0.getAddressLine().size());
++    assertSame(line, dependentLocalityType0.getAddressLine().get(0));
++}
++
+ 
+ @Test(timeout = 4000)
+     public void test35() throws Throwable {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -525,16 +525,20 @@
+         assertEquals(HandballModel.State.EDIT_EVENT, handballModel1.getState());
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test40()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Offender offender0 = new Offender((-645), (-645));
+-      handballModel0.setFirstBallOwner(offender0);
+-      boolean boolean0 = handballModel0.isSaved();
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test40() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        Offender offender0 = new Offender(-645, -645);
++        // Verify initial state before setting the first ball owner
++        assertNull(handballModel0.getFirstBallOwner());
++        // Act: set the first ball owner
++        handballModel0.setFirstBallOwner(offender0);
++        // Assert that the side‑effect is observable via the getter
++        assertSame(offender0, handballModel0.getFirstBallOwner());
++        // Additional existing assertion
++        assertFalse(handballModel0.isSaved());
++    }
++
+ @Test(timeout = 4000)
+ public void test41() throws Throwable {
+     HandballModel handballModel0 = new HandballModel();

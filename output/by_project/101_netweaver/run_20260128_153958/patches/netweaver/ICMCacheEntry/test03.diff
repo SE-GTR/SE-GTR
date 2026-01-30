@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
+@@ -65,15 +65,28 @@
+         // Additional existing assertion
+         assertEquals(0, entry.getVersion());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
+-      iCMCacheEntry0.setCreationTime("*nf!ull*");
+-      iCMCacheEntry0.hashCode();
+-      assertEquals(0, iCMCacheEntry0.getVersion());
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    ICMCacheEntry entry = new ICMCacheEntry();
++
++    // Verify initial state before setting creation time
++    assertNull(entry.getCreationTime());
++
++    // Act: set creation time
++    entry.setCreationTime("*nf!ull*");
++
++    // Assert side‑effect of setCreationTime
++    assertEquals("*nf!ull*", entry.getCreationTime());
++
++    // Assert return value of hashCode is consistent
++    int firstHash = entry.hashCode();
++    int secondHash = entry.hashCode();
++    assertEquals(firstHash, secondHash);
++
++    // Existing assertion on default version
++    assertEquals(0, entry.getVersion());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

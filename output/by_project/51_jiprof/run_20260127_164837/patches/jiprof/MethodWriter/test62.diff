@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -805,21 +805,14 @@
+          verifyException("org.objectweb.asm.jip.MethodWriter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test62()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        MethodWriter.writeShort((byte[]) null, (-517), 6);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.MethodWriter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test62() throws Throwable {
++        byte[] buffer = new byte[2];
++        MethodWriter.writeShort(buffer, 0, 0x1234);
++        assertEquals((byte) 0x12, buffer[0]);
++        assertEquals((byte) 0x34, buffer[1]);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test63()  throws Throwable  {

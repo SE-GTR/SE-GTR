@@ -1,0 +1,39 @@
+--- a/evosuite-tests/mygrid/JobProcessor_ESTest.java
++++ b/evosuite-tests/mygrid/JobProcessor_ESTest.java
+@@ -75,19 +75,26 @@
+     // Final observable state: current engine id should remain null
+     assertNull(job0.getCurrentEngineId());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++public void test2() throws Throwable {
+     job0 = new Job();
+     arrayOfContextElement0 = new ArrayOfContextElement();
+     contextElementArray0 = new ContextElement[0];
+-      arrayOfContextElement0.setContextElement(contextElementArray0);
+-      job0.setContext(arrayOfContextElement0);
+-      JobProcessor.setContextElement(job0, "$A:7mY$k", "$A:7mY$k");
+-      String string0 = JobProcessor.getContextByName(job0, "$A:7mY$k");
+-      assertEquals("$A:7mY$k", string0);
+-  }
++    // verify initial state before modifications
++    assertNull(job0.getContext());
++    assertNull(arrayOfContextElement0.getContextElement());
++    // set the context element array and verify side‑effect
++    arrayOfContextElement0.setContextElement(contextElementArray0);
++    assertSame(contextElementArray0, arrayOfContextElement0.getContextElement());
++    // associate the context with the job and verify side‑effect
++    job0.setContext(arrayOfContextElement0);
++    assertSame(arrayOfContextElement0, job0.getContext());
++    // exercise JobProcessor functionality
++    JobProcessor.setContextElement(job0, "$A:7mY$k", "$A:7mY$k");
++    String string0 = JobProcessor.getContextByName(job0, "$A:7mY$k");
++    assertEquals("$A:7mY$k", string0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

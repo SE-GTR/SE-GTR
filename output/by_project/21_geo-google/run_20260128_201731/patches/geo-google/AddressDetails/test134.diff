@@ -1,0 +1,32 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -1344,16 +1344,27 @@
+ @Test(timeout = 4000)
+ public void test134() throws Throwable {
+     AddressDetails.PostalServiceElements postalServiceElements = new AddressDetails.PostalServiceElements();
+-    AddressDetails.PostalServiceElements.AddressLongitudeDirection direction = new AddressDetails.PostalServiceElements.AddressLongitudeDirection();
+     // Verify initial state before mutation
+     assertNull(postalServiceElements.getAddressLongitudeDirection());
++
+     // Apply mutation
++    AddressDetails.PostalServiceElements.AddressLongitudeDirection direction = new AddressDetails.PostalServiceElements.AddressLongitudeDirection();
+     postalServiceElements.setAddressLongitudeDirection(direction);
++
+     // Verify that the mutation took effect
+     assertSame(direction, postalServiceElements.getAddressLongitudeDirection());
++
+     // Existing default behavior
+     assertNull(postalServiceElements.getType());
+-}
++
++    // Non‑trivial behavior: manipulate the live 'any' list
++    int beforeSize = postalServiceElements.getAny().size();
++    Object element = new Object();
++    postalServiceElements.getAny().add(element);
++    assertEquals(beforeSize + 1, postalServiceElements.getAny().size());
++    assertTrue(postalServiceElements.getAny().contains(element));
++}
++
+ @Test(timeout = 4000)
+     public void test135() throws Throwable {
+         AddressDetails.PostalServiceElements addressDetails_PostalServiceElements0 = new AddressDetails.PostalServiceElements();

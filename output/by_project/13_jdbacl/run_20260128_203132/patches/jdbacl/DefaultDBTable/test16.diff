@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DefaultDBTable_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DefaultDBTable_ESTest.java
+@@ -225,13 +225,19 @@
+       String string0 = defaultDBTable0.getDoc();
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable();
+-      defaultDBTable0.setDoc("x");
+-      assertEquals("x", defaultDBTable0.getDoc());
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        DefaultDBTable defaultDBTable0 = new DefaultDBTable();
++        // Verify setter/getter works
++        defaultDBTable0.setDoc("x");
++        assertEquals("x", defaultDBTable0.getDoc());
++
++        // Add a column to exercise non‑trivial behavior and verify the side effect
++        DBColumn column = new DBColumn("c1", java.sql.Types.INTEGER, 10);
++        defaultDBTable0.addColumn(column);
++        assertNotNull("Column should be retrievable after addition", defaultDBTable0.getColumn("c1"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

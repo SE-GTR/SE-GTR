@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/assembly/DefaultContig_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/assembly/DefaultContig_ESTest.java
+@@ -79,14 +79,19 @@
+       boolean boolean0 = defaultContig0.equals(defaultContig_Builder0);
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      DefaultContig.Builder defaultContig_Builder0 = new DefaultContig.Builder("", "");
+-      DefaultContig<AssembledRead> defaultContig0 = defaultContig_Builder0.build();
+-      boolean boolean0 = defaultContig0.equals((Object) null);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    DefaultContig.Builder builder = new DefaultContig.Builder("", "");
++    DefaultContig<AssembledRead> contig = builder.build();
++
++    // The contig should not be equal to null
++    assertFalse(contig.equals(null));
++
++    // Two contigs built with the same parameters should be equal
++    DefaultContig<AssembledRead> another = new DefaultContig.Builder("", "").build();
++    assertEquals(contig, another);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

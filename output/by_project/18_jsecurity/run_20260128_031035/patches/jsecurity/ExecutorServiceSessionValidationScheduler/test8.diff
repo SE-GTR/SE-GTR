@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/ExecutorServiceSessionValidationScheduler_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/ExecutorServiceSessionValidationScheduler_ESTest.java
+@@ -385,12 +385,27 @@
+       boolean boolean0 = executorServiceSessionValidationScheduler0.isEnabled();
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-      ExecutorServiceSessionValidationScheduler executorServiceSessionValidationScheduler0 = new ExecutorServiceSessionValidationScheduler();
+-      executorServiceSessionValidationScheduler0.setInterval((-1530L));
+-      long long0 = executorServiceSessionValidationScheduler0.getInterval();
+-      assertEquals((-1530L), long0);
+-  }
++@Test(timeout = 4000)
++  public void test8() throws Throwable {
++      ExecutorServiceSessionValidationScheduler scheduler = new ExecutorServiceSessionValidationScheduler();
++      // Verify default state before any configuration
++      assertFalse(scheduler.isEnabled());
++
++      // Set a custom interval and verify it is stored correctly
++      scheduler.setInterval(1234L);
++      assertEquals(1234L, scheduler.getInterval());
++
++      // Provide a simple session manager implementation required for enabling validation
++      org.jsecurity.session.mgt.DefaultSessionManager sessionManager = new org.jsecurity.session.mgt.DefaultSessionManager();
++      scheduler.setSessionManager(sessionManager);
++
++      // Enable the scheduler and verify that it reports being enabled
++      scheduler.enableSessionValidation();
++      assertTrue(scheduler.isEnabled());
++
++      // Disable the scheduler and verify that it reports being disabled
++      scheduler.disableSessionValidation();
++      assertFalse(scheduler.isEnabled());
++  }
++
+ }

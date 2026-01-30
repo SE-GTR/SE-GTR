@@ -1,0 +1,55 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/config/HL7ConfigurationImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/config/HL7ConfigurationImpl_ESTest.java
+@@ -37,20 +37,38 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class HL7ConfigurationImpl_ESTest extends HL7ConfigurationImpl_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      HL7ConfigurationImpl hL7ConfigurationImpl0 = new HL7ConfigurationImpl();
+-      HL7SegmentImpl hL7SegmentImpl0 = new HL7SegmentImpl();
+-      HL7FieldListImpl hL7FieldListImpl0 = new HL7FieldListImpl();
+-      HL7FieldImpl hL7FieldImpl0 = new HL7FieldImpl();
+-      hL7FieldListImpl0.addItem(hL7FieldImpl0);
+-      hL7SegmentImpl0.setFields(hL7FieldListImpl0);
+-      HL7SegmentMapImpl hL7SegmentMapImpl0 = new HL7SegmentMapImpl();
+-      hL7SegmentMapImpl0.addItem(hL7SegmentImpl0);
+-      hL7ConfigurationImpl0.setSegments(hL7SegmentMapImpl0);
+-      hL7ConfigurationImpl0.connectConfigurations();
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        HL7ConfigurationImpl hL7ConfigurationImpl0 = new HL7ConfigurationImpl();
++        HL7SegmentImpl hL7SegmentImpl0 = new HL7SegmentImpl();
++        HL7FieldListImpl hL7FieldListImpl0 = new HL7FieldListImpl();
++        HL7FieldImpl hL7FieldImpl0 = new HL7FieldImpl();
++
++        // Verify that adding a field changes the field list size
++        int beforeFieldListSize = hL7FieldListImpl0.size();
++        hL7FieldListImpl0.addItem(hL7FieldImpl0);
++        assertEquals(beforeFieldListSize + 1, hL7FieldListImpl0.size());
++
++        // Verify that setting fields on a segment stores the same list instance
++        hL7SegmentImpl0.setFields(hL7FieldListImpl0);
++        assertSame(hL7FieldListImpl0, hL7SegmentImpl0.getFields());
++
++        HL7SegmentMapImpl hL7SegmentMapImpl0 = new HL7SegmentMapImpl();
++
++        // Verify that adding a segment changes the segment map size
++        int beforeSegmentMapSize = hL7SegmentMapImpl0.size();
++        hL7SegmentMapImpl0.addItem(hL7SegmentImpl0);
++        assertEquals(beforeSegmentMapSize + 1, hL7SegmentMapImpl0.size());
++
++        // Verify that setting the segment map on the configuration stores the same instance
++        hL7ConfigurationImpl0.setSegments(hL7SegmentMapImpl0);
++        assertSame(hL7SegmentMapImpl0, hL7ConfigurationImpl0.getSegments());
++
++        // Connect configurations and ensure the segments are still present
++        hL7ConfigurationImpl0.connectConfigurations();
++        assertNotNull(hL7ConfigurationImpl0.getSegments());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

@@ -1,0 +1,48 @@
+--- a/evosuite-tests/client/view/GameView_ESTest.java
++++ b/evosuite-tests/client/view/GameView_ESTest.java
+@@ -111,15 +111,14 @@
+         verifyException("client.view.PowerUpView", e);
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test02()  throws Throwable  {
+       GameCanvas gameCanvas0 = new GameCanvas(1, 1);
+       GameView gameView0 = new GameView(gameCanvas0);
+       Point point0 = new Point();
+       Rectangle rectangle0 = new Rectangle(0, 800, 3304, 60);
+-      gameCanvas0.getBounds(rectangle0);
++      Rectangle bounds = gameCanvas0.getBounds(rectangle0);
++      assertSame(rectangle0, bounds);
+       Player player0 = new Player(point0);
+       Point point1 = new Point(point0);
+       Point point2 = new Point();
+@@ -130,7 +129,8 @@
+       Bomb bomb1 = new Bomb(point2, gameObject0);
+       bomb0.updateMovement(point2);
+       PowerUpView powerUpView0 = new PowerUpView(gameObject0, gfxFactory0);
+-      gameView0.addGameObjectView(playerView0);
++      boolean added = gameView0.addGameObjectView(playerView0);
++      assertTrue(added);
+       Point point3 = new Point(point2);
+       Bomb bomb2 = new Bomb(point0);
+       GfxFactory gfxFactory1 = new GfxFactory();
+@@ -139,7 +139,7 @@
+       try { 
+         gameView0.paint();
+         fail("Expecting exception: ClassCastException");
+-      
++
+       } catch(ClassCastException e) {
+          //
+          // common.Player cannot be cast to client.ClientPlayer
+@@ -147,6 +147,7 @@
+          verifyException("client.view.PlayerView", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

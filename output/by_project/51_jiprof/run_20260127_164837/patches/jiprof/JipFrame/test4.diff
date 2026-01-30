@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/tivo/jipviewer/JipFrame_ESTest.java
++++ b/evosuite-tests/com/tivo/jipviewer/JipFrame_ESTest.java
+@@ -49,15 +49,19 @@
+         assertFalse(jipFrame0.isReentrant());
+         assertTrue(jipFrame1.isReentrant());
+     }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        JipMethod jipMethod0 = new JipMethod("r@Y%p`|");
++        JipFrame parent = new JipFrame((JipFrame) null, jipMethod0, 1L, 1L, 1L);
++        List<JipFrame> children = parent.getChildren();
++        assertTrue(children.isEmpty());
+ 
++        JipMethod childMethod = new JipMethod("child");
++        JipFrame child = new JipFrame(parent, childMethod, 2L, 1L, 1L);
++        List<JipFrame> updatedChildren = parent.getChildren();
++        assertTrue(updatedChildren.contains(child));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      JipMethod jipMethod0 = new JipMethod("r@Y%p`|");
+-      JipFrame jipFrame0 = new JipFrame((JipFrame) null, jipMethod0, 1L, 1L, 1L);
+-      List<JipFrame> list0 = jipFrame0.getChildren();
+-      assertFalse(list0.contains(jipFrame0));
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

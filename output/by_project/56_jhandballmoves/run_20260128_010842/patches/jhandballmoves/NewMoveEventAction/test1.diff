@@ -1,0 +1,33 @@
+--- a/evosuite-tests/visu/handball/moves/actions/NewMoveEventAction_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/actions/NewMoveEventAction_ESTest.java
+@@ -35,16 +35,22 @@
+     newMoveEventAction0.modelChanged();
+     assertTrue(newMoveEventAction0.isEnabled());
+ }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    HandballModel handballModel0 = new HandballModel();
++    HandballModel.State handballModel_State0 = HandballModel.State.EDIT;
++    handballModel0.setState(handballModel_State0);
++    // Verify that setState correctly updates the model's state
++    assertEquals(handballModel_State0, handballModel0.getState());
+ 
++    NewMoveEventAction newMoveEventAction0 = new NewMoveEventAction(handballModel0);
++    // Capture the state before invoking modelChanged
++    HandballModel.State beforeState = handballModel0.getState();
++    newMoveEventAction0.modelChanged();
++    // Ensure that modelChanged does not unintentionally modify the model's state
++    assertEquals(beforeState, handballModel0.getState());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      HandballModel.State handballModel_State0 = HandballModel.State.EDIT;
+-      handballModel0.setState(handballModel_State0);
+-      NewMoveEventAction newMoveEventAction0 = new NewMoveEventAction(handballModel0);
+-      newMoveEventAction0.modelChanged();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

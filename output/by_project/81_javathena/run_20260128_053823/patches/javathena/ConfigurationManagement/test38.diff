@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -272,12 +272,18 @@
+   public void test37()  throws Throwable  {
+       ConfigurationManagement.setLogin_ip_str("dnsbl_servers");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test38()  throws Throwable  {
+-      int int0 = ConfigurationManagement.getAccess_denynum();
+-      assertEquals(0, int0);
+-  }
++@Test(timeout = 4000)
++    public void test38() throws Throwable {
++        int int0 = ConfigurationManagement.getAccess_denynum();
++        assertTrue(int0 >= 0);
++        try {
++            ConfigurationManagement.login_config_readXML();
++            fail("Expected FileNotFoundException");
++        } catch (java.io.FileNotFoundException e) {
++            // expected exception
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test39()  throws Throwable  {

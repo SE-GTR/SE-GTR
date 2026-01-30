@@ -1,0 +1,33 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
+@@ -331,14 +331,22 @@
+     assertNull(dependentLocalityType0.getPostBox());
+     assertNull(dependentLocalityType0.getType());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test31()  throws Throwable  {
+-    dependentLocalityType0 = new DependentLocalityType();
+-      dependentLocalityType0.setThoroughfare((Thoroughfare) null);
+-      assertNull(dependentLocalityType0.getUsageType());
+-  }
++@Test(timeout = 4000)
++    public void test31() throws Throwable {
++        dependentLocalityType0 = new DependentLocalityType();
++        // Set thoroughfare to null and verify the effect
++        dependentLocalityType0.setThoroughfare(null);
++        assertNull(dependentLocalityType0.getThoroughfare());
++
++        // Verify default value of usageType
++        assertNull(dependentLocalityType0.getUsageType());
++
++        // Exercise a non‑trivial behavior: modify the live addressLine list
++        int beforeSize = dependentLocalityType0.getAddressLine().size();
++        dependentLocalityType0.getAddressLine().add(new AddressLine());
++        assertEquals(beforeSize + 1, dependentLocalityType0.getAddressLine().size());
++    }
++
+ @Test(timeout = 4000)
+ public void test32() throws Throwable {
+     DependentLocalityType dependentLocalityType0 = new DependentLocalityType();

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -437,17 +437,24 @@
+     }
+ @Test(timeout = 4000)
+ public void test041() throws Throwable {
++    // First instance with a specific type
+     AddressDetails.PostalServiceElements.SupplementaryPostalServiceData data0 = new AddressDetails.PostalServiceElements.SupplementaryPostalServiceData();
+     data0.setType("oasis.names.tc.ciq.xsdschema.xal._2.Locality$LocalityName");
+     assertEquals("oasis.names.tc.ciq.xsdschema.xal._2.Locality$LocalityName", data0.getType());
+-
+-    // Create a second instance with a different type and verify that the two objects are not equal.
+-    AddressDetails.PostalServiceElements.SupplementaryPostalServiceData data1 = new AddressDetails.PostalServiceElements.SupplementaryPostalServiceData();
+-    data1.setType("differentType");
+-    assertNotEquals(data0, data1);
+-    // Also ensure that their hash codes differ, reinforcing the state change observation.
+-    assertNotEquals(data0.hashCode(), data1.hashCode());
+-}
++    int hash0 = data0.hashCode();
++
++    // Second instance with the same type should be equal and have the same hash code
++    AddressDetails.PostalServiceElements.SupplementaryPostalServiceData dataSame = new AddressDetails.PostalServiceElements.SupplementaryPostalServiceData();
++    dataSame.setType("oasis.names.tc.ciq.xsdschema.xal._2.Locality$LocalityName");
++    assertEquals(data0, dataSame);
++    assertEquals(hash0, dataSame.hashCode());
++
++    // Change the type of the second instance; now they should differ
++    dataSame.setType("differentType");
++    assertNotEquals(data0, dataSame);
++    assertNotEquals(hash0, dataSame.hashCode());
++}
++
+ 
+ @Test(timeout = 4000)
+   public void test042() throws Throwable {

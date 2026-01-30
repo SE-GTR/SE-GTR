@@ -1,0 +1,42 @@
+--- a/evosuite-tests/corina/util/UpdateFolder_ESTest.java
++++ b/evosuite-tests/corina/util/UpdateFolder_ESTest.java
+@@ -101,14 +101,32 @@
+       updateFolder0.run();
+       assertEquals(0, updateFolder0.getNumberDone());
+   }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    // Set up a source directory containing a single file
++    File srcDir = File.createTempFile("src", "dir");
++    srcDir.delete();
++    srcDir.mkdir();
++    File srcFile = new File(srcDir, "test.txt");
++    try (java.io.FileWriter fw = new java.io.FileWriter(srcFile)) {
++        fw.write("sample");
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("pP<(tP@JG?,z8^EEB", "pP<(tP@JG?,z8^EEB");
+-      UpdateFolder updateFolder0 = new UpdateFolder(file0, file0);
+-      updateFolder0.run();
+-      assertEquals(0, updateFolder0.getNumberDone());
+-  }
++    // Set up an empty destination directory
++    File destDir = File.createTempFile("dest", "dir");
++    destDir.delete();
++    destDir.mkdir();
++
++    // Exercise the code under test
++    UpdateFolder updateFolder = new UpdateFolder(srcDir, destDir);
++    updateFolder.run();
++
++    // Verify that the file was copied and the progress counter was updated
++    File copiedFile = new File(destDir, "test.txt");
++    assertTrue(copiedFile.exists());
++    assertEquals(1, updateFolder.getNumberDone());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

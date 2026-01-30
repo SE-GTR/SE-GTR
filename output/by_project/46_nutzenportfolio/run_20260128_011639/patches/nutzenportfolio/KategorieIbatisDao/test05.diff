@@ -1,0 +1,37 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/persistence/kategorie/KategorieIbatisDao_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/persistence/kategorie/KategorieIbatisDao_ESTest.java
+@@ -107,23 +107,17 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-    kategorieIbatisDao0 = new KategorieIbatisDao();
+-    kategorie0 = new Kategorie();
+-      // Undeclared exception!
+-      try { 
+-        kategorieIbatisDao0.insertAssignment(kategorie0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    kategorieIbatisDao0 = new KategorieIbatisDao();
++    com.ibatis.sqlmap.client.SqlMapClient mockClient = org.easymock.EasyMock.createNiceMock(com.ibatis.sqlmap.client.SqlMapClient.class);
++    org.easymock.EasyMock.replay(mockClient);
++    kategorieIbatisDao0.setSqlMapClient(mockClient);
++    kategorie0 = new Kategorie();
++    kategorieIbatisDao0.insertAssignment(kategorie0);
++    org.easymock.EasyMock.verify(mockClient);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

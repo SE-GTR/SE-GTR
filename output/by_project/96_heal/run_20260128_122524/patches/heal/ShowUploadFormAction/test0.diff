@@ -1,0 +1,53 @@
+--- a/evosuite-tests/org/heal/servlet/upload/ShowUploadFormAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/upload/ShowUploadFormAction_ESTest.java
+@@ -22,29 +22,28 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ShowUploadFormAction_ESTest extends ShowUploadFormAction_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    ShowUploadFormAction showUploadFormAction0 = new ShowUploadFormAction();
++    Servlet servlet0 = new Servlet();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ShowUploadFormAction showUploadFormAction0 = new ShowUploadFormAction();
+-      Servlet servlet0 = new Servlet();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("2eIV.az").when(httpServletRequest0).getParameter(anyString());
+-      doReturn(httpSession0, (HttpSession) null).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      // Undeclared exception!
+-      try { 
+-        showUploadFormAction0.perform(servlet0, httpServletRequestWrapper0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.upload.ShowUploadFormAction", e);
+-      }
+-  }
++    HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    when(httpSession0.getAttribute(anyString())).thenReturn(null);
++
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    when(httpServletRequest0.getParameter(anyString())).thenReturn("2eIV.az");
++    when(httpServletRequest0.getSession()).thenReturn(httpSession0);
++
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++
++    // Execute the action; no exception is expected with proper arguments
++    showUploadFormAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponse0);
++
++    // Verify that the request was used as expected
++    verify(httpServletRequest0, atLeastOnce()).getParameter(anyString());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

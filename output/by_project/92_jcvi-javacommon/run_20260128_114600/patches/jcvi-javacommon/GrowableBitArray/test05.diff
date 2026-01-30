@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/util/GrowableBitArray_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/util/GrowableBitArray_ESTest.java
+@@ -71,18 +71,23 @@
+          verifyException("org.jcvi.jillion.internal.core.util.GrowableBitArray", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      boolean[] booleanArray0 = new boolean[4];
+-      GrowableBitArray growableBitArray0 = new GrowableBitArray(booleanArray0);
+-      Range range0 = Range.of(0L);
+-      growableBitArray0.remove(range0);
+-      growableBitArray0.remove(range0);
+-      growableBitArray0.remove(range0);
+-      growableBitArray0.remove(range0);
+-      assertEquals(0, growableBitArray0.getCurrentLength());
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        boolean[] booleanArray0 = new boolean[4];
++        GrowableBitArray growableBitArray0 = new GrowableBitArray(booleanArray0);
++        // Verify initial length reflects the underlying array size
++        assertEquals(4, growableBitArray0.getCurrentLength());
++
++        Range range0 = Range.of(0L, 3L);
++        // First removal should clear the bits and reduce length to zero
++        growableBitArray0.remove(range0);
++        assertEquals(0, growableBitArray0.getCurrentLength());
++
++        // Subsequent removals on an already empty array should leave length unchanged
++        growableBitArray0.remove(range0);
++        assertEquals(0, growableBitArray0.getCurrentLength());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

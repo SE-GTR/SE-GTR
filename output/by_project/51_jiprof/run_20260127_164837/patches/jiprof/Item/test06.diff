@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
+@@ -117,17 +117,22 @@
+     boolean boolean0 = item1.isEqualTo(item0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      Item item0 = new Item(4);
+-      item0.set(14, ";j}jgh D~);VlAf4", ";j}jgh D~);VlAf4", ";j}jgh D~);VlAf4");
+-      Item item1 = new Item(14, item0);
+-      item1.set((-2079.6F));
+-      boolean boolean0 = item0.isEqualTo(item1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        Item item0 = new Item(4);
++        item0.set(14, ";j}jgh D~);VlAf4", ";j}jgh D~);VlAf4", ";j}jgh D~);VlAf4");
++        // Verify side effects of set on item0
++        assertEquals(14, item0.type);
++        assertEquals(";j}jgh D~);VlAf4", item0.strVal1);
++        assertEquals(";j}jgh D~);VlAf4", item0.strVal2);
++        assertEquals(";j}jgh D~);VlAf4", item0.strVal3);
++        assertNotEquals(0, item0.hashCode);
++        Item item1 = new Item(14, item0);
++        item1.set((-2079.6F));
++        boolean boolean0 = item0.isEqualTo(item1);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

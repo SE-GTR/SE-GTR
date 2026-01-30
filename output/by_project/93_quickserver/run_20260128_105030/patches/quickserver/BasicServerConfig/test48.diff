@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
+@@ -827,11 +827,20 @@
+       assertEquals((-1L), quickServerConfig0.getMaxConnection());
+       assertEquals("INFO", quickServerConfig0.getConsoleLoggingLevel());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test48()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test48() throws Throwable {
+       QSAdminServerConfig qSAdminServerConfig0 = new QSAdminServerConfig();
++      // Verify initial state (should be null or default)
++      String initialHandler = qSAdminServerConfig0.getClientExtendedEventHandler();
++      assertNull(initialHandler);
++
++      // Act: set the client extended event handler
+       qSAdminServerConfig0.setClientExtendedEventHandler(":CQs2v");
++
++      // Assert: the side‑effect is observable via the getter
++      assertEquals(":CQs2v", qSAdminServerConfig0.getClientExtendedEventHandler());
++
++      // Existing assertions to keep original coverage
+       assertEquals(5, qSAdminServerConfig0.getMaxAuthTry());
+       assertEquals(60000, qSAdminServerConfig0.getTimeout());
+       assertEquals(9877, qSAdminServerConfig0.getPort());
+@@ -842,6 +851,7 @@
+       assertEquals("-ERR Timeout", qSAdminServerConfig0.getTimeoutMsg());
+       assertEquals(1L, qSAdminServerConfig0.getMaxConnection());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test49()  throws Throwable  {

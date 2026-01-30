@@ -1,0 +1,36 @@
+--- a/evosuite-tests/de/beiri22/stringincrementor/StringIncrementor_ESTest.java
++++ b/evosuite-tests/de/beiri22/stringincrementor/StringIncrementor_ESTest.java
+@@ -37,21 +37,20 @@
+     } catch (StringIndexOutOfBoundsException e) {
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      RelativeString relativeString0 = StringIncrementor.diff("Creating index...", "Creating index...");
+-      StringLink stringLink0 = new StringLink(410, 410, 1048);
+-      relativeString0.addLink(stringLink0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    RelativeString relativeString0 = StringIncrementor.diff("Creating index...", "Creating index...");
++    StringLink stringLink0 = new StringLink(410, 410, 1048);
++    boolean added = relativeString0.addLink(stringLink0);
++    assertTrue("Link should be added successfully", added);
++    try {
+         StringIncrementor.patch("Creating index...", relativeString0);
+         fail("Expecting exception: StringIndexOutOfBoundsException");
+-      
+-      } catch(StringIndexOutOfBoundsException e) {
+-      }
+-  }
++    } catch (StringIndexOutOfBoundsException e) {
++        // expected
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,46 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/DirectoryPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/DirectoryPackager_ESTest.java
+@@ -68,26 +68,24 @@
+     directoryPackager0 = new DirectoryPackager();
+     directoryPackager0.createFileSec(mockFile0, null);
+ }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        MockFile mockFile0 = new MockFile("");
++        EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("echodepmets.xml");
++        boolean result = FileSystemHandling.appendLineToFile(evoSuiteFile0, "4\"^]");
++        assertTrue(result);
++        METSProfile.PackageType mETSProfile_PackageType0 = METSProfile.PackageType.DIP;
++        try {
++            DirectoryPackager.createHubPackage((File) mockFile0, mETSProfile_PackageType0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            //
++            // no message in exception (getMessage() returned null)
++            //
++            verifyException("org.apache.xmlbeans.impl.schema.SchemaTypeLoaderBase", e);
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("");
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("echodepmets.xml");
+-      FileSystemHandling.appendLineToFile(evoSuiteFile0, "4\"^]");
+-      METSProfile.PackageType mETSProfile_PackageType0 = METSProfile.PackageType.DIP;
+-      // Undeclared exception!
+-      try { 
+-        DirectoryPackager.createHubPackage((File) mockFile0, mETSProfile_PackageType0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.apache.xmlbeans.impl.schema.SchemaTypeLoaderBase", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

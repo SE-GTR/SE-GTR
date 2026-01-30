@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jsecurity/subject/DelegatingSubject_ESTest.java
++++ b/evosuite-tests/org/jsecurity/subject/DelegatingSubject_ESTest.java
+@@ -36,18 +36,19 @@
+       assertFalse(delegatingSubject0.isAuthenticated());
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
++    DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager(simpleAccountRealm0);
++    DelegatingSubject delegatingSubject0 = new DelegatingSubject(defaultSecurityManager0);
++    LinkedList<Locale.LanguageRange> linkedList0 = new LinkedList<>();
++    Locale.FilteringMode locale_FilteringMode0 = Locale.FilteringMode.REJECT_EXTENDED_RANGES;
++    List<String> list0 = Locale.filterTags(linkedList0, null, locale_FilteringMode0);
++    boolean[] rolesResult = delegatingSubject0.hasRoles(list0);
++    assertNotNull(rolesResult);
++    assertEquals(0, rolesResult.length);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager(simpleAccountRealm0);
+-      DelegatingSubject delegatingSubject0 = new DelegatingSubject(defaultSecurityManager0);
+-      LinkedList<Locale.LanguageRange> linkedList0 = new LinkedList<Locale.LanguageRange>();
+-      Locale.FilteringMode locale_FilteringMode0 = Locale.FilteringMode.REJECT_EXTENDED_RANGES;
+-      List<String> list0 = Locale.filterTags((List<Locale.LanguageRange>) linkedList0, (Collection<String>) null, locale_FilteringMode0);
+-      delegatingSubject0.hasRoles(list0);
+-      assertFalse(delegatingSubject0.isAuthenticated());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/eis/CachingSessionDAO_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/eis/CachingSessionDAO_ESTest.java
+@@ -95,14 +95,18 @@
+          verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
+-      memorySessionDAO0.setCacheManager((CacheManager) null);
+-      memorySessionDAO0.ensureUncached("jsecurity-activeSessionCache");
+-      assertEquals("jsecurity-activeSessionCache", memorySessionDAO0.getActiveSessionsCacheName());
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
++    // Verify initial state
++    assertNull(memorySessionDAO0.getCacheManager());
++    // Setting a null CacheManager should cause the DAO to create a default one
++    memorySessionDAO0.setCacheManager((CacheManager) null);
++    assertNotNull(memorySessionDAO0.getCacheManager());
++    memorySessionDAO0.ensureUncached("jsecurity-activeSessionCache");
++    assertEquals("jsecurity-activeSessionCache", memorySessionDAO0.getActiveSessionsCacheName());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

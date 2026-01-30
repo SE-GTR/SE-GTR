@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
+@@ -294,23 +294,30 @@
+       boolean boolean0 = context0.stringIsCompilableUnit("<E");
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      Parser parser0 = new Parser(compilerEnvirons0, (ErrorReporter) null);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = EvaluatorException.class)
++    public void test17() throws Throwable {
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        ErrorReporter errorReporter = new ErrorReporter() {
++            @Override
++            public void warning(String message, String sourceName, int line, String lineSource, int lineOffset) {
++                // no-op
++            }
++
++            @Override
++            public void error(String message, String sourceName, int line, String lineSource, int lineOffset) {
++                // no-op
++            }
++
++            @Override
++            public EvaluatorException runtimeError(String message, String sourceName, int line,
++                                                   String lineSource, int lineOffset) {
++                return new EvaluatorException(message);
++            }
++        };
++        Parser parser0 = new Parser(compilerEnvirons0, errorReporter);
+         parser0.parse("--", "--", 76);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.mozilla.javascript.Parser", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

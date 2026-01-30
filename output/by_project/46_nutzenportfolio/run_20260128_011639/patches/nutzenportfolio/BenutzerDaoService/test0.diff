@@ -1,0 +1,32 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/benutzer/BenutzerDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/benutzer/BenutzerDaoService_ESTest.java
+@@ -17,23 +17,13 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class BenutzerDaoService_ESTest extends BenutzerDaoService_ESTest_scaffolding {
++@Test(timeout = 4000, expected = IllegalArgumentException.class)
++    public void test0() throws Throwable {
++        BenutzerIbatisDao benutzerIbatisDao0 = new BenutzerIbatisDao();
++        BenutzerDaoService benutzerDaoService0 = new BenutzerDaoService(benutzerIbatisDao0);
++        benutzerDaoService0.deleteBenutzer(null);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      BenutzerIbatisDao benutzerIbatisDao0 = new BenutzerIbatisDao();
+-      BenutzerDaoService benutzerDaoService0 = new BenutzerDaoService(benutzerIbatisDao0);
+-      // Undeclared exception!
+-      try { 
+-        benutzerDaoService0.deleteBenutzer((Integer) null);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

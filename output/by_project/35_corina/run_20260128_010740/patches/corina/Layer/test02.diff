@@ -1,0 +1,42 @@
+--- a/evosuite-tests/corina/map/Layer_ESTest.java
++++ b/evosuite-tests/corina/map/Layer_ESTest.java
+@@ -53,16 +53,30 @@
+       gridlinesLayer0.update(projection0);
+       assertFalse(gridlinesLayer0.isDirty());
+   }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        GridlinesLayer gridlinesLayer0 = new GridlinesLayer();
++        // initial state: layer should not be drawable
++        assertTrue(gridlinesLayer0.noDraw());
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      GridlinesLayer gridlinesLayer0 = new GridlinesLayer();
+-      assertTrue(gridlinesLayer0.noDraw());
+-      
+-      gridlinesLayer0.setDirty(false);
+-      boolean boolean0 = gridlinesLayer0.noDraw();
+-      assertFalse(boolean0);
+-  }
++        // capture the initial dirty flag (expected to be false in a fresh layer)
++        boolean initialDirty = gridlinesLayer0.isDirty();
++
++        // invoke the method under test
++        gridlinesLayer0.setDirty(false);
++
++        // verify that the dirty flag reflects the argument passed
++        assertFalse(gridlinesLayer0.isDirty());
++
++        // verify that the noDraw flag has been updated accordingly
++        assertFalse(gridlinesLayer0.noDraw());
++
++        // ensure that the dirty flag changed from its initial value if it was true
++        if (initialDirty) {
++            assertFalse(gridlinesLayer0.isDirty());
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

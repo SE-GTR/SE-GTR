@@ -1,0 +1,33 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ProductDetails_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ProductDetails_ESTest.java
+@@ -225,15 +225,21 @@
+     assertEquals("Catalog - ", productDetails0.getProductName());
+     assertNull(productDetails0.getIsbn());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      ProductDetails productDetails0 = new ProductDetails();
+-      BrowseList browseList0 = productDetails0.getBrowseList();
+-      productDetails0.setBrowseList(browseList0);
+-      assertNull(productDetails0.getNumberOfItems());
+-  }
++@Test(timeout = 4000)
++public void test23() throws Throwable {
++    ProductDetails productDetails0 = new ProductDetails();
++    // Verify initial state
++    assertNull(productDetails0.getNumberOfItems());
++
++    // Exercise setter and verify side‑effect via getter
++    BrowseList newList = new BrowseList();
++    productDetails0.setBrowseList(newList);
++    assertSame(newList, productDetails0.getBrowseList());
++
++    // Ensure other fields remain unchanged
++    assertNull(productDetails0.getNumberOfItems());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

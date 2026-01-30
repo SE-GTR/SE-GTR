@@ -1,0 +1,43 @@
+--- a/evosuite-tests/net/sf/xbus/tools/ConfigSearcher_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/tools/ConfigSearcher_ESTest.java
+@@ -22,25 +22,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ConfigSearcher_ESTest extends ConfigSearcher_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        MockFile mockFile0 = new MockFile("1C0mntCVS.jaa.java", "1C0mntCVS.jaa.java");
++        File tempFile = MockFile.createTempFile("1C0mntCVS.jaa.java", "1C0mntCVS.jaa.java", (File) mockFile0);
++        assertNotNull(tempFile);
++        boolean shouldThrow = FileSystemHandling.shouldAllThrowIOExceptions();
++        assertFalse(shouldThrow);
++        ConfigSearcher configSearcher0 = new ConfigSearcher();
++        try {
++            configSearcher0.getEntriesFromDirectory(mockFile0);
++            fail("Expecting exception: System.SystemExitException");
++        } catch (System.SystemExitException e) {
++            verifyException("org.evosuite.runtime.System", e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("1C0mntCVS.jaa.java", "1C0mntCVS.jaa.java");
+-      MockFile.createTempFile("1C0mntCVS.jaa.java", "1C0mntCVS.jaa.java", (File) mockFile0);
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-      ConfigSearcher configSearcher0 = new ConfigSearcher();
+-      // Undeclared exception!
+-      try { 
+-        configSearcher0.getEntriesFromDirectory(mockFile0);
+-        fail("Expecting exception: System.SystemExitException");
+-      
+-      } catch(System.SystemExitException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.System", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

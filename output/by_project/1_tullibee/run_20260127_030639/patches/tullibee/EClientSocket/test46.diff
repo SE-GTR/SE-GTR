@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/ib/client/EClientSocket_ESTest.java
++++ b/evosuite-tests/com/ib/client/EClientSocket_ESTest.java
+@@ -674,23 +674,14 @@
+         eClientSocket0 = new EClientSocket();
+         eClientSocket0.createDataOutputStream((Socket) null);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test46()  throws Throwable  {
+-    eClientSocket0 = new EClientSocket();
+-      // Undeclared exception!
+-      try { 
+-        eClientSocket0.createEException(1, (EClientErrors.CodeMsgPair) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.ib.client.EException", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test46() throws Throwable {
++        eClientSocket0 = new EClientSocket();
++        EClientErrors.CodeMsgPair pair = new EClientErrors.CodeMsgPair(1, "test message");
++        EException exception = eClientSocket0.createEException(1, pair);
++        assertNotNull(exception);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test47()  throws Throwable  {

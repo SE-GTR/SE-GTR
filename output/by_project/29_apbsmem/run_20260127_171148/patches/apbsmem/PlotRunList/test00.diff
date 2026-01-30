@@ -1,0 +1,38 @@
+--- a/evosuite-tests/jahuwaldt/plot/PlotRunList_ESTest.java
++++ b/evosuite-tests/jahuwaldt/plot/PlotRunList_ESTest.java
+@@ -26,23 +26,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class PlotRunList_ESTest extends PlotRunList_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      PlotRun[] plotRunArray0 = new PlotRun[6];
+-      PlotRunList plotRunList0 = new PlotRunList(plotRunArray0);
+-      // Undeclared exception!
+-      try { 
+-        plotRunList0.clone();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jahuwaldt.plot.PlotRunList", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    PlotRun[] plotRunArray0 = new PlotRun[6];
++    for (int i = 0; i < plotRunArray0.length; i++) {
++        plotRunArray0[i] = new PlotRun();
++    }
++    PlotRunList plotRunList0 = new PlotRunList(plotRunArray0);
++    PlotRunList cloned = (PlotRunList) plotRunList0.clone();
++    assertNotNull(cloned);
++    assertNotSame(plotRunList0, cloned);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/net/sf/sugar/fspath/FSPathResultModificationListImpl_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/fspath/FSPathResultModificationListImpl_ESTest.java
+@@ -72,16 +72,19 @@
+       FSPathResultList fSPathResultList0 = fSPathResultModificationListImpl0.getSuccesses();
+       assertEquals(0, fSPathResultList0.size());
+   }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    FSPathResultModificationListImpl list = new FSPathResultModificationListImpl();
++    URI uri = MockURI.aHttpURI;
++    FSPathResult result = new FSPathResult(uri);
++    int sizeBefore = list.size();
++    list.addFailure(result);
++    int sizeAfter = list.size();
++    assertTrue(list.hasFailures());
++    assertEquals(sizeBefore + 1, sizeAfter);
++    assertTrue(list.contains(result));
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      FSPathResultModificationListImpl fSPathResultModificationListImpl0 = new FSPathResultModificationListImpl();
+-      URI uRI0 = MockURI.aHttpURI;
+-      FSPathResult fSPathResult0 = new FSPathResult(uRI0);
+-      fSPathResultModificationListImpl0.addFailure(fSPathResult0);
+-      boolean boolean0 = fSPathResultModificationListImpl0.hasFailures();
+-      assertTrue(boolean0);
+-  }
+ @Test(timeout = 4000)
+     public void test5() throws Throwable {
+         FSPathResultModificationListImpl list = new FSPathResultModificationListImpl();

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
+@@ -91,14 +91,20 @@
+     // Optionally, the hash code may change after setting the name
+     // but we only assert consistency of repeated calls
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      J2EEThread j2EEThread0 = new J2EEThread();
+-      j2EEThread0.setSubtask("|fFaUbZ");
+-      j2EEThread0.hashCode();
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        J2EEThread j2EEThread0 = new J2EEThread();
++        String expectedSubtask = "|fFaUbZ\"";
++        // Set subtask and verify side‑effect via getter
++        j2EEThread0.setSubtask(expectedSubtask);
++        assertEquals(expectedSubtask, j2EEThread0.getSubtask());
++
++        // Verify that hashCode is stable after the mutation
++        int hashBefore = j2EEThread0.hashCode();
++        int hashAfter = j2EEThread0.hashCode();
++        assertEquals(hashBefore, hashAfter);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/OncePerRequestFilter_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/OncePerRequestFilter_ESTest.java
+@@ -70,22 +70,20 @@
+       String string0 = jSecurityFilter0.getAlreadyFilteredAttributeName();
+       assertEquals(".FILTERED", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
+     jSecurityFilter0 = new JSecurityFilter();
+     servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((FilterChain) null).when(servletRequest0).getAttribute(anyString());
+-      // Undeclared exception!
+-      try { 
+-        jSecurityFilter0.doFilter(servletRequest0, (ServletResponse) null, (FilterChain) null);
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // org.evosuite.shaded.org.mockito.codegen.ServletRequest$MockitoMock$61455671 cannot be cast to javax.servlet.http.HttpServletRequest
+-         //
+-         verifyException("org.jsecurity.web.servlet.JSecurityFilter", e);
+-      }
++    // Undeclared exception!
++    try {
++      jSecurityFilter0.doFilter(servletRequest0, (ServletResponse) null, (FilterChain) null);
++      fail("Expecting exception: ClassCastException");
++    } catch (ClassCastException e) {
++      //
++      // org.evosuite.shaded.org.mockito.codegen.ServletRequest$MockitoMock$61455671 cannot be cast to javax.servlet.http.HttpServletRequest
++      //
++      verifyException("org.jsecurity.web.servlet.JSecurityFilter", e);
++    }
+   }
++
+ }

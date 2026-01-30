@@ -1,0 +1,108 @@
+--- a/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
+@@ -3971,69 +3971,44 @@
+         Float float0 = Float.valueOf(810f);
+         assertEquals(810f, float0.floatValue(), 0.01f);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test68()  throws Throwable  {
+-      RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      
+-      RealGrayImage realGrayImage1 = realGrayImage0.copy();
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0, realGrayImage1.X());
+-      assertEquals(0.0F, realGrayImage1.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage1.Y());
+-      assertEquals(0.0, realGrayImage1.sqrSum(), 0.01);
+-      assertEquals(32767.0F, realGrayImage1.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage1.max(), 0.01F);
+-      assertEquals(0.0F, realGrayImage1.addSum(), 0.01F);
+-      assertNotSame(realGrayImage0, realGrayImage1);
+-      assertNotSame(realGrayImage1, realGrayImage0);
+-      assertFalse(realGrayImage1.equals((Object)realGrayImage0));
+-      
+-      RealGrayImage realGrayImage2 = new RealGrayImage(0, 0);
+-      assertEquals(0.0F, realGrayImage2.addSum(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage2.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage2.max(), 0.01F);
+-      assertEquals(0.0, realGrayImage2.sqrSum(), 0.01);
+-      assertEquals(0, realGrayImage2.X());
+-      assertEquals(0.0F, realGrayImage2.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage2.Y());
+-      assertFalse(realGrayImage2.equals((Object)realGrayImage1));
+-      assertFalse(realGrayImage2.equals((Object)realGrayImage0));
+-      
+-      ROI rOI0 = new ROI();
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(1, rOI0.Y());
+-      
+-      // Undeclared exception!
+-      try { 
+-        realGrayImage1.clip(2, 0, rOI0);
+-        fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // 0
+-         //
+-         verifyException("jigl.image.types.RealGrayImage", e);
++@Test(timeout = 4000)
++  public void test68() throws Throwable {
++      RealGrayImage img0 = new RealGrayImage(0, 0);
++      // Minimal initialization checks
++      assertEquals(0, img0.X());
++      assertEquals(0, img0.Y());
++      assertEquals(0.0F, img0.absSum(), 0.01F);
++      assertEquals(32767.0F, img0.min(), 0.01F);
++      assertEquals((-32768.0F), img0.max(), 0.01F);
++
++      RealGrayImage img1 = img0.copy();
++      // Verify copy is a distinct object with the same dimensions
++      assertNotSame(img0, img1);
++      assertEquals(img0.X(), img1.X());
++      assertEquals(img0.Y(), img1.Y());
++      // Equality should be based on identity
++      assertFalse(img1.equals((Object) img0));
++
++      RealGrayImage img2 = new RealGrayImage(0, 0);
++      // Ensure new instance is distinct from previous ones
++      assertNotSame(img0, img2);
++      assertFalse(img2.equals((Object) img0));
++      assertFalse(img2.equals((Object) img1));
++
++      ROI roi0 = new ROI();
++      // Minimal ROI default checks
++      assertEquals(0, roi0.lx());
++      assertEquals(0, roi0.ly());
++
++      // Expect exception when clipping with out‑of‑bounds parameters
++      try {
++          img1.clip(2, 0, roi0);
++          fail("Expecting exception: ArrayIndexOutOfBoundsException");
++      } catch (ArrayIndexOutOfBoundsException e) {
++          verifyException("jigl.image.types.RealGrayImage", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test69()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/scf/header/pos/BytePositionStrategy_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/scf/header/pos/BytePositionStrategy_ESTest.java
+@@ -49,13 +49,21 @@
+          verifyException("org.jcvi.jillion.internal.trace.chromat.scf.header.pos.BytePositionStrategy", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    BytePositionStrategy strategy = new BytePositionStrategy();
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      BytePositionStrategy bytePositionStrategy0 = new BytePositionStrategy();
+-      int int0 = bytePositionStrategy0.getMaxAllowedValue();
+-      assertEquals(127, int0);
+-  }
++    // Verify the maximum allowed value defined by the strategy
++    assertEquals(127, strategy.getMaxAllowedValue());
++
++    // Encode a valid position and verify that decoding yields the original value
++    int original = 42;
++    int encoded = strategy.encodePosition(original);
++    assertEquals(original, encoded);
++    int decoded = strategy.decodePosition(encoded);
++    assertEquals(original, decoded);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

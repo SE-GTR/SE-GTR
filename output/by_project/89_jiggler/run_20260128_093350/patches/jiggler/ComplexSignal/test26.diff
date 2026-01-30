@@ -1,0 +1,39 @@
+--- a/evosuite-tests/jigl/signal/ComplexSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/ComplexSignal_ESTest.java
+@@ -233,22 +233,20 @@
+       RealSignal realSignal0 = complexSignal0.power();
+       assertEquals(32767.0F, realSignal0.min(), 0.01F);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      ComplexSignal complexSignal0 = new ComplexSignal();
+-      // Undeclared exception!
+-      try { 
+-        complexSignal0.set(0, (-2214.0F), (-1.0F));
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.signal.ComplexSignal", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        ComplexSignal complexSignal0 = new ComplexSignal();
++        // initialise the internal real and imaginary signals
++        complexSignal0.real = new RealSignal(1);
++        complexSignal0.imag = new RealSignal(1);
++        complexSignal0.length = 1;
++        // exercise the method under normal conditions
++        complexSignal0.set(0, -2214.0F, -1.0F);
++        // verify that the values were stored correctly
++        assertEquals(-2214.0F, complexSignal0.real.get(0), 0.0f);
++        assertEquals(-1.0F, complexSignal0.imag.get(0), 0.0f);
++    }
++
+ @Test(expected = NullPointerException.class, timeout = 4000)
+     public void test27() {
+         ComplexSignal complexSignal0 = new ComplexSignal();

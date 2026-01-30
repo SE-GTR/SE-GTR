@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
+@@ -67,15 +67,14 @@
+          verifyException("org.quickserver.net.client.BlockingClient", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      byte[] byteArray0 = new byte[1];
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0, 0, (byte)10);
+-      BufferedInputStream bufferedInputStream0 = new BufferedInputStream(byteArrayInputStream0, 442);
+-      byte[] byteArray1 = BlockingClient.readInputStream((InputStream) bufferedInputStream0, 0);
+-      assertEquals(0, byteArray1.length);
+-  }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    byte[] empty = new byte[0];
++    InputStream in = new ByteArrayInputStream(empty);
++    byte[] result = BlockingClient.readInputStream(in, 0);
++    assertArrayEquals(empty, result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

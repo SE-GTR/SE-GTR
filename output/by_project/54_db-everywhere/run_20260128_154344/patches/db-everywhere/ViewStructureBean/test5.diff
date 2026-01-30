@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ViewStructureBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ViewStructureBean_ESTest.java
+@@ -50,12 +50,25 @@
+       viewStructureBean0.setViewName("");
+       assertEquals("", viewStructureBean0.getViewName());
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        ViewStructureBean bean = new ViewStructureBean();
++        // Verify initial state
++        assertEquals("", bean.getViewName());
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      ViewStructureBean viewStructureBean0 = new ViewStructureBean();
+-      ArrayList<Object> arrayList0 = new ArrayList<Object>();
+-      viewStructureBean0.setColumns(arrayList0);
+-      assertEquals("", viewStructureBean0.getViewName());
+-  }
++        // Prepare a columns list with a single element
++        ArrayList<Object> cols = new ArrayList<>();
++        Object element = new Object();
++        cols.add(element);
++
++        // Apply the side‑effecting operation
++        bean.setColumns(cols);
++
++        // Observe the effect through the public API
++        assertNotNull(bean.getColumns());
++        assertSame(cols, bean.getColumns());
++        assertEquals(1, bean.getColumns().size());
++        assertSame(element, bean.getColumns().get(0));
++    }
++
+ }

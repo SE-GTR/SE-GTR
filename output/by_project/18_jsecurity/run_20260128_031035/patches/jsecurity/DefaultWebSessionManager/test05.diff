@@ -1,0 +1,100 @@
+--- a/evosuite-tests/org/jsecurity/web/session/DefaultWebSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/session/DefaultWebSessionManager_ESTest.java
+@@ -208,57 +208,48 @@
+          verifyException("org.jsecurity.web.WebUtils", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      DefaultWebSessionManager defaultWebSessionManager0 = new DefaultWebSessionManager();
+-      assertEquals(1800000L, AbstractValidatingSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT);
+-      assertEquals(3600000L, AbstractValidatingSessionManager.DEFAULT_SESSION_VALIDATION_INTERVAL);
+-      assertEquals(3600000L, defaultWebSessionManager0.getSessionValidationInterval());
+-      assertTrue(defaultWebSessionManager0.isSessionValidationSchedulerEnabled());
+-      assertEquals(1800000L, defaultWebSessionManager0.getGlobalSessionTimeout());
+-      assertFalse(defaultWebSessionManager0.isValidateRequestOrigin());
+-      
+-      defaultWebSessionManager0.ensureRequestParamSessionIdStore();
+-      assertEquals(1800000L, AbstractValidatingSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT);
+-      assertEquals(3600000L, AbstractValidatingSessionManager.DEFAULT_SESSION_VALIDATION_INTERVAL);
+-      assertEquals(3600000L, defaultWebSessionManager0.getSessionValidationInterval());
+-      assertTrue(defaultWebSessionManager0.isSessionValidationSchedulerEnabled());
+-      assertEquals(1800000L, defaultWebSessionManager0.getGlobalSessionTimeout());
+-      assertFalse(defaultWebSessionManager0.isValidateRequestOrigin());
+-      
+-      ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+-      ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
+-      
+-      ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
+-      ServletResponseWrapper servletResponseWrapper0 = new ServletResponseWrapper(servletResponse0);
+-      
+-      InetAddress inetAddress0 = MockInetAddress.getLocalHost();
+-      assertEquals("192.168.1.42", inetAddress0.getHostAddress());
+-      assertFalse(inetAddress0.isLinkLocalAddress());
+-      assertFalse(inetAddress0.isAnyLocalAddress());
+-      assertFalse(inetAddress0.isMCGlobal());
+-      assertFalse(inetAddress0.isMCLinkLocal());
+-      assertTrue(inetAddress0.isSiteLocalAddress());
+-      assertFalse(inetAddress0.isMCNodeLocal());
+-      assertFalse(inetAddress0.isLoopbackAddress());
+-      assertFalse(inetAddress0.isMCSiteLocal());
+-      assertFalse(inetAddress0.isMulticastAddress());
+-      assertFalse(inetAddress0.isMCOrgLocal());
+-      assertEquals("/192.168.1.42", inetAddress0.toString());
+-      
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    DefaultWebSessionManager defaultWebSessionManager0 = new DefaultWebSessionManager();
++    assertEquals(3600000L, defaultWebSessionManager0.getSessionValidationInterval());
++    assertTrue(defaultWebSessionManager0.isSessionValidationSchedulerEnabled());
++    assertEquals(1800000L, defaultWebSessionManager0.getGlobalSessionTimeout());
++    assertFalse(defaultWebSessionManager0.isValidateRequestOrigin());
++
++    defaultWebSessionManager0.ensureRequestParamSessionIdStore();
++    assertEquals(3600000L, defaultWebSessionManager0.getSessionValidationInterval());
++    assertTrue(defaultWebSessionManager0.isSessionValidationSchedulerEnabled());
++    assertEquals(1800000L, defaultWebSessionManager0.getGlobalSessionTimeout());
++    assertFalse(defaultWebSessionManager0.isValidateRequestOrigin());
++
++    ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
++    ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
++
++    ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
++    ServletResponseWrapper servletResponseWrapper0 = new ServletResponseWrapper(servletResponse0);
++
++    InetAddress inetAddress0 = MockInetAddress.getLocalHost();
++    assertEquals("192.168.1.42", inetAddress0.getHostAddress());
++    assertFalse(inetAddress0.isLinkLocalAddress());
++    assertFalse(inetAddress0.isAnyLocalAddress());
++    assertFalse(inetAddress0.isMCGlobal());
++    assertFalse(inetAddress0.isMCLinkLocal());
++    assertTrue(inetAddress0.isSiteLocalAddress());
++    assertFalse(inetAddress0.isMCNodeLocal());
++    assertFalse(inetAddress0.isLoopbackAddress());
++    assertFalse(inetAddress0.isMCSiteLocal());
++    assertFalse(inetAddress0.isMulticastAddress());
++    assertFalse(inetAddress0.isMCOrgLocal());
++    assertEquals("/192.168.1.42", inetAddress0.toString());
++
++    try {
+         defaultWebSessionManager0.start((ServletRequest) servletRequestWrapper0, (ServletResponse) servletResponseWrapper0, inetAddress0);
+         fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // javax.servlet.ServletRequestWrapper cannot be cast to javax.servlet.http.HttpServletRequest
+-         //
+-         verifyException("org.jsecurity.web.WebUtils", e);
+-      }
+-  }
++    } catch (ClassCastException e) {
++        verifyException("org.jsecurity.web.WebUtils", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

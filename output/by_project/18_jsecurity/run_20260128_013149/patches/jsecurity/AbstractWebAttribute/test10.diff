@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/jsecurity/web/attr/AbstractWebAttribute_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/attr/AbstractWebAttribute_ESTest.java
+@@ -170,21 +170,29 @@
+          verifyException("java.beans.PropertyEditorSupport", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null, (String) null).when(servletRequest0).getParameter(anyString());
+-      ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
+-      ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
+-      ServletResponseWrapper servletResponseWrapper0 = new ServletResponseWrapper(servletResponse0);
+-      RequestParamAttribute<Object> requestParamAttribute0 = new RequestParamAttribute<Object>();
+-      assertFalse(requestParamAttribute0.isCheckRequestParams());
+-      
+-      requestParamAttribute0.setCheckRequestParams(true);
+-      requestParamAttribute0.retrieveValue(servletRequestWrapper0, servletResponseWrapper0);
+-      assertTrue(requestParamAttribute0.isCheckRequestParams());
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn((String) null, (String) null).when(servletRequest0).getParameter(anyString());
++        ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
++        ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
++        ServletResponseWrapper servletResponseWrapper0 = new ServletResponseWrapper(servletResponse0);
++        RequestParamAttribute<Object> requestParamAttribute0 = new RequestParamAttribute<Object>();
++        assertFalse(requestParamAttribute0.isCheckRequestParams());
++
++        // Verify setting to true
++        requestParamAttribute0.setCheckRequestParams(true);
++        assertTrue(requestParamAttribute0.isCheckRequestParams());
++
++        // Observe the effect of retrieveValue
++        Object retrieved = requestParamAttribute0.retrieveValue(servletRequestWrapper0, servletResponseWrapper0);
++        assertNull(retrieved);
++
++        // Verify setting back to false
++        requestParamAttribute0.setCheckRequestParams(false);
++        assertFalse(requestParamAttribute0.isCheckRequestParams());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/state/Party_ESTest.java
++++ b/evosuite-tests/state/Party_ESTest.java
+@@ -20,14 +20,29 @@
+         java.util.LinkedList<state.Party> sub = party0.getSubparty();
+         assertNotNull(sub);
+     }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    Party party0 = new Party();
+ 
++    // Verify initial state before removal
++    assertNull(party0.boss);
++    assertNull(party0.head);
++    assertNull(party0.next);
++    assertNull(party0.prev);
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Party party0 = new Party();
+-      party0.remove(party0);
+-      assertEquals((-1), party0.getId());
+-  }
++    // Perform the operation under test
++    party0.remove(party0);
++
++    // Verify side‑effects of the remove call
++    assertNull(party0.boss);
++    assertNull(party0.head);
++    assertNull(party0.next);
++    assertNull(party0.prev);
++
++    // Existing assertion on id
++    assertEquals(-1, party0.getId());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

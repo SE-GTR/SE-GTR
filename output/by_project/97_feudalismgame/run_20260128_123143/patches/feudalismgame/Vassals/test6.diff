@@ -1,0 +1,35 @@
+--- a/evosuite-tests/src/Vassals_ESTest.java
++++ b/evosuite-tests/src/Vassals_ESTest.java
+@@ -55,14 +55,26 @@
+     Vassals vassals0 = new Vassals("\"ge/R", "");
+     assertEquals("vassal", vassals0.getRank());
+ }
++@Test(timeout = 4000)
++public void test6() throws Throwable {
++    Vassals vassals0 = new Vassals();
++    // Verify the default rank directly
++    assertEquals("vassal", vassals0.getRank());
+ 
++    // Perform a non‑trivial operation (serialization round‑trip) and verify the rank persists
++    java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(bos);
++    out.writeObject(vassals0);
++    out.flush();
++    byte[] bytes = bos.toByteArray();
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      Vassals vassals0 = new Vassals();
+-      vassals0.setLord("$?F1>M\"XRi!#3");
+-      assertEquals("vassal", vassals0.getRank());
+-  }
++    java.io.ObjectInputStream in = new java.io.ObjectInputStream(
++            new java.io.ByteArrayInputStream(bytes));
++    Vassals deserialized = (Vassals) in.readObject();
++
++    assertEquals("vassal", deserialized.getRank());
++}
++
+ @Test(timeout = 4000)
+     public void test7() throws Throwable {
+         Vassals vassals0 = new Vassals();

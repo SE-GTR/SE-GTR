@@ -1,0 +1,38 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/DbAnalyzer_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/DbAnalyzer_ESTest.java
+@@ -192,24 +192,19 @@
+       List<ForeignKeyConstraint> list0 = DbAnalyzer.getForeignKeyConstraints(linkedList0);
+       assertNotNull(list0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      HashMap<String, Table> hashMap0 = new HashMap<String, Table>();
+-      hashMap0.put("~=KEz9%NXc</", (Table) null);
+-      // Undeclared exception!
+-      try { 
++public void test17() throws Throwable {
++    HashMap<String, Table> hashMap0 = new HashMap<String, Table>();
++    Table previous = hashMap0.put("~=KEz9%NXc</", null);
++    assertNull(previous);
++    try {
+         DbAnalyzer.getRailsConstraints(hashMap0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.schemaspy.DbAnalyzer", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        // no message in exception (getMessage() returned null)
++        verifyException("net.sourceforge.schemaspy.DbAnalyzer", e);
++    }
++}
++
+ @Test(timeout = 4000)
+ public void test18() throws Throwable {
+     List<RailsForeignKeyConstraint> list = DbAnalyzer.getRailsConstraints(java.util.Collections.emptyMap());

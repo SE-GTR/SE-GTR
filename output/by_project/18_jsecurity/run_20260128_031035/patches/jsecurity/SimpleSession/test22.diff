@@ -1,0 +1,23 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
+@@ -225,13 +225,17 @@
+          verifyException("org.jsecurity.session.mgt.SimpleSession", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test22() throws Throwable {
+       SimpleSession simpleSession0 = new SimpleSession();
+       Locale locale0 = Locale.JAPANESE;
++      // Verify initial state before setting the id
++      assertNull(simpleSession0.getId());
+       simpleSession0.setId(locale0);
++      // Observe the side effect of setId
++      assertEquals(locale0, simpleSession0.getId());
+       assertEquals(1800000L, simpleSession0.getTimeout());
+       assertTrue(simpleSession0.isValid());
+   }
++
+ }

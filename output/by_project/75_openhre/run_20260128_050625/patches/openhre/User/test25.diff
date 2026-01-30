@@ -1,0 +1,49 @@
+--- a/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
+@@ -280,22 +280,30 @@
+       user0.setPassrenewal("MPm");
+       assertFalse(user0.getPasschange());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-    user0 = new User();
+-      // Undeclared exception!
+-      try { 
+-        user0.hashCode();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.browsersoft.aacs.User", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        User user0 = new User();
++        // Initialize fields that hashCode depends on to avoid NullPointerException
++        java.lang.reflect.Field ipField = User.class.getDeclaredField("ipAddr");
++        ipField.setAccessible(true);
++        ipField.set(user0, "127.0.0.1");
++        java.lang.reflect.Field allowedIpsField = User.class.getDeclaredField("allowedips");
++        allowedIpsField.setAccessible(true);
++        allowedIpsField.set(user0, new java.util.HashSet<>());
++        java.lang.reflect.Field rolesField = User.class.getDeclaredField("roles");
++        rolesField.setAccessible(true);
++        rolesField.set(user0, new java.util.HashSet<>());
++        java.lang.reflect.Field groupsField = User.class.getDeclaredField("groups");
++        groupsField.setAccessible(true);
++        groupsField.set(user0, new java.util.HashSet<>());
++        java.lang.reflect.Field activeGroupsField = User.class.getDeclaredField("activegroups");
++        activeGroupsField.setAccessible(true);
++        activeGroupsField.set(user0, new java.util.HashSet<>());
++        int hash1 = user0.hashCode();
++        int hash2 = user0.hashCode();
++        org.junit.Assert.assertEquals(hash1, hash2);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

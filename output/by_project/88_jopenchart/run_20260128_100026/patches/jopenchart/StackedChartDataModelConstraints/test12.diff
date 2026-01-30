@@ -1,0 +1,42 @@
+--- a/evosuite-tests/de/progra/charting/model/StackedChartDataModelConstraints_ESTest.java
++++ b/evosuite-tests/de/progra/charting/model/StackedChartDataModelConstraints_ESTest.java
+@@ -185,27 +185,18 @@
+     Number number0 = stackedChartDataModelConstraints0.getMaximumValue();
+     assertEquals(Double.NaN, number0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      int[][] intArray0 = new int[5][4];
+-      String[] stringArray0 = new String[10];
+-      ObjectChartDataModel objectChartDataModel0 = new ObjectChartDataModel(intArray0, intArray0, stringArray0);
+-      objectChartDataModel0.setManualScale(true);
+-      StackedChartDataModelConstraints stackedChartDataModelConstraints0 = new StackedChartDataModelConstraints(objectChartDataModel0, (-24));
+-      // Undeclared exception!
+-      try { 
+-        stackedChartDataModelConstraints0.getMaximumValue();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.progra.charting.model.StackedChartDataModelConstraints", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        int[][] data = new int[][]{{1, 2, 3}, {4, 5, 6}};
++        String[] columnNames = new String[]{"A", "B", "C"};
++        ObjectChartDataModel model = new ObjectChartDataModel(data, data, columnNames);
++        model.setManualScale(true);
++        StackedChartDataModelConstraints constraints = new StackedChartDataModelConstraints(model, 0);
++        Number max = constraints.getMaximumValue();
++        assertNotNull(max);
++        assertEquals(9, max.intValue());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

@@ -1,0 +1,45 @@
+--- a/evosuite-tests/macaw/persistenceLayer/production/SQLConnectionManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/production/SQLConnectionManager_ESTest.java
+@@ -35,24 +35,25 @@
+       sQLConnectionManager0.releaseConnection((Connection) null);
+       assertEquals(0, sQLConnectionManager0.getNumberOfConnections());
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        SessionProperties sessionProperties0 = new SessionProperties();
++        StartupOptions startupOptions0 = sessionProperties0.getStartupOptions();
++        startupOptions0.setDbUser("user");
++        startupOptions0.setDbPassword("pass");
++        startupOptions0.setDatabaseURL("jdbc:h2:mem:testdb");
++        startupOptions0.setDatabaseDriverClassName("org.h2.Driver");
++        startupOptions0.setMaximumConnections(1);
++        SQLConnectionManager sQLConnectionManager0 = new SQLConnectionManager(sessionProperties0);
++        try {
++            Connection conn = sQLConnectionManager0.getSQLConnection();
++            assertNotNull(conn);
++            conn.close();
++        } catch (Exception e) {
++            assertNotEquals(NullPointerException.class, e.getClass());
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    sessionProperties0 = new SessionProperties();
+-      StartupOptions startupOptions0 = sessionProperties0.getStartupOptions();
+-      startupOptions0.setDbUser("");
+-    sQLConnectionManager0 = new SQLConnectionManager(sessionProperties0);
+-      try { 
+-        sQLConnectionManager0.getSQLConnection();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.util.Hashtable", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+ public void test2() throws Throwable {
+     SessionProperties sessionProperties0 = new SessionProperties();

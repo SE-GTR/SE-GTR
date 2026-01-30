@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/gbshape/dbe/postgresql/PostgresqlTableStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/postgresql/PostgresqlTableStructure_ESTest.java
+@@ -86,16 +86,22 @@
+          verifyException("com.gbshape.dbe.postgresql.PostgresqlTableStructure", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      PostgresqlTableStructure postgresqlTableStructure0 = new PostgresqlTableStructure();
+-      DBDataBean dBDataBean0 = new DBDataBean();
+-      CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
+-      createTableXmlBean0.setComment("sqlType=");
+-      ArrayList arrayList0 = postgresqlTableStructure0.create((HttpServletRequest) null, dBDataBean0, createTableXmlBean0);
+-      assertFalse(arrayList0.isEmpty());
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        PostgresqlTableStructure postgresqlTableStructure0 = new PostgresqlTableStructure();
++        DBDataBean dBDataBean0 = new DBDataBean();
++        CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
++
++        // Verify that the comment is initially unset (null) and that setComment updates it.
++        assertNull(createTableXmlBean0.getComment());
++        createTableXmlBean0.setComment("sqlType=");
++        assertEquals("sqlType=", createTableXmlBean0.getComment());
++
++        ArrayList arrayList0 = postgresqlTableStructure0.create((HttpServletRequest) null, dBDataBean0,
++                createTableXmlBean0);
++        assertFalse(arrayList0.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

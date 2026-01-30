@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/MultipleWrapper_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/MultipleWrapper_ESTest.java
+@@ -24,24 +24,22 @@
+     class0 = Integer.class;
+     stack0 = new Stack<Integer>();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       Integer integer0 = new Integer(7);
+-      stack0.add(integer0);
+-      // Undeclared exception!
+-      try { 
+-        MultipleWrapper.createMultipleWrapper(class0, (Iterable<Integer>) stack0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // java.lang.Integer is not an interface
+-         //
+-         verifyException("java.lang.reflect.Proxy$ProxyClassFactory", e);
++      boolean added = stack0.add(integer0);
++      assertTrue(added);
++      try {
++          MultipleWrapper.createMultipleWrapper(class0, (Iterable<Integer>) stack0);
++          fail("Expecting exception: IllegalArgumentException");
++      } catch (IllegalArgumentException e) {
++          //
++          // java.lang.Integer is not an interface
++          //
++          verifyException("java.lang.reflect.Proxy$ProxyClassFactory", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

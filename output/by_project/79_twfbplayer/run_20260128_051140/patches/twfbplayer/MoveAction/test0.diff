@@ -1,0 +1,56 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/player/actions/MoveAction_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/player/actions/MoveAction_ESTest.java
+@@ -20,25 +20,35 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class MoveAction_ESTest extends MoveAction_ESTest_scaffolding {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
++      CharacterClass characterClass0 = CharacterClass.GREENHORN;
++      SimpleSector simpleSector0 = new SimpleSector(0, false, false, 0, -1, false, -1, characterClass0);
++      java.awt.Point point0 = new java.awt.Point(0, 0);
++      SimpleArea simpleArea0 = new SimpleArea(point0, simpleSector0);
++      Combatant combatant0 = (Combatant) java.lang.reflect.Proxy.newProxyInstance(
++          Combatant.class.getClassLoader(),
++          new Class<?>[] { Combatant.class },
++          (proxy, method, args) -> {
++              Class<?> ret = method.getReturnType();
++              if (ret.isPrimitive()) {
++                  if (ret == boolean.class) return false;
++                  if (ret == byte.class) return (byte) 0;
++                  if (ret == short.class) return (short) 0;
++                  if (ret == int.class) return 0;
++                  if (ret == long.class) return 0L;
++                  if (ret == float.class) return 0f;
++                  if (ret == double.class) return 0d;
++                  if (ret == char.class) return '\0';
++              }
++              return null;
++          });
++      MoveAction moveAction0 = new MoveAction(combatant0, simpleArea0);
++      String result = moveAction0.toString();
++      assertNotNull(result);
++      assertFalse(result.isEmpty());
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      CharacterClass characterClass0 = CharacterClass.GREENHORN;
+-      SimpleSector simpleSector0 = new SimpleSector(0, false, false, 0, (-1), false, (-1), characterClass0);
+-      SimpleArea simpleArea0 = new SimpleArea((Point) null, simpleSector0);
+-      MoveAction moveAction0 = new MoveAction((Combatant) null, simpleArea0);
+-      // Undeclared exception!
+-      try { 
+-        moveAction0.toString();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.outstare.fortbattleplayer.model.impl.SimpleArea", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

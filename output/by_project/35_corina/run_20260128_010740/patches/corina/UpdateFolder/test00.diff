@@ -1,0 +1,42 @@
+--- a/evosuite-tests/corina/util/UpdateFolder_ESTest.java
++++ b/evosuite-tests/corina/util/UpdateFolder_ESTest.java
+@@ -21,23 +21,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class UpdateFolder_ESTest extends UpdateFolder_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        File file0 = MockFile.createTempFile("j,?PW/J4", "S~");
++        boolean shouldThrow = FileSystemHandling.shouldAllThrowIOExceptions();
++        assertTrue(shouldThrow);
++        UpdateFolder updateFolder0 = new UpdateFolder(file0, file0);
++        try {
++            updateFolder0.copy(file0, file0);
++            fail("Expecting exception: IOException");
++        } catch (IOException e) {
++            //
++            // Simulated IOException
++            //
++            verifyException("org.evosuite.runtime.vfs.VirtualFileSystem", e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("j,?PW/J4", "S~");
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-      UpdateFolder updateFolder0 = new UpdateFolder(file0, file0);
+-      try { 
+-        updateFolder0.copy(file0, file0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Simulated IOException
+-         //
+-         verifyException("org.evosuite.runtime.vfs.VirtualFileSystem", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

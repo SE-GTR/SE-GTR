@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DBSequence_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DBSequence_ESTest.java
+@@ -104,15 +104,18 @@
+         DBSequence dBSequence0 = new DBSequence("org.databene.jdbacl.model.DBSequence", (DBSchema) null);
+         assertNotNull(dBSequence0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
++@Test(timeout = 4000)
++public void test10() throws Throwable {
+     dBSequence0 = new DBSequence("", (DBSchema) null);
+-      dBSequence0.setIncrement((BigInteger) null);
+-      BigInteger bigInteger0 = dBSequence0.getIncrementIfNotDefault();
+-      assertNull(bigInteger0);
+-  }
++    // Verify the default increment value
++    BigInteger defaultInc = dBSequence0.getIncrementIfNotDefault();
++    assertEquals(BigInteger.ONE, defaultInc);
++    // Change the increment and verify the side‑effect
++    dBSequence0.setIncrement(BigInteger.TEN);
++    BigInteger newInc = dBSequence0.getIncrementIfNotDefault();
++    assertEquals(BigInteger.TEN, newInc);
++}
++
+ @Test(timeout = 4000)
+   public void test11() throws Throwable {
+     dBSequence0 = new DBSequence("iBe52Mg F`dlMSg9", "iBe52Mg F`dlMSg9", "iBe52Mg F`dlMSg9");

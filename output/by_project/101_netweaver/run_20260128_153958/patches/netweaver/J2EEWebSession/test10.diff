@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
+@@ -177,18 +177,24 @@
+         assertTrue(j2EEWebSession0.equals((Object) j2EEWebSession1));
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      J2EEWebSession j2EEWebSession0 = new J2EEWebSession();
+-      J2EEWebSession j2EEWebSession1 = new J2EEWebSession();
+-      assertTrue(j2EEWebSession1.equals((Object)j2EEWebSession0));
+-      
++@Test(timeout = 4000)
++  public void test10() throws Throwable {
++      J2EEWebSession j2EEWebSession0 = new J2EEWebSession();
++      J2EEWebSession j2EEWebSession1 = new J2EEWebSession();
++      assertTrue(j2EEWebSession1.equals((Object) j2EEWebSession0));
++
++      // Verify that setBackingStore actually updates the backingStore field
++      String before = j2EEWebSession1.getBackingStore();
++      assertNull(before); // initial state should be null
++
+       j2EEWebSession1.setBackingStore("W0[7[nUvH4");
+-      boolean boolean0 = j2EEWebSession0.equals(j2EEWebSession1);
+-      assertFalse(boolean0);
+-  }
++      assertEquals("W0[7[nUvH4", j2EEWebSession1.getBackingStore());
++
++      // Changing the backing store should affect equality with the untouched instance
++      boolean boolean0 = j2EEWebSession0.equals(j2EEWebSession1);
++      assertFalse(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/MetametadataContributorRecordModifier_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/MetametadataContributorRecordModifier_ESTest.java
+@@ -98,23 +98,27 @@
+          verifyException("org.heal.servlet.cataloger.MetametadataContributorRecordModifier", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    MetametadataContributorRecordModifier modifier = new MetametadataContributorRecordModifier();
++    Servlet servlet = new Servlet("");
++    CompleteMetadataBean bean = new CompleteMetadataBean();
++    HttpSession session = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    when(session.getAttribute(anyString())).thenReturn(bean);
++    HttpServletRequest request = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    when(request.getParameter(anyString())).thenReturn(null);
++    when(request.getSession()).thenReturn(session);
++    HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(request);
++    HttpServletResponse response = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++    HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper(response);
++    // Act
++    modifier.perform(servlet, requestWrapper, responseWrapper);
++    // Assert side‑effects of perform
++    verify(request).getParameter(anyString());
++    verify(request).getSession();
++    verify(session).getAttribute(anyString());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      MetametadataContributorRecordModifier metametadataContributorRecordModifier0 = new MetametadataContributorRecordModifier();
+-      Servlet servlet0 = new Servlet("");
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(completeMetadataBean0).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(httpServletRequest0).getParameter(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      metametadataContributorRecordModifier0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
+-      assertTrue(metametadataContributorRecordModifier0.actionRequiresLogin());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/GeneratorAdapter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/GeneratorAdapter_ESTest.java
+@@ -194,22 +194,23 @@
+     }
+     assertTrue(containsNewArray);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test013()  throws Throwable  {
+-      Type type0 = Type.BOOLEAN_TYPE;
+-      ClassWriter classWriter0 = new ClassWriter(191);
+-      Type[] typeArray0 = new Type[0];
+-      Method method0 = new Method("rl!0a@>", type0, typeArray0);
+-      GeneratorAdapter generatorAdapter0 = new GeneratorAdapter(0, method0, "rl!0a@>", typeArray0, classWriter0);
+-      int[] intArray0 = new int[2];
+-      intArray0[0] = 2;
+-      intArray0[1] = 5;
+-      TableSwitchGenerator tableSwitchGenerator0 = mock(TableSwitchGenerator.class, new ViolatedAssumptionAnswer());
+-      generatorAdapter0.tableSwitch(intArray0, tableSwitchGenerator0);
+-      assertEquals(128, GeneratorAdapter.OR);
+-  }
++@Test(timeout = 4000)
++    public void test013() throws Throwable {
++        Type type0 = Type.BOOLEAN_TYPE;
++        ClassWriter classWriter0 = new ClassWriter(191);
++        Type[] typeArray0 = new Type[0];
++        Method method0 = new Method("rl!0a@>", type0, typeArray0);
++        GeneratorAdapter generatorAdapter0 = new GeneratorAdapter(0, method0, "rl!0a@>", typeArray0, classWriter0);
++        int[] intArray0 = new int[] { 2, 5 };
++        TableSwitchGenerator generator = org.mockito.Mockito.mock(TableSwitchGenerator.class);
++        generatorAdapter0.tableSwitch(intArray0, generator);
++        org.mockito.Mockito.verify(generator).generateCase(org.mockito.ArgumentMatchers.eq(2),
++                org.mockito.ArgumentMatchers.any(org.objectweb.asm.jip.Label.class));
++        org.mockito.Mockito.verify(generator).generateCase(org.mockito.ArgumentMatchers.eq(5),
++                org.mockito.ArgumentMatchers.any(org.objectweb.asm.jip.Label.class));
++        org.mockito.Mockito.verify(generator).generateDefault();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test014()  throws Throwable  {

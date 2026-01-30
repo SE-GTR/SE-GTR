@@ -1,0 +1,46 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -454,20 +454,29 @@
+         assertSame(postOffice0, retrieved);
+     }
+ @Test(timeout = 4000)
+-    public void test40() throws Throwable {
+-        AdministrativeArea administrativeArea0 = new AdministrativeArea();
+-        // Verify initial state of postalCode
+-        assertNull(administrativeArea0.getPostalCode());
+-        // Set null and assert the side‑effect is observed
+-        administrativeArea0.setPostalCode((PostalCode) null);
+-        assertNull(administrativeArea0.getPostalCode());
+-        // Existing check for indicator
+-        assertNull(administrativeArea0.getIndicator());
+-        // Additional meaningful interaction: set a non‑null PostalCode and verify
+-        PostalCode pc = new PostalCode();
+-        administrativeArea0.setPostalCode(pc);
+-        assertSame(pc, administrativeArea0.getPostalCode());
+-    }
++public void test40() throws Throwable {
++    AdministrativeArea administrativeArea0 = new AdministrativeArea();
++    // Verify initial state
++    assertNull(administrativeArea0.getPostalCode());
++    assertNull(administrativeArea0.getIndicator());
++
++    // Set a non‑null PostalCode and verify the side‑effect
++    PostalCode pc = new PostalCode();
++    administrativeArea0.setPostalCode(pc);
++    assertSame(pc, administrativeArea0.getPostalCode());
++
++    // Clear the PostalCode and verify it is removed
++    administrativeArea0.setPostalCode(null);
++    assertNull(administrativeArea0.getPostalCode());
++
++    // Exercise a different part of the API: manipulate the live addressLine list
++    int beforeSize = administrativeArea0.getAddressLine().size();
++    AddressLine al = new AddressLine();
++    administrativeArea0.getAddressLine().add(al);
++    assertEquals(beforeSize + 1, administrativeArea0.getAddressLine().size());
++    assertTrue(administrativeArea0.getAddressLine().contains(al));
++}
++
+ 
+ @Test(timeout = 4000)
+   public void test41() throws Throwable {

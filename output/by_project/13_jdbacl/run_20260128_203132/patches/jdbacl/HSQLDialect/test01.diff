@@ -1,0 +1,24 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/HSQLDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/HSQLDialect_ESTest.java
+@@ -30,13 +30,15 @@
+       boolean boolean0 = hSQLDialect0.isDeterministicIndexName("wGm2,{TZS");
+       assertTrue(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        HSQLDialect dialect = new HSQLDialect();
++        // Verify that a system-generated index name is not considered deterministic
++        assertFalse(dialect.isDeterministicIndexName("SYS_IDX_SYS_0"));
++        // Verify that a regular index name is considered deterministic
++        assertTrue(dialect.isDeterministicIndexName("IDX_DET_1"));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      HSQLDialect hSQLDialect0 = new HSQLDialect();
+-      boolean boolean0 = hSQLDialect0.isDeterministicIndexName("SYS_IDX_SYS_0");
+-      assertFalse(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

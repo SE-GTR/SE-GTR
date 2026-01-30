@@ -1,0 +1,34 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -1159,14 +1159,23 @@
+     // Ensure other fields remain unaffected
+     assertNull(addressDetails0.getValidFromDate());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test116()  throws Throwable  {
+-      AddressDetails addressDetails0 = new AddressDetails();
+-      addressDetails0.setThoroughfare((Thoroughfare) null);
+-      assertNull(addressDetails0.getUsage());
+-  }
++@Test(timeout = 4000)
++    public void test116() throws Throwable {
++        AddressDetails addressDetails0 = new AddressDetails();
++
++        // Verify that setting a non‑null Thoroughfare updates the internal state
++        Thoroughfare tf = new Thoroughfare();
++        addressDetails0.setThoroughfare(tf);
++        assertSame(tf, addressDetails0.getThoroughfare());
++
++        // Verify that setting the Thoroughfare to null clears the field
++        addressDetails0.setThoroughfare(null);
++        assertNull(addressDetails0.getThoroughfare());
++
++        // Existing check for usage (remains unchanged)
++        assertNull(addressDetails0.getUsage());
++    }
++
+ @Test(timeout = 4000)
+ public void test117() throws Throwable {
+     AddressDetails addressDetails0 = new AddressDetails();

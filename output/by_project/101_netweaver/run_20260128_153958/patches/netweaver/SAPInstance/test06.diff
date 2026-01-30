@@ -1,0 +1,49 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPInstance_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPInstance_ESTest.java
+@@ -123,20 +123,32 @@
+     // Changing features should affect equality
+     assertFalse(sAPInstance1.equals(sAPInstance0));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      SAPInstance sAPInstance0 = new SAPInstance();
+-      SAPInstance sAPInstance1 = new SAPInstance();
+-      sAPInstance0.setStartPriority("SAPControl-GREEN");
+-      assertFalse(sAPInstance0.equals((Object)sAPInstance1));
+-      
+-      sAPInstance1.setStartPriority("SAPControl-GREEN");
+-      boolean boolean0 = sAPInstance0.equals(sAPInstance1);
+-      assertTrue(sAPInstance0.equals((Object)sAPInstance1));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    SAPInstance sAPInstance0 = new SAPInstance();
++    SAPInstance sAPInstance1 = new SAPInstance();
++
++    // Verify initial state
++    assertNull(sAPInstance0.getStartPriority());
++    assertNull(sAPInstance1.getStartPriority());
++
++    // Set start priority on first instance and assert side effect
++    sAPInstance0.setStartPriority("SAPControl-GREEN");
++    assertEquals("SAPControl-GREEN", sAPInstance0.getStartPriority());
++
++    // Objects differ because second instance still has null priority
++    assertFalse(sAPInstance0.equals((Object) sAPInstance1));
++
++    // Set same priority on second instance and assert side effect
++    sAPInstance1.setStartPriority("SAPControl-GREEN");
++    assertEquals("SAPControl-GREEN", sAPInstance1.getStartPriority());
++
++    // Now they should be equal
++    boolean boolean0 = sAPInstance0.equals(sAPInstance1);
++    assertTrue(sAPInstance0.equals((Object) sAPInstance1));
++    assertTrue(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

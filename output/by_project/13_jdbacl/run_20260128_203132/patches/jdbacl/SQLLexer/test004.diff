@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -61,12 +61,18 @@
+         int afterConsume = aNTLRReaderStream0.LA(1);
+         assertEquals(-1, afterConsume); // EOF
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test004()  throws Throwable  {
+-      ANTLRStringStream aNTLRStringStream0 = new ANTLRStringStream(" < 0");
+-  }
++@Test(timeout = 4000)
++    public void test004() throws Throwable {
++        ANTLRStringStream stream = new ANTLRStringStream(" < 0");
++        // Verify initial character
++        assertEquals(' ', stream.LA(1));
++        // Consume the first character and check the next one
++        stream.consume();
++        assertEquals('<', stream.LA(1));
++        // Ensure the stream size matches the input length
++        assertEquals(4, stream.size());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test005()  throws Throwable  {

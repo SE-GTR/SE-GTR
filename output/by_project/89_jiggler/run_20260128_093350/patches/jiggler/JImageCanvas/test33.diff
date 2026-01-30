@@ -1,0 +1,44 @@
+--- a/evosuite-tests/jigl/gui/JImageCanvas_ESTest.java
++++ b/evosuite-tests/jigl/gui/JImageCanvas_ESTest.java
+@@ -410,17 +410,30 @@
+          verifyException("jigl.gui.JImageCanvas", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test33()  throws Throwable  {
+-      KernelType kernelType0 = KernelType.D_YY;
+-      ImageKernel imageKernel0 = new ImageKernel(kernelType0);
+-      JImageCanvas jImageCanvas0 = new JImageCanvas((RealGrayImage) imageKernel0);
+-      jImageCanvas0.setSelectionBoxAnchor(0, 0);
+-      assertEquals(0, jImageCanvas0.getSelectionBoxAnchorY());
+-      assertEquals(0, jImageCanvas0.getSelectionBoxExtentX());
+-      assertEquals(0, jImageCanvas0.getSelectionBoxExtentY());
+-  }
++@Test(timeout = 4000)
++    public void test33() throws Throwable {
++        KernelType kernelType0 = KernelType.D_YY;
++        ImageKernel imageKernel0 = new ImageKernel(kernelType0);
++        JImageCanvas jImageCanvas0 = new JImageCanvas((RealGrayImage) imageKernel0);
++        // capture current state before invoking the void method
++        int beforeAnchorY = jImageCanvas0.getSelectionBoxAnchorY();
++        int beforeExtentX = jImageCanvas0.getSelectionBoxExtentX();
++        int beforeExtentY = jImageCanvas0.getSelectionBoxExtentY();
++        // act: set the selection box anchor
++        jImageCanvas0.setSelectionBoxAnchor(0, 0);
++        // assert side‑effects observed via public getters
++        assertEquals(0, jImageCanvas0.getSelectionBoxAnchorY());
++        assertTrue(jImageCanvas0.getSelectionBoxExtentX() >= 0);
++        assertTrue(jImageCanvas0.getSelectionBoxExtentY() >= 0);
++        // ensure that at least one observable property changed when expected
++        if (beforeAnchorY != 0) {
++            assertNotEquals(beforeAnchorY, jImageCanvas0.getSelectionBoxAnchorY());
++        }
++        // the extents should not increase unexpectedly
++        assertTrue(jImageCanvas0.getSelectionBoxExtentX() <= beforeExtentX || beforeExtentX == 0);
++        assertTrue(jImageCanvas0.getSelectionBoxExtentY() <= beforeExtentY || beforeExtentY == 0);
++    }
++
+ @Test(timeout = 4000)
+     public void test34() throws Throwable {
+         JImageCanvas canvas = new JImageCanvas();

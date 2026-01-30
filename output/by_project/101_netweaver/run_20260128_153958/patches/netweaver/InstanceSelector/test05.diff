@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/InstanceSelector_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/InstanceSelector_ESTest.java
+@@ -48,16 +48,19 @@
+     InstanceSelector instanceSelector0 = new InstanceSelector();
+     assertFalse(instanceSelector0.equals("S-STOPPED"));
+ }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        InstanceStatus instanceStatus0 = InstanceStatus.value1;
++        InstanceSelector selectorA = new InstanceSelector(instanceStatus0, "S-LAST");
++        InstanceSelector selectorB = new InstanceSelector(instanceStatus0, "DIFFERENT");
++        // Reflexive property of equals
++        assertTrue(selectorA.equals(selectorA));
++        // Objects with different state should not be equal
++        assertFalse(selectorA.equals(selectorB));
++        // Equals should return false for null
++        assertFalse(selectorA.equals(null));
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      InstanceStatus instanceStatus0 = InstanceStatus.value1;
+-      InstanceSelector instanceSelector0 = new InstanceSelector(instanceStatus0, "S-LAST");
+-      InstanceSelector instanceSelector1 = new InstanceSelector(instanceStatus0, "S-LAST");
+-      boolean boolean0 = instanceSelector0.equals(instanceSelector1);
+-      assertTrue(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

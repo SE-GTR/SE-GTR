@@ -1,0 +1,47 @@
+--- a/evosuite-tests/osa/ora/server/client/ui/utils/TreeModelGenerator_ESTest.java
++++ b/evosuite-tests/osa/ora/server/client/ui/utils/TreeModelGenerator_ESTest.java
+@@ -19,19 +19,32 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class TreeModelGenerator_ESTest extends TreeModelGenerator_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    User user0 = new User();
++    DefaultMutableTreeNode defaultMutableTreeNode0 = new DefaultMutableTreeNode();
++    Vector<User> vector0 = new Vector<User>();
++    User user1 = new User();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      User user0 = new User();
+-      DefaultMutableTreeNode defaultMutableTreeNode0 = new DefaultMutableTreeNode();
+-      Vector<User> vector0 = new Vector<User>();
+-      User user1 = new User();
+-      user0.setStatus_id(1263);
+-      vector0.add(user0);
+-      user0.setId(1);
+-      TreeModelGenerator.setChildes(defaultMutableTreeNode0, vector0, user1, true);
+-      assertNull(user1.getName());
+-  }
++    user0.setStatus_id(1263);
++    assertEquals(1263, user0.getStatus_id());
++
++    vector0.add(user0);
++
++    user0.setId(1);
++    assertEquals(1, user0.getId());
++
++    TreeModelGenerator.setChildes(defaultMutableTreeNode0, vector0, user1, true);
++
++    assertEquals(1, defaultMutableTreeNode0.getChildCount());
++    Object childObj = defaultMutableTreeNode0.getFirstChild();
++    assertTrue(childObj instanceof DefaultMutableTreeNode);
++    DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) childObj;
++    assertSame(user0, childNode.getUserObject());
++
++    assertNull(user1.getName());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

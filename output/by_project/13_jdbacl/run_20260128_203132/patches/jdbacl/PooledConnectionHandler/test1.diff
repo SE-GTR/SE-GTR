@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/databene/jdbacl/proxy/PooledConnectionHandler_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/proxy/PooledConnectionHandler_ESTest.java
+@@ -26,15 +26,20 @@
+   public void test0()  throws Throwable  {
+       PooledConnectionHandler.resetMonitors();
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        // Use a null underlying connection to avoid loading native libraries.
++        PooledConnectionHandler pooledConnectionHandler0 = new PooledConnectionHandler(null, true);
++        int countBeforeClose = PooledConnectionHandler.getOpenConnectionCount();
++        pooledConnectionHandler0.close();
++        int countAfterFirstClose = PooledConnectionHandler.getOpenConnectionCount();
++        // Verify that the close operation had the expected effect on the open‑connection count.
++        assertEquals(countBeforeClose - 1, countAfterFirstClose);
++        // Closing again should not change the count further.
++        pooledConnectionHandler0.close();
++        assertEquals(countAfterFirstClose, PooledConnectionHandler.getOpenConnectionCount());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      jdbcConnection jdbcConnection0 = new jdbcConnection((Session) null);
+-      PooledConnectionHandler pooledConnectionHandler0 = new PooledConnectionHandler(jdbcConnection0, true);
+-      pooledConnectionHandler0.close();
+-      pooledConnectionHandler0.close();
+-      assertEquals(0, pooledConnectionHandler0.getOpenConnectionCount());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
+@@ -263,18 +263,27 @@
+         boolean boolean0 = j2EEProcess1.equals(j2EEProcess0);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      J2EEProcess j2EEProcess0 = new J2EEProcess();
+-      J2EEProcess j2EEProcess1 = new J2EEProcess();
+-      assertTrue(j2EEProcess1.equals((Object)j2EEProcess0));
+-      
+-      j2EEProcess1.setStatetext("(/5 9x*[W");
+-      boolean boolean0 = j2EEProcess1.equals(j2EEProcess0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        J2EEProcess j2EEProcess0 = new J2EEProcess();
++        J2EEProcess j2EEProcess1 = new J2EEProcess();
++        assertTrue(j2EEProcess1.equals((Object) j2EEProcess0));
++
++        // Verify initial state text is null (or default)
++        assertNull(j2EEProcess1.getStatetext());
++
++        // Apply side‑effect
++        String newState = "(/5 9x*[W";
++        j2EEProcess1.setStatetext(newState);
++
++        // Assert that the side‑effect took place
++        assertEquals(newState, j2EEProcess1.getStatetext());
++
++        // Equality should now differ because state text changed
++        boolean boolean0 = j2EEProcess1.equals(j2EEProcess0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

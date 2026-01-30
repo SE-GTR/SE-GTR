@@ -1,0 +1,36 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/player/Battleplayer_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/player/Battleplayer_ESTest.java
+@@ -170,17 +170,22 @@
+       boolean boolean0 = battleplayer0.isPaused();
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test9() throws Throwable {
++        HashSet<Round> hashSet0 = new HashSet<Round>();
++        Round round0 = mock(Round.class, new ViolatedAssumptionAnswer());
++        doReturn(31).when(round0).getNo();
++        assertEquals(31, round0.getNo());
+ 
++        boolean added = hashSet0.add(round0);
++        assertTrue(added);
+ 
+-  @Test(timeout = 4000)
+-  public void test9()  throws Throwable  {
+-      HashSet<Round> hashSet0 = new HashSet<Round>();
+-      Round round0 = mock(Round.class, new ViolatedAssumptionAnswer());
+-      doReturn(31).when(round0).getNo();
+-      hashSet0.add(round0);
+-      Battleplan battleplan0 = new Battleplan(hashSet0);
+-      Battleplayer battleplayer0 = new Battleplayer(battleplan0);
+-      battleplayer0.numberOfRounds();
+-      assertFalse(battleplayer0.isPaused());
+-  }
++        Battleplan battleplan0 = new Battleplan(hashSet0);
++        Battleplayer battleplayer0 = new Battleplayer(battleplan0);
++        int rounds = battleplayer0.numberOfRounds();
++        assertEquals(1, rounds);
++
++        assertFalse(battleplayer0.isPaused());
++    }
++
+ }

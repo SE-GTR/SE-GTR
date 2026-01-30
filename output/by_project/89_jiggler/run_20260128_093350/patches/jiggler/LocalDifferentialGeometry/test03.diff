@@ -1,0 +1,61 @@
+--- a/evosuite-tests/jigl/image/utils/LocalDifferentialGeometry_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/LocalDifferentialGeometry_ESTest.java
+@@ -84,44 +84,22 @@
+             verifyException("jigl.image.types.RealGrayImage", e);
+         }
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      
+-      LocalDifferentialGeometry localDifferentialGeometry0 = new LocalDifferentialGeometry(realGrayImage0);
+-      assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevAbsKappa, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
++    assertNotNull(realGrayImage0);
++    LocalDifferentialGeometry localDifferentialGeometry0 = new LocalDifferentialGeometry(realGrayImage0);
++    // Verify constructor initializes statistical fields to zero
++    assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
++    // Act & assert exception
++    try {
+         localDifferentialGeometry0.calcIx(localDifferentialGeometry0.image, realGrayImage0, 0, 153, 9, 817);
+         fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // 0
+-         //
+-         verifyException("jigl.image.types.RealGrayImage", e);
+-      }
+-  }
++    } catch (ArrayIndexOutOfBoundsException e) {
++        verifyException("jigl.image.types.RealGrayImage", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

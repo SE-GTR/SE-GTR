@@ -1,0 +1,29 @@
+--- a/evosuite-tests/framework/persistence/jdbc/pool/DBCPoolImpl_ESTest.java
++++ b/evosuite-tests/framework/persistence/jdbc/pool/DBCPoolImpl_ESTest.java
+@@ -49,21 +49,12 @@
+          verifyException("org.apache.commons.dbcp.datasources.InstanceKeyDataSource", e);
+       }
+   }
++@Test(timeout = 4000, expected = java.sql.SQLException.class)
++    public void test3() throws Exception {
++        DBCPoolImpl dBCPoolImpl0 = new DBCPoolImpl();
++        dBCPoolImpl0.getInternalConnection("", "");
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      DBCPoolImpl dBCPoolImpl0 = new DBCPoolImpl();
+-      try { 
+-        dBCPoolImpl0.getInternalConnection("", "");
+-        fail("Expecting exception: SQLException");
+-      
+-      } catch(SQLException e) {
+-         //
+-         // Must set the ConnectionPoolDataSource through setDataSourceName or setConnectionPoolDataSource before calling getConnection.
+-         //
+-         verifyException("org.apache.commons.dbcp.datasources.InstanceKeyDataSource", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

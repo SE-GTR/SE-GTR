@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/ArtificialPhd_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/ArtificialPhd_ESTest.java
+@@ -156,16 +156,22 @@
+       int hash = artificialPhd0.hashCode();
+       assertEquals(hash, artificialPhd0.hashCode());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test09() throws Throwable {
+       NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+       doReturn(348L).when(nucleotideSequence0).getLength();
+       QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+       ArtificialPhd artificialPhd0 = ArtificialPhd.createNewbler454Phd((String) null, nucleotideSequence0, qualitySequence0);
+-      artificialPhd0.hashCode();
+-  }
++
++      // Assert the stubbed length value
++      long length = nucleotideSequence0.getLength();
++      assertEquals(348L, length);
++
++      // Assert hashCode is deterministic
++      int hash = artificialPhd0.hashCode();
++      assertEquals(hash, artificialPhd0.hashCode());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

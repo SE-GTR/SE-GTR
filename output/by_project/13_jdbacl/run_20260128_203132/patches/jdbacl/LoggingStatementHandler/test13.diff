@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/databene/jdbacl/proxy/LoggingStatementHandler_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/proxy/LoggingStatementHandler_ESTest.java
+@@ -193,22 +193,31 @@
+          verifyException("org.databene.jdbacl.proxy.LoggingStatementHandler", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      LoggingStatementHandler loggingStatementHandler0 = new LoggingStatementHandler((Statement) null, false);
+-      // Undeclared exception!
+-      try { 
+-        loggingStatementHandler0.executeUpdate("", (int[]) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.proxy.LoggingStatementHandler", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    java.sql.Statement realStatement = (java.sql.Statement) java.lang.reflect.Proxy.newProxyInstance(
++            java.sql.Statement.class.getClassLoader(),
++            new Class[]{java.sql.Statement.class},
++            (proxy, method, args) -> {
++                if ("executeUpdate".equals(method.getName())) {
++                    return 1;
++                }
++                Class<?> ret = method.getReturnType();
++                if (ret.equals(void.class)) {
++                    return null;
++                }
++                if (ret.isPrimitive()) {
++                    if (ret.equals(boolean.class)) return false;
++                    if (ret.equals(char.class)) return '\0';
++                    return 0;
++                }
++                return null;
++            });
++    LoggingStatementHandler loggingStatementHandler0 = new LoggingStatementHandler(realStatement, false);
++    int result = loggingStatementHandler0.executeUpdate("UPDATE table SET col=1", new int[]{1});
++    org.junit.Assert.assertEquals(1, result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

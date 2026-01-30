@@ -1,0 +1,41 @@
+--- a/evosuite-tests/de/paragon/explorer/util/PropertyManager_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/util/PropertyManager_ESTest.java
+@@ -46,16 +46,29 @@
+       assertTrue(propertyManager0.getHideUnexploredAttribut());
+       assertTrue(propertyManager0.getHideStaticAttribut());
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        PropertyManager propertyManager0 = PropertyManager.getInstance();
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      PropertyManager propertyManager0 = PropertyManager.getInstance();
+-      assertTrue(propertyManager0.getHideUnexploredAttribut());
+-      
+-      propertyManager0.setHideAttributes(true, true, false);
+-      boolean boolean0 = propertyManager0.getHideUnexploredAttribut();
+-      assertFalse(boolean0);
+-  }
++        // Capture the initial state of all hide flags
++        boolean beforeHideNull = propertyManager0.getHideNullAttributes();
++        boolean beforeHideStatic = propertyManager0.getHideStaticAttributes();
++        boolean beforeHideUnexplored = propertyManager0.getHideUnexploredAttribut();
++
++        // Apply new hide settings
++        propertyManager0.setHideAttributes(true, true, false);
++
++        // Verify that each flag reflects the values passed to setHideAttributes
++        assertTrue(propertyManager0.getHideNullAttributes());
++        assertTrue(propertyManager0.getHideStaticAttributes());
++        assertFalse(propertyManager0.getHideUnexploredAttribut());
++
++        // Ensure that at least one flag actually changed (detect side‑effect)
++        assertTrue(beforeHideNull != propertyManager0.getHideNullAttributes()
++                || beforeHideStatic != propertyManager0.getHideStaticAttributes()
++                || beforeHideUnexplored != propertyManager0.getHideUnexploredAttribut());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

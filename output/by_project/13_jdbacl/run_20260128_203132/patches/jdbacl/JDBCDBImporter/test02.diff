@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
+@@ -42,17 +42,19 @@
+       assertTrue(jDBCDBImporter0.isImportingIndexes());
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter("IpCr~ed", "IpCr~ed", "IpCr~ed", "", "", "7");
+-      JDBCDBImporter.TableNameFilter jDBCDBImporter_TableNameFilter0 = jDBCDBImporter0.new TableNameFilter();
+-      jDBCDBImporter0.setExcludeTables("IpCr~ed");
+-      boolean boolean0 = jDBCDBImporter_TableNameFilter0.accept("Imported");
+-      assertTrue(jDBCDBImporter0.isImportingIndexes());
+-      assertFalse(jDBCDBImporter0.isImportingPackages());
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter("IpCr~ed", "IpCr~ed", "IpCr~ed", "", "", "7");
++        JDBCDBImporter.TableNameFilter jDBCDBImporter_TableNameFilter0 = jDBCDBImporter0.new TableNameFilter();
++        jDBCDBImporter0.setExcludeTables("IpCr~ed");
++        boolean acceptedImported = jDBCDBImporter_TableNameFilter0.accept("Imported");
++        boolean acceptedExcluded = jDBCDBImporter_TableNameFilter0.accept("IpCr~ed");
++        assertTrue(jDBCDBImporter0.isImportingIndexes());
++        assertFalse(jDBCDBImporter0.isImportingPackages());
++        assertTrue(acceptedImported);
++        assertFalse(acceptedExcluded);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

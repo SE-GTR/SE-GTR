@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/fixsuite/message/info/FieldInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/FieldInfo_ESTest.java
+@@ -21,17 +21,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class FieldInfo_ESTest extends FieldInfo_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        FieldInfo fieldInfo0 = new FieldInfo();
++        TreeMap<String, ValueInfo> treeMap0 = new TreeMap<String, ValueInfo>();
++        ValueInfo valueInfo0 = new ValueInfo();
++        // capture the previous value (should be null for a fresh map)
++        ValueInfo previous = treeMap0.put("A`|~fcz*C!-*E", valueInfo0);
++        assertNull(previous);
++        fieldInfo0.setValidValues(treeMap0);
++        // the inserted value should be recognised as valid
++        assertTrue(fieldInfo0.isValidValue("A`|~fcz*C!-*E"));
++        // a different value must not be considered valid
++        assertFalse(fieldInfo0.isValidValue("different"));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      FieldInfo fieldInfo0 = new FieldInfo();
+-      TreeMap<String, ValueInfo> treeMap0 = new TreeMap<String, ValueInfo>();
+-      ValueInfo valueInfo0 = new ValueInfo();
+-      treeMap0.put("A`|~fcz*C!-*E", valueInfo0);
+-      fieldInfo0.setValidValues(treeMap0);
+-      boolean boolean0 = fieldInfo0.isValidValue("A`|~fcz*C!-*E");
+-      assertTrue(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

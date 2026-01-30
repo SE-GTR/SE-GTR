@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -473,19 +473,22 @@
+         assertEquals("different", workProcess1.getReason());
+         assertFalse(workProcess1.equals(workProcess0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
++@Test(timeout = 4000)
++  public void test27() throws Throwable {
++      WorkProcess workProcess0 = new WorkProcess();
++      WorkProcess workProcess1 = new WorkProcess();
++      // Verify initial equality before any state change
++      assertTrue(workProcess0.equals(workProcess1));
++      // Apply side‑effect
+       workProcess0.setReason("bodyElementParent");
+-      WorkProcess workProcess1 = new WorkProcess();
+-      boolean boolean0 = workProcess1.equals(workProcess0);
++      // Verify that the side‑effect caused inequality
++      assertFalse(workProcess0.equals(workProcess1));
++      assertFalse(workProcess0.equals((Object) workProcess1));
++      // Existing state assertions
+       assertEquals(0, workProcess1.getNo());
+-      assertFalse(boolean0);
+-      assertFalse(workProcess0.equals((Object)workProcess1));
+       assertEquals(0, workProcess1.getPid());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test28()  throws Throwable  {

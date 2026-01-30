@@ -1,0 +1,64 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/EditCopyrightHolderAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/EditCopyrightHolderAction_ESTest.java
+@@ -51,34 +51,35 @@
+     verify(httpSession0).getAttribute(anyString());
+     verify(httpServletRequest0).getRequestDispatcher(anyString());
+ }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        servlet0 = new Servlet();
++        completeMetadataBean0 = new CompleteMetadataBean();
++        CopyrightHolderBean copyrightHolderBean0 = new CopyrightHolderBean();
++        copyrightHolderBean0.setCopyrightHolderId("O~Q_5vxmq");
++        completeMetadataBean0.addCopyrightHolder(copyrightHolderBean0);
+ 
++        HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++        doReturn(completeMetadataBean0).when(httpSession0).getAttribute(anyString());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    servlet0 = new Servlet();
+-    completeMetadataBean0 = new CompleteMetadataBean();
+-      CopyrightHolderBean copyrightHolderBean0 = new CopyrightHolderBean();
+-      copyrightHolderBean0.setCopyrightHolderId("O~Q_5vxmq");
+-      completeMetadataBean0.addCopyrightHolder(copyrightHolderBean0);
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(completeMetadataBean0).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("&t").when(httpServletRequest0).getParameter(anyString());
+-      doReturn((RequestDispatcher) null).when(httpServletRequest0).getRequestDispatcher(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      EditCopyrightHolderAction editCopyrightHolderAction0 = new EditCopyrightHolderAction();
+-      // Undeclared exception!
+-      try { 
+-        editCopyrightHolderAction0.perform(servlet0, httpServletRequest0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.cataloger.EditCopyrightHolderAction", e);
+-      }
+-  }
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("&t").when(httpServletRequest0).getParameter(anyString());
++        doReturn(httpSession0).when(httpServletRequest0).getSession();
++
++        RequestDispatcher requestDispatcherMock = mock(RequestDispatcher.class);
++        doReturn(requestDispatcherMock).when(httpServletRequest0).getRequestDispatcher(anyString());
++
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++
++        EditCopyrightHolderAction editCopyrightHolderAction0 = new EditCopyrightHolderAction();
++
++        // Execute the action with valid, non‑null arguments.
++        editCopyrightHolderAction0.perform(servlet0, httpServletRequest0, httpServletResponse0);
++
++        // Verify that the request was forwarded using the dispatcher.
++        verify(requestDispatcherMock).forward(httpServletRequest0, httpServletResponse0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
+@@ -274,18 +274,24 @@
+     // Objects should no longer be equal after the state change
+     assertFalse(alertNode1.equals(alertNode0));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      AlertNode alertNode0 = new AlertNode();
+-      AlertNode alertNode1 = new AlertNode();
+-      assertTrue(alertNode1.equals((Object)alertNode0));
+-      
+-      alertNode1.setTime("<8|lV6HU2g3NS().");
+-      boolean boolean0 = alertNode1.equals(alertNode0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    AlertNode alertNode0 = new AlertNode();
++    AlertNode alertNode1 = new AlertNode();
++    assertTrue(alertNode1.equals((Object) alertNode0));
++
++    // Verify that the time field is initially null (default state)
++    assertNull(alertNode1.getTime());
++
++    // Exercise the void method and assert its side‑effect
++    alertNode1.setTime("<8|lV6HU2g3NS().");
++    assertEquals("<8|lV6HU2g3NS().", alertNode1.getTime());
++
++    // The change in time should affect equality
++    boolean boolean0 = alertNode1.equals(alertNode0);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerImpl_ESTest.java
+@@ -162,15 +162,25 @@
+       HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
+       hL7CheckerImpl0.emptyRepeateField();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
+-      HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
+-      hL7CheckerStateImpl0.setSeriousError(true);
+-      hL7CheckerImpl0.setState(hL7CheckerStateImpl0);
+-      hL7CheckerImpl0.emptyRepeateField();
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    HL7CheckerImpl checker = new HL7CheckerImpl();
++    HL7CheckerStateImpl state = new HL7CheckerStateImpl();
++
++    // Verify that setting a serious error updates the state
++    state.setSeriousError(true);
++    assertTrue(state.isSeriousError());
++
++    // Verify that the checker holds the provided state
++    checker.setState(state);
++    assertSame(state, checker.getState());
++
++    // Ensure that emptyRepeateField does not alter the seriousError flag
++    boolean before = state.isSeriousError();
++    checker.emptyRepeateField();
++    assertEquals(before, state.isSeriousError());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

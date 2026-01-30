@@ -1,0 +1,37 @@
+--- a/evosuite-tests/state/Party_ESTest.java
++++ b/evosuite-tests/state/Party_ESTest.java
+@@ -68,18 +68,24 @@
+         assertSame(beforePrev, party0.prev);
+         assertEquals(beforeId, party0.getId());
+     }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        Party party0 = new Party();
++        // Verify initial state before any modifications
++        assertNull(party0.head);
++        // Add the party to itself twice
++        party0.add(party0);
++        assertSame(party0, party0.head);
++        party0.add(party0);
++        assertSame(party0, party0.head);
++        assertFalse(party0.isBoss());
+ 
++        // Remove the party and verify side‑effects
++        party0.remove(party0);
++        assertNotSame(party0, party0.head);
++        assertEquals(-1, party0.getId());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      Party party0 = new Party();
+-      party0.add(party0);
+-      party0.add(party0);
+-      assertFalse(party0.isBoss());
+-      
+-      party0.remove(party0);
+-      assertEquals((-1), party0.getId());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

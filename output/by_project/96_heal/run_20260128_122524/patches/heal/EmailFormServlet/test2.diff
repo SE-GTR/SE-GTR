@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/heal/servlet/EmailFormServlet_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/EmailFormServlet_ESTest.java
+@@ -66,27 +66,26 @@
+          verifyException("org.heal.servlet.EmailFormServlet", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        emailFormServlet0 = new EmailFormServlet();
++        httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        org.mockito.stubbing.OngoingStubbing<String> stubParam = doReturn((String) null)
++                .when(httpServletRequest0).getParameter(anyString());
++        assertNotNull(stubParam);
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        org.mockito.stubbing.OngoingStubbing<PrintWriter> stubWriter = doReturn((PrintWriter) null)
++                .when(httpServletResponse0).getWriter();
++        assertNotNull(stubWriter);
++        HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++        try {
++            emailFormServlet0.doPost(httpServletRequest0, httpServletResponseWrapper0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            verifyException("org.heal.servlet.EmailFormServlet", e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    emailFormServlet0 = new EmailFormServlet();
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(httpServletRequest0).getParameter(anyString());
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      doReturn((PrintWriter) null).when(httpServletResponse0).getWriter();
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      // Undeclared exception!
+-      try { 
+-        emailFormServlet0.doPost(httpServletRequest0, httpServletResponseWrapper0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.EmailFormServlet", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

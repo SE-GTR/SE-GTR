@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jsecurity/web/RedirectView_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/RedirectView_ESTest.java
+@@ -98,25 +98,19 @@
+          verifyException("org.jsecurity.web.RedirectView", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        RedirectView redirectView0 = new RedirectView("UTF-8", true, true);
++        HashMap<Object, RedirectView> hashMap0 = new HashMap<>();
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+ 
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      RedirectView redirectView0 = new RedirectView("UTF-8", true, true);
+-      HashMap<Object, RedirectView> hashMap0 = new HashMap<Object, RedirectView>();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      // Undeclared exception!
+-      try { 
+-        redirectView0.renderMergedOutputModel(hashMap0, httpServletRequestWrapper0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.RedirectView", e);
+-      }
+-  }
++        redirectView0.renderMergedOutputModel(hashMap0, httpServletRequestWrapper0, httpServletResponse0);
++
++        verify(httpServletResponse0).sendRedirect("UTF-8");
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

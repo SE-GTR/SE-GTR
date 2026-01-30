@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -1229,23 +1229,17 @@
+         aNTLRReaderStream0.consume();
+         assertEquals('*', (char) aNTLRReaderStream0.LA(1));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test109()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mNULL();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test109() throws Throwable {
++        // Initialize the lexer with a valid input containing the keyword "NULL"
++        ANTLRStringStream input = new ANTLRStringStream("NULL");
++        SQLLexer lexer = new SQLLexer(input);
++        // Invoke the token rule; it should process without throwing an exception
++        lexer.mNULL();
++        // Verify that the lexer recognized the correct text
++        assertEquals("NULL", lexer.getText());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test110()  throws Throwable  {

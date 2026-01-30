@@ -1,0 +1,40 @@
+--- a/evosuite-tests/corina/map/PngEncoderB_ESTest.java
++++ b/evosuite-tests/corina/map/PngEncoderB_ESTest.java
+@@ -48,17 +48,27 @@
+       assertEquals(887, byteArray0.length);
+       assertNotNull(byteArray0);
+   }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    PngEncoderB pngEncoderB0 = new PngEncoderB();
++    BufferedImage bufferedImage0 = new BufferedImage(2, 1, 11);
++    // verify that the image is initially null
++    assertNull(pngEncoderB0.getImage());
++    // act: set the image
++    pngEncoderB0.setImage(bufferedImage0);
++    // assert side‑effect of setImage
++    assertSame(bufferedImage0, pngEncoderB0.getImage());
++    // act: encode the image
++    byte[] encoded = pngEncoderB0.pngEncode();
++    // assert side‑effect / return value of pngEncode
++    assertNotNull(encoded);
++    assertTrue(encoded.length > 0);
++    // existing assertions about default configuration
++    assertFalse(pngEncoderB0.getEncodeAlpha());
++    assertEquals(0, pngEncoderB0.getCompressionLevel());
++    assertEquals(0, pngEncoderB0.getFilter());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      PngEncoderB pngEncoderB0 = new PngEncoderB();
+-      BufferedImage bufferedImage0 = new BufferedImage(2, 1, 11);
+-      pngEncoderB0.setImage(bufferedImage0);
+-      pngEncoderB0.pngEncode();
+-      assertFalse(pngEncoderB0.getEncodeAlpha());
+-      assertEquals(0, pngEncoderB0.getCompressionLevel());
+-      assertEquals(0, pngEncoderB0.getFilter());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

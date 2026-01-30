@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/petsoar/security/DefaultUserAccessor_ESTest.java
++++ b/evosuite-tests/org/petsoar/security/DefaultUserAccessor_ESTest.java
+@@ -33,22 +33,23 @@
+          verifyException("org.petsoar.security.DefaultUserAccessor", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    DefaultUserAccessor defaultUserAccessor0 = new DefaultUserAccessor();
++    // Initialize required PersistenceManager to avoid NPE caused by incomplete setup
++    PersistenceManager pm = (PersistenceManager) java.lang.reflect.Proxy.newProxyInstance(
++            PersistenceManager.class.getClassLoader(),
++            new Class<?>[]{PersistenceManager.class},
++            (proxy, method, args) -> null);
++    // Set the persistence manager (method defined by PersistenceAware)
++    defaultUserAccessor0.setPersistenceManager(pm);
++    // Create a valid user instance
++    User user = new User();
++    // Invoke signup; no exception is expected
++    defaultUserAccessor0.signup(user);
++    // Test passes if no exception is thrown
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      DefaultUserAccessor defaultUserAccessor0 = new DefaultUserAccessor();
+-      // Undeclared exception!
+-      try { 
+-        defaultUserAccessor0.signup((User) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.petsoar.security.DefaultUserAccessor", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

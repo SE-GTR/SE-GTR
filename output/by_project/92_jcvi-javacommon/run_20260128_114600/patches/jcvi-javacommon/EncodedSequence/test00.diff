@@ -1,0 +1,69 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/EncodedSequence_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/EncodedSequence_ESTest.java
+@@ -22,29 +22,43 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class EncodedSequence_ESTest extends EncodedSequence_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      byte[] byteArray0 = new byte[4];
+-      GlyphCodec<EncodedSequence<Integer>> glyphCodec0 = (GlyphCodec<EncodedSequence<Integer>>) mock(GlyphCodec.class, new ViolatedAssumptionAnswer());
+-      doReturn(46, (int)(byte) (-100)).when(glyphCodec0).decodedLengthOf(any(byte[].class));
+-      EncodedSequence<EncodedSequence<Integer>> encodedSequence0 = new EncodedSequence<EncodedSequence<Integer>>(glyphCodec0, byteArray0);
+-      GlyphCodec<Object> glyphCodec1 = (GlyphCodec<Object>) mock(GlyphCodec.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(glyphCodec1).decode(any(byte[].class) , anyLong());
+-      doReturn(46, 190).when(glyphCodec1).decodedLengthOf(any(byte[].class));
+-      EncodedSequence<Object> encodedSequence1 = new EncodedSequence<Object>(glyphCodec1, byteArray0);
+-      // Undeclared exception!
+-      try { 
+-        encodedSequence1.equals(encodedSequence0);
+-        fail("Expecting exception: NoSuchElementException");
+-      
+-      } catch(NoSuchElementException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.internal.core.EncodedSequence$RangedIterator", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        byte[] byteArray0 = new byte[4];
++        GlyphCodec<EncodedSequence<Integer>> glyphCodec0 = (GlyphCodec<EncodedSequence<Integer>>) mock(GlyphCodec.class,
++                new ViolatedAssumptionAnswer());
++        doReturn(46, (int) (byte) (-100)).when(glyphCodec0).decodedLengthOf(any(byte[].class));
++        EncodedSequence<EncodedSequence<Integer>> encodedSequence0 = new EncodedSequence<EncodedSequence<Integer>>(
++                glyphCodec0, byteArray0);
++        GlyphCodec<Object> glyphCodec1 = (GlyphCodec<Object>) mock(GlyphCodec.class, new ViolatedAssumptionAnswer());
++        doReturn((Object) null).when(glyphCodec1).decode(any(byte[].class), anyLong());
++        doReturn(46, 190).when(glyphCodec1).decodedLengthOf(any(byte[].class));
++        EncodedSequence<Object> encodedSequence1 = new EncodedSequence<Object>(glyphCodec1, byteArray0);
++
++        // Assert stubbed return values are as expected
++        int len0First = glyphCodec0.decodedLengthOf(byteArray0);
++        assertEquals(46, len0First);
++        int len0Second = glyphCodec0.decodedLengthOf(byteArray0);
++        assertEquals((int) (byte) (-100), len0Second);
++
++        int len1First = glyphCodec1.decodedLengthOf(byteArray0);
++        assertEquals(46, len1First);
++        int len1Second = glyphCodec1.decodedLengthOf(byteArray0);
++        assertEquals(190, len1Second);
++
++        Object decoded = glyphCodec1.decode(byteArray0, 0L);
++        assertNull(decoded);
++
++        // Undeclared exception!
++        try {
++            encodedSequence1.equals(encodedSequence0);
++            fail("Expecting exception: NoSuchElementException");
++        } catch (NoSuchElementException e) {
++            // no message in exception (getMessage() returned null)
++            verifyException("org.jcvi.jillion.internal.core.EncodedSequence$RangedIterator", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

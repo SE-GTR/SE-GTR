@@ -1,0 +1,70 @@
+--- a/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
+@@ -441,32 +441,41 @@
+     assertEquals(0L, img.sqrSum());
+     assertEquals(0, img.absSum());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(15, 48);
+-      assertEquals(15, interpolatedGrayImage0.X());
+-      assertEquals(48, interpolatedGrayImage0.Y());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      
+-      Integer integer0 = new Integer(5952);
+-      assertEquals(5952, (int)integer0);
+-      
+-      Image<Integer> image0 = interpolatedGrayImage0.clear(integer0);
+-      assertEquals(4285440, interpolatedGrayImage0.addSum());
+-      assertEquals(25506938880L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(4285440, interpolatedGrayImage0.absSum());
+-      assertEquals(48, interpolatedGrayImage0.Y());
+-      assertEquals(15, interpolatedGrayImage0.X());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(48, image0.Y());
+-      assertEquals(15, image0.X());
+-      assertSame(interpolatedGrayImage0, image0);
+-      
+-      // Undeclared exception!
+-      interpolatedGrayImage0.median(15);
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(15, 48);
++    // verify construction
++    assertEquals(15, interpolatedGrayImage0.X());
++    assertEquals(48, interpolatedGrayImage0.Y());
++    assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
++
++    Integer integer0 = Integer.valueOf(5952);
++    // act: clear image with a constant value
++    Image<Integer> image0 = interpolatedGrayImage0.clear(integer0);
++    // observe effects of clear
++    assertEquals(4285440, interpolatedGrayImage0.addSum());
++    assertEquals(25506938880L, interpolatedGrayImage0.sqrSum());
++    assertEquals(4285440, interpolatedGrayImage0.absSum());
++
++    // verify returned image properties
++    assertEquals(48, image0.Y());
++    assertEquals(15, image0.X());
++    assertSame(interpolatedGrayImage0, image0);
++
++    // capture state before median
++    int sumBefore = interpolatedGrayImage0.addSum();
++
++    // act: apply median filter
++    interpolatedGrayImage0.median(15);
++
++    // assert side‑effects of median (dimensions and interpolation method unchanged)
++    assertEquals(15, interpolatedGrayImage0.X());
++    assertEquals(48, interpolatedGrayImage0.Y());
++    assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
++    // ensure the sum remains non‑negative after median
++    assertTrue(interpolatedGrayImage0.addSum() >= 0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

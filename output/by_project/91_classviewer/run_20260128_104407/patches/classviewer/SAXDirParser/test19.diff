@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/jstevh/viewer/SAXDirParser_ESTest.java
++++ b/evosuite-tests/com/jstevh/viewer/SAXDirParser_ESTest.java
+@@ -209,22 +209,21 @@
+         String second = SAXDirParser.getEditor();
+         assertEquals(first, second);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      String[] stringArray0 = new String[2];
+-      try { 
+-        SAXDirParser.main(stringArray0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // /PATH/TO/SF110-20130704-src/91_classviewer/packagedirectory.xml (No such file or directory)
+-         //
+-         verifyException("java.io.FileInputStream", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        java.io.File tempFile = java.io.File.createTempFile("saxdirparser_test", ".xml");
++        tempFile.deleteOnExit();
++        java.nio.file.Files.write(
++                tempFile.toPath(),
++                "<root></root>".getBytes(java.nio.charset.StandardCharsets.UTF_8));
++        String[] args = new String[] { tempFile.getAbsolutePath() };
++        try {
++            SAXDirParser.main(args);
++        } catch (Exception e) {
++            fail("Unexpected exception: " + e);
++        }
++    }
++
+ @Test(timeout = 4000)
+   public void test20() throws Throwable {
+       // Verify the static configuration flag

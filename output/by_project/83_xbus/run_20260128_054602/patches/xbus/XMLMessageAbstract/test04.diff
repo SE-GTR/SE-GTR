@@ -1,0 +1,28 @@
+--- a/evosuite-tests/net/sf/xbus/protocol/xml/XMLMessageAbstract_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/protocol/xml/XMLMessageAbstract_ESTest.java
+@@ -83,13 +83,19 @@
+          verifyException("org.evosuite.runtime.System", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        XMLMessageImplementation impl = new XMLMessageImplementation((XBUSSystem) null);
++        // Verify behavior when the internal request document is not set
++        Object resultWithNullSystem = impl.getRequestObject((XBUSSystem) null);
++        assertNull(resultWithNullSystem);
++        // Exercise the method with a non‑null XBUSSystem instance to ensure consistent behavior
++        XBUSSystem dummySystem = new XBUSSystem() {
++        };
++        Object resultWithDummySystem = impl.getRequestObject(dummySystem);
++        assertNull(resultWithDummySystem);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-    xMLMessageImplementation0 = new XMLMessageImplementation((XBUSSystem) null);
+-      Object object0 = xMLMessageImplementation0.getRequestObject((XBUSSystem) null);
+-      assertNull(object0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

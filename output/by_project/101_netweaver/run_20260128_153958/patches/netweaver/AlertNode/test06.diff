@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
+@@ -103,18 +103,26 @@
+     assertFalse(boolean0);
+     assertEquals(0, alertNode1.getParent());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      AlertNode alertNode0 = new AlertNode();
+-      AlertNode alertNode1 = new AlertNode();
+-      assertTrue(alertNode1.equals((Object)alertNode0));
+-      
+-      alertNode1.setAlDescription("SAPControl-YELLOW");
+-      boolean boolean0 = alertNode0.equals(alertNode1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    AlertNode alertNode0 = new AlertNode();
++    AlertNode alertNode1 = new AlertNode();
++    assertTrue(alertNode1.equals((Object) alertNode0));
++
++    // Verify initial state before mutation
++    assertNull(alertNode1.getAlDescription());
++
++    // Act: set description
++    alertNode1.setAlDescription("SAPControl-YELLOW");
++
++    // Observe side‑effect via getter
++    assertEquals("SAPControl-YELLOW", alertNode1.getAlDescription());
++
++    // Equality should now differ because of the changed description
++    boolean boolean0 = alertNode0.equals(alertNode1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

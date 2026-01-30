@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPInstance_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPInstance_ESTest.java
+@@ -19,16 +19,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SAPInstance_ESTest extends SAPInstance_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      SAPInstance sAPInstance0 = new SAPInstance();
+-      sAPInstance0.setHostname("M;Xt0");
+-      sAPInstance0.hashCode();
+-      assertEquals(0, sAPInstance0.getHttpPort());
+-      assertEquals(0, sAPInstance0.getHttpsPort());
+-      assertEquals(0, sAPInstance0.getInstanceNr());
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    SAPInstance sAPInstance0 = new SAPInstance();
++    sAPInstance0.setHostname("M;Xt0");
++    // Verify that the hostname was set correctly
++    assertEquals("M;Xt0", sAPInstance0.getHostname());
++
++    // Verify that hashCode returns a stable value
++    int hash1 = sAPInstance0.hashCode();
++    int hash2 = sAPInstance0.hashCode();
++    assertEquals(hash1, hash2);
++
++    assertEquals(0, sAPInstance0.getHttpPort());
++    assertEquals(0, sAPInstance0.getHttpsPort());
++    assertEquals(0, sAPInstance0.getInstanceNr());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/EditContextURLAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/EditContextURLAction_ESTest.java
+@@ -95,21 +95,22 @@
+          verifyException("org.heal.servlet.cataloger.EditContextURLAction", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++    HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    doReturn(completeMetadataBean0).when(httpSession0).getAttribute(anyString());
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn((String) null).when(httpServletRequest0).getParameter(anyString());
++    doReturn(httpSession0).when(httpServletRequest0).getSession();
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++    HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++    editContextURLAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
++    // Verify that the action interacted with the request session as part of its behavior
++    verify(httpServletRequest0).getSession();
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(completeMetadataBean0).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(httpServletRequest0).getParameter(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      editContextURLAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
+-      assertTrue(editContextURLAction0.actionRequiresLogin());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

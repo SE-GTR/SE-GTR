@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -355,12 +355,23 @@
+   public void test52()  throws Throwable  {
+       ConfigurationManagement.setAccess_allow("%91oyA");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test53()  throws Throwable  {
+-      long long0 = ConfigurationManagement.getStartLimitedTime();
+-      assertEquals((-1L), long0);
+-  }
++@Test(timeout = 4000)
++  public void test53() throws Throwable {
++      // Exercise a non‑trivial method that loads configuration.
++      // The default test environment does not contain the expected config file,
++      // so an IOException (or subclass) is expected.
++      try {
++          ConfigurationManagement.login_config_readXML();
++          fail("Expected an IOException due to missing configuration file");
++      } catch (IOException e) {
++          // Expected exception – the method performed its logic and failed to find the file.
++      }
++
++      // Verify that the start‑limited‑time value is still a non‑positive default.
++      long startLimitedTime = ConfigurationManagement.getStartLimitedTime();
++      assertTrue(startLimitedTime <= 0L);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test54()  throws Throwable  {

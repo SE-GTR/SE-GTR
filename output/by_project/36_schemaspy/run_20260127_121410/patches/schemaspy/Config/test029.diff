@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -412,24 +412,19 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test029()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.setUser("(JsQ3@xv(,ft  1:");
+-      config0.getSqlFormatter();
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-o' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++public void test029() throws Throwable {
++    Config config0 = Config.getInstance();
++    config0.setUser("(JsQ3@xv(,ft  1:");
++    net.sourceforge.schemaspy.view.SqlFormatter formatter = config0.getSqlFormatter();
++    assertNotNull(formatter);
++    try {
++        config0.asList();
++        fail("Expecting exception: RuntimeException");
++    } catch (RuntimeException e) {
++        verifyException("net.sourceforge.schemaspy.Config", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test030()  throws Throwable  {

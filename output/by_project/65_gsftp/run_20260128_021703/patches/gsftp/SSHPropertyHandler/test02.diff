@@ -1,0 +1,37 @@
+--- a/evosuite-tests/mindbright/ssh/SSHPropertyHandler_ESTest.java
++++ b/evosuite-tests/mindbright/ssh/SSHPropertyHandler_ESTest.java
+@@ -29,17 +29,25 @@
+     assertTrue(sSHPropertyHandler0.hasBinay());
+     assertEquals("localhost", sSHPropertyHandler0.getRemoteServer());
+ }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    SSHPropertyHandler handler = new SSHPropertyHandler();
++    // verify default values
++    assertEquals("localhost", handler.getRemoteServer());
++    assertEquals(21, handler.getRemotePort());
++    assertTrue(handler.hasBinay());
+ 
++    // capture default server before mutating remoteUser
++    String defaultServer = handler.getRemoteServer();
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      SSHPropertyHandler sSHPropertyHandler0 = new SSHPropertyHandler();
+-      sSHPropertyHandler0.setRemoteUser("}ZFz2PWt?(.");
+-      assertEquals("localhost", sSHPropertyHandler0.getRemoteServer());
+-      assertEquals("}ZFz2PWt?(.", sSHPropertyHandler0.getRemoteUser());
+-      assertTrue(sSHPropertyHandler0.hasBinay());
+-      assertEquals(21, sSHPropertyHandler0.getRemotePort());
+-  }
++    // mutate remoteUser
++    handler.setRemoteUser("}ZFz2PWt?(.");
++    // assert the mutation is reflected
++    assertEquals("}ZFz2PWt?(.", handler.getRemoteUser());
++    // ensure other properties remain unchanged
++    assertEquals(defaultServer, handler.getRemoteServer());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

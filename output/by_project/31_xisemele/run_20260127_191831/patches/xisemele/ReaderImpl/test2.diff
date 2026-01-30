@@ -1,0 +1,43 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/ReaderImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/ReaderImpl_ESTest.java
+@@ -46,25 +46,23 @@
+         String version = readerImpl0.version();
+         assertNotNull("Reader version should not be null", version);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++public void test2() throws Throwable {
+     formatterProviderImpl0 = new FormatterProviderImpl();
+     factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+-    readerImpl0 = new ReaderImpl(factoryImpl0, (Document) null);
+-      // Undeclared exception!
+-      try { 
+-        readerImpl0.containsElement("R!EJ`(/!^'");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.xisemele.impl.OperationsHelperImpl", e);
+-      }
+-  }
++    // Build a minimal XML document with a single root element.
++    javax.xml.parsers.DocumentBuilderFactory dbFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
++    javax.xml.parsers.DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
++    Document doc = dBuilder.newDocument();
++    org.w3c.dom.Element root = doc.createElement("root");
++    doc.appendChild(root);
++    // Initialise the ReaderImpl with a valid document.
++    readerImpl0 = new ReaderImpl(factoryImpl0, doc);
++    // Verify that a non‑existent element is reported as absent.
++    boolean result = readerImpl0.containsElement("nonexistent");
++    assertFalse(result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

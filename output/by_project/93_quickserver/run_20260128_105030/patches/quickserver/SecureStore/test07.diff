@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/SecureStore_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/SecureStore_ESTest.java
+@@ -98,18 +98,32 @@
+         assertEquals("SunX509", secureStore0.getAlgorithm());
+         assertEquals("org.quickserver.security.SecureStoreManager", secureStore0.getSecureStoreManager());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      SecureStore secureStore0 = new SecureStore();
+-      KeyStoreInfo keyStoreInfo0 = new KeyStoreInfo();
+-      secureStore0.setKeyStoreInfo(keyStoreInfo0);
+-      secureStore0.toXML("<key-store-info>\n\t<store-file>NONE</store-file>\n\t</store-password>\n\t</key-password>\n</key-store-info>\n");
+-      assertEquals("SunX509", secureStore0.getAlgorithm());
+-      assertEquals("JKS", secureStore0.getType());
+-      assertEquals("org.quickserver.security.SecureStoreManager", secureStore0.getSecureStoreManager());
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        SecureStore secureStore0 = new SecureStore();
++        KeyStoreInfo keyStoreInfo0 = new KeyStoreInfo();
++        // configure keyStoreInfo to have identifiable values
++        keyStoreInfo0.setStoreFile("myFile");
++        keyStoreInfo0.setStorePassword("myPass");
++        keyStoreInfo0.setKeyPassword("myKeyPass");
++        // act: set the key store info
++        secureStore0.setKeyStoreInfo(keyStoreInfo0);
++        // verify side‑effect of setKeyStoreInfo
++        assertNotNull(secureStore0.getKeyStoreInfo());
++        assertEquals("myFile", secureStore0.getKeyStoreInfo().getStoreFile());
++        assertEquals("myPass", secureStore0.getKeyStoreInfo().getStorePassword());
++        assertEquals("myKeyPass", secureStore0.getKeyStoreInfo().getKeyPassword());
++        // act: generate XML representation
++        String xml = secureStore0.toXML("<key-store-info>\n\t<store-file>NONE</store-file>\n\t</store-password>\n\t</key-password>\n</key-store-info>\n");
++        // verify return value of toXML
++        assertNotNull(xml);
++        assertTrue(xml.contains("<key-store-info>"));
++        // existing assertions
++        assertEquals("SunX509", secureStore0.getAlgorithm());
++        assertEquals("JKS", secureStore0.getType());
++        assertEquals("org.quickserver.security.SecureStoreManager", secureStore0.getSecureStoreManager());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

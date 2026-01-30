@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/petsoar/persistence/hibernate/HibernatePersistenceManager_ESTest.java
++++ b/evosuite-tests/org/petsoar/persistence/hibernate/HibernatePersistenceManager_ESTest.java
+@@ -126,23 +126,13 @@
+          verifyException("org.petsoar.persistence.hibernate.HibernatePersistenceManager", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-    hibernatePersistenceManager0 = new HibernatePersistenceManager();
+-    class0 = Object.class;
+-      // Undeclared exception!
+-      try { 
+-        hibernatePersistenceManager0.getById(class0, (-1L));
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // java.lang.NullPointerException
+-         //
+-         verifyException("org.petsoar.persistence.hibernate.HibernatePersistenceManager", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class)
++    public void test06() throws Throwable {
++        hibernatePersistenceManager0 = new HibernatePersistenceManager();
++        // Trigger a NullPointerException by passing a null class argument
++        hibernatePersistenceManager0.getById(null, -1L);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

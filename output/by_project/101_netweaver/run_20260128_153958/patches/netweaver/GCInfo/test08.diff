@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo_ESTest.java
+@@ -136,18 +136,24 @@
+     assertFalse(gCInfo0.equals((Object) gCInfo1));
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-    gCInfo0 = new GCInfo();
+-    gCInfo1 = new GCInfo();
+-      assertTrue(gCInfo1.equals((Object)gCInfo0));
+-      
+-      gCInfo1.setReason("ue 5$|%");
+-      boolean boolean0 = gCInfo1.equals(gCInfo0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        gCInfo0 = new GCInfo();
++        gCInfo1 = new GCInfo();
++        assertTrue(gCInfo1.equals((Object) gCInfo0));
++
++        // verify initial state of the reason field
++        assertNull(gCInfo1.getReason());
++
++        // exercise the void method and assert its side‑effect
++        gCInfo1.setReason("ue 5$|%");
++        assertEquals("ue 5$|%", gCInfo1.getReason());
++
++        // ensure the equality logic reflects the changed state
++        boolean boolean0 = gCInfo1.equals(gCInfo0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/jigl/image/ops/Dither_ESTest.java
++++ b/evosuite-tests/jigl/image/ops/Dither_ESTest.java
+@@ -19,26 +19,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Dither_ESTest extends Dither_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        BufferedImage bufferedImage0 = new BufferedImage(12, 12, BufferedImage.TYPE_INT_RGB);
++        ColorImage colorImage0 = new ColorImage(bufferedImage0);
++        RealColorImage realColorImage0 = new RealColorImage(colorImage0);
++        InterpolatedRealColorImage interpolatedRealColorImage0 = new InterpolatedRealColorImage(realColorImage0);
++        Dither dither0 = new Dither(interpolatedRealColorImage0);
++        InterpolatedColorImage interpolatedColorImage0 = new InterpolatedColorImage(colorImage0);
++        ColorImage result = dither0.apply((ColorImage) interpolatedColorImage0);
++        assertNotNull(result);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      InterpolatedRealColorImage interpolatedRealColorImage0 = new InterpolatedRealColorImage();
+-      Dither dither0 = new Dither(interpolatedRealColorImage0);
+-      BufferedImage bufferedImage0 = new BufferedImage(12, 12, 12);
+-      ColorImage colorImage0 = new ColorImage(bufferedImage0);
+-      InterpolatedColorImage interpolatedColorImage0 = new InterpolatedColorImage(colorImage0);
+-      // Undeclared exception!
+-      try { 
+-        dither0.apply((ColorImage) interpolatedColorImage0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.image.utils.KdTree", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

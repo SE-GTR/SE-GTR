@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/heal/module/download/DownloadQueueBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/download/DownloadQueueBean_ESTest.java
+@@ -197,16 +197,25 @@
+         // Verify that a newly created bean reports its package as modified.
+         assertTrue(downloadQueueBean0.isPackageModified());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-    downloadQueueBean0 = new DownloadQueueBean();
+-      assertTrue(downloadQueueBean0.isPackageModified());
+-      
+-      downloadQueueBean0.setPackageFileCreated();
+-      boolean boolean0 = downloadQueueBean0.isPackageFileUpToDate(0);
+-      assertFalse(downloadQueueBean0.isPackageModified());
+-      assertFalse(boolean0);
+-  }
+-}
++@Test(timeout = 4000)
++  public void test18() throws Throwable {
++    downloadQueueBean0 = new DownloadQueueBean();
++    // Verify initial state indicates the package is modified
++    assertTrue(downloadQueueBean0.isPackageModified());
++
++    // Act: mark the package as having its file created
++    downloadQueueBean0.setPackageFileCreated();
++
++    // Verify the side‑effect: the package is no longer considered modified
++    assertFalse(downloadQueueBean0.isPackageModified());
++
++    // The package file should not be up‑to‑date for index 0 after resetting
++    assertFalse(downloadQueueBean0.isPackageFileUpToDate(0));
++
++    // Re‑invoke to ensure the method is idempotent and does not alter state further
++    downloadQueueBean0.setPackageFileCreated();
++    assertFalse(downloadQueueBean0.isPackageModified());
++    assertFalse(downloadQueueBean0.isPackageFileUpToDate(0));
++  }
++
++}

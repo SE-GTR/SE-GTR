@@ -1,0 +1,29 @@
+--- a/evosuite-tests/framework/util/StringUtils_ESTest.java
++++ b/evosuite-tests/framework/util/StringUtils_ESTest.java
+@@ -80,12 +80,20 @@
+   public void test06()  throws Throwable  {
+       String string0 = StringUtils.replaceTokens("java.lang.Object@4bcf98b3", (Collection) null, "9ND1i]x", "9ND1i]x");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      String string0 = StringUtils.getJavaName((String) null);
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    // Verify behavior when input is null
++    String resultNull = StringUtils.getJavaName(null);
++    assertNull(resultNull);
++
++    // Verify behavior with a typical valid identifier
++    String input = "myVariable";
++    String result = StringUtils.getJavaName(input);
++    assertNotNull(result);
++    // The result should be a valid Java identifier
++    assertTrue(result.matches("^[A-Za-z_$][A-Za-z\\d_$]*$"));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

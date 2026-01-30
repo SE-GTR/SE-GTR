@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/SyncClientIdentifier_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/SyncClientIdentifier_ESTest.java
+@@ -103,27 +103,18 @@
+       Iterator iterator0 = syncClientIdentifier0.findAllClientById("");
+       assertNotNull(iterator0);
+   }
++@Test(timeout = 4000, expected = ClassCastException.class)
++public void test6() throws Throwable {
++    SyncClientIdentifier syncClientIdentifier0 = new SyncClientIdentifier();
++    ByteBufferObjectFactory byteBufferObjectFactory0 = new ByteBufferObjectFactory(383, false);
++    SoftReferenceObjectPool softReferenceObjectPool0 = new SoftReferenceObjectPool(byteBufferObjectFactory0);
++    MakeQSObjectPool makeQSObjectPool0 = new MakeQSObjectPool(softReferenceObjectPool0);
++    Object borrowed = makeQSObjectPool0.borrowObject();
++    assertNotNull(borrowed);
++    syncClientIdentifier0.clientHandlerPool = (QSObjectPool) makeQSObjectPool0;
++    syncClientIdentifier0.findFirstClientById("`");
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      SyncClientIdentifier syncClientIdentifier0 = new SyncClientIdentifier();
+-      ByteBufferObjectFactory byteBufferObjectFactory0 = new ByteBufferObjectFactory(383, false);
+-      SoftReferenceObjectPool softReferenceObjectPool0 = new SoftReferenceObjectPool(byteBufferObjectFactory0);
+-      MakeQSObjectPool makeQSObjectPool0 = new MakeQSObjectPool(softReferenceObjectPool0);
+-      makeQSObjectPool0.borrowObject();
+-      syncClientIdentifier0.clientHandlerPool = (QSObjectPool) makeQSObjectPool0;
+-      // Undeclared exception!
+-      try { 
+-        syncClientIdentifier0.findFirstClientById("`");
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.nio.HeapByteBuffer cannot be cast to org.quickserver.net.server.ClientHandler
+-         //
+-         verifyException("org.quickserver.net.server.impl.SyncClientIdentifier", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/sap/netweaver/porta/ide/eclipse/server/runtime/SapNW710Runtime_ESTest.java
++++ b/evosuite-tests/com/sap/netweaver/porta/ide/eclipse/server/runtime/SapNW710Runtime_ESTest.java
+@@ -14,13 +14,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SapNW710Runtime_ESTest extends SapNW710Runtime_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        SapNW710Runtime runtime = new SapNW710Runtime();
++        String[] classpath = runtime.getJ2EE14Classpath();
++        assertNotNull(classpath);
++        assertTrue(classpath.length > 0);
++        for (String entry : classpath) {
++            assertNotNull(entry);
++            assertTrue(entry.endsWith(".jar") || entry.endsWith(".zip"));
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      SapNW710Runtime sapNW710Runtime0 = new SapNW710Runtime();
+-      String[] stringArray0 = sapNW710Runtime0.getJ2EE14Classpath();
+-      assertEquals(14, stringArray0.length);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

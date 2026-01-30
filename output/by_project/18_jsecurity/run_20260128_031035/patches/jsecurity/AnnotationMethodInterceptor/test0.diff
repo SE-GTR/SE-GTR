@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/jsecurity/aop/AnnotationMethodInterceptor_ESTest.java
++++ b/evosuite-tests/org/jsecurity/aop/AnnotationMethodInterceptor_ESTest.java
+@@ -19,24 +19,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AnnotationMethodInterceptor_ESTest extends AnnotationMethodInterceptor_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      GuestAnnotationMethodInterceptor guestAnnotationMethodInterceptor0 = new GuestAnnotationMethodInterceptor();
+-      MethodInvocation methodInvocation0 = mock(MethodInvocation.class, new ViolatedAssumptionAnswer());
+-      doReturn((Method) null).when(methodInvocation0).getMethod();
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    GuestAnnotationMethodInterceptor guestAnnotationMethodInterceptor0 = new GuestAnnotationMethodInterceptor();
++    MethodInvocation methodInvocation0 = mock(MethodInvocation.class, new ViolatedAssumptionAnswer());
++    java.lang.reflect.Method stubbedMethod = doReturn((Method) null).when(methodInvocation0).getMethod();
++    assertNull(stubbedMethod);
++    try {
+         guestAnnotationMethodInterceptor0.supports(methodInvocation0);
+         fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // org.jsecurity.aop.MethodInvocation parameter incorrectly constructed.  getMethod() returned null
+-         //
+-         verifyException("org.jsecurity.aop.AnnotationMethodInterceptor", e);
+-      }
+-  }
++    } catch (IllegalArgumentException e) {
++        verifyException("org.jsecurity.aop.AnnotationMethodInterceptor", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

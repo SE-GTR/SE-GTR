@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/petsoar/security/Logout_ESTest.java
++++ b/evosuite-tests/org/petsoar/security/Logout_ESTest.java
+@@ -22,20 +22,16 @@
+       Logout logout0 = new Logout();
+       logout0.setUserAccessor((UserAccessor) null);
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    Logout logout0 = new Logout();
++    UserAccessor dummy = (UserAccessor) java.lang.reflect.Proxy.newProxyInstance(
++        UserAccessor.class.getClassLoader(),
++        new Class<?>[]{UserAccessor.class},
++        (proxy, method, args) -> null);
++    ((UserAccessorAware) logout0).setUserAccessor(dummy);
++    String result = logout0.execute();
++    assertNotNull(result);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Logout logout0 = new Logout();
+-      // Undeclared exception!
+-      try { 
+-        logout0.execute();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.petsoar.security.Logout", e);
+-      }
+-  }
+ }

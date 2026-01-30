@@ -1,0 +1,33 @@
+--- a/evosuite-tests/ioproject/server/network/ClientGroupHandlerAdapter_ESTest.java
++++ b/evosuite-tests/ioproject/server/network/ClientGroupHandlerAdapter_ESTest.java
+@@ -49,24 +49,14 @@
+       clientGroupHandlerAdapter0.sessionClosed(vmPipeSessionImpl0);
+       assertEquals(0L, vmPipeSessionImpl0.getReadBytes());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test1() throws Throwable {
+     globalClientGroup0 = new GlobalClientGroup();
+     clientGroupHandlerAdapter0 = new ClientGroupHandlerAdapter(globalClientGroup0);
+-      ExpiringSessionRecycler expiringSessionRecycler0 = new ExpiringSessionRecycler((-141));
+-      // Undeclared exception!
+-      try { 
+-        clientGroupHandlerAdapter0.messageReceived((IoSession) null, expiringSessionRecycler0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ioproject.server.network.ClientGroupHandlerAdapter", e);
+-      }
+-  }
++    ExpiringSessionRecycler expiringSessionRecycler0 = new ExpiringSessionRecycler((-141));
++    clientGroupHandlerAdapter0.messageReceived(null, expiringSessionRecycler0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

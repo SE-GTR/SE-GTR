@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DBForeignKeyConstraint_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DBForeignKeyConstraint_ESTest.java
+@@ -151,16 +151,21 @@
+         String result = dBForeignKeyConstraint0.columnReferencedBy("#*<&n!GbHM^S");
+         assertNotNull(result);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable("updateDouble");
+-      String[] stringArray0 = new String[1];
+-      DBForeignKeyConstraint dBForeignKeyConstraint0 = new DBForeignKeyConstraint("o?J_W+qU=;</NrujO", false, defaultDBTable0, stringArray0, defaultDBTable0, stringArray0);
+-      String[] stringArray1 = dBForeignKeyConstraint0.getForeignKeyColumnNames();
+-      assertEquals(1, stringArray1.length);
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        DefaultDBTable defaultDBTable0 = new DefaultDBTable("updateDouble");
++        String[] fkColumnNames = new String[1];
++        fkColumnNames[0] = "colA";
++        DBForeignKeyConstraint constraint = new DBForeignKeyConstraint(
++                "o?J_W+qU=;</NrujO", false, defaultDBTable0, fkColumnNames, defaultDBTable0, fkColumnNames);
++        String[] retrieved = constraint.getForeignKeyColumnNames();
++        assertSame(fkColumnNames, retrieved);
++        assertEquals("colA", retrieved[0]);
++        // modify the original array and verify the change is reflected
++        fkColumnNames[0] = "colB";
++        assertEquals("colB", constraint.getForeignKeyColumnNames()[0]);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

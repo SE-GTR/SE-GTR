@@ -1,0 +1,45 @@
+--- a/evosuite-tests/corina/formats/PackedTucson_ESTest.java
++++ b/evosuite-tests/corina/formats/PackedTucson_ESTest.java
+@@ -143,21 +143,28 @@
+          verifyException("corina.formats.PackedTucson", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        packedTucson0 = new PackedTucson();
++        java.io.BufferedReader br = new java.io.BufferedReader(new java.io.Reader() {
++            @Override
++            public int read(char[] cbuf, int off, int len) throws java.io.IOException {
++                throw new java.io.IOException();
++            }
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-    packedTucson0 = new PackedTucson();
+-      try { 
+-        packedTucson0.load((BufferedReader) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.formats.PackedTucson", e);
+-      }
+-  }
++            @Override
++            public void close() throws java.io.IOException {
++                // no-op
++            }
++        });
++        try {
++            packedTucson0.load(br);
++            fail("Expecting exception: IOException");
++        } catch (java.io.IOException e) {
++            // expected exception
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

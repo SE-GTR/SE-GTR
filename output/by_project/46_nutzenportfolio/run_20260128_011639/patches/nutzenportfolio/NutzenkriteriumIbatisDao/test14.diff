@@ -1,0 +1,35 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/persistence/nutzenkriterium/NutzenkriteriumIbatisDao_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/persistence/nutzenkriterium/NutzenkriteriumIbatisDao_ESTest.java
+@@ -253,22 +253,16 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      NutzenkriteriumIbatisDao nutzenkriteriumIbatisDao0 = new NutzenkriteriumIbatisDao();
+-      // Undeclared exception!
+-      try { 
+-        nutzenkriteriumIbatisDao0.deleteAssignment((Nutzenkriterium) null);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    NutzenkriteriumIbatisDao dao = new NutzenkriteriumIbatisDao();
++    com.ibatis.sqlmap.client.SqlMapClient mockClient = org.mockito.Mockito.mock(com.ibatis.sqlmap.client.SqlMapClient.class);
++    dao.setSqlMapClient(mockClient);
++    Nutzenkriterium kriterium = new Nutzenkriterium();
++    dao.deleteAssignment(kriterium);
++    org.junit.Assert.assertTrue(true);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

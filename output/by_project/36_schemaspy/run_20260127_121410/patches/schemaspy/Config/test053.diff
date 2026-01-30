@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -808,22 +808,21 @@
+          verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test053()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.setConnectionProperties("UTF-8");
+-      try { 
+-        config0.setConnectionPropertiesFile("UTF-8");
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test053() throws Throwable {
++        // Create a temporary properties file with minimal content
++        java.io.File tempFile = java.io.File.createTempFile("configTest", ".properties");
++        tempFile.deleteOnExit();
++        try (java.io.FileWriter writer = new java.io.FileWriter(tempFile)) {
++            writer.write("sampleKey=sampleValue");
++        }
++
++        Config config0 = Config.getInstance();
++        config0.setConnectionProperties("UTF-8");
++        // The method should succeed when a valid file is provided
++        config0.setConnectionPropertiesFile(tempFile.getAbsolutePath());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test054()  throws Throwable  {

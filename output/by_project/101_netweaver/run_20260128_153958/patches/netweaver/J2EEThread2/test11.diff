@@ -1,0 +1,49 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
+@@ -162,21 +162,31 @@
+ 
+     assertEquals(0, j2EEThread2_0.getIndex());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      J2EEThread2 j2EEThread2_0 = new J2EEThread2();
+-      STATECOLOR sTATECOLOR0 = STATECOLOR.value2;
+-      j2EEThread2_0.setDispstatus(sTATECOLOR0);
+-      J2EEThread2 j2EEThread2_1 = new J2EEThread2();
+-      assertFalse(j2EEThread2_1.equals((Object)j2EEThread2_0));
+-      
+-      j2EEThread2_1.setDispstatus(sTATECOLOR0);
+-      boolean boolean0 = j2EEThread2_0.equals(j2EEThread2_1);
+-      assertTrue(j2EEThread2_1.equals((Object)j2EEThread2_0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        J2EEThread2 j2EEThread2_0 = new J2EEThread2();
++        // verify initial state before setting dispstatus
++        assertNull(j2EEThread2_0.getDispstatus());
++
++        STATECOLOR sTATECOLOR0 = STATECOLOR.value2;
++        j2EEThread2_0.setDispstatus(sTATECOLOR0);
++        // assert side‑effect of setDispstatus
++        assertEquals(sTATECOLOR0, j2EEThread2_0.getDispstatus());
++
++        J2EEThread2 j2EEThread2_1 = new J2EEThread2();
++        assertFalse(j2EEThread2_1.equals((Object) j2EEThread2_0));
++
++        j2EEThread2_1.setDispstatus(sTATECOLOR0);
++        // both objects now have the same dispstatus, equality should hold
++        boolean boolean0 = j2EEThread2_0.equals(j2EEThread2_1);
++        assertTrue(j2EEThread2_1.equals((Object) j2EEThread2_0));
++        assertTrue(boolean0);
++
++        // additional check: different dispstatus leads to inequality
++        j2EEThread2_1.setDispstatus(STATECOLOR.value1);
++        assertFalse(j2EEThread2_0.equals(j2EEThread2_1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

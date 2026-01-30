@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/jcvi/jillion/fasta/FastaFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/fasta/FastaFileParser_ESTest.java
+@@ -133,16 +133,19 @@
+       fastaFileParser0.handleEndOfFile(defaultQualityFastaFileDataStoreBuilder0, atomicBoolean0, fastaRecordVisitor0);
+       assertEquals("false", atomicBoolean0.toString());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
++@Test(timeout = 4000)
++public void test05() throws Throwable {
+     byteArray0 = new byte[9];
+-      byteArray0[2] = (byte)127;
++    byteArray0[2] = (byte) 127;
+     byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+     fastaFileParser0 = FastaFileParser.create((InputStream) byteArrayInputStream0);
+     defaultQualityFastaFileDataStoreBuilder0 = new DefaultQualityFastaFileDataStoreBuilder((DataStoreFilter) null);
+-      fastaFileParser0.accept((FastaVisitor) defaultQualityFastaFileDataStoreBuilder0);
+-  }
++    fastaFileParser0.accept((FastaVisitor) defaultQualityFastaFileDataStoreBuilder0);
++    // Verify that parsing produced no records
++    org.jcvi.jillion.fasta.qual.QualityFastaFileDataStore dataStore = defaultQualityFastaFileDataStoreBuilder0.build();
++    org.junit.Assert.assertEquals(0, dataStore.getNumberOfRecords());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

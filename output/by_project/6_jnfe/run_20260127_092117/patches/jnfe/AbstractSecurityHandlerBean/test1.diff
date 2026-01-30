@@ -1,0 +1,28 @@
+--- a/evosuite-tests/br/com/jnfe/base/service/AbstractSecurityHandlerBean_ESTest.java
++++ b/evosuite-tests/br/com/jnfe/base/service/AbstractSecurityHandlerBean_ESTest.java
+@@ -25,15 +25,17 @@
+       Resource resource0 = pkcs12SecurityHandlerBean0.getLocation();
+       assertNull(resource0);
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    SimpleSecurityHandlerBean simpleSecurityHandlerBean0 = new SimpleSecurityHandlerBean("", "");
++    ClassLoader classLoader0 = ClassLoader.getSystemClassLoader();
++    ClassPathResource classPathResource0 = new ClassPathResource("javax.xml.transform.enable-output-escaping", classLoader0);
++    assertNull(simpleSecurityHandlerBean0.getLocation());
++    simpleSecurityHandlerBean0.setLocation(classPathResource0);
++    assertSame(classPathResource0, simpleSecurityHandlerBean0.getLocation());
++    assertFalse(classPathResource0.isOpen());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      SimpleSecurityHandlerBean simpleSecurityHandlerBean0 = new SimpleSecurityHandlerBean("", "");
+-      ClassLoader classLoader0 = ClassLoader.getSystemClassLoader();
+-      ClassPathResource classPathResource0 = new ClassPathResource("javax.xml.transform.enable-output-escaping", classLoader0);
+-      simpleSecurityHandlerBean0.setLocation(classPathResource0);
+-      assertFalse(classPathResource0.isOpen());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

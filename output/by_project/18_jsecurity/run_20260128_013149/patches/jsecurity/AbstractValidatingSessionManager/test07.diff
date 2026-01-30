@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/AbstractValidatingSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/AbstractValidatingSessionManager_ESTest.java
+@@ -152,13 +152,14 @@
+          verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test07()  throws Throwable  {
+       DefaultSessionManager defaultSessionManager0 = new DefaultSessionManager();
+       defaultSessionManager0.validateSessions();
+       defaultSessionManager0.destroy();
+-      defaultSessionManager0.getActiveSessions();
++      java.util.Collection<?> activeSessions = defaultSessionManager0.getActiveSessions();
++      assertNotNull(activeSessions);
++      assertTrue(activeSessions.isEmpty());
+       defaultSessionManager0.enableSessionValidation();
+       LinkedList<Object> linkedList0 = new LinkedList<Object>();
+       DefaultSessionManager[] defaultSessionManagerArray0 = new DefaultSessionManager[0];
+@@ -166,7 +167,7 @@
+       try { 
+         defaultSessionManager0.setTimeout(defaultSessionManagerArray1, 3600000L);
+         fail("Expecting exception: RuntimeException");
+-      
++
+       } catch(RuntimeException e) {
+          //
+          // There is no session with id [[Lorg.jsecurity.session.mgt.DefaultSessionManager;@5fc06595]
+@@ -174,6 +175,7 @@
+          verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+       }
+   }
++
+ @Test(timeout = 4000)
+ public void test08() throws Throwable {
+     DefaultSessionManager defaultSessionManager0 = new DefaultSessionManager();

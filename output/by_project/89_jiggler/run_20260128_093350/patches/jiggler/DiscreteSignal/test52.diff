@@ -1,0 +1,34 @@
+--- a/evosuite-tests/jigl/signal/DiscreteSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/DiscreteSignal_ESTest.java
+@@ -487,24 +487,13 @@
+       assertSame(signal, cleared);
+       assertEquals(0, cleared.max());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test52()  throws Throwable  {
+-      DiscreteSignal discreteSignal0 = new DiscreteSignal();
+-      ROI rOI0 = new ROI();
+-      // Undeclared exception!
+-      try { 
+-        discreteSignal0.add((-600), 1, rOI0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.signal.DiscreteSignal", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class)
++    public void test52() throws Throwable {
++        DiscreteSignal discreteSignal0 = new DiscreteSignal();
++        // Trigger NPE by passing a null ROI, which is an invalid argument for the add method
++        discreteSignal0.add(-600, 1, null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test53()  throws Throwable  {

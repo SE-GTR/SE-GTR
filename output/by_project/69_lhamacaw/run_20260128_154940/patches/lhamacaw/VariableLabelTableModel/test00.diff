@@ -1,0 +1,37 @@
+--- a/evosuite-tests/macaw/presentationLayer/VariableLabelTableModel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/VariableLabelTableModel_ESTest.java
+@@ -24,18 +24,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class VariableLabelTableModel_ESTest extends VariableLabelTableModel_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      SessionProperties sessionProperties0 = new SessionProperties();
+-      DemonstrationRetrievalService demonstrationRetrievalService0 = new DemonstrationRetrievalService(sessionProperties0);
+-      VariableLabelTableModel variableLabelTableModel0 = new VariableLabelTableModel(demonstrationRetrievalService0, true);
+-      RawVariable rawVariable0 = new RawVariable();
+-      rawVariable0.setIdentifier(1);
+-      variableLabelTableModel0.setData((User) null, rawVariable0);
+-      variableLabelTableModel0.setValueAt((Object) null, 1, 0);
+-      assertEquals(0, VariableLabelTableModel.VALUE_COLUMN);
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    SessionProperties sessionProperties0 = new SessionProperties();
++    DemonstrationRetrievalService demonstrationRetrievalService0 = new DemonstrationRetrievalService(sessionProperties0);
++    VariableLabelTableModel variableLabelTableModel0 = new VariableLabelTableModel(demonstrationRetrievalService0, true);
++    RawVariable rawVariable0 = new RawVariable();
++    rawVariable0.setIdentifier(1);
++    variableLabelTableModel0.setData((User) null, rawVariable0);
++    // Verify that data was set: model should contain at least one row after setData
++    assertTrue("Model should contain at least one row after setData", variableLabelTableModel0.getRowCount() > 0);
++    // Set a value at a specific cell and verify the change
++    variableLabelTableModel0.setValueAt(null, 1, 0);
++    assertNull("Value at row 1, column VALUE_COLUMN should be null after setValueAt",
++        variableLabelTableModel0.getValueAt(1, VariableLabelTableModel.VALUE_COLUMN));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

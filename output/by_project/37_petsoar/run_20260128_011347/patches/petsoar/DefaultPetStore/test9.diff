@@ -1,0 +1,58 @@
+--- a/evosuite-tests/org/petsoar/pets/DefaultPetStore_ESTest.java
++++ b/evosuite-tests/org/petsoar/pets/DefaultPetStore_ESTest.java
+@@ -164,21 +164,38 @@
+         defaultPetStore0 = new DefaultPetStore();
+         defaultPetStore0.getRootCategories();
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test9()  throws Throwable  {
+-    defaultPetStore0 = new DefaultPetStore();
+-      // Undeclared exception!
+-      try { 
+-        defaultPetStore0.getUncategorizedPets();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.petsoar.pets.DefaultPetStore", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test9() throws Throwable {
++        defaultPetStore0 = new DefaultPetStore();
++
++        // Create a minimal stub for PersistenceManager using a dynamic proxy
++        PersistenceManager stubPm = (PersistenceManager) java.lang.reflect.Proxy.newProxyInstance(
++                PersistenceManager.class.getClassLoader(),
++                new Class<?>[]{PersistenceManager.class},
++                (proxy, method, args) -> {
++                    Class<?> ret = method.getReturnType();
++                    if (ret.isPrimitive()) {
++                        if (ret == boolean.class) return false;
++                        if (ret == char.class) return '\0';
++                        if (ret == byte.class) return (byte) 0;
++                        if (ret == short.class) return (short) 0;
++                        if (ret == int.class) return 0;
++                        if (ret == long.class) return 0L;
++                        if (ret == float.class) return 0f;
++                        if (ret == double.class) return 0d;
++                    }
++                    return null;
++                });
++
++        // Inject the stub into the DefaultPetStore instance
++        java.lang.reflect.Field pmField = DefaultPetStore.class.getDeclaredField("persistenceManager");
++        pmField.setAccessible(true);
++        pmField.set(defaultPetStore0, stubPm);
++
++        // Execute the method under test and verify normal behavior
++        java.util.List result = defaultPetStore0.getUncategorizedPets();
++        org.junit.Assert.assertNotNull("Resulting list should not be null", result);
++        org.junit.Assert.assertTrue("Resulting list should be empty when no pets are stored", result.isEmpty());
++    }
++
+ }

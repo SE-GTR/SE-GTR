@@ -1,0 +1,38 @@
+--- a/evosuite-tests/framework/util/FileUtils_ESTest.java
++++ b/evosuite-tests/framework/util/FileUtils_ESTest.java
+@@ -40,12 +40,29 @@
+          verifyException("framework.util.FileUtils", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      FileUtils.zipFile("Ignoring configuration file [");
+-      FileUtils.replacePatternInFile("", "org.apache.log4j.helpers.Loader", false, (Map) null, false);
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    // Capture the state of the current working directory before the operations
++    File cwd = new File(".");
++    Set<String> before = new HashSet<>();
++    for (File f : cwd.listFiles()) {
++        before.add(f.getCanonicalPath());
++    }
++
++    // Act: invoke the utility methods
++    FileUtils.zipFile("Ignoring configuration file [");
++    FileUtils.replacePatternInFile("", "org.apache.log4j.helpers.Loader", false, (Map) null, false);
++
++    // Capture the state after the operations
++    Set<String> after = new HashSet<>();
++    for (File f : cwd.listFiles()) {
++        after.add(f.getCanonicalPath());
++    }
++
++    // Verify that the calls did not unintentionally modify the file system
++    assertEquals("File system should remain unchanged after zipFile and replacePatternInFile calls", before, after);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

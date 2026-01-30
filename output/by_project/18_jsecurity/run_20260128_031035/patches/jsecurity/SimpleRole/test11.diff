@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleRole_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleRole_ESTest.java
+@@ -116,17 +116,23 @@
+       boolean boolean0 = simpleRole0.isPermitted(allPermission0);
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
++@Test(timeout = 4000)
++public void test11() throws Throwable {
+     simpleRole0 = new SimpleRole((String) null);
+     allPermission0 = new AllPermission();
+-      simpleRole0.add(allPermission0);
+-      LinkedList<Permission> linkedList0 = new LinkedList<Permission>();
+-      linkedList0.add((Permission) allPermission0);
+-      simpleRole0.addAll(linkedList0);
+-      assertNull(simpleRole0.getName());
+-  }
++    int sizeBefore = simpleRole0.getPermissions().size();
++    simpleRole0.add(allPermission0);
++    assertEquals(sizeBefore + 1, simpleRole0.getPermissions().size());
++    assertTrue(simpleRole0.getPermissions().contains(allPermission0));
++    LinkedList<Permission> linkedList0 = new LinkedList<Permission>();
++    linkedList0.add(allPermission0);
++    simpleRole0.addAll(linkedList0);
++    // Adding the same permission again should not increase the size
++    assertEquals(sizeBefore + 1, simpleRole0.getPermissions().size());
++    assertTrue(simpleRole0.getPermissions().contains(allPermission0));
++    assertNull(simpleRole0.getName());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

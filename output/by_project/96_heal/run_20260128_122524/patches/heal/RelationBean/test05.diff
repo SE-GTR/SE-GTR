@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/heal/module/metadata/RelationBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/RelationBean_ESTest.java
+@@ -52,13 +52,23 @@
+       relationBean0.setEntry("Relation: ID:null metadataId:null resource:null kind:null description:null catalogue:null entry:null");
+       assertNull(relationBean0.getRelationId());
+   }
++@Test(timeout = 4000)
++  public void test05() throws Throwable {
++      RelationBean relationBean0 = new RelationBean();
++      // Verify initial state
++      assertNull(relationBean0.getResource());
+ 
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      RelationBean relationBean0 = new RelationBean();
+-      relationBean0.setKind("Relation: ID:null metadataId:null resource:null kind:null description:null catalogue:null entry:null");
++      // Exercise non‑trivial behavior
++      String kindValue = "Relation: ID:null metadataId:null resource:null kind:null description:null catalogue:null entry:null";
++      relationBean0.setKind(kindValue);
++
++      // Observe side‑effect: setting kind must not alter resource
+       assertNull(relationBean0.getResource());
++
++      // Verify that the kind was correctly stored
++      assertEquals(kindValue, relationBean0.getKind());
+   }
++
+ @Test(timeout = 4000)
+ public void test06() throws Throwable {
+     RelationBean relationBean0 = new RelationBean();

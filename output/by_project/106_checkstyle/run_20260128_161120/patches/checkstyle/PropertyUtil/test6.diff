@@ -1,0 +1,22 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/configtypes/PropertyUtil_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/configtypes/PropertyUtil_ESTest.java
+@@ -65,10 +65,14 @@
+          verifyException("com.atlassw.tools.eclipse.checkstyle.config.configtypes.PropertyUtil", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        // Null input should have no unresolved properties
++        assertFalse(PropertyUtil.hasUnresolvedProperties(null));
++        // A plain string without any property placeholders should also have none
++        assertFalse(PropertyUtil.hasUnresolvedProperties("plain text"));
++        // A string containing an unresolved property placeholder should be detected
++        assertTrue(PropertyUtil.hasUnresolvedProperties("${unresolved}"));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      boolean boolean0 = PropertyUtil.hasUnresolvedProperties((String) null);
+-      assertFalse(boolean0);
+-  }
+ }

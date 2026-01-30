@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/quickserver/util/pool/thread/ClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/thread/ClientPool_ESTest.java
+@@ -152,20 +152,21 @@
+         int int0 = clientPool0.getMaxThreadsForNioWrite();
+         assertTrue(int0 > 0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      BasicObjectPool basicObjectPool0 = new BasicObjectPool();
+-      ThreadObjectPoolConfig threadObjectPoolConfig0 = new ThreadObjectPoolConfig();
+-      ClientPool clientPool0 = new ClientPool(basicObjectPool0, threadObjectPoolConfig0);
+-      assertEquals(10, clientPool0.getMaxThreadsForNioWrite());
+-      
+-      clientPool0.setMaxThreadsForNioWrite(1);
+-      clientPool0.nioWriteStart();
+-      boolean boolean0 = clientPool0.shouldNioWriteHappen();
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        BasicObjectPool basicObjectPool0 = new BasicObjectPool();
++        ThreadObjectPoolConfig threadObjectPoolConfig0 = new ThreadObjectPoolConfig();
++        ClientPool clientPool0 = new ClientPool(basicObjectPool0, threadObjectPoolConfig0);
++        assertEquals(10, clientPool0.getMaxThreadsForNioWrite());
++
++        clientPool0.setMaxThreadsForNioWrite(1);
++        assertEquals(1, clientPool0.getMaxThreadsForNioWrite());
++
++        clientPool0.nioWriteStart();
++        boolean boolean0 = clientPool0.shouldNioWriteHappen();
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

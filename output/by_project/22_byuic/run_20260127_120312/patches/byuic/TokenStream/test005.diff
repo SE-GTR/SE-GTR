@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
+@@ -90,25 +90,19 @@
+       assertTrue(parser0.eof());
+       assertEquals(275, scriptOrFnNode0.getEndLineno());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test005()  throws Throwable  {
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
+-      Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+-      TokenStream tokenStream0 = new TokenStream(parser0, (Reader) null, "(Lorg/mozilla/javascript/Context;Lorg/mozilla/javascript/Scriptable;Lorg/mozilla/javascript/Scriptable;[Ljava/lang/Object;)Ljava/lang/Object;", 100);
+-      // Undeclared exception!
+-      try { 
+-        tokenStream0.getFirstXMLToken();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.mozilla.javascript.Parser", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test005() throws Throwable {
++    CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++    DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
++    Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
++    Reader reader = new java.io.StringReader("");
++    TokenStream tokenStream0 = new TokenStream(parser0, reader,
++        "(Lorg/mozilla/javascript/Context;Lorg/mozilla/javascript/Scriptable;Lorg/mozilla/javascript/Scriptable;[Ljava/lang/Object;)Ljava/lang/Object;",
++        100);
++    int token = tokenStream0.getFirstXMLToken();
++    assertEquals(TokenStream.EOF_CHAR, token);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test006()  throws Throwable  {

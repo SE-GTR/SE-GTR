@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/ControlledVocabularyRecordModifier_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/ControlledVocabularyRecordModifier_ESTest.java
+@@ -53,19 +53,18 @@
+       controlledVocabularyRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
+       assertNull(completeMetadataBean0.getSpecimenType());
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        ControlledVocabularyRecordModifier modifier = new ControlledVocabularyRecordModifier();
++        CompleteMetadataBean bean = new CompleteMetadataBean();
++        ServletRequest request = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
++        when(request.getParameter(anyString())).thenReturn("taxonPathId:");
++        ServletRequestWrapper wrapper = new ServletRequestWrapper(request);
++        modifier.updateMetadata(bean, wrapper);
++        assertNull(bean.getFileWidth());
++        verify(request, atLeastOnce()).getParameter(anyString());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    controlledVocabularyRecordModifier0 = new ControlledVocabularyRecordModifier();
+-    completeMetadataBean0 = new CompleteMetadataBean();
+-    servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(" taxonP athId:", " taxonP athId:", " taxonP athId:", " taxonP athId:", " taxonP athId:").when(servletRequest0).getParameter(anyString());
+-      ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
+-      controlledVocabularyRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
+-      controlledVocabularyRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
+-      controlledVocabularyRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
+-      assertNull(completeMetadataBean0.getFileWidth());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

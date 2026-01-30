@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/petsoar/search/lucene/DefaultLuceneDocumentFactory_ESTest.java
++++ b/evosuite-tests/org/petsoar/search/lucene/DefaultLuceneDocumentFactory_ESTest.java
+@@ -20,13 +20,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DefaultLuceneDocumentFactory_ESTest extends DefaultLuceneDocumentFactory_ESTest_scaffolding {
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
++      DefaultLuceneDocumentFactory.FieldConfiguration cfg1 = new DefaultLuceneDocumentFactory.FieldConfiguration();
++      cfg1.setType("UnStored");
++      assertEquals("UnStored", cfg1.getType());
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      DefaultLuceneDocumentFactory.FieldConfiguration defaultLuceneDocumentFactory_FieldConfiguration0 = new DefaultLuceneDocumentFactory.FieldConfiguration();
+-      defaultLuceneDocumentFactory_FieldConfiguration0.setType("UnStored");
+-      assertEquals("UnStored", defaultLuceneDocumentFactory_FieldConfiguration0.getType());
++      DefaultLuceneDocumentFactory.FieldConfiguration cfg2 = new DefaultLuceneDocumentFactory.FieldConfiguration();
++      cfg2.setType("UnStored");
++
++      // Verify logical behavior beyond simple accessor
++      assertEquals(cfg1, cfg2);
++      assertEquals(cfg1.hashCode(), cfg2.hashCode());
++      assertTrue(cfg1.toString().contains("UnStored"));
+   }
++
+ @Test(timeout = 4000)
+     public void test01() throws Throwable {
+         DefaultLuceneDocumentFactory.FieldConfiguration cfg1 = new DefaultLuceneDocumentFactory.FieldConfiguration();

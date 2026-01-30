@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/QuickServerConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/QuickServerConfig_ESTest.java
+@@ -138,15 +138,21 @@
+     assertNotNull(xml);
+     assertTrue(xml.contains("QuickServer v2.0.0 RC1"));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      QuickServerConfig quickServerConfig0 = new QuickServerConfig();
+-      quickServerConfig0.setSecurityManagerClass("4/2i({p{Z:$bwA(s|");
+-      quickServerConfig0.toXML("4/2i({p{Z:$bwA(s|");
+-      assertEquals("QuickServer v2.0.0 RC1", quickServerConfig0.getName());
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    QuickServerConfig quickServerConfig0 = new QuickServerConfig();
++    String smClass = "4/2i({p{Z:$bwA(s|";
++    quickServerConfig0.setSecurityManagerClass(smClass);
++    // Verify that the security manager class was set correctly
++    assertEquals(smClass, quickServerConfig0.getSecurityManagerClass());
++    // Capture and verify the XML representation
++    String xml = quickServerConfig0.toXML(smClass);
++    assertNotNull(xml);
++    assertTrue(xml.contains(smClass));
++    // Existing assertion on the default name
++    assertEquals("QuickServer v2.0.0 RC1", quickServerConfig0.getName());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

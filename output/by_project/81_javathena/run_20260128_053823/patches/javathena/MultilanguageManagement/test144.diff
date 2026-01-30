@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/javathena/core/utiles/MultilanguageManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/core/utiles/MultilanguageManagement_ESTest.java
+@@ -874,13 +874,19 @@
+ public void test143() throws Throwable {
+     assertNull(MultilanguageManagement.getLogin_log_14());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test144()  throws Throwable  {
+-      String string0 = MultilanguageManagement.getWarning_2();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++    public void test144() throws Throwable {
++        // Use reflection to set the static field warning_2 to a known value
++        java.lang.reflect.Field field = MultilanguageManagement.class.getDeclaredField("warning_2");
++        field.setAccessible(true);
++        field.set(null, "test warning");
++        // Verify that the getter returns the value we set
++        String result = MultilanguageManagement.getWarning_2();
++        assertEquals("test warning", result);
++        // Clean up: reset the field to its original state (null)
++        field.set(null, null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test145()  throws Throwable  {

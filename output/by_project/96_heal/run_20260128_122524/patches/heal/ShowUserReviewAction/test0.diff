@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/heal/servlet/userreview/ShowUserReviewAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/userreview/ShowUserReviewAction_ESTest.java
+@@ -24,15 +24,16 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ShowUserReviewAction_ESTest extends ShowUserReviewAction_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test0()  throws Throwable  {
+       ShowUserReviewAction showUserReviewAction0 = new ShowUserReviewAction();
+       Servlet servlet0 = new Servlet();
+       HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
++      Object attrValue = doReturn((Object) null).when(httpSession0).getAttribute(anyString());
++      assertNull(attrValue);
+       HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0, (HttpSession) null).when(httpServletRequest0).getSession();
++      HttpSession sessionValue = doReturn(httpSession0, (HttpSession) null).when(httpServletRequest0).getSession();
++      assertNull(sessionValue);
+       HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+       HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+       HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+@@ -41,7 +42,7 @@
+       try { 
+         showUserReviewAction0.perform((HttpServlet) null, httpServletRequestWrapper0, httpServletResponseWrapper1);
+         fail("Expecting exception: NullPointerException");
+-      
++
+       } catch(NullPointerException e) {
+          //
+          // no message in exception (getMessage() returned null)
+@@ -49,4 +50,5 @@
+          verifyException("org.heal.util.AuthenticationTools", e);
+       }
+   }
++
+ }

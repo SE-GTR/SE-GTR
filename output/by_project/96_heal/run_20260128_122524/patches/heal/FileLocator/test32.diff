@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/util/FileLocator_ESTest.java
++++ b/evosuite-tests/org/heal/util/FileLocator_ESTest.java
+@@ -350,21 +350,27 @@
+       assertEquals("package", fileLocator0.getPackageDirectory());
+       assertEquals(536870912L, fileLocator0.getMaxUploadSize());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test32() throws Throwable {
+       FileLocator fileLocator0 = new FileLocator();
+       EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("9M+!ISHG[e/content/null/2");
+       FileSystemHandling.appendStringToFile(evoSuiteFile0, "thumbnails/content/thumbnails/content/");
++      // set a custom base path and generate the full directory structure
+       fileLocator0.setBaseFilePath("9M+!ISHG[e");
+       fileLocator0.generateFullDirectories();
++
+       String string0 = fileLocator0.getUniqueFileLocation((String) null, "");
++
++      // verify immutable configuration values
+       assertEquals(536870912L, fileLocator0.getMaxUploadSize());
+       assertEquals("null/3", string0);
++      // verify side‑effects of setBaseFilePath / generateFullDirectories
+       assertEquals("9M+!ISHG[e/upload", fileLocator0.getUploadFilePath());
+-      assertEquals("package", fileLocator0.getPackageDirectory());
+-      assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
+-  }
++      assertTrue(fileLocator0.getUploadFilePath().startsWith("9M+!ISHG[e"));
++      assertEquals("package", fileLocator0.getPackageDirectory());
++      assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test33()  throws Throwable  {

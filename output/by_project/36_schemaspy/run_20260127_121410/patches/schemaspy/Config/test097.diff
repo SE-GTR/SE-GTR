@@ -1,0 +1,29 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -1413,14 +1413,18 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test097()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.setIndirectColumnExclusions("sfc~K~G:l6ggcx%DmL");
+-      assertFalse(config0.hasRoutines());
+-      assertFalse(config0.hasOrphans());
+-  }
++@Test(timeout = 4000)
++public void test097() throws Throwable {
++    Config config0 = Config.getInstance();
++    String exclusions = "sfc~K~G:l6ggcx%DmL";
++    config0.setIndirectColumnExclusions(exclusions);
++    java.util.regex.Pattern pattern = config0.getIndirectColumnExclusions();
++    assertNotNull(pattern);
++    assertEquals(exclusions, pattern.pattern());
++    assertFalse(config0.hasRoutines());
++    assertFalse(config0.hasOrphans());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test098()  throws Throwable  {

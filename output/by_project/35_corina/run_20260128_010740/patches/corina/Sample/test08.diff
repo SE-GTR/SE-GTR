@@ -1,0 +1,38 @@
+--- a/evosuite-tests/corina/Sample_ESTest.java
++++ b/evosuite-tests/corina/Sample_ESTest.java
+@@ -124,25 +124,16 @@
+          verifyException("corina.io.Files", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      sample0.incr = (List) linkedList0;
+-      linkedList0.offer(sample0);
+-      // Undeclared exception!
+-      try { 
+-        sample0.countSignificantIntervals();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.Weiserjahre", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        Sample sample0 = new Sample();
++        LinkedList<Object> linkedList0 = new LinkedList<>();
++        sample0.incr = (List) linkedList0;
++        boolean offered = linkedList0.offer(sample0);
++        assertTrue("LinkedList.offer should return true", offered);
++        assertSame("LinkedList should contain the offered element", sample0, linkedList0.peek());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

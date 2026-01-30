@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/heal/module/metadata/CopyrightTextBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/CopyrightTextBean_ESTest.java
+@@ -29,14 +29,25 @@
+         String actual = bean.getCopyrightAndOtherRestriction();
+         assertEquals(expected, actual);
+     }
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
++      CopyrightTextBean bean = new CopyrightTextBean();
++      String expected = "Sample Text";
++      bean.setCopyrightText(expected);
++      assertEquals(expected, bean.getCopyrightText());
+ 
++      // Verify that the value survives serialization (non‑trivial behavior)
++      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++      oos.writeObject(bean);
++      oos.flush();
++      byte[] data = baos.toByteArray();
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      CopyrightTextBean copyrightTextBean0 = new CopyrightTextBean();
+-      String string0 = copyrightTextBean0.getCopyrightText();
+-      assertNull(string0);
++      java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++      CopyrightTextBean deserialized = (CopyrightTextBean) ois.readObject();
++      assertEquals(expected, deserialized.getCopyrightText());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

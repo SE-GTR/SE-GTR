@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
+@@ -304,25 +304,19 @@
+         Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+         parser0.parse("tKlMeOQ3E|uC9mu#", "tKlMeOQ3E|uC9mu#", -28);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
+-      DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+-      // Undeclared exception!
+-      try { 
+-        parser0.parse("$/Ue?!O./V|o4NHb", "$/Ue?!O./V|o4NHb", 89);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // missing name after . operator ($/Ue?!O./V|o4NHb#89)
+-         //
+-         verifyException("org.mozilla.javascript.DefaultErrorReporter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test32() throws Throwable {
++        DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
++        try {
++            parser0.parse("$/Ue?!O./V|o4NHb", "$/Ue?!O./V|o4NHb", 89);
++            fail("Expecting exception: RuntimeException");
++        } catch (RuntimeException e) {
++            assertTrue(e.getMessage().contains("missing name after . operator"));
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test33()  throws Throwable  {

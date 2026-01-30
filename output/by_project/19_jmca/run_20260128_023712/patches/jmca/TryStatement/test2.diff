@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/xmlParser/TryStatement_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/xmlParser/TryStatement_ESTest.java
+@@ -51,13 +51,19 @@
+          verifyException("com.soops.CEN4010.JMCA.JParser.xmlParser.TryStatement", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++public void test2() throws Throwable {
+     saxProcessor0 = new SaxProcessor();
+     tryStatement0 = new TryStatement(saxProcessor0);
+-      tryStatement0.closeState(",(% Nd*$Sc0");
+-  }
++    // capture the initial DONE flag state (expected to be false before closing)
++    boolean before = tryStatement0.isDone();
++    tryStatement0.closeState(",(% Nd*$Sc0");
++    // Verify that the DONE flag has been set after closeState
++    assertTrue("DONE flag should be true after closeState", tryStatement0.isDone());
++    // Ensure the state actually changed
++    assertNotEquals("DONE flag should change after closeState", before, tryStatement0.isDone());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

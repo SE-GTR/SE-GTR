@@ -1,0 +1,33 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/profile/TestHaSMETSProfile_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/profile/TestHaSMETSProfile_ESTest.java
+@@ -19,8 +19,7 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class TestHaSMETSProfile_ESTest extends TestHaSMETSProfile_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test0()  throws Throwable  {
+     Future<?> future = executor.submit(new Runnable(){ 
+             @Override public void run() { 
+@@ -28,7 +27,7 @@
+           try { 
+             TestHaSMETSProfile.main((String[]) null);
+             fail("Expecting exception: SecurityException");
+-          
++
+           } catch(SecurityException e) {
+              //
+              // Security manager blocks (\"java.lang.RuntimePermission\" \"exitVM.1\")
+@@ -58,8 +57,10 @@
+           }
+       } 
+     });
+-    future.get(4000, TimeUnit.MILLISECONDS);
++    Object result = future.get(4000, TimeUnit.MILLISECONDS);
++    org.junit.Assert.assertNull(result);
+   }
++
+ @Test(timeout = 4000)
+ public void test1() throws Throwable {
+     new TestHaSMETSProfile();

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/petsoar/persistence/hibernate/DefaultHibernateSessionFactory_ESTest.java
++++ b/evosuite-tests/org/petsoar/persistence/hibernate/DefaultHibernateSessionFactory_ESTest.java
+@@ -62,18 +62,19 @@
+     defaultHibernateSessionFactory0 = new DefaultHibernateSessionFactory();
+       defaultHibernateSessionFactory0.closeSession((Session) null);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++public void test3() throws Throwable {
+     defaultHibernateSessionFactory0 = new DefaultHibernateSessionFactory();
+     configuration0 = new Configuration();
+     settings0 = new Settings();
+     sessionFactoryImpl0 = new SessionFactoryImpl(configuration0, settings0);
+-      Session session0 = sessionFactoryImpl0.openSession((Connection) null);
+-      session0.disconnect();
+-      defaultHibernateSessionFactory0.endSession(session0);
+-      assertFalse(session0.isConnected());
+-  }
++    Session session0 = sessionFactoryImpl0.openSession((Connection) null);
++    java.sql.Connection connection = session0.disconnect();
++    defaultHibernateSessionFactory0.endSession(session0);
++    assertNull(connection);
++    assertFalse(session0.isConnected());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

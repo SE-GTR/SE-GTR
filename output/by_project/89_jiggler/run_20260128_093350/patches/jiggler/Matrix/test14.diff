@@ -1,0 +1,40 @@
+--- a/evosuite-tests/jigl/math/Matrix_ESTest.java
++++ b/evosuite-tests/jigl/math/Matrix_ESTest.java
+@@ -221,15 +221,28 @@
+       assertArrayEquals(new double[] {1.618033988749895, (-0.6180339887498948), (-1.0)}, doubleArray0, 0.01);
+       assertEquals(2, int0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      Matrix matrix0 = new Matrix(3, 3);
+-      double[] doubleArray0 = new double[4];
+-      matrix0.svdcmp(matrix0, doubleArray0, matrix0);
+-      Matrix matrix1 = matrix0.gaussj(matrix0);
+-      assertEquals(3, matrix1.nRows());
+-  }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        Matrix matrix0 = new Matrix(3, 3);
++        double[] singularValues = new double[4];
++        // Perform SVD which should modify the singularValues array
++        matrix0.svdcmp(matrix0, singularValues, matrix0);
++        // Verify that the singular values array was altered (at least one non‑zero entry)
++        boolean anyNonZero = false;
++        for (double v : singularValues) {
++            if (v != 0.0) {
++                anyNonZero = true;
++                break;
++            }
++        }
++        assertTrue("svdcmp should modify singular values", anyNonZero);
++        // Perform Gauss‑Jordan elimination
++        Matrix matrix1 = matrix0.gaussj(matrix0);
++        // Verify that a new matrix is returned and its dimensions are preserved
++        assertNotSame(matrix0, matrix1);
++        assertEquals(3, matrix1.nRows());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

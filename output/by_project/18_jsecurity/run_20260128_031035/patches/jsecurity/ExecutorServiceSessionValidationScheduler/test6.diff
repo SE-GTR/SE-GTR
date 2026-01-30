@@ -1,0 +1,48 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/ExecutorServiceSessionValidationScheduler_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/ExecutorServiceSessionValidationScheduler_ESTest.java
+@@ -356,22 +356,29 @@
+          verifyException("org.jsecurity.session.mgt.ExecutorServiceSessionValidationScheduler", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      ExecutorServiceSessionValidationScheduler executorServiceSessionValidationScheduler0 = new ExecutorServiceSessionValidationScheduler();
+-      assertFalse(executorServiceSessionValidationScheduler0.isEnabled());
+-      assertEquals(3600000L, executorServiceSessionValidationScheduler0.getInterval());
+-      
+-      boolean boolean0 = executorServiceSessionValidationScheduler0.isEnabled();
+-      assertFalse(boolean0);
+-      assertFalse(executorServiceSessionValidationScheduler0.isEnabled());
+-      assertEquals(3600000L, executorServiceSessionValidationScheduler0.getInterval());
+-      
+-      executorServiceSessionValidationScheduler0.setInterval((-2995L));
+-      assertFalse(executorServiceSessionValidationScheduler0.isEnabled());
+-      assertEquals((-2995L), executorServiceSessionValidationScheduler0.getInterval());
+-  }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        ExecutorServiceSessionValidationScheduler scheduler = new ExecutorServiceSessionValidationScheduler();
++        // Verify default state
++        assertFalse(scheduler.isEnabled());
++        assertEquals(3600000L, scheduler.getInterval());
++
++        // Enable the scheduler and verify the change
++        scheduler.setEnabled(true);
++        assertTrue(scheduler.isEnabled());
++
++        // Change the interval and verify both the interval and that enabled state is unchanged
++        long newInterval = 12345L;
++        scheduler.setInterval(newInterval);
++        assertEquals(newInterval, scheduler.getInterval());
++        assertTrue(scheduler.isEnabled());
++
++        // Disable again and ensure the interval remains as set
++        scheduler.setEnabled(false);
++        assertFalse(scheduler.isEnabled());
++        assertEquals(newInterval, scheduler.getInterval());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/databene/jdbacl/proxy/LoggingStatementHandler_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/proxy/LoggingStatementHandler_ESTest.java
+@@ -68,12 +68,16 @@
+          verifyException("org.databene.jdbacl.proxy.LoggingStatementHandler", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      int int0 = LoggingStatementHandler.getOpenStatementCount();
+-      //  // Unstable assertion: assertEquals(95, int0);
+-  }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    try {
++        int count = LoggingStatementHandler.getOpenStatementCount();
++        assertTrue("Open statement count should be non‑negative", count >= 0);
++    } catch (Throwable t) {
++        fail("Calling getOpenStatementCount threw an exception: " + t);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

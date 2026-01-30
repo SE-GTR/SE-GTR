@@ -1,0 +1,36 @@
+--- a/evosuite-tests/macaw/persistenceLayer/production/ProductionCurationService_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/production/ProductionCurationService_ESTest.java
+@@ -1036,25 +1036,14 @@
+     ProductionCurationService productionCurationService0 = new ProductionCurationService(sessionProperties0);
+     productionCurationService0.getVariable((User) null, "startupOptions");
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test64()  throws Throwable  {
+-      SessionProperties sessionProperties0 = new SessionProperties();
+-      ProductionCurationService productionCurationService0 = new ProductionCurationService(sessionProperties0);
+-      User user0 = new User();
+-      // Undeclared exception!
+-      try { 
+-        productionCurationService0.getUsers(user0);
+-        fail("Expecting exception: NoClassDefFoundError");
+-      
+-      } catch(NoClassDefFoundError e) {
+-         //
+-         // Could not initialize class com.mysql.jdbc.CharsetMapping
+-         //
+-         verifyException("com.mysql.jdbc.Connection", e);
+-      }
+-  }
++@Test(expected = NoClassDefFoundError.class, timeout = 4000)
++public void test64() throws Throwable {
++    SessionProperties sessionProperties0 = new SessionProperties();
++    ProductionCurationService productionCurationService0 = new ProductionCurationService(sessionProperties0);
++    User user0 = new User();
++    productionCurationService0.getUsers(user0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test65()  throws Throwable  {

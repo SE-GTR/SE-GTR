@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/databene/jdbacl/SQLScriptException_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/SQLScriptException_ESTest.java
+@@ -20,14 +20,21 @@
+     SQLScriptException sQLScriptException0 = new SQLScriptException(557);
+     assertNotNull(sQLScriptException0);
+ }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        SQLScriptException original = new SQLScriptException(557);
++        // Act: serialize and deserialize the exception
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(original);
++        oos.close();
++        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++        SQLScriptException deserialized = (SQLScriptException) ois.readObject();
++        // Assert: the line number is preserved after the round‑trip
++        assertEquals(557, deserialized.getLineNo());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      SQLScriptException sQLScriptException0 = new SQLScriptException(557);
+-      int int0 = sQLScriptException0.getLineNo();
+-      assertEquals(557, int0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/ArchiveFile_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/ArchiveFile_ESTest.java
+@@ -33,16 +33,22 @@
+       ArchiveFile archiveFile0 = new ArchiveFile(byteArray0, "&C(tld,CGo");
+       archiveFile0.hashCode();
+   }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    ArchiveFile archiveFile0 = new ArchiveFile();
++    ArchiveFile archiveFile1 = new ArchiveFile();
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      ArchiveFile archiveFile0 = new ArchiveFile();
+-      archiveFile0.setFileName("saxToDomFailed00");
+-      ArchiveFile archiveFile1 = new ArchiveFile();
+-      boolean boolean0 = archiveFile0.equals(archiveFile1);
+-      assertFalse(archiveFile1.equals((Object)archiveFile0));
+-      assertFalse(boolean0);
+-  }
++    // Apply file name to the first instance and verify it differs from the default second instance
++    archiveFile0.setFileName("saxToDomFailed00");
++    assertFalse(archiveFile0.equals(archiveFile1));
++    assertFalse(archiveFile1.equals(archiveFile0));
++
++    // Apply the same file name to the second instance and verify they are now equal
++    archiveFile1.setFileName("saxToDomFailed00");
++    assertTrue(archiveFile0.equals(archiveFile1));
++    assertTrue(archiveFile1.equals(archiveFile0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

@@ -1,0 +1,48 @@
+--- a/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
+@@ -89,21 +89,30 @@
+         // Additional consistency check: both events share the same destination point instance
+         assertSame(movePoint0, moveEvent1.destinationPoint);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      Offender offender0 = new Offender(56, 56);
+-      MoveEvent moveEvent0 = new MoveEvent(offender0, 56);
+-      MoveEvent moveEvent1 = new MoveEvent(offender0, 56, 56);
+-      moveEvent0.setDestinationPoint(742, 56, false);
+-      moveEvent0.setControlPoint(1, 56, true);
+-      moveEvent1.setControlPoint(1, 56, true);
+-      moveEvent1.setDestinationPoint(742, 1, true);
+-      moveEvent1.equals(moveEvent0);
+-      assertTrue(moveEvent0.isDestinationPointSet());
+-      assertFalse(moveEvent1.isDestinationPointSet());
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        Offender offender0 = new Offender(56, 56);
++        MoveEvent moveEvent0 = new MoveEvent(offender0, 56);
++        MoveEvent moveEvent1 = new MoveEvent(offender0, 56, 56);
++        // Set destination point on moveEvent0 and verify it is marked as set
++        moveEvent0.setDestinationPoint(742, 56, false);
++        assertTrue(moveEvent0.isDestinationPointSet());
++        // Verify that setting a control point does not affect the destination‑point flag
++        boolean destSetBefore = moveEvent0.isDestinationPointSet();
++        moveEvent0.setControlPoint(1, 56, true);
++        assertEquals(destSetBefore, moveEvent0.isDestinationPointSet());
++        // For moveEvent1, set a control point first and check the flag remains unchanged
++        boolean destSetBefore1 = moveEvent1.isDestinationPointSet();
++        moveEvent1.setControlPoint(1, 56, true);
++        assertEquals(destSetBefore1, moveEvent1.isDestinationPointSet());
++        // Set destination point on moveEvent1 and verify it is NOT marked as set (temporary flag true)
++        moveEvent1.setDestinationPoint(742, 1, true);
++        assertFalse(moveEvent1.isDestinationPointSet());
++        // The two events should not be equal because their destination points differ
++        boolean eqResult = moveEvent1.equals(moveEvent0);
++        assertFalse(eqResult);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

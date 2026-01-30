@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPInstance_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPInstance_ESTest.java
+@@ -258,20 +258,26 @@
+       SAPInstance sAPInstance0 = new SAPInstance();
+       assertTrue(sAPInstance0.equals(sAPInstance0));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      SAPInstance sAPInstance0 = new SAPInstance();
+-      sAPInstance0.setFeatures("+*imNFV&~|Q\"");
+-      SAPInstance sAPInstance1 = new SAPInstance();
+-      assertFalse(sAPInstance1.equals((Object)sAPInstance0));
+-      
+-      sAPInstance1.setFeatures("+*imNFV&~|Q\"");
+-      boolean boolean0 = sAPInstance1.equals(sAPInstance0);
+-      assertTrue(sAPInstance1.equals((Object)sAPInstance0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    SAPInstance sAPInstance0 = new SAPInstance();
++    // verify initial state before setting features
++    assertNull(sAPInstance0.getFeatures());
++    sAPInstance0.setFeatures("+*imNFV&~|Q\"");
++    // assert that setFeatures correctly updates the internal state
++    assertEquals("+*imNFV&~|Q\"", sAPInstance0.getFeatures());
++
++    SAPInstance sAPInstance1 = new SAPInstance();
++    assertFalse(sAPInstance1.equals((Object) sAPInstance0));
++
++    sAPInstance1.setFeatures("+*imNFV&~|Q\"");
++    assertEquals("+*imNFV&~|Q\"", sAPInstance1.getFeatures());
++
++    boolean boolean0 = sAPInstance1.equals(sAPInstance0);
++    assertTrue(sAPInstance1.equals((Object) sAPInstance0));
++    assertTrue(boolean0);
++}
++
+ @Test(timeout = 4000)
+     public void test17() throws Throwable {
+         Class<SAPInstance> class0 = SAPInstance.class;

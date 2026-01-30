@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DBRowIterator_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DBRowIterator_ESTest.java
+@@ -75,21 +75,27 @@
+       boolean boolean0 = dBRowIterator0.hasNext();
+       assertTrue(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        defaultDBTable0 = new DefaultDBTable();
++        result0 = Result.newRollbackToSavepointRequest("SELECT * FROM ");
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
++        // Verify that the stubbed execute method returns the expected result
++        Result execResult = session0.execute(Result.newRollbackToSavepointRequest("SELECT * FROM "));
++        assertSame(result0, execResult);
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++        String[] stringArray0 = new String[0];
++        DBRowIterator dBRowIterator0 = defaultDBTable0.queryRowsByCellValues(stringArray0, stringArray0, jdbcConnection0);
++        Consumer<DBRow> consumer0 = (Consumer<DBRow>) mock(Consumer.class, new ViolatedAssumptionAnswer());
++        dBRowIterator0.forEachRemaining(consumer0);
++        Consumer<Object> consumer1 = (Consumer<Object>) mock(Consumer.class, new ViolatedAssumptionAnswer());
++        dBRowIterator0.forEachRemaining(consumer1);
++        // Verify that no rows were processed, thus consumers were never invoked
++        verify(consumer0, never()).accept(any());
++        verify(consumer1, never()).accept(any());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    defaultDBTable0 = new DefaultDBTable();
+-    result0 = Result.newRollbackToSavepointRequest("SELECT * FROM ");
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      String[] stringArray0 = new String[0];
+-      DBRowIterator dBRowIterator0 = defaultDBTable0.queryRowsByCellValues(stringArray0, stringArray0, jdbcConnection0);
+-      Consumer<DBRow> consumer0 = (Consumer<DBRow>) mock(Consumer.class, new ViolatedAssumptionAnswer());
+-      dBRowIterator0.forEachRemaining(consumer0);
+-      Consumer<Object> consumer1 = (Consumer<Object>) mock(Consumer.class, new ViolatedAssumptionAnswer());
+-      dBRowIterator0.forEachRemaining(consumer1);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

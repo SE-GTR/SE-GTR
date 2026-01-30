@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
+@@ -365,8 +365,7 @@
+       assertEquals(0, blockingClientPool0.getLogPoolStatsTimeInMinute());
+       assertFalse(blockingClientPool0.isDebug());
+   }
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test26()  throws Throwable  {
+       SocketBasedHost socketBasedHost0 = new SocketBasedHost();
+       LoadDistributor loadDistributor0 = mock(LoadDistributor.class, new ViolatedAssumptionAnswer());
+@@ -374,12 +373,19 @@
+       PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+       doReturn((String) null).when(poolableBlockingClient0).toString();
+       doReturn(loadDistributor0).when(poolableBlockingClient0).getLoadDistributor();
++
++      // Verify that the stubs return the expected values
++      org.quickserver.net.client.ClientInfo clientInfoMock = mock(org.quickserver.net.client.ClientInfo.class);
++      assertSame(socketBasedHost0, loadDistributor0.getHost(clientInfoMock));
++      assertNull(poolableBlockingClient0.toString());
++      assertSame(loadDistributor0, poolableBlockingClient0.getLoadDistributor());
++
+       BlockingClientPool blockingClientPool0 = new BlockingClientPool("t9$\"H'?`9m", poolableBlockingClient0);
+       // Undeclared exception!
+       try { 
+         blockingClientPool0.getBlockingClient();
+         fail("Expecting exception: IllegalStateException");
+-      
++
+       } catch(IllegalStateException e) {
+          //
+          // pool for host was null!
+@@ -387,4 +393,5 @@
+          verifyException("org.quickserver.net.client.pool.BlockingClientPool", e);
+       }
+   }
+-}
++
++}

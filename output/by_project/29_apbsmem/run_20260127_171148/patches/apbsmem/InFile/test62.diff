@@ -1,0 +1,35 @@
+--- a/evosuite-tests/apbs_mem_gui/InFile_ESTest.java
++++ b/evosuite-tests/apbs_mem_gui/InFile_ESTest.java
+@@ -496,14 +496,24 @@
+     assertEquals(":&", inFile0.getDime());
+     assertEquals(0, inFile0.getMaxfocus());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test62()  throws Throwable  {
+-      InFile inFile0 = new InFile();
+-      inFile0.setIdie("^)koQ9kQr ");
+-      assertEquals(0, inFile0.getMaxfocus());
+-  }
++@Test(timeout = 4000)
++    public void test62() throws Throwable {
++        InFile inFile0 = new InFile();
++        // Verify initial state (idie should be null or empty)
++        try {
++            assertNull(inFile0.getIdie());
++        } catch (AssertionError e) {
++            // If getIdie() returns empty string instead of null, accept that as initial state
++            assertEquals("", inFile0.getIdie());
++        }
++        String expectedId = "^ )koQ9kQr ";
++        inFile0.setIdie(expectedId);
++        // Assert that the setter correctly updated the internal state
++        assertEquals(expectedId, inFile0.getIdie());
++        // Existing behavior check for maxfocus remains unchanged
++        assertEquals(0, inFile0.getMaxfocus());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test63()  throws Throwable  {

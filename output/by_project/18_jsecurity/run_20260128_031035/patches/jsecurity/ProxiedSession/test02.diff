@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/session/ProxiedSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/ProxiedSession_ESTest.java
+@@ -55,16 +55,17 @@
+       Serializable serializable0 = proxiedSession0.getId();
+       assertNull(serializable0);
+   }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++    org.mockito.stubbing.OngoingStubbing<Object> stub = doReturn((Object) null).when(session0).removeAttribute(any());
++    assertNotNull(stub);
++    proxiedSession0 = new ProxiedSession(session0);
++    Object object0 = new Object();
++    Object object1 = proxiedSession0.removeAttribute(object0);
++    assertNull(object1);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-    session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(session0).removeAttribute(any());
+-    proxiedSession0 = new ProxiedSession(session0);
+-      Object object0 = new Object();
+-      Object object1 = proxiedSession0.removeAttribute(object0);
+-      assertNull(object1);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

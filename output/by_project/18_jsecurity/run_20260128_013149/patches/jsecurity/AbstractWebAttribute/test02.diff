@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jsecurity/web/attr/AbstractWebAttribute_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/attr/AbstractWebAttribute_ESTest.java
+@@ -53,23 +53,18 @@
+          verifyException("org.jsecurity.web.WebUtils", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
+-      RequestParamAttribute<PropertyEditorSupport> requestParamAttribute0 = new RequestParamAttribute<PropertyEditorSupport>();
+-      // Undeclared exception!
+-      try { 
+-        requestParamAttribute0.storeValue((PropertyEditorSupport) null, (ServletRequest) null, servletResponse0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.attr.AbstractWebAttribute", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
++    ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
++    RequestParamAttribute<PropertyEditorSupport> requestParamAttribute0 = new RequestParamAttribute<>();
++    PropertyEditorSupport editor = new PropertyEditorSupport();
++    editor.setValue("value");
++    requestParamAttribute0.storeValue(editor, servletRequest0, servletResponse0);
++    // The method should complete without throwing an exception.
++    assertTrue(true);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

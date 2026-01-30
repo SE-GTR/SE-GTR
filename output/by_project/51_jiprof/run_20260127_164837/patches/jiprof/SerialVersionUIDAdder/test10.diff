@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/SerialVersionUIDAdder_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/SerialVersionUIDAdder_ESTest.java
+@@ -138,21 +138,24 @@
+          verifyException("org.objectweb.asm.jip.ClassAdapter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      ClassWriter classWriter0 = new ClassWriter(0);
+-      SerialVersionUIDAdder serialVersionUIDAdder0 = new SerialVersionUIDAdder(classWriter0);
+-      SerialVersionUIDAdder serialVersionUIDAdder1 = new SerialVersionUIDAdder(serialVersionUIDAdder0);
+-      String[] stringArray0 = new String[4];
+-      stringArray0[0] = "java/lang/Throwable";
+-      stringArray0[1] = "J";
+-      stringArray0[2] = "J";
+-      stringArray0[3] = "java/lang/Throwable";
+-      serialVersionUIDAdder1.visit((-753), 1, "java/lang/Throwable", "java/lang/Throwable", "J", stringArray0);
+-      serialVersionUIDAdder1.visitEnd();
+-      assertNotSame(serialVersionUIDAdder0, serialVersionUIDAdder1);
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    ClassWriter classWriter0 = new ClassWriter(0);
++    SerialVersionUIDAdder serialVersionUIDAdder0 = new SerialVersionUIDAdder(classWriter0);
++    SerialVersionUIDAdder serialVersionUIDAdder1 = new SerialVersionUIDAdder(serialVersionUIDAdder0);
++    String[] stringArray0 = new String[4];
++    stringArray0[0] = "java/lang/Throwable";
++    stringArray0[1] = "J";
++    stringArray0[2] = "J";
++    stringArray0[3] = "java/lang/Throwable";
++    byte[] before = classWriter0.toByteArray();
++    serialVersionUIDAdder1.visit(-753, 1, "java/lang/Throwable", "java/lang/Throwable", "J", stringArray0);
++    serialVersionUIDAdder1.visitEnd();
++    byte[] after = classWriter0.toByteArray();
++    org.junit.Assert.assertTrue(after.length > before.length);
++    org.junit.Assert.assertFalse(java.util.Arrays.equals(before, after));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

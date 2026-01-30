@@ -1,0 +1,42 @@
+--- a/evosuite-tests/jigl/image/utils/ImageConverter_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/ImageConverter_ESTest.java
+@@ -1354,24 +1354,21 @@
+       assertEquals(0, realColorImage0.X());
+       assertEquals(ColorModel.RGB, realColorImage0.getColorModel());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test62()  throws Throwable  {
+-      InterpolatedRealColorImage interpolatedRealColorImage0 = new InterpolatedRealColorImage();
+-      assertEquals(ColorModel.RGB, interpolatedRealColorImage0.getColorModel());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedRealColorImage0.getInterpolationMethod());
+-      assertEquals(0, interpolatedRealColorImage0.X());
+-      assertEquals(0, interpolatedRealColorImage0.Y());
+-      
+-      ColorImage colorImage0 = ImageConverter.toColor((Image) interpolatedRealColorImage0);
+-      assertEquals(ColorModel.RGB, interpolatedRealColorImage0.getColorModel());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedRealColorImage0.getInterpolationMethod());
+-      assertEquals(0, interpolatedRealColorImage0.X());
+-      assertEquals(0, interpolatedRealColorImage0.Y());
+-      assertEquals(0, colorImage0.Y());
+-      assertEquals(0, colorImage0.X());
+-      assertEquals(ColorModel.RGB, colorImage0.getColorModel());
+-  }
++@Test(timeout = 4000)
++public void test62() throws Throwable {
++    InterpolatedRealColorImage src = new InterpolatedRealColorImage();
++    // Verify essential default state
++    assertEquals(ColorModel.RGB, src.getColorModel());
++
++    // Act
++    ColorImage dst = ImageConverter.toColor(src);
++
++    // Verify that conversion preserved dimensions and color model
++    assertEquals(src.X(), dst.X());
++    assertEquals(src.Y(), dst.Y());
++    assertEquals(ColorModel.RGB, dst.getColorModel());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test63()  throws Throwable  {

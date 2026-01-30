@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ParameterRestriction_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ParameterRestriction_ESTest.java
+@@ -122,19 +122,25 @@
+     boolean boolean0 = parameterRestriction0.equals(parameterRestriction1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      ParameterRestriction parameterRestriction0 = new ParameterRestriction();
+-      ParameterRestriction parameterRestriction1 = new ParameterRestriction();
+-      assertTrue(parameterRestriction1.equals((Object)parameterRestriction0));
+-      
+-      Double double0 = new Double((-22.2783179));
+-      parameterRestriction1.setFloatMax(double0);
+-      boolean boolean0 = parameterRestriction1.equals(parameterRestriction0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        ParameterRestriction parameterRestriction0 = new ParameterRestriction();
++        ParameterRestriction parameterRestriction1 = new ParameterRestriction();
++        assertTrue(parameterRestriction1.equals((Object) parameterRestriction0));
++
++        // Verify initial state of floatMax is null
++        assertNull(parameterRestriction1.getFloatMax());
++
++        Double double0 = Double.valueOf(-22.2783179);
++        parameterRestriction1.setFloatMax(double0);
++
++        // Assert that the side‑effect of setFloatMax is observable
++        assertEquals(double0, parameterRestriction1.getFloatMax());
++
++        boolean boolean0 = parameterRestriction1.equals(parameterRestriction0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

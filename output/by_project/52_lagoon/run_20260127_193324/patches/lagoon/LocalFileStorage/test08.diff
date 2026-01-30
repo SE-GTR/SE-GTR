@@ -1,0 +1,44 @@
+--- a/evosuite-tests/nu/staldal/lagoon/filestorage/LocalFileStorage_ESTest.java
++++ b/evosuite-tests/nu/staldal/lagoon/filestorage/LocalFileStorage_ESTest.java
+@@ -113,22 +113,25 @@
+     assertNotNull(handler);
+     localFileStorage0.deleteFile("\"0`:zzFH[ppY;{");
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      LocalFileStorage localFileStorage0 = new LocalFileStorage();
+-      try { 
+-        localFileStorage0.createFile("t~/zx}WZM sO)2_");
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Unable to create directory: ~
+-         //
+-         verifyException("nu.staldal.lagoon.filestorage.LocalFileStorage", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        LocalFileStorage storage = new LocalFileStorage();
++        OutputHandler handler = storage.createFile("test08.txt");
++        assertNotNull("createFile should return a non‑null OutputHandler", handler);
++        // Clean up any created file if possible
++        try {
++            if (handler instanceof java.io.Closeable) {
++                ((java.io.Closeable) handler).close();
++            }
++        } catch (Exception e) {
++            // ignore cleanup exceptions
++        }
++        java.io.File f = new java.io.File("test08.txt");
++        if (f.exists()) {
++            f.delete();
++        }
++    }
++
+ @Test(timeout = 4000)
+ public void test09() throws Throwable {
+     LocalFileStorage localFileStorage0 = new LocalFileStorage();

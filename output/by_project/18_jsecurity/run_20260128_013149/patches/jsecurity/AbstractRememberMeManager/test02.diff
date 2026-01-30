@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jsecurity/subject/AbstractRememberMeManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/subject/AbstractRememberMeManager_ESTest.java
+@@ -36,22 +36,15 @@
+       SimpleAuthenticationInfo simpleAuthenticationInfo0 = new SimpleAuthenticationInfo(webRememberMeManager0, webRememberMeManager0, "rememberMe");
+       webRememberMeManager0.rememberIdentity((AuthenticationInfo) simpleAuthenticationInfo0);
+   }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        WebRememberMeManager manager = new WebRememberMeManager();
++        String hexKey = "0A0B0C";
++        manager.setDecryptionCipherKeyHex(hexKey);
++        byte[] expected = new byte[] { 0x0A, 0x0B, 0x0C };
++        assertArrayEquals(expected, manager.getDecryptionCipherKey());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      WebRememberMeManager webRememberMeManager0 = new WebRememberMeManager();
+-      // Undeclared exception!
+-      try { 
+-        webRememberMeManager0.setDecryptionCipherKeyHex("rememberMe");
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // Illegal hexadecimal charcter r at index 0
+-         //
+-         verifyException("org.jsecurity.codec.Hex", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/de/paragon/explorer/model/AttributeModelBuilder_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/model/AttributeModelBuilder_ESTest.java
+@@ -24,17 +24,18 @@
+     attributeModelBuilder0 = AttributeModelBuilder.getInstance();
+     objectModel0 = new ObjectModel();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
+     attributeModelBuilder0 = AttributeModelBuilder.getInstance();
+     objectModel0 = new ObjectModel();
+-      objectModel0.setObject(attributeModelBuilder0);
+-      attributeModelBuilder0.createStandardAttributeModel(objectModel0);
+-      attributeModelBuilder0.setStandardAttributeData(objectModel0);
+-      assertFalse(objectModel0.isStringObject());
+-  }
++    objectModel0.setObject(attributeModelBuilder0);
++    // Verify that the side‑effect of setObject is observable via the public API
++    assertSame(attributeModelBuilder0, objectModel0.getObject());
++    attributeModelBuilder0.createStandardAttributeModel(objectModel0);
++    attributeModelBuilder0.setStandardAttributeData(objectModel0);
++    assertFalse(objectModel0.isStringObject());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,94 @@
+--- a/evosuite-tests/client/view/GameView_ESTest.java
++++ b/evosuite-tests/client/view/GameView_ESTest.java
+@@ -212,38 +212,59 @@
+     // Ensure that painting does not change the displayNames flag
+     assertFalse(gameView0.displayNames());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      GameCanvas gameCanvas0 = new GameCanvas(20000, 20000);
+-      GameView gameView0 = new GameView(gameCanvas0);
+-      Point point0 = new Point(2245, (-97));
+-      ClientPlayer clientPlayer0 = new ClientPlayer(point0, 800);
+-      LocalControl localControl0 = new LocalControl(clientPlayer0);
+-      AWTEventMulticaster.remove((KeyListener) localControl0, (KeyListener) localControl0);
+-      gameCanvas0.removeKeyListener((KeyListener) null);
+-      gameView0.resetGfx();
+-      gameView0.toggleDisplayNames();
+-      GameView.displayNames();
+-      gameView0.paint();
+-      gameView0.toggleDisplayNames();
+-      gameView0.paint();
+-      GfxFactory gfxFactory0 = new GfxFactory();
+-      StatusView statusView0 = new StatusView(clientPlayer0, gfxFactory0);
+-      gameView0.addGameObjectView(statusView0);
+-      gameView0.paint();
+-      GameView.displayNames();
+-      gameView0.resetGfx();
+-      gameView0.toggleDisplayNames();
+-      gameView0.paint();
+-      GameView.displayNames();
+-      gameView0.addGameObjectView(statusView0);
+-      GameView gameView1 = new GameView(gameCanvas0);
+-      gameView1.resetGfx();
+-      gameView0.setOverlayText("K:6~");
+-      assertFalse(gameView0.displayNames());
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    GameCanvas gameCanvas0 = new GameCanvas(20000, 20000);
++    GameView gameView0 = new GameView(gameCanvas0);
++    Point point0 = new Point(2245, (-97));
++    ClientPlayer clientPlayer0 = new ClientPlayer(point0, 800);
++    LocalControl localControl0 = new LocalControl(clientPlayer0);
++    AWTEventMulticaster.remove((KeyListener) localControl0, (KeyListener) localControl0);
++    gameCanvas0.removeKeyListener((KeyListener) null);
++    gameView0.resetGfx();
++
++    // Verify that toggleDisplayNames flips the static flag.
++    boolean beforeToggle = GameView.displayNames();
++    gameView0.toggleDisplayNames();
++    boolean afterToggle = GameView.displayNames();
++    assertEquals(!beforeToggle, afterToggle);
++    assertEquals(afterToggle, GameView.displayNames());
++
++    gameView0.paint();
++
++    // Second toggle and verification.
++    boolean beforeSecond = GameView.displayNames();
++    gameView0.toggleDisplayNames();
++    boolean afterSecond = GameView.displayNames();
++    assertEquals(!beforeSecond, afterSecond);
++    gameView0.paint();
++
++    GfxFactory gfxFactory0 = new GfxFactory();
++    StatusView statusView0 = new StatusView(clientPlayer0, gfxFactory0);
++    boolean added = gameView0.addGameObjectView(statusView0);
++    assertTrue(added);
++    gameView0.paint();
++
++    // Ensure displayNames flag unchanged by paint.
++    assertEquals(afterSecond, GameView.displayNames());
++
++    gameView0.resetGfx();
++
++    // Third toggle and verification.
++    boolean beforeThird = GameView.displayNames();
++    gameView0.toggleDisplayNames();
++    boolean afterThird = GameView.displayNames();
++    assertEquals(!beforeThird, afterThird);
++    gameView0.paint();
++
++    GameView.displayNames();
++    gameView0.addGameObjectView(statusView0);
++    GameView gameView1 = new GameView(gameCanvas0);
++    gameView1.resetGfx();
++    gameView0.setOverlayText("K:6~");
++    assertFalse(gameView0.displayNames());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

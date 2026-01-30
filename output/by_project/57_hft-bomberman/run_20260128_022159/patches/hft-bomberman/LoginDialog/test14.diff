@@ -1,0 +1,33 @@
+--- a/evosuite-tests/client/gui/LoginDialog_ESTest.java
++++ b/evosuite-tests/client/gui/LoginDialog_ESTest.java
+@@ -187,23 +187,14 @@
+       loginDialog0.keyReleased(keyEvent0);
+       assertTrue(keyEvent0.isMetaDown());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-    loginDialog0 = LoginDialog.init();
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = HeadlessException.class)
++    public void test14() throws Throwable {
++        boolean ioExceptionsConfigured = FileSystemHandling.shouldAllThrowIOExceptions();
++        assertTrue("FileSystemHandling should configure to throw IOExceptions", ioExceptionsConfigured);
++        loginDialog0 = LoginDialog.init();
+         loginDialog0.loginDialog.loginUsernameTaken();
+-        fail("Expecting exception: HeadlessException");
+-      
+-      } catch(HeadlessException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.awt.GraphicsEnvironment", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

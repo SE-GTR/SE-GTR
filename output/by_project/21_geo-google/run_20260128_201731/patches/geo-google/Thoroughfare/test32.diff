@@ -1,0 +1,34 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Thoroughfare_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Thoroughfare_ESTest.java
+@@ -271,13 +271,24 @@
+       thoroughfare0.setDependentThoroughfare(thoroughfare_DependentThoroughfare0);
+       assertNull(thoroughfare0.getDependentThoroughfaresIndicator());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
+-      Thoroughfare thoroughfare0 = new Thoroughfare();
+-      thoroughfare0.setThoroughfarePostDirection((ThoroughfarePostDirectionType) null);
+-      assertNull(thoroughfare0.getType());
+-  }
++@Test(timeout = 4000)
++public void test32() throws Throwable {
++    Thoroughfare thoroughfare0 = new Thoroughfare();
++
++    // Initial state: type should be null
++    assertNull(thoroughfare0.getType());
++
++    // Exercise the setter and verify its effect via the corresponding getter
++    thoroughfare0.setThoroughfarePostDirection(null);
++    assertNull(thoroughfare0.getThoroughfarePostDirection());
++
++    // Add a non‑trivial element to the address line list and assert the change
++    AddressLine addressLine = new AddressLine();
++    thoroughfare0.getAddressLine().add(addressLine);
++    assertTrue(thoroughfare0.getAddressLine().contains(addressLine));
++    assertEquals(1, thoroughfare0.getAddressLine().size());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test33()  throws Throwable  {

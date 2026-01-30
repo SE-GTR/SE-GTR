@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/jsecurity/mgt/SessionsSecurityManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/mgt/SessionsSecurityManager_ESTest.java
+@@ -194,12 +194,32 @@
+          verifyException("org.jsecurity.subject.SimplePrincipalCollection", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test9()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm("Specified id [");
+-      DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager(simpleAccountRealm0);
+-      RememberMeManager rememberMeManager0 = defaultSecurityManager0.getRememberMeManager();
+-      assertNull(rememberMeManager0);
+-  }
++@Test(timeout = 4000)
++    public void test9() throws Throwable {
++        SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm("Specified id [");
++        DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager(simpleAccountRealm0);
++        // Verify the default state
++        assertNull(defaultSecurityManager0.getRememberMeManager());
++
++        // Install a dummy RememberMeManager and verify the change
++        RememberMeManager dummy = new RememberMeManager() {
++            @Override
++            public void rememberIdentity(org.jsecurity.subject.Subject subject, java.io.Serializable identity) {
++                // no‑op
++            }
++
++            @Override
++            public java.io.Serializable getRememberedIdentity(org.jsecurity.subject.Subject subject) {
++                return null;
++            }
++
++            @Override
++            public void onLogout(org.jsecurity.subject.Subject subject) {
++                // no‑op
++            }
++        };
++        defaultSecurityManager0.setRememberMeManager(dummy);
++        assertSame(dummy, defaultSecurityManager0.getRememberMeManager());
++    }
++
+ }

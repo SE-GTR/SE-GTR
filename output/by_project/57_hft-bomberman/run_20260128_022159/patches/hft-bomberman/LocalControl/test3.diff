@@ -1,0 +1,36 @@
+--- a/evosuite-tests/client/controller/LocalControl_ESTest.java
++++ b/evosuite-tests/client/controller/LocalControl_ESTest.java
+@@ -80,21 +80,27 @@
+     localControl0.processInput();
+     assertEquals(3, clientPlayer0.getDirection());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
+       GridBagLayout gridBagLayout0 = new GridBagLayout();
+-    point0 = gridBagLayout0.location(300, 300);
++      point0 = gridBagLayout0.location(300, 300);
+       Player player0 = new Player(point0);
+       LocalControl localControl0 = new LocalControl(player0);
+       Action action0 = TransferHandler.getPasteAction();
+       JToggleButton jToggleButton0 = new JToggleButton(action0);
+       KeyEvent keyEvent0 = new KeyEvent(jToggleButton0, 300, 300, (-478), 39, 'T');
++
++      int directionBefore = player0.getDirection();
++
+       localControl0.keyPressed(keyEvent0);
+       localControl0.processInput();
+-      assertEquals(4, player0.getDirection());
++
++      int directionAfter = player0.getDirection();
++
++      assertNotEquals(directionBefore, directionAfter);
++      assertEquals(4, directionAfter);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

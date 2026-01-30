@@ -1,0 +1,47 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
+@@ -180,21 +180,29 @@
+       // Ensure the change influences equality as expected
+       assertFalse(alertNode1.equals(alertNode0));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      AlertNode alertNode0 = new AlertNode();
+-      VISIBLELEVEL vISIBLELEVEL0 = VISIBLELEVEL.value4;
+-      alertNode0.setVisibleLevel(vISIBLELEVEL0);
+-      AlertNode alertNode1 = new AlertNode();
+-      assertFalse(alertNode1.equals((Object)alertNode0));
+-      
+-      alertNode1.setVisibleLevel(vISIBLELEVEL0);
+-      boolean boolean0 = alertNode1.equals(alertNode0);
+-      assertTrue(alertNode1.equals((Object)alertNode0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    AlertNode alertNode0 = new AlertNode();
++    // Verify initial state before setting
++    assertNull(alertNode0.getVisibleLevel());
++
++    VISIBLELEVEL vISIBLELEVEL0 = VISIBLELEVEL.value4;
++    alertNode0.setVisibleLevel(vISIBLELEVEL0);
++    // Assert side‑effect of setVisibleLevel
++    assertEquals(vISIBLELEVEL0, alertNode0.getVisibleLevel());
++
++    AlertNode alertNode1 = new AlertNode();
++    assertFalse(alertNode1.equals((Object) alertNode0));
++
++    alertNode1.setVisibleLevel(vISIBLELEVEL0);
++    // Assert side‑effect on the second instance
++    assertEquals(vISIBLELEVEL0, alertNode1.getVisibleLevel());
++
++    boolean boolean0 = alertNode1.equals(alertNode0);
++    assertTrue(alertNode1.equals((Object) alertNode0));
++    assertTrue(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

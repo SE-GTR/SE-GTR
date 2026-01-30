@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/ChromatDirFastaConsedPhdAdaptedIterator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/ChromatDirFastaConsedPhdAdaptedIterator_ESTest.java
+@@ -48,8 +48,7 @@
+          verifyException("org.jcvi.jillion.assembly.clc.cas.consed.ChromatDirFastaConsedPhdAdaptedIterator", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test1()  throws Throwable  {
+       StreamingIterator<NucleotideFastaRecord> streamingIterator0 = (StreamingIterator<NucleotideFastaRecord>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+       MockFile mockFile0 = new MockFile("'");
+@@ -59,12 +58,17 @@
+       NucleotideFastaRecord nucleotideFastaRecord0 = mock(NucleotideFastaRecord.class, new ViolatedAssumptionAnswer());
+       doReturn("'", (String) null).when(nucleotideFastaRecord0).getId();
+       doReturn((Sequence) null).when(nucleotideFastaRecord0).getSequence();
++      // assert the stubbed return values
++      String id = nucleotideFastaRecord0.getId();
++      assertEquals("'", id);
++      Object seq = nucleotideFastaRecord0.getSequence();
++      assertNull(seq);
+       Map<String, String> map0 = chromatDirFastaConsedPhdAdaptedIterator0.createAdditionalCommentsFor("'");
+       // Undeclared exception!
+       try { 
+         chromatDirFastaConsedPhdAdaptedIterator0.createPhdRecordFor(nucleotideFastaRecord0, map0);
+         fail("Expecting exception: NullPointerException");
+-      
++
+       } catch(NullPointerException e) {
+          //
+          // no message in exception (getMessage() returned null)
+@@ -72,6 +76,7 @@
+          verifyException("org.jcvi.jillion.assembly.clc.cas.consed.FastaConsedPhdAdaptedIterator", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

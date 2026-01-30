@@ -1,0 +1,41 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/ReaderImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/ReaderImpl_ESTest.java
+@@ -33,25 +33,20 @@
+ public void test0() throws Throwable {
+     readerImpl0.root();
+ }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        formatterProviderImpl0 = new FormatterProviderImpl();
++        factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
++        // Properly initialize a Document to avoid NullPointerException
++        Document doc = javax.xml.parsers.DocumentBuilderFactory.newInstance()
++                .newDocumentBuilder()
++                .newDocument();
++        readerImpl0 = new ReaderImpl(factoryImpl0, doc);
++        // Verify that version() returns a non‑null string
++        String version = readerImpl0.version();
++        assertNotNull("Reader version should not be null", version);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    formatterProviderImpl0 = new FormatterProviderImpl();
+-    factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+-    readerImpl0 = new ReaderImpl(factoryImpl0, (Document) null);
+-      // Undeclared exception!
+-      try { 
+-        readerImpl0.version();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.xisemele.impl.ReaderImpl", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

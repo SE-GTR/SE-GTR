@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -1179,22 +1179,16 @@
+          verifyException("org.antlr.runtime.Lexer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test105()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mT__129();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test105() throws Throwable {
++        // Properly initialize the lexer with a non‑null CharStream to avoid NPEs caused by incomplete setup
++        SQLLexer lexer = new SQLLexer(new ANTLRStringStream("dummy"));
++        // Invoke the token method; it should complete without throwing an exception
++        lexer.mT__129();
++        // Verify that the lexer state is consistent after the call (line number should remain at the start)
++        assertEquals(1, lexer.getLine());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test106()  throws Throwable  {

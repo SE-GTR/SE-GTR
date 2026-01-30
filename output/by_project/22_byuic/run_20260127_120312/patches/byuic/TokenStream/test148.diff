@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
+@@ -1640,13 +1640,17 @@
+         assertTrue(TokenStream.isKeyword("transient"));
+         assertFalse(TokenStream.isKeyword("notAKeyword"));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test148()  throws Throwable  {
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      Context.getCurrentContext();
+-  }
++@Test(timeout = 4000)
++    public void test148() throws Throwable {
++        Context.enter();
++        try {
++            Context ctx = Context.getCurrentContext();
++            assertNotNull("Current context should not be null", ctx);
++        } finally {
++            Context.exit();
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test149()  throws Throwable  {

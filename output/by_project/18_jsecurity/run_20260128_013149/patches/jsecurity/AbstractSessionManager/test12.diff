@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/AbstractSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/AbstractSessionManager_ESTest.java
+@@ -249,22 +249,15 @@
+     defaultSessionManager0 = new DefaultSessionManager();
+     defaultSessionManager0.getHostAddress((Serializable) null);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-    defaultSessionManager0 = new DefaultSessionManager();
+-      try { 
+-        defaultSessionManager0.getTimeout((Serializable) null);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // There is no session with id [null]
+-         //
+-         verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        defaultSessionManager0 = new DefaultSessionManager();
++        java.net.InetAddress address = java.net.InetAddress.getByName("127.0.0.1");
++        Serializable sessionId = defaultSessionManager0.start(address);
++        long timeout = defaultSessionManager0.getTimeout(sessionId);
++        assertTrue("Timeout should be non‑negative", timeout >= 0L);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

@@ -1,0 +1,56 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/AbstractSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/AbstractSessionManager_ESTest.java
+@@ -92,30 +92,32 @@
+          verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test03()  throws Throwable  {
+     defaultSessionManager0 = new DefaultSessionManager();
+     inetAddress0 = MockInetAddress.anyLocalAddress();
+-      Session session0 = defaultSessionManager0.doCreateSession(inetAddress0);
+-      defaultSessionManager0.onChange(session0);
+-      defaultSessionManager0.enableSessionValidation();
+-      Session session1 = defaultSessionManager0.beforeInvalidNotification(session0);
+-      defaultSessionManager0.notifyExpiration(session1);
+-      Session session2 = defaultSessionManager0.doCreateSession(inetAddress0);
+-      defaultSessionManager0.beforeInvalidNotification(session2);
+-      defaultSessionManager0.beforeInvalidNotification(session1);
+-      try { 
+-        defaultSessionManager0.getTimeout(inetAddress0);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // There is no session with id [/192.168.1.42]
+-         //
+-         verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+-      }
+-  }
++    Session session0 = defaultSessionManager0.doCreateSession(inetAddress0);
++    defaultSessionManager0.onChange(session0);
++    defaultSessionManager0.enableSessionValidation();
++    Session session1 = defaultSessionManager0.beforeInvalidNotification(session0);
++    defaultSessionManager0.notifyExpiration(session1);
++    Session session2 = defaultSessionManager0.doCreateSession(inetAddress0);
++    Session session3 = defaultSessionManager0.beforeInvalidNotification(session2);
++    Session session4 = defaultSessionManager0.beforeInvalidNotification(session1);
++    assertNotNull(session3);
++    assertNotNull(session4);
++    try { 
++      defaultSessionManager0.getTimeout(inetAddress0);
++      fail("Expecting exception: RuntimeException");
++
++    } catch(RuntimeException e) {
++       //
++       // There is no session with id [/192.168.1.42]
++       //
++       verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
++    }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

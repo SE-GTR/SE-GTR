@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/heal/util/CommonDAO_ESTest.java
++++ b/evosuite-tests/org/heal/util/CommonDAO_ESTest.java
+@@ -681,23 +681,13 @@
+       CommonDAO commonDAO0 = new CommonDAO();
+       commonDAO0.removeTaxonPaths("g]y6d#e{/", (Connection) null);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test52()  throws Throwable  {
+-      CommonDAO commonDAO0 = new CommonDAO();
+-      SQLServerConnection sQLServerConnection0 = new SQLServerConnection();
+-      // Undeclared exception!
+-      try { 
+-        commonDAO0.removeTaxonPaths("", sQLServerConnection0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.microsoft.jdbc.base.BaseConnection", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test52() throws Throwable {
++        CommonDAO commonDAO0 = new CommonDAO();
++        // Trigger NullPointerException by passing a null Connection
++        commonDAO0.removeTaxonPaths("validMetadataId", null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test53()  throws Throwable  {

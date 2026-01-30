@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/FlowgramConsedPhdAdaptedIterator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/FlowgramConsedPhdAdaptedIterator_ESTest.java
+@@ -23,23 +23,15 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class FlowgramConsedPhdAdaptedIterator_ESTest extends FlowgramConsedPhdAdaptedIterator_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        StreamingIterator mockIter = mock(StreamingIterator.class);
++        when(mockIter.hasNext()).thenReturn(false);
++        FlowgramConsedPhdAdaptedIterator iterator = new FlowgramConsedPhdAdaptedIterator(
++                mockIter, new File("dummy"), new Date());
++        Consumer<PhdReadRecord> consumer = mock(Consumer.class, new ViolatedAssumptionAnswer());
++        iterator.forEachRemaining(consumer);
++        verify(consumer, never()).accept(any());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("ip?E");
+-      MockDate mockDate0 = new MockDate(1070, 179, 1070);
+-      FlowgramConsedPhdAdaptedIterator flowgramConsedPhdAdaptedIterator0 = new FlowgramConsedPhdAdaptedIterator((StreamingIterator<? extends SffFlowgram>) null, mockFile0, mockDate0);
+-      Consumer<PhdReadRecord> consumer0 = (Consumer<PhdReadRecord>) mock(Consumer.class, new ViolatedAssumptionAnswer());
+-      // Undeclared exception!
+-      try { 
+-        flowgramConsedPhdAdaptedIterator0.forEachRemaining(consumer0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.assembly.clc.cas.consed.FlowgramConsedPhdAdaptedIterator", e);
+-      }
+-  }
+ }

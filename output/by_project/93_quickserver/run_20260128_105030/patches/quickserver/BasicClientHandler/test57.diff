@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
+@@ -672,13 +672,18 @@
+       //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:8>", nonBlockingClientHandler0.getName());
+       //  // Unstable assertion: assertEquals("{<ClientHandler-Pool#-1-ID:8> - [non-connected]}", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test57()  throws Throwable  {
+-      NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      nonBlockingClientHandler0.getMaxConnectionMsg();
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:8>", nonBlockingClientHandler0.getName());
+-  }
++@Test(timeout = 4000)
++public void test57() throws Throwable {
++    NonBlockingClientHandler handler = new NonBlockingClientHandler();
++    // Verify the default max connection message (no explicit value set)
++    assertNull(handler.getMaxConnectionMsg());
++
++    // Verify that the handler name follows the expected pattern generated in the constructor
++    String name = handler.getName();
++    assertNotNull(name);
++    assertTrue(name.matches("<ClientHandler-Pool#-\\d+-ID:\\d+>"));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test58()  throws Throwable  {

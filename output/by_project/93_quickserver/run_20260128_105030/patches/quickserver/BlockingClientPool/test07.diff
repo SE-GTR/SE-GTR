@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
+@@ -100,22 +100,23 @@
+         // Verify that the pool instance was created
+         assertNotNull(blockingClientPool0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      SocketBasedHost socketBasedHost0 = new SocketBasedHost();
+-      LoadDistributor loadDistributor0 = mock(LoadDistributor.class, new ViolatedAssumptionAnswer());
+-      doReturn(socketBasedHost0).when(loadDistributor0).getHost(any(org.quickserver.net.client.ClientInfo.class));
+-      socketBasedHost0.setStatus('E');
+-      PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(poolableBlockingClient0).toString();
+-      doReturn(loadDistributor0).when(poolableBlockingClient0).getLoadDistributor();
+-      BlockingClientPool blockingClientPool0 = new BlockingClientPool("SunX509", poolableBlockingClient0);
+-      blockingClientPool0.getBlockingClient();
+-      assertFalse(blockingClientPool0.isDebug());
+-      assertEquals(0, blockingClientPool0.getLogPoolStatsTimeInMinute());
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    SocketBasedHost socketBasedHost0 = new SocketBasedHost();
++    LoadDistributor loadDistributor0 = mock(LoadDistributor.class, new ViolatedAssumptionAnswer());
++    doReturn(socketBasedHost0).when(loadDistributor0).getHost(any(org.quickserver.net.client.ClientInfo.class));
++    socketBasedHost0.setStatus('E');
++    assertEquals('E', socketBasedHost0.getStatus());
++    PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
++    doReturn((String) null).when(poolableBlockingClient0).toString();
++    doReturn(loadDistributor0).when(poolableBlockingClient0).getLoadDistributor();
++    BlockingClientPool blockingClientPool0 = new BlockingClientPool("SunX509", poolableBlockingClient0);
++    PooledBlockingClient client = blockingClientPool0.getBlockingClient();
++    assertNotNull(client);
++    assertFalse(blockingClientPool0.isDebug());
++    assertEquals(0, blockingClientPool0.getLogPoolStatsTimeInMinute());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

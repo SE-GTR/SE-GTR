@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AccessPoint_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AccessPoint_ESTest.java
+@@ -78,18 +78,27 @@
+         assertTrue(boolean1);
+         assertEquals(0, accessPoint1.getPort());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      AccessPoint accessPoint0 = new AccessPoint();
+-      accessPoint0.setProcessname("_any");
+-      AccessPoint accessPoint1 = new AccessPoint();
+-      boolean boolean0 = accessPoint0.equals(accessPoint1);
+-      assertFalse(boolean0);
+-      assertEquals(0, accessPoint1.getPort());
+-      assertFalse(accessPoint1.equals((Object)accessPoint0));
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        AccessPoint accessPoint0 = new AccessPoint();
++        accessPoint0.setProcessname("_any");
++        // Verify that the process name was stored by comparing with another instance having the same value
++        AccessPoint sameProcess = new AccessPoint();
++        sameProcess.setProcessname("_any");
++        assertTrue(accessPoint0.equals(sameProcess));
++
++        // Verify that a different process name is not considered equal
++        AccessPoint differentProcess = new AccessPoint();
++        differentProcess.setProcessname("other");
++        assertFalse(accessPoint0.equals(differentProcess));
++
++        AccessPoint accessPoint1 = new AccessPoint();
++        boolean boolean0 = accessPoint0.equals(accessPoint1);
++        assertFalse(boolean0);
++        assertEquals(0, accessPoint1.getPort());
++        assertFalse(accessPoint1.equals((Object) accessPoint0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

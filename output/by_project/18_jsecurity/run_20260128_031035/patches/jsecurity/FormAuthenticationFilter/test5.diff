@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/jsecurity/web/filter/authc/FormAuthenticationFilter_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/filter/authc/FormAuthenticationFilter_ESTest.java
+@@ -93,13 +93,19 @@
+          verifyException("org.jsecurity.web.WebUtils", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    FormAuthenticationFilter filter = new FormAuthenticationFilter();
++    // Verify the default password parameter
++    assertEquals("password", filter.getPasswordParam());
++    // Change the password parameter and verify the change
++    filter.setPasswordParam("username");
++    assertEquals("username", filter.getPasswordParam());
++    // Set the password parameter to null and verify
++    filter.setPasswordParam(null);
++    assertNull(filter.getPasswordParam());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      FormAuthenticationFilter formAuthenticationFilter0 = new FormAuthenticationFilter();
+-      formAuthenticationFilter0.setPasswordParam("username");
+-      assertEquals("username", formAuthenticationFilter0.getPasswordParam());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

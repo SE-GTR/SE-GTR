@@ -1,0 +1,38 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -1268,23 +1268,18 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test087()  throws Throwable  {
+-      Config config0 = new Config();
+-      config0.setPassword(">Di2`m6t/Q+yc0");
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-u' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++public void test087() throws Throwable {
++    Config config0 = new Config();
++    config0.setPassword(">Di2`m6t/Q+yc0");
++    config0.setUser("testUser");
++    java.util.List<String> args = config0.asList();
++    assertNotNull(args);
++    assertTrue(args.contains("-u"));
++    assertTrue(args.contains("testUser"));
++    assertTrue(args.contains("-p"));
++    assertTrue(args.contains(">Di2`m6t/Q+yc0"));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test088()  throws Throwable  {

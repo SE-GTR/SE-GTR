@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
+@@ -247,18 +247,29 @@
+     assertFalse(boolean0);
+     assertFalse(oSProcess0.equals((Object) oSProcess1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      OSProcess oSProcess0 = new OSProcess();
+-      OSProcess oSProcess1 = new OSProcess();
+-      assertTrue(oSProcess1.equals((Object)oSProcess0));
+-      
+-      oSProcess1.setDescription("KA\"*CcN4sj92G@");
++@Test(timeout = 4000)
++  public void test15() throws Throwable {
++      OSProcess oSProcess0 = new OSProcess();
++      OSProcess oSProcess1 = new OSProcess();
++      assertTrue(oSProcess1.equals((Object) oSProcess0));
++
++      // Verify initial state of description
++      assertNull(oSProcess1.getDescription());
++      assertNull(oSProcess0.getDescription());
++
++      // Act: change description
++      String newDesc = "KA\"*CcN4sj92G@";
++      oSProcess1.setDescription(newDesc);
++
++      // Assert side‑effect of setDescription
++      assertEquals(newDesc, oSProcess1.getDescription());
++      // Ensure the other instance is unaffected
++      assertNull(oSProcess0.getDescription());
++
+       boolean boolean0 = oSProcess1.equals(oSProcess0);
+       assertFalse(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

@@ -1,0 +1,59 @@
+--- a/evosuite-tests/ghm/follow/FileFollower_ESTest.java
++++ b/evosuite-tests/ghm/follow/FileFollower_ESTest.java
+@@ -58,27 +58,35 @@
+         // Assuming start does not change the paused state; adjust if semantics differ
+         assertEquals(pausedBeforeStart, fileFollower0.isPaused());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("1FdK>}m'eWy*", "1FdK>}m'eWy*");
+-      OutputDestination[] outputDestinationArray0 = new OutputDestination[2];
+-      JTextPane jTextPane0 = new JTextPane();
+-      JTextPaneDestination jTextPaneDestination0 = new JTextPaneDestination(jTextPane0, false);
+-      outputDestinationArray0[0] = (OutputDestination) jTextPaneDestination0;
+-      SearchEngine searchEngine0 = new SearchEngine((-1618));
+-      FilteredDestination filteredDestination0 = new FilteredDestination(jTextPane0, searchEngine0, "1FdK>}m'eWy*", false);
+-      outputDestinationArray0[1] = (OutputDestination) filteredDestination0;
+-      FileFollower fileFollower0 = new FileFollower(file0, outputDestinationArray0);
+-      FileFollower.Runner fileFollower_Runner0 = fileFollower0.new Runner();
+-      JTextComponentDestination jTextComponentDestination0 = new JTextComponentDestination(jTextPane0, false);
+-      OutputDestination[] outputDestinationArray1 = new OutputDestination[0];
+-      FileFollower fileFollower1 = new FileFollower(file0, 2, 1, outputDestinationArray1);
+-      FileSystemHandling.appendLineToFile((EvoSuiteFile) null, "1FdK>}m'eWy*");
+-      fileFollower1.start();
+-      fileFollower1.start();
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        File file0 = MockFile.createTempFile("1FdK>}m'eWy*", "1FdK>}m'eWy*");
++        OutputDestination[] outputDestinationArray0 = new OutputDestination[2];
++        JTextPane jTextPane0 = new JTextPane();
++        JTextPaneDestination jTextPaneDestination0 = new JTextPaneDestination(jTextPane0, false);
++        outputDestinationArray0[0] = jTextPaneDestination0;
++        SearchEngine searchEngine0 = new SearchEngine((-1618));
++        FilteredDestination filteredDestination0 = new FilteredDestination(jTextPane0, searchEngine0, "1FdK>}m'eWy*", false);
++        outputDestinationArray0[1] = filteredDestination0;
++        FileFollower fileFollower0 = new FileFollower(file0, outputDestinationArray0);
++        FileFollower.Runner fileFollower_Runner0 = fileFollower0.new Runner();
++        JTextComponentDestination jTextComponentDestination0 = new JTextComponentDestination(jTextPane0, false);
++        OutputDestination[] outputDestinationArray1 = new OutputDestination[0];
++        FileFollower fileFollower1 = new FileFollower(file0, 2, 1, outputDestinationArray1);
++        FileSystemHandling.appendLineToFile((EvoSuiteFile) null, "1FdK>}m'eWy*");
++        // Verify initial state before start
++        assertFalse(fileFollower1.isRunning());
++        // First start – observe side‑effects
++        fileFollower1.start();
++        assertTrue(fileFollower1.isRunning());
++        Thread runnerThread = fileFollower1.getRunnerThread();
++        assertNotNull(runnerThread);
++        assertTrue(runnerThread.isAlive());
++        // Second start – should leave state unchanged
++        fileFollower1.start();
++        assertTrue(fileFollower1.isRunning());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

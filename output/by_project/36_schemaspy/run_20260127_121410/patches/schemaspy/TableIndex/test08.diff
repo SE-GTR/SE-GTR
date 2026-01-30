@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/TableIndex_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/TableIndex_ESTest.java
+@@ -159,16 +159,21 @@
+       assertFalse(boolean0);
+       assertTrue(tableIndex0.isUnique());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
+-      doReturn(true).when(resultSet0).getBoolean(anyString());
+-      doReturn((String) null).when(resultSet0).getString(anyString());
+-      TableIndex tableIndex0 = new TableIndex(resultSet0);
+-      boolean boolean0 = tableIndex0.isUniqueNullable();
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
++    doReturn(true).when(resultSet0).getBoolean(anyString());
++    doReturn((String) null).when(resultSet0).getString(anyString());
++
++    TableIndex tableIndex0 = new TableIndex(resultSet0);
++    // Act
++    tableIndex0.isUniqueNullable();
++
++    // Verify that the ResultSet was queried for the expected columns
++    verify(resultSet0).getBoolean(anyString());
++    verify(resultSet0).getString(anyString());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

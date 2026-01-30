@@ -1,0 +1,414 @@
+--- a/evosuite-tests/corina/site/Site_ESTest.java
++++ b/evosuite-tests/corina/site/Site_ESTest.java
+@@ -174,13 +174,202 @@
+       String string0 = site0.toString();
+       assertEquals("[Site: name='' code='' id='' ]", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      Site site0 = new Site();
++@Test(expected = NullPointerException.class)
++    public void test17() throws Throwable {
++        Site site0 = new Site();
++        site0.setFilename("G:DATAgnu.l!is");
++    }
++
++
++  @Test(timeout = 4000)
++  public void test18()  throws Throwable  {
++      Site site0 = new Site();
++      site0.setTypeString("9=4a=l)AT_]^[U");
++      String string0 = site0.getTypesAsString();
++      assertEquals("Unknown", string0);
++  }
++
++  @Test(timeout = 4000)
++  public void test19()  throws Throwable  {
++      Site site0 = new Site();
++      site0.setTypeString("F 1G_NpsfH;5zN Eb.A");
++      String string0 = site0.getTypesAsString();
++      assertEquals("Forests", string0);
++  }
++
++  @Test(timeout = 4000)
++  public void test20()  throws Throwable  {
++      Site site0 = new Site();
++      boolean[] booleanArray0 = new boolean[4];
++      booleanArray0[3] = true;
++      site0.setTypes(booleanArray0);
++      assertEquals("4", site0.getTypeString());
++  }
++
++  @Test(timeout = 4000)
++  public void test21()  throws Throwable  {
++      Site site0 = new Site();
++      boolean[] booleanArray0 = new boolean[5];
++      booleanArray0[2] = true;
++      site0.setTypes(booleanArray0);
++      site0.getSiteColor();
++      assertTrue(site0.isForest());
++  }
++
++  @Test(timeout = 4000)
++  public void test22()  throws Throwable  {
++      Site site0 = new Site();
++      boolean[] booleanArray0 = new boolean[2];
++      booleanArray0[1] = true;
+       // Undeclared exception!
+       try { 
+-        site0.setFilename("G:DATAgnu.l!is");
++        site0.setTypes(booleanArray0);
++        fail("Expecting exception: ArrayIndexOutOfBoundsException");
++      
++      } catch(ArrayIndexOutOfBoundsException e) {
++         //
++         // 2
++         //
++         verifyException("corina.site.Site", e);
++      }
++  }
++
++  @Test(timeout = 4000)
++  public void test23()  throws Throwable  {
++      Site site0 = new Site();
++      boolean[] booleanArray0 = new boolean[4];
++      booleanArray0[0] = true;
++      site0.setTypes(booleanArray0);
++      site0.getSiteColor();
++      assertEquals("3", site0.getTypeString());
++  }
++
++  @Test(timeout = 4000)
++  public void test24()  throws Throwable  {
++      Site site0 = new Site();
++      site0.setTypeString("2933YTJ8bZ=7Y");
++      String string0 = site0.getTypesAsString();
++      assertEquals("Ancient, Medieval", string0);
++  }
++
++  @Test(timeout = 4000)
++  public void test25()  throws Throwable  {
++      Site site0 = new Site();
++      site0.setTypeString("   <site>\n      <species>java.lang.String@0000000002</species>\n   </site>\n");
++      String string0 = site0.getTypesAsString();
++      assertEquals("Medieval, Unknown", string0);
++  }
++
++  @Test(timeout = 4000)
++  public void test26()  throws Throwable  {
++      Site site0 = new Site();
++      site0.setTypeString("1 2 4 2 1");
++      String string0 = site0.getTypesAsString();
++      assertEquals("Medieval, Forests, Unknown", string0);
++  }
++
++  @Test(timeout = 4000)
++  public void test27()  throws Throwable  {
++      Site site0 = new Site();
++      Location location0 = new Location();
++      site0.setLocation(location0);
++      String string0 = site0.toString();
++      assertEquals("[Site: name='' code='' id='' location=0\u00B00'S 0\u00B00'W ]", string0);
++  }
++
++  @Test(timeout = 4000)
++  public void test28()  throws Throwable  {
++      Site site0 = new Site();
++      String string0 = site0.getTypeString();
++      assertEquals("", string0);
++  }
++
++  @Test(timeout = 4000)
++  public void test29()  throws Throwable  {
++      Site site0 = new Site();
++      site0.setSpecies("0n4;A}kyz|");
++      Site site1 = new Site();
++      boolean boolean0 = site0.equals(site1);
++      assertFalse(site1.equals((Object)site0));
++      assertFalse(boolean0);
++  }
++
++  @Test(timeout = 4000)
++  public void test30()  throws Throwable  {
++      Site site0 = new Site();
++      site0.setAltitude((Integer) site0.TYPE_UNKNOWN);
++      Object object0 = site0.clone();
++      assertTrue(object0.equals((Object)site0));
++  }
++
++  @Test(timeout = 4000)
++  public void test31()  throws Throwable  {
++      Site site0 = new Site();
++      site0.hashCode();
++  }
++
++  @Test(timeout = 4000)
++  public void test32()  throws Throwable  {
++      Site site0 = new Site();
++      String string0 = site0.toXML();
++      assertEquals("   <site>\n   </site>\n", string0);
++  }
++
++  @Test(timeout = 4000)
++  public void test33()  throws Throwable  {
++      Site site0 = new Site();
++      site0.setComments("]F*");
++      Site site1 = new Site();
++      boolean boolean0 = site0.equals(site1);
++      assertFalse(boolean0);
++  }
++
++  @Test(timeout = 4000)
++  public void test34()  throws Throwable  {
++      Site site0 = new Site();
++      String string0 = site0.getSpecies();
++      assertEquals("", string0);
++  }
++
++  @Test(timeout = 4000)
++  public void test35()  throws Throwable  {
++      Site site0 = new Site();
++      site0.setCode("s^es");
++      Site site1 = new Site();
++      boolean boolean0 = site0.equals(site1);
++      assertFalse(site1.equals((Object)site0));
++      assertFalse(boolean0);
++  }
++
++  @Test(timeout = 4000)
++  public void test36()  throws Throwable  {
++      Site site0 = new Site();
++      Integer integer0 = site0.getAltitude();
++      assertNull(integer0);
++  }
++
++  @Test(timeout = 4000)
++  public void test37()  throws Throwable  {
++      Site site0 = new Site();
++      site0.setCountry("width");
++      Site site1 = new Site();
++      boolean boolean0 = site0.equals(site1);
++      assertFalse(boolean0);
++  }
++
++  @Test(timeout = 4000)
++  public void test38()  throws Throwable  {
++      Site site0 = new Site();
++      String string0 = site0.getCode();
++      assertEquals("", string0);
++  }
++
++  @Test(timeout = 4000)
++  public void test39()  throws Throwable  {
++      Site site0 = new Site();
++      // Undeclared exception!
++      try { 
++        site0.distanceTo(site0);
+         fail("Expecting exception: NullPointerException");
+       
+       } catch(NullPointerException e) {
+@@ -190,203 +379,4 @@
+          verifyException("corina.site.Site", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      Site site0 = new Site();
+-      site0.setTypeString("9=4a=l)AT_]^[U");
+-      String string0 = site0.getTypesAsString();
+-      assertEquals("Unknown", string0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      Site site0 = new Site();
+-      site0.setTypeString("F 1G_NpsfH;5zN Eb.A");
+-      String string0 = site0.getTypesAsString();
+-      assertEquals("Forests", string0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      Site site0 = new Site();
+-      boolean[] booleanArray0 = new boolean[4];
+-      booleanArray0[3] = true;
+-      site0.setTypes(booleanArray0);
+-      assertEquals("4", site0.getTypeString());
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      Site site0 = new Site();
+-      boolean[] booleanArray0 = new boolean[5];
+-      booleanArray0[2] = true;
+-      site0.setTypes(booleanArray0);
+-      site0.getSiteColor();
+-      assertTrue(site0.isForest());
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      Site site0 = new Site();
+-      boolean[] booleanArray0 = new boolean[2];
+-      booleanArray0[1] = true;
+-      // Undeclared exception!
+-      try { 
+-        site0.setTypes(booleanArray0);
+-        fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // 2
+-         //
+-         verifyException("corina.site.Site", e);
+-      }
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      Site site0 = new Site();
+-      boolean[] booleanArray0 = new boolean[4];
+-      booleanArray0[0] = true;
+-      site0.setTypes(booleanArray0);
+-      site0.getSiteColor();
+-      assertEquals("3", site0.getTypeString());
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      Site site0 = new Site();
+-      site0.setTypeString("2933YTJ8bZ=7Y");
+-      String string0 = site0.getTypesAsString();
+-      assertEquals("Ancient, Medieval", string0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      Site site0 = new Site();
+-      site0.setTypeString("   <site>\n      <species>java.lang.String@0000000002</species>\n   </site>\n");
+-      String string0 = site0.getTypesAsString();
+-      assertEquals("Medieval, Unknown", string0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      Site site0 = new Site();
+-      site0.setTypeString("1 2 4 2 1");
+-      String string0 = site0.getTypesAsString();
+-      assertEquals("Medieval, Forests, Unknown", string0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
+-      Site site0 = new Site();
+-      Location location0 = new Location();
+-      site0.setLocation(location0);
+-      String string0 = site0.toString();
+-      assertEquals("[Site: name='' code='' id='' location=0\u00B00'S 0\u00B00'W ]", string0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      Site site0 = new Site();
+-      String string0 = site0.getTypeString();
+-      assertEquals("", string0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      Site site0 = new Site();
+-      site0.setSpecies("0n4;A}kyz|");
+-      Site site1 = new Site();
+-      boolean boolean0 = site0.equals(site1);
+-      assertFalse(site1.equals((Object)site0));
+-      assertFalse(boolean0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      Site site0 = new Site();
+-      site0.setAltitude((Integer) site0.TYPE_UNKNOWN);
+-      Object object0 = site0.clone();
+-      assertTrue(object0.equals((Object)site0));
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test31()  throws Throwable  {
+-      Site site0 = new Site();
+-      site0.hashCode();
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
+-      Site site0 = new Site();
+-      String string0 = site0.toXML();
+-      assertEquals("   <site>\n   </site>\n", string0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test33()  throws Throwable  {
+-      Site site0 = new Site();
+-      site0.setComments("]F*");
+-      Site site1 = new Site();
+-      boolean boolean0 = site0.equals(site1);
+-      assertFalse(boolean0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      Site site0 = new Site();
+-      String string0 = site0.getSpecies();
+-      assertEquals("", string0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test35()  throws Throwable  {
+-      Site site0 = new Site();
+-      site0.setCode("s^es");
+-      Site site1 = new Site();
+-      boolean boolean0 = site0.equals(site1);
+-      assertFalse(site1.equals((Object)site0));
+-      assertFalse(boolean0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test36()  throws Throwable  {
+-      Site site0 = new Site();
+-      Integer integer0 = site0.getAltitude();
+-      assertNull(integer0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test37()  throws Throwable  {
+-      Site site0 = new Site();
+-      site0.setCountry("width");
+-      Site site1 = new Site();
+-      boolean boolean0 = site0.equals(site1);
+-      assertFalse(boolean0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test38()  throws Throwable  {
+-      Site site0 = new Site();
+-      String string0 = site0.getCode();
+-      assertEquals("", string0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test39()  throws Throwable  {
+-      Site site0 = new Site();
+-      // Undeclared exception!
+-      try { 
+-        site0.distanceTo(site0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.site.Site", e);
+-      }
+-  }
+ }

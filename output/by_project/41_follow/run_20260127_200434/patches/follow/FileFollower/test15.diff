@@ -1,0 +1,57 @@
+--- a/evosuite-tests/ghm/follow/FileFollower_ESTest.java
++++ b/evosuite-tests/ghm/follow/FileFollower_ESTest.java
+@@ -429,29 +429,31 @@
+     assertEquals(latencyBefore, latencyAfter);
+     System.setCurrentTimeMillis(-1241L);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("DIED IN MY SLEEP", "DIED IN MY SLEEP");
+-      OutputDestination[] outputDestinationArray0 = new OutputDestination[0];
+-      FileFollower fileFollower0 = new FileFollower(file0, outputDestinationArray0);
+-      fileFollower0.setBufferSize(0);
+-      fileFollower0.start();
+-      fileFollower0.isBeingFollowed();
+-      FileSystemHandling.setPermissions((EvoSuiteFile) null, true, false, true);
+-      fileFollower0.stop();
+-      JPasswordField jPasswordField0 = new JPasswordField();
+-      DefaultFormatterFactory defaultFormatterFactory0 = new DefaultFormatterFactory();
+-      JFormattedTextField jFormattedTextField0 = new JFormattedTextField(defaultFormatterFactory0, (Object) null);
+-      JTextComponentDestination jTextComponentDestination0 = new JTextComponentDestination(jFormattedTextField0, true);
+-      SearchEngine searchEngine0 = new SearchEngine(0);
+-      List<WordResult> list0 = new LinkedList<WordResult>();
+-      fileFollower0.getBufferSize();
+-      fileFollower0.start();
+-      fileFollower0.setBufferSize(32768);
+-      assertTrue(fileFollower0.isBeingFollowed());
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        File file0 = MockFile.createTempFile("DIED IN MY SLEEP", "DIED IN MY SLEEP");
++        OutputDestination[] outputDestinationArray0 = new OutputDestination[0];
++        FileFollower fileFollower0 = new FileFollower(file0, outputDestinationArray0);
++
++        // Verify that setting the buffer size updates the internal state
++        fileFollower0.setBufferSize(0);
++        assertEquals(0, fileFollower0.getBufferSize());
++
++        // Start following and verify state
++        fileFollower0.start();
++        assertTrue(fileFollower0.isBeingFollowed());
++
++        // Stop following and verify state
++        fileFollower0.stop();
++        assertFalse(fileFollower0.isBeingFollowed());
++
++        // Restart and change buffer size again
++        fileFollower0.start();
++        assertTrue(fileFollower0.isBeingFollowed());
++        fileFollower0.setBufferSize(32768);
++        assertEquals(32768, fileFollower0.getBufferSize());
++    }
++
+ @Test(timeout = 4000)
+   public void test16() throws Throwable {
+       MockFile mockFile0 = new MockFile("&2", "&2");

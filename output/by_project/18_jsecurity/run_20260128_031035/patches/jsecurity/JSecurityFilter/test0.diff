@@ -1,0 +1,64 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityFilter_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityFilter_ESTest.java
+@@ -29,33 +29,35 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class JSecurityFilter_ESTest extends JSecurityFilter_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    JSecurityFilter jSecurityFilter0 = new JSecurityFilter();
++    IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
++    SecurityManager securityManager0 = jSecurityFilter0.ensureSecurityManager(iniWebConfiguration0);
++    assertNotNull(securityManager0);
++    jSecurityFilter0.setSecurityManager(securityManager0);
++    jSecurityFilter0.setConfiguration(iniWebConfiguration0);
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      JSecurityFilter jSecurityFilter0 = new JSecurityFilter();
+-      IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
+-      SecurityManager securityManager0 = jSecurityFilter0.ensureSecurityManager(iniWebConfiguration0);
+-      jSecurityFilter0.setSecurityManager(securityManager0);
+-      jSecurityFilter0.setConfiguration(iniWebConfiguration0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("main", (String) null).when(httpServletRequest0).getRemoteHost();
+-      doReturn((Cookie[]) null).when(httpServletRequest0).getCookies();
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession(anyBoolean());
+-      JSecurityHttpServletRequest jSecurityHttpServletRequest0 = new JSecurityHttpServletRequest(httpServletRequest0, (ServletContext) null, true);
+-      // Undeclared exception!
+-      try { 
+-        jSecurityFilter0.doFilterInternal(jSecurityHttpServletRequest0, httpServletResponseWrapper0, (FilterChain) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.servlet.JSecurityFilter", e);
+-      }
+-  }
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++    HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    when(httpServletRequest0.getRemoteHost()).thenReturn("main");
++    when(httpServletRequest0.getCookies()).thenReturn(new Cookie[0]);
++    HttpSession httpSessionMock = mock(HttpSession.class);
++    when(httpServletRequest0.getSession(anyBoolean())).thenReturn(httpSessionMock);
++
++    ServletContext servletContextMock = mock(ServletContext.class);
++    FilterChain filterChainMock = mock(FilterChain.class);
++
++    JSecurityHttpServletRequest jSecurityHttpServletRequest0 =
++        new JSecurityHttpServletRequest(httpServletRequest0, servletContextMock, true);
++
++    jSecurityFilter0.doFilterInternal(jSecurityHttpServletRequest0, httpServletResponseWrapper0, filterChainMock);
++
++    verify(filterChainMock).doFilter(jSecurityHttpServletRequest0, httpServletResponseWrapper0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

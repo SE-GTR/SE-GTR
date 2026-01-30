@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -475,23 +475,14 @@
+       assertEquals(".*", pattern0.pattern());
+       assertFalse(config0.hasOrphans());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test034()  throws Throwable  {
+-      Config config0 = new Config();
+-      config0.getIndirectColumnExclusions();
+-      // Undeclared exception!
+-      try { 
+-        config0.getRemainingParameters();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // org.evosuite.runtime.mock.java.lang.MockThrowable: Required parameter '-o' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = RuntimeException.class)
++public void test034() throws Throwable {
++    Config config0 = new Config();
++    java.util.regex.Pattern indirectExclusions = config0.getIndirectColumnExclusions();
++    assertNull(indirectExclusions);
++    config0.getRemainingParameters();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test035()  throws Throwable  {

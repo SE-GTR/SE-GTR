@@ -1,0 +1,36 @@
+--- a/evosuite-tests/de/paragon/explorer/event/ExplorerPopupActionConverter_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/event/ExplorerPopupActionConverter_ESTest.java
+@@ -41,15 +41,24 @@
+          verifyException("de.paragon.explorer.event.ExplorerPopupActionConverter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      ExplorerPopupActionConverter explorerPopupActionConverter0 = new ExplorerPopupActionConverter();
+-      ExplorerFieldListBoxFigure explorerFieldListBoxFigure0 = new ExplorerFieldListBoxFigure();
+-      ObjectModel objectModel0 = new ObjectModel();
+-      explorerFieldListBoxFigure0.setModel(objectModel0);
+-      explorerPopupActionConverter0.hideAllReferences(explorerFieldListBoxFigure0);
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        ExplorerPopupActionConverter explorerPopupActionConverter0 = new ExplorerPopupActionConverter();
++        ExplorerFieldListBoxFigure explorerFieldListBoxFigure0 = new ExplorerFieldListBoxFigure();
++        ObjectModel objectModel0 = new ObjectModel();
++
++        // Verify initial state before setting the model
++        assertNull(explorerFieldListBoxFigure0.getModel());
++
++        // Act: set the model and verify the side‑effect
++        explorerFieldListBoxFigure0.setModel(objectModel0);
++        assertSame(objectModel0, explorerFieldListBoxFigure0.getModel());
++
++        // Act: hide all references and ensure the model remains unchanged
++        explorerPopupActionConverter0.hideAllReferences(explorerFieldListBoxFigure0);
++        assertSame(objectModel0, explorerFieldListBoxFigure0.getModel());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

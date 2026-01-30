@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/attrs/StackMapAttribute_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/attrs/StackMapAttribute_ESTest.java
+@@ -121,25 +121,21 @@
+         StackMapAttribute stackMapAttribute0 = new StackMapAttribute();
+         assertNotNull(stackMapAttribute0);
+     }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        LinkedList<Object> linkedList0 = new LinkedList<Object>();
++        StackMapAttribute stackMapAttribute0 = new StackMapAttribute(linkedList0);
++        boolean added = linkedList0.add(new Object());
++        assertTrue(added);
++        try {
++            stackMapAttribute0.getLabels();
++            fail("Expecting exception: ClassCastException");
++        } catch (ClassCastException e) {
++            // Expected exception due to invalid element type in the list
++            verifyException("org.objectweb.asm.jip.attrs.StackMapAttribute", e);
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      StackMapAttribute stackMapAttribute0 = new StackMapAttribute(linkedList0);
+-      linkedList0.add((Object) null);
+-      // Undeclared exception!
+-      try { 
+-        stackMapAttribute0.getLabels();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.attrs.StackMapAttribute", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

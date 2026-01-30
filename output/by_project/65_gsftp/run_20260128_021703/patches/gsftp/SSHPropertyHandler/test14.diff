@@ -1,0 +1,38 @@
+--- a/evosuite-tests/mindbright/ssh/SSHPropertyHandler_ESTest.java
++++ b/evosuite-tests/mindbright/ssh/SSHPropertyHandler_ESTest.java
+@@ -129,17 +129,25 @@
+     // Verify a default property value
+     assertEquals(21, handler.getRemotePort());
+ }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    SSHPropertyHandler handler = new SSHPropertyHandler();
++    // default password should be null
++    assertNull(handler.getRemotePassword());
++    // set first password and verify
++    String pwd1 = "^t)\"S%_DF41Li1QkL";
++    handler.setRemotePassword(pwd1);
++    assertEquals(pwd1, handler.getRemotePassword());
++    // change password and verify the update
++    String pwd2 = "newPass123";
++    handler.setRemotePassword(pwd2);
++    assertEquals(pwd2, handler.getRemotePassword());
++    // verify other properties remain as expected
++    assertTrue(handler.hasBinay());
++    assertEquals("localhost", handler.getRemoteServer());
++    assertEquals(21, handler.getRemotePort());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      SSHPropertyHandler sSHPropertyHandler0 = new SSHPropertyHandler();
+-      sSHPropertyHandler0.setRemotePassword("^t)\"S%_DF41Li1QkL");
+-      assertEquals("^t)\"S%_DF41Li1QkL", sSHPropertyHandler0.getRemotePassword());
+-      assertTrue(sSHPropertyHandler0.hasBinay());
+-      assertEquals("localhost", sSHPropertyHandler0.getRemoteServer());
+-      assertEquals(21, sSHPropertyHandler0.getRemotePort());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

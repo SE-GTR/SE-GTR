@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
+@@ -330,18 +330,22 @@
+          verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      TargetUserGroupBean targetUserGroupBean0 = new TargetUserGroupBean();
+-      completeMetadataBean0.addTargetUserGroup(targetUserGroupBean0);
+-      completeMetadataBean0.setLocation("package");
+-      ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
+-      HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, byteArrayOutputStream0);
+-      assertEquals(1073, byteArrayOutputStream0.size());
+-  }
++@Test(timeout = 4000)
++public void test18() throws Throwable {
++    FileLocator fileLocator0 = new FileLocator();
++    CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++    TargetUserGroupBean targetUserGroupBean0 = new TargetUserGroupBean();
++    completeMetadataBean0.addTargetUserGroup(targetUserGroupBean0);
++    // Verify initial state before setting location
++    assertNull(completeMetadataBean0.getLocation());
++    completeMetadataBean0.setLocation("package");
++    // Assert that the side‑effect of setLocation is observable
++    assertEquals("package", completeMetadataBean0.getLocation());
++    ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
++    HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, byteArrayOutputStream0);
++    assertEquals(1073, byteArrayOutputStream0.size());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

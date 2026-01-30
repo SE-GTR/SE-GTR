@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/datastore/DataStoreIterator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/datastore/DataStoreIterator_ESTest.java
+@@ -62,24 +62,16 @@
+          verifyException("org.jcvi.jillion.internal.core.datastore.DataStoreIterator", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        DataStore<String> dataStore0 = mock(DataStore.class, new ViolatedAssumptionAnswer());
++        StreamingIterator<String> idsIter = mock(StreamingIterator.class);
++        when(dataStore0.idIterator()).thenReturn(idsIter);
++        DataStoreIterator<String> dataStoreIterator0 = new DataStoreIterator<>(dataStore0);
++        dataStoreIterator0.close();
++        verify(idsIter).close();
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    dataStore0 = (DataStore<String>) mock(DataStore.class, new ViolatedAssumptionAnswer());
+-      doReturn((StreamingIterator) null).when(dataStore0).idIterator();
+-    dataStoreIterator0 = new DataStoreIterator<String>(dataStore0);
+-      // Undeclared exception!
+-      try { 
+-        dataStoreIterator0.close();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.internal.core.datastore.DataStoreIterator", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

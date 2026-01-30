@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/tivo/jipviewer/TableSorter_ESTest.java
++++ b/evosuite-tests/com/tivo/jipviewer/TableSorter_ESTest.java
+@@ -90,13 +90,17 @@
+          verifyException("com.tivo.jipviewer.TableSorter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      TableSorter tableSorter0 = new TableSorter();
+-      int int0 = tableSorter0.getColumnCount();
+-      assertEquals(0, int0);
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        String[] columnNames = {"A", "B"};
++        Object[][] data = {{1, 2}, {3, 4}};
++        javax.swing.table.TableModel model = new javax.swing.table.DefaultTableModel(data, columnNames);
++        javax.swing.table.TableColumnModel columnModel = new javax.swing.table.DefaultTableColumnModel();
++        javax.swing.table.JTableHeader header = new javax.swing.table.JTableHeader(columnModel);
++        TableSorter sorter = new TableSorter(model, header);
++        assertEquals(columnNames.length, sorter.getColumnCount());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

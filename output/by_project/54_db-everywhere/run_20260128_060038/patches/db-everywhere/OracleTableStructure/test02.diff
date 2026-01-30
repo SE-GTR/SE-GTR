@@ -1,0 +1,51 @@
+--- a/evosuite-tests/com/gbshape/dbe/oracle/OracleTableStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/oracle/OracleTableStructure_ESTest.java
+@@ -62,30 +62,24 @@
+       ArrayList arrayList0 = oracleTableStructure0.create((HttpServletRequest) null, dBDataBean0, createTableXmlBean0);
+       assertEquals(2, arrayList0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      OracleTableStructure oracleTableStructure0 = new OracleTableStructure();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      DBDataBean dBDataBean0 = new DBDataBean();
+-      ArrayList<Object> arrayList0 = new ArrayList<Object>();
+-      arrayList0.add((Object) arrayList0);
+-      // Undeclared exception!
+-      try { 
+-        oracleTableStructure0.changePrimary(httpServletRequestWrapper0, dBDataBean0, "", arrayList0);
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.util.ArrayList cannot be cast to com.gbshape.dbe.struts.bean.ColumnBean
+-         //
+-         verifyException("com.gbshape.dbe.oracle.OracleTableStructure", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        OracleTableStructure oracleTableStructure0 = new OracleTableStructure();
++        HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        DBDataBean dBDataBean0 = new DBDataBean();
++        ArrayList<Object> arrayList0 = new ArrayList<Object>();
++        boolean added = arrayList0.add((Object) arrayList0);
++        assertTrue("Adding self to list should succeed", added);
++        try {
++            oracleTableStructure0.changePrimary(httpServletRequestWrapper0, dBDataBean0, "", arrayList0);
++            fail("Expecting exception: ClassCastException");
++        } catch (ClassCastException e) {
++            verifyException("com.gbshape.dbe.oracle.OracleTableStructure", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

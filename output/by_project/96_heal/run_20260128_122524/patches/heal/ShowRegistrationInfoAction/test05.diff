@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/heal/servlet/ShowRegistrationInfoAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/ShowRegistrationInfoAction_ESTest.java
+@@ -131,19 +131,24 @@
+          verifyException("org.heal.servlet.ShowRegistrationInfoAction", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      ShowRegistrationInfoAction showRegistrationInfoAction0 = new ShowRegistrationInfoAction();
+-      UserBean userBean0 = new UserBean();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      ProfessionalRoleBean professionalRoleBean0 = new ProfessionalRoleBean();
+-      professionalRoleBean0.setProfessionalRole("course director");
+-      userBean0.addProfessionalRole(professionalRoleBean0);
+-      showRegistrationInfoAction0.setUserAttributes(httpServletRequestWrapper0, userBean0);
+-      assertTrue(userBean0.isMinor());
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    ShowRegistrationInfoAction showRegistrationInfoAction0 = new ShowRegistrationInfoAction();
++    UserBean userBean0 = new UserBean();
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    ProfessionalRoleBean professionalRoleBean0 = new ProfessionalRoleBean();
++    professionalRoleBean0.setProfessionalRole("course director");
++    assertEquals("course director", professionalRoleBean0.getProfessionalRole());
++    userBean0.addProfessionalRole(professionalRoleBean0);
++    assertEquals(1, userBean0.getProfessionalRoles().size());
++    showRegistrationInfoAction0.setUserAttributes(httpServletRequestWrapper0, userBean0);
++    org.mockito.Mockito.verify(httpServletRequest0).setAttribute(
++        org.mockito.ArgumentMatchers.anyString(),
++        org.mockito.ArgumentMatchers.eq(userBean0));
++    assertTrue(userBean0.isMinor());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

@@ -1,0 +1,21 @@
+--- a/evosuite-tests/osa/ora/server/client/threads/PingServerThread_ESTest.java
++++ b/evosuite-tests/osa/ora/server/client/threads/PingServerThread_ESTest.java
+@@ -15,9 +15,14 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class PingServerThread_ESTest extends PingServerThread_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    PingServerThread pingServerThread0 = new PingServerThread((ChatClientApp) null);
++    // Exercise the thread by starting it and waiting for it to finish
++    pingServerThread0.start();
++    pingServerThread0.join(100);
++    // After joining, the thread should have terminated
++    assertFalse(pingServerThread0.isAlive());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      PingServerThread pingServerThread0 = new PingServerThread((ChatClientApp) null);
+-  }
+ }

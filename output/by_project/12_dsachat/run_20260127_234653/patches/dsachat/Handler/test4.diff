@@ -1,0 +1,29 @@
+--- a/evosuite-tests/dsachat/server/Handler_ESTest.java
++++ b/evosuite-tests/dsachat/server/Handler_ESTest.java
+@@ -99,14 +99,19 @@
+          verifyException("dsachat.server.net.SecServer", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    Handler handler0 = new Handler();
++    // Verify initial state before any operation
++    assertFalse(secServer0.isConnected());
++    // Add connection and verify side‑effect
++    handler0.addConnection(secServer0);
++    assertTrue(secServer0.isConnected());
++    // Remove connection and verify side‑effect
++    handler0.removeConnection(secServer0);
++    assertFalse(secServer0.isConnected());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      Handler handler0 = new Handler();
+-      handler0.addConnection(secServer0);
+-      handler0.removeConnection(secServer0);
+-      assertFalse(secServer0.isConnected());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

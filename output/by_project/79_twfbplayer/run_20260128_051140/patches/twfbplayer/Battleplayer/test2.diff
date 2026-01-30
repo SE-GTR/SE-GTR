@@ -1,0 +1,46 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/player/Battleplayer_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/player/Battleplayer_ESTest.java
+@@ -65,22 +65,29 @@
+     assertEquals(2, list0.size());
+     assertTrue(list0.contains(31));
+ }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    Round round0 = mock(Round.class, new ViolatedAssumptionAnswer());
++    doReturn(1).when(round0).getNo();
++    assertEquals(1, round0.getNo());
+ 
++    LinkedHashSet<Round> linkedHashSet0 = new LinkedHashSet<Round>();
++    boolean added = linkedHashSet0.add(round0);
++    assertTrue(added);
++    assertEquals(1, linkedHashSet0.size());
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      Round round0 = mock(Round.class, new ViolatedAssumptionAnswer());
+-      doReturn(1).when(round0).getNo();
+-      LinkedHashSet<Round> linkedHashSet0 = new LinkedHashSet<Round>();
+-      linkedHashSet0.add(round0);
+-      Battleplan battleplan0 = new Battleplan(linkedHashSet0);
+-      Battleplayer battleplayer0 = new Battleplayer(battleplan0);
+-      battleplayer0.pause();
+-      assertTrue(battleplayer0.isPaused());
+-      
+-      battleplayer0.pause();
+-      assertFalse(battleplayer0.isPaused());
+-  }
++    Battleplan battleplan0 = new Battleplan(linkedHashSet0);
++    Battleplayer battleplayer0 = new Battleplayer(battleplan0);
++
++    assertFalse(battleplayer0.isPaused());
++
++    battleplayer0.pause();
++    assertTrue(battleplayer0.isPaused());
++
++    battleplayer0.pause();
++    assertFalse(battleplayer0.isPaused());
++}
++
+ @Test(timeout = 4000)
+ public void test3() throws Throwable {
+     HashSet<Round> hashSet0 = new HashSet<Round>();

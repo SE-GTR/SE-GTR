@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -167,23 +167,15 @@
+         org.antlr.runtime.Token token = lexer.nextToken();
+         org.junit.Assert.assertEquals(SQLLexer.EOF, token.getType());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test014()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mDATE();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test014() throws Throwable {
++        org.antlr.runtime.CharStream input = new org.antlr.runtime.ANTLRStringStream("DATE");
++        SQLLexer lexer = new SQLLexer(input);
++        lexer.mDATE(); // should parse without throwing
++        // After consuming the token "DATE", the lexer should be positioned after the fourth character
++        assertEquals(4, lexer.getCharPositionInLine());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test015()  throws Throwable  {

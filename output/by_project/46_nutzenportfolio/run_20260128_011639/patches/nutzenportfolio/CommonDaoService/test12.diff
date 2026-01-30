@@ -1,0 +1,31 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/common/CommonDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/common/CommonDaoService_ESTest.java
+@@ -242,21 +242,11 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-    commonIbatisDao0 = new CommonIbatisDao();
+-    commonDaoService0 = new CommonDaoService(commonIbatisDao0);
+-      // Undeclared exception!
+-      try { 
+-        commonDaoService0.deleteProjektattraktivitaet((Integer) null);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++@Test(expected = IllegalArgumentException.class, timeout = 4000)
++  public void test12() throws Throwable {
++    commonIbatisDao0 = new CommonIbatisDao();
++    commonDaoService0 = new CommonDaoService(commonIbatisDao0);
++    commonDaoService0.deleteProjektattraktivitaet(null);
++  }
++
+ }

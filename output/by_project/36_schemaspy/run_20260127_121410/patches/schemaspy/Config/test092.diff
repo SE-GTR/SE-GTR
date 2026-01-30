@@ -1,0 +1,42 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -1336,24 +1336,21 @@
+       assertFalse(config0.hasRoutines());
+       assertFalse(config0.hasOrphans());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test092()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.setGraphvizDir("K");
+-      config0.setSingleSignOn(true);
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-o' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test092() throws Throwable {
++        Config config0 = Config.getInstance();
++        config0.setGraphvizDir("K");
++        config0.setSingleSignOn(true);
++        // Provide the required output directory to avoid RuntimeException
++        java.io.File tempDir = java.nio.file.Files.createTempDirectory("schemaspy_test").toFile();
++        config0.setOutputDir(tempDir);
++        java.util.List<String> args = config0.asList();
++        org.junit.Assert.assertTrue("Argument list should contain the output flag '-o'",
++                args.contains("-o"));
++        org.junit.Assert.assertTrue("Argument list should contain the output directory path",
++                args.contains(tempDir.getAbsolutePath()));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test093()  throws Throwable  {

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/map/DefaultNode_ESTest.java
++++ b/evosuite-tests/map/DefaultNode_ESTest.java
+@@ -97,18 +97,27 @@
+       node.setOpen(false);
+       assertFalse(node.isOpen());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      DefaultNode defaultNode0 = new DefaultNode();
+-      defaultNode0.setOpen(false);
+-      assertFalse(defaultNode0.isOpen());
++@Test(timeout = 4000)
++  public void test07() throws Throwable {
++      DefaultNode defaultNode0 = new DefaultNode();
++      // Capture the initial open state
++      boolean initialOpen = defaultNode0.isOpen();
++
++      // Toggle the state and verify the change
++      defaultNode0.setOpen(!initialOpen);
++      assertEquals(!initialOpen, defaultNode0.isOpen());
++
++      // Restore the original state and verify again
++      defaultNode0.setOpen(initialOpen);
++      assertEquals(initialOpen, defaultNode0.isOpen());
++
++      // Verify other default properties remain unchanged
+       assertEquals(0.0F, defaultNode0.getX(), 0.01F);
+       assertEquals(0.0F, defaultNode0.getScore(), 0.01F);
+       assertEquals(0.0F, defaultNode0.getY(), 0.01F);
+       assertFalse(defaultNode0.isClosed());
+   }
++
+ @Test(timeout = 4000)
+   public void test08() throws Throwable {
+       DefaultNode defaultNode0 = new DefaultNode();

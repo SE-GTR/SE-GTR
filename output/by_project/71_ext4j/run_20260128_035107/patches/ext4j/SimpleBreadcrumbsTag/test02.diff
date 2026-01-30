@@ -1,0 +1,79 @@
+--- a/evosuite-tests/net/sourceforge/ext4j/taglib/tag/SimpleBreadcrumbsTag_ESTest.java
++++ b/evosuite-tests/net/sourceforge/ext4j/taglib/tag/SimpleBreadcrumbsTag_ESTest.java
+@@ -58,29 +58,55 @@
+     // Execute doStartTag to verify it runs without exception; the return value is not under test
+     simpleBreadcrumbsTag0.doStartTag();
+ }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        simpleBreadcrumbsTag0 = new SimpleBreadcrumbsTag();
++        linkedList0 = new LinkedList<Breadcrumb>();
++        breadcrumb0 = new Breadcrumb("qa,");
++        linkedList0.offer(breadcrumb0);
++        breadcrumb0.setURL("v.wZ7jF");
++        linkedList0.add(breadcrumb0);
++        simpleBreadcrumbsTag0.setBreadcrumbs(linkedList0);
+ 
++        final StringWriter stringWriter = new StringWriter();
++        JspWriter writer = new JspWriter(0, true) {
++            @Override public void clear() throws IOException {}
++            @Override public void clearBuffer() throws IOException {}
++            @Override public void close() throws IOException {}
++            @Override public int getRemaining() { return 0; }
++            @Override public void write(char[] cbuf, int off, int len) throws IOException { stringWriter.write(cbuf, off, len); }
++            @Override public void write(int c) throws IOException { stringWriter.write(c); }
++            @Override public void write(String s) throws IOException { stringWriter.write(s); }
++            @Override public void write(String s, int off, int len) throws IOException { stringWriter.write(s, off, len); }
++            @Override public void newLine() throws IOException {}
++            @Override public void print(boolean b) throws IOException { stringWriter.write(Boolean.toString(b)); }
++            @Override public void print(char c) throws IOException { stringWriter.write(c); }
++            @Override public void print(int i) throws IOException { stringWriter.write(Integer.toString(i)); }
++            @Override public void print(long l) throws IOException { stringWriter.write(Long.toString(l)); }
++            @Override public void print(float f) throws IOException { stringWriter.write(Float.toString(f)); }
++            @Override public void print(double d) throws IOException { stringWriter.write(Double.toString(d)); }
++            @Override public void print(char[] s) throws IOException { stringWriter.write(s); }
++            @Override public void print(String s) throws IOException { stringWriter.write(s); }
++            @Override public void println() throws IOException { stringWriter.write(System.lineSeparator()); }
++            @Override public void println(boolean b) throws IOException { print(b); println(); }
++            @Override public void println(char c) throws IOException { print(c); println(); }
++            @Override public void println(int i) throws IOException { print(i); println(); }
++            @Override public void println(long l) throws IOException { print(l); println(); }
++            @Override public void println(float f) throws IOException { print(f); println(); }
++            @Override public void println(double d) throws IOException { print(d); println(); }
++            @Override public void println(char[] s) throws IOException { print(s); println(); }
++            @Override public void println(String s) throws IOException { print(s); println(); }
++        };
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-    simpleBreadcrumbsTag0 = new SimpleBreadcrumbsTag();
+-    linkedList0 = new LinkedList<Breadcrumb>();
+-    breadcrumb0 = new Breadcrumb("qa,");
+-      linkedList0.offer(breadcrumb0);
+-      breadcrumb0.setURL("v.wZ7jF");
+-      linkedList0.add(breadcrumb0);
+-      simpleBreadcrumbsTag0.setBreadcrumbs(linkedList0);
+-      // Undeclared exception!
+-      try { 
+-        simpleBreadcrumbsTag0.renderTag((JspWriter) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.ext4j.taglib.tag.SimpleBreadcrumbsTag", e);
+-      }
+-  }
++        // Execute the method under test with a valid JspWriter
++        simpleBreadcrumbsTag0.renderTag(writer);
++
++        // Verify that something was written to the writer (basic behavior check)
++        String output = stringWriter.toString();
++        assertNotNull(output);
++        assertTrue(output.contains("qa,"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

@@ -1,0 +1,56 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryChangeEventManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryChangeEventManager_ESTest.java
+@@ -121,26 +121,33 @@
+     ArrayList<MacawChangeEvent> history = manager.getChangeHistoryForValueLabels(user, variable);
+     assertTrue(history.contains(event));
+ }
+-
+-@Test(timeout = 4000)
+-  public void test07() throws Throwable {
+-      InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+-      User user0 = new User("s/v@}tK7OszU", "s/v@}tK7OszU");
+-      SupportingDocument supportingDocument0 = new SupportingDocument();
+-      ChangeEventType changeEventType0 = ChangeEventType.SUPPORTING_DOCUMENT;
+-      MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent(changeEventType0, "^L@/q:5Ms9)+1AH", "*Lv!#tsHo*bsF");
+-
+-      // Verify that setting the changed object identifier actually updates the state
+-      int originalId = macawChangeEvent0.getChangedObjectIdentifier();
+-      macawChangeEvent0.setChangedObjectIdentifier(1);
+-      assertEquals(1, macawChangeEvent0.getChangedObjectIdentifier());
+-      assertNotEquals(originalId, macawChangeEvent0.getChangedObjectIdentifier());
+-
+-      // Register the event and ensure it is not returned for an unrelated supporting document
+-      inMemoryChangeEventManager0.registerChangeEvent(macawChangeEvent0);
+-      ArrayList<MacawChangeEvent> arrayList0 = inMemoryChangeEventManager0.getChangeHistoryForSupportingDocument(user0, supportingDocument0);
+-      assertFalse(arrayList0.contains(macawChangeEvent0));
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
++    User user0 = new User("s/v@}tK7OszU", "s/v@}tK7OszU");
++    SupportingDocument supportingDocument0 = new SupportingDocument();
++    ChangeEventType changeEventType0 = ChangeEventType.SUPPORTING_DOCUMENT;
++    MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent(changeEventType0, "^L@/q:5Ms9)+1AH", "*Lv!#tsHo*bsF");
++
++    // Verify that setting the changed object identifier actually updates the state
++    int originalId = macawChangeEvent0.getChangedObjectIdentifier();
++    macawChangeEvent0.setChangedObjectIdentifier(1);
++    assertEquals(1, macawChangeEvent0.getChangedObjectIdentifier());
++    assertNotEquals(originalId, macawChangeEvent0.getChangedObjectIdentifier());
++
++    // Ensure the manager has no events for the given document before registration
++    ArrayList<MacawChangeEvent> beforeList = inMemoryChangeEventManager0.getChangeHistoryForSupportingDocument(user0, supportingDocument0);
++    assertTrue(beforeList.isEmpty());
++
++    // Register the event
++    inMemoryChangeEventManager0.registerChangeEvent(macawChangeEvent0);
++
++    // After registration, the event should still not appear for an unrelated supporting document
++    ArrayList<MacawChangeEvent> afterList = inMemoryChangeEventManager0.getChangeHistoryForSupportingDocument(user0, supportingDocument0);
++    assertTrue(afterList.isEmpty());
++    assertFalse(afterList.contains(macawChangeEvent0));
++}
++
+ @Test(timeout = 4000)
+ public void test08() throws Throwable {
+     InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();

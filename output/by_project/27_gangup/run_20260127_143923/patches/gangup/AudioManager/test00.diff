@@ -1,0 +1,31 @@
+--- a/evosuite-tests/gui/AudioManager_ESTest.java
++++ b/evosuite-tests/gui/AudioManager_ESTest.java
+@@ -23,21 +23,14 @@
+       audioManager0.setEnabled(true);
+       // Undeclared exception!
+   }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        AudioManager manager = new AudioManager(false);
++        // Attempt to move a source that has not been loaded; expect a normal false result
++        boolean moved = manager.moveSource("unknownHandle", 0.0f, 0.0f, 0.0f);
++        assertFalse("moveSource should return false when the handle does not exist", moved);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      try { 
+-        audioManager0.moveSource("", (-2875.209F), (-2875.209F), (-2875.209F));
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("gui.AudioManager", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+ public void test01() throws Throwable {
+     audioManager0 = new AudioManager(false);

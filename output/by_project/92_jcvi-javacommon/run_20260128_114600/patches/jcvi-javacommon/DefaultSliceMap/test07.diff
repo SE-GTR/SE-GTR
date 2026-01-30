@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/assembly/util/DefaultSliceMap_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/assembly/util/DefaultSliceMap_ESTest.java
+@@ -101,27 +101,27 @@
+       boolean boolean0 = defaultSliceMap1.equals(defaultSliceMap0);
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      CoverageMap<AceAssembledReadAdapter> coverageMap0 = (CoverageMap<AceAssembledReadAdapter>) mock(CoverageMap.class, new ViolatedAssumptionAnswer());
+-      doReturn(0).when(coverageMap0).getNumberOfRegions();
+-      doReturn((CoverageRegion) null).when(coverageMap0).getRegion(anyInt());
+-      doReturn(false).when(coverageMap0).isEmpty();
+-      QualitySequenceDataStore qualitySequenceDataStore0 = mock(QualitySequenceDataStore.class, new ViolatedAssumptionAnswer());
+-      GapQualityValueStrategy gapQualityValueStrategy0 = GapQualityValueStrategy.LOWEST_FLANKING;
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    CoverageMap<AceAssembledReadAdapter> coverageMap0 = (CoverageMap<AceAssembledReadAdapter>) mock(CoverageMap.class, new ViolatedAssumptionAnswer());
++    doReturn(0).when(coverageMap0).getNumberOfRegions();
++    doReturn((CoverageRegion) null).when(coverageMap0).getRegion(anyInt());
++    doReturn(false).when(coverageMap0).isEmpty();
++    // Assert stubbed return values to avoid NARV
++    assertEquals(0, coverageMap0.getNumberOfRegions());
++    assertNull(coverageMap0.getRegion(0));
++    assertFalse(coverageMap0.isEmpty());
++
++    QualitySequenceDataStore qualitySequenceDataStore0 = mock(QualitySequenceDataStore.class, new ViolatedAssumptionAnswer());
++    GapQualityValueStrategy gapQualityValueStrategy0 = GapQualityValueStrategy.LOWEST_FLANKING;
++    try {
+         DefaultSliceMap.create(coverageMap0, qualitySequenceDataStore0, gapQualityValueStrategy0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.internal.assembly.util.DefaultSliceMap", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        verifyException("org.jcvi.jillion.internal.assembly.util.DefaultSliceMap", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/framework/persistence/jdbc/pool/JDBCPool_ESTest.java
++++ b/evosuite-tests/framework/persistence/jdbc/pool/JDBCPool_ESTest.java
+@@ -134,21 +134,12 @@
+       oraclePoolImpl0.setConnectionProperties(oracleConnectionWrapper0);
+       assertFalse(oracleConnectionWrapper0.getAutoClose());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      OraclePoolImpl oraclePoolImpl0 = new OraclePoolImpl();
+-      try { 
+-        oraclePoolImpl0.validateConnection((Connection) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("framework.persistence.jdbc.pool.JDBCPool", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class)
++    public void test12() throws Throwable {
++        OraclePoolImpl oraclePoolImpl0 = new OraclePoolImpl();
++        oraclePoolImpl0.validateConnection(null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

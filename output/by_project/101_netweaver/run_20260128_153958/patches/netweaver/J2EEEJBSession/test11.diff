@@ -1,0 +1,47 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -213,20 +213,30 @@
+         session1.setApplication("OtherApp");
+         assertFalse(session0.equals(session1));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      assertTrue(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      
+-      j2EEEJBSession1.setApplication("K65M;");
+-      j2EEEJBSession1.setEjb("C..X");
+-      j2EEEJBSession0.setEjb("C..X");
+-      boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        J2EEEJBSession s0 = new J2EEEJBSession();
++        J2EEEJBSession s1 = new J2EEEJBSession();
++        // initially both sessions are equal
++        assertTrue(s0.equals(s1));
++
++        // change application only on s1
++        s1.setApplication("K65M;");
++        // the sessions should now differ because of the application field
++        assertFalse(s0.equals(s1));
++
++        // set the same ejb value on both sessions
++        s0.setEjb("C..X");
++        s1.setEjb("C..X");
++        // equality should still be false (application mismatch remains)
++        assertFalse(s0.equals(s1));
++
++        // synchronize application fields
++        s0.setApplication("K65M;");
++        // now both sessions should be equal again
++        assertTrue(s0.equals(s1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

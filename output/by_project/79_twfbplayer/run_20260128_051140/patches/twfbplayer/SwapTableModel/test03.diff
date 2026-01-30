@@ -1,0 +1,50 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/gui/statistics/SwapTableModel_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/gui/statistics/SwapTableModel_ESTest.java
+@@ -66,29 +66,24 @@
+       Object object0 = swapTableModel0.getValueAt(0, 3);
+       assertNull(object0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      ArrayList<PositionSwitch> arrayList0 = new ArrayList<PositionSwitch>();
+-      PositionSwitch positionSwitch0 = mock(PositionSwitch.class, new ViolatedAssumptionAnswer());
+-      doReturn(2537).when(positionSwitch0).compareTo(any(de.outstare.fortbattleplayer.statistics.PositionSwitch.class));
+-      arrayList0.add(positionSwitch0);
+-      PositionSwitch positionSwitch1 = mock(PositionSwitch.class, new ViolatedAssumptionAnswer());
+-      doReturn(2537).when(positionSwitch1).compareTo(any(de.outstare.fortbattleplayer.statistics.PositionSwitch.class));
+-      arrayList0.add(positionSwitch1);
+-      SwapTableModel swapTableModel0 = new SwapTableModel(arrayList0);
+-      // Undeclared exception!
+-      try { 
+-        swapTableModel0.getValueAt(1, 2);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.outstare.fortbattleplayer.gui.statistics.SwapTableModel", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        ArrayList<PositionSwitch> swaps = new ArrayList<>();
++        PositionSwitch ps0 = mock(PositionSwitch.class, new ViolatedAssumptionAnswer());
++        doReturn(2537).when(ps0).compareTo(any(PositionSwitch.class));
++        when(ps0.getName()).thenReturn("swap0");
++        swaps.add(ps0);
++        PositionSwitch ps1 = mock(PositionSwitch.class, new ViolatedAssumptionAnswer());
++        doReturn(2537).when(ps1).compareTo(any(PositionSwitch.class));
++        when(ps1.getName()).thenReturn("swap1");
++        swaps.add(ps1);
++        SwapTableModel model = new SwapTableModel(swaps);
++        // Act
++        Object value = model.getValueAt(1, 2);
++        // Verify that the method returns a non‑null value when the model is properly initialized
++        assertNotNull("Expected a non‑null value from getValueAt after proper setup", value);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

@@ -1,0 +1,52 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/action/CreateTableAction_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/action/CreateTableAction_ESTest.java
+@@ -177,26 +177,27 @@
+          verifyException("com.gbshape.dbe.struts.action.CreateTableAction", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      CreateTableAction createTableAction0 = new CreateTableAction();
+-      DynaActionForm dynaActionForm0 = new DynaActionForm();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null, (String) null, (String) null, (String) null, (String) null).when(httpServletRequest0).getParameter(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      try { 
+-        createTableAction0.execute((ActionMapping) null, (ActionForm) dynaActionForm0, (HttpServletRequest) httpServletRequestWrapper0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.gbshape.dbe.struts.action.CreateTableAction", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test7() throws Throwable {
++    CreateTableAction action = new CreateTableAction();
++    DynaActionForm form = new DynaActionForm();
++
++    // Provide non‑null collaborators
++    ActionMapping mapping = mock(ActionMapping.class);
++    HttpServletResponse response = mock(HttpServletResponse.class);
++    HttpSession session = mock(HttpSession.class);
++    when(session.getAttribute(anyString())).thenReturn(null);
++
++    HttpServletRequest request = mock(HttpServletRequest.class);
++    when(request.getSession()).thenReturn(session);
++    // Stub request parameters with non‑null values to avoid NPE inside the action
++    when(request.getParameter(anyString())).thenReturn("dummy");
++
++    HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(request);
++
++    // Execute the action and verify a forward is returned
++    ActionForward forward = action.execute(mapping, form, requestWrapper, response);
++    assertNotNull("The execute method should return a non‑null ActionForward", forward);
+ }
++
++}

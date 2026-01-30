@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/datastore/DataStoreUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/datastore/DataStoreUtil_ESTest.java
+@@ -49,23 +49,19 @@
+       DataStore<PhdDirQualityDataStore> dataStore1 = DataStoreUtil.chain((Collection<DataStore<PhdDirQualityDataStore>>) linkedList0);
+       assertFalse(dataStore1.equals((Object)dataStore0));
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      HashMap<String, PhdDirQualityDataStore> hashMap0 = new HashMap<String, PhdDirQualityDataStore>();
+-      hashMap0.put("close", (PhdDirQualityDataStore) null);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    HashMap<String, PhdDirQualityDataStore> hashMap0 = new HashMap<String, PhdDirQualityDataStore>();
++    PhdDirQualityDataStore prev = hashMap0.put("close", (PhdDirQualityDataStore) null);
++    assertNull(prev);
++    try {
+         DataStoreUtil.adapt((Map<String, PhdDirQualityDataStore>) hashMap0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // null values not allowed
+-         //
+-         verifyException("org.jcvi.jillion.core.datastore.DataStoreUtil$MapDataStoreAdapter", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        verifyException("org.jcvi.jillion.core.datastore.DataStoreUtil$MapDataStoreAdapter", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

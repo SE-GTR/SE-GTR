@@ -1,0 +1,41 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemorySupportingDocumentFilter_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemorySupportingDocumentFilter_ESTest.java
+@@ -58,21 +58,26 @@
+       ArrayList<SupportingDocument> arrayList1 = inMemorySupportingDocumentFilter0.filterSupportingDocuments(user0, "R-Dh<pd", "R-Dh<pd");
+       assertFalse(arrayList1.contains(supportingDocument0));
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++public void test3() throws Throwable {
+     inMemorySupportingDocumentFilter0 = new InMemorySupportingDocumentFilter();
+     arrayList0 = new ArrayList<SupportingDocument>();
+     supportingDocument0 = new SupportingDocument();
+-      arrayList0.add(supportingDocument0);
+-      SupportingDocument supportingDocument1 = new SupportingDocument();
+-      supportingDocument1.setDocumentCode("<8AU5N_Ai<-\",h");
+-      arrayList0.add(supportingDocument1);
+-      inMemorySupportingDocumentFilter0.setSupportingDocuments(arrayList0);
+-      User user0 = new User();
+-      ArrayList<SupportingDocument> arrayList1 = inMemorySupportingDocumentFilter0.filterSupportingDocuments(user0, "<?", "<?");
+-      assertFalse(arrayList1.isEmpty());
+-  }
++    arrayList0.add(supportingDocument0);
++    SupportingDocument supportingDocument1 = new SupportingDocument();
++    String docCode = "<8AU5N_Ai<-\",h";
++    supportingDocument1.setDocumentCode(docCode);
++    // verify side‑effect of setDocumentCode
++    assertEquals(docCode, supportingDocument1.getDocumentCode());
++    arrayList0.add(supportingDocument1);
++    inMemorySupportingDocumentFilter0.setSupportingDocuments(arrayList0);
++    User user0 = new User();
++    // filter by document code (title left empty)
++    ArrayList<SupportingDocument> result = inMemorySupportingDocumentFilter0.filterSupportingDocuments(user0, "", docCode);
++    assertEquals(1, result.size());
++    assertEquals(docCode, result.get(0).getDocumentCode());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

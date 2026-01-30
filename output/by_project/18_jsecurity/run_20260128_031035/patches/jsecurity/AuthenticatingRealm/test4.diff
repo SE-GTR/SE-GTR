@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthenticatingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthenticatingRealm_ESTest.java
+@@ -49,13 +49,21 @@
+         assertTrue(simpleAccountRealm0.supports(token));
+         assertNull(simpleAccountRealm0.getAuthorizationCacheName());
+     }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        SimpleAccountRealm realm = new SimpleAccountRealm();
++        // add a test account
++        realm.addAccount("alice", "secret");
++        // configure a concrete credentials matcher
++        SimpleCredentialsMatcher matcher = new SimpleCredentialsMatcher();
++        realm.setCredentialsMatcher(matcher);
++        // original name check
++        assertEquals("org.jsecurity.realm.SimpleAccountRealm_0", realm.getName());
++        // authenticate using the configured matcher
++        UsernamePasswordToken token = new UsernamePasswordToken("alice", "secret");
++        AuthenticationInfo info = realm.getAuthenticationInfo(token);
++        assertNotNull(info);
++        assertEquals("secret", info.getCredentials());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      SimpleCredentialsMatcher simpleCredentialsMatcher0 = new SimpleCredentialsMatcher();
+-      simpleAccountRealm0.setCredentialsMatcher(simpleCredentialsMatcher0);
+-      assertEquals("org.jsecurity.realm.SimpleAccountRealm_0", simpleAccountRealm0.getName());
+-  }
+ }

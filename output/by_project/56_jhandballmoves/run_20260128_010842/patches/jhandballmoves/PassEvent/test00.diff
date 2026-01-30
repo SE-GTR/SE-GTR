@@ -1,0 +1,40 @@
+--- a/evosuite-tests/visu/handball/moves/model/PassEvent_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/PassEvent_ESTest.java
+@@ -18,22 +18,29 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class PassEvent_ESTest extends PassEvent_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
+       Defender defender0 = new Defender((-2808), (-2808));
+       PassEvent passEvent0 = new PassEvent(defender0, (-2808), (-2808));
+       assertFalse(passEvent0.isDestinationPointSet());
+-      
++
++      // Verify side‑effect of setDestinationPoint
+       passEvent0.setDestinationPoint(1, (-2808), false);
++      assertTrue(passEvent0.isDestinationPointSet());
++      assertNotNull(passEvent0.getDestinationPoint());
++
+       PassEvent passEvent1 = new PassEvent(defender0, (-2808), (-2808));
+       MovePoint movePoint0 = passEvent0.getDestinationPoint();
+       Offender offender0 = new Offender((-834), 1);
+       passEvent1.setDestinationPlayer(offender0, false);
+-      passEvent1.destinationPoint = movePoint0;
+-      boolean boolean0 = passEvent1.equals(passEvent0);
+-      assertFalse(boolean0);
+-  }
++      // Verify side‑effect of setDestinationPlayer
++      assertEquals(offender0, passEvent1.getDestinationPlayer());
++
++      passEvent1.destinationPoint = movePoint0;
++      boolean boolean0 = passEvent1.equals(passEvent0);
++      assertFalse(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

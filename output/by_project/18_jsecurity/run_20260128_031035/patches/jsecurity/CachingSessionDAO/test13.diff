@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/eis/CachingSessionDAO_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/eis/CachingSessionDAO_ESTest.java
+@@ -145,22 +145,12 @@
+     dao.cacheValidSession(null, CachingSessionDAO.ACTIVE_SESSION_CACHE_NAME);
+     assertEquals(CachingSessionDAO.ACTIVE_SESSION_CACHE_NAME, dao.getActiveSessionsCacheName());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
+-      try { 
+-        memorySessionDAO0.readSession("jsecurity-activeSessionCache");
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // There is no session with id [jsecurity-activeSessionCache]
+-         //
+-         verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = RuntimeException.class)
++  public void test13() throws Throwable {
++      MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
++      memorySessionDAO0.readSession("jsecurity-activeSessionCache");
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

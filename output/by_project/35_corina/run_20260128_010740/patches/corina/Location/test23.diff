@@ -1,0 +1,29 @@
+--- a/evosuite-tests/corina/site/Location_ESTest.java
++++ b/evosuite-tests/corina/site/Location_ESTest.java
+@@ -244,13 +244,19 @@
+       location0.setLongitudeAsSeconds((-4177984));
+       assertEquals((-289984), location0.getLongitudeAsSeconds());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-    location0 = new Location();
+-      location0.setLatitudeAsSeconds(647999);
+-      assertEquals(324000, location0.getLatitudeAsSeconds());
+-  }
++@Test(timeout = 4000)
++public void test23() throws Throwable {
++    location0 = new Location();
++    // verify initial latitude is zero
++    assertEquals(0, location0.getLatitudeAsSeconds());
++    // set a value beyond the maximum; it should be clamped to MAX_LATITUDE (324000)
++    location0.setLatitudeAsSeconds(647999);
++    int lat = location0.getLatitudeAsSeconds();
++    assertEquals(324000, lat);
++    // ensure the latitude stays within the valid range
++    assertTrue(lat <= 324000 && lat >= -324000);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

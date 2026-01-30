@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sf/xbus/base/core/timeoutcall/TimedCallable_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/core/timeoutcall/TimedCallable_ESTest.java
+@@ -22,20 +22,17 @@
+       TimedCallable timedCallable0 = new TimedCallable((Callable) null, (-624L));
+       timedCallable0.stop();
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        net.sf.xbus.base.core.timeoutcall.Callable callable = new net.sf.xbus.base.core.timeoutcall.Callable() {
++            @Override
++            public Object call() {
++                return "expectedResult";
++            }
++        };
++        TimedCallable timedCallable0 = new TimedCallable(callable, 1000L);
++        Object result = timedCallable0.call();
++        assertEquals("expectedResult", result);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      TimedCallable timedCallable0 = new TimedCallable((Callable) null, (-624L));
+-      // Undeclared exception!
+-      try { 
+-        timedCallable0.call();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.xbus.base.core.timeoutcall.TimedCallable", e);
+-      }
+-  }
+ }

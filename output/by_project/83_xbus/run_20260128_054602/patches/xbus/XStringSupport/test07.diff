@@ -1,0 +1,26 @@
+--- a/evosuite-tests/net/sf/xbus/base/core/strings/XStringSupport_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/core/strings/XStringSupport_ESTest.java
+@@ -65,12 +65,18 @@
+       String string0 = XStringSupport.successorUsualChars("", false);
+       assertEquals(" ", string0);
+   }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        String result = XStringSupport.getNumberString(125, 125);
++        // The result should have the requested length
++        assertEquals(125, result.length());
++        // It should end with the original number
++        assertTrue(result.endsWith("125"));
++        // All preceding characters should be zeros
++        String prefix = result.substring(0, result.length() - "125".length());
++        assertTrue(prefix.matches("0+"));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      String string0 = XStringSupport.getNumberString(125, 125);
+-      assertEquals("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000125", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

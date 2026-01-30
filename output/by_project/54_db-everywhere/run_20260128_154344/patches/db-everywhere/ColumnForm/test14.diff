@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/form/ColumnForm_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/form/ColumnForm_ESTest.java
+@@ -138,14 +138,23 @@
+     assertEquals(5, columnForm0.getLen());
+     assertEquals(2, columnForm0.getDec());
+ }
++@Test
+ public void test14() throws Throwable {
+-        ColumnForm columnForm0 = new ColumnForm();
+-        String codeType = "org.apache.struts.upload.DiskMultipartRequestHandler";
+-        columnForm0.setCodeType(codeType);
+-        assertEquals(0, columnForm0.getLen());
+-        assertEquals(0, columnForm0.getDec());
+-        assertTrue(columnForm0.toString().contains(codeType));
+-    }
++    ColumnForm columnForm0 = new ColumnForm();
++    String codeType = "org.apache.struts.upload.DiskMultipartRequestHandler";
++
++    // Verify initial state does not contain the code type
++    assertFalse(columnForm0.toString().contains(codeType));
++
++    // Apply side‑effect
++    columnForm0.setCodeType(codeType);
++
++    // Observe the effect via toString and getters
++    assertTrue(columnForm0.toString().contains(codeType));
++    assertEquals(0, columnForm0.getLen());
++    assertEquals(0, columnForm0.getDec());
++}
++
+ 
+ @Test(timeout = 4000)
+ public void test15() throws Throwable {

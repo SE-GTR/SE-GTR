@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/ca/asm/AsmVisitor_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/ca/asm/AsmVisitor_ESTest.java
+@@ -53,22 +53,15 @@
+       char code = type.getCode();
+       assertTrue("Code should be a lowercase letter", Character.isLowerCase(code));
+   }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    AsmVisitor.UnitigLayoutType[] types = AsmVisitor.UnitigLayoutType.values();
++    assertTrue("No UnitigLayoutType constants available", types.length > 0);
++    char validCode = types[0].getCode();
++    AsmVisitor.UnitigLayoutType parsed = AsmVisitor.UnitigLayoutType.parseUnitigLayoutType(validCode);
++    assertEquals(types[0], parsed);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        AsmVisitor.UnitigLayoutType.parseUnitigLayoutType(":.3ZG*V.");
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // invalid unitg layout type : :
+-         //
+-         verifyException("org.jcvi.jillion.assembly.ca.asm.AsmVisitor$UnitigLayoutType", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+ public void test08() throws Throwable {
+     AsmVisitor.LinkOrientation orientation = AsmVisitor.LinkOrientation.ANTI_NORMAL;

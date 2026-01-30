@@ -1,0 +1,28 @@
+--- a/evosuite-tests/corina/gui/SourcesTable_ESTest.java
++++ b/evosuite-tests/corina/gui/SourcesTable_ESTest.java
+@@ -102,11 +102,19 @@
+       boolean boolean0 = sourcesTable_FolderSource0.hasBrowser();
+       assertTrue(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test9() throws Throwable {
++        SourcesTable.FolderSource sourcesTable_FolderSource0 = new SourcesTable.FolderSource("", "");
++        Transferable transferable0 = sourcesTable_FolderSource0.getDragTransferable();
++        assertNotNull(transferable0);
++        DataFlavor[] flavors = transferable0.getTransferDataFlavors();
++        assertTrue("Transferable should provide at least one DataFlavor", flavors.length > 0);
++        try {
++            Object data = transferable0.getTransferData(flavors[0]);
++            assertNotNull("Data for the first DataFlavor should not be null", data);
++        } catch (UnsupportedFlavorException | IOException e) {
++            fail("Unexpected exception while retrieving transfer data: " + e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test9()  throws Throwable  {
+-      SourcesTable.FolderSource sourcesTable_FolderSource0 = new SourcesTable.FolderSource("", "");
+-      Transferable transferable0 = sourcesTable_FolderSource0.getDragTransferable();
+-      assertNotNull(transferable0);
+-  }
+ }

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
+@@ -280,14 +280,16 @@
+          verifyException("org.quickserver.net.client.pool.BlockingClientPool", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      BlockingClientPool blockingClientPool0 = new BlockingClientPool("poolToReturn was null.. will close", poolableBlockingClient0);
+-      blockingClientPool0.setMaxPoolSize(1149);
+-      assertEquals(1149, blockingClientPool0.getMaxPoolSize());
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
++        BlockingClientPool blockingClientPool0 = new BlockingClientPool("poolToReturn was null.. will close", poolableBlockingClient0);
++        int before = blockingClientPool0.getMaxPoolSize();
++        blockingClientPool0.setMaxPoolSize(1149);
++        assertNotEquals(before, blockingClientPool0.getMaxPoolSize());
++        assertEquals(1149, blockingClientPool0.getMaxPoolSize());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

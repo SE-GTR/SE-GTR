@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/quickserver/util/pool/BasicObjectPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/BasicObjectPool_ESTest.java
+@@ -100,15 +100,16 @@
+         basicObjectPool0.returnObject(obj);
+         assertEquals(0, basicObjectPool0.getNumActive());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
++@Test(timeout = 4000)
++public void test07() throws Throwable {
+     basicObjectPool0 = new BasicObjectPool();
+     byteBufferObjectFactory0 = new ByteBufferObjectFactory(0, false);
+-      basicObjectPool0.setFactory(byteBufferObjectFactory0);
+-      assertEquals(0, basicObjectPool0.getNumActive());
+-  }
++    int before = basicObjectPool0.getNumActive();
++    basicObjectPool0.setFactory(byteBufferObjectFactory0);
++    int after = basicObjectPool0.getNumActive();
++    assertEquals(before, after);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

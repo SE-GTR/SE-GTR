@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/javathena/core/data/Auth_data_ESTest.java
++++ b/evosuite-tests/org/javathena/core/data/Auth_data_ESTest.java
+@@ -171,15 +171,20 @@
+         // Verify that repeated calls return the same value
+         assertEquals(version, auth_data0.getVersion());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      Auth_data auth_data0 = new Auth_data();
+-      MockGregorianCalendar mockGregorianCalendar0 = new MockGregorianCalendar(0, 0, 0, 0, (-1577));
+-      auth_data0.setLastlogin((Calendar) mockGregorianCalendar0);
+-      assertEquals((-1), auth_data0.getCharserver());
+-  }
++@Test(timeout = 4000)
++    public void test18() throws Throwable {
++        Auth_data auth_data0 = new Auth_data();
++        MockGregorianCalendar mockGregorianCalendar0 = new MockGregorianCalendar(0, 0, 0, 0, -1577);
++        // Verify initial state of lastlogin is null
++        assertNull(auth_data0.getLastlogin());
++        // Set the last login calendar
++        auth_data0.setLastlogin((Calendar) mockGregorianCalendar0);
++        // Assert that the side‑effect of setLastlogin is observable
++        assertSame(mockGregorianCalendar0, auth_data0.getLastlogin());
++        // Ensure other fields remain at their default values
++        assertEquals(-1, auth_data0.getCharserver());
++    }
++
+ @Test(timeout = 4000)
+ public void test19() throws Throwable {
+     Auth_data auth_data0 = new Auth_data();

@@ -1,0 +1,62 @@
+--- a/evosuite-tests/ioproject/client/network/Server_ESTest.java
++++ b/evosuite-tests/ioproject/client/network/Server_ESTest.java
+@@ -92,29 +92,39 @@
+          verifyException("ioproject.client.network.Server", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    connectFuture0 = mock(ConnectFuture.class, new ViolatedAssumptionAnswer());
++    doReturn((IoSession) null).when(connectFuture0).getSession();
++    ioConnector0 = mock(IoConnector.class, new ViolatedAssumptionAnswer());
++    doReturn(connectFuture0).when(ioConnector0).connect(any(java.net.SocketAddress.class), any(org.apache.mina.common.IoHandler.class), any(org.apache.mina.common.IoServiceConfig.class));
++    server0 = new Server(ioConnector0);
++    VmPipeAddress vmPipeAddress0 = new VmPipeAddress(1301);
++    StateMultiplexer stateMultiplexer0 = new StateMultiplexer();
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    connectFuture0 = mock(ConnectFuture.class, new ViolatedAssumptionAnswer());
+-      doReturn((IoSession) null).when(connectFuture0).getSession();
+-    ioConnector0 = mock(IoConnector.class, new ViolatedAssumptionAnswer());
+-      doReturn(connectFuture0).when(ioConnector0).connect(any(java.net.SocketAddress.class) , any(org.apache.mina.common.IoHandler.class) , any(org.apache.mina.common.IoServiceConfig.class));
+-    server0 = new Server(ioConnector0);
+-      VmPipeAddress vmPipeAddress0 = new VmPipeAddress(1301);
+-      StateMultiplexer stateMultiplexer0 = new StateMultiplexer();
+-      server0.connect(vmPipeAddress0, stateMultiplexer0);
+-      // Undeclared exception!
+-      try { 
++    // Verify that the stubbed getSession returns null
++    IoSession session = connectFuture0.getSession();
++    assertNull(session);
++
++    // Verify that the stubbed connect returns the mocked ConnectFuture
++    org.apache.mina.common.IoHandler handlerMock = mock(org.apache.mina.common.IoHandler.class);
++    org.apache.mina.common.IoServiceConfig configMock = mock(org.apache.mina.common.IoServiceConfig.class);
++    ConnectFuture cf = ioConnector0.connect(vmPipeAddress0, handlerMock, configMock);
++    assertSame(connectFuture0, cf);
++
++    server0.connect(vmPipeAddress0, stateMultiplexer0);
++    // Undeclared exception!
++    try {
+         server0.connect(vmPipeAddress0, stateMultiplexer0);
+         fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // Already connected.
+-         //
+-         verifyException("ioproject.client.network.Server", e);
+-      }
+-  }
++    } catch (IllegalStateException e) {
++        //
++        // Already connected.
++        //
++        verifyException("ioproject.client.network.Server", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

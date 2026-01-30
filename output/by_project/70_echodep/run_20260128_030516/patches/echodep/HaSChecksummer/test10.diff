@@ -1,0 +1,33 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSChecksummer_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSChecksummer_ESTest.java
+@@ -127,14 +127,23 @@
+     long long0 = haSChecksummer0.getValue();
+     assertTrue(long0 != 0L);
+ }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    HaSChecksummer haSChecksummer0 = new HaSChecksummer();
++    java.security.MessageDigest md = haSChecksummer0.getSha1Digest();
++    byte[] input = "test".getBytes(java.nio.charset.StandardCharsets.UTF_8);
++    md.update(input);
++    byte[] actual = md.digest();
++    byte[] expected = new byte[] {
++        (byte)0xa9, 0x4a, (byte)0x8f, (byte)0xe5,
++        (byte)0xcc, (byte)0xb1, (byte)0x9b, (byte)0xa6,
++        0x1c, 0x4c, 0x08, 0x73,
++        (byte)0xd3, (byte)0x91, (byte)0xe9, (byte)0x87,
++        (byte)0x98, 0x2f, (byte)0xbb, (byte)0xd3
++    };
++    org.junit.Assert.assertArrayEquals(expected, actual);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      HaSChecksummer haSChecksummer0 = new HaSChecksummer();
+-      MessageDigest messageDigest0 = haSChecksummer0.getSha1Digest();
+-      assertEquals("SHA-1", messageDigest0.getAlgorithm());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

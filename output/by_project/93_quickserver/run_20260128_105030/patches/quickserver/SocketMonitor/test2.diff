@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/quickserver/net/client/monitoring/impl/SocketMonitor_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/monitoring/impl/SocketMonitor_ESTest.java
+@@ -51,19 +51,20 @@
+     assertEquals(0, socketMonitor0.getCloseDelayMiliSec());
+     assertEquals('D', char0);
+ }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        socketMonitor0 = new SocketMonitor();
++        evoSuiteRemoteAddress0 = new EvoSuiteRemoteAddress("200.42.42.0", 85);
++        Object server = NetworkHandling.openRemoteTcpServer(evoSuiteRemoteAddress0);
++        assertNotNull("Remote TCP server should be created", server);
++        SocketBasedHost socketBasedHost0 = new SocketBasedHost(">X1|h%", 85);
++        socketBasedHost0.setRequestText(">X1|h%");
++        assertEquals(">X1|h%", socketBasedHost0.getRequestText());
++        char char0 = socketMonitor0.monitor(socketBasedHost0);
++        assertEquals('A', char0);
++        assertEquals(0, socketMonitor0.getCloseDelayMiliSec());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    socketMonitor0 = new SocketMonitor();
+-    evoSuiteRemoteAddress0 = new EvoSuiteRemoteAddress("200.42.42.0", 85);
+-      NetworkHandling.openRemoteTcpServer(evoSuiteRemoteAddress0);
+-      SocketBasedHost socketBasedHost0 = new SocketBasedHost(">X1|h%", 85);
+-      socketBasedHost0.setRequestText(">X1|h%");
+-      char char0 = socketMonitor0.monitor(socketBasedHost0);
+-      assertEquals('A', char0);
+-      assertEquals(0, socketMonitor0.getCloseDelayMiliSec());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

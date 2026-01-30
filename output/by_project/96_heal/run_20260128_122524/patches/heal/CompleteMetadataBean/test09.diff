@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/heal/module/metadata/CompleteMetadataBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/CompleteMetadataBean_ESTest.java
+@@ -122,18 +122,26 @@
+     assertEquals("", retrieved.getRole());
+     assertEquals("", contributorBean0.getRole());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      CopyrightBean copyrightBean0 = new CopyrightBean();
+-      CopyrightTextBean copyrightTextBean0 = new CopyrightTextBean();
+-      copyrightBean0.setCopyrightText(copyrightTextBean0);
+-      completeMetadataBean0.addCopyright(copyrightBean0);
+-      String string0 = completeMetadataBean0.getCopyright();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++        CopyrightBean copyrightBean0 = new CopyrightBean();
++        CopyrightTextBean copyrightTextBean0 = new CopyrightTextBean();
++        // verify that setCopyrightText actually stores the reference
++        copyrightBean0.setCopyrightText(copyrightTextBean0);
++        assertSame(copyrightTextBean0, copyrightBean0.getCopyrightText());
++
++        // add the copyright bean and verify the collection inside CompleteMetadataBean
++        completeMetadataBean0.addCopyright(copyrightBean0);
++        java.util.List<?> copyrights = completeMetadataBean0.getCopyrights();
++        assertEquals(1, copyrights.size());
++        assertSame(copyrightBean0, copyrights.get(0));
++
++        // the string representation is still null because the text bean is empty
++        String string0 = completeMetadataBean0.getCopyright();
++        assertNull(string0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/corina/index/Index_ESTest.java
++++ b/evosuite-tests/corina/index/Index_ESTest.java
+@@ -130,14 +130,20 @@
+       exponential0.run();
+       assertTrue(exponential0.canUndo());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      Horizontal horizontal0 = new Horizontal(sample0);
+-      horizontal0.setProxy((Sample) null);
+-      assertTrue(horizontal0.canUndo());
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        Sample sample0 = new Sample();
++        Horizontal horizontal0 = new Horizontal(sample0);
++        // capture the initial source (should be the original sample)
++        Sample initialSource = horizontal0.getSource();
++        assertEquals(sample0, initialSource);
++        // set proxy to null and verify the side‑effect on the source field
++        horizontal0.setProxy((Sample) null);
++        assertNull(horizontal0.getSource());
++        // ensure the undo state reflects the change
++        assertTrue(horizontal0.canUndo());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

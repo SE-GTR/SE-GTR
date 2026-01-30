@@ -1,0 +1,36 @@
+--- a/evosuite-tests/corina/gui/Layout_ESTest.java
++++ b/evosuite-tests/corina/gui/Layout_ESTest.java
+@@ -266,22 +266,17 @@
+          verifyException("corina.gui.Layout", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      Object object0 = new Object();
+-      // Undeclared exception!
+-      try { 
+-        Layout.flowLayoutL(object0, object0);
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.lang.Object cannot be cast to java.awt.Component
+-         //
+-         verifyException("corina.gui.Layout", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        javax.swing.JButton button = new javax.swing.JButton("test");
++        javax.swing.JPanel panel = Layout.flowLayoutL(button, null, null, null, null, null, null);
++        assertNotNull("Returned panel should not be null", panel);
++        assertTrue("Returned object should be a JPanel", panel instanceof javax.swing.JPanel);
++        assertTrue("Panel should use FlowLayout", panel.getLayout() instanceof java.awt.FlowLayout);
++        assertEquals("Panel should contain exactly one component", 1, panel.getComponentCount());
++        assertSame("The component added should be the button", button, panel.getComponent(0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
+@@ -320,14 +320,25 @@
+     userBean0.setCity("org.heal.module.user.ProfessionalRoleBean");
+     assertEquals("org.heal.module.user.ProfessionalRoleBean", userBean0.getCity());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
+-    userBean0 = new UserBean();
+-      userBean0.setProfessionalSpecialty("q");
+-      assertEquals("q", userBean0.getProfessionalSpecialty());
+-  }
++@Test(timeout = 4000)
++    public void test27() throws Throwable {
++        UserBean bean = new UserBean();
++        bean.setProfessionalSpecialty("q");
++        assertEquals("q", bean.getProfessionalSpecialty());
++
++        // Verify that the value survives a serialization round‑trip
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        try (java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos)) {
++            oos.writeObject(bean);
++        }
++        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++        UserBean deserialized;
++        try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais)) {
++            deserialized = (UserBean) ois.readObject();
++        }
++        assertEquals("q", deserialized.getProfessionalSpecialty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test28()  throws Throwable  {

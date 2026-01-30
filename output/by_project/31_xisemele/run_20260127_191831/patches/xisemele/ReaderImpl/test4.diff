@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/ReaderImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/ReaderImpl_ESTest.java
+@@ -72,23 +72,19 @@
+         String encoding = readerImpl0.encoding();
+         assertNull(encoding);
+     }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
++        FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
++        Document document = javax.xml.parsers.DocumentBuilderFactory.newInstance()
++                .newDocumentBuilder().newDocument();
++        ReaderImpl readerImpl0 = new ReaderImpl(factoryImpl0, document);
++        try {
++            readerImpl0.find("net.sf.xisemele.impl.FactoryImpl");
++            fail("Expecting ElementNotFoundException");
++        } catch (net.sf.xisemele.exception.ElementNotFoundException e) {
++            // expected exception
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    formatterProviderImpl0 = new FormatterProviderImpl();
+-    factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+-    readerImpl0 = new ReaderImpl(factoryImpl0, (Document) null);
+-      // Undeclared exception!
+-      try { 
+-        readerImpl0.find("net.sf.xisemele.impl.FactoryImpl");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.xisemele.impl.OperationsHelperImpl", e);
+-      }
+-  }
+ }

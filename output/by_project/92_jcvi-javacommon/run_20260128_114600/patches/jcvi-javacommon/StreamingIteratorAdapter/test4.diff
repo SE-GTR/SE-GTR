@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/iter/StreamingIteratorAdapter_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/iter/StreamingIteratorAdapter_ESTest.java
+@@ -78,15 +78,21 @@
+       streamingIteratorAdapter1.close();
+       assertFalse(streamingIteratorAdapter0.equals((Object)streamingIteratorAdapter1));
+   }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    LinkedList<Object> linkedList0 = new LinkedList<Object>();
++    ListIterator<Object> listIterator0 = linkedList0.listIterator();
++    StreamingIteratorAdapter<Object> streamingIteratorAdapter0 = StreamingIteratorAdapter.adapt((Iterator<Object>) listIterator0);
++    // Verify initial state is not closed
++    assertFalse(streamingIteratorAdapter0.isClosed());
++    // First close should set the closed flag
++    streamingIteratorAdapter0.close();
++    assertTrue(streamingIteratorAdapter0.isClosed());
++    // Second close should be idempotent and leave the flag true
++    streamingIteratorAdapter0.close();
++    assertTrue(streamingIteratorAdapter0.isClosed());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      ListIterator<Object> listIterator0 = linkedList0.listIterator();
+-      StreamingIteratorAdapter<Object> streamingIteratorAdapter0 = StreamingIteratorAdapter.adapt((Iterator<Object>) listIterator0);
+-      streamingIteratorAdapter0.close();
+-      streamingIteratorAdapter0.close();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

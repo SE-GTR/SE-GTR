@@ -1,0 +1,35 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
+@@ -242,8 +242,9 @@
+         assertSame(postalCode, retrieved);
+     }
+ @Test(timeout = 4000)
+-  public void test22() throws Throwable {
+-    dependentLocalityType0 = new DependentLocalityType();
++public void test22() throws Throwable {
++    dependentLocalityType0 = new DependentLocalityType();
++
+     // Verify default state
+     assertNull(dependentLocalityType0.getIndicator());
+     assertNull(dependentLocalityType0.getPostalRoute());
+@@ -252,7 +253,19 @@
+     PostalRouteType route = new PostalRouteType();
+     dependentLocalityType0.setPostalRoute(route);
+     assertSame(route, dependentLocalityType0.getPostalRoute());
+-  }
++
++    // Clear the PostalRoute and verify it is removed
++    dependentLocalityType0.setPostalRoute(null);
++    assertNull(dependentLocalityType0.getPostalRoute());
++
++    // Exercise a non‑trivial collection property
++    AddressLine addressLine = new AddressLine();
++    int beforeSize = dependentLocalityType0.getAddressLine().size();
++    dependentLocalityType0.getAddressLine().add(addressLine);
++    assertEquals(beforeSize + 1, dependentLocalityType0.getAddressLine().size());
++    assertTrue(dependentLocalityType0.getAddressLine().contains(addressLine));
++}
++
+ 
+ @Test(timeout = 4000)
+   public void test23() throws Throwable {

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/state/Party_ESTest.java
++++ b/evosuite-tests/state/Party_ESTest.java
+@@ -42,14 +42,33 @@
+     // Existing assertion on id
+     assertEquals(-1, party0.getId());
+ }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        Party party0 = new Party();
++        Party other = new Party();
++        // initialise fields to known non‑null values
++        party0.boss = other;
++        party0.head = other;
++        party0.next = other;
++        party0.prev = other;
+ 
++        Party beforeBoss = party0.boss;
++        Party beforeHead = party0.head;
++        Party beforeNext = party0.next;
++        Party beforePrev = party0.prev;
++        int beforeId = party0.getId();
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      Party party0 = new Party();
+-      party0.remove((Party) null);
+-      assertEquals((-1), party0.getId());
+-  }
++        // act
++        party0.remove((Party) null);
++
++        // assert that remove(null) does not alter the party's links or id
++        assertSame(beforeBoss, party0.boss);
++        assertSame(beforeHead, party0.head);
++        assertSame(beforeNext, party0.next);
++        assertSame(beforePrev, party0.prev);
++        assertEquals(beforeId, party0.getId());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

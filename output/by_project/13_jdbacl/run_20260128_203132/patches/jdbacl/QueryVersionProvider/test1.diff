@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/databene/jdbacl/version/QueryVersionProvider_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/version/QueryVersionProvider_ESTest.java
+@@ -37,26 +37,28 @@
+          verifyException("org.databene.jdbacl.version.QueryVersionProvider", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        Result result0 = Result.newRollbackToSavepointRequest("cfdb'*}o-#UApw%I");
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
++        // Verify that the stub returns the expected result
++        Result returnedResult = session0.execute(result0);
++        assertSame(result0, returnedResult);
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++        QueryVersionProvider queryVersionProvider0 = new QueryVersionProvider("cfdb'*}o-#UApw%I");
++        // Undeclared exception!
++        try {
++            queryVersionProvider0.getVersion(jdbcConnection0);
++            fail("Expecting exception: RuntimeException");
++        } catch (RuntimeException e) {
++            //
++            // class org.databene.jdbacl.version.QueryVersionProvider expects a single value as result of query cfdb'*}o-#UApw%I
++            //
++            verifyException("org.databene.jdbacl.version.QueryVersionProvider", e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Result result0 = Result.newRollbackToSavepointRequest("cfdb'*}o-#UApw%I");
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      QueryVersionProvider queryVersionProvider0 = new QueryVersionProvider("cfdb'*}o-#UApw%I");
+-      // Undeclared exception!
+-      try { 
+-        queryVersionProvider0.getVersion(jdbcConnection0);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // class org.databene.jdbacl.version.QueryVersionProvider expects a single value as result of query cfdb'*}o-#UApw%I
+-         //
+-         verifyException("org.databene.jdbacl.version.QueryVersionProvider", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

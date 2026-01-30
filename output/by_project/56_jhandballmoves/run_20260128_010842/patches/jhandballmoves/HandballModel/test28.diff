@@ -1,0 +1,41 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -390,20 +390,24 @@
+       assertTrue(after);
+       assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Offender offender0 = new Offender((-1271), (-1271));
+-      PassEvent passEvent0 = new PassEvent(offender0, (-1271), 1);
+-      passEvent0.setDestinationPlayer(offender0, false);
+-      handballModel0.addMoveEvent(passEvent0);
+-      handballModel0.setActualMoveEvent(passEvent0);
+-      boolean boolean0 = handballModel0.hasPlayerBallInNextSequence(offender0);
+-      assertTrue(offender0.isMarked());
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test28() throws Throwable {
++    HandballModel handballModel0 = new HandballModel();
++    Offender offender0 = new Offender((-1271), (-1271));
++    PassEvent passEvent0 = new PassEvent(offender0, (-1271), 1);
++    // Mark the destination player when setting it
++    passEvent0.setDestinationPlayer(offender0, true);
++    handballModel0.addMoveEvent(passEvent0);
++    handballModel0.setActualMoveEvent(passEvent0);
++    boolean boolean0 = handballModel0.hasPlayerBallInNextSequence(offender0);
++    // Verify side‑effects of setDestinationPlayer
++    assertTrue(offender0.isMarked());
++    // Verify side‑effects of setActualMoveEvent
++    assertSame(passEvent0, handballModel0.getActualMoveEvent());
++    // Verify overall behavior
++    assertTrue(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test29()  throws Throwable  {

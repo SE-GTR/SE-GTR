@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jsecurity/web/filter/authc/BasicHttpAuthenticationFilter_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/filter/authc/BasicHttpAuthenticationFilter_ESTest.java
+@@ -68,14 +68,16 @@
+         BasicHttpAuthenticationFilter basicHttpAuthenticationFilter0 = new BasicHttpAuthenticationFilter();
+         assertEquals("BASIC", basicHttpAuthenticationFilter0.getAuthcScheme());
+     }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        BasicHttpAuthenticationFilter basicHttpAuthenticationFilter0 = new BasicHttpAuthenticationFilter();
++        String defaultScheme = basicHttpAuthenticationFilter0.getAuthzScheme();
++        assertEquals(javax.servlet.http.HttpServletRequest.BASIC_AUTH, defaultScheme);
++        basicHttpAuthenticationFilter0.setAuthzScheme("/index.jsp");
++        assertEquals("/index.jsp", basicHttpAuthenticationFilter0.getAuthzScheme());
++        assertNotEquals(defaultScheme, basicHttpAuthenticationFilter0.getAuthzScheme());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      BasicHttpAuthenticationFilter basicHttpAuthenticationFilter0 = new BasicHttpAuthenticationFilter();
+-      basicHttpAuthenticationFilter0.setAuthzScheme("/index.jsp");
+-      assertEquals("/index.jsp", basicHttpAuthenticationFilter0.getAuthzScheme());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

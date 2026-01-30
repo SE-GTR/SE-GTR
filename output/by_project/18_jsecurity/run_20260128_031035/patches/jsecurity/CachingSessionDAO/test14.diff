@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/eis/CachingSessionDAO_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/eis/CachingSessionDAO_ESTest.java
+@@ -150,22 +150,18 @@
+       MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
+       memorySessionDAO0.readSession("jsecurity-activeSessionCache");
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
+-      try { 
+-        memorySessionDAO0.readSession((Serializable) null);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // There is no session with id [null]
+-         //
+-         verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
++        // create a valid session and store it
++        org.jsecurity.session.mgt.SimpleSession session = new org.jsecurity.session.mgt.SimpleSession();
++        java.io.Serializable sessionId = memorySessionDAO0.create(session);
++        // read the stored session and verify it is retrieved correctly
++        org.jsecurity.session.Session retrieved = memorySessionDAO0.readSession(sessionId);
++        assertNotNull(retrieved);
++        assertEquals(sessionId, retrieved.getId());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

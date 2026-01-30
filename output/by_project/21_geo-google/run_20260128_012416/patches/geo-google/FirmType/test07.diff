@@ -1,0 +1,33 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/FirmType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/FirmType_ESTest.java
+@@ -89,14 +89,22 @@
+         // Assert that the setter correctly updated the internal state
+         assertEquals(newType, firmType_FirmName0.getType());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      FirmType.FirmName firmType_FirmName0 = new FirmType.FirmName();
+-      firmType_FirmName0.setContent((String) null);
+-      assertNull(firmType_FirmName0.getContent());
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        // Verify initial state of FirmType's firmName list
++        FirmType firmType = new FirmType();
++        assertEquals(0, firmType.getFirmName().size());
++
++        // Create a FirmName, set its content to null, and add it to the list
++        FirmType.FirmName firmName = new FirmType.FirmName();
++        firmName.setContent(null);
++        firmType.getFirmName().add(firmName);
++
++        // Verify that the side‑effect (addition) is observable
++        assertEquals(1, firmType.getFirmName().size());
++        assertNull(firmType.getFirmName().get(0).getContent());
++    }
++
+ @Test(timeout = 4000)
+   public void test08() throws Throwable {
+       FirmType.FirmName firmType_FirmName0 = new FirmType.FirmName();

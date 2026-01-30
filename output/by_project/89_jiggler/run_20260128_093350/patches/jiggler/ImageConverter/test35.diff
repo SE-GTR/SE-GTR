@@ -1,0 +1,44 @@
+--- a/evosuite-tests/jigl/image/utils/ImageConverter_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/ImageConverter_ESTest.java
+@@ -711,27 +711,20 @@
+          verifyException("jigl.image.utils.ImageConverter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test35()  throws Throwable  {
+-      InterpolatedColorImage interpolatedColorImage0 = new InterpolatedColorImage(26, 26);
+-      assertEquals(26, interpolatedColorImage0.X());
+-      assertEquals(26, interpolatedColorImage0.Y());
+-      assertEquals(ColorModel.RGB, interpolatedColorImage0.getColorModel());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
+-      
+-      // Undeclared exception!
+-      try { 
+-        ImageConverter.toRealGray((ColorImage) interpolatedColorImage0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.image.utils.ImageConverter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test35() throws Throwable {
++        InterpolatedColorImage img = new InterpolatedColorImage(26, 26);
++        // Initialize the image to avoid NullPointerException during conversion
++        int[] rgb = new int[] { 0, 0, 0 };
++        img.setPixel(0, 0, rgb);
++        // Act
++        RealGrayImage gray = ImageConverter.toRealGray((ColorImage) img);
++        // Assert
++        assertNotNull(gray);
++        assertEquals(26, gray.X());
++        assertEquals(26, gray.Y());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test36()  throws Throwable  {

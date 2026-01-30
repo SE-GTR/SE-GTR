@@ -1,0 +1,41 @@
+--- a/evosuite-tests/mygrid/web/_SetEngineInfo_ESTest.java
++++ b/evosuite-tests/mygrid/web/_SetEngineInfo_ESTest.java
+@@ -129,19 +129,25 @@
+     // after the change the objects are no longer equal
+     assertFalse(_SetEngineInfo0.equals(_SetEngineInfo1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-    _SetEngineInfo0 = new _SetEngineInfo();
+-    _SetEngineInfo1 = new _SetEngineInfo();
+-      assertTrue(_SetEngineInfo1.equals((Object)_SetEngineInfo0));
+-      
+-      _SetEngineInfo1.setName(".>:~:&W\"?eWlErYzC");
+-      boolean boolean0 = _SetEngineInfo1.equals(_SetEngineInfo0);
+-      assertFalse(_SetEngineInfo1.equals((Object)_SetEngineInfo0));
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++  public void test07() throws Throwable {
++    _SetEngineInfo0 = new _SetEngineInfo();
++    _SetEngineInfo1 = new _SetEngineInfo();
++    assertTrue(_SetEngineInfo1.equals((Object) _SetEngineInfo0));
++
++    // Verify initial name is null (or default)
++    assertNull(_SetEngineInfo1.getName());
++
++    String newName = ".>:~:&W\"?eWlErYzC";
++    _SetEngineInfo1.setName(newName);
++    // Assert that the side‑effect of setName is observable via the getter
++    assertEquals(newName, _SetEngineInfo1.getName());
++
++    boolean boolean0 = _SetEngineInfo1.equals(_SetEngineInfo0);
++    assertFalse(_SetEngineInfo1.equals((Object) _SetEngineInfo0));
++    assertFalse(boolean0);
++  }
++
+ @Test(timeout = 4000)
+ public void test08() throws Throwable {
+     _SetEngineInfo0 = new _SetEngineInfo();

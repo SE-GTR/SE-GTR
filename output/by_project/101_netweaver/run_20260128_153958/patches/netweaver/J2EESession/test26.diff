@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
+@@ -421,18 +421,26 @@
+         // Verify that the XML type name matches the expected class name
+         assertEquals("J2EESession", typeDesc0.getXmlType().getLocalPart());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      J2EESession j2EESession0 = new J2EESession();
+-      j2EESession0.setUpdateTime("");
+-      j2EESession0.hashCode();
+-      assertEquals(0, j2EESession0.getActiveRequests());
+-      assertEquals(0, j2EESession0.getSize());
+-      assertEquals(0, j2EESession0.getIdHash());
+-      assertEquals(0, j2EESession0.getTimeout());
+-  }
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        J2EESession j2EESession0 = new J2EESession();
++        // verify initial state of updateTime (expected null)
++        assertNull(j2EESession0.getUpdateTime());
++        // act: set update time to empty string
++        j2EESession0.setUpdateTime("");
++        // assert side‑effect of setUpdateTime
++        assertEquals("", j2EESession0.getUpdateTime());
++        // assert return value of hashCode is consistent
++        int hc1 = j2EESession0.hashCode();
++        int hc2 = j2EESession0.hashCode();
++        assertEquals(hc1, hc2);
++        // other getters remain at default values
++        assertEquals(0, j2EESession0.getActiveRequests());
++        assertEquals(0, j2EESession0.getSize());
++        assertEquals(0, j2EESession0.getIdHash());
++        assertEquals(0, j2EESession0.getTimeout());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

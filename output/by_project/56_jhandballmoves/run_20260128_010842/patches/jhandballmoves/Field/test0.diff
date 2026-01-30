@@ -1,0 +1,44 @@
+--- a/evosuite-tests/visu/handball/moves/views/Field_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/views/Field_ESTest.java
+@@ -21,19 +21,29 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Field_ESTest extends Field_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        ColorModel colorModel0 = new ColorModel();
++        HandballModel handballModel0 = new HandballModel();
++        Field field0 = new Field(handballModel0, colorModel0);
++        Graphic graphic0 = new Graphic();
++        Offender offender0 = new Offender(7, 7);
++        // verify initial state of firstBallOwner (expected null)
++        assertNull(handballModel0.getFirstBallOwner());
++        // act: set first ball owner and verify side‑effect
++        handballModel0.setFirstBallOwner(offender0);
++        assertSame(offender0, handballModel0.getFirstBallOwner());
++        Graphics2D graphics2D0 = graphic0.createGraphicsShapes((float) 1, (-166.587F));
++        assertNotNull(graphics2D0);
++        // capture state before painting
++        boolean ignoreBefore = field0.getIgnoreRepaint();
++        field0.paintComponent(graphics2D0);
++        // verify paintComponent does not unintentionally change ignoreRepaint
++        assertEquals(ignoreBefore, field0.getIgnoreRepaint());
++        // original assertion retained
++        assertFalse(field0.getIgnoreRepaint());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ColorModel colorModel0 = new ColorModel();
+-      HandballModel handballModel0 = new HandballModel();
+-      Field field0 = new Field(handballModel0, colorModel0);
+-      Graphic graphic0 = new Graphic();
+-      Offender offender0 = new Offender(7, 7);
+-      handballModel0.setFirstBallOwner(offender0);
+-      Graphics2D graphics2D0 = graphic0.createGraphicsShapes((float) 1, (-166.587F));
+-      field0.paintComponent(graphics2D0);
+-      assertFalse(field0.getIgnoreRepaint());
+-  }
+ @Test(timeout = 4000)
+ public void test1() throws Throwable {
+     ColorModel colorModel0 = new ColorModel();

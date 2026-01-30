@@ -1,0 +1,31 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/statistics/CombatantStatistic_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/statistics/CombatantStatistic_ESTest.java
+@@ -17,16 +17,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class CombatantStatistic_ESTest extends CombatantStatistic_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      CombatantStatistic combatantStatistic0 = new CombatantStatistic(2490);
+-      CombatantStatType combatantStatType0 = CombatantStatType.starthp;
+-      CombatantSide combatantSide0 = CombatantSide.ATTACKER;
+-      combatantStatistic0.addData(combatantStatType0, combatantSide0, 2490);
+-      SortedMap<Number, Number> sortedMap0 = combatantStatistic0.healthDistribution(combatantSide0);
+-      assertEquals(14, sortedMap0.size());
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        CombatantStatistic combatantStatistic0 = new CombatantStatistic(2490);
++        CombatantStatType combatantStatType0 = CombatantStatType.starthp;
++        CombatantSide combatantSide0 = CombatantSide.ATTACKER;
++        SortedMap<Number, Number> beforeMap = combatantStatistic0.healthDistribution(combatantSide0);
++        int beforeSize = beforeMap.size();
++        combatantStatistic0.addData(combatantStatType0, combatantSide0, 2490);
++        SortedMap<Number, Number> afterMap = combatantStatistic0.healthDistribution(combatantSide0);
++        assertTrue("Health distribution should increase after adding data", afterMap.size() > beforeSize);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

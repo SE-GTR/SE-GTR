@@ -1,0 +1,27 @@
+--- a/evosuite-tests/net/sf/xbus/base/core/XException_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/core/XException_ESTest.java
+@@ -21,14 +21,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class XException_ESTest extends XException_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        MockThrowable mockThrowable0 = new MockThrowable();
++        SQLException sQLException0 = new SQLException(mockThrowable0);
++        Throwable initCauseResult = mockThrowable0.initCause(sQLException0);
++        assertSame(mockThrowable0, initCauseResult);
++        assertSame(sQLException0, mockThrowable0.getCause());
++        XException xException0 = new XException("XBUS_Call", "XBUS_Call", "XBUS_Call", "XBUS_Call", mockThrowable0);
++        assertSame(mockThrowable0, xException0.getCause());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      MockThrowable mockThrowable0 = new MockThrowable();
+-      SQLException sQLException0 = new SQLException(mockThrowable0);
+-      mockThrowable0.initCause(sQLException0);
+-      XException xException0 = new XException("XBUS_Call", "XBUS_Call", "XBUS_Call", "XBUS_Call", mockThrowable0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

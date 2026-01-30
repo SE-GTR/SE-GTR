@@ -1,0 +1,28 @@
+--- a/evosuite-tests/jigl/gui/SignalCanvas_ESTest.java
++++ b/evosuite-tests/jigl/gui/SignalCanvas_ESTest.java
+@@ -151,11 +151,19 @@
+          verifyException("javax.swing.DebugGraphics", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    signalCanvas0 = new SignalCanvas();
++    // Verify initial state before invoking setSignal
++    assertNull(signalCanvas0.image);
++    assertNull(signalCanvas0.jsignal);
++    // Act: invoke the void method under test
++    signalCanvas0.setSignal((Image) null);
++    // Assert that the side‑effects of setSignal are as expected
++    assertNull(signalCanvas0.image);
++    assertNull(signalCanvas0.jsignal);
++    // Additional sanity check on canvas dimensions
++    assertEquals(0, signalCanvas0.getWidth());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-    signalCanvas0 = new SignalCanvas();
+-      signalCanvas0.setSignal((Image) null);
+-      assertEquals(0, signalCanvas0.getWidth());
+-  }
+ }

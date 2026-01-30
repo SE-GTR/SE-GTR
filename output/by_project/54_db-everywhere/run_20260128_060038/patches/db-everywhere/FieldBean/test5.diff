@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/FieldBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/FieldBean_ESTest.java
+@@ -49,11 +49,22 @@
+       fieldBean0.setClassName("");
+       assertEquals(0, fieldBean0.getSize());
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        FieldBean fieldBean0 = new FieldBean();
++        fieldBean0.setSize(769);
++        // Serialize the object
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(fieldBean0);
++        oos.flush();
++        byte[] serialized = baos.toByteArray();
++        // Deserialize the object
++        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(serialized);
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++        FieldBean deserialized = (FieldBean) ois.readObject();
++        // Verify that the state was preserved
++        assertEquals(769, deserialized.getSize());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      FieldBean fieldBean0 = new FieldBean();
+-      fieldBean0.setSize(769);
+-      assertEquals(769, fieldBean0.getSize());
+-  }
+ }

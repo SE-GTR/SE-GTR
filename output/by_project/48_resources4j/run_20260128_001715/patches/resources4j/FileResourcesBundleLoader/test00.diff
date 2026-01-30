@@ -1,0 +1,47 @@
+--- a/evosuite-tests/com/mytdev/resources4j/impl/FileResourcesBundleLoader_ESTest.java
++++ b/evosuite-tests/com/mytdev/resources4j/impl/FileResourcesBundleLoader_ESTest.java
+@@ -22,26 +22,25 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class FileResourcesBundleLoader_ESTest extends FileResourcesBundleLoader_ESTest_scaffolding {
++public void test00() throws Throwable {
++    // Create a simple properties file that the loader can read
++    java.io.File propFile = new java.io.File("test.properties");
++    try (java.io.FileWriter writer = new java.io.FileWriter(propFile)) {
++        writer.write("key=value");
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile(".properties");
+-      FileResourcesBundleLoader fileResourcesBundleLoader0 = new FileResourcesBundleLoader("", "");
+-      DateFormat dateFormat0 = MockDateFormat.getInstance();
+-      fileResourcesBundleLoader0.setDateFormat(dateFormat0);
+-      FileSystemHandling.appendLineToFile(evoSuiteFile0, "");
+-      // Undeclared exception!
+-      try { 
+-        fileResourcesBundleLoader0.loadBundle();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.mytdev.resources4j.impl.FileResourcesBundleLoader", e);
+-      }
+-  }
++    // Initialise the loader with a valid directory and basename
++    FileResourcesBundleLoader loader = new FileResourcesBundleLoader(".", "test");
++    loader.setDateFormat(MockDateFormat.getInstance());
++
++    // Load the bundle and verify it is not null
++    com.mytdev.resources4j.interfaces.ResourcesBundle bundle = loader.loadBundle();
++    assertNotNull(bundle);
++
++    // Clean up the temporary file
++    propFile.delete();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

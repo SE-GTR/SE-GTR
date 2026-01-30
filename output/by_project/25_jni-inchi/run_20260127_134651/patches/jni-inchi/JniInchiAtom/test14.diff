@@ -1,0 +1,47 @@
+--- a/evosuite-tests/net/sf/jniinchi/JniInchiAtom_ESTest.java
++++ b/evosuite-tests/net/sf/jniinchi/JniInchiAtom_ESTest.java
+@@ -123,22 +123,28 @@
+     // Verify a default field to ensure object constructed correctly
+     assertEquals(-1, atom.getImplicitH());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      JniInchiAtom jniInchiAtom0 = new JniInchiAtom("k");
+-      jniInchiAtom0.setImplicitDeuterium(0);
+-      assertEquals(0, jniInchiAtom0.getImplicitTritium());
+-      assertEquals(0, jniInchiAtom0.getImplicitDeuterium());
+-      assertEquals(0, jniInchiAtom0.getCharge());
+-      assertEquals(0.0, jniInchiAtom0.getZ(), 0.01);
+-      assertEquals(0, jniInchiAtom0.getImplicitProtium());
+-      assertEquals((-1), jniInchiAtom0.getImplicitH());
+-      assertEquals(0.0, jniInchiAtom0.getX(), 0.01);
+-      assertEquals(0.0, jniInchiAtom0.getY(), 0.01);
+-      assertEquals(0, jniInchiAtom0.getIsotopicMass());
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    JniInchiAtom atom = new JniInchiAtom("k");
++    // initial defaults
++    assertEquals(0, atom.getImplicitDeuterium());
++    assertEquals(0, atom.getImplicitTritium());
++    assertEquals(0, atom.getImplicitProtium());
++    assertEquals(-1, atom.getImplicitH());
++    // modify state
++    atom.setImplicitDeuterium(3);
++    // verify side‑effect
++    assertEquals(3, atom.getImplicitDeuterium());
++    // other properties should remain unchanged
++    assertEquals(0, atom.getImplicitTritium());
++    assertEquals(0, atom.getImplicitProtium());
++    assertEquals(0, atom.getCharge());
++    assertEquals(0.0, atom.getZ(), 0.01);
++    assertEquals(0.0, atom.getX(), 0.01);
++    assertEquals(0.0, atom.getY(), 0.01);
++    assertEquals(0, atom.getIsotopicMass());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

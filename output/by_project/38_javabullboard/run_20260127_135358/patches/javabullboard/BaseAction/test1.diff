@@ -1,0 +1,34 @@
+--- a/evosuite-tests/framework/base/BaseAction_ESTest.java
++++ b/evosuite-tests/framework/base/BaseAction_ESTest.java
+@@ -46,22 +46,16 @@
+       ActionForward actionForward0 = adminAction0.execute(actionMapping0, (ActionForm) null, httpServletRequest0, httpServletResponse0);
+       assertNull(actionForward0);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn(null, null, null, null, null).when(httpServletRequest0).getAttribute(anyString());
++        ActionForm form = mock(ActionForm.class);
++        HttpServletResponse response = mock(HttpServletResponse.class);
++        ActionForward forward = adminAction0.execute(actionMapping0, form, httpServletRequest0, response);
++        assertNotNull(forward);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((ActionForm) null, (ActionForm) null, (ActionForm) null, (Object) null, (Object) null).when(httpServletRequest0).getAttribute(anyString());
+-      try { 
+-        adminAction0.execute(actionMapping0, (ActionForm) null, httpServletRequest0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.apache.struts.action.ActionMapping", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

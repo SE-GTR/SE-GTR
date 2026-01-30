@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -217,23 +217,15 @@
+       assertEquals("[/tmp/EvoSuite_pathingJar7298128889045213796.jar]/net/sourceforge/schemaspy/dbTypes/ora.properties", string0);
+       assertFalse(config0.hasRoutines());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test016()  throws Throwable  {
+-      Config config0 = new Config();
+-      config0.getDbProperties();
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = RuntimeException.class)
++    public void test016() throws Throwable {
++        Config config0 = new Config();
++        java.util.Properties dbProps = config0.getDbProperties();
++        assertNotNull(dbProps);
++        // This call is expected to throw RuntimeException because required '-o' option is missing
+         config0.getRemainingParameters();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // org.evosuite.runtime.mock.java.lang.MockThrowable: Required parameter '-o' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test017()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerImpl_ESTest.java
+@@ -231,15 +231,27 @@
+       HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
+       hL7CheckerImpl0.beginField();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
+-      HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
+-      hL7CheckerStateImpl0.setSeriousError(true);
+-      hL7CheckerImpl0.setState(hL7CheckerStateImpl0);
+-      hL7CheckerImpl0.beginField();
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
++        HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
++
++        // Verify initial state (no serious error)
++        assertFalse(hL7CheckerStateImpl0.isSeriousError());
++
++        // Set serious error flag and verify the side‑effect
++        hL7CheckerStateImpl0.setSeriousError(true);
++        assertTrue(hL7CheckerStateImpl0.isSeriousError());
++
++        // Install the state into the checker and verify the association
++        hL7CheckerImpl0.setState(hL7CheckerStateImpl0);
++        assertSame(hL7CheckerStateImpl0, hL7CheckerImpl0.getState());
++
++        // Invoke beginField and ensure it does not disturb the serious error flag
++        hL7CheckerImpl0.beginField();
++        assertTrue(hL7CheckerStateImpl0.isSeriousError());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

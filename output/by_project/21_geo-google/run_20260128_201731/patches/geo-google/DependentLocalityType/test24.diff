@@ -1,0 +1,34 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
+@@ -263,13 +263,25 @@
+     assertEquals(expected, actual);
+   }
+ @Test(timeout = 4000)
+-  public void test24() throws Throwable {
+-    dependentLocalityType0 = new DependentLocalityType();
++public void test24() throws Throwable {
++    DependentLocalityType obj = new DependentLocalityType();
+     String expected = "testConnector";
+-    dependentLocalityType0.setConnector(expected);
+-    String actual = dependentLocalityType0.getConnector();
+-    assertEquals(expected, actual);
+-  }
++    obj.setConnector(expected);
++    // Verify the getter reflects the set value
++    assertEquals(expected, obj.getConnector());
++
++    // Marshal the object to XML and verify the connector value appears in the output
++    javax.xml.bind.JAXBContext jaxbContext = javax.xml.bind.JAXBContext.newInstance(DependentLocalityType.class);
++    javax.xml.bind.Marshaller marshaller = jaxbContext.createMarshaller();
++    marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
++    java.io.StringWriter sw = new java.io.StringWriter();
++    javax.xml.namespace.QName qName = new javax.xml.namespace.QName("DependentLocality");
++    javax.xml.bind.JAXBElement<DependentLocalityType> element = new javax.xml.bind.JAXBElement<>(qName, DependentLocalityType.class, obj);
++    marshaller.marshal(element, sw);
++    String xml = sw.toString();
++    assertTrue(xml.contains(expected));
++}
++
+ @Test(timeout = 4000)
+     public void test25() throws Throwable {
+         DependentLocalityType dependentLocalityType0 = new DependentLocalityType();

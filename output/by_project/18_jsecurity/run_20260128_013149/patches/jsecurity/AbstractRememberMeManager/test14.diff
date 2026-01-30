@@ -1,0 +1,63 @@
+--- a/evosuite-tests/org/jsecurity/subject/AbstractRememberMeManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/subject/AbstractRememberMeManager_ESTest.java
+@@ -160,20 +160,44 @@
+       WebRememberMeManager webRememberMeManager0 = new WebRememberMeManager();
+       webRememberMeManager0.setEncryptionCipherKeyBase64("rememberMe");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      WebRememberMeManager webRememberMeManager0 = new WebRememberMeManager();
+-      // Undeclared exception!
+-      try { 
+-        webRememberMeManager0.onLogout((PrincipalCollection) null);
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // No ServletRequest found in ThreadContext. Make sure WebUtils.bind() is being called. (typically called by JSecurityFilter)  This could also happen when running integration tests that don't properly call WebUtils.bind().
+-         //
+-         verifyException("org.jsecurity.web.WebUtils", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        // Arrange: create a WebRememberMeManager and bind a dummy request/response to the thread context
++        org.jsecurity.web.WebRememberMeManager webRememberMeManager0 = new org.jsecurity.web.WebRememberMeManager();
++
++        java.lang.reflect.InvocationHandler handler = (proxy, method, args) -> {
++            Class<?> returnType = method.getReturnType();
++            if (returnType.isPrimitive()) {
++                if (returnType.equals(boolean.class)) return false;
++                if (returnType.equals(byte.class)) return (byte) 0;
++                if (returnType.equals(short.class)) return (short) 0;
++                if (returnType.equals(int.class)) return 0;
++                if (returnType.equals(long.class)) return 0L;
++                if (returnType.equals(float.class)) return 0f;
++                if (returnType.equals(double.class)) return 0d;
++                if (returnType.equals(char.class)) return '\0';
++            }
++            return null;
++        };
++
++        javax.servlet.ServletRequest dummyRequest = (javax.servlet.ServletRequest) java.lang.reflect.Proxy
++                .newProxyInstance(javax.servlet.ServletRequest.class.getClassLoader(),
++                        new Class[] { javax.servlet.ServletRequest.class }, handler);
++        javax.servlet.ServletResponse dummyResponse = (javax.servlet.ServletResponse) java.lang.reflect.Proxy
++                .newProxyInstance(javax.servlet.ServletResponse.class.getClassLoader(),
++                        new Class[] { javax.servlet.ServletResponse.class }, handler);
++
++        org.jsecurity.web.WebUtils.bind(dummyRequest, dummyResponse);
++        try {
++            // Act: invoke onLogout with a valid PrincipalCollection
++            org.jsecurity.subject.SimplePrincipalCollection principals = new org.jsecurity.subject.SimplePrincipalCollection(
++                    "testUser", "testRealm");
++            webRememberMeManager0.onLogout(principals);
++            // No exception means the test passes
++        } finally {
++            // Clean up thread-local bindings
++            org.jsecurity.web.WebUtils.unbind();
++        }
++    }
++
+ }

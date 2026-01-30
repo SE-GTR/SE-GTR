@@ -1,0 +1,23 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -276,11 +276,15 @@
+       String string0 = ConfigurationManagement.getWisp_server_name();
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      ConfigurationManagement.setGMMax(958);
+-  }
++@Test(timeout = 4000)
++public void test34() throws Throwable {
++    int original = ConfigurationManagement.getGMMax();
++    ConfigurationManagement.setGMMax(958);
++    assertEquals(958, ConfigurationManagement.getGMMax());
++    // Restore original value to avoid side effects on other tests
++    ConfigurationManagement.setGMMax(original);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test35()  throws Throwable  {

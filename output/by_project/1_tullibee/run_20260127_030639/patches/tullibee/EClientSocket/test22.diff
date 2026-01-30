@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/ib/client/EClientSocket_ESTest.java
++++ b/evosuite-tests/com/ib/client/EClientSocket_ESTest.java
+@@ -144,23 +144,19 @@
+     contract0 = new Contract();
+     eClientSocket0.reqContractDetails(0, contract0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-    eClientSocket0 = new EClientSocket();
+-    contract0 = new Contract();
+-      try { 
+-        eClientSocket0.reqRealTimeBars(0, contract0, 0, (String) null, false);
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // Not connected [id = -1, errorCode = 504]
+-         //
+-         verifyException("com.ib.client.EClientSocket", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test22() throws Throwable {
++    eClientSocket0 = new EClientSocket();
++    contract0 = new Contract();
++    assertFalse(eClientSocket0.isConnected());
++    try {
++        eClientSocket0.reqRealTimeBars(0, contract0, 0, null, false);
++        fail("Expected exception due to not connected");
++    } catch (Exception e) {
++        assertTrue(e.getMessage().contains("Not connected"));
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

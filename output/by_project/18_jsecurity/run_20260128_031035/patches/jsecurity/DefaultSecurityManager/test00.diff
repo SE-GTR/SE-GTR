@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/jsecurity/mgt/DefaultSecurityManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/mgt/DefaultSecurityManager_ESTest.java
+@@ -31,27 +31,27 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DefaultSecurityManager_ESTest extends DefaultSecurityManager_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager();
+-      PrincipalCollection principalCollection0 = defaultSecurityManager0.getRememberedIdentity();
+-      assertNull(principalCollection0);
+-      
+-      defaultSecurityManager0.rememberMeLogout((PrincipalCollection) null);
+-      defaultSecurityManager0.getRememberedIdentity();
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager();
++    PrincipalCollection principalCollection0 = defaultSecurityManager0.getRememberedIdentity();
++    assertNull(principalCollection0);
++
++    defaultSecurityManager0.rememberMeLogout((PrincipalCollection) null);
++    PrincipalCollection principalCollection1 = defaultSecurityManager0.getRememberedIdentity();
++    assertNull(principalCollection1);
++    // Undeclared exception!
++    try {
+         defaultSecurityManager0.setRememberMeEncryptionCipherKeyBase64(")LG9|$X");
+         fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // The convenience passthrough methods for setting remember me cipher attributes are only available when the underlying RememberMeManager implementation is a subclass of org.jsecurity.subject.AbstractRememberMeManager.
+-         //
+-         verifyException("org.jsecurity.mgt.DefaultSecurityManager", e);
+-      }
+-  }
++    } catch (IllegalStateException e) {
++        //
++        // The convenience passthrough methods for setting remember me cipher attributes are only available when the underlying RememberMeManager implementation is a subclass of org.jsecurity.subject.AbstractRememberMeManager.
++        //
++        verifyException("org.jsecurity.mgt.DefaultSecurityManager", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

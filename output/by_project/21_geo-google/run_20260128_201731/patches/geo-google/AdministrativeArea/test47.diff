@@ -1,0 +1,48 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -540,19 +540,29 @@
+       assertEquals(expectedType, actualType);
+   }
+ @Test(timeout = 4000)
+-    public void test47() throws Throwable {
+-        AdministrativeArea administrativeArea0 = new AdministrativeArea();
+-        // initial state should have no locality
+-        assertNull(administrativeArea0.getLocality());
+-        // setting null should leave locality as null
+-        administrativeArea0.setLocality((Locality) null);
+-        assertNull(administrativeArea0.getLocality());
+-        // setting a concrete Locality should be reflected by the getter
+-        Locality loc = new Locality();
+-        administrativeArea0.setLocality(loc);
+-        assertSame(loc, administrativeArea0.getLocality());
+-        // existing check for type remains
+-        assertNull(administrativeArea0.getType());
+-    }
+-
+-}
++public void test47() throws Throwable {
++    AdministrativeArea administrativeArea0 = new AdministrativeArea();
++    // initial state should have no locality and no type
++    assertNull(administrativeArea0.getLocality());
++    assertNull(administrativeArea0.getType());
++
++    // setting null should leave locality as null
++    administrativeArea0.setLocality((Locality) null);
++    assertNull(administrativeArea0.getLocality());
++
++    // setting a concrete Locality should be reflected by the getter
++    Locality loc = new Locality();
++    administrativeArea0.setLocality(loc);
++    assertSame(loc, administrativeArea0.getLocality());
++
++    // resetting locality to null should clear the previously set value
++    administrativeArea0.setLocality((Locality) null);
++    assertNull(administrativeArea0.getLocality());
++
++    // ensure other collections remain unaffected by locality changes
++    assertNotNull(administrativeArea0.getAdministrativeAreaName());
++    assertTrue(administrativeArea0.getAdministrativeAreaName().isEmpty());
++}
++
++
++}

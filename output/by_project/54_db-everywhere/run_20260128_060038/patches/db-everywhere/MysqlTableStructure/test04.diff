@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/gbshape/dbe/mysql/MysqlTableStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/mysql/MysqlTableStructure_ESTest.java
+@@ -89,20 +89,29 @@
+       ArrayList arrayList0 = mysqlTableStructure0.create((HttpServletRequest) null, dBDataBean0, createTableXmlBean0);
+       assertEquals(1, arrayList0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      ColumnBean columnBean0 = new ColumnBean();
+-      columnBean0.setName("X5");
+-      columnBean0.setIndex(true);
+-      CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
+-      createTableXmlBean0.addColumn(columnBean0);
+-      createTableXmlBean0.addColumn(columnBean0);
+-      DBDataBean dBDataBean0 = new DBDataBean();
+-      MysqlTableStructure mysqlTableStructure0 = new MysqlTableStructure();
+-      ArrayList arrayList0 = mysqlTableStructure0.create((HttpServletRequest) null, dBDataBean0, createTableXmlBean0);
+-      assertFalse(arrayList0.isEmpty());
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        ColumnBean columnBean0 = new ColumnBean();
++        columnBean0.setName("X5");
++        // Verify that setName correctly updates the name field
++        assertEquals("X5", columnBean0.getName());
++
++        columnBean0.setIndex(true);
++        // Verify that setIndex correctly updates the index flag
++        assertTrue(columnBean0.isIndex());
++
++        CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
++        createTableXmlBean0.addColumn(columnBean0);
++        createTableXmlBean0.addColumn(columnBean0);
++        // Verify that the columns were added (expecting two entries)
++        assertEquals(2, createTableXmlBean0.getColumns().size());
++
++        DBDataBean dBDataBean0 = new DBDataBean();
++        MysqlTableStructure mysqlTableStructure0 = new MysqlTableStructure();
++        ArrayList arrayList0 = mysqlTableStructure0.create((HttpServletRequest) null, dBDataBean0, createTableXmlBean0);
++        assertFalse(arrayList0.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

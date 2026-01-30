@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerStateImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerStateImpl_ESTest.java
+@@ -412,14 +412,22 @@
+     hL7CheckerStateImpl0.eventBeginField(true);
+     assertEquals(1, hL7CheckerStateImpl0.getActualFieldRepeatableIndex());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
+-      HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
+-      hL7CheckerStateImpl0.setActualDataTypeSubPartsPossition((-2058311207));
+-      assertEquals((-2058311207), hL7CheckerStateImpl0.getActualDataTypeSubPartsPossition());
+-  }
++@Test(timeout = 4000)
++    public void test27() throws Throwable {
++        HL7CheckerStateImpl state = new HL7CheckerStateImpl();
++        // Verify the initial default value
++        assertEquals(0, state.getActualDataTypeSubPartsPossition());
++        int initialHash = state.hashCode();
++
++        // Change the internal state
++        state.setActualDataTypeSubPartsPossition(-2058311207);
++        // Verify the change via the getter
++        assertEquals(-2058311207, state.getActualDataTypeSubPartsPossition());
++
++        // Observe a side‑effect through a different public API
++        assertNotEquals(initialHash, state.hashCode());
++    }
++
+ @Test(timeout = 4000)
+     public void test28() throws Throwable {
+         HL7CheckerStateImpl state = new HL7CheckerStateImpl();

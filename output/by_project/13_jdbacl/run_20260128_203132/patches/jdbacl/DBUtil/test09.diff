@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
+@@ -169,17 +169,20 @@
+          verifyException("org.databene.jdbacl.DBUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      Result result0 = Result.newRollbackToSavepointRequest("Wnk@@:B.");
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      result0.add((Object[]) null);
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      Object[] objectArray0 = DBUtil.querySingleRow("COMMENT", jdbcConnection0);
+-      assertEquals(0, objectArray0.length);
+-  }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    Result result0 = Result.newRollbackToSavepointRequest("Wnk@@:B.");
++    Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++    doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
++    // Verify that the stubbed execute method returns the expected Result
++    Result execResult = session0.execute(Result.newRollbackToSavepointRequest("dummy"));
++    org.junit.Assert.assertSame(result0, execResult);
++    result0.add((Object[]) null);
++    jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++    Object[] objectArray0 = DBUtil.querySingleRow("COMMENT", jdbcConnection0);
++    assertEquals(0, objectArray0.length);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

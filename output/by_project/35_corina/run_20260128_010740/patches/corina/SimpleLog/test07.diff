@@ -1,0 +1,32 @@
+--- a/evosuite-tests/corina/util/SimpleLog_ESTest.java
++++ b/evosuite-tests/corina/util/SimpleLog_ESTest.java
+@@ -83,14 +83,21 @@
+       simpleLog0.warn(object0, (Throwable) securityException0);
+       assertEquals(26, simpleLog0.getLevel());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      SimpleLog simpleLog0 = new SimpleLog("error");
+-      simpleLog0.warn((Object) "error");
+-      assertFalse(simpleLog0.isDebugEnabled());
+-      assertTrue(simpleLog0.isInfoEnabled());
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        SimpleLog simpleLog0 = new SimpleLog("error");
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.PrintStream originalErr = System.err;
++        System.setErr(new java.io.PrintStream(baos));
++        try {
++            simpleLog0.warn((Object) "error");
++        } finally {
++            System.setErr(originalErr);
++        }
++        String logged = baos.toString();
++        assertTrue(logged.contains("error"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

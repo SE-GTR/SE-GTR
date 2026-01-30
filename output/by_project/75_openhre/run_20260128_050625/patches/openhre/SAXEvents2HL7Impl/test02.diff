@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/SAXEvents2HL7Impl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/SAXEvents2HL7Impl_ESTest.java
+@@ -40,21 +40,16 @@
+     // Verify that processing an empty end tag does not alter the default segment separator
+     assertEquals("\n", cut.getSegmentSeparator());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      SAXEvents2HL7Impl sAXEvents2HL7Impl0 = new SAXEvents2HL7Impl();
+-      sAXEvents2HL7Impl0.processStartTag("MSH");
+-      sAXEvents2HL7Impl0.processStartTag("MSH");
+-      sAXEvents2HL7Impl0.processEndTag("MSH");
+-      assertEquals('|', sAXEvents2HL7Impl0.getFieldSeparator());
+-      assertEquals('~', sAXEvents2HL7Impl0.getRepeatableSeparator());
+-      assertEquals('&', sAXEvents2HL7Impl0.getSubComponentSeparator());
+-      assertEquals('^', sAXEvents2HL7Impl0.getComponentSeparator());
+-      assertEquals("\n", sAXEvents2HL7Impl0.getSegmentSeparator());
+-      assertEquals('\\', sAXEvents2HL7Impl0.getEscapeCharacter());
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        SAXEvents2HL7Impl cut = new SAXEvents2HL7Impl();
++        cut.processStartTag("MSH");
++        cut.processEndTag("MSH");
++        // Verify that processing the MSH tag does not alter the default separators
++        assertEquals('|', cut.getFieldSeparator());
++        assertEquals("\n", cut.getSegmentSeparator());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

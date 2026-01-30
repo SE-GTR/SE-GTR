@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/attrs/StackMapTableAttribute_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/attrs/StackMapTableAttribute_ESTest.java
+@@ -73,22 +73,16 @@
+         assertNotNull(result);
+         assertTrue(result.isEmpty());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        StackMapTableAttribute.calculateLocals("c|cFDH;)[X/{\"@3O@", (-1710), "c|cFDH;)[X/{\"@3O@", "c|cFDH;)[X/{\"@3O@");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.attrs.StackMapTableAttribute", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        List<?> locals = StackMapTableAttribute.calculateLocals(
++                "java/lang/Object",
++                org.objectweb.asm.jip.Opcodes.ACC_PUBLIC,
++                "toString",
++                "()Ljava/lang/String;");
++        assertNotNull(locals);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

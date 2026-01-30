@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -195,14 +195,21 @@
+   public void test25()  throws Throwable  {
+       ConfigurationManagement.setServer_num(0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      ConfigurationManagement.setAccess_allownum(99);
+-      ACO aCO0 = ACO.ALLOW_DENY;
+-      ConfigurationManagement.setAccess_order(aCO0);
+-      ConfigurationManagement.display_conf_warnings();
+-  }
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        // Verify that setting the allowed number updates the internal state
++        ConfigurationManagement.setAccess_allownum(99);
++        assertEquals(99, ConfigurationManagement.getAccess_allownum());
++
++        // Verify that setting the access order updates the internal state
++        ACO aCO0 = ACO.ALLOW_DENY;
++        ConfigurationManagement.setAccess_order(aCO0);
++        assertEquals(aCO0, ConfigurationManagement.getAccess_order());
++
++        // Call the method that displays configuration warnings (no observable state change)
++        ConfigurationManagement.display_conf_warnings();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Dspace2HubPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Dspace2HubPackager_ESTest.java
+@@ -77,19 +77,15 @@
+          verifyException("java.util.zip.ZipFile", e);
+       }
+   }
++@Test(timeout = 4000, expected = Exception.class)
++public void test4() throws Throwable {
++    java.io.File tempFile = java.io.File.createTempFile("empty", ".zip");
++    tempFile.deleteOnExit();
++    java.util.zip.ZipFile zip = new java.util.zip.ZipFile(tempFile);
++    Dspace2HubPackager dspace2HubPackager0 = new Dspace2HubPackager();
++    // Use an invalid hub path to provoke a different failure scenario
++    dspace2HubPackager0.createHubPackage(zip, "invalid://hubpath", "http://www.loc.gov/standards/premis");
++    zip.close();
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      Dspace2HubPackager dspace2HubPackager0 = new Dspace2HubPackager();
+-      try { 
+-        dspace2HubPackager0.createHubPackage((ZipFile) null, "http://www.loc.gov/standards/premis", "http://www.loc.gov/standards/premis");
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // Error creating hub package.
+-         //
+-         verifyException("edu.uiuc.ndiipp.hubandspoke.packager.Dspace2HubPackager", e);
+-      }
+-  }
+ }

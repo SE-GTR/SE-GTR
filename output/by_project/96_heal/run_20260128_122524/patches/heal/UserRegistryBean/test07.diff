@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/module/user/UserRegistryBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserRegistryBean_ESTest.java
+@@ -81,16 +81,23 @@
+         UserRegistryBean userRegistryBean0 = new UserRegistryBean();
+         userRegistryBean0.getAllSubscribers();
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      UserRegistryBean userRegistryBean0 = new UserRegistryBean();
+-      SQLServerDataSource sQLServerDataSource0 = new SQLServerDataSource();
+-      userRegistryBean0.setDataSource(sQLServerDataSource0);
+-      ArrayList arrayList0 = userRegistryBean0.getAllSubscribers();
+-      assertNull(arrayList0);
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    UserRegistryBean userRegistryBean0 = new UserRegistryBean();
++    // Verify initial state of the data source
++    assertNull(userRegistryBean0.getDataSource());
++
++    SQLServerDataSource sQLServerDataSource0 = new SQLServerDataSource();
++    userRegistryBean0.setDataSource(sQLServerDataSource0);
++
++    // Verify that setDataSource correctly updates the internal data source
++    assertSame(sQLServerDataSource0, userRegistryBean0.getDataSource());
++
++    // Existing behavior verification
++    ArrayList arrayList0 = userRegistryBean0.getAllSubscribers();
++    assertNull(arrayList0);
++}
++
+ @Test(expected = NullPointerException.class, timeout = 4000)
+     public void test08() throws Throwable {
+         UserRegistryBean userRegistryBean0 = new UserRegistryBean();

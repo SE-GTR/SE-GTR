@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -657,27 +657,22 @@
+          verifyException("org.objectweb.asm.jip.MethodWriter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test51()  throws Throwable  {
+-      ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
+-      ClassWriter classWriter0 = new ClassWriter(181);
+-      String[] stringArray0 = classReader0.getInterfaces();
+-      String[] stringArray1 = new String[4];
+-      classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 181);
+-      MethodWriter methodWriter0 = classWriter0.lastMethod;
+-      // Undeclared exception!
+-      try { 
+-        methodWriter0.visitFrame((-1), 12, stringArray1, 1, stringArray0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.MethodWriter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test51() throws Throwable {
++        ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
++        ClassWriter classWriter0 = new ClassWriter(181);
++        String[] stringArray0 = classReader0.getInterfaces();
++        String[] stringArray1 = new String[4];
++        classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 181);
++        MethodWriter methodWriter0 = classWriter0.lastMethod;
++        // Properly initialize the method writer before visiting a frame
++        methodWriter0.visitCode();
++        // Use a valid frame type with no locals or stack entries
++        methodWriter0.visitFrame(MethodWriter.FULL_FRAME, 0, null, 0, null);
++        // Verify that the method writer is correctly linked to its ClassWriter
++        assertSame(classWriter0, methodWriter0.cw);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test52()  throws Throwable  {

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
+@@ -349,21 +349,19 @@
+   public void test36()  throws Throwable  {
+       IOUtil.mkdir((File) null);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test37()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("BIG");
+-      try { 
+-        IOUtil.mkdir(mockFile0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // unable to mkdir for BIG
+-         //
+-         verifyException("org.jcvi.jillion.core.io.IOUtil", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test37() throws Throwable {
++        java.io.File tempFile = java.io.File.createTempFile("temp", ".tmp");
++        try {
++            IOUtil.mkdir(tempFile);
++            fail("Expecting exception: IOException");
++        } catch (IOException e) {
++            // Expected exception when attempting to create a directory over an existing file
++        } finally {
++            tempFile.delete();
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test38()  throws Throwable  {

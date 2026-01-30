@@ -1,0 +1,30 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -228,12 +228,21 @@
+       assertEquals(expectedType, addressLatitude.getType());
+   }
+ @Test(timeout = 4000)
+-    public void test019() throws Throwable {
+-        AddressDetails.PostalServiceElements.AddressLatitude addressLatitude = new AddressDetails.PostalServiceElements.AddressLatitude();
+-        addressLatitude.setCode("testCode");
+-        String code = addressLatitude.getCode();
+-        assertEquals("testCode", code);
+-    }
++public void test019() throws Throwable {
++    AddressDetails.PostalServiceElements.AddressLatitude addressLatitude = new AddressDetails.PostalServiceElements.AddressLatitude();
++    addressLatitude.setCode("testCode");
++    assertEquals("testCode", addressLatitude.getCode());
++
++    // Marshal the object to XML and verify that the code attribute is present
++    javax.xml.bind.JAXBContext jaxbContext = javax.xml.bind.JAXBContext.newInstance(AddressDetails.PostalServiceElements.AddressLatitude.class);
++    javax.xml.bind.Marshaller marshaller = jaxbContext.createMarshaller();
++    marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
++    java.io.StringWriter writer = new java.io.StringWriter();
++    marshaller.marshal(addressLatitude, writer);
++    String xml = writer.toString();
++    org.junit.Assert.assertTrue(xml.contains("testCode"));
++}
++
+ 
+ 
+   @Test(timeout = 4000)

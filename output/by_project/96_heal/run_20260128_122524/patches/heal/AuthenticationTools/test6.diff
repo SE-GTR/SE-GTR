@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/heal/util/AuthenticationTools_ESTest.java
++++ b/evosuite-tests/org/heal/util/AuthenticationTools_ESTest.java
+@@ -103,22 +103,22 @@
+       boolean boolean0 = AuthenticationTools.isCataloger(httpServletRequest0);
+       assertTrue(boolean0);
+   }
++@Test(timeout = 4000)
++public void test6() throws Throwable {
++    UserBean userBean0 = new UserBean();
++    HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    doReturn(userBean0).when(httpSession0).getAttribute(anyString());
++    HttpSession httpSession1 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    doReturn((Object) null).when(httpSession1).getAttribute(anyString());
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn(httpSession0, httpSession1).when(httpServletRequest0).getSession();
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    boolean isAdmin = AuthenticationTools.isAdministrator(httpServletRequestWrapper0);
++    boolean isCataloger = AuthenticationTools.isCataloger(httpServletRequestWrapper0);
++    assertFalse(isAdmin);
++    assertFalse(isCataloger);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-    userBean0 = new UserBean();
+-    httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(userBean0).when(httpSession0).getAttribute(anyString());
+-      HttpSession httpSession1 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession1).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0, httpSession1).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      boolean boolean0 = AuthenticationTools.isAdministrator(httpServletRequestWrapper0);
+-      boolean boolean1 = AuthenticationTools.isCataloger(httpServletRequestWrapper0);
+-      assertTrue(boolean1 == boolean0);
+-      assertFalse(boolean1);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

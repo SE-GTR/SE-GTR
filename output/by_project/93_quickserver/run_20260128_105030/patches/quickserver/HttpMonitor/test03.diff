@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/quickserver/net/client/monitoring/impl/HttpMonitor_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/monitoring/impl/HttpMonitor_ESTest.java
+@@ -54,18 +54,22 @@
+     char char0 = httpMonitor0.monitor(httpHost0);
+     assertEquals('E', char0);
+ }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        HttpMonitor httpMonitor0 = new HttpMonitor();
++        EvoSuiteURL evoSuiteURL0 = new EvoSuiteURL("http://127.0.0.1:80");
++        Object remoteFile = NetworkHandling.createRemoteTextFile(evoSuiteURL0, "http://");
++        assertNotNull("Remote file should be created", remoteFile);
++        HttpHost httpHost0 = new HttpHost("http://");
++        // verify side‑effect of setTextToExpect
++        String before = httpHost0.getTextToExpect();
++        assertNull("Initial textToExpect should be null", before);
++        httpHost0.setTextToExpect("http://");
++        assertEquals("http://", httpHost0.getTextToExpect());
++        char char0 = httpMonitor0.monitor(httpHost0);
++        assertEquals('A', char0);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      HttpMonitor httpMonitor0 = new HttpMonitor();
+-      EvoSuiteURL evoSuiteURL0 = new EvoSuiteURL("http://127.0.0.1:80");
+-      NetworkHandling.createRemoteTextFile(evoSuiteURL0, "http://");
+-      HttpHost httpHost0 = new HttpHost("http://");
+-      httpHost0.setTextToExpect("http://");
+-      char char0 = httpMonitor0.monitor(httpHost0);
+-      assertEquals('A', char0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

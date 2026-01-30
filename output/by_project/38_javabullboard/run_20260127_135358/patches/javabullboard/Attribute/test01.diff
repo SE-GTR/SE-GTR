@@ -1,0 +1,27 @@
+--- a/evosuite-tests/framework/persistence/jdbc/Attribute_ESTest.java
++++ b/evosuite-tests/framework/persistence/jdbc/Attribute_ESTest.java
+@@ -21,13 +21,18 @@
+       attribute0.setNotNull("$OF+}}mw;oX");
+       assertTrue(attribute0.isNullable());
+   }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    Attribute attribute0 = new Attribute();
++    boolean beforeNullable = attribute0.isNullable();
++    attribute0.setNotNull("1");
++    assertFalse(attribute0.isNullable());
++    // Verify that the nullable flag changed if it was true before
++    if (beforeNullable) {
++        assertNotEquals(Boolean.valueOf(beforeNullable), Boolean.valueOf(attribute0.isNullable()));
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      Attribute attribute0 = new Attribute();
+-      attribute0.setNotNull("1");
+-      assertFalse(attribute0.isNullable());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

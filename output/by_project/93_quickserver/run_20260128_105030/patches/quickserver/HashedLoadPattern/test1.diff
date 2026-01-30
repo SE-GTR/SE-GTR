@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/quickserver/net/client/loaddistribution/impl/HashedLoadPattern_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/loaddistribution/impl/HashedLoadPattern_ESTest.java
+@@ -47,29 +47,25 @@
+         verifyException("org.quickserver.net.client.loaddistribution.impl.HashedLoadPattern", e);
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     hostList0 = new HostList("No active list available to service requests");
+     linkedList0 = new LinkedList<Object>();
+-      linkedList0.add((Object) "No active list available to service requests");
+-      hostList0.setActiveList(linkedList0);
++    boolean added = linkedList0.add((Object) "No active list available to service requests");
++    assertTrue(added);
++    hostList0.setActiveList(linkedList0);
+     hashedLoadPattern0 = new HashedLoadPattern();
+-      hashedLoadPattern0.setHostList(hostList0);
++    hashedLoadPattern0.setHostList(hostList0);
+     clientInfo0 = new ClientInfo();
+-      // Undeclared exception!
+-      try { 
++    try {
+         hashedLoadPattern0.getHost(clientInfo0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // ClientKey was null!
+-         //
+-         verifyException("org.quickserver.net.client.loaddistribution.impl.HashedLoadPattern", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        // ClientKey was null!
++        verifyException("org.quickserver.net.client.loaddistribution.impl.HashedLoadPattern", e);
++    }
++}
++
+ @Test(timeout = 4000)
+   public void test2() throws Throwable {
+     hostList0 = new HostList("No active list available to service requests");

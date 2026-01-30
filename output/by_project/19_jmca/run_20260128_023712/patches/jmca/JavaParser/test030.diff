@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
+@@ -460,23 +460,16 @@
+          verifyException("com.soops.CEN4010.JMCA.JParser.JavaParser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test030()  throws Throwable  {
+-      JavaCharStream javaCharStream0 = new JavaCharStream((Reader) null);
+-      JavaParserTokenManager javaParserTokenManager0 = new JavaParserTokenManager(javaCharStream0);
+-      JavaParser javaParser0 = new JavaParser(javaParserTokenManager0);
+-      // Undeclared exception!
+-      try { 
+-        javaParser0.IfStatement();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
++@Test(timeout = 4000)
++public void test030() throws Throwable {
++    String code = "if (true) {}";
++    JavaCharStream javaCharStream0 = new JavaCharStream(new StringReader(code));
++    JavaParserTokenManager javaParserTokenManager0 = new JavaParserTokenManager(javaCharStream0);
++    JavaParser javaParser0 = new JavaParser(javaParserTokenManager0);
++    // The parser should handle a simple if statement without throwing an exception
++    javaParser0.IfStatement();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test031()  throws Throwable  {

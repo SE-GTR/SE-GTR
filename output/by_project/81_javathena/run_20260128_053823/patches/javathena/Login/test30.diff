@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/javathena/login/Login_ESTest.java
++++ b/evosuite-tests/org/javathena/login/Login_ESTest.java
+@@ -330,24 +330,20 @@
+         // Basic sanity check: the Login instance should be non‑null.
+         assertNotNull(login0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("save/account.xml");
+-      FileSystemHandling.appendLineToFile(evoSuiteFile0, "\n\n");
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test30() throws Throwable {
++    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("save/account.xml");
++    boolean appended = FileSystemHandling.appendLineToFile(evoSuiteFile0, "\n\n");
++    assertTrue(appended);
++    try {
+         Login.mmo_auth_initXML();
+         fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         //  : Premature end of file.
+-         //
+-         verifyException("com.thoughtworks.xstream.io.xml.DomDriver", e);
+-      }
+-  }
++    } catch (RuntimeException e) {
++        // : Premature end of file.
++        verifyException("com.thoughtworks.xstream.io.xml.DomDriver", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

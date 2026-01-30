@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/tivo/jipviewer/JipRun_ESTest.java
++++ b/evosuite-tests/com/tivo/jipviewer/JipRun_ESTest.java
+@@ -268,15 +268,27 @@
+         List<JipRun.PerMethodInfo> listAfterSecond = jipRun0.perMethodsInTotalTimeOrder();
+         assertEquals(2, listAfterSecond.size());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      JipRun jipRun0 = new JipRun();
+-      jipRun0.startFrame("ChiY5s86b#", "ChiY5s86b#", 340L, 340L);
+-      jipRun0.endFrame();
+-      JipMethod jipMethod0 = new JipMethod("ChiY5s86b#");
+-      Iterable<JipFrame> iterable0 = jipRun0.allCallees(jipMethod0);
+-      assertNotNull(iterable0);
+-  }
+-}
++@Test(timeout = 4000)
++    public void test24() throws Throwable {
++        JipRun jipRun0 = new JipRun();
++        JipMethod jipMethod0 = new JipMethod("ChiY5s86b#");
++
++        // Verify initial state before any frame operations
++        Iterable<JipFrame> initialIterable = jipRun0.allCallees(jipMethod0);
++        assertNotNull(initialIterable);
++        assertFalse(initialIterable.iterator().hasNext());
++
++        // Start a frame and verify that the state changes (no callees should be recorded yet)
++        jipRun0.startFrame("ChiY5s86b#", "ChiY5s86b#", 340L, 340L);
++        Iterable<JipFrame> afterStartIterable = jipRun0.allCallees(jipMethod0);
++        assertNotNull(afterStartIterable);
++        assertFalse(afterStartIterable.iterator().hasNext());
++
++        // End the frame and verify that the state is consistent (still no callees)
++        jipRun0.endFrame();
++        Iterable<JipFrame> afterEndIterable = jipRun0.allCallees(jipMethod0);
++        assertNotNull(afterEndIterable);
++        assertFalse(afterEndIterable.iterator().hasNext());
++    }
++
++}

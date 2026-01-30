@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/heal/util/AuthenticationTools_ESTest.java
++++ b/evosuite-tests/org/heal/util/AuthenticationTools_ESTest.java
+@@ -29,19 +29,29 @@
+     httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+       doReturn(userBean0).when(httpSession0).getAttribute(anyString());
+   }
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    userBean0 = new UserBean();
++    userBean0.setAdministrator(true);
++    // verify side effect of setAdministrator
++    assertTrue(userBean0.isAdministrator());
+ 
++    httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    doReturn(userBean0).when(httpSession0).getAttribute(anyString());
++    // verify stubbed return value
++    Object attr = httpSession0.getAttribute("anyKey");
++    assertSame(userBean0, attr);
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    userBean0 = new UserBean();
+-      userBean0.setAdministrator(true);
+-    httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(userBean0).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      boolean boolean0 = AuthenticationTools.isAdministrator(httpServletRequest0);
+-      assertTrue(boolean0);
+-  }
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn(httpSession0).when(httpServletRequest0).getSession();
++    // verify stubbed return value
++    HttpSession sess = httpServletRequest0.getSession();
++    assertSame(httpSession0, sess);
++
++    boolean boolean0 = AuthenticationTools.isAdministrator(httpServletRequest0);
++    assertTrue(boolean0);
++}
++
+ @Test(timeout = 4000)
+   public void test1() throws Throwable {
+     HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());

@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -385,23 +385,26 @@
+         int sizeAfter = classWriter0.toByteArray().length;
+         assertTrue("Class byte array size should increase after visitMultiANewArrayInsn", sizeAfter > sizeBefore);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
+-      ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
+-      ClassWriter classWriter0 = new ClassWriter(2);
+-      classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 259);
+-      MethodWriter methodWriter0 = classWriter0.firstMethod;
+-      Label label0 = new Label();
+-      Label[] labelArray0 = new Label[4];
+-      labelArray0[0] = label0;
+-      labelArray0[1] = label0;
+-      labelArray0[2] = label0;
+-      labelArray0[3] = label0;
+-      methodWriter0.visitTableSwitchInsn(259, 26, label0, labelArray0);
+-      assertEquals(4, labelArray0.length);
+-  }
++@Test(timeout = 4000)
++public void test27() throws Throwable {
++    ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
++    ClassWriter classWriter0 = new ClassWriter(2);
++    classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 259);
++    assertNotNull(classWriter0.firstMethod);
++    MethodWriter methodWriter0 = classWriter0.firstMethod;
++    Label label0 = new Label();
++    Label[] labelArray0 = new Label[4];
++    labelArray0[0] = label0;
++    labelArray0[1] = label0;
++    labelArray0[2] = label0;
++    labelArray0[3] = label0;
++    int beforeLength = classWriter0.toByteArray().length;
++    methodWriter0.visitTableSwitchInsn(259, 26, label0, labelArray0);
++    int afterLength = classWriter0.toByteArray().length;
++    assertTrue(afterLength > beforeLength);
++    assertEquals(4, labelArray0.length);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test28()  throws Throwable  {

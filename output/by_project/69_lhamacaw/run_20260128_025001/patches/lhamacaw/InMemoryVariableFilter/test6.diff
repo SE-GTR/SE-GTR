@@ -1,0 +1,38 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryVariableFilter_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryVariableFilter_ESTest.java
+@@ -125,20 +125,24 @@
+     ArrayList<VariableSummary> rawSummaries = inMemoryVariableFilter0.filterVariableSummaries(user0, "", "", "", VariableTypeFilter.RAW);
+     assertTrue(rawSummaries.isEmpty());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
++@Test(timeout = 4000)
++public void test6() throws Throwable {
+     inMemoryVariableFilter0 = new InMemoryVariableFilter();
+     user0 = new User();
+     arrayList0 = new ArrayList<Variable>();
+-      RawVariable rawVariable0 = new RawVariable();
+-      arrayList0.add((Variable) rawVariable0);
+-      inMemoryVariableFilter0.setVariables(arrayList0);
+-      VariableTypeFilter variableTypeFilter0 = VariableTypeFilter.RAW;
+-      ArrayList<VariableSummary> arrayList1 = inMemoryVariableFilter0.filterVariableSummaries(user0, "All", "All", "All", variableTypeFilter0);
+-      assertTrue(arrayList1.isEmpty());
+-  }
++    RawVariable rawVariable0 = new RawVariable();
++    arrayList0.add(rawVariable0);
++    VariableTypeFilter variableTypeFilter0 = VariableTypeFilter.RAW;
++    // Verify that before setting variables the filter returns no results
++    ArrayList<VariableSummary> beforeList = inMemoryVariableFilter0.filterVariableSummaries(user0, "All", "All", "All", variableTypeFilter0);
++    assertTrue(beforeList.isEmpty());
++    // Apply the side‑effect
++    inMemoryVariableFilter0.setVariables(arrayList0);
++    // Verify that the side‑effect is observable via the filter
++    ArrayList<VariableSummary> afterList = inMemoryVariableFilter0.filterVariableSummaries(user0, "All", "All", "All", variableTypeFilter0);
++    assertEquals(1, afterList.size());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

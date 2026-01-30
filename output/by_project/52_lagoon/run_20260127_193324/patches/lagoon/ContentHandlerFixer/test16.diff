@@ -1,0 +1,48 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
+@@ -196,14 +196,37 @@
+       AttributesImpl attributesImpl0 = new AttributesImpl();
+       contentHandlerFixer0.startElement((String) null, (String) null, (String) null, attributesImpl0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      DefaultHandler defaultHandler0 = new DefaultHandler();
+-      ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(defaultHandler0, true, true);
+-      AttributesImpl attributesImpl0 = new AttributesImpl();
+-      contentHandlerFixer0.startElement("", "", "", attributesImpl0);
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        class RecordingHandler extends DefaultHandler {
++            String receivedNamespaceURI;
++            String receivedLocalName;
++            String receivedQName;
++            Attributes receivedAttrs;
++
++            @Override
++            public void startElement(String uri, String localName, String qName, Attributes attributes)
++                    throws SAXException {
++                this.receivedNamespaceURI = uri;
++                this.receivedLocalName = localName;
++                this.receivedQName = qName;
++                this.receivedAttrs = attributes;
++            }
++        }
++        RecordingHandler recordingHandler = new RecordingHandler();
++        ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(recordingHandler, true, true);
++        AttributesImpl attributesImpl0 = new AttributesImpl();
++        // Ensure no event has been received yet
++        assertNull(recordingHandler.receivedNamespaceURI);
++        // Act
++        contentHandlerFixer0.startElement("", "", "", attributesImpl0);
++        // Verify that the underlying handler received the startElement call with the expected arguments
++        assertEquals("", recordingHandler.receivedNamespaceURI);
++        assertEquals("", recordingHandler.receivedLocalName);
++        assertEquals("", recordingHandler.receivedQName);
++        assertSame(attributesImpl0, recordingHandler.receivedAttrs);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

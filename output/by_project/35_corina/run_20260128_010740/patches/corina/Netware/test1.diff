@@ -1,0 +1,29 @@
+--- a/evosuite-tests/corina/platform/Netware_ESTest.java
++++ b/evosuite-tests/corina/platform/Netware_ESTest.java
+@@ -25,11 +25,22 @@
+       App.platform = platform0;
+       Netware.workaroundSlow();
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    // Capture current system properties before invoking the method.
++    String beforeName = System.getProperty("user.name");
++    String beforeHome = System.getProperty("user.home");
++    // Invoke the void method whose side effects we want to verify.
++    Netware.workaround();
++    // Observe possible side effects on system properties after the call.
++    String afterName = System.getProperty("user.name");
++    String afterHome = System.getProperty("user.home");
++    // Assert that the properties are non‑null, indicating that the method performed
++    // some observable work (e.g., setting or preserving these values).
++    assertNotNull("user.name should not be null after workaround", afterName);
++    assertNotNull("user.home should not be null after workaround", afterHome);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Netware.workaround();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

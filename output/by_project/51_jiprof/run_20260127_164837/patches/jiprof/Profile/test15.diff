@@ -1,0 +1,47 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
+@@ -160,16 +160,34 @@
+     // No side‑effect calls; simple sanity check to ensure the test runs without errors.
+     assertTrue(true);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      Profile.initProfiler();
+-      Profile.start("l=ALt", "KX?y");
+-      Profile profile0 = new Profile();
+-      profile0.run();
+-      Profile.start("l=ALt", "              Time            Percent    ");
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        // Capture the number of live threads before initializing the profiler
++        int threadsBefore = Thread.activeCount();
++
++        // Initialise the profiler – this should start the controller thread
++        Profile.initProfiler();
++
++        // Verify that a new thread has been started (or at least not fewer threads)
++        int threadsAfterInit = Thread.activeCount();
++        assertTrue("Thread count should not decrease after initProfiler", threadsAfterInit >= threadsBefore);
++
++        // Start a profiling session
++        Profile.start("l=ALt", "KX?y");
++
++        // Create a Profile instance and run it
++        Profile profile0 = new Profile();
++        assertNotNull("Profile instance should be created", profile0);
++        profile0.run();
++
++        // Verify that running the profile does not reduce the thread count
++        int threadsAfterRun = Thread.activeCount();
++        assertTrue("Thread count should not decrease after run", threadsAfterRun >= threadsAfterInit);
++
++        // Invoke start again with a different method name to ensure it executes without error
++        Profile.start("l=ALt", "              Time            Percent    ");
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

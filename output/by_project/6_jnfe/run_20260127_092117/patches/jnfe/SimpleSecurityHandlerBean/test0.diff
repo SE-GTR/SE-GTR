@@ -1,0 +1,31 @@
+--- a/evosuite-tests/br/com/jnfe/base/service/SimpleSecurityHandlerBean_ESTest.java
++++ b/evosuite-tests/br/com/jnfe/base/service/SimpleSecurityHandlerBean_ESTest.java
+@@ -17,13 +17,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SimpleSecurityHandlerBean_ESTest extends SimpleSecurityHandlerBean_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        SimpleSecurityHandlerBean simpleSecurityHandlerBean0 = new SimpleSecurityHandlerBean();
++        // First initialization
++        simpleSecurityHandlerBean0.afterPropertiesSet();
++        String aliasAfterFirst = simpleSecurityHandlerBean0.getAlias();
++        String passwordAfterFirst = simpleSecurityHandlerBean0.getPassword();
++        // Second initialization (should be idempotent)
++        simpleSecurityHandlerBean0.afterPropertiesSet();
++        String aliasAfterSecond = simpleSecurityHandlerBean0.getAlias();
++        String passwordAfterSecond = simpleSecurityHandlerBean0.getPassword();
++        // Verify that the side‑effects are consistent
++        assertEquals(aliasAfterFirst, aliasAfterSecond);
++        assertEquals(passwordAfterFirst, passwordAfterSecond);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      SimpleSecurityHandlerBean simpleSecurityHandlerBean0 = new SimpleSecurityHandlerBean();
+-      simpleSecurityHandlerBean0.afterPropertiesSet();
+-      simpleSecurityHandlerBean0.afterPropertiesSet();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

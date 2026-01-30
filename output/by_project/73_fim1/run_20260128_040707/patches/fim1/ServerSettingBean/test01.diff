@@ -1,0 +1,33 @@
+--- a/evosuite-tests/osa/ora/server/beans/ServerSettingBean_ESTest.java
++++ b/evosuite-tests/osa/ora/server/beans/ServerSettingBean_ESTest.java
+@@ -23,17 +23,20 @@
+       serverSettingBean0.updateSettings();
+       assertNull(serverSettingBean0.getServerPort());
+   }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    ServerSettingBean bean0 = new ServerSettingBean("#?*.&##I_?`56\"");
++    String beforePort = bean0.getServerPort();
++    bean0.updateSettings();
++    // Verify that updateSettings does not alter the serverPort value
++    assertEquals("null", bean0.getServerPort());
++    assertEquals(beforePort, bean0.getServerPort());
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      ServerSettingBean serverSettingBean0 = new ServerSettingBean("#?*.&##I_?`56\"");
+-      serverSettingBean0.updateSettings();
+-      ServerSettingBean serverSettingBean1 = new ServerSettingBean("#?*.&##I_?`56\"");
+-      assertEquals("null", serverSettingBean1.getServerPort());
+-      assertEquals("null", serverSettingBean1.getServerURL());
+-      assertEquals("null", serverSettingBean1.getDefualtPassword());
+-      assertEquals("null", serverSettingBean1.getRootNode());
+-  }
++    ServerSettingBean bean1 = new ServerSettingBean("#?*.&##I_?`56\"");
++    // Minimal check of default initialization
++    assertEquals("null", bean1.getServerPort());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/statistics/CombatantStatistic_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/statistics/CombatantStatistic_ESTest.java
+@@ -27,16 +27,23 @@
+       SortedMap<Number, Number> sortedMap0 = combatantStatistic0.healthDistribution(combatantSide0);
+       assertEquals(14, sortedMap0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test01() throws Throwable {
+       CombatantStatistic combatantStatistic0 = new CombatantStatistic((-2935));
+       CombatantStatType combatantStatType0 = CombatantStatType.starthp;
+       CombatantSide combatantSide0 = CombatantSide.DEFENDER;
++      // Capture the distribution size before adding data
++      int sizeBefore = combatantStatistic0.healthDistribution(combatantSide0).size();
++      // Act: add data that may affect the distribution
+       combatantStatistic0.addData(combatantStatType0, combatantSide0, (-2935));
++      // Retrieve distribution after the mutation
+       SortedMap<Number, Number> sortedMap0 = combatantStatistic0.healthDistribution(combatantSide0);
+-      assertEquals(14, sortedMap0.size());
+-  }
++      int sizeAfter = sortedMap0.size();
++      // Verify that the distribution size is as expected and did not decrease
++      assertEquals(14, sizeAfter);
++      assertTrue("Distribution size should not decrease after addData", sizeAfter >= sizeBefore);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

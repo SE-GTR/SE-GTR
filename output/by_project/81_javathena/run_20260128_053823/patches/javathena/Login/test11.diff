@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/javathena/login/Login_ESTest.java
++++ b/evosuite-tests/org/javathena/login/Login_ESTest.java
+@@ -144,16 +144,18 @@
+     assertEquals(2, login0.getPASSWORDENC());
+     ConfigurationManagement.setAccess_denynum(originalAccessDenyNum);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      Login login0 = new Login();
+-      ACO aCO0 = ACO.ALLOW_DENY;
+-      ConfigurationManagement.setAccess_order(aCO0);
+-      login0.do_initTXT();
+-      assertEquals(0, login0.getAuth_max());
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    Login login0 = new Login();
++    ACO aCO0 = ACO.ALLOW_DENY;
++    ConfigurationManagement.setAccess_order(aCO0);
++    // Verify that the access order was set correctly
++    assertEquals(aCO0, ConfigurationManagement.getAccess_order());
++    login0.do_initTXT();
++    // Verify the effect of initializing TXT on auth_max
++    assertEquals(0, login0.getAuth_max());
++}
++
+ @Test(timeout = 4000)
+     public void test12() throws Throwable {
+         Login login0 = new Login();

@@ -1,0 +1,51 @@
+--- a/evosuite-tests/client/view/PlayerView_ESTest.java
++++ b/evosuite-tests/client/view/PlayerView_ESTest.java
+@@ -76,29 +76,27 @@
+       PlayerView playerView0 = new PlayerView(clientPlayer0, gfxFactory0);
+       assertTrue(playerView0.isVisible());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
++@Test(timeout = 4000)
++public void test4() throws Throwable {
+     point0 = new Point();
+     clientPlayer0 = new ClientPlayer(point0, 0);
+-      clientPlayer0.setInactive();
+-      GfxFactory gfxFactory0 = new GfxFactory();
+-      PlayerView playerView0 = new PlayerView(clientPlayer0, gfxFactory0);
+-      GameCanvas gameCanvas0 = new GameCanvas(1586, 2996);
+-      Graphics2D graphics2D0 = gameCanvas0.getCanvas();
+-      playerView0.paint(graphics2D0);
+-      playerView0.paint(graphics2D0);
+-      playerView0.paint(graphics2D0);
+-      playerView0.paint(graphics2D0);
+-      playerView0.paint(graphics2D0);
+-      playerView0.paint(graphics2D0);
+-      playerView0.paint(graphics2D0);
+-      playerView0.paint(graphics2D0);
+-      playerView0.paint(graphics2D0);
+-      playerView0.paint(graphics2D0);
+-      playerView0.paint(graphics2D0);
+-      assertFalse(playerView0.isVisible());
+-  }
++    // Verify that setInactive changes the player's active state
++    assertTrue(clientPlayer0.isActive());
++    clientPlayer0.setInactive();
++    assertFalse(clientPlayer0.isActive());
++
++    GfxFactory gfxFactory0 = new GfxFactory();
++    PlayerView playerView0 = new PlayerView(clientPlayer0, gfxFactory0);
++    GameCanvas gameCanvas0 = new GameCanvas(1586, 2996);
++    Graphics2D graphics2D0 = gameCanvas0.getCanvas();
++
++    // Invoke paint several times, asserting the visible state after each call
++    for (int i = 0; i < 5; i++) {
++        playerView0.paint(graphics2D0);
++        assertFalse(playerView0.isVisible());
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

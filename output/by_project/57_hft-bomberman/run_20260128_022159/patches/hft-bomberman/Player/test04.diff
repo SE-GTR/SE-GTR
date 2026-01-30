@@ -1,0 +1,34 @@
+--- a/evosuite-tests/common/Player_ESTest.java
++++ b/evosuite-tests/common/Player_ESTest.java
+@@ -62,16 +62,22 @@
+       boolean boolean0 = player0.extendedCollisionCheck(bomb0);
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        Point point0 = new Point();
++        ClientPlayer clientPlayer0 = new ClientPlayer(point0, 0);
++        // Capture position before moving left
++        Point locBefore = clientPlayer0.getLocation();
++        clientPlayer0.moveLeft();
++        // Verify that the player actually moved left
++        Point locAfter = clientPlayer0.getLocation();
++        assertTrue("Player should have moved left", locAfter.x < locBefore.x);
++        // Collision check after movement
++        Bomb bomb0 = new Bomb(point0);
++        boolean collision = ((Player) clientPlayer0).extendedCollisionCheck(bomb0);
++        assertFalse(collision);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      Point point0 = new Point();
+-      ClientPlayer clientPlayer0 = new ClientPlayer(point0, 0);
+-      clientPlayer0.moveLeft();
+-      Bomb bomb0 = new Bomb(point0);
+-      boolean boolean0 = ((Player)clientPlayer0).extendedCollisionCheck(bomb0);
+-      assertFalse(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

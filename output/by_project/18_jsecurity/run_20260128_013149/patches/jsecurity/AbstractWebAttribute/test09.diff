@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jsecurity/web/attr/AbstractWebAttribute_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/attr/AbstractWebAttribute_ESTest.java
+@@ -148,13 +148,13 @@
+     assertNotNull(stringValue);
+     assertEquals("", cookieAttribute0.getName());
+ }
+-
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test09()  throws Throwable  {
+       CookieAttribute<RequestParamAttribute<Object>> cookieAttribute0 = new CookieAttribute<RequestParamAttribute<Object>>("toLevel");
+       ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+       doReturn("toLevel").when(servletRequest0).getParameter(anyString());
++      // Verify that the stubbed method returns the expected value
++      assertEquals("toLevel", servletRequest0.getParameter("anyKey"));
+       Class<PropertyEditorSupport> class0 = PropertyEditorSupport.class;
+       cookieAttribute0.setEditorClass(class0);
+       ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
+@@ -162,7 +162,7 @@
+       try { 
+         cookieAttribute0.getFromRequestParam(servletRequestWrapper0);
+         fail("Expecting exception: IllegalArgumentException");
+-      
++
+       } catch(IllegalArgumentException e) {
+          //
+          // toLevel
+@@ -170,6 +170,7 @@
+          verifyException("java.beans.PropertyEditorSupport", e);
+       }
+   }
++
+ @Test(timeout = 4000)
+     public void test10() throws Throwable {
+         ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());

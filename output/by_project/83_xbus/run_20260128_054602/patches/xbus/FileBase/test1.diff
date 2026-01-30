@@ -1,0 +1,27 @@
+--- a/evosuite-tests/net/sf/xbus/technical/file/FileBase_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/technical/file/FileBase_ESTest.java
+@@ -39,13 +39,18 @@
+       int int0 = fileLineReaderReceiver0.getLastByteOfFile("oQu3SL'V:;_W]i1/:vo");
+       assertEquals(111, int0);
+   }
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
++      java.io.File tempFile = java.io.File.createTempFile("test1", ".tmp");
++      tempFile.deleteOnExit();
++      try (java.io.FileOutputStream fos = new java.io.FileOutputStream(tempFile)) {
++          fos.write(new byte[] {0x01, 0x02, 0x7F});
++      }
++      FileReceiver fileReceiver0 = new FileReceiver();
++      int result = fileReceiver0.getLastByteOfFile(tempFile.getAbsolutePath());
++      assertEquals(127, result);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      FileReceiver fileReceiver0 = new FileReceiver();
+-      int int0 = fileReceiver0.getLastByteOfFile("oQu3SL'V:;_W]i1/:vo");
+-      assertEquals((-1), int0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

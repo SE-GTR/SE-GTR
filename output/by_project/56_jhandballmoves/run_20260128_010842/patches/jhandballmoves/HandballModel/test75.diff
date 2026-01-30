@@ -1,0 +1,36 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -962,16 +962,23 @@
+       assertEquals(0, Offender.counter);
+       assertEquals(1, offender0.getPlayerNumber());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test75()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Offender offender0 = new Offender(1527, 12);
+-      Offender offender1 = new Offender(1527, 12);
+-      handballModel0.setFirstBallOwner(offender1);
+-      handballModel0.removePlayer(offender0);
+-      assertTrue(handballModel0.isBallSet());
+-  }
++@Test(timeout = 4000)
++public void test75() throws Throwable {
++    HandballModel handballModel0 = new HandballModel();
++    Offender offender0 = new Offender(1527, 12);
++    Offender offender1 = new Offender(1527, 12);
++    // Verify that no ball is set initially
++    assertFalse(handballModel0.isBallSet());
++    // Set the first ball owner and check the effect
++    handballModel0.setFirstBallOwner(offender1);
++    assertTrue(handballModel0.isBallSet());
++    // Observe the effect of removePlayer (no change when player not present)
++    int sizeBefore = handballModel0.getOffenders().size();
++    handballModel0.removePlayer(offender0);
++    int sizeAfter = handballModel0.getOffenders().size();
++    assertEquals(sizeBefore, sizeAfter);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test76()  throws Throwable  {

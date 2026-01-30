@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
+@@ -150,14 +150,29 @@
+          verifyException("org.databene.jdbacl.DBUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter("toresLowerCaseotedI4nt0fifrs", "toresLowerCaseotedI4nt0fifrs", "toresLowerCaseotedI4nt0fifrs", "toresLowerCaseotedI4nt0fifrs", "toresLowerCaseotedI4nt0fifrs", "toresLowerCaseotedI4nt0fifrs");
+-      jDBCDBImporter0.setFaultTolerant(true);
+-      assertTrue(jDBCDBImporter0.isImportingIndexes());
+-      assertFalse(jDBCDBImporter0.isImportingPackages());
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter(
++                "toresLowerCaseotedI4nt0fifrs",
++                "toresLowerCaseotedI4nt0fifrs",
++                "toresLowerCaseotedI4nt0fifrs",
++                "toresLowerCaseotedI4nt0fifrs",
++                "toresLowerCaseotedI4nt0fifrs",
++                "toresLowerCaseotedI4nt0fifrs");
++        // capture initial state
++        boolean beforeIndexes = jDBCDBImporter0.isImportingIndexes();
++        boolean beforePackages = jDBCDBImporter0.isImportingPackages();
++        // act
++        jDBCDBImporter0.setFaultTolerant(true);
++        // assert side effects
++        assertTrue(jDBCDBImporter0.isImportingIndexes());
++        assertFalse(jDBCDBImporter0.isImportingPackages());
++        // verify that the call changed the importingIndexes flag compared to the initial state
++        assertNotEquals(beforeIndexes, jDBCDBImporter0.isImportingIndexes());
++        // importingPackages should remain unchanged
++        assertEquals(beforePackages, jDBCDBImporter0.isImportingPackages());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

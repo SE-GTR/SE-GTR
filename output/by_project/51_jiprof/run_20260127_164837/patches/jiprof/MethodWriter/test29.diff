@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -419,13 +419,13 @@
+       methodWriter0.visitLookupSwitchInsn(label0, intArray0, labelArray0);
+       assertArrayEquals(new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}, intArray0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test29() throws Throwable {
+       ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
+       ClassWriter classWriter0 = new ClassWriter(classReader0, 1);
+       classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 259);
+       MethodWriter methodWriter0 = classWriter0.firstMethod;
++      assertNotNull("ClassReader.accept should create a first method", methodWriter0);
+       Label label0 = new Label();
+       Label[] labelArray0 = new Label[3];
+       labelArray0[0] = label0;
+@@ -433,7 +433,10 @@
+       labelArray0[2] = label0;
+       methodWriter0.visitTableSwitchInsn(4, 259, label0, labelArray0);
+       assertEquals(3, labelArray0.length);
+-  }
++      byte[] classBytes = classWriter0.toByteArray();
++      assertTrue("Generated class should contain bytecode after visitTableSwitchInsn", classBytes.length > 0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

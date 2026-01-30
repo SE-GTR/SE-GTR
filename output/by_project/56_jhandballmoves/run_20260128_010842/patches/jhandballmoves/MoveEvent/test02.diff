@@ -1,0 +1,57 @@
+--- a/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
+@@ -59,23 +59,37 @@
+     moveEvent1.equals(moveEvent0);
+     assertEquals(0, moveEvent0.getControlPointY());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      Offender offender0 = new Offender(56, 56);
+-      MoveEvent moveEvent0 = new MoveEvent(offender0, 56);
+-      MoveEvent moveEvent1 = new MoveEvent(offender0, 56, 56);
+-      moveEvent0.setDestinationPoint(756, 56, false);
+-      MovePoint movePoint0 = moveEvent0.destinationPoint;
+-      moveEvent1.destinationPoint = movePoint0;
+-      moveEvent0.setControlPoint(1, 56, false);
+-      moveEvent1.setControlPoint(1, 56, false);
+-      boolean boolean0 = moveEvent1.equals(moveEvent0);
+-      assertTrue(moveEvent0.isDestinationPointSet());
+-      assertTrue(moveEvent1.isControlPointSet());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        Offender offender0 = new Offender(56, 56);
++        MoveEvent moveEvent0 = new MoveEvent(offender0, 56);
++        MoveEvent moveEvent1 = new MoveEvent(offender0, 56, 56);
++        // Set destination point on moveEvent0
++        moveEvent0.setDestinationPoint(756, 56, false);
++        // Verify side‑effects of setDestinationPoint
++        assertTrue(moveEvent0.isDestinationPointSet());
++        assertNotNull(moveEvent0.destinationPoint);
++        assertFalse(moveEvent0.destinationPointTemporary);
++        // Share the same destination point with moveEvent1
++        MovePoint movePoint0 = moveEvent0.destinationPoint;
++        moveEvent1.destinationPoint = movePoint0;
++        // Set control point on both events
++        moveEvent0.setControlPoint(1, 56, false);
++        moveEvent1.setControlPoint(1, 56, false);
++        // Verify side‑effects of setControlPoint
++        assertTrue(moveEvent0.isControlPointSet());
++        assertTrue(moveEvent1.isControlPointSet());
++        assertNotNull(moveEvent0.controlPoint);
++        assertNotNull(moveEvent1.controlPoint);
++        assertFalse(moveEvent0.controlPointTemporary);
++        assertFalse(moveEvent1.controlPointTemporary);
++        // Verify that the two events are not equal
++        boolean boolean0 = moveEvent1.equals(moveEvent0);
++        assertFalse(boolean0);
++        // Additional consistency check: both events share the same destination point instance
++        assertSame(movePoint0, moveEvent1.destinationPoint);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

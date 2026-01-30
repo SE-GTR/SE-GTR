@@ -1,0 +1,34 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryUserManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryUserManager_ESTest.java
+@@ -124,13 +124,24 @@
+       assertEquals("", user0.getPassword());
+   }
+ @Test(timeout = 4000)
+-  public void test08() throws Throwable {
+-      InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+-      Log log0 = new Log();
+-      User user0 = new User();
+-      InMemoryUserManager inMemoryUserManager0 = new InMemoryUserManager(inMemoryChangeEventManager0, log0, user0);
+-      assertNotNull(inMemoryUserManager0);
+-  }
++public void test08() throws Throwable {
++    InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
++    Log log0 = new Log();
++    User user0 = new User();
++    InMemoryUserManager inMemoryUserManager0 = new InMemoryUserManager(inMemoryChangeEventManager0, log0, user0);
++    assertNotNull(inMemoryUserManager0);
++    // Observe the effect of clear()
++    int beforeKey = inMemoryUserManager0.getUserKey();
++    inMemoryUserManager0.clear();
++    int afterKey = inMemoryUserManager0.getUserKey();
++    // clear() is expected to reset the user key to its initial state (0)
++    assertEquals(0, afterKey);
++    // If the key was non‑zero before, it should have changed
++    if (beforeKey != 0) {
++        assertNotEquals(beforeKey, afterKey);
++    }
++}
++
+ 
+ 
+   @Test(timeout = 4000)

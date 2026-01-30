@@ -1,0 +1,22 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/CheckstylePlugin_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/CheckstylePlugin_ESTest.java
+@@ -51,10 +51,14 @@
+          verifyException("org.eclipse.core.runtime.Plugin", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        try {
++            CheckstylePlugin.getDefault();
++            fail("Expected ExceptionInInitializerError");
++        } catch (ExceptionInInitializerError e) {
++            // expected exception due to missing Eclipse environment
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      CheckstylePlugin checkstylePlugin0 = CheckstylePlugin.getDefault();
+-      assertNull(checkstylePlugin0);
+-  }
+ }

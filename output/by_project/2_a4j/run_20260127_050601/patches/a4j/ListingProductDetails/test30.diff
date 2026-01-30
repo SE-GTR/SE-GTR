@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ListingProductDetails_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ListingProductDetails_ESTest.java
+@@ -253,13 +253,24 @@
+       listingProductDetails0.setExchangeSellerId((String) null);
+       assertNull(listingProductDetails0.getExchangeFeaturedCategory());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      ListingProductDetails listingProductDetails0 = new ListingProductDetails();
+-      String string0 = listingProductDetails0.getExchangeFeaturedCategory();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++public void test30() throws Throwable {
++    ListingProductDetails original = new ListingProductDetails();
++
++    // Act: serialize and then deserialize the object
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(original);
++    oos.flush();
++    byte[] data = baos.toByteArray();
++
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++    ListingProductDetails deserialized = (ListingProductDetails) ois.readObject();
++
++    // Assert: the getter still returns null after the round‑trip
++    assertNull(deserialized.getExchangeFeaturedCategory());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

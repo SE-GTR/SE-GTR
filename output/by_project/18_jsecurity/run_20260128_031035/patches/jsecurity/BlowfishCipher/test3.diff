@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jsecurity/crypto/BlowfishCipher_ESTest.java
++++ b/evosuite-tests/org/jsecurity/crypto/BlowfishCipher_ESTest.java
+@@ -46,11 +46,17 @@
+       BlowfishCipher.main(stringArray0);
+       assertEquals(0, stringArray0.length);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        BlowfishCipher cipher = new BlowfishCipher();
++        Key originalKey = cipher.getKey();
++        // invoke the setter (side‑effect) and verify that the cipher still works
++        cipher.setKey(originalKey);
++        byte[] plain = "sample".getBytes(java.nio.charset.StandardCharsets.UTF_8);
++        byte[] encrypted = cipher.encrypt(plain);
++        assertNotNull(encrypted);
++        byte[] decrypted = cipher.decrypt(encrypted);
++        assertArrayEquals(plain, decrypted);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      BlowfishCipher blowfishCipher0 = new BlowfishCipher();
+-      Key key0 = blowfishCipher0.getKey();
+-      blowfishCipher0.setKey(key0);
+-  }
+ }

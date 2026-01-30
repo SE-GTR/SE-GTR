@@ -1,0 +1,27 @@
+--- a/evosuite-tests/EventDriver_ESTest.java
++++ b/evosuite-tests/EventDriver_ESTest.java
+@@ -12,9 +12,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class EventDriver_ESTest extends EventDriver_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    CharacterEventSet set = new CharacterEventSet();
++    // Verify the set starts empty
++    assertTrue(set.isEmpty());
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      CharacterEventSet characterEventSet0 = new CharacterEventSet();
+-  }
++    // Act: add a character event
++    CharacterEvent event = new CharacterEvent('a');
++    set.add(event);
++
++    // Assert the expected behavior after the operation
++    assertFalse(set.isEmpty());
++    assertEquals(1, set.size());
++    assertTrue(set.contains(event));
+ }
++
++}

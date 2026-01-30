@@ -1,0 +1,43 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/model/impl/SimpleCombatant_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/model/impl/SimpleCombatant_ESTest.java
+@@ -182,21 +182,25 @@
+       simpleCombatant0.setOnline(true);
+       assertEquals(506, simpleCombatant0._getMaxLP());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      CharacterClass characterClass0 = CharacterClass.GREENHORN;
+-      SimpleSector simpleSector0 = new SimpleSector(1534, false, false, 1534, 1534, false, 1534, characterClass0);
+-      SimpleArea simpleArea0 = new SimpleArea(1534, 1534, simpleSector0);
+-      CombatantState combatantState0 = new CombatantState(simpleArea0, 1534, simpleArea0, false);
+-      CombatantSide combatantSide0 = CombatantSide.ATTACKER;
+-      CombatantState combatantState1 = combatantState0.reduceHealthBy(1534);
+-      SimpleWeapon simpleWeapon0 = new SimpleWeapon(1534, "%v", 1534, 1534);
+-      SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState0, 1534, "%v", characterClass0, simpleWeapon0, "%v");
+-      simpleCombatant0._setState(combatantState1);
+-      simpleCombatant0._setState(combatantState1);
+-      assertEquals(0, simpleCombatant0._getCurrentLP());
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    CharacterClass characterClass0 = CharacterClass.GREENHORN;
++    SimpleSector simpleSector0 = new SimpleSector(1534, false, false, 1534, 1534, false, 1534, characterClass0);
++    SimpleArea simpleArea0 = new SimpleArea(1534, 1534, simpleSector0);
++    CombatantState combatantState0 = new CombatantState(simpleArea0, 1534, simpleArea0, false);
++    CombatantSide combatantSide0 = CombatantSide.ATTACKER;
++    CombatantState combatantState1 = combatantState0.reduceHealthBy(1534);
++    SimpleWeapon simpleWeapon0 = new SimpleWeapon(1534, "%v", 1534, 1534);
++    SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState0, 1534, "%v", characterClass0, simpleWeapon0, "%v");
++    int lpBefore = simpleCombatant0._getCurrentLP();
++    simpleCombatant0._setState(combatantState1);
++    int lpAfterFirst = simpleCombatant0._getCurrentLP();
++    simpleCombatant0._setState(combatantState1);
++    int lpAfterSecond = simpleCombatant0._getCurrentLP();
++    assertEquals(lpAfterFirst, lpAfterSecond);
++    assertEquals(0, lpAfterSecond);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

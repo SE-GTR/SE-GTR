@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/Secure_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/Secure_ESTest.java
+@@ -105,18 +105,23 @@
+     assertEquals("TLS", secure0.getProtocol());
+     assertFalse(secure0.getClientAuthEnable());
+ }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        Secure secure0 = new Secure();
++        // Verify initial state before invoking the method under test
++        assertFalse(secure0.getEnable());
+ 
++        // Act: explicitly disable the secure setting
++        secure0.setEnable(false);
+ 
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      Secure secure0 = new Secure();
+-      secure0.setEnable(false);
+-      assertEquals("TLS", secure0.getProtocol());
+-      assertFalse(secure0.isLoad());
+-      assertFalse(secure0.getEnable());
+-      assertEquals((-1), secure0.getPort());
+-      assertFalse(secure0.isClientAuthEnable());
+-  }
++        // Assert: state reflects the expected defaults and the side‑effect of setEnable
++        assertEquals("TLS", secure0.getProtocol());
++        assertFalse(secure0.isLoad());
++        assertFalse(secure0.getEnable());
++        assertEquals(-1, secure0.getPort());
++        assertFalse(secure0.isClientAuthEnable());
++    }
++
+ @Test(timeout = 4000)
+ public void test09() throws Throwable {
+     Secure secure0 = new Secure();

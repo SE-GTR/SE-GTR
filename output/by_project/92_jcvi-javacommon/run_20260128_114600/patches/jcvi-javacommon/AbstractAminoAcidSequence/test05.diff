@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/residue/aa/AbstractAminoAcidSequence_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/residue/aa/AbstractAminoAcidSequence_ESTest.java
+@@ -55,15 +55,21 @@
+         // Verify the textual representation matches the input
+         assertEquals("-", seq.toString());
+     }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        LinkedList<AminoAcid> linkedList0 = new LinkedList<>();
++        CompactAminoAcidSequence seq = new CompactAminoAcidSequence(linkedList0);
++        // Verify that the newly created sequence reports a length of zero
++        assertEquals(0, seq.getLength());
++        // Accessing a position in an empty sequence should result in an exception
++        try {
++            seq.isGap(0);
++            fail("Expected IndexOutOfBoundsException when calling isGap on empty sequence");
++        } catch (IndexOutOfBoundsException e) {
++            // expected behavior
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      LinkedList<AminoAcid> linkedList0 = new LinkedList<AminoAcid>();
+-      CompactAminoAcidSequence compactAminoAcidSequence0 = new CompactAminoAcidSequence(linkedList0);
+-      boolean boolean0 = compactAminoAcidSequence0.isGap(0);
+-      assertFalse(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

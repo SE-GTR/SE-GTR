@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/TargetService_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/TargetService_ESTest.java
+@@ -36,19 +36,28 @@
+       int hash2 = targetService0.hashCode();
+       assertEquals(hash1, hash2);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test02() throws Throwable {
+       TargetService targetService0 = new TargetService();
+       TargetService targetService1 = new TargetService();
+-      assertTrue(targetService1.equals((Object)targetService0));
+-      
++      assertTrue(targetService1.equals((Object) targetService0));
++
+       ServiceIdentifier serviceIdentifier0 = new ServiceIdentifier();
++
++      // Verify initial state before setting the identifier
++      assertNull(targetService1.getMServiceIdentifier());
++
++      // Act: set the service identifier
+       targetService1.setMServiceIdentifier(serviceIdentifier0);
++
++      // Verify the side‑effect of setMServiceIdentifier
++      assertSame(serviceIdentifier0, targetService1.getMServiceIdentifier());
++
++      // Ensure the two services are now different
+       boolean boolean0 = targetService0.equals(targetService1);
+       assertFalse(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

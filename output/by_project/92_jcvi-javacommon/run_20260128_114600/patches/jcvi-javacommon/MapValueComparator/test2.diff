@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/MapValueComparator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/MapValueComparator_ESTest.java
+@@ -64,18 +64,20 @@
+          verifyException("org.jcvi.jillion.core.util.MapValueComparator", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    HashMap<Integer, Integer> hashMap0 = new HashMap<Integer, Integer>();
++    Integer integer0 = Integer.valueOf(-1);
++    Integer previous = hashMap0.putIfAbsent(integer0, integer0);
++    assertNull(previous);
++    SortedMap<Integer, Integer> sortedMap0 = MapValueComparator.sortAscending((Map<Integer, Integer>) hashMap0);
++    Integer integer1 = Integer.valueOf(-1);
++    Integer removed = hashMap0.remove((Object) integer1);
++    assertEquals(integer0, removed);
++    SortedMap<Integer, Integer> sortedMap1 = MapValueComparator.sortDescending((Map<Integer, Integer>) sortedMap0);
++    assertTrue(sortedMap1.equals((Object) sortedMap0));
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      HashMap<Integer, Integer> hashMap0 = new HashMap<Integer, Integer>();
+-      Integer integer0 = new Integer((-1));
+-      hashMap0.putIfAbsent(integer0, integer0);
+-      SortedMap<Integer, Integer> sortedMap0 = MapValueComparator.sortAscending((Map<Integer, Integer>) hashMap0);
+-      Integer integer1 = new Integer((-1));
+-      hashMap0.remove((Object) integer1);
+-      SortedMap<Integer, Integer> sortedMap1 = MapValueComparator.sortDescending((Map<Integer, Integer>) sortedMap0);
+-      assertTrue(sortedMap1.equals((Object)sortedMap0));
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

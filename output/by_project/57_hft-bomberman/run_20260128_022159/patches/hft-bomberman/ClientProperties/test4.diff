@@ -1,0 +1,21 @@
+--- a/evosuite-tests/client/ClientProperties_ESTest.java
++++ b/evosuite-tests/client/ClientProperties_ESTest.java
+@@ -66,12 +66,13 @@
+          verifyException("common.XmlFunctions", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-    clientProperties0 = new ClientProperties("File fubarman_properties.xml could not be copied to user directory. Properties disabled.");
++@Test(timeout = 4000)
++  public void test4() throws Throwable {
++      boolean shouldThrow = FileSystemHandling.shouldAllThrowIOExceptions();
++      assertFalse(shouldThrow);
++      clientProperties0 = new ClientProperties("File fubarman_properties.xml could not be copied to user directory. Properties disabled.");
+       String string0 = clientProperties0.getProperty("${");
+       assertEquals("", string0);
+   }
++
+ }

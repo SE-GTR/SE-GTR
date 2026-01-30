@@ -1,0 +1,41 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/nutzenkriterium/NutzenkriteriumDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/nutzenkriterium/NutzenkriteriumDaoService_ESTest.java
+@@ -341,26 +341,18 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      NutzenkriteriumDaoService nutzenkriteriumDaoService0 = new NutzenkriteriumDaoService((NutzenkriteriumDao) null);
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      Nutzenkriterium nutzenkriterium0 = new Nutzenkriterium();
+-      ActionMessages actionMessages0 = new ActionMessages();
+-      // Undeclared exception!
+-      try { 
+-        nutzenkriteriumDaoService0.deleteQuestion(httpServletRequestWrapper0, nutzenkriterium0, actionMessages0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.service.nutzenkriterium.NutzenkriteriumDaoService", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test19() throws Throwable {
++    NutzenkriteriumDao mockDao = mock(NutzenkriteriumDao.class);
++    NutzenkriteriumDaoService nutzenkriteriumDaoService0 = new NutzenkriteriumDaoService(mockDao);
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    Nutzenkriterium nutzenkriterium0 = new Nutzenkriterium();
++    ActionMessages actionMessages0 = new ActionMessages();
++    // Expect no exception during normal execution
++    nutzenkriteriumDaoService0.deleteQuestion(httpServletRequestWrapper0, nutzenkriterium0, actionMessages0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

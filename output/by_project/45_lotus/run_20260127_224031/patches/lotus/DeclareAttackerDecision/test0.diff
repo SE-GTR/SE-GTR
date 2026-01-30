@@ -1,0 +1,33 @@
+--- a/evosuite-tests/lotus/core/decision/DeclareAttackerDecision_ESTest.java
++++ b/evosuite-tests/lotus/core/decision/DeclareAttackerDecision_ESTest.java
+@@ -15,20 +15,15 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DeclareAttackerDecision_ESTest extends DeclareAttackerDecision_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    DeclareAttackerDecision declareAttackerDecision0 = new DeclareAttackerDecision();
++    // Properly initialize the required attacker field before applying the decision
++    declareAttackerDecision0.attacker = new lotus.core.card.Creature();
++    // The method should now execute without throwing a NullPointerException
++    declareAttackerDecision0.applyDecision();
++    // Verify that the attacker field remains initialized
++    assertNotNull(declareAttackerDecision0.attacker);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      DeclareAttackerDecision declareAttackerDecision0 = new DeclareAttackerDecision();
+-      // Undeclared exception!
+-      try { 
+-        declareAttackerDecision0.applyDecision();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("lotus.core.effect.BecomeAttacker", e);
+-      }
+-  }
+ }

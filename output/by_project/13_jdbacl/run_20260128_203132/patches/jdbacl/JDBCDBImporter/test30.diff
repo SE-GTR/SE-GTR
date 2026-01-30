@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
+@@ -329,14 +329,30 @@
+          verifyException("org.databene.jdbacl.DBUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter("org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact");
+-      jDBCDBImporter0.setImportingUKs(false);
+-      assertFalse(jDBCDBImporter0.isImportingPackages());
+-      assertTrue(jDBCDBImporter0.isImportingIndexes());
+-  }
++@Test(timeout = 4000)
++    public void test30() throws Throwable {
++        JDBCDBImporter importer = new JDBCDBImporter(
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact");
++        // change a configuration flag
++        importer.setImportingUKs(false);
++        // verify default import options
++        assertFalse(importer.isImportingPackages());
++        assertTrue(importer.isImportingIndexes());
++        // invoke a non‑trivial operation and assert its failure mode
++        try {
++            importer.importDatabase(null);
++            fail("Expected an exception when importing with a null database");
++        } catch (Exception e) {
++            // The importer should reject a null argument or lack of a connection
++            assertTrue(e instanceof ImportFailedException || e instanceof IllegalArgumentException);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

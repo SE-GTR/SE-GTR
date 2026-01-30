@@ -1,0 +1,42 @@
+--- a/evosuite-tests/jigl/image/warp/Inverse_ESTest.java
++++ b/evosuite-tests/jigl/image/warp/Inverse_ESTest.java
+@@ -49,21 +49,23 @@
+       inverse0.transform(floatArray0, floatArray0);
+       assertArrayEquals(new float[] {0.0F, 0.0F, 0.0F}, floatArray0, 0.01F);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        PointMapper dummyMapper = new PointMapper() {
++            @Override
++            public void transform(float[] x, float[] y, int offset, int count) {
++                // no-op implementation
++            }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      Inverse inverse0 = new Inverse((PointMapper) null);
+-      float[] floatArray0 = new float[3];
+-      // Undeclared exception!
+-      try { 
+-        inverse0.inverseTransform(floatArray0, floatArray0, 774, 774);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.image.warp.Inverse", e);
+-      }
+-  }
++            @Override
++            public void inverseTransform(float[] x, float[] y, int offset, int count) {
++                // no-op implementation
++            }
++        };
++        Inverse inverse0 = new Inverse(dummyMapper);
++        float[] floatArray0 = new float[3];
++        // invoke with valid parameters; no exception is expected
++        inverse0.inverseTransform(floatArray0, floatArray0, 0, 3);
++    }
++
+ }

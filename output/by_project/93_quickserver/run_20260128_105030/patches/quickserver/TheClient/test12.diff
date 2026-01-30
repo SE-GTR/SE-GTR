@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/net/server/TheClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/TheClient_ESTest.java
+@@ -113,15 +113,18 @@
+     QuickServer server = theClient0.getServer();
+     assertNull(server);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      TheClient theClient0 = new TheClient();
+-      theClient0.getAuthenticator();
+-      assertTrue(theClient0.getCommunicationLogging());
+-      assertFalse(theClient0.getTrusted());
+-  }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    TheClient theClient0 = new TheClient();
++    // Assert the default authenticator (non‑void return) is null
++    assertNull(theClient0.getAuthenticator());
++    // Exercise non‑trivial state changes and verify their effects
++    theClient0.setTrusted(true);
++    assertTrue(theClient0.getTrusted());
++    theClient0.setCommunicationLogging(false);
++    assertFalse(theClient0.getCommunicationLogging());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

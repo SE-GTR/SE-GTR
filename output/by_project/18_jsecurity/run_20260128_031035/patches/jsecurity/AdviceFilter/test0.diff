@@ -1,0 +1,53 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/AdviceFilter_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/AdviceFilter_ESTest.java
+@@ -26,28 +26,30 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AdviceFilter_ESTest extends AdviceFilter_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      BasicHttpAuthenticationFilter basicHttpAuthenticationFilter0 = new BasicHttpAuthenticationFilter();
+-      ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(servletRequest0).getAttribute(anyString());
+-      ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
+-      LinkedList<Filter> linkedList0 = new LinkedList<Filter>();
+-      linkedList0.add((Filter) basicHttpAuthenticationFilter0);
+-      ProxiedFilterChain proxiedFilterChain0 = new ProxiedFilterChain((FilterChain) null, linkedList0);
+-      PassThruAuthenticationFilter passThruAuthenticationFilter0 = new PassThruAuthenticationFilter();
+-      try { 
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    BasicHttpAuthenticationFilter basicHttpAuthenticationFilter0 = new BasicHttpAuthenticationFilter();
++    ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn((Object) null).when(servletRequest0).getAttribute(anyString());
++    Object attr = servletRequest0.getAttribute("any");
++    assertNull(attr);
++    ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
++    LinkedList<Filter> linkedList0 = new LinkedList<Filter>();
++    boolean added = linkedList0.add((Filter) basicHttpAuthenticationFilter0);
++    assertTrue(added);
++    ProxiedFilterChain proxiedFilterChain0 = new ProxiedFilterChain((FilterChain) null, linkedList0);
++    PassThruAuthenticationFilter passThruAuthenticationFilter0 = new PassThruAuthenticationFilter();
++    try {
+         passThruAuthenticationFilter0.doFilterInternal(servletRequestWrapper0, (ServletResponse) null, proxiedFilterChain0);
+         fail("Expecting exception: ServletException");
+-      
+-      } catch(ServletException e) {
+-         //
+-         // Filter execution resulted in an unexpected Exception (not IOException or ServletException as the Filter api recommends).  Wrapping in ServletException and propagating.
+-         //
+-         verifyException("org.jsecurity.web.servlet.AdviceFilter", e);
+-      }
+-  }
++    } catch (ServletException e) {
++        //
++        // Filter execution resulted in an unexpected Exception (not IOException or ServletException as the Filter api recommends).  Wrapping in ServletException and propagating.
++        //
++        verifyException("org.jsecurity.web.servlet.AdviceFilter", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

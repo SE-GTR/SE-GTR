@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/gbshape/dbe/postgresql/PostgresqlViewStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/postgresql/PostgresqlViewStructure_ESTest.java
+@@ -75,15 +75,22 @@
+          verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        dBDataBean0 = new DBDataBean();
++        // Verify initial state before setting driver
++        assertNull(dBDataBean0.getDriver());
++        // Act: set the driver
++        dBDataBean0.setDriver("org.apache.commons.vfs.impl.DefaultFileSystemManager");
++        // Assert side‑effect of setDriver
++        assertEquals("org.apache.commons.vfs.impl.DefaultFileSystemManager", dBDataBean0.getDriver());
++        // Continue with original behavior verification
++        postgresqlViewStructure0 = new PostgresqlViewStructure();
++        ViewStructureBean viewStructureBean0 = postgresqlViewStructure0.getStructure(dBDataBean0,
++                "org.apache.commons.vfs.impl.DefaultFileSystemManager");
++        assertEquals("org.apache.commons.vfs.impl.DefaultFileSystemManager", viewStructureBean0.getViewName());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    dBDataBean0 = new DBDataBean();
+-      dBDataBean0.setDriver("org.apache.commons.vfs.impl.DefaultFileSystemManager");
+-    postgresqlViewStructure0 = new PostgresqlViewStructure();
+-      ViewStructureBean viewStructureBean0 = postgresqlViewStructure0.getStructure(dBDataBean0, "org.apache.commons.vfs.impl.DefaultFileSystemManager");
+-      assertEquals("org.apache.commons.vfs.impl.DefaultFileSystemManager", viewStructureBean0.getViewName());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

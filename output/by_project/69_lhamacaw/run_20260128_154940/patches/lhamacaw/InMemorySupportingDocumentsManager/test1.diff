@@ -1,0 +1,28 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemorySupportingDocumentsManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemorySupportingDocumentsManager_ESTest.java
+@@ -27,7 +27,6 @@
+     int id = manager.getSupportingDocumentIdentifier(doc);
+     assertTrue(id < 0);
+ }
+-
+ @Test(timeout = 4000)
+ public void test1() throws Throwable {
+     InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+@@ -37,6 +36,9 @@
+     ArrayList<SupportingDocument> arrayList0 = inMemorySupportingDocumentsManager0.getAllSupportingDocuments(user0);
+     boolean added = arrayList0.add(supportingDocument0);
+     assertTrue(added);
++    // verify that the document was actually added to the list
++    assertEquals(1, arrayList0.size());
++    assertSame(supportingDocument0, arrayList0.get(0));
+     try {
+         inMemorySupportingDocumentsManager0.deleteSupportingDocuments(user0, arrayList0);
+         fail("Expecting exception: Exception");
+@@ -47,6 +49,7 @@
+         verifyException("macaw.persistenceLayer.demo.InMemorySupportingDocumentsManager", e);
+     }
+ }
++
+ 
+ 
+   @Test(timeout = 4000)

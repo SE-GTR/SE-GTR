@@ -1,0 +1,28 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -1271,8 +1271,16 @@
+ public void test127() throws Throwable {
+     AddressDetails addressDetails0 = new AddressDetails();
+ 
+-    // Verify initial state of the administrative area
++    // Verify initial state of fields
+     assertNull(addressDetails0.getAdministrativeArea());
++    assertNull(addressDetails0.getValidToDate());
++
++    // Exercise a non‑trivial mutable collection returned by a getter
++    assertTrue(addressDetails0.getAny().isEmpty());
++    Object element = new Object();
++    addressDetails0.getAny().add(element);
++    assertEquals(1, addressDetails0.getAny().size());
++    assertSame(element, addressDetails0.getAny().get(0));
+ 
+     // Set the administrative area to null and verify the side‑effect
+     addressDetails0.setAdministrativeArea(null);
+@@ -1286,6 +1294,7 @@
+     // Ensure that unrelated fields remain unchanged
+     assertNull(addressDetails0.getValidToDate());
+ }
++
+ @Test(timeout = 4000)
+     public void test128() throws Throwable {
+         AddressDetails addressDetails0 = new AddressDetails();

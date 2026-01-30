@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/javathena/login/Login_ESTest.java
++++ b/evosuite-tests/org/javathena/login/Login_ESTest.java
+@@ -264,20 +264,25 @@
+       Login.showTab(byteArray0);
+       assertEquals(2, byteArray0.length);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      Login login0 = new Login();
+-      FastMap<Integer, Auth_data> fastMap0 = new FastMap<Integer, Auth_data>(1705);
+-      Integer integer0 = new Integer((-1527));
+-      Auth_data auth_data0 = mock(Auth_data.class, new ViolatedAssumptionAnswer());
+-      doReturn((Integer) null, (Integer) null).when(auth_data0).getAccount_id();
+-      doReturn((String) null).when(auth_data0).getUserid();
+-      fastMap0.put(integer0, auth_data0);
+-      UserManagement.setAuth_dats(fastMap0);
+-      login0.do_initTXT();
+-      assertEquals(0, login0.getAuth_max());
+-  }
++@Test(timeout = 4000)
++public void test25() throws Throwable {
++    Login login0 = new Login();
++    FastMap<Integer, Auth_data> fastMap0 = new FastMap<Integer, Auth_data>(1705);
++    Integer integer0 = Integer.valueOf(-1527);
++    Auth_data auth_data0 = mock(Auth_data.class, new ViolatedAssumptionAnswer());
++    doReturn(null, null).when(auth_data0).getAccount_id();
++    doReturn(null).when(auth_data0).getUserid();
++    fastMap0.put(integer0, auth_data0);
++    UserManagement.setAuth_dats(fastMap0);
++    // Verify that the static auth data map was set correctly
++    FastMap<Integer, Auth_data> retrieved = UserManagement.getAuth_dats();
++    assertSame(fastMap0, retrieved);
++    assertEquals(1, retrieved.size());
++
++    login0.do_initTXT();
++    assertEquals(0, login0.getAuth_max());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

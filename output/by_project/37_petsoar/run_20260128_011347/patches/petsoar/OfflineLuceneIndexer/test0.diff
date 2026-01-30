@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/petsoar/search/lucene/OfflineLuceneIndexer_ESTest.java
++++ b/evosuite-tests/org/petsoar/search/lucene/OfflineLuceneIndexer_ESTest.java
+@@ -17,23 +17,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class OfflineLuceneIndexer_ESTest extends OfflineLuceneIndexer_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("index");
++        boolean folderCreated = FileSystemHandling.createFolder(evoSuiteFile0);
++        assertTrue("Folder should be created", folderCreated);
++        String[] stringArray0 = new String[0];
++        try {
++            OfflineLuceneIndexer.main(stringArray0);
++            fail("Expecting exception: RuntimeException");
++        } catch (RuntimeException e) {
++            //
++            // Couldn't init DefaultHibernateSessionFactory
++            //
++            verifyException("org.petsoar.persistence.hibernate.DefaultHibernateSessionFactory", e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("index");
+-      FileSystemHandling.createFolder(evoSuiteFile0);
+-      String[] stringArray0 = new String[0];
+-      try { 
+-        OfflineLuceneIndexer.main(stringArray0);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Couldn't init DefaultHibernateSessionFactory
+-         //
+-         verifyException("org.petsoar.persistence.hibernate.DefaultHibernateSessionFactory", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

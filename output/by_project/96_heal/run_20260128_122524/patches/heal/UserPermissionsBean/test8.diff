@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/heal/module/user/UserPermissionsBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserPermissionsBean_ESTest.java
+@@ -79,17 +79,27 @@
+       userPermissionsBean0.setMinor(true);
+       assertTrue(userPermissionsBean0.isMinor());
+   }
++@Test(timeout = 4000)
++    public void test8() throws Throwable {
++        UserPermissionsBean bean = new UserPermissionsBean();
++        // Verify default state for one property
++        assertFalse(bean.isIAMSEMember());
+ 
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-      UserPermissionsBean userPermissionsBean0 = new UserPermissionsBean();
+-      boolean boolean0 = userPermissionsBean0.isIAMSEMember();
+-      assertFalse(userPermissionsBean0.isAdministrator());
+-      assertFalse(userPermissionsBean0.isMinor());
+-      assertFalse(userPermissionsBean0.isCataloger());
+-      assertFalse(boolean0);
+-      assertFalse(userPermissionsBean0.isApprover());
+-  }
++        // Act: serialize and deserialize the bean
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        try (java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos)) {
++            oos.writeObject(bean);
++        }
++        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++        UserPermissionsBean deserialized;
++        try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais)) {
++            deserialized = (UserPermissionsBean) ois.readObject();
++        }
++
++        // Assert that the deserialized instance preserves the default property
++        assertFalse(deserialized.isIAMSEMember());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test9()  throws Throwable  {

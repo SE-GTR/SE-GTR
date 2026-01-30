@@ -1,0 +1,30 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/OperationsImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/OperationsImpl_ESTest.java
+@@ -174,15 +174,18 @@
+       Node node1 = operationsImpl0.child((Node) iIOMetadataNode0, 0);
+       assertSame(node1, node0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      OperationsHelperImpl operationsHelperImpl0 = new OperationsHelperImpl();
+-      IIOMetadataNode iIOMetadataNode0 = new IIOMetadataNode("");
+-      OperationsImpl operationsImpl0 = new OperationsImpl(operationsHelperImpl0);
+-      Node node0 = operationsImpl0.child((Node) iIOMetadataNode0, 0);
+-      assertNull(node0);
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        OperationsHelperImpl operationsHelperImpl0 = new OperationsHelperImpl();
++        IIOMetadataNode iIOMetadataNode0 = new IIOMetadataNode("");
++        OperationsImpl operationsImpl0 = new OperationsImpl(operationsHelperImpl0);
++        Node node0 = operationsImpl0.child(iIOMetadataNode0, 0);
++        // The child method should return null when the node has no children at the given index
++        assertNull(node0);
++        // Verify that the original node remains unchanged (has no children)
++        assertEquals(0, iIOMetadataNode0.getChildNodes().getLength());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

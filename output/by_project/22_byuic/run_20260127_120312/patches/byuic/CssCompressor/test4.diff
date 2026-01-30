@@ -1,0 +1,28 @@
+--- a/evosuite-tests/com/yahoo/platform/yui/compressor/CssCompressor_ESTest.java
++++ b/evosuite-tests/com/yahoo/platform/yui/compressor/CssCompressor_ESTest.java
+@@ -68,15 +68,17 @@
+     org.junit.Assert.assertNotNull(output);
+     org.junit.Assert.assertEquals(input, output);
+ }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        stringReader0 = new StringReader("^(.*)(@charset \"[^\"]*\";)");
++        stringWriter0 = new StringWriter();
++        cssCompressor0 = new CssCompressor(stringReader0);
++        int beforeLength = stringWriter0.getBuffer().length();
++        cssCompressor0.compress(stringWriter0, 16);
++        int afterLength = stringWriter0.getBuffer().length();
++        assertTrue("Compressed output should be written to the writer", afterLength > beforeLength);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    stringReader0 = new StringReader("^(.*)(@charset \"[^\"]*\";)");
+-    stringWriter0 = new StringWriter();
+-    cssCompressor0 = new CssCompressor(stringReader0);
+-      cssCompressor0.compress(stringWriter0, 16);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

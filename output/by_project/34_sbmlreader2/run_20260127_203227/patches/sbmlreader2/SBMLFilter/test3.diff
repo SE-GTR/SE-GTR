@@ -1,0 +1,32 @@
+--- a/evosuite-tests/sbmlreader2/SBMLFilter_ESTest.java
++++ b/evosuite-tests/sbmlreader2/SBMLFilter_ESTest.java
+@@ -57,16 +57,18 @@
+       boolean boolean0 = sBMLFilter0.accept(file0, "Getting SBML $eader...");
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        Future<?> future = executor.submit(new Runnable() {
++            @Override
++            public void run() {
++                sBMLFilter0 = new SBMLFilter();
++                GraphReader graphReader0 = sBMLFilter0.getReader("");
++                assertNotNull(graphReader0);
++            }
++        });
++        Object result = future.get(4000, TimeUnit.MILLISECONDS);
++        assertNull(result);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    Future<?> future = executor.submit(new Runnable(){ 
+-            @Override public void run() { 
+-    sBMLFilter0 = new SBMLFilter();
+-          GraphReader graphReader0 = sBMLFilter0.getReader("");
+-          assertNotNull(graphReader0);
+-      } 
+-    });
+-    future.get(4000, TimeUnit.MILLISECONDS);
+-  }
+ }

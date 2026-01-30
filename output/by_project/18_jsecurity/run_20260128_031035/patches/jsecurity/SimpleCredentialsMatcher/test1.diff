@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/jsecurity/authc/credential/SimpleCredentialsMatcher_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/credential/SimpleCredentialsMatcher_ESTest.java
+@@ -37,12 +37,17 @@
+       boolean boolean0 = simpleCredentialsMatcher0.equals((Object) "UTF-8", (Object) simpleCredentialsMatcher0);
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    // Matching credentials should be considered equal.
++    assertTrue(simpleCredentialsMatcher0.equals((Object) "UTF-8", object0));
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      boolean boolean0 = simpleCredentialsMatcher0.equals((Object) "UTF-8", object0);
+-      assertTrue(boolean0);
+-  }
++    // Mismatching credentials should not be considered equal.
++    org.jsecurity.authc.UsernamePasswordToken differentToken =
++            new org.jsecurity.authc.UsernamePasswordToken("UTF-8", "different");
++    assertFalse(simpleCredentialsMatcher0.equals((Object) "UTF-8", differentToken));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

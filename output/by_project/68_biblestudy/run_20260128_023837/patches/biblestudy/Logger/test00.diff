@@ -1,0 +1,40 @@
+--- a/evosuite-tests/bible/util/Logger_ESTest.java
++++ b/evosuite-tests/bible/util/Logger_ESTest.java
+@@ -31,22 +31,22 @@
+     mockThrowable0 = new MockThrowable((String) null, (Throwable) null);
+     enumeration0 = (Enumeration<String>) mock(Enumeration.class, new ViolatedAssumptionAnswer());
+   }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        doReturn(false).when(enumeration0).hasMoreElements();
++        Enumeration<Object> enumeration1 = (Enumeration<Object>) mock(Enumeration.class, new ViolatedAssumptionAnswer());
++        doReturn(true, false).when(enumeration1).hasMoreElements();
++        doReturn((Object) null).when(enumeration1).nextElement();
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn(enumeration0).when(httpServletRequest0).getParameterNames();
++        doReturn((String) null).when(httpServletRequest0).getHeader(anyString());
++        doReturn(enumeration1).when(httpServletRequest0).getHeaderNames();
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        Logger.Log((Throwable) mockThrowable0, (HttpServletRequest) httpServletRequestWrapper0);
++        // Verify that the wrapper correctly delegates header name enumeration
++        assertTrue(httpServletRequestWrapper0.getHeaderNames().hasMoreElements());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      doReturn(false).when(enumeration0).hasMoreElements();
+-      Enumeration<Object> enumeration1 = (Enumeration<Object>) mock(Enumeration.class, new ViolatedAssumptionAnswer());
+-      doReturn(true, false).when(enumeration1).hasMoreElements();
+-      doReturn((Object) null).when(enumeration1).nextElement();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(enumeration0).when(httpServletRequest0).getParameterNames();
+-      doReturn((String) null).when(httpServletRequest0).getHeader(anyString());
+-      doReturn(enumeration1).when(httpServletRequest0).getHeaderNames();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      Logger.Log((Throwable) mockThrowable0, (HttpServletRequest) httpServletRequestWrapper0);
+-      assertNull(mockThrowable0.getMessage());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

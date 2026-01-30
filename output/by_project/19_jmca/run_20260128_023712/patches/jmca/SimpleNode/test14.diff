@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
+@@ -187,15 +187,22 @@
+       simpleNode0.dump("NameList", stringWriter0);
+       assertEquals("<NameList>\n</NameList>\n", stringWriter0.toString());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test14() throws Throwable {
+       SimpleNode simpleNode0 = new SimpleNode(36);
+-      StringWriter stringWriter0 = new StringWriter();
++      // Capture dump output before setting the identifier
++      StringWriter preWriter = new StringWriter();
++      simpleNode0.dump("EnumBody", preWriter);
++      // Set identifier and dump again
+       simpleNode0.setIdentifier(";");
++      StringWriter stringWriter0 = new StringWriter();
+       simpleNode0.dump("EnumBody", stringWriter0);
++      // Verify expected dump output after identifier is set
+       assertEquals("<Name>\n</Name>\n", stringWriter0.toString());
+-  }
++      // Ensure that setting the identifier actually changed the dump result
++      assertNotEquals(preWriter.toString(), stringWriter0.toString());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

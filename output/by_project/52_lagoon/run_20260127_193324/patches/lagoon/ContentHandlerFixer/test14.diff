@@ -1,0 +1,35 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
+@@ -179,15 +179,23 @@
+       attributes2Impl0.addAttribute("E<p<<;aAN$q", "E<p<<;aAN$q", (String) null, (String) null, "mUXndWjnhb<`");
+       contentHandlerFixer0.startElement("E<p<<;aAN$q", "E<p<<;aAN$q", "mUXndWjnhb<`", attributes2Impl0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
+-      ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0);
+-      contentHandlerFixer0.startPrefixMapping("", "0");
+-      Attributes2Impl attributes2Impl0 = new Attributes2Impl();
+-      contentHandlerFixer0.startElement("", "0", "", attributes2Impl0);
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
++    ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0);
++    // Verify that no prefix mapping exists before the call
++    String before = xMLFilterImpl0.getNamespaceSupport().getURI("");
++    assertNull(before);
++    // Call the method under test and assert its side‑effect
++    contentHandlerFixer0.startPrefixMapping("", "0");
++    String after = xMLFilterImpl0.getNamespaceSupport().getURI("");
++    assertEquals("0", after);
++    // Invoke another void method and ensure the mapping remains as expected
++    Attributes2Impl attributes2Impl0 = new Attributes2Impl();
++    contentHandlerFixer0.startElement("", "0", "", attributes2Impl0);
++    assertEquals("0", xMLFilterImpl0.getNamespaceSupport().getURI(""));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

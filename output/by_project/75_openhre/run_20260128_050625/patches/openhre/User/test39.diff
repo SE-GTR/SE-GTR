@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
+@@ -400,13 +400,25 @@
+       user0.setSurName("~9Q64~7^");
+       assertFalse(user0.getPasschange());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test39()  throws Throwable  {
+-    user0 = new User();
+-      user0.setPassvalidstart(", o=");
+-      assertFalse(user0.getPasschange());
+-  }
++@Test(timeout = 4000)
++public void test39() throws Throwable {
++    user0 = new User();
++    user0.setPassvalidstart(", o=");
++    assertFalse(user0.getPasschange());
++
++    // Verify that the setter actually changed the internal state
++    assertEquals(", o=", user0.getPassvalidstart());
++
++    // Exercise a non‑trivial behavior: the Comparable implementation
++    User other = new User();
++    user0.setUserName("alice");
++    other.setUserName("alice");
++    assertEquals(0, user0.compareTo(other));
++
++    other.setUserName("bob");
++    assertTrue(user0.compareTo(other) < 0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test40()  throws Throwable  {

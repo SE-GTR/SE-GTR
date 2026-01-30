@@ -1,0 +1,86 @@
+--- a/evosuite-tests/org/jsecurity/web/session/DefaultWebSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/session/DefaultWebSessionManager_ESTest.java
+@@ -103,51 +103,40 @@
+       assertEquals(1800000L, defaultWebSessionManager0.getGlobalSessionTimeout());
+       assertTrue(defaultWebSessionManager0.isSessionValidationSchedulerEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      DefaultWebSessionManager defaultWebSessionManager0 = new DefaultWebSessionManager();
+-      assertEquals(3600000L, AbstractValidatingSessionManager.DEFAULT_SESSION_VALIDATION_INTERVAL);
+-      assertEquals(1800000L, AbstractValidatingSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT);
+-      assertEquals(3600000L, defaultWebSessionManager0.getSessionValidationInterval());
+-      assertTrue(defaultWebSessionManager0.isSessionValidationSchedulerEnabled());
+-      assertEquals(1800000L, defaultWebSessionManager0.getGlobalSessionTimeout());
+-      assertFalse(defaultWebSessionManager0.isValidateRequestOrigin());
+-      
+-      defaultWebSessionManager0.ensureCookieSessionIdStore();
+-      assertEquals(3600000L, AbstractValidatingSessionManager.DEFAULT_SESSION_VALIDATION_INTERVAL);
+-      assertEquals(1800000L, AbstractValidatingSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT);
+-      assertEquals(3600000L, defaultWebSessionManager0.getSessionValidationInterval());
+-      assertTrue(defaultWebSessionManager0.isSessionValidationSchedulerEnabled());
+-      assertEquals(1800000L, defaultWebSessionManager0.getGlobalSessionTimeout());
+-      assertFalse(defaultWebSessionManager0.isValidateRequestOrigin());
+-      
+-      defaultWebSessionManager0.setSessionIdCookiePath((String) null);
+-      assertEquals(3600000L, AbstractValidatingSessionManager.DEFAULT_SESSION_VALIDATION_INTERVAL);
+-      assertEquals(1800000L, AbstractValidatingSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT);
+-      assertEquals(3600000L, defaultWebSessionManager0.getSessionValidationInterval());
+-      assertTrue(defaultWebSessionManager0.isSessionValidationSchedulerEnabled());
+-      assertEquals(1800000L, defaultWebSessionManager0.getGlobalSessionTimeout());
+-      assertFalse(defaultWebSessionManager0.isValidateRequestOrigin());
+-      
+-      ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+-      ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
+-      
+-      ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
+-      ServletResponseWrapper servletResponseWrapper0 = new ServletResponseWrapper(servletResponse0);
+-      
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    DefaultWebSessionManager defaultWebSessionManager0 = new DefaultWebSessionManager();
++    assertEquals(3600000L, defaultWebSessionManager0.getSessionValidationInterval());
++    assertTrue(defaultWebSessionManager0.isSessionValidationSchedulerEnabled());
++    assertEquals(1800000L, defaultWebSessionManager0.getGlobalSessionTimeout());
++    assertFalse(defaultWebSessionManager0.isValidateRequestOrigin());
++
++    defaultWebSessionManager0.ensureCookieSessionIdStore();
++    assertEquals(3600000L, defaultWebSessionManager0.getSessionValidationInterval());
++    assertTrue(defaultWebSessionManager0.isSessionValidationSchedulerEnabled());
++    assertEquals(1800000L, defaultWebSessionManager0.getGlobalSessionTimeout());
++    assertFalse(defaultWebSessionManager0.isValidateRequestOrigin());
++
++    defaultWebSessionManager0.setSessionIdCookiePath((String) null);
++    assertEquals(3600000L, defaultWebSessionManager0.getSessionValidationInterval());
++    assertTrue(defaultWebSessionManager0.isSessionValidationSchedulerEnabled());
++    assertEquals(1800000L, defaultWebSessionManager0.getGlobalSessionTimeout());
++    assertFalse(defaultWebSessionManager0.isValidateRequestOrigin());
++
++    ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
++    ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
++
++    ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
++    ServletResponseWrapper servletResponseWrapper0 = new ServletResponseWrapper(servletResponse0);
++
++    try {
+         defaultWebSessionManager0.doGetSession(servletRequestWrapper0, servletResponseWrapper0);
+         fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // javax.servlet.ServletRequestWrapper cannot be cast to javax.servlet.http.HttpServletRequest
+-         //
+-         verifyException("org.jsecurity.web.WebUtils", e);
+-      }
+-  }
++    } catch (ClassCastException e) {
++        verifyException("org.jsecurity.web.WebUtils", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

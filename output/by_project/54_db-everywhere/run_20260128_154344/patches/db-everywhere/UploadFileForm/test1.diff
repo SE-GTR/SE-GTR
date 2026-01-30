@@ -1,0 +1,65 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/form/UploadFileForm_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/form/UploadFileForm_ESTest.java
+@@ -22,10 +22,57 @@
+       FormFile formFile0 = uploadFileForm0.getFile();
+       assertNull(formFile0);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        UploadFileForm form = new UploadFileForm();
++        FormFile file = new FormFile() {
++            @Override
++            public String getContentType() {
++                return "application/octet-stream";
++            }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      UploadFileForm uploadFileForm0 = new UploadFileForm();
+-      uploadFileForm0.setFile((FormFile) null);
+-  }
++            @Override
++            public String getFileName() {
++                return "test.txt";
++            }
++
++            @Override
++            public int getFileSize() {
++                return 0;
++            }
++
++            @Override
++            public byte[] getFileData() {
++                return new byte[0];
++            }
++
++            @Override
++            public java.io.InputStream getInputStream() {
++                return new java.io.ByteArrayInputStream(new byte[0]);
++            }
++
++            @Override
++            public void setContentType(String contentType) {
++                // no-op
++            }
++
++            @Override
++            public void setFileName(String fileName) {
++                // no-op
++            }
++
++            @Override
++            public void setFileSize(int size) {
++                // no-op
++            }
++
++            @Override
++            public void setFileData(byte[] data) {
++                // no-op
++            }
++        };
++        form.setFile(file);
++        org.junit.Assert.assertSame(file, form.getFile());
++    }
++
+ }

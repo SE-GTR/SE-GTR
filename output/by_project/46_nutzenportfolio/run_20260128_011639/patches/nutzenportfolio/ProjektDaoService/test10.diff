@@ -1,0 +1,33 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/projekt/ProjektDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/projekt/ProjektDaoService_ESTest.java
+@@ -212,22 +212,12 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      ProjektIbatisDao projektIbatisDao0 = new ProjektIbatisDao();
+-      NaOpNuIbatisDao naOpNuIbatisDao0 = new NaOpNuIbatisDao();
+-      ProjektDaoService projektDaoService0 = new ProjektDaoService(projektIbatisDao0, (ProjektgruppeService) null, naOpNuIbatisDao0);
+-      // Undeclared exception!
+-      try { 
+-        projektDaoService0.createProjekt((HttpServletRequest) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.service.projekt.ProjektDaoService", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class, timeout = 4000)
++public void test10() throws Throwable {
++    ProjektIbatisDao projektIbatisDao0 = new ProjektIbatisDao();
++    NaOpNuIbatisDao naOpNuIbatisDao0 = new NaOpNuIbatisDao();
++    ProjektDaoService projektDaoService0 = new ProjektDaoService(projektIbatisDao0, (ProjektgruppeService) null, naOpNuIbatisDao0);
++    projektDaoService0.createProjekt((HttpServletRequest) null);
+ }
++
++}

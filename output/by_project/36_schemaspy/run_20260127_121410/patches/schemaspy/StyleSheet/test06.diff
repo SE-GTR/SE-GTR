@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/view/StyleSheet_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/view/StyleSheet_ESTest.java
+@@ -100,24 +100,14 @@
+       String string0 = styleSheet0.getExcludedColumnBackgroundColor();
+       assertEquals("#c0c0c0", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-    evoSuiteFile0 = new EvoSuiteFile("schemaSpy.css");
+-      FileSystemHandling.appendLineToFile(evoSuiteFile0, "&Xt\"zQU");
+-    styleSheet0 = StyleSheet.getInstance();
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = RuntimeException.class)
++    public void test06() throws Throwable {
++        evoSuiteFile0 = new EvoSuiteFile("schemaSpy.css");
++        FileSystemHandling.appendLineToFile(evoSuiteFile0, "&Xt\"zQU");
++        styleSheet0 = StyleSheet.getInstance();
+         styleSheet0.getSelectedTableBackground();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required property 'background' was not found for the definition of '.selectedTable' in schemaSpy.css
+-         //
+-         verifyException("net.sourceforge.schemaspy.view.StyleSheet", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

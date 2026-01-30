@@ -1,0 +1,28 @@
+--- a/evosuite-tests/jigl/signal/io/SignalOutputStream_ESTest.java
++++ b/evosuite-tests/jigl/signal/io/SignalOutputStream_ESTest.java
+@@ -29,14 +29,18 @@
+       signalOutputStream0.write((RealSignal) powerSignal0);
+       assertEquals(0, signalOutputStream0.X());
+   }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        java.io.File tempFile = java.io.File.createTempFile("signal", ".dat");
++        tempFile.deleteOnExit();
++        SignalOutputStream signalOutputStream0 = new SignalOutputStream(tempFile.getAbsolutePath());
++        DiscreteSignal discreteSignal0 = new DiscreteSignal(2);
++        signalOutputStream0.write(discreteSignal0);
++        // Verify that the write produced a side‑effect.
++        assertTrue("File should contain data after write", tempFile.length() > 0);
++        assertTrue("X should be updated after write", signalOutputStream0.X() > 0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      SignalOutputStream signalOutputStream0 = new SignalOutputStream(":5#dR[.dat");
+-      DiscreteSignal discreteSignal0 = new DiscreteSignal(2);
+-      signalOutputStream0.write(discreteSignal0);
+-      assertEquals(0, signalOutputStream0.X());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
+@@ -294,12 +294,19 @@
+       nonBlockingClientHandler0.finalize();
+       //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:6>", nonBlockingClientHandler0.getName());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      boolean boolean0 = NonBlockingClientHandler.getWakeupSelectorAfterRegisterRead();
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test28() throws Throwable {
++        // capture the default static flag value
++        boolean defaultValue = NonBlockingClientHandler.getWakeupSelectorAfterRegisterRead();
++        // flip the flag using the provided setter
++        NonBlockingClientHandler.setWakeupSelectorAfterRegisterRead(!defaultValue);
++        // verify that the flag value has changed
++        boolean newValue = NonBlockingClientHandler.getWakeupSelectorAfterRegisterRead();
++        assertTrue(defaultValue != newValue);
++        // restore original state to avoid affecting other tests
++        NonBlockingClientHandler.setWakeupSelectorAfterRegisterRead(defaultValue);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test29()  throws Throwable  {

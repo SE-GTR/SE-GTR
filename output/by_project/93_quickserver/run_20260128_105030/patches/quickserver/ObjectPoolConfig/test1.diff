@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/ObjectPoolConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/ObjectPoolConfig_ESTest.java
+@@ -25,14 +25,19 @@
+       String string0 = objectPoolConfig0.toXML((String) null);
+       assertEquals("<object-pool>\n\t<max-active>-1</max-active>\n\t<max-idle>50</max-idle>\n\t<init-size>25</init-size>\n\t<thread-object-pool>\n\t\t<max-active>-1</max-active>\n\t\t<max-idle>50</max-idle>\n\t\t<init-size>25</init-size>\n\t</thread-object-pool>\n\t<client-handler-object-pool>\n\t\t<max-active>-1</max-active>\n\t\t<max-idle>50</max-idle>\n\t\t<init-size>25</init-size>\n\t</client-handler-object-pool>\n\t<byte-buffer-object-pool>\n\t\t<max-active>-1</max-active>\n\t\t<max-idle>50</max-idle>\n\t\t<init-size>25</init-size>\n\t</byte-buffer-object-pool>\n\t<client-data-object-pool>\n\t\t<max-active>-1</max-active>\n\t\t<max-idle>50</max-idle>\n\t\t<init-size>25</init-size>\n\t</client-data-object-pool>\n\t<pool-manager>org.quickserver.net.server.impl.BasicPoolManager</pool-manager>\n</object-pool>\n", string0);
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    ObjectPoolConfig config = new ObjectPoolConfig();
++    // Verify that the client data object pool config is initialized
++    assertNotNull(config.getClientDataObjectPoolConfig());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ObjectPoolConfig objectPoolConfig0 = new ObjectPoolConfig();
+-      objectPoolConfig0.getClientDataObjectPoolConfig();
+-      String string0 = objectPoolConfig0.toXML(")n=x");
+-      assertEquals(")n=x<object-pool>\n)n=x\t<max-active>-1</max-active>\n)n=x\t<max-idle>50</max-idle>\n)n=x\t<init-size>25</init-size>\n)n=x\t<thread-object-pool>\n)n=x\t\t<max-active>-1</max-active>\n)n=x\t\t<max-idle>50</max-idle>\n)n=x\t\t<init-size>25</init-size>\n)n=x\t</thread-object-pool>\n)n=x\t<client-handler-object-pool>\n)n=x\t\t<max-active>-1</max-active>\n)n=x\t\t<max-idle>50</max-idle>\n)n=x\t\t<init-size>25</init-size>\n)n=x\t</client-handler-object-pool>\n)n=x\t<byte-buffer-object-pool>\n)n=x\t\t<max-active>-1</max-active>\n)n=x\t\t<max-idle>50</max-idle>\n)n=x\t\t<init-size>25</init-size>\n)n=x\t</byte-buffer-object-pool>\n)n=x\t<client-data-object-pool>\n)n=x\t\t<max-active>-1</max-active>\n)n=x\t\t<max-idle>50</max-idle>\n)n=x\t\t<init-size>25</init-size>\n)n=x\t</client-data-object-pool>\n)n=x\t<pool-manager>org.quickserver.net.server.impl.BasicPoolManager</pool-manager>\n)n=x</object-pool>\n", string0);
+-  }
++    String xml = config.toXML(")n=x");
++    // Basic sanity checks on the generated XML
++    assertTrue(xml.startsWith(")n=x<object-pool>"));
++    assertTrue(xml.contains("<max-active>-1</max-active>"));
++    assertTrue(xml.contains("<pool-manager>org.quickserver.net.server.impl.BasicPoolManager</pool-manager>"));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

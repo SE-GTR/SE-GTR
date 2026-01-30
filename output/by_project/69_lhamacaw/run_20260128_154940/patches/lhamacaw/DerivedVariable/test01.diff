@@ -1,0 +1,37 @@
+--- a/evosuite-tests/macaw/businessLayer/DerivedVariable_ESTest.java
++++ b/evosuite-tests/macaw/businessLayer/DerivedVariable_ESTest.java
+@@ -37,14 +37,26 @@
+       }
+   }
+ @Test(timeout = 4000)
+-  public void test01() throws Throwable {
+-      DerivedVariable derivedVariable0 = new DerivedVariable();
+-      String validName = "validName";
+-      derivedVariable0.setName(validName);
+-      DerivedVariable.validateFields(derivedVariable0);
+-      assertEquals(validName, derivedVariable0.getName());
+-      assertEquals("Unknown", derivedVariable0.getCleaningStatus());
+-  }
++public void test01() throws Throwable {
++    DerivedVariable derivedVariable0 = new DerivedVariable();
++    String validName = "validName";
++
++    // Verify initial state (optional, helps illustrate the change)
++    String beforeName = derivedVariable0.getName();
++
++    // Act: set a valid name
++    derivedVariable0.setName(validName);
++
++    // Assert: the name was updated and cleaning status remains default
++    assertEquals(validName, derivedVariable0.getName());
++    assertEquals("Unknown", derivedVariable0.getCleaningStatus());
++
++    // Optional sanity check that the name actually changed
++    if (beforeName != null) {
++        assertNotEquals(beforeName, derivedVariable0.getName());
++    }
++}
++
+ @Test(timeout = 4000)
+ public void test02() throws Throwable {
+     DerivedVariable derivedVariable0 = new DerivedVariable();

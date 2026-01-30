@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/templateit/StaticTemplate_ESTest.java
++++ b/evosuite-tests/org/templateit/StaticTemplate_ESTest.java
+@@ -87,24 +87,24 @@
+          verifyException("org.templateit.StaticTemplate", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      StaticTemplate staticTemplate0 = new StaticTemplate((String) null, (HSSFSheet) null);
+-      LinkedList<Integer> linkedList0 = new LinkedList<Integer>();
+-      linkedList0.add((Integer) null);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        // Create a non‑null workbook and sheet required by the constructor
++        org.apache.poi.hssf.usermodel.HSSFWorkbook workbook = new org.apache.poi.hssf.usermodel.HSSFWorkbook();
++        org.apache.poi.hssf.usermodel.HSSFSheet sheet = workbook.createSheet("Sheet1");
++        // Construct the object with valid arguments
++        StaticTemplate staticTemplate0 = new StaticTemplate("validName", sheet);
++        // Prepare a valid select list
++        LinkedList<Integer> linkedList0 = new LinkedList<Integer>();
++        boolean added = linkedList0.add(1);
++        assertTrue("Element should be added to the list", added);
++        // Invoke the method under test
+         staticTemplate0.setSelectList(linkedList0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.templateit.StaticTemplate", e);
+-      }
+-  }
++        // Verify that the select list was stored correctly
++        assertNotNull("selectList should not be null after setting", staticTemplate0.selectList);
++        assertEquals("selectList should contain the provided elements", linkedList0, staticTemplate0.selectList);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

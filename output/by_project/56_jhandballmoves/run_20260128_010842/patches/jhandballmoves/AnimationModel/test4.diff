@@ -1,0 +1,46 @@
+--- a/evosuite-tests/visu/handball/moves/model/animation/AnimationModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/animation/AnimationModel_ESTest.java
+@@ -78,21 +78,30 @@
+     passEvent0.setGoalPass(true);
+     new AnimationModel(passEvent0, handballModel0, false);
+ }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        Offender offender0 = new Offender(1172, (-2781));
++        PassEvent passEvent0 = new PassEvent(offender0, (-2781), (-2781));
++        HandballModel handballModel0 = new HandballModel();
+ 
++        // Verify that adding a move event changes the model's event list
++        int beforeSize = handballModel0.getMoveEvents().size();
++        handballModel0.addMoveEvent(passEvent0);
++        assertEquals(beforeSize + 1, handballModel0.getMoveEvents().size());
++        assertTrue(handballModel0.getMoveEvents().contains(passEvent0));
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      Offender offender0 = new Offender(1172, (-2781));
+-      PassEvent passEvent0 = new PassEvent(offender0, (-2781), (-2781));
+-      HandballModel handballModel0 = new HandballModel();
+-      handballModel0.addMoveEvent(passEvent0);
+-      passEvent0.setDestinationPlayer(offender0, false);
+-      AnimationModel animationModel0 = new AnimationModel(passEvent0, handballModel0, false);
+-      animationModel0.nextStep();
+-      boolean boolean0 = animationModel0.nextStep();
+-      assertTrue(handballModel0.isBallSet());
+-      assertTrue(boolean0);
+-  }
++        // Verify that setting the destination player updates the pass event
++        passEvent0.setDestinationPlayer(offender0, false);
++        assertSame(offender0, passEvent0.getDestinationPlayer());
++
++        AnimationModel animationModel0 = new AnimationModel(passEvent0, handballModel0, false);
++        animationModel0.nextStep();
++        boolean boolean0 = animationModel0.nextStep();
++
++        assertTrue(handballModel0.isBallSet());
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

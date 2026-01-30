@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
+@@ -162,18 +162,26 @@
+       assertTrue(iCMConnection1.equals((Object) iCMConnection0));
+       assertTrue(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      ICMConnection iCMConnection0 = new ICMConnection();
+-      ICMConnection iCMConnection1 = new ICMConnection();
+-      assertTrue(iCMConnection1.equals((Object)iCMConnection0));
+-      
+-      iCMConnection1.setConnectionTime("TZ;kv\";.4");
+-      boolean boolean0 = iCMConnection0.equals(iCMConnection1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    ICMConnection iCMConnection0 = new ICMConnection();
++    ICMConnection iCMConnection1 = new ICMConnection();
++    assertTrue(iCMConnection1.equals((Object) iCMConnection0));
++
++    // Verify initial state before mutation
++    assertNull(iCMConnection1.getConnectionTime());
++
++    // Act: change the connection time
++    iCMConnection1.setConnectionTime("TZ;kv\";.4");
++
++    // Assert: the side‑effect is observable via the getter
++    assertEquals("TZ;kv\";.4", iCMConnection1.getConnectionTime());
++
++    // Equality should now differ because the state changed
++    boolean boolean0 = iCMConnection0.equals(iCMConnection1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

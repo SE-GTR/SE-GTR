@@ -1,0 +1,72 @@
+--- a/evosuite-tests/org/heal/servlet/WSSearchResultsAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/WSSearchResultsAction_ESTest.java
+@@ -139,36 +139,40 @@
+             verifyException("java.util.HashMap", e);
+         }
+     }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        wSSearchResultsAction0 = new WSSearchResultsAction();
++        servlet0 = new Servlet("");
++        SearchResultBean searchResultBean0 = new SearchResultBean();
++        HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++        doReturn(searchResultBean0).when(httpSession0).getAttribute(anyString());
++        // Verify stubbed return value
++        assertSame(searchResultBean0, httpSession0.getAttribute("anyKey"));
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn((String) null, (String) null).when(httpServletRequest0).getParameter(anyString());
++        // Verify stubbed return values
++        assertNull(httpServletRequest0.getParameter("param1"));
++        assertNull(httpServletRequest0.getParameter("param2"));
++        doReturn((Map) null).when(httpServletRequest0).getParameterMap();
++        // Verify stubbed return value
++        assertNull(httpServletRequest0.getParameterMap());
++        doReturn("F2<x(3pA@IPA0h").when(httpServletRequest0).getQueryString();
++        // Verify stubbed return value
++        assertEquals("F2<x(3pA@IPA0h", httpServletRequest0.getQueryString());
++        doReturn(httpSession0).when(httpServletRequest0).getSession();
++        ShortMetadataResultBean[] shortMetadataResultBeanArray0 = new ShortMetadataResultBean[14];
++        searchResultBean0.setShortRecords(shortMetadataResultBeanArray0);
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++        try {
++            wSSearchResultsAction0.perform(servlet0, httpServletRequest0, httpServletResponseWrapper0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            // no message in exception (getMessage() returned null)
++            verifyException("java.util.HashMap", e);
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    wSSearchResultsAction0 = new WSSearchResultsAction();
+-    servlet0 = new Servlet("");
+-      SearchResultBean searchResultBean0 = new SearchResultBean();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(searchResultBean0).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null, (String) null).when(httpServletRequest0).getParameter(anyString());
+-      doReturn((Map) null).when(httpServletRequest0).getParameterMap();
+-      doReturn("F2<x(3pA@IPA0h").when(httpServletRequest0).getQueryString();
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      ShortMetadataResultBean[] shortMetadataResultBeanArray0 = new ShortMetadataResultBean[14];
+-      searchResultBean0.setShortRecords(shortMetadataResultBeanArray0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      // Undeclared exception!
+-      try { 
+-        wSSearchResultsAction0.perform(servlet0, httpServletRequest0, httpServletResponseWrapper0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.util.HashMap", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

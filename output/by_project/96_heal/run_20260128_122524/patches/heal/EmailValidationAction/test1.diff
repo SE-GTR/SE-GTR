@@ -1,0 +1,52 @@
+--- a/evosuite-tests/org/heal/servlet/EmailValidationAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/EmailValidationAction_ESTest.java
+@@ -40,27 +40,31 @@
+     // Verify that the request parameter was accessed during perform
+     verify(httpServletRequest0, atLeastOnce()).getParameter(anyString());
+ }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    HttpServlet servlet0 = mock(HttpServlet.class);
++    ServletContext servletContext = mock(ServletContext.class);
++    when(servlet0.getServletContext()).thenReturn(servletContext);
++    RequestDispatcher dispatcher = mock(RequestDispatcher.class);
++    when(servletContext.getRequestDispatcher(anyString())).thenReturn(dispatcher);
+ 
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    OngoingStubbing<String> stub = doReturn("RcOL_r{X\"", "RcOL_r{X\"")
++            .when(httpServletRequest0).getParameter(anyString());
++    assertNotNull(stub);
++    HttpSession session = mock(HttpSession.class);
++    when(httpServletRequest0.getSession()).thenReturn(session);
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    servlet0 = new Servlet();
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("RcOL_r{X\"", "RcOL_r{X\"").when(httpServletRequest0).getParameter(anyString());
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-    emailValidationAction0 = new EmailValidationAction();
+-      // Undeclared exception!
+-      try { 
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++
++    EmailValidationAction emailValidationAction0 = new EmailValidationAction();
++    try {
+         emailValidationAction0.perform(servlet0, httpServletRequest0, httpServletResponse0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("javax.servlet.GenericServlet", e);
+-      }
+-  }
++    } catch (Exception e) {
++        fail("Unexpected exception: " + e);
++    }
++}
++
+ @Test(timeout = 4000)
+ public void test2() throws Throwable {
+     emailValidationAction0 = new EmailValidationAction();

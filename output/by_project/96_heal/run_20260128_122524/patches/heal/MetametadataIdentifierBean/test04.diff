@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/heal/module/metadata/MetametadataIdentifierBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/MetametadataIdentifierBean_ESTest.java
+@@ -40,14 +40,25 @@
+     MetametadataIdentifierBean bean = new MetametadataIdentifierBean();
+     assertTrue(bean instanceof java.io.Serializable);
+ }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        MetametadataIdentifierBean bean = new MetametadataIdentifierBean();
+ 
++        // Act: serialize and deserialize the bean
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(bean);
++        oos.close();
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      MetametadataIdentifierBean metametadataIdentifierBean0 = new MetametadataIdentifierBean();
+-      String string0 = metametadataIdentifierBean0.getMetadataSchema();
+-      assertNull(string0);
+-  }
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++                new java.io.ByteArrayInputStream(baos.toByteArray()));
++        MetametadataIdentifierBean deserialized = (MetametadataIdentifierBean) ois.readObject();
++        ois.close();
++
++        // Assert: the metadataSchema remains null after the round‑trip
++        assertNull(deserialized.getMetadataSchema());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

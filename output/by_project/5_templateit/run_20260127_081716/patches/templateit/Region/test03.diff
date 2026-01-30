@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/templateit/Region_ESTest.java
++++ b/evosuite-tests/org/templateit/Region_ESTest.java
+@@ -39,17 +39,22 @@
+         assertTrue(region0.contains(referenceInside));
+         assertFalse(region0.contains(referenceOutside));
+     }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        Region region0 = new Region();
++        Reference reference0 = new Reference(-1, -1);
++        // Before setting any references the region should not contain the point
++        assertFalse(region0.contains(reference0));
++        // Set both boundaries to the same reference
++        region0.setEndReference(reference0);
++        region0.setStartReference(reference0);
++        // Now the region should contain that reference
++        assertTrue(region0.contains(reference0));
++        // And it should not contain a different reference
++        Reference other = new Reference(-2, -2);
++        assertFalse(region0.contains(other));
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      Region region0 = new Region();
+-      Reference reference0 = new Reference((-1), (-1));
+-      region0.setEndReference(reference0);
+-      region0.setStartReference(reference0);
+-      boolean boolean0 = region0.contains(reference0);
+-      assertTrue(boolean0);
+-  }
+ @Test(timeout = 4000)
+   public void test04() throws Throwable {
+       Reference start = new Reference(0, 0);

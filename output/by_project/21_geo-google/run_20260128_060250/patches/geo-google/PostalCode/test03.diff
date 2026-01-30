@@ -1,0 +1,31 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostalCode_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostalCode_ESTest.java
+@@ -42,14 +42,20 @@
+       List<Object> list1 = postalCode0.getAny();
+       assertSame(list1, list0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      PostalCode postalCode0 = new PostalCode();
+-      List<PostalCode.PostalCodeNumberExtension> list0 = postalCode0.getPostalCodeNumberExtension();
+-      List<PostalCode.PostalCodeNumberExtension> list1 = postalCode0.getPostalCodeNumberExtension();
+-      assertSame(list1, list0);
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    PostalCode postalCode0 = new PostalCode();
++    List<PostalCode.PostalCodeNumberExtension> list0 = postalCode0.getPostalCodeNumberExtension();
++    List<PostalCode.PostalCodeNumberExtension> list1 = postalCode0.getPostalCodeNumberExtension();
++    assertSame(list1, list0);
++    // Verify the list is mutable and shared between calls
++    int initialSize = list0.size();
++    PostalCode.PostalCodeNumberExtension ext = new PostalCode.PostalCodeNumberExtension();
++    list0.add(ext);
++    assertEquals(initialSize + 1, list0.size());
++    assertTrue(list1.contains(ext));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

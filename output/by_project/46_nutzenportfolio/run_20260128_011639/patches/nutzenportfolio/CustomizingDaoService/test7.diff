@@ -1,0 +1,42 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/customizing/CustomizingDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/customizing/CustomizingDaoService_ESTest.java
+@@ -160,23 +160,22 @@
+          verifyException("ch.bfh.egov.nutzenportfolio.service.customizing.CustomizingDaoService", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-    customizingIbatisDao0 = new CustomizingIbatisDao();
+-    customizingDaoService0 = new CustomizingDaoService(customizingIbatisDao0);
+-      // Undeclared exception!
+-      try { 
+-        customizingDaoService0.getAll((Integer) null);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test7() throws Throwable {
++    // Create a mock CustomizingDao that returns an empty list for any mandantId
++    ch.bfh.egov.nutzenportfolio.persistence.customizing.CustomizingDao mockDao = org.mockito.Mockito.mock(ch.bfh.egov.nutzenportfolio.persistence.customizing.CustomizingDao.class);
++    org.mockito.Mockito.when(mockDao.getAll(org.mockito.Mockito.anyInt()))
++        .thenReturn(java.util.Collections.emptyList());
++
++    // Instantiate the service with the mocked DAO
++    ch.bfh.egov.nutzenportfolio.service.customizing.CustomizingDaoService service = new ch.bfh.egov.nutzenportfolio.service.customizing.CustomizingDaoService(mockDao);
++
++    // Invoke the method with a valid mandantId and verify normal behavior
++    java.util.List result = service.getAll(1);
++    org.junit.Assert.assertNotNull("Result list should not be null", result);
++    org.junit.Assert.assertTrue("Result list should be empty", result.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

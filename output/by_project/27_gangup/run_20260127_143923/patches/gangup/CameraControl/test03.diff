@@ -1,0 +1,52 @@
+--- a/evosuite-tests/gui/gl/CameraControl_ESTest.java
++++ b/evosuite-tests/gui/gl/CameraControl_ESTest.java
+@@ -75,29 +75,26 @@
+       cameraControl0.mouseDragged(mouseWheelEvent0);
+       assertEquals(23, mouseWheelEvent0.getX());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      MediaContainer mediaContainer0 = new MediaContainer((String) null);
+-      BackgroundSound backgroundSound0 = new BackgroundSound(mediaContainer0, 0.0F);
+-      Camera camera0 = new Camera(backgroundSound0.IDENTITY);
+-      GraphicsConfiguration graphicsConfiguration0 = mock(GraphicsConfiguration.class, new ViolatedAssumptionAnswer());
+-      Canvas3D canvas3D0 = new Canvas3D(graphicsConfiguration0, false);
+-      World world0 = new World(28, 2, 5.0F);
+-      CameraControl cameraControl0 = new CameraControl(camera0, canvas3D0, world0);
+-      MouseWheelEvent mouseWheelEvent0 = new MouseWheelEvent(canvas3D0, (-5368), (-1), 8, 44, 34201, (-1), true, (-1), 34820, 31);
+-      // Undeclared exception!
+-      try { 
+-        cameraControl0.mouseDragged(mouseWheelEvent0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("javax.vecmath.Tuple3f", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        MediaContainer mediaContainer0 = new MediaContainer((String) null);
++        BackgroundSound backgroundSound0 = new BackgroundSound(mediaContainer0, 0.0F);
++        Camera camera0 = new Camera(backgroundSound0.IDENTITY);
++        GraphicsConfiguration graphicsConfiguration0 = mock(GraphicsConfiguration.class, new ViolatedAssumptionAnswer());
++        Canvas3D canvas3D0 = new Canvas3D(graphicsConfiguration0, false);
++        World world0 = new World(28, 2, 5.0F);
++        CameraControl cameraControl0 = new CameraControl(camera0, canvas3D0, world0);
++        // Initialize internal state by simulating a mouse press
++        MouseEvent pressEvent = new MouseEvent(canvas3D0, MouseEvent.MOUSE_PRESSED, 0L, 0, 10, 10, 1, false);
++        cameraControl0.mousePressed(pressEvent);
++        MouseWheelEvent mouseWheelEvent0 = new MouseWheelEvent(canvas3D0, (-5368), (-1), 8, 44, 34201, (-1), true, (-1), 34820, 31);
++        try {
++            cameraControl0.mouseDragged(mouseWheelEvent0);
++        } catch (Exception e) {
++            fail("Unexpected exception during mouseDragged: " + e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

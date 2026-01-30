@@ -1,0 +1,33 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Locality_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Locality_ESTest.java
+@@ -120,13 +120,23 @@
+       PostalCode postalCode0 = locality0.getPostalCode();
+       assertNull(postalCode0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      Locality locality0 = new Locality();
+-      locality0.setPremise((Premise) null);
+-      assertNull(locality0.getUsageType());
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        Locality locality = new Locality();
++        // Verify initial state
++        assertNull(locality.getPremise());
++        assertNull(locality.getUsageType());
++
++        // Set premise to null and verify side‑effect
++        locality.setPremise(null);
++        assertNull(locality.getPremise());
++
++        // Set a non‑null premise and verify it is stored correctly
++        Premise premise = new Premise();
++        locality.setPremise(premise);
++        assertSame(premise, locality.getPremise());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

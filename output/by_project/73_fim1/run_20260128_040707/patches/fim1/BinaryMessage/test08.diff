@@ -1,0 +1,30 @@
+--- a/evosuite-tests/osa/ora/server/beans/BinaryMessage_ESTest.java
++++ b/evosuite-tests/osa/ora/server/beans/BinaryMessage_ESTest.java
+@@ -72,14 +72,20 @@
+       String actual = binaryMessage0.getTitle();
+       assertEquals(expected, actual);
+   }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        BinaryMessage binaryMessage0 = new BinaryMessage();
++        binaryMessage0.setToUserId(123);
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(binaryMessage0);
++        oos.flush();
++        byte[] serialized = baos.toByteArray();
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(serialized));
++        BinaryMessage deserialized = (BinaryMessage) ois.readObject();
++        assertEquals(123, deserialized.getToUserId());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      BinaryMessage binaryMessage0 = new BinaryMessage();
+-      int int0 = binaryMessage0.getToUserId();
+-      assertEquals(0, int0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

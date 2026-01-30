@@ -1,0 +1,55 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/TableColumn_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/TableColumn_ESTest.java
+@@ -46,10 +46,8 @@
+         // Verify that the update reflected the new metadata
+         assertEquals("new comments", tableColumn0.getComments());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test01() throws Throwable {
+       TableColumnMeta tableColumnMeta0 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
+       doReturn((String) null).when(tableColumnMeta0).getComments();
+       doReturn((String) null).when(tableColumnMeta0).getDefaultValue();
+@@ -60,21 +58,26 @@
+       doReturn((String) null).when(tableColumnMeta0).getType();
+       doReturn(false).when(tableColumnMeta0).isAutoUpdated();
+       doReturn(false).when(tableColumnMeta0).isNullable();
+-      TableColumn tableColumn0 = new TableColumn((Table) null, tableColumnMeta0);
++
++      Table tableMock = mock(Table.class, new ViolatedAssumptionAnswer());
++      TableColumn tableColumn0 = new TableColumn(tableMock, tableColumnMeta0);
++
+       TableColumnMeta tableColumnMeta1 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
+       doReturn((String) null).when(tableColumnMeta1).getComments();
+-      // Undeclared exception!
+-      try { 
+-        tableColumn0.update(tableColumnMeta1);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.schemaspy.model.TableColumn", e);
+-      }
+-  }
++      doReturn((String) null).when(tableColumnMeta1).getDefaultValue();
++      doReturn(0).when(tableColumnMeta1).getDigits();
++      doReturn((String) null).when(tableColumnMeta1).getId();
++      doReturn((String) null).when(tableColumnMeta1).getName();
++      doReturn(0).when(tableColumnMeta1).getSize();
++      doReturn((String) null).when(tableColumnMeta1).getType();
++      doReturn(false).when(tableColumnMeta1).isAutoUpdated();
++      doReturn(false).when(tableColumnMeta1).isNullable();
++
++      // Perform update; no exception should be thrown.
++      tableColumn0.update(tableColumnMeta1);
++      assertNotNull(tableColumn0);
++  }
++
+ public void test02() throws Throwable {
+     TableColumnMeta tableColumnMeta0 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
+     doReturn(null).when(tableColumnMeta0).getComments();

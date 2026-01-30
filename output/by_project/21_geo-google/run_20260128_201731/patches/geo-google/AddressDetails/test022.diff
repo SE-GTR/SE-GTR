@@ -1,0 +1,61 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -250,24 +250,40 @@
+       assertEquals(0, map0.size());
+   }
+ @Test(timeout = 4000)
+-    public void test022() throws Throwable {
+-        AddressDetails.PostalServiceElements.AddressLatitudeDirection dir = new AddressDetails.PostalServiceElements.AddressLatitudeDirection();
+-        // Verify initial state
+-        assertNull(dir.getCode());
+-        assertNull(dir.getType());
+-
+-        // Set code to null and verify side‑effect
+-        dir.setCode(null);
+-        assertNull(dir.getCode());
+-        assertNull(dir.getType());
+-
+-        // Set code to a non‑null value and verify it is stored correctly
+-        String testCode = "ABC123";
+-        dir.setCode(testCode);
+-        assertEquals(testCode, dir.getCode());
+-        // Changing code should not affect the type field
+-        assertNull(dir.getType());
+-    }
++public void test022() throws Throwable {
++    AddressDetails.PostalServiceElements.AddressLatitudeDirection dir =
++        new AddressDetails.PostalServiceElements.AddressLatitudeDirection();
++    // Verify initial state
++    assertNull(dir.getCode());
++    assertNull(dir.getType());
++
++    // Set code to null and verify side‑effect
++    dir.setCode(null);
++    assertNull(dir.getCode());
++    assertNull(dir.getType());
++
++    // Explicitly set type to null (no change expected)
++    dir.setType(null);
++    assertNull(dir.getType());
++
++    // Set code to a non‑null value and verify it is stored correctly
++    String code1 = "ABC123";
++    dir.setCode(code1);
++    assertEquals(code1, dir.getCode());
++    assertNull(dir.getType());
++
++    // Set type to a non‑null value and verify it is stored correctly
++    String type1 = "Latitude";
++    dir.setType(type1);
++    assertEquals(type1, dir.getType());
++
++    // Change code again and ensure type remains unchanged
++    String code2 = "XYZ789";
++    dir.setCode(code2);
++    assertEquals(code2, dir.getCode());
++    assertEquals(type1, dir.getType());
++}
++
+ 
+ @Test(timeout = 4000)
+   public void test023() throws Throwable {

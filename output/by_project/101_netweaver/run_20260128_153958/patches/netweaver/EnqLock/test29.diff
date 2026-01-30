@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -466,18 +466,26 @@
+       assertFalse(enqLock0.equals((Object) enqLock1));
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
+-      EnqLock enqLock1 = new EnqLock();
+-      assertTrue(enqLock1.equals((Object)enqLock0));
+-      
++@Test(timeout = 4000)
++  public void test29() throws Throwable {
++      EnqLock enqLock0 = new EnqLock();
++      EnqLock enqLock1 = new EnqLock();
++      assertTrue(enqLock1.equals((Object) enqLock0));
++
++      // verify initial state before mutation
++      assertNull(enqLock1.getLockArg());
++
++      // act: change lock argument
+       enqLock1.setLockArg("MkL-Hi<<-)qa");
++
++      // assert side‑effect observable via getter
++      assertEquals("MkL-Hi<<-)qa", enqLock1.getLockArg());
++
++      // ensure the mutation affects equality as expected
+       boolean boolean0 = enqLock1.equals(enqLock0);
+       assertFalse(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

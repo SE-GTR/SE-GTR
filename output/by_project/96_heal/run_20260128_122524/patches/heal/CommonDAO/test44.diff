@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/heal/util/CommonDAO_ESTest.java
++++ b/evosuite-tests/org/heal/util/CommonDAO_ESTest.java
+@@ -618,24 +618,13 @@
+     // Act: invoke method with null parameters; expecting no exception.
+     commonDAO0.getSCollectionBean(null, null);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test44()  throws Throwable  {
+-      CommonDAO commonDAO0 = new CommonDAO();
+-      SQLServerConnection sQLServerConnection0 = new SQLServerConnection();
+-      // Undeclared exception!
+-      try { 
+-        commonDAO0.getThumbnail("", sQLServerConnection0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.microsoft.jdbc.base.BaseConnection", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class, timeout = 4000)
++    public void test44() throws Throwable {
++        CommonDAO commonDAO = new CommonDAO();
++        // Pass a non‑null metadata ID and a null connection to trigger the expected NPE.
++        commonDAO.getThumbnail("someId", null);
++    }
++
+ @Test(timeout = 4000)
+ public void test45() throws Throwable {
+     CommonDAO commonDAO0 = new CommonDAO();

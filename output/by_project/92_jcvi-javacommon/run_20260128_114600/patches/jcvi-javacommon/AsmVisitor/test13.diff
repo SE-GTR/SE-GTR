@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/ca/asm/AsmVisitor_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/ca/asm/AsmVisitor_ESTest.java
+@@ -150,13 +150,21 @@
+       AsmVisitor.OverlapStatus asmVisitor_OverlapStatus0 = AsmVisitor.OverlapStatus.parseOverlapStatus("ANTI_NORMAL");
+       assertEquals(AsmVisitor.OverlapStatus.IN_ASSEMBLY, asmVisitor_OverlapStatus0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test13() throws Throwable {
+       AsmVisitor.OverlapStatus asmVisitor_OverlapStatus0 = AsmVisitor.OverlapStatus.IN_ASSEMBLY;
+       char char0 = asmVisitor_OverlapStatus0.getCode();
+       assertEquals('A', char0);
+-  }
++
++      // Verify that each OverlapStatus constant has a distinct code character
++      java.util.Set<Character> codes = new java.util.HashSet<>();
++      for (AsmVisitor.OverlapStatus status : AsmVisitor.OverlapStatus.values()) {
++          char code = status.getCode();
++          // each code should be unique across the enum values
++          assertTrue("Duplicate code found: " + code, codes.add(code));
++      }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

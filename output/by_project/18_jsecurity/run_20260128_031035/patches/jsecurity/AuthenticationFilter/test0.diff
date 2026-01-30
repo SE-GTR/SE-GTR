@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jsecurity/web/filter/authc/AuthenticationFilter_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/filter/authc/AuthenticationFilter_ESTest.java
+@@ -21,23 +21,16 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AuthenticationFilter_ESTest extends AuthenticationFilter_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    FormAuthenticationFilter filter = new FormAuthenticationFilter();
++    filter.setSuccessUrl("/home");
++    ServletRequest request = mock(ServletRequest.class);
++    ServletResponse response = mock(ServletResponse.class);
++    // The method should complete without throwing an exception when provided with valid arguments.
++    filter.issueSuccessRedirect(request, response);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      FormAuthenticationFilter formAuthenticationFilter0 = new FormAuthenticationFilter();
+-      formAuthenticationFilter0.setSuccessUrl((String) null);
+-      ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
+-      try { 
+-        formAuthenticationFilter0.issueSuccessRedirect((ServletRequest) null, servletResponse0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.WebUtils", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

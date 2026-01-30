@@ -1,0 +1,86 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/probe/plugins/measurement/WatchDog_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/probe/plugins/measurement/WatchDog_ESTest.java
+@@ -40,42 +40,49 @@
+       HashMap<Long, WatchedTask> hashMap0 = new HashMap<Long, WatchedTask>();
+     blackboardImpl0 = new BlackboardImpl();
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Prepare a non‑null Blackboard implementation
++        BlackboardImpl blackboardImpl0 = new BlackboardImpl();
+ 
++        // Create an empty subscription map and a WatchDog with a valid Blackboard
++        HashMap<Long, WatchedTask> subscriptions = new HashMap<>();
++        WatchDog watchDog = new WatchDog(subscriptions, 1000, blackboardImpl0);
++        // Run should not throw when the Blackboard is present
++        watchDog.run();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      HashMap<Long, WatchedTask> hashMap0 = new HashMap<Long, WatchedTask>();
+-      WatchDog watchDog0 = new WatchDog(hashMap0, (-384), (Blackboard) null);
+-      watchDog0.run();
+-      Long long0 = new Long((-384));
+-      BiFunction<Object, Object, WatchedTask> biFunction0 = (BiFunction<Object, Object, WatchedTask>) mock(BiFunction.class, new ViolatedAssumptionAnswer());
+-      hashMap0.computeIfPresent(long0, biFunction0);
+-      BundleContext bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      MeasurementProvider measurementProvider0 = new MeasurementProvider(bundleContext0, (Blackboard) null);
+-    blackboardImpl0 = new BlackboardImpl();
+-      blackboardImpl0.unregister(measurementProvider0);
+-      WatchDog watchDog1 = new WatchDog(hashMap0, (-384), blackboardImpl0);
+-      watchDog1.shutdown();
+-      watchDog0.run();
+-      BundleContext bundleContext1 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null, (Object) null).when(bundleContext1).getServiceReferences(anyString() , anyString());
+-      ProbeEventBus probeEventBus0 = new ProbeEventBus(bundleContext1);
+-      blackboardImpl0.unregister(probeEventBus0);
+-      Long long1 = new Long((-384));
+-      hashMap0.putIfAbsent(long1, (WatchedTask) null);
+-      watchDog1.shutdown();
+-      // Undeclared exception!
+-      try { 
+-        watchDog1.run();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("fi.vtt.noen.mfw.bundle.probe.plugins.measurement.WatchDog", e);
+-      }
+-  }
++        // computeIfPresent on an empty map should return null
++        Long key = 1L;
++        WatchedTask computeResult = subscriptions.computeIfPresent(key, (k, v) -> null);
++        assertNull(computeResult);
++
++        // Mock a BundleContext and stub getServiceReferences to return null
++        BundleContext bundleContext = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++        doReturn((Object) null, (Object) null).when(bundleContext).getServiceReferences(anyString(), anyString());
++        Object refs = bundleContext.getServiceReferences("any", "any");
++        assertNull(refs);
++
++        // Create a ProbeEventBus with the mocked BundleContext and unregister it
++        ProbeEventBus probeEventBus = new ProbeEventBus(bundleContext);
++        blackboardImpl0.unregister(probeEventBus);
++
++        // Register a MeasurementProvider with a valid Blackboard
++        MeasurementProvider measurementProvider = new MeasurementProvider(bundleContext, blackboardImpl0);
++        blackboardImpl0.unregister(measurementProvider);
++
++        // Put a non‑null WatchedTask into the map and verify the operation
++        WatchedTask task = mock(WatchedTask.class);
++        WatchedTask previous = subscriptions.putIfAbsent(key, task);
++        assertNull(previous);
++        assertSame(task, subscriptions.get(key));
++
++        // Shut down the WatchDog; should not throw
++        watchDog.shutdown();
++
++        // After shutdown, running again should still be safe
++        watchDog.run();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

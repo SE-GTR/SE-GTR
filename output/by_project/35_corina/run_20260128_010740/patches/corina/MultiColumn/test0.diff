@@ -1,0 +1,53 @@
+--- a/evosuite-tests/corina/formats/MultiColumn_ESTest.java
++++ b/evosuite-tests/corina/formats/MultiColumn_ESTest.java
+@@ -23,22 +23,35 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class MultiColumn_ESTest extends MultiColumn_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    Sample sample0 = new Sample();
++    StringWriter stringWriter0 = new StringWriter();
++    BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0);
++    MultiColumn multiColumn0 = new MultiColumn();
++    LinkedList<Integer> linkedList0 = new LinkedList<Integer>();
++    sample0.data = (List) linkedList0;
++    LinkedList<Object> linkedList1 = new LinkedList<Object>();
++    sample0.count = (List) linkedList1;
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      StringWriter stringWriter0 = new StringWriter();
+-      BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0);
+-      MultiColumn multiColumn0 = new MultiColumn();
+-      LinkedList<Integer> linkedList0 = new LinkedList<Integer>();
+-      sample0.data = (List) linkedList0;
+-      LinkedList<Object> linkedList1 = new LinkedList<Object>();
+-      sample0.count = (List) linkedList1;
+-      linkedList1.add((Object) sample0.data);
+-      linkedList0.add((Integer) 2);
+-      multiColumn0.save(sample0, bufferedWriter0);
+-      assertFalse(sample0.isIndexed());
+-  }
++    int beforeCountSize = linkedList1.size();
++    boolean addedToCount = linkedList1.add((Object) sample0.data);
++    assertTrue(addedToCount);
++    assertEquals(beforeCountSize + 1, linkedList1.size());
++
++    int beforeDataSize = linkedList0.size();
++    boolean addedToData = linkedList0.add((Integer) 2);
++    assertTrue(addedToData);
++    assertEquals(beforeDataSize + 1, linkedList0.size());
++
++    multiColumn0.save(sample0, bufferedWriter0);
++    bufferedWriter0.flush();
++    String output = stringWriter0.toString();
++    assertFalse(output.isEmpty());
++
++    assertFalse(sample0.isIndexed());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

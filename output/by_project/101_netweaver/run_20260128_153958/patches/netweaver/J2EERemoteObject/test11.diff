@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EERemoteObject_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EERemoteObject_ESTest.java
+@@ -208,18 +208,24 @@
+       assertEquals(114, j2EERemoteObject1.getImplementations());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test11() throws Throwable {
+       J2EERemoteObject j2EERemoteObject0 = new J2EERemoteObject();
+       j2EERemoteObject0.setDirection("in|##4*w8G-&6WS8-");
+       J2EERemoteObject j2EERemoteObject1 = new J2EERemoteObject();
+-      boolean boolean0 = j2EERemoteObject0.equals(j2EERemoteObject1);
++
++      // The objects should not be equal when only one has its direction set
++      assertFalse(j2EERemoteObject0.equals(j2EERemoteObject1));
++
++      // Setting the same direction on the second object makes them equal
++      j2EERemoteObject1.setDirection("in|##4*w8G-&6WS8-");
++      assertTrue(j2EERemoteObject0.equals(j2EERemoteObject1));
++
++      // Verify default values remain unchanged
+       assertEquals(0, j2EERemoteObject1.getPort());
+       assertEquals(0, j2EERemoteObject1.getIdHash());
+-      assertFalse(j2EERemoteObject1.equals((Object)j2EERemoteObject0));
+-      assertFalse(boolean0);
+-  }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

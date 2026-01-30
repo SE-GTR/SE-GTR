@@ -1,0 +1,34 @@
+--- a/evosuite-tests/jahuwaldt/plot/TabUpSymbol_ESTest.java
++++ b/evosuite-tests/jahuwaldt/plot/TabUpSymbol_ESTest.java
+@@ -14,12 +14,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class TabUpSymbol_ESTest extends TabUpSymbol_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        TabUpSymbol tabUpSymbol0 = new TabUpSymbol();
++        // First generation of points
++        tabUpSymbol0.generatePoints(122, 122);
++        // Verify that the points arrays have been populated
++        int[] xPoints = tabUpSymbol0.getXPoints();
++        int[] yPoints = tabUpSymbol0.getYPoints();
++        assertNotNull(xPoints);
++        assertNotNull(yPoints);
++        assertEquals(5, xPoints.length);
++        assertEquals(5, yPoints.length);
++        // Second generation should not change the size of the points arrays
++        tabUpSymbol0.generatePoints(122, 122);
++        assertEquals(5, tabUpSymbol0.getXPoints().length);
++        assertEquals(5, tabUpSymbol0.getYPoints().length);
++        // Overall size of the symbol remains as expected
++        assertEquals(8, tabUpSymbol0.getSize());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      TabUpSymbol tabUpSymbol0 = new TabUpSymbol();
+-      tabUpSymbol0.generatePoints(122, 122);
+-      tabUpSymbol0.generatePoints(122, 122);
+-      assertEquals(8, tabUpSymbol0.getSize());
+-  }
+ }

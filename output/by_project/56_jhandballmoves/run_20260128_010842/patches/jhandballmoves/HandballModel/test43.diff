@@ -1,0 +1,35 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -566,19 +566,19 @@
+     assertTrue(handballModel1.isSaved());
+     assertNotNull(handballModel1.getState());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test43()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Defender defender0 = new Defender((-3433), (-3433));
+-      MoveEvent moveEvent0 = new MoveEvent(defender0, (-3433));
+-      handballModel0.addMoveEvent(moveEvent0);
+-      assertEquals(1, Defender.counter);
+-      
+-      handballModel0.isSaved();
+-      assertEquals(0, handballModel0.getAcutalSequenceNr());
+-  }
++@Test(timeout = 4000)
++    public void test43() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        Defender defender0 = new Defender(-3433, -3433);
++        MoveEvent moveEvent0 = new MoveEvent(defender0, -3433);
++        int seqBefore = handballModel0.getAcutalSequenceNr();
++        handballModel0.addMoveEvent(moveEvent0);
++        // Verify that adding a move event does not alter the sequence number
++        assertEquals(seqBefore, handballModel0.getAcutalSequenceNr());
++        // The model should not be marked as saved after adding a move event
++        assertFalse(handballModel0.isSaved());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test44()  throws Throwable  {

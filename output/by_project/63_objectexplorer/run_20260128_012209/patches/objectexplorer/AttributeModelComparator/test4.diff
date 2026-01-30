@@ -1,0 +1,36 @@
+--- a/evosuite-tests/de/paragon/explorer/model/AttributeModelComparator_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/model/AttributeModelComparator_ESTest.java
+@@ -91,18 +91,24 @@
+                 (AttributeModel) arrayAttributeModel1);
+         assertEquals(1, int0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test4() throws Throwable {
+     attributeModelComparator0 = new AttributeModelComparator();
+     arrayAttributeModel0 = new ArrayAttributeModel();
+-      arrayAttributeModel0.setName("T");
+-      ArrayAttributeModel arrayAttributeModel1 = new ArrayAttributeModel();
+-      arrayAttributeModel1.setName("de.paragon.explorer.figure.TextBoxFigure");
+-      int int0 = attributeModelComparator0.compare((AttributeModel) arrayAttributeModel1, (AttributeModel) arrayAttributeModel0);
+-      assertEquals((-16), int0);
++    // verify side‑effect of setName on the first model
++    arrayAttributeModel0.setName("T");
++    assertEquals("T", arrayAttributeModel0.getName());
++
++    ArrayAttributeModel arrayAttributeModel1 = new ArrayAttributeModel();
++    // verify side‑effect of setName on the second model
++    arrayAttributeModel1.setName("de.paragon.explorer.figure.TextBoxFigure");
++    assertEquals("de.paragon.explorer.figure.TextBoxFigure", arrayAttributeModel1.getName());
++
++    int int0 = attributeModelComparator0.compare((AttributeModel) arrayAttributeModel1,
++                                                (AttributeModel) arrayAttributeModel0);
++    assertEquals((-16), int0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

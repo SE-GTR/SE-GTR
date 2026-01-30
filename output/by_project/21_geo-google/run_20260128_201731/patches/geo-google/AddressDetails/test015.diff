@@ -1,0 +1,38 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -175,14 +175,27 @@
+     assertEquals(expected, addressDetails_PostalServiceElements_Barcode0.getContent());
+     assertNull(addressDetails_PostalServiceElements_Barcode0.getType());
+ }
+-
+-@Test(timeout = 4000)
+-  public void test015() throws Throwable {
+-      AddressDetails.PostalServiceElements.AddressLatitude addressLatitude = new AddressDetails.PostalServiceElements.AddressLatitude();
+-      String expected = "45.1234";
+-      addressLatitude.setContent(expected);
+-      assertEquals(expected, addressLatitude.getContent());
+-  }
++@Test(timeout = 4000)
++public void test015() throws Throwable {
++    // Arrange
++    AddressDetails.PostalServiceElements.AddressLatitude addressLatitude =
++        new AddressDetails.PostalServiceElements.AddressLatitude();
++    String expected = "45.1234";
++    addressLatitude.setContent(expected);
++    // Act & Assert: verify getter returns the value set
++    assertEquals(expected, addressLatitude.getContent());
++
++    // Additional behavior: marshal to XML and ensure the content appears in the output
++    javax.xml.bind.JAXBContext ctx = javax.xml.bind.JAXBContext.newInstance(
++        AddressDetails.PostalServiceElements.AddressLatitude.class);
++    javax.xml.bind.Marshaller marshaller = ctx.createMarshaller();
++    marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
++    java.io.StringWriter sw = new java.io.StringWriter();
++    marshaller.marshal(addressLatitude, sw);
++    String xml = sw.toString();
++    assertTrue(xml.contains(expected));
++}
++
+ @Test(timeout = 4000)
+ public void test016() throws Throwable {
+     AddressDetails.PostalServiceElements.AddressLatitude addressDetails_PostalServiceElements_AddressLatitude0 = new AddressDetails.PostalServiceElements.AddressLatitude();

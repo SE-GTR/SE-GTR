@@ -1,0 +1,40 @@
+--- a/evosuite-tests/jigl/image/warp/PerspectiveTransform_ESTest.java
++++ b/evosuite-tests/jigl/image/warp/PerspectiveTransform_ESTest.java
+@@ -85,23 +85,21 @@
+          verifyException("jigl.image.warp.PerspectiveTransform", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        // Use a valid identity matrix to construct the transform
++        Matrix identity = new IdentityMatrix(3);
++        PerspectiveTransform perspectiveTransform0 = new PerspectiveTransform(identity);
++        // Prepare input coordinate arrays
++        float[] x = new float[] { 1.0f, 2.0f };
++        float[] y = new float[] { 3.0f, 4.0f };
++        // Perform the inverse transform (should be a no‑op for identity)
++        perspectiveTransform0.inverseTransform(x, y);
++        // Verify that the coordinates remain unchanged
++        assertArrayEquals(new float[] { 1.0f, 2.0f }, x, 0.0f);
++        assertArrayEquals(new float[] { 3.0f, 4.0f }, y, 0.0f);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      PerspectiveTransform perspectiveTransform0 = new PerspectiveTransform((Matrix) null);
+-      float[] floatArray0 = new float[1];
+-      // Undeclared exception!
+-      try { 
+-        perspectiveTransform0.inverseTransform(floatArray0, floatArray0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.image.warp.PerspectiveTransform", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

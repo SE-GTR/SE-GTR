@@ -1,0 +1,37 @@
+--- a/evosuite-tests/macaw/presentationLayer/CleaningStatePanel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/CleaningStatePanel_ESTest.java
+@@ -112,22 +112,29 @@
+   }
+ @Test(timeout = 4000)
+ public void test05() throws Throwable {
++    System.setProperty("java.awt.headless", "true");
++
+     SessionProperties sessionProperties0 = new SessionProperties();
+     String[] stringArray0 = new String[14];
+     User user0 = new User();
+     sessionProperties0.setProperty("currentUser", user0);
+-    // verify that the property was set correctly
+     assertEquals(user0, sessionProperties0.getProperty("currentUser"));
++    assertNull(sessionProperties0.getProperty("nonexistent"));
+ 
+     DerivedVariable derivedVariable0 = new DerivedVariable();
+     CleaningStatePanel cleaningStatePanel0 = new CleaningStatePanel(sessionProperties0, stringArray0, true);
+     derivedVariable0.setCleaningStatus("");
+-    // verify that the cleaning status was set on the variable
+     assertEquals("", derivedVariable0.getCleaningStatus());
+ 
+-    cleaningStatePanel0.initialise(derivedVariable0);
+-    assertEquals("Unknown", cleaningStatePanel0.getCleaningStatus());
+-}
++    String statusBefore = cleaningStatePanel0.getCleaningStatus();
++    cleaningStatePanel0.initialise(derivedVariable0);
++    String statusAfter = cleaningStatePanel0.getCleaningStatus();
++
++    assertEquals("Unknown", statusAfter);
++    assertNotEquals(statusBefore, statusAfter);
++    assertNotEquals(derivedVariable0.getCleaningStatus(), statusAfter);
++}
++
+ @Test(timeout = 4000)
+ public void test06() throws Throwable {
+     SessionProperties sessionProperties0 = new SessionProperties();

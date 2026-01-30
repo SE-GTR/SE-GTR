@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/character/data/config/TXTCharConfig_ESTest.java
++++ b/evosuite-tests/org/character/data/config/TXTCharConfig_ESTest.java
+@@ -179,25 +179,15 @@
+         TXTCharConfig tXTCharConfig0 = new TXTCharConfig();
+         tXTCharConfig0.load();
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("conf/char_athena.conf");
+-      FileSystemHandling.appendStringToFile(evoSuiteFile0, "max_connect_user");
+-      TXTCharConfig tXTCharConfig0 = new TXTCharConfig();
+-      // Undeclared exception!
+-      try { 
+-        tXTCharConfig0.load();
+-        fail("Expecting exception: NumberFormatException");
+-      
+-      } catch(NumberFormatException e) {
+-         //
+-         // For input string: \"max_connect_user\"
+-         //
+-         verifyException("java.lang.NumberFormatException", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NumberFormatException.class)
++    public void test18() throws Throwable {
++        EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("conf/char_athena.conf");
++        boolean appended = FileSystemHandling.appendStringToFile(evoSuiteFile0, "max_connect_user");
++        assertTrue(appended);
++        TXTCharConfig tXTCharConfig0 = new TXTCharConfig();
++        tXTCharConfig0.load();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

@@ -1,0 +1,24 @@
+--- a/evosuite-tests/org/jsecurity/spring/SpringIniWebConfiguration_ESTest.java
++++ b/evosuite-tests/org/jsecurity/spring/SpringIniWebConfiguration_ESTest.java
+@@ -92,11 +92,15 @@
+          verifyException("org.jsecurity.spring.SpringIniWebConfiguration", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    springIniWebConfiguration0 = new SpringIniWebConfiguration();
++    // Verify the default value is null before any modification
++    assertNull(springIniWebConfiguration0.getSecurityManagerBeanName());
++    // Set a bean name and ensure the getter reflects the change
++    String beanName = "classpath:jsecurity.ini";
++    springIniWebConfiguration0.setSecurityManagerBeanName(beanName);
++    assertEquals(beanName, springIniWebConfiguration0.getSecurityManagerBeanName());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    springIniWebConfiguration0 = new SpringIniWebConfiguration();
+-      springIniWebConfiguration0.setSecurityManagerBeanName("classpath:jsecurity.ini");
+-      assertEquals("classpath:jsecurity.ini", springIniWebConfiguration0.getSecurityManagerBeanName());
+-  }
+ }

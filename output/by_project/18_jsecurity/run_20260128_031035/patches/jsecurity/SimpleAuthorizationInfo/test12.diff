@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleAuthorizationInfo_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleAuthorizationInfo_ESTest.java
+@@ -141,12 +141,20 @@
+       simpleAuthorizationInfo0.setRoles(linkedHashSet0);
+       assertTrue(linkedHashSet0.isEmpty());
+   }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        SimpleAuthorizationInfo simpleAuthorizationInfo0 = new SimpleAuthorizationInfo();
++        // Set object permissions to null and verify the effect
++        simpleAuthorizationInfo0.setObjectPermissions(null);
++        org.junit.Assert.assertNull(simpleAuthorizationInfo0.getObjectPermissions());
+ 
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      SimpleAuthorizationInfo simpleAuthorizationInfo0 = new SimpleAuthorizationInfo();
+-      simpleAuthorizationInfo0.setObjectPermissions((Set<Permission>) null);
+-  }
++        // Add a concrete permission and verify that it is stored
++        org.jsecurity.authz.Permission perm = new org.jsecurity.authz.permission.WildcardPermission("*:*");
++        simpleAuthorizationInfo0.addObjectPermission(perm);
++        org.junit.Assert.assertNotNull(simpleAuthorizationInfo0.getObjectPermissions());
++        org.junit.Assert.assertTrue(simpleAuthorizationInfo0.getObjectPermissions().contains(perm));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

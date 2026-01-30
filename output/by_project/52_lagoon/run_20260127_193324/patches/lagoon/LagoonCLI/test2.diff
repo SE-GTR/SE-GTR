@@ -1,0 +1,32 @@
+--- a/evosuite-tests/nu/staldal/lagoon/LagoonCLI_ESTest.java
++++ b/evosuite-tests/nu/staldal/lagoon/LagoonCLI_ESTest.java
+@@ -42,14 +42,22 @@
+       LagoonCLI.main(stringArray0);
+       assertEquals(1, stringArray0.length);
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    String[] stringArray0 = new String[1];
++    stringArray0[0] = "nu.staldal.xtree.NokeWithChildren.sitemap";
++    java.io.ByteArrayOutputStream outContent = new java.io.ByteArrayOutputStream();
++    java.io.PrintStream originalOut = System.out;
++    System.setOut(new java.io.PrintStream(outContent));
++    try {
++        LagoonCLI.main(stringArray0);
++    } finally {
++        System.setOut(originalOut);
++    }
++    org.junit.Assert.assertTrue("Expected some output from LagoonCLI.main", outContent.size() > 0);
++    org.junit.Assert.assertEquals(1, stringArray0.length);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    stringArray0 = new String[1];
+-      stringArray0[0] = "nu.staldal.xtree.NokeWithChildren.sitemap";
+-      LagoonCLI.main(stringArray0);
+-      assertEquals(1, stringArray0.length);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

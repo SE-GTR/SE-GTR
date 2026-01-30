@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jsecurity/realm/text/TextConfigurationRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/text/TextConfigurationRealm_ESTest.java
+@@ -42,14 +42,25 @@
+       textConfigurationRealm0.processUserDefinitions();
+       assertEquals("org.jsecurity.realm.text.TextConfigurationRealm-0-authorization", textConfigurationRealm0.getAuthorizationCacheName());
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    textConfigurationRealm0 = new TextConfigurationRealm();
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    textConfigurationRealm0 = new TextConfigurationRealm();
+-      textConfigurationRealm0.setUserDefinitions("");
+-      textConfigurationRealm0.processUserDefinitions();
+-      assertEquals("org.jsecurity.realm.text.TextConfigurationRealm_0", textConfigurationRealm0.getName());
+-  }
++    // Verify that the user definitions are initially null (or empty) before setting
++    assertNull(textConfigurationRealm0.getUserDefinitions());
++
++    // Set empty user definitions and assert the side‑effect
++    textConfigurationRealm0.setUserDefinitions("");
++    assertEquals("", textConfigurationRealm0.getUserDefinitions());
++
++    // Process the (empty) definitions; no accounts should be created
++    textConfigurationRealm0.processUserDefinitions();
++    assertNull(textConfigurationRealm0.getAccount("anyUser"));
++
++    // Existing assertion retained for completeness
++    assertEquals("org.jsecurity.realm.text.TextConfigurationRealm_0", textConfigurationRealm0.getName());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

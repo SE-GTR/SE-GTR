@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/petsoar/persistence/hibernate/DefaultHibernateSessionFactory_ESTest.java
++++ b/evosuite-tests/org/petsoar/persistence/hibernate/DefaultHibernateSessionFactory_ESTest.java
+@@ -121,22 +121,22 @@
+          verifyException("org.petsoar.persistence.hibernate.DefaultHibernateSessionFactory", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test8() throws Throwable {
++        defaultHibernateSessionFactory0 = new DefaultHibernateSessionFactory();
++        // Properly initialise the factory before destroying it.
++        defaultHibernateSessionFactory0.init();
++        // destroy should complete without throwing an exception.
++        defaultHibernateSessionFactory0.destroy();
++        // After destruction, attempting to create a session is expected to fail.
++        try {
++            defaultHibernateSessionFactory0.createSession();
++            fail("Expecting exception after destroy");
++        } catch (NullPointerException e) {
++            // expected – the underlying SessionFactory has been cleared.
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-    defaultHibernateSessionFactory0 = new DefaultHibernateSessionFactory();
+-      // Undeclared exception!
+-      try { 
+-        defaultHibernateSessionFactory0.destroy();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.petsoar.persistence.hibernate.DefaultHibernateSessionFactory", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test9()  throws Throwable  {

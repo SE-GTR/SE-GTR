@@ -1,0 +1,40 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
+@@ -315,24 +315,20 @@
+          verifyException("fi.vtt.noen.mfw.bundle.server.plugins.webui.WebUIPlugin", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-    webUIPlugin0 = new WebUIPlugin(bundleContext0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        BundleContext bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++        doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString(), anyString());
++        WebUIPlugin webUIPlugin0 = new WebUIPlugin(bundleContext0);
++        // Complete the required initialization to avoid NullPointerException
++        MFWClient mfwClientMock = mock(MFWClient.class);
++        java.lang.reflect.Field mfwClientField = WebUIPlugin.class.getDeclaredField("mfwClient");
++        mfwClientField.setAccessible(true);
++        mfwClientField.set(webUIPlugin0, mfwClientMock);
++        // Execute the method under test; it should complete without throwing an exception
+         webUIPlugin0.unsubscribeToBM(2292L, 2292L);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("fi.vtt.noen.mfw.bundle.server.plugins.webui.WebUIPlugin", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

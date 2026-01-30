@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
+@@ -194,19 +194,29 @@
+         assertTrue(j2EEThread1.equals((Object) j2EEThread0));
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      J2EEThread j2EEThread0 = new J2EEThread();
+-      J2EEThread j2EEThread1 = new J2EEThread();
+-      assertTrue(j2EEThread1.equals((Object)j2EEThread0));
+-      
+-      STATECOLOR sTATECOLOR0 = STATECOLOR.value1;
+-      j2EEThread1.setDispstatus(sTATECOLOR0);
+-      boolean boolean0 = j2EEThread0.equals(j2EEThread1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    J2EEThread j2EEThread0 = new J2EEThread();
++    J2EEThread j2EEThread1 = new J2EEThread();
++    assertTrue(j2EEThread1.equals((Object) j2EEThread0));
++
++    STATECOLOR sTATECOLOR0 = STATECOLOR.value1;
++    // Capture the initial dispstatus (expected to be null or a default value)
++    STATECOLOR before = j2EEThread1.getDispstatus();
++    // Ensure the new value differs from the initial state (if initial is not null)
++    if (before != null) {
++        assertNotEquals(sTATECOLOR0, before);
++    }
++
++    // Act: change dispstatus
++    j2EEThread1.setDispstatus(sTATECOLOR0);
++    // Verify the side‑effect via the getter
++    assertEquals(sTATECOLOR0, j2EEThread1.getDispstatus());
++
++    boolean boolean0 = j2EEThread0.equals(j2EEThread1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

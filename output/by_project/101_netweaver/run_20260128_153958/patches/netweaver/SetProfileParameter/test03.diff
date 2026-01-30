@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SetProfileParameter_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SetProfileParameter_ESTest.java
+@@ -43,17 +43,23 @@
+     int hash2 = setProfileParameter0.hashCode();
+     assertEquals(hash1, hash2);
+ }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    SetProfileParameter param0 = new SetProfileParameter();
++    String[] values = new String[] { "value1", "value2" };
++    param0.setValues(values);
+ 
++    // Verify that the values were stored by comparing with another instance
++    SetProfileParameter paramCopy = new SetProfileParameter();
++    paramCopy.setValues(values);
++    assertTrue(param0.equals(paramCopy));
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      SetProfileParameter setProfileParameter0 = new SetProfileParameter();
+-      String[] stringArray0 = new String[0];
+-      setProfileParameter0.setValues(stringArray0);
+-      SetProfileParameter setProfileParameter1 = new SetProfileParameter();
+-      boolean boolean0 = setProfileParameter0.equals(setProfileParameter1);
+-      assertFalse(boolean0);
+-  }
++    // Verify that a different set of values yields inequality
++    SetProfileParameter paramDiff = new SetProfileParameter();
++    paramDiff.setValues(new String[] { "different" });
++    assertFalse(param0.equals(paramDiff));
++}
++
+ @Test(timeout = 4000)
+   public void test04() throws Throwable {
+       String[] stringArray0 = new String[1];

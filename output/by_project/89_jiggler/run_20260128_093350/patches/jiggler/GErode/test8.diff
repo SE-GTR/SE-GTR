@@ -1,0 +1,71 @@
+--- a/evosuite-tests/jigl/image/ops/morph/GErode_ESTest.java
++++ b/evosuite-tests/jigl/image/ops/morph/GErode_ESTest.java
+@@ -179,47 +179,31 @@
+     GErode gErode = new GErode(imageKernel0, 1, -1717);
+     assertNotNull(gErode);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
++@Test(timeout = 4000)
++public void test8() throws Throwable {
+     kernelType0 = KernelType.D_XY;
+     imageKernel0 = new ImageKernel(kernelType0);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals(1.0F, imageKernel0.max(), 0.01F);
+-      assertEquals((-1.0F), imageKernel0.min(), 0.01F);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(3, imageKernel0.Y());
+-      assertEquals(4.0, imageKernel0.sqrSum(), 0.01);
+-      assertEquals(4.0F, imageKernel0.absSum(), 0.01F);
+-      
+-      GErode gErode0 = new GErode(imageKernel0, (-1271), (-1271));
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals(1.0F, imageKernel0.max(), 0.01F);
+-      assertEquals((-1.0F), imageKernel0.min(), 0.01F);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(3, imageKernel0.Y());
+-      assertEquals(4.0, imageKernel0.sqrSum(), 0.01);
+-      assertEquals(4.0F, imageKernel0.absSum(), 0.01F);
+-      
+-      InterpolatedColorImage interpolatedColorImage0 = new InterpolatedColorImage();
+-      assertEquals(ColorModel.RGB, interpolatedColorImage0.getColorModel());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
+-      assertEquals(0, interpolatedColorImage0.Y());
+-      assertEquals(0, interpolatedColorImage0.X());
+-      
+-      // Undeclared exception!
+-      try { 
++    // Verify kernel initialization (once)
++    assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
++    assertEquals(1.0F, imageKernel0.max(), 0.01F);
++    assertEquals((-1.0F), imageKernel0.min(), 0.01F);
++    assertEquals(3, imageKernel0.X());
++    assertEquals(3, imageKernel0.Y());
++
++    GErode gErode0 = new GErode(imageKernel0, -1271, -1271);
++
++    InterpolatedColorImage interpolatedColorImage0 = new InterpolatedColorImage();
++    assertEquals(ColorModel.RGB, interpolatedColorImage0.getColorModel());
++    assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
++
++    try {
+         gErode0.apply((ColorImage) interpolatedColorImage0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.image.ops.morph.GErode", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        verifyException("jigl.image.ops.morph.GErode", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test9()  throws Throwable  {

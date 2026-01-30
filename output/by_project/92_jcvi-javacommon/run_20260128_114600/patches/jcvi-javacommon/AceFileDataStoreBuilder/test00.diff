@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceFileDataStoreBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceFileDataStoreBuilder_ESTest.java
+@@ -27,24 +27,16 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AceFileDataStoreBuilder_ESTest extends AceFileDataStoreBuilder_ESTest_scaffolding {
++@Test(timeout = 4000, expected = FileNotFoundException.class)
++public void test00() throws Throwable {
++    MockFile mockFile0 = new MockFile("");
++    AceFileDataStoreBuilder builder = new AceFileDataStoreBuilder(mockFile0);
++    DataStoreProviderHint hint = DataStoreProviderHint.RANDOM_ACCESS_OPTIMIZE_MEMORY;
++    AceFileDataStoreBuilder returned = builder.hint(hint);
++    assertSame(builder, returned);
++    builder.build();
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("");
+-      AceFileDataStoreBuilder aceFileDataStoreBuilder0 = new AceFileDataStoreBuilder(mockFile0);
+-      DataStoreProviderHint dataStoreProviderHint0 = DataStoreProviderHint.RANDOM_ACCESS_OPTIMIZE_MEMORY;
+-      aceFileDataStoreBuilder0.hint(dataStoreProviderHint0);
+-      try { 
+-        aceFileDataStoreBuilder0.build();
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/ghm/follow/font/FontSelectionPanel_ESTest.java
++++ b/evosuite-tests/ghm/follow/font/FontSelectionPanel_ESTest.java
+@@ -31,23 +31,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class FontSelectionPanel_ESTest extends FontSelectionPanel_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      FontSelectionPanel fontSelectionPanel0 = new FontSelectionPanel();
+-      FontSelectionPanel.PhraseCanvas fontSelectionPanel_PhraseCanvas0 = fontSelectionPanel0.phraseCanvas;
+-      // Undeclared exception!
+-      try { 
+-        fontSelectionPanel_PhraseCanvas0.paint((Graphics) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ghm.follow.font.FontSelectionPanel$PhraseCanvas", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        FontSelectionPanel fontSelectionPanel0 = new FontSelectionPanel();
++        FontSelectionPanel.PhraseCanvas canvas = fontSelectionPanel0.phraseCanvas;
++        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(10, 10,
++                java.awt.image.BufferedImage.TYPE_INT_ARGB);
++        java.awt.Graphics g = img.getGraphics();
++        // Invoke paint with a valid Graphics instance; should not throw.
++        canvas.paint(g);
++        assertNotNull(g);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

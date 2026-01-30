@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -327,17 +327,20 @@
+          verifyException("org.quickserver.net.server.QuickServer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test024()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer();
+-      QuickServerConfig quickServerConfig0 = quickServer0.getConfig();
+-      quickServerConfig0.setClientAuthenticationHandler("~-p");
+-      assertEquals("QuickServer", quickServer0.getName());
+-      
+-      quickServer0.configQuickServer(quickServerConfig0);
+-      assertEquals("INFO", quickServer0.getConsoleLoggingLevel());
+-  }
++public void test024() throws Throwable {
++    QuickServer quickServer0 = new QuickServer();
++    QuickServerConfig quickServerConfig0 = quickServer0.getConfig();
++    quickServerConfig0.setClientAuthenticationHandler("~-p");
++    // Verify that the configuration object records the handler
++    assertEquals("~-p", quickServerConfig0.getClientAuthenticationHandler());
++    assertEquals("QuickServer", quickServer0.getName());
++
++    quickServer0.configQuickServer(quickServerConfig0);
++    // Verify that the server retains the handler after configuration
++    assertEquals("~-p", quickServer0.getConfig().getClientAuthenticationHandler());
++    assertEquals("INFO", quickServer0.getConsoleLoggingLevel());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test025()  throws Throwable  {

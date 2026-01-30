@@ -1,0 +1,52 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -706,20 +706,35 @@
+         assertNotEquals(another.hashCode(), keyLineCode.hashCode());
+     }
+ @Test(timeout = 4000)
+-    public void test068() throws Throwable {
+-        AddressDetails.PostalServiceElements.KeyLineCode code = new AddressDetails.PostalServiceElements.KeyLineCode();
+-        String type1 = "oasis.names.tc.ciq.xsdschema.xal._2.AddressDetails$PostalServiceElements$AddressLatitude";
+-        code.setType(type1);
+-        assertEquals(type1, code.getType());
+-
+-        String type2 = "oasis.names.tc.ciq.xsdschema.xal._2.AddressDetails$PostalServiceElements$AddressLongitude";
+-        code.setType(type2);
+-        assertEquals(type2, code.getType());
+-
+-        AddressDetails.PostalServiceElements.KeyLineCode other = new AddressDetails.PostalServiceElements.KeyLineCode();
+-        assertNull(other.getType());
+-        assertNotSame(code, other);
+-    }
++public void test068() throws Throwable {
++    // Create first instance and verify setter/getter behavior
++    AddressDetails.PostalServiceElements.KeyLineCode code = new AddressDetails.PostalServiceElements.KeyLineCode();
++    String type1 = "oasis.names.tc.ciq.xsdschema.xal._2.AddressDetails$PostalServiceElements$AddressLatitude";
++    code.setType(type1);
++    assertEquals(type1, code.getType());
++
++    // Change the type and verify the new value is reflected
++    String type2 = "oasis.names.tc.ciq.xsdschema.xal._2.AddressDetails$PostalServiceElements$AddressLongitude";
++    code.setType(type2);
++    assertEquals(type2, code.getType());
++
++    // Verify that setting the type to null clears the value
++    code.setType(null);
++    assertNull(code.getType());
++
++    // Ensure that a fresh instance has no type set initially
++    AddressDetails.PostalServiceElements.KeyLineCode other = new AddressDetails.PostalServiceElements.KeyLineCode();
++    assertNull(other.getType());
++
++    // Verify that two distinct instances are not the same object
++    assertNotSame(code, other);
++
++    // Verify that two distinct instances can hold independent values
++    other.setType(type1);
++    assertEquals(type1, other.getType());
++    assertNull(code.getType()); // code's type should remain null after we cleared it
++}
++
+ 
+ @Test(timeout = 4000)
+     public void test069() throws Throwable {

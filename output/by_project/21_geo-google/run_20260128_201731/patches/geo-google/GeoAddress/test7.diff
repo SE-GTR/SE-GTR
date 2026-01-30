@@ -1,0 +1,29 @@
+--- a/evosuite-tests/geo/google/datamodel/GeoAddress_ESTest.java
++++ b/evosuite-tests/geo/google/datamodel/GeoAddress_ESTest.java
+@@ -67,14 +67,19 @@
+       String string0 = geoAddress0.toString();
+       assertNotNull(string0);
+   }
++@Test(timeout = 4000)
++public void test7() throws Throwable {
++    GeoAddress geoAddress = new GeoAddress();
++    GeoAddressAccuracy original = geoAddress.getAccuracy();
++    GeoAddressAccuracy[] all = GeoAddressAccuracy.values();
++    GeoAddressAccuracy newAccuracy = (all.length > 1) ? all[1] : original;
++    geoAddress.setAccuracy(newAccuracy);
++    // Verify that the accuracy was updated
++    assertSame(newAccuracy, geoAddress.getAccuracy());
++    // Verify that the code of the accuracy matches
++    assertEquals(newAccuracy.getCode(), geoAddress.getAccuracy().getCode());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      GeoAddress geoAddress0 = new GeoAddress();
+-      GeoAddressAccuracy geoAddressAccuracy0 = geoAddress0.getAccuracy();
+-      geoAddress0.setAccuracy(geoAddressAccuracy0);
+-      assertEquals(0, geoAddressAccuracy0.getCode());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

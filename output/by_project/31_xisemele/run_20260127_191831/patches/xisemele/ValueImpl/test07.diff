@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/ValueImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/ValueImpl_ESTest.java
+@@ -137,24 +137,14 @@
+          verifyException("java.text.SimpleDateFormat", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-    formatterProviderImpl0 = new FormatterProviderImpl();
+-    factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+-      ValueImpl valueImpl0 = new ValueImpl(factoryImpl0, formatterProviderImpl0, "#-#d&t");
+-      // Undeclared exception!
+-      try { 
+-        valueImpl0.asByte();
+-        fail("Expecting exception: NumberFormatException");
+-      
+-      } catch(NumberFormatException e) {
+-         //
+-         // For input string: \"#-#d&t\"
+-         //
+-         verifyException("java.lang.NumberFormatException", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NumberFormatException.class)
++public void test07() throws Throwable {
++    formatterProviderImpl0 = new FormatterProviderImpl();
++    factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
++    ValueImpl valueImpl0 = new ValueImpl(factoryImpl0, formatterProviderImpl0, "notANumber");
++    valueImpl0.asByte();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

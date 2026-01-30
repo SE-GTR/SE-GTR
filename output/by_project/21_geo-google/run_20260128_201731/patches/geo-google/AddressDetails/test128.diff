@@ -1,0 +1,32 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -1287,14 +1287,21 @@
+     assertNull(addressDetails0.getValidToDate());
+ }
+ @Test(timeout = 4000)
+-    public void test128() throws Throwable {
+-        AddressDetails addressDetails0 = new AddressDetails();
+-        addressDetails0.setCurrentStatus("@*\u0002<aLhj $VLG8Kko)");
+-        assertEquals("@*\u0002<aLhj $VLG8Kko)", addressDetails0.getCurrentStatus());
+-
+-        AddressDetails other = new AddressDetails();
+-        assertNotEquals(addressDetails0, other);
+-    }
++public void test128() throws Throwable {
++    AddressDetails addressDetails0 = new AddressDetails();
++    // initially the currentStatus should be null
++    assertNull(addressDetails0.getCurrentStatus());
++
++    String status = "@*\u0002<aLhj $VLG8Kko)";
++    addressDetails0.setCurrentStatus(status);
++    // verify the side effect of the setter
++    assertEquals(status, addressDetails0.getCurrentStatus());
++
++    // a different instance should not be equal to this one
++    AddressDetails other = new AddressDetails();
++    assertNotEquals(addressDetails0, other);
++}
++
+ 
+ @Test(timeout = 4000)
+     public void test129() throws Throwable {

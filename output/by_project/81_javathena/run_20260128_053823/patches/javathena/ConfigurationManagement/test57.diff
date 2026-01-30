@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -378,12 +378,22 @@
+       int int0 = ConfigurationManagement.getAuth_before_save_file();
+       assertEquals(0, int0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test57()  throws Throwable  {
+-      int int0 = ConfigurationManagement.getGMMax();
+-      assertEquals(30, int0);
+-  }
++@Test(timeout = 4000)
++    public void test57() throws Throwable {
++        // Preserve the original configuration value
++        int original = ConfigurationManagement.getGMMax();
++        try {
++            // Change the configuration to a new value
++            ConfigurationManagement.setGMMax(42);
++            // Verify that the change is reflected
++            int updated = ConfigurationManagement.getGMMax();
++            assertEquals(42, updated);
++        } finally {
++            // Restore the original value to avoid side‑effects on other tests
++            ConfigurationManagement.setGMMax(original);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test58()  throws Throwable  {

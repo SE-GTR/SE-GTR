@@ -1,0 +1,23 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/Main_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/Main_ESTest.java
+@@ -58,13 +58,14 @@
+         });
+     Main.premain("", instrumentation);
+ }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        Instrumentation instrumentation0 = mock(Instrumentation.class, new ViolatedAssumptionAnswer());
++        Main.premain("null", instrumentation0);
++        org.mockito.Mockito.verify(instrumentation0).addTransformer(
++                org.mockito.Mockito.any(java.lang.instrument.ClassFileTransformer.class));
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      Instrumentation instrumentation0 = mock(Instrumentation.class, new ViolatedAssumptionAnswer());
+-      Main.premain("null", instrumentation0);
+-  }
+ @Test(timeout = 4000, expected = NullPointerException.class)
+     public void test4() throws Throwable {
+         Main.premain(null, null);

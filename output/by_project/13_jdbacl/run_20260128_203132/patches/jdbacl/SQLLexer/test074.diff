@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -831,22 +831,19 @@
+          verifyException("org.antlr.runtime.Lexer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test074()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mT__137();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test074() throws Throwable {
++        // Provide a valid input that matches the literal for token T__137 (e.g., "BETWEEN")
++        org.antlr.runtime.ANTLRStringStream input = new org.antlr.runtime.ANTLRStringStream("BETWEEN");
++        SQLLexer lexer = new SQLLexer(input);
++        // Invoke the lexer rule; it should succeed without throwing an exception
++        lexer.mT__137();
++        // Verify that a token was produced and its type corresponds to T__137
++        org.antlr.runtime.Token token = lexer.getToken();
++        org.junit.Assert.assertNotNull("Token should not be null after lexer rule execution", token);
++        org.junit.Assert.assertEquals("Token type should be T__137", SQLLexer.T__137, token.getType());
++    }
++
+ @Test(timeout = 4000)
+     public void test075() throws Throwable {
+         String input = "lfa!U{-CA`@h_hg";

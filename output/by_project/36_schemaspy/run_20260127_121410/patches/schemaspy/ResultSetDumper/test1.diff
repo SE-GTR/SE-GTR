@@ -1,0 +1,38 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/util/ResultSetDumper_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/util/ResultSetDumper_ESTest.java
+@@ -35,19 +35,23 @@
+     String string0 = ResultSetDumper.dump(resultSet0);
+     assertTrue(string0 != null && string0.contains("EMiSv!:VF"));
+ }
++public void test1() throws Throwable {
++    resultSetMetaData0 = mock(ResultSetMetaData.class, new ViolatedAssumptionAnswer());
++    doReturn(3160).when(resultSetMetaData0).getColumnCount();
++    doReturn((String) null, (String) null, (String) null, (String) null, (String) null)
++        .when(resultSetMetaData0).getColumnLabel(anyInt());
++    ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
++    doReturn(resultSetMetaData0).when(resultSet0).getMetaData();
++    doReturn((String) null, (String) null, (String) null, (String) null, (String) null)
++        .when(resultSet0).getString(anyInt());
++    String string0 = ResultSetDumper.dump(resultSet0);
++    // Verify that dump interacted with the ResultSet as expected
++    verify(resultSet0).getMetaData();
++    verify(resultSetMetaData0).getColumnCount();
++    verify(resultSetMetaData0, atLeastOnce()).getColumnLabel(anyInt());
++    verify(resultSet0, atLeastOnce()).getString(anyInt());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    resultSetMetaData0 = mock(ResultSetMetaData.class, new ViolatedAssumptionAnswer());
+-      doReturn(3160).when(resultSetMetaData0).getColumnCount();
+-      doReturn((String) null, (String) null, (String) null, (String) null, (String) null).when(resultSetMetaData0).getColumnLabel(anyInt());
+-      ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
+-      doReturn(resultSetMetaData0).when(resultSet0).getMetaData();
+-      doReturn((String) null, (String) null, (String) null, (String) null, (String) null).when(resultSet0).getString(anyInt());
+-      String string0 = ResultSetDumper.dump(resultSet0);
+-      assertNotNull(string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

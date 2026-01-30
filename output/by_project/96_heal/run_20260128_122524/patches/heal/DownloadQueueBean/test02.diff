@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/heal/module/download/DownloadQueueBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/download/DownloadQueueBean_ESTest.java
+@@ -58,20 +58,30 @@
+     boolean boolean0 = downloadQueueBean0.isPackageFileUpToDate(0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-    downloadQueueBean0 = new DownloadQueueBean();
+-      downloadQueueBean0.setPackageFileLocation("pd|Y*.W<pU");
+-      assertTrue(downloadQueueBean0.isPackageModified());
+-      
+-      downloadQueueBean0.setPackageFileCreated();
+-      downloadQueueBean0.packageURL = "";
+-      boolean boolean0 = downloadQueueBean0.isPackageFileUpToDate(0);
+-      assertFalse(downloadQueueBean0.isPackageModified());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    downloadQueueBean0 = new DownloadQueueBean();
++
++    // Verify that setting the package file location marks the package as modified
++    String location = "pd|Y*.W<pU";
++    downloadQueueBean0.setPackageFileLocation(location);
++    assertTrue(downloadQueueBean0.isPackageModified());
++    // Observe the side‑effect on the stored location (if a getter is available)
++    assertEquals(location, downloadQueueBean0.getPackageFileLocation());
++
++    // After indicating that the package file has been created, the modified flag should be cleared
++    downloadQueueBean0.setPackageFileCreated();
++    assertFalse(downloadQueueBean0.isPackageModified());
++
++    // Set the URL to an empty string and verify the change (if a getter exists)
++    downloadQueueBean0.packageURL = "";
++    assertEquals("", downloadQueueBean0.getPackageURL());
++
++    // The package file should not be up‑to‑date for a timestamp of 0
++    boolean upToDate = downloadQueueBean0.isPackageFileUpToDate(0);
++    assertFalse(upToDate);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

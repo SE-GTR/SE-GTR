@@ -1,0 +1,64 @@
+--- a/evosuite-tests/ghm/follow/FileFollower_ESTest.java
++++ b/evosuite-tests/ghm/follow/FileFollower_ESTest.java
+@@ -152,27 +152,40 @@
+          //
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("1FdK>}m'eWy*", "1FdK>}m'eWy*");
+-      OutputDestination[] outputDestinationArray0 = new OutputDestination[2];
+-      JTextPane jTextPane0 = new JTextPane();
+-      SearchEngine searchEngine0 = new SearchEngine((-1618));
+-      FilteredDestination filteredDestination0 = new FilteredDestination(jTextPane0, searchEngine0, "1FdK>}m'eWy*", false);
+-      outputDestinationArray0[1] = (OutputDestination) filteredDestination0;
+-      FileFollower fileFollower0 = new FileFollower(file0, outputDestinationArray0);
+-      FileFollower.Runner fileFollower_Runner0 = fileFollower0.new Runner();
+-      fileFollower0.isPaused();
+-      fileFollower0.getBufferSize();
+-      fileFollower0.start();
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("/tmp/1FdK>}m'eWy*01FdK>}m'eWy*");
+-      FileSystemHandling.appendStringToFile(evoSuiteFile0, "bjNx*4hHVa:W^0dpE");
+-      fileFollower0.setBufferSize(149);
+-      fileFollower0.stopAndWait();
+-      fileFollower0.unpause();
+-      System.setCurrentTimeMillis(0L);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        File file0 = MockFile.createTempFile("1FdK>}m'eWy*", "1FdK>}m'eWy*");
++        OutputDestination[] outputDestinationArray0 = new OutputDestination[2];
++        JTextPane jTextPane0 = new JTextPane();
++        SearchEngine searchEngine0 = new SearchEngine((-1618));
++        FilteredDestination filteredDestination0 = new FilteredDestination(jTextPane0, searchEngine0, "1FdK>}m'eWy*", false);
++        outputDestinationArray0[1] = filteredDestination0;
++        FileFollower fileFollower0 = new FileFollower(file0, outputDestinationArray0);
++
++        // capture initial observable state
++        int initialBufferSize = fileFollower0.getBufferSize();
++        boolean initiallyPaused = fileFollower0.isPaused();
++
++        // act
++        fileFollower0.start();
++        EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("/tmp/1FdK>}m'eWy*01FdK>}m'eWy*");
++        FileSystemHandling.appendStringToFile(evoSuiteFile0, "bjNx*4hHVa:W^0dpE");
++        fileFollower0.setBufferSize(149);
++        fileFollower0.stopAndWait();
++        fileFollower0.unpause();
++
++        // assertions for side‑effects and return values
++        assertEquals(149, fileFollower0.getBufferSize());
++        assertNotEquals(initialBufferSize, fileFollower0.getBufferSize());
++        assertFalse(fileFollower0.isPaused());
++        if (initiallyPaused) {
++            // unpause should have cleared the paused flag
++            assertFalse(fileFollower0.isPaused());
++        }
++
++        System.setCurrentTimeMillis(0L);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

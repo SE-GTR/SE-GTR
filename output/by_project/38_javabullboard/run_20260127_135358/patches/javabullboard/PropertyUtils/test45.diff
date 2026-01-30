@@ -1,0 +1,26 @@
+--- a/evosuite-tests/framework/util/PropertyUtils_ESTest.java
++++ b/evosuite-tests/framework/util/PropertyUtils_ESTest.java
+@@ -352,16 +352,17 @@
+   public void test44() throws Throwable {
+       PropertyUtils.describe((Object) null);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test45()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test45() throws Throwable {
+       FastHashMap fastHashMap0 = new FastHashMap();
+-      PropertyUtils.getNestedProperty(fastHashMap0, "Nested property names are not allowed");
+-      fastHashMap0.put((Object) null, (Object) null);
++      Object nestedProperty = PropertyUtils.getNestedProperty(fastHashMap0, "Nested property names are not allowed");
++      assertNull(nestedProperty);
++      Object previousValue = fastHashMap0.put((Object) null, (Object) null);
++      assertNull(previousValue);
+       PropertyUtils.copyProperties(fastHashMap0, fastHashMap0);
+       assertFalse(fastHashMap0.getFast());
+   }
++
+ @Test(timeout = 4000)
+     public void test46() throws Throwable {
+         PropertyUtils.clearDescriptors();

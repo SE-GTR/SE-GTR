@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/Database_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/Database_ESTest.java
+@@ -78,19 +78,25 @@
+     boolean boolean0 = database1.equals(database0);
+     assertFalse(boolean0);
+ }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        Database database0 = new Database();
++        Database database1 = new Database();
++        assertTrue(database1.equals((Object) database0));
+ 
++        // Verify initial state of components (expected to be null)
++        assertNull(database1.getMComponents());
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      Database database0 = new Database();
+-      Database database1 = new Database();
+-      assertTrue(database1.equals((Object)database0));
+-      
+-      DatabaseComponent[] databaseComponentArray0 = new DatabaseComponent[0];
+-      database1.setMComponents(databaseComponentArray0);
+-      boolean boolean0 = database0.equals(database1);
+-      assertFalse(boolean0);
+-  }
++        DatabaseComponent[] databaseComponentArray0 = new DatabaseComponent[0];
++        database1.setMComponents(databaseComponentArray0);
++
++        // Observe the side‑effect of setMComponents
++        assertSame(databaseComponentArray0, database1.getMComponents());
++
++        // After the mutation the two databases should no longer be equal
++        assertFalse(database0.equals(database1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

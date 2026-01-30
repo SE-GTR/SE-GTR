@@ -1,0 +1,31 @@
+--- a/evosuite-tests/corina/core/App_ESTest.java
++++ b/evosuite-tests/corina/core/App_ESTest.java
+@@ -68,10 +68,23 @@
+       App app0 = new App();
+       assertFalse(app0.isInitialized());
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        // Attempt to initialize the application using a known entry point.
++        try {
++            java.lang.reflect.Method initMethod = App.class.getMethod("initialize");
++            initMethod.invoke(null);
++        } catch (NoSuchMethodException e) {
++            try {
++                java.lang.reflect.Method mainMethod = App.class.getMethod("main", String[].class);
++                mainMethod.invoke(null, (Object) new String[0]);
++            } catch (Exception ex) {
++                fail("No initialization method available");
++            }
++        }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      boolean boolean0 = App.isInitialized();
+-      assertFalse(boolean0);
+-  }
++        // Verify that the application reports being initialized after the act step.
++        assertTrue(App.isInitialized());
++    }
++
+ }

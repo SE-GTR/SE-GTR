@@ -1,0 +1,54 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
+@@ -180,15 +180,42 @@
+         // The item should be equal to itself
+         assertTrue(item0.isEqualTo(item0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      Item item0 = new Item(4);
+-      item0.set(2, "Ja#;pJS@i", "=,hbCZ<8)7y]WgJ", "!q}W#95!VE@BK,$#.*");
+-      boolean boolean0 = item0.isEqualTo(item0);
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        Item item0 = new Item(4);
++        // Capture initial state (optional, for before/after comparison)
++        int initialType = item0.type;
++        String initialStr1 = item0.strVal1;
++        String initialStr2 = item0.strVal2;
++        String initialStr3 = item0.strVal3;
++
++        // Act: set new values
++        item0.set(2, "Ja#;pJS@i", "=,hbCZ<8)7y]WgJ", "!q}W#95!VE@BK,$#.*");
++
++        // Assert side‑effects of set
++        assertEquals(2, item0.type);
++        assertEquals("Ja#;pJS@i", item0.strVal1);
++        assertEquals("=,hbCZ<8)7y]WgJ", item0.strVal2);
++        assertEquals("!q}W#95!VE@BK,$#.*", item0.strVal3);
++        // Ensure that at least one field actually changed (if any were set before)
++        if (initialType != 2) {
++            assertNotEquals(initialType, item0.type);
++        }
++        if (initialStr1 != null) {
++            assertNotEquals(initialStr1, item0.strVal1);
++        }
++        if (initialStr2 != null) {
++            assertNotEquals(initialStr2, item0.strVal2);
++        }
++        if (initialStr3 != null) {
++            assertNotEquals(initialStr3, item0.strVal3);
++        }
++
++        // Verify equality with itself
++        boolean boolean0 = item0.isEqualTo(item0);
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

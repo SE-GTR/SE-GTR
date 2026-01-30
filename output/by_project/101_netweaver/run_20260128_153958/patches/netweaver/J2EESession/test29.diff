@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
+@@ -476,20 +476,24 @@
+       assertEquals((-1385), j2EESession0.getTimeout());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      J2EESession j2EESession0 = new J2EESession();
+-      j2EESession0.setStartTime("nullFieldDesc");
+-      J2EESession j2EESession1 = new J2EESession();
+-      boolean boolean0 = j2EESession0.equals(j2EESession1);
+-      assertEquals(0, j2EESession1.getTimeout());
+-      assertEquals(0, j2EESession1.getIdHash());
+-      assertFalse(boolean0);
+-      assertEquals(0, j2EESession1.getSize());
+-      assertEquals(0, j2EESession1.getActiveRequests());
+-      assertFalse(j2EESession1.equals((Object)j2EESession0));
+-  }
++@Test(timeout = 4000)
++    public void test29() throws Throwable {
++        J2EESession s0 = new J2EESession();
++        s0.setStartTime("timeA");
++        J2EESession s1 = new J2EESession();
++        s1.setStartTime("timeA");
++        // Both sessions have the same startTime and default values for other fields
++        assertTrue(s0.equals(s1));
++        // Changing the startTime of one session should break equality
++        s1.setStartTime("timeB");
++        assertFalse(s0.equals(s1));
++        // Verify that other fields remain at their default values
++        assertEquals(0, s0.getTimeout());
++        assertEquals(0, s0.getIdHash());
++        assertEquals(0, s0.getSize());
++        assertEquals(0, s0.getActiveRequests());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

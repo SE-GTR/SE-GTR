@@ -1,0 +1,59 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/BasicChromatogramBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/BasicChromatogramBuilder_ESTest.java
+@@ -86,35 +86,27 @@
+       BasicChromatogramBuilder basicChromatogramBuilder0 = new BasicChromatogramBuilder("h2(3i'R_`}Tp8f");
+       basicChromatogramBuilder0.id(null);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      Iterator<PhredQuality> iterator0 = (Iterator<PhredQuality>) mock(Iterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(true).when(iterator0).hasNext();
+-      doReturn((Object) null).when(iterator0).next();
+-      QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(iterator0).when(qualitySequence0).iterator();
+-      doReturn(0L, 0L, 0L, 0L, 0L).when(qualitySequence0).getLength();
+-      PositionSequence positionSequence0 = mock(PositionSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(0L, 0L, 0L, 0L).when(positionSequence0).getLength();
+-      DefaultChannel defaultChannel0 = new DefaultChannel(qualitySequence0, positionSequence0);
+-      DefaultChannelGroup defaultChannelGroup0 = new DefaultChannelGroup(defaultChannel0, defaultChannel0, defaultChannel0, defaultChannel0);
+-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
+-      BasicChromatogram basicChromatogram0 = new BasicChromatogram("Z$\"]hA", nucleotideSequence0, qualitySequence0, positionSequence0, defaultChannelGroup0, hashMap0);
+-      BasicChromatogramBuilder basicChromatogramBuilder0 = null;
+-      try {
+-        basicChromatogramBuilder0 = new BasicChromatogramBuilder(basicChromatogram0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.internal.trace.chromat.BasicChromatogramBuilder", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test05() throws Throwable {
++    NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++    Iterator<PhredQuality> iterator0 = (Iterator<PhredQuality>) mock(Iterator.class, new ViolatedAssumptionAnswer());
++    when(iterator0.hasNext()).thenReturn(true);
++    when(iterator0.next()).thenReturn(null);
++    assertTrue(iterator0.hasNext());
++    assertNull(iterator0.next());
++
++    QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
++    when(qualitySequence0.iterator()).thenReturn(iterator0);
++    when(qualitySequence0.getLength()).thenReturn(0L, 0L, 0L, 0L, 0L);
++    PositionSequence positionSequence0 = mock(PositionSequence.class, new ViolatedAssumptionAnswer());
++    when(positionSequence0.getLength()).thenReturn(0L, 0L, 0L, 0L);
++    DefaultChannel defaultChannel0 = new DefaultChannel(qualitySequence0, positionSequence0);
++    DefaultChannelGroup defaultChannelGroup0 = new DefaultChannelGroup(defaultChannel0, defaultChannel0, defaultChannel0, defaultChannel0);
++    HashMap<String, String> hashMap0 = new HashMap<String, String>();
++    BasicChromatogram basicChromatogram0 = new BasicChromatogram("Z$\\\"]hA", nucleotideSequence0, qualitySequence0, positionSequence0, defaultChannelGroup0, hashMap0);
++    new BasicChromatogramBuilder(basicChromatogram0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

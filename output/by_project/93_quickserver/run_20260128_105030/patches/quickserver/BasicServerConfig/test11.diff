@@ -1,0 +1,52 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
+@@ -226,23 +226,32 @@
+         assertEquals("-ERR Max Auth Try Reached", quickServerConfig0.getMaxAuthTryMsg());
+         assertEquals("-ERR Server Busy. Max Connection Reached", quickServerConfig0.getMaxConnectionMsg());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      QuickServerConfig quickServerConfig0 = new QuickServerConfig();
+-      ObjectPoolConfig objectPoolConfig0 = new ObjectPoolConfig();
+-      quickServerConfig0.setObjectPoolConfig(objectPoolConfig0);
+-      assertEquals(60000, quickServerConfig0.getTimeout());
+-      assertEquals("-ERR Max Auth Try Reached", quickServerConfig0.getMaxAuthTryMsg());
+-      assertEquals((-1L), quickServerConfig0.getMaxConnection());
+-      assertEquals(5, quickServerConfig0.getMaxAuthTry());
+-      assertEquals("-ERR Server Busy. Max Connection Reached", quickServerConfig0.getMaxConnectionMsg());
+-      assertEquals("INFO", quickServerConfig0.getConsoleLoggingLevel());
+-      assertEquals("-ERR Timeout", quickServerConfig0.getTimeoutMsg());
+-      assertFalse(quickServerConfig0.getCommunicationLogging());
+-      assertEquals(9876, quickServerConfig0.getPort());
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        QuickServerConfig quickServerConfig0 = new QuickServerConfig();
++        ObjectPoolConfig objectPoolConfig0 = new ObjectPoolConfig();
++
++        // Verify initial state before setting the object pool config
++        assertNull(quickServerConfig0.getObjectPoolConfig());
++
++        // Act: set the object pool configuration
++        quickServerConfig0.setObjectPoolConfig(objectPoolConfig0);
++
++        // Assert that the configuration was stored correctly
++        assertSame(objectPoolConfig0, quickServerConfig0.getObjectPoolConfig());
++
++        // Existing assertions to verify other default values
++        assertEquals(60000, quickServerConfig0.getTimeout());
++        assertEquals("-ERR Max Auth Try Reached", quickServerConfig0.getMaxAuthTryMsg());
++        assertEquals((-1L), quickServerConfig0.getMaxConnection());
++        assertEquals(5, quickServerConfig0.getMaxAuthTry());
++        assertEquals("-ERR Server Busy. Max Connection Reached", quickServerConfig0.getMaxConnectionMsg());
++        assertEquals("INFO", quickServerConfig0.getConsoleLoggingLevel());
++        assertEquals("-ERR Timeout", quickServerConfig0.getTimeoutMsg());
++        assertFalse(quickServerConfig0.getCommunicationLogging());
++        assertEquals(9876, quickServerConfig0.getPort());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

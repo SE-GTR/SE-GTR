@@ -1,0 +1,27 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/Directors_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/Directors_ESTest.java
+@@ -87,11 +87,18 @@
+       String[] stringArray1 = directors0.getDirector();
+       assertFalse(stringArray1.equals((Object)stringArray0));
+   }
++@Test(timeout = 4000)
++    public void test7() throws Throwable {
++        Directors directors0 = new Directors();
++        // Verify initial state as defined by the constructor
++        assertNull(directors0.getDirectorsArray());
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      Directors directors0 = new Directors();
+-      ArrayList arrayList0 = directors0.getDirectorsArray();
+-      assertNull(arrayList0);
+-  }
++        // Exercise non‑trivial behavior by mutating internal state
++        ArrayList list = new ArrayList();
++        directors0.directors = list; // direct field access within the same package
++
++        // Assert that the getter reflects the updated state
++        assertSame(list, directors0.getDirectorsArray());
++    }
++
+ }

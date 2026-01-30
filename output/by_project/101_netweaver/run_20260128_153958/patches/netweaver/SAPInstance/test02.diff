@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPInstance_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPInstance_ESTest.java
+@@ -55,19 +55,25 @@
+     assertTrue(sAPInstance1.equals((Object) sAPInstance0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      SAPInstance sAPInstance0 = new SAPInstance();
+-      SAPInstance sAPInstance1 = new SAPInstance();
+-      assertTrue(sAPInstance1.equals((Object)sAPInstance0));
+-      
+-      STATECOLOR sTATECOLOR0 = STATECOLOR.value2;
+-      sAPInstance1.setDispstatus(sTATECOLOR0);
+-      boolean boolean0 = sAPInstance0.equals(sAPInstance1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    SAPInstance sAPInstance0 = new SAPInstance();
++    SAPInstance sAPInstance1 = new SAPInstance();
++    assertTrue(sAPInstance1.equals((Object) sAPInstance0));
++
++    // Verify initial dispstatus is null
++    assertNull(sAPInstance1.getDispstatus());
++
++    STATECOLOR sTATECOLOR0 = STATECOLOR.value2;
++    sAPInstance1.setDispstatus(sTATECOLOR0);
++
++    // Assert that dispstatus was updated correctly
++    assertEquals(sTATECOLOR0, sAPInstance1.getDispstatus());
++
++    boolean boolean0 = sAPInstance0.equals(sAPInstance1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

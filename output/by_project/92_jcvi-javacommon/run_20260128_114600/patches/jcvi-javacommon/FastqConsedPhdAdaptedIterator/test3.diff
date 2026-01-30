@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/FastqConsedPhdAdaptedIterator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/FastqConsedPhdAdaptedIterator_ESTest.java
+@@ -60,23 +60,18 @@
+     fastqConsedPhdAdaptedIterator0 = new FastqConsedPhdAdaptedIterator(streamingIterator0, mockFile0, mockDate0);
+       fastqConsedPhdAdaptedIterator0.close();
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    streamingIterator0 = mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++    FastqRecord mockRecord = mock(FastqRecord.class);
++    when(streamingIterator0.hasNext()).thenReturn(true, false);
++    when(streamingIterator0.next()).thenReturn(mockRecord);
++    mockDate0 = new MockDate(5, 5, 5, -2038, -604);
++    File tempFile = File.createTempFile("test", ".fastq");
++    tempFile.deleteOnExit();
++    fastqConsedPhdAdaptedIterator0 = new FastqConsedPhdAdaptedIterator(streamingIterator0, tempFile, mockDate0);
++    PhdReadRecord result = fastqConsedPhdAdaptedIterator0.next();
++    assertNotNull(result);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    streamingIterator0 = (StreamingIterator<FastqRecord>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(streamingIterator0).next();
+-    mockDate0 = new MockDate(5, 5, 5, (-2038), (-604));
+-    fastqConsedPhdAdaptedIterator0 = new FastqConsedPhdAdaptedIterator(streamingIterator0, (File) null, mockDate0);
+-      // Undeclared exception!
+-      try { 
+-        fastqConsedPhdAdaptedIterator0.next();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.assembly.clc.cas.consed.FastqConsedPhdAdaptedIterator", e);
+-      }
+-  }
+ }

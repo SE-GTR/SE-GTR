@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/util/pool/BasicObjectPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/BasicObjectPool_ESTest.java
+@@ -86,14 +86,21 @@
+     Object object0 = basicObjectPool0.borrowObject();
+     basicObjectPool0.returnObject(object0);
+ }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        ClientHandlerObjectFactory clientHandlerObjectFactory0 = new ClientHandlerObjectFactory(false);
++        basicObjectPool0 = new BasicObjectPool(clientHandlerObjectFactory0, null);
++        // Verify initial state
++        assertEquals(0, basicObjectPool0.getNumActive());
++        // Exercise pool by borrowing an object
++        Object obj = basicObjectPool0.borrowObject();
++        assertNotNull(obj);
++        assertEquals(1, basicObjectPool0.getNumActive());
++        // Return the object and verify state returns to initial
++        basicObjectPool0.returnObject(obj);
++        assertEquals(0, basicObjectPool0.getNumActive());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      ClientHandlerObjectFactory clientHandlerObjectFactory0 = new ClientHandlerObjectFactory(false);
+-    basicObjectPool0 = new BasicObjectPool(clientHandlerObjectFactory0, (BasicObjectPool.Config) null);
+-      assertEquals(0, basicObjectPool0.getNumActive());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

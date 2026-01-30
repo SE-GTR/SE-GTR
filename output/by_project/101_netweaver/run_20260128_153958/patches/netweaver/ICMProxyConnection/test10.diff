@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -162,18 +162,29 @@
+       assertTrue(iCMProxyConnection1.equals((Object) iCMProxyConnection0));
+       assertTrue(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+-      ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
+-      assertTrue(iCMProxyConnection1.equals((Object)iCMProxyConnection0));
+-      
+-      iCMProxyConnection1.setTidUidMode("AW:%8)Zv1d$.s");
+-      boolean boolean0 = iCMProxyConnection0.equals(iCMProxyConnection1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
++        ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
++
++        // initially both objects should be equal and have no tidUidMode set
++        assertTrue(iCMProxyConnection1.equals((Object) iCMProxyConnection0));
++        assertNull(iCMProxyConnection0.getTidUidMode());
++        assertNull(iCMProxyConnection1.getTidUidMode());
++
++        // set a specific tidUidMode on the second instance
++        String newMode = "AW:%8)Zv1d$.s";
++        iCMProxyConnection1.setTidUidMode(newMode);
++
++        // verify the side‑effect of setTidUidMode
++        assertEquals(newMode, iCMProxyConnection1.getTidUidMode());
++        assertNull(iCMProxyConnection0.getTidUidMode());
++
++        // the two instances should no longer be equal after the change
++        boolean boolean0 = iCMProxyConnection0.equals(iCMProxyConnection1);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

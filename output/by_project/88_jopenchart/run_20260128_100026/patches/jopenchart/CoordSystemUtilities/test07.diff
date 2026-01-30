@@ -1,0 +1,55 @@
+--- a/evosuite-tests/de/progra/charting/CoordSystemUtilities_ESTest.java
++++ b/evosuite-tests/de/progra/charting/CoordSystemUtilities_ESTest.java
+@@ -177,19 +177,39 @@
+       Graphics2D graphics2D0 = bufferedImage0.createGraphics();
+       coordSystemUtilities0.drawYAxisTicks(graphics2D0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      ObjectChartDataModel objectChartDataModel0 = new ObjectChartDataModel();
+-      CoordSystem coordSystem0 = new CoordSystem(objectChartDataModel0);
+-      AffineTransform affineTransform0 = new AffineTransform();
+-      coordSystem0.y1transform = affineTransform0;
+-      BufferedImage bufferedImage0 = new BufferedImage(1, 20, 1);
+-      CoordSystemUtilities coordSystemUtilities0 = coordSystem0.c;
+-      coordSystem0.shouldPaintOnlyTick = false;
+-      Graphics2D graphics2D0 = bufferedImage0.createGraphics();
+-      coordSystemUtilities0.drawYAxisTicks(graphics2D0);
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        ObjectChartDataModel objectChartDataModel0 = new ObjectChartDataModel();
++        CoordSystem coordSystem0 = new CoordSystem(objectChartDataModel0);
++        AffineTransform affineTransform0 = new AffineTransform();
++        coordSystem0.y1transform = affineTransform0;
++        BufferedImage bufferedImage0 = new BufferedImage(1, 20, BufferedImage.TYPE_INT_RGB);
++        CoordSystemUtilities coordSystemUtilities0 = coordSystem0.c;
++        coordSystem0.shouldPaintOnlyTick = false;
++        Graphics2D graphics2D0 = bufferedImage0.createGraphics();
++
++        // Capture image state before drawing
++        int beforeSum = 0;
++        for (int x = 0; x < bufferedImage0.getWidth(); x++) {
++            for (int y = 0; y < bufferedImage0.getHeight(); y++) {
++                beforeSum += bufferedImage0.getRGB(x, y);
++            }
++        }
++
++        coordSystemUtilities0.drawYAxisTicks(graphics2D0);
++
++        // Capture image state after drawing
++        int afterSum = 0;
++        for (int x = 0; x < bufferedImage0.getWidth(); x++) {
++            for (int y = 0; y < bufferedImage0.getHeight(); y++) {
++                afterSum += bufferedImage0.getRGB(x, y);
++            }
++        }
++
++        // Verify that drawing the Y‑axis ticks changed the image
++        org.junit.Assert.assertNotEquals("Image should be modified after drawYAxisTicks", beforeSum, afterSum);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

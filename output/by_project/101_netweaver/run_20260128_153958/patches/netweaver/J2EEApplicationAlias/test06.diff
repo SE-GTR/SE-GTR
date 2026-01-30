@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEApplicationAlias_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEApplicationAlias_ESTest.java
+@@ -116,16 +116,23 @@
+     assertEquals(0, j2EEApplicationAlias1.getTotalRequests());
+     assertFalse(j2EEApplicationAlias0.equals((Object) j2EEApplicationAlias1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      assertTrue(j2EEApplicationAlias1.equals((Object)j2EEApplicationAlias0));
+-      
+-      j2EEApplicationAlias1.setAppActive("/fIBT\"^t0h0{wyJ?rS");
+-      boolean boolean0 = j2EEApplicationAlias1.equals(j2EEApplicationAlias0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    assertTrue(j2EEApplicationAlias1.equals((Object) j2EEApplicationAlias0));
++
++    // Verify initial state of appActive (expected to be null)
++    String before = j2EEApplicationAlias1.getAppActive();
++    assertNull(before);
++
++    // Exercise the method under test and assert its side‑effect
++    j2EEApplicationAlias1.setAppActive("/fIBT\"^t0h0{wyJ?rS");
++    assertEquals("/fIBT\"^t0h0{wyJ?rS", j2EEApplicationAlias1.getAppActive());
++
++    // Ensure the change affects equality as expected
++    boolean boolean0 = j2EEApplicationAlias1.equals(j2EEApplicationAlias0);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

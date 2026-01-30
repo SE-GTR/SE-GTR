@@ -1,0 +1,31 @@
+--- a/evosuite-tests/map/DirtyNode_ESTest.java
++++ b/evosuite-tests/map/DirtyNode_ESTest.java
+@@ -247,15 +247,19 @@
+     assertEquals(bitsBefore, dirtyNode0.bits);
+     assertEquals(yBefore, dirtyNode0.y, 0.01F);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-    dirtyNode0 = new DirtyNode(0L);
+-      dirtyNode0.setData(0L);
+-      assertEquals(0.0F, dirtyNode0.x, 0.01F);
+-      assertEquals(0.0F, dirtyNode0.y, 0.01F);
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        dirtyNode0 = new DirtyNode(0L);
++        // Verify initial state of bits (should be default 0)
++        assertEquals(0L, dirtyNode0.bits);
++        // Change the data and verify that the side‑effect is observable
++        dirtyNode0.setData(123L);
++        assertEquals(123L, dirtyNode0.bits);
++        // Ensure other fields remain at their default values
++        assertEquals(0.0F, dirtyNode0.x, 0.01F);
++        assertEquals(0.0F, dirtyNode0.y, 0.01F);
++    }
++
+ @Test(timeout = 4000)
+ public void test26() throws Throwable {
+     dirtyNode0 = new DirtyNode((-1823L), (-1184), 0);

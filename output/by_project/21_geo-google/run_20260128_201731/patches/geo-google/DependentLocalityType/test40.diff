@@ -1,0 +1,31 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
+@@ -419,12 +419,23 @@
+     assertSame(child, parent.getDependentLocality());
+   }
+ @Test(timeout = 4000)
+-  public void test40() throws Throwable {
+-    dependentLocalityType0 = new DependentLocalityType();
++public void test40() throws Throwable {
++    DependentLocalityType dependentLocalityType0 = new DependentLocalityType();
+     dependentLocalityType0.setType("testType");
+-    String string0 = dependentLocalityType0.getType();
+-    assertEquals("testType", string0);
+-  }
++    // Verify the setter/getter for 'type' works
++    assertEquals("testType", dependentLocalityType0.getType());
++
++    // Exercise a non‑trivial behavior: the live list returned by getAddressLine()
++    java.util.List<AddressLine> addressLines = dependentLocalityType0.getAddressLine();
++    assertNotNull(addressLines);
++    int initialSize = addressLines.size();
++
++    AddressLine line = new AddressLine();
++    addressLines.add(line);
++    assertEquals(initialSize + 1, addressLines.size());
++    assertSame(line, addressLines.get(addressLines.size() - 1));
++}
++
+ @Test(timeout = 4000)
+ public void test41() throws Throwable {
+     dependentLocalityType0 = new DependentLocalityType();

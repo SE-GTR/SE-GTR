@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/yahoo/platform/yui/compressor/CssCompressor_ESTest.java
++++ b/evosuite-tests/com/yahoo/platform/yui/compressor/CssCompressor_ESTest.java
+@@ -26,16 +26,19 @@
+     cssCompressor0 = new CssCompressor(stringReader0);
+     stringWriter0 = new StringWriter();
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        stringReader0 = new StringReader("(:|s)(#ffa500)(;|})");
++        cssCompressor0 = new CssCompressor(stringReader0);
++        stringWriter0 = new StringWriter();
++        int beforeLength = stringWriter0.toString().length(); // should be 0
++        cssCompressor0.compress(stringWriter0, 5);
++        String result = stringWriter0.toString();
++        assertEquals("(:|s)(#ffa500)(;|}\n)", result);
++        // verify that the writer grew by the expected number of characters
++        assertEquals(beforeLength + "(:|s)(#ffa500)(;|}\n)".length(), result.length());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    stringReader0 = new StringReader("(:|s)(#ffa500)(;|})");
+-    cssCompressor0 = new CssCompressor(stringReader0);
+-    stringWriter0 = new StringWriter();
+-      cssCompressor0.compress(stringWriter0, 5);
+-      assertEquals("(:|s)(#ffa500)(;|}\n)", stringWriter0.toString());
+-  }
+ @Test(timeout = 4000)
+ public void test1() throws Throwable {
+     java.io.StringReader reader = new java.io.StringReader("(:|s)(#ffa500)(;|})");

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/common/GameObject_ESTest.java
++++ b/evosuite-tests/common/GameObject_ESTest.java
+@@ -64,15 +64,21 @@
+       assertTrue(powerUp0.isActive());
+       assertFalse(powerUp0.isVisible());
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    powerUp0 = new PowerUp((Point) null);
++    assertFalse(powerUp0.isVisible());
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    powerUp0 = new PowerUp((Point) null);
+-      assertFalse(powerUp0.isVisible());
+-      
+-      powerUp0.setVisible();
+-      assertTrue(powerUp0.isVisible());
+-  }
++    powerUp0.setVisible();
++    assertTrue(powerUp0.isVisible());
++
++    // Verify non‑trivial behavior: observer management
++    java.util.Observer dummy = (o, arg) -> {};
++    int before = powerUp0.countObservers();
++    powerUp0.addObserver(dummy);
++    assertEquals(before + 1, powerUp0.countObservers());
++}
++
+ @Test(timeout = 4000)
+ public void test4() throws Throwable {
+     java.awt.Point point = new java.awt.Point(0, 0);

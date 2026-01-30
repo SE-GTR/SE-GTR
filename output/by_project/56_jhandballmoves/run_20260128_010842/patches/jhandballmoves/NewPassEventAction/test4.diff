@@ -1,0 +1,34 @@
+--- a/evosuite-tests/visu/handball/moves/actions/NewPassEventAction_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/actions/NewPassEventAction_ESTest.java
+@@ -78,17 +78,22 @@
+     assertEquals(HandballModel.State.EDIT, handballModel0.getState());
+     assertEquals("", handballModel0.getMoveName());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
++@Test(timeout = 4000)
++public void test4() throws Throwable {
+     handballModel0 = new HandballModel();
+     newPassEventAction0 = new NewPassEventAction(handballModel0);
+-      Defender defender0 = new Defender(528, 528);
+-      MoveEvent moveEvent0 = new MoveEvent(defender0, 528, 1);
+-      handballModel0.setActualMoveEvent(moveEvent0);
+-      newPassEventAction0.actionPerformed((ActionEvent) null);
+-  }
++    Defender defender0 = new Defender(528, 528);
++    MoveEvent moveEvent0 = new MoveEvent(defender0, 528, 1);
++    // Verify that the actual move event is initially null (if applicable)
++    assertNull(handballModel0.getActualMoveEvent());
++    // Set the actual move event and assert the side‑effect
++    handballModel0.setActualMoveEvent(moveEvent0);
++    assertSame(moveEvent0, handballModel0.getActualMoveEvent());
++    // Perform the action and assert that the model's state is now defined
++    newPassEventAction0.actionPerformed((ActionEvent) null);
++    assertNotNull(handballModel0.getState());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

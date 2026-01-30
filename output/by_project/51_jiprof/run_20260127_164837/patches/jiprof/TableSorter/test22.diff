@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/tivo/jipviewer/TableSorter_ESTest.java
++++ b/evosuite-tests/com/tivo/jipviewer/TableSorter_ESTest.java
+@@ -270,24 +270,17 @@
+         boolean editable = tableSorter0.isCellEditable(0, 0);
+         assertTrue(editable);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      TableSorter tableSorter0 = new TableSorter();
+-      TableSorter tableSorter1 = new TableSorter(tableSorter0);
+-      // Undeclared exception!
+-      try { 
+-        tableSorter1.getComparator(1);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.tivo.jipviewer.TableSorter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test22() throws Throwable {
++    // Initialize a simple table model with two columns
++    javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
++            new Object[][] { { "a", "b" }, { "c", "d" } },
++            new Object[] { "col0", "col1" });
++    TableSorter sorter = new TableSorter(model);
++    java.util.Comparator<?> comparator = sorter.getComparator(1);
++    org.junit.Assert.assertNotNull("Comparator for column 1 should not be null", comparator);
++}
++
+ @Test(timeout = 4000)
+     public void test23() throws Throwable {
+         Stack<MetalComboBoxEditor.UIResource> stack0 = new Stack<>();

@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
+@@ -1635,24 +1635,22 @@
+     int token = tokenStream0.getToken();
+     assertTrue("Token should be non-negative", token >= 0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test151()  throws Throwable  {
+-      TokenStream tokenStream0 = new TokenStream((Parser) null, (Reader) null, "jo/{", 80);
+-      tokenStream0.getToken();
+-      // Undeclared exception!
+-      try { 
+-        tokenStream0.getFirstXMLToken();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.mozilla.javascript.TokenStream", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test151() throws Throwable {
++        // Create a minimal valid parser and reader to avoid NullPointerException
++        Parser parser = new Parser();
++        Reader reader = new StringReader("");
++        TokenStream tokenStream0 = new TokenStream(parser, reader, "jo/{", 80);
++
++        // Verify that getToken returns a value different from EOF (-1)
++        int token = tokenStream0.getToken();
++        assertNotEquals(-1, token);
++
++        // Verify that getFirstXMLToken executes without throwing and returns a value
++        int xmlToken = tokenStream0.getFirstXMLToken();
++        assertNotEquals(-1, xmlToken);
++    }
++
+ @Test(timeout = 4000)
+     public void test152() throws Throwable {
+         assertTrue(TokenStream.isKeyword("implements"));

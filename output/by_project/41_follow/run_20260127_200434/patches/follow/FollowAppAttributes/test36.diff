@@ -1,0 +1,32 @@
+--- a/evosuite-tests/ghm/follow/config/FollowAppAttributes_ESTest.java
++++ b/evosuite-tests/ghm/follow/config/FollowAppAttributes_ESTest.java
+@@ -355,13 +355,22 @@
+       followAppAttributes0.addPropertyChangeListener("#UbFCm;", (PropertyChangeListener) null);
+       assertEquals(2, FollowAppAttributes.v1_2);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test36()  throws Throwable  {
+-      FollowAppAttributes followAppAttributes0 = new FollowAppAttributes();
+-      List<File> list0 = followAppAttributes0.getFollowedFiles();
+-      assertTrue(list0.isEmpty());
+-  }
++@Test(timeout = 4000)
++    public void test36() throws Throwable {
++        FollowAppAttributes followAppAttributes0 = new FollowAppAttributes();
++        List<File> list0 = followAppAttributes0.getFollowedFiles();
++        // Verify initial state
++        assertTrue(list0.isEmpty());
++
++        // Act: modify the list
++        File dummyFile = new File("dummy.txt");
++        list0.add(dummyFile);
++
++        // Assert the effect of the modification
++        assertEquals(1, list0.size());
++        assertTrue(list0.contains(dummyFile));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test37()  throws Throwable  {

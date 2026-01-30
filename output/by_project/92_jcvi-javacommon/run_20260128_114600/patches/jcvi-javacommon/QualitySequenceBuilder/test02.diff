@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/qual/QualitySequenceBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/qual/QualitySequenceBuilder_ESTest.java
+@@ -54,18 +54,22 @@
+          verifyException("org.jcvi.jillion.core.Range$Builder", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      QualitySequence qualitySequence0 = qualitySequenceBuilder0.build();
+-      byte[] byteArray0 = new byte[2];
+-      qualitySequenceBuilder1.prepend(qualitySequence0);
+-      qualitySequenceBuilder0.prepend(byteArray0);
+-      qualitySequenceBuilder1.append(phredQuality0);
+-      qualitySequenceBuilder0.insert(2, qualitySequenceBuilder0);
+-      QualitySequence qualitySequence1 = qualitySequenceBuilder1.build();
+-      assertNotNull(qualitySequence1);
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    QualitySequence qualitySequence0 = qualitySequenceBuilder0.build();
++    byte[] byteArray0 = new byte[2];
++    QualitySequenceBuilder returned1 = qualitySequenceBuilder1.prepend(qualitySequence0);
++    assertSame(qualitySequenceBuilder1, returned1);
++    QualitySequenceBuilder returned2 = qualitySequenceBuilder0.prepend(byteArray0);
++    assertSame(qualitySequenceBuilder0, returned2);
++    QualitySequenceBuilder returned3 = qualitySequenceBuilder1.append(phredQuality0);
++    assertSame(qualitySequenceBuilder1, returned3);
++    QualitySequenceBuilder returned4 = qualitySequenceBuilder0.insert(2, qualitySequenceBuilder0);
++    assertSame(qualitySequenceBuilder0, returned4);
++    QualitySequence qualitySequence1 = qualitySequenceBuilder1.build();
++    assertNotNull(qualitySequence1);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

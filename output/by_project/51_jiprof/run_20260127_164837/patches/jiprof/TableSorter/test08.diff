@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/tivo/jipviewer/TableSorter_ESTest.java
++++ b/evosuite-tests/com/tivo/jipviewer/TableSorter_ESTest.java
+@@ -118,28 +118,23 @@
+         int rowCount = sorter.getRowCount();
+         assertEquals(model.getRowCount(), rowCount);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      DefaultTableModel defaultTableModel0 = new DefaultTableModel(42, 42);
+-      JTableHeader jTableHeader0 = new JTableHeader();
+-      TableSorter tableSorter0 = new TableSorter(defaultTableModel0, jTableHeader0);
+-      Object[] objectArray0 = new Object[10];
+-      defaultTableModel0.addRow(objectArray0);
+-      tableSorter0.viewIndex(42);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    DefaultTableModel defaultTableModel0 = new DefaultTableModel(42, 42);
++    JTableHeader jTableHeader0 = new JTableHeader();
++    TableSorter tableSorter0 = new TableSorter(defaultTableModel0, jTableHeader0);
++    Object[] objectArray0 = new Object[10];
++    defaultTableModel0.addRow(objectArray0);
++    int viewIdx = tableSorter0.viewIndex(42);
++    assertEquals(42, viewIdx);
++    try {
+         tableSorter0.viewIndex(254);
+         fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // 254
+-         //
+-         verifyException("com.tivo.jipviewer.TableSorter", e);
+-      }
+-  }
++    } catch (ArrayIndexOutOfBoundsException e) {
++        verifyException("com.tivo.jipviewer.TableSorter", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

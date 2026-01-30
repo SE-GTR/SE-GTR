@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/Database_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/Database_ESTest.java
+@@ -155,18 +155,23 @@
+     Serializer serializer0 = Database.getSerializer("fU|9mX0Dd*wb)[", class0, qName0);
+     assertNotNull(serializer0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      Database database0 = new Database();
+-      DatabaseStatus databaseStatus0 = DatabaseStatus.value5;
+-      database0.setMStatus(databaseStatus0);
+-      Database database1 = new Database();
+-      boolean boolean0 = database1.equals(database0);
+-      assertFalse(boolean0);
+-      assertFalse(database0.equals((Object)database1));
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        Database database0 = new Database();
++        DatabaseStatus databaseStatus0 = DatabaseStatus.value5;
++        // Verify initial status is null (or not the target value)
++        assertNotEquals(databaseStatus0, database0.getMStatus());
++        // Act: set the status
++        database0.setMStatus(databaseStatus0);
++        // Assert the side‑effect of setMStatus
++        assertEquals(databaseStatus0, database0.getMStatus());
++        // Additional behavior checks
++        Database database1 = new Database();
++        boolean boolean0 = database1.equals(database0);
++        assertFalse(boolean0);
++        assertFalse(database0.equals((Object) database1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

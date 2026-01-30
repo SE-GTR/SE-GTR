@@ -1,0 +1,30 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ProductInfo_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ProductInfo_ESTest.java
+@@ -110,12 +110,21 @@
+         // Verify the side‑effect of the mutation
+         assertEquals("Condition = ", productInfo0.getTotalPages());
+     }
++@Test(timeout = 4000)
++public void test9() throws Throwable {
++    productInfo0 = new ProductInfo();
++    productInfo0.setListName("");
++    assertEquals("", productInfo0.getListName());
+ 
++    // Verify that the state is correctly persisted via serialization
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(productInfo0);
++    oos.flush();
++    java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++    ProductInfo deserialized = (ProductInfo) ois.readObject();
++    assertEquals("", deserialized.getListName());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test9()  throws Throwable  {
+-    productInfo0 = new ProductInfo();
+-      productInfo0.setListName("");
+-      assertEquals("", productInfo0.getListName());
+-  }
+ }

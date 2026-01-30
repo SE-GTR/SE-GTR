@@ -1,0 +1,60 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
+@@ -208,22 +208,41 @@
+       j2EESession2.setSticky("vPNn^`@A(G]K");
+       assertTrue(j2EESession0.equals(j2EESession2));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      J2EESession j2EESession0 = new J2EESession();
+-      j2EESession0.setProcessname("");
+-      J2EESession j2EESession1 = new J2EESession();
+-      j2EESession1.setUpdateTime("");
+-      j2EESession1.setProcessname("");
+-      j2EESession0.setUpdateTime("");
+-      assertTrue(j2EESession0.equals((Object)j2EESession1));
+-      
+-      j2EESession0.setSticky("7YTJ[KHAr>'Hm@r9f");
+-      boolean boolean0 = j2EESession0.equals(j2EESession1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    J2EESession j2EESession0 = new J2EESession();
++    // verify initial state
++    assertNull(j2EESession0.getProcessname());
++    assertNull(j2EESession0.getUpdateTime());
++    assertNull(j2EESession0.getSticky());
++
++    // set and verify processname
++    j2EESession0.setProcessname("");
++    assertEquals("", j2EESession0.getProcessname());
++
++    J2EESession j2EESession1 = new J2EESession();
++    // set and verify updateTime and processname on second instance
++    j2EESession1.setUpdateTime("");
++    assertEquals("", j2EESession1.getUpdateTime());
++    j2EESession1.setProcessname("");
++    assertEquals("", j2EESession1.getProcessname());
++
++    // set and verify updateTime on first instance
++    j2EESession0.setUpdateTime("");
++    assertEquals("", j2EESession0.getUpdateTime());
++
++    // both objects now have identical state
++    assertTrue(j2EESession0.equals((Object) j2EESession1));
++
++    // change sticky on first instance and verify
++    j2EESession0.setSticky("7YTJ[KHAr>'Hm@r9f");
++    assertEquals("7YTJ[KHAr>'Hm@r9f", j2EESession0.getSticky());
++
++    // objects should no longer be equal
++    boolean boolean0 = j2EESession0.equals(j2EESession1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

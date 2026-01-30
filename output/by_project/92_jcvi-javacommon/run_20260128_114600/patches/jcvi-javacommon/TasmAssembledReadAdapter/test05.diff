@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/TasmAssembledReadAdapter_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/TasmAssembledReadAdapter_ESTest.java
+@@ -88,16 +88,18 @@
+          verifyException("org.jcvi.jillion.assembly.tigr.tasm.TasmAssembledReadAdapter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      Direction direction0 = Direction.FORWARD;
+-    assembledRead0 = mock(AssembledRead.class, new ViolatedAssumptionAnswer());
+-      doReturn(direction0).when(assembledRead0).getDirection();
+-    tasmAssembledReadAdapter0 = new TasmAssembledReadAdapter(assembledRead0);
+-      Direction direction1 = tasmAssembledReadAdapter0.getDirection();
+-      assertSame(direction1, direction0);
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    Direction direction0 = Direction.FORWARD;
++    assembledRead0 = mock(AssembledRead.class, new ViolatedAssumptionAnswer());
++    doReturn(direction0).when(assembledRead0).getDirection();
++    Direction directionStub = assembledRead0.getDirection();
++    assertSame(direction0, directionStub);
++    tasmAssembledReadAdapter0 = new TasmAssembledReadAdapter(assembledRead0);
++    Direction direction1 = tasmAssembledReadAdapter0.getDirection();
++    assertSame(direction0, direction1);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

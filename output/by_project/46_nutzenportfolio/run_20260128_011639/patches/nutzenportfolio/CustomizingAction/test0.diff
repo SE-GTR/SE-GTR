@@ -1,0 +1,46 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/action/CustomizingAction_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/action/CustomizingAction_ESTest.java
+@@ -55,33 +55,26 @@
+     strategischeZieleIbatisDao0 = new StrategischeZieleIbatisDao();
+     strategischeZieleDaoService0 = new StrategischeZieleDaoService(strategischeZieleIbatisDao0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       AuswahlfeldIbatisDao auswahlfeldIbatisDao0 = new AuswahlfeldIbatisDao();
+       AuswahlfeldDaoService auswahlfeldDaoService0 = new AuswahlfeldDaoService(auswahlfeldIbatisDao0);
+       NutzenkriteriumIbatisDao nutzenkriteriumIbatisDao0 = new NutzenkriteriumIbatisDao();
+       NutzenkriteriumDaoService nutzenkriteriumDaoService0 = new NutzenkriteriumDaoService(nutzenkriteriumIbatisDao0);
+       ActionMapping actionMapping0 = new ActionMapping();
+       HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(httpServletRequest0).getParameter(anyString());
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession();
++      when(httpServletRequest0.getParameter(anyString())).thenReturn("dummy");
++      HttpSession sessionMock = mock(HttpSession.class);
++      when(httpServletRequest0.getSession()).thenReturn(sessionMock);
+       DynaActionForm dynaActionForm0 = new DynaActionForm();
+       ProjektgruppeIbatisDao projektgruppeIbatisDao0 = new ProjektgruppeIbatisDao();
+       ProjektgruppeDaoService projektgruppeDaoService0 = new ProjektgruppeDaoService(projektgruppeIbatisDao0);
+-      CustomizingAction customizingAction0 = new CustomizingAction(customizingDaoService0, commonDaoService0, strategischeZieleDaoService0, (DetailzieleService) null, auswahlfeldDaoService0, (KategorieService) null, nutzenkriteriumDaoService0, (NaOpNuService) null, (ProjektattraktivitaetService) null, projektgruppeDaoService0);
+-      try { 
+-        customizingAction0.delete(actionMapping0, dynaActionForm0, httpServletRequest0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.action.CustomizingAction", e);
+-      }
++      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class);
++      CustomizingAction customizingAction0 = new CustomizingAction(customizingDaoService0, commonDaoService0, strategischeZieleDaoService0, null, auswahlfeldDaoService0, null, nutzenkriteriumDaoService0, null, null, projektgruppeDaoService0);
++      ActionForward result = customizingAction0.delete(actionMapping0, dynaActionForm0, httpServletRequest0, httpServletResponse0);
++      assertNotNull(result);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

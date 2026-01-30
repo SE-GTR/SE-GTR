@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/character/data/map/TXTMapPersistence_ESTest.java
++++ b/evosuite-tests/org/character/data/map/TXTMapPersistence_ESTest.java
+@@ -45,14 +45,22 @@
+          verifyException("java.lang.NumberFormatException", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    // Arrange: put a null‑key entry and verify the map reflects it
++    indexedFastMap0.put((Integer) null, " -");
++    assertEquals(" -", indexedFastMap0.get((Integer) null));
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      indexedFastMap0.put((Integer) null, " -");
+-      tXTMapPersistence0.save(indexedFastMap0);
+-      IndexedFastMap<Integer, String> indexedFastMap1 = tXTMapPersistence0.load();
+-      assertFalse(indexedFastMap1.equals((Object)indexedFastMap0));
+-  }
++    // Act: persist the map and load it back
++    tXTMapPersistence0.save(indexedFastMap0);
++    IndexedFastMap<Integer, String> indexedFastMap1 = tXTMapPersistence0.load();
++
++    // Assert: the loaded map should not be equal to the original (as per original intent)
++    assertFalse(indexedFastMap1.equals((Object) indexedFastMap0));
++    // Additionally, the loaded map must not contain the null‑key entry
++    assertNull(indexedFastMap1.get((Integer) null));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

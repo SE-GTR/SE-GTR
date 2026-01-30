@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
+@@ -54,14 +54,32 @@
+     // Final sanity check after allocation
+     assertNotNull(Profile.class);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      Profile.clear();
+-      Profile.start("!-", "!-");
+-      Profile.alloc("!-");
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        try {
++            Profile.clear();
++        } catch (Throwable e) {
++            org.junit.Assert.fail("Profile.clear() threw an exception: " + e);
++        }
++        try {
++            Profile.start("!-", "!-");
++        } catch (Throwable e) {
++            org.junit.Assert.fail("Profile.start() threw an exception: " + e);
++        }
++        try {
++            Profile.alloc("!-");
++        } catch (Throwable e) {
++            org.junit.Assert.fail("Profile.alloc() threw an exception: " + e);
++        }
++        // Additional sanity check: calling clear again should not fail,
++        // indicating that the previous operations left the profiler in a consistent state.
++        try {
++            Profile.clear();
++        } catch (Throwable e) {
++            org.junit.Assert.fail("Second Profile.clear() threw an exception: " + e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

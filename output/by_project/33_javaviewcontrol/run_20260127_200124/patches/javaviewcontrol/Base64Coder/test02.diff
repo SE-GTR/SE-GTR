@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/pmdesigns/jvc/tools/Base64Coder_ESTest.java
++++ b/evosuite-tests/com/pmdesigns/jvc/tools/Base64Coder_ESTest.java
+@@ -26,24 +26,17 @@
+     public void test01() throws Throwable {
+         Base64Coder.decode("dC?~");
+     }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        char[] input = new char[] { 'A', 'Q', 'I', 'D' }; // Base64 for bytes {1,2,3}
++        byte[] result = Base64Coder.decode(input);
++        assertNotNull(result);
++        assertEquals(3, result.length);
++        assertEquals((byte) 1, result[0]);
++        assertEquals((byte) 2, result[1]);
++        assertEquals((byte) 3, result[2]);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      char[] charArray0 = new char[4];
+-      charArray0[3] = '\u0083';
+-      // Undeclared exception!
+-      try { 
+-        Base64Coder.decode(charArray0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // Illegal character in Base64 encoded data.
+-         //
+-         verifyException("com.pmdesigns.jvc.tools.Base64Coder", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

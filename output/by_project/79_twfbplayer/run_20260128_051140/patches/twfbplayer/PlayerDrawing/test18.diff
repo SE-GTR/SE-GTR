@@ -1,0 +1,63 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/gui/battlefield/PlayerDrawing_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/gui/battlefield/PlayerDrawing_ESTest.java
+@@ -402,34 +402,32 @@
+       playerDrawing0.unmark();
+       assertFalse(playerDrawing0.isFocusCycleRoot());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      Point point0 = new Point();
+-      CharacterClass characterClass0 = CharacterClass.ADVENTURER;
+-      SimpleSector simpleSector0 = new SimpleSector(75, true, true, 0, 0, true, 1, characterClass0);
+-      SimpleArea simpleArea0 = new SimpleArea(point0, simpleSector0);
+-      CombatantState combatantState0 = new CombatantState(simpleArea0, (-893), simpleArea0, true);
+-      CombatantSide combatantSide0 = CombatantSide.ATTACKER;
+-      SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState0, 0, "", characterClass0, (Weapon) null, "");
+-      SimpleBattleField simpleBattleField0 = new SimpleBattleField(1, 1);
+-      PlayerConfiguration playerConfiguration0 = PlayerConfiguration.NO_DELAY;
+-      BattleStatistics battleStatistics0 = new BattleStatistics(2, 0);
+-      Map<Area, AreaStatistic> map0 = battleStatistics0.getFieldStatistics();
+-      BattlefieldDrawing battlefieldDrawing0 = new BattlefieldDrawing(simpleBattleField0, (Image) null, playerConfiguration0, map0);
+-      PlayerDrawing playerDrawing0 = new PlayerDrawing(simpleCombatant0, battlefieldDrawing0);
+-      // Undeclared exception!
+-      try { 
+-        playerDrawing0.paintComponent((Graphics) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.outstare.fortbattleplayer.gui.battlefield.PlayerDrawing", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test18() throws Throwable {
++        Point point0 = new Point();
++        CharacterClass characterClass0 = CharacterClass.ADVENTURER;
++        SimpleSector simpleSector0 = new SimpleSector(75, true, true, 0, 0, true, 1, characterClass0);
++        SimpleArea simpleArea0 = new SimpleArea(point0, simpleSector0);
++        CombatantState combatantState0 = new CombatantState(simpleArea0, -893, simpleArea0, true);
++        CombatantSide combatantSide0 = CombatantSide.ATTACKER;
++        Weapon weapon0 = new Weapon() {
++        };
++        SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState0, 0, "", characterClass0, weapon0, "");
++        SimpleBattleField simpleBattleField0 = new SimpleBattleField(1, 1);
++        PlayerConfiguration playerConfiguration0 = PlayerConfiguration.NO_DELAY;
++        BattleStatistics battleStatistics0 = new BattleStatistics(2, 0);
++        Map<Area, AreaStatistic> map0 = battleStatistics0.getFieldStatistics();
++        BattlefieldDrawing battlefieldDrawing0 = new BattlefieldDrawing(simpleBattleField0,
++                new java.awt.image.BufferedImage(1, 1, java.awt.image.BufferedImage.TYPE_INT_ARGB),
++                playerConfiguration0, map0);
++        PlayerDrawing playerDrawing0 = new PlayerDrawing(simpleCombatant0, battlefieldDrawing0);
++        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(10, 10,
++                java.awt.image.BufferedImage.TYPE_INT_ARGB);
++        Graphics g = img.getGraphics();
++        playerDrawing0.paintComponent(g);
++        assertNotNull(playerDrawing0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

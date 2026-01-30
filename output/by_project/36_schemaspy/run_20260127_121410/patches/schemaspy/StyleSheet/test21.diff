@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/view/StyleSheet_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/view/StyleSheet_ESTest.java
+@@ -280,20 +280,15 @@
+          verifyException("net.sourceforge.schemaspy.view.StyleSheet", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-    styleSheet0 = StyleSheet.getInstance();
+-      // Undeclared exception!
+-      try { 
+-        styleSheet0.write((LineWriter) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.schemaspy.view.StyleSheet", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        StyleSheet styleSheet0 = StyleSheet.getInstance();
++        java.io.StringWriter stringWriter = new java.io.StringWriter();
++        net.sourceforge.schemaspy.util.LineWriter lineWriter = new net.sourceforge.schemaspy.util.LineWriter(stringWriter);
++        styleSheet0.write(lineWriter);
++        String output = stringWriter.toString();
++        assertNotNull(output);
++        assertFalse(output.isEmpty());
++    }
++
+ }

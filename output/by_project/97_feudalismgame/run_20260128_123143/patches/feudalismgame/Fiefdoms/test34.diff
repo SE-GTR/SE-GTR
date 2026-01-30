@@ -1,0 +1,38 @@
+--- a/evosuite-tests/src/Fiefdoms_ESTest.java
++++ b/evosuite-tests/src/Fiefdoms_ESTest.java
+@@ -384,17 +384,24 @@
+       assertEquals(0, fiefdoms0.getValue());
+       assertEquals(0, fiefdoms0.getPeasants());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      Fiefdoms fiefdoms0 = new Fiefdoms();
+-      ArrayList<Intruders> arrayList0 = fiefdoms0.getViking();
+-      fiefdoms0.setViking(arrayList0);
+-      assertEquals(0, fiefdoms0.getFiefdomCastles());
+-      assertEquals(0, fiefdoms0.getPersonalCastles());
+-      assertEquals(0, fiefdoms0.getValue());
+-      assertEquals(0, fiefdoms0.getPeasants());
+-  }
++@Test(timeout = 4000)
++    public void test34() throws Throwable {
++        Fiefdoms fiefdoms0 = new Fiefdoms();
++        // Prepare a non‑empty list of Intruders to exercise the setter side‑effect
++        ArrayList<Intruders> vikingList = new ArrayList<>();
++        Intruders intruder = new Intruders();
++        vikingList.add(intruder);
++        // Invoke the setter
++        fiefdoms0.setViking(vikingList);
++        // Verify that the internal state reflects the change
++        assertTrue(fiefdoms0.getViking().contains(intruder));
++        // Existing field assertions to ensure other state remains default
++        assertEquals(0, fiefdoms0.getFiefdomCastles());
++        assertEquals(0, fiefdoms0.getPersonalCastles());
++        assertEquals(0, fiefdoms0.getValue());
++        assertEquals(0, fiefdoms0.getPeasants());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test35()  throws Throwable  {

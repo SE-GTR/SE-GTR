@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/DbAnalyzer_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/DbAnalyzer_ESTest.java
+@@ -140,24 +140,14 @@
+     List<Table> list0 = DbAnalyzer.getTablesWithoutIndexes(linkedHashSet0);
+     assertNotNull(list0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      LinkedHashSet<Table> linkedHashSet0 = new LinkedHashSet<Table>();
+-      linkedHashSet0.add((Table) null);
+-      // Undeclared exception!
+-      try { 
+-        DbAnalyzer.getMustBeUniqueNullableColumns(linkedHashSet0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.schemaspy.DbAnalyzer", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class)
++public void test11() throws Throwable {
++    LinkedHashSet<Table> linkedHashSet0 = new LinkedHashSet<>();
++    boolean added = linkedHashSet0.add((Table) null);
++    assertTrue(added);
++    DbAnalyzer.getMustBeUniqueNullableColumns(linkedHashSet0);
++}
++
+ @Test(timeout = 4000)
+     public void test12() throws Throwable {
+         LinkedList<Table> linkedList0 = new LinkedList<Table>();

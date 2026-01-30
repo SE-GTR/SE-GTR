@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/fixsuite/message/info/ComponentInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/ComponentInfo_ESTest.java
+@@ -232,17 +232,27 @@
+         String string0 = componentInfo0.getComponentType();
+         assertEquals("testType", string0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      MessageInfo messageInfo0 = new MessageInfo();
+-      messageInfo0.setName("");
+-      messageInfo0.addComponent(messageInfo0, (-1.0));
+-      ComponentInfo componentInfo0 = messageInfo0.getComponent("");
+-      assertNotNull(componentInfo0);
+-      assertEquals(0, componentInfo0.getId());
+-  }
++@Test(timeout = 4000)
++    public void test22() throws Throwable {
++        MessageInfo messageInfo0 = new MessageInfo();
++        // Verify initial state before setting name
++        assertNull(messageInfo0.getName());
++
++        // Exercise setName and assert its effect
++        messageInfo0.setName("");
++        assertEquals("", messageInfo0.getName());
++
++        // Verify component is absent before adding
++        assertNull(messageInfo0.getComponent(""));
++
++        // Exercise addComponent and assert its effect
++        messageInfo0.addComponent(messageInfo0, -1.0);
++        ComponentInfo componentInfo0 = messageInfo0.getComponent("");
++        assertNotNull(componentInfo0);
++        assertSame(messageInfo0, componentInfo0);
++        assertEquals(0, componentInfo0.getId());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/module/metadata/SourceCollectionBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/SourceCollectionBean_ESTest.java
+@@ -117,14 +117,28 @@
+       String result = sourceCollectionBean0.getFileWidth();
+       assertEquals("1024", result);
+   }
++@Test(timeout = 4000)
++  public void test08() throws Throwable {
++      SourceCollectionBean sourceCollectionBean0 = new SourceCollectionBean();
++      String id = "Source:SourceId:null name:null location:null fileWidth:null fileHeight:null link:null";
++      sourceCollectionBean0.setSourceId(id);
++      assertEquals(id, sourceCollectionBean0.getSourceId());
+ 
++      // Verify that the bean can be serialized and deserialized correctly
++      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++      oos.writeObject(sourceCollectionBean0);
++      oos.flush();
++      byte[] serialized = baos.toByteArray();
+ 
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      SourceCollectionBean sourceCollectionBean0 = new SourceCollectionBean();
+-      sourceCollectionBean0.setSourceId("Source:SourceId:null name:null location:null fileWidth:null fileHeight:null link:null");
+-      assertEquals("Source:SourceId:null name:null location:null fileWidth:null fileHeight:null link:null", sourceCollectionBean0.getSourceId());
++      java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(serialized);
++      java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++      Object deserializedObj = ois.readObject();
++      assertTrue(deserializedObj instanceof SourceCollectionBean);
++      SourceCollectionBean deserialized = (SourceCollectionBean) deserializedObj;
++      assertEquals(id, deserialized.getSourceId());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

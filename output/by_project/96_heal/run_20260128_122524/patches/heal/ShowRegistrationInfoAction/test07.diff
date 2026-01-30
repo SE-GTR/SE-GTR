@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/servlet/ShowRegistrationInfoAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/ShowRegistrationInfoAction_ESTest.java
+@@ -157,18 +157,21 @@
+       showRegistrationInfoAction0.setUserAttributes(httpServletRequestWrapper0, userBean0);
+       assertFalse(userBean0.isAdministrator());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      ShowRegistrationInfoAction showRegistrationInfoAction0 = new ShowRegistrationInfoAction();
+-      UserBean userBean0 = new UserBean();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      ProfessionalRoleBean professionalRoleBean0 = new ProfessionalRoleBean();
+-      userBean0.addProfessionalRole(professionalRoleBean0);
+-      showRegistrationInfoAction0.setUserAttributes(httpServletRequestWrapper0, userBean0);
+-      assertFalse(userBean0.isEmailValidated());
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        ShowRegistrationInfoAction showRegistrationInfoAction0 = new ShowRegistrationInfoAction();
++        UserBean userBean0 = new UserBean();
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        ProfessionalRoleBean professionalRoleBean0 = new ProfessionalRoleBean();
++        userBean0.addProfessionalRole(professionalRoleBean0);
++        showRegistrationInfoAction0.setUserAttributes(httpServletRequestWrapper0, userBean0);
++        // Verify that setUserAttributes performed a side‑effect on the request (e.g., setting an attribute)
++        verify(httpServletRequest0, atLeastOnce()).setAttribute(anyString(), any());
++        // Existing check on the user bean state
++        assertFalse(userBean0.isEmailValidated());
++    }
++
+ @Test(timeout = 4000)
+     public void test08() throws Throwable {
+         ShowRegistrationInfoAction showRegistrationInfoAction0 = new ShowRegistrationInfoAction();

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostalCode_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostalCode_ESTest.java
+@@ -172,13 +172,26 @@
+       String string0 = postalCode_PostalCodeNumber0.getType();
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      PostalCode.PostalCodeNumber postalCode_PostalCodeNumber0 = new PostalCode.PostalCodeNumber();
+-      postalCode_PostalCodeNumber0.setCode((String) null);
+-      assertNull(postalCode_PostalCodeNumber0.getContent());
+-  }
++@Test(timeout = 4000)
++public void test21() throws Throwable {
++    PostalCode.PostalCodeNumber postalCodeNumber = new PostalCode.PostalCodeNumber();
++
++    // Initially the code attribute should be null
++    assertNull(postalCodeNumber.getCode());
++
++    // Set the code to null and verify the side‑effect
++    postalCodeNumber.setCode(null);
++    assertNull(postalCodeNumber.getCode());
++
++    // Set a non‑null code and verify the side‑effect
++    String expectedCode = "12345";
++    postalCodeNumber.setCode(expectedCode);
++    assertEquals(expectedCode, postalCodeNumber.getCode());
++
++    // The content field is unrelated to the code attribute and should remain null
++    assertNull(postalCodeNumber.getContent());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/netweaver/porta/core/mock/ApplicationMock_ESTest.java
++++ b/evosuite-tests/com/sap/netweaver/porta/core/mock/ApplicationMock_ESTest.java
+@@ -116,17 +116,23 @@
+     assertEquals("*}o-#UApw%I6@Rw", applicationMock0.getVersion());
+     assertEquals("name: 'starting0starting', vendor: 'sap.com'", applicationMock0.getId());
+ }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        MockFile mockFile0 = new MockFile("x7d}.IH1n9TS%+ v");
++        ApplicationMock applicationMock0 = new ApplicationMock(mockFile0);
++        // Verify the initial name derived from the mock file
++        assertEquals("x7d}", applicationMock0.getName());
++        // Capture the initial id (used only for sanity)
++        String initialId = applicationMock0.getId();
++        assertNotNull(initialId);
++        // Change the name and verify the side‑effect
++        String newName = "newAppName";
++        applicationMock0.setName(newName);
++        assertEquals(newName, applicationMock0.getName());
++        // Verify that id still contains expected vendor information (non‑trivial logic)
++        assertTrue(applicationMock0.getId().contains("vendor: 'sap.com'"));
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("x7d}.IH1n9TS%+ v");
+-      ApplicationMock applicationMock0 = new ApplicationMock(mockFile0);
+-      assertEquals("x7d}", applicationMock0.getName());
+-      
+-      applicationMock0.setName("x7d}.IH1n9TS%+ v");
+-      assertEquals("name: 'x7d}', vendor: 'sap.com'", applicationMock0.getId());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

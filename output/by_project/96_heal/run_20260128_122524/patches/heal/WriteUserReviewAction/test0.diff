@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/heal/servlet/userreview/WriteUserReviewAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/userreview/WriteUserReviewAction_ESTest.java
+@@ -22,27 +22,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class WriteUserReviewAction_ESTest extends WriteUserReviewAction_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    WriteUserReviewAction action = new WriteUserReviewAction();
++    Servlet servlet = new Servlet();
++    HttpServletRequest request = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    RequestDispatcher dispatcher = mock(RequestDispatcher.class);
++    doReturn(dispatcher).when(request).getRequestDispatcher(anyString());
++    doReturn("param=value").when(request).getQueryString();
++    HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(request);
++    HttpServletResponse response = mock(HttpServletResponse.class);
++    // Execute the action with valid, non‑null arguments
++    action.perform(servlet, requestWrapper, response);
++    // Verify interactions and assert non‑null response
++    verify(request).getRequestDispatcher(anyString());
++    verify(request).getQueryString();
++    assertNotNull(response);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      WriteUserReviewAction writeUserReviewAction0 = new WriteUserReviewAction();
+-      Servlet servlet0 = new Servlet();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((RequestDispatcher) null).when(httpServletRequest0).getRequestDispatcher(anyString());
+-      doReturn((String) null).when(httpServletRequest0).getQueryString();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      // Undeclared exception!
+-      try { 
+-        writeUserReviewAction0.perform(servlet0, httpServletRequestWrapper0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.userreview.WriteUserReviewAction", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

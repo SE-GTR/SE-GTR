@@ -1,0 +1,30 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -116,19 +116,17 @@
+         handballModel0.removePlayer(offender0);
+         assertFalse(handballModel0.getOffenders().contains(offender0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Offender offender0 = new Offender(0, 0);
+-      PassEvent passEvent0 = new PassEvent(offender0, 243, 12309);
+-      handballModel0.addMoveEvent(passEvent0);
+-      MoveEvent moveEvent0 = new MoveEvent(offender0, 2092);
+-      handballModel0.setActualMoveEvent(moveEvent0);
++@Test(timeout = 4000)
++  public void test07() throws Throwable {
++      HandballModel handballModel0 = new HandballModel();
++      // Verify initial state is not EDIT_EVENT
++      assertNotEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
++      // Perform the operation under test
+       handballModel0.removeEventsAfter();
++      // Verify the expected state change
+       assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

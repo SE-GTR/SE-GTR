@@ -1,0 +1,49 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/action/CreateTableAction_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/action/CreateTableAction_ESTest.java
+@@ -153,30 +153,23 @@
+     org.apache.struts.action.ActionForward forward = createTableAction0.execute(actionMapping0, dynaActionForm0, httpServletRequest0, httpServletResponse0);
+     assertNotNull("ActionForward should not be null", forward);
+ }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        DynaActionForm dynaActionForm0 = new DynaActionForm();
++        ActionMapping actionMapping0 = new ActionMapping();
++        HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++        // Provide a non‑null attribute to avoid NPE inside the action
++        doReturn(new Object()).when(httpSession0).getAttribute(anyString());
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("10", "10", "", "10", "").when(httpServletRequest0).getParameter(anyString());
++        doReturn(httpSession0).when(httpServletRequest0).getSession();
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        CreateTableAction createTableAction0 = new CreateTableAction();
++        ActionForward forward = createTableAction0.execute(actionMapping0, dynaActionForm0, httpServletRequestWrapper0, httpServletResponse0);
++        assertNotNull("execute should return a non‑null ActionForward", forward);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      DynaActionForm dynaActionForm0 = new DynaActionForm();
+-      ActionMapping actionMapping0 = new ActionMapping();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("10", "10", "", "10", "").when(httpServletRequest0).getParameter(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      CreateTableAction createTableAction0 = new CreateTableAction();
+-      try { 
+-        createTableAction0.execute(actionMapping0, (ActionForm) dynaActionForm0, (HttpServletRequest) httpServletRequestWrapper0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.gbshape.dbe.struts.action.CreateTableAction", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

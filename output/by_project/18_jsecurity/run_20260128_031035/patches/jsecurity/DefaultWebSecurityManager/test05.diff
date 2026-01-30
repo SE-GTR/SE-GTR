@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jsecurity/web/DefaultWebSecurityManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/DefaultWebSecurityManager_ESTest.java
+@@ -89,14 +89,20 @@
+          verifyException("org.jsecurity.web.DefaultWebSecurityManager", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-    defaultWebSecurityManager0 = new DefaultWebSecurityManager();
+-      defaultWebSecurityManager0.setSessionMode("jsecurity");
+-      defaultWebSecurityManager0.setSessionIdCookiePath("jsecurity");
+-      assertEquals("jsecurity", defaultWebSecurityManager0.getSessionMode());
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    defaultWebSecurityManager0 = new DefaultWebSecurityManager();
++    // Capture the initial session mode to verify it changes
++    String initialMode = defaultWebSecurityManager0.getSessionMode();
++    defaultWebSecurityManager0.setSessionMode("jsecurity");
++    assertNotEquals(initialMode, defaultWebSecurityManager0.getSessionMode());
++    assertEquals("jsecurity", defaultWebSecurityManager0.getSessionMode());
++
++    // Verify the session ID cookie path is set correctly
++    defaultWebSecurityManager0.setSessionIdCookiePath("jsecurity");
++    assertEquals("jsecurity", defaultWebSecurityManager0.getSessionIdCookiePath());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

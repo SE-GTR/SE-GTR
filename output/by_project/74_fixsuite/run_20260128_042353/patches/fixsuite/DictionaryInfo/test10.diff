@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/fixsuite/message/info/DictionaryInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/DictionaryInfo_ESTest.java
+@@ -135,13 +135,17 @@
+       ComponentInfo componentInfo1 = dictionaryInfo0.getComponent((-211));
+       assertNull(componentInfo1);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      DictionaryInfo dictionaryInfo0 = new DictionaryInfo("vi(z~ba^t)");
+-      ComponentInfo componentInfo0 = dictionaryInfo0.getComponent((-211));
+-      assertNull(componentInfo0);
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    DictionaryInfo dictionaryInfo0 = new DictionaryInfo("vi(z~ba^t)");
++    // Act: request components with identifiers that are not present
++    ComponentInfo componentInfoNeg = dictionaryInfo0.getComponent(-211);
++    ComponentInfo componentInfoZero = dictionaryInfo0.getComponent(0);
++    // Assert: the dictionary should return null for unknown component identifiers
++    assertNull(componentInfoNeg);
++    assertNull(componentInfoZero);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

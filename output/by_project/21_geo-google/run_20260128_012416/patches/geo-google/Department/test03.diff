@@ -1,0 +1,31 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Department_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Department_ESTest.java
+@@ -50,15 +50,23 @@
+       assertEquals(1, list0.size());
+       assertSame(name, list0.get(0));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test03() throws Throwable {
+       Department department0 = new Department();
+       List<AddressLine> list0 = department0.getAddressLine();
++
++      // Act: modify the list returned by the getter
++      AddressLine line = new AddressLine();
++      list0.add(line);
++
++      // Assert: the modification is reflected in subsequent calls and the list contents are as expected
+       List<AddressLine> list1 = department0.getAddressLine();
+-      assertSame(list1, list0);
++      assertEquals(1, list0.size());
++      assertSame(line, list0.get(0));
++      assertSame(line, list1.get(0));
++      assertEquals(list0, list1);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/allenstudio/ir/ui/calendar/MonthlyCalendar_ESTest.java
++++ b/evosuite-tests/com/allenstudio/ir/ui/calendar/MonthlyCalendar_ESTest.java
+@@ -629,16 +629,25 @@
+         assertNotNull(prefSize);
+         assertTrue(prefSize.width > 0 && prefSize.height > 0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test54()  throws Throwable  {
+-      MonthlyCalendar monthlyCalendar0 = new MonthlyCalendar();
+-      monthlyCalendar0.setDateBackground((Color) null);
+-      assertEquals(2, monthlyCalendar0.getMonth());
+-      assertEquals(2014, monthlyCalendar0.getYear());
+-      assertTrue(monthlyCalendar0.getMouseListeningEnabled());
+-  }
++@Test(timeout = 4000)
++    public void test54() throws Throwable {
++        MonthlyCalendar monthlyCalendar0 = new MonthlyCalendar();
++        // Verify default state
++        int defaultMonth = monthlyCalendar0.getMonth();
++        int defaultYear = monthlyCalendar0.getYear();
++        assertTrue(monthlyCalendar0.getMouseListeningEnabled());
++
++        // Change state using non‑trivial setters
++        monthlyCalendar0.setMonth(defaultMonth + 1);
++        monthlyCalendar0.setYear(defaultYear + 1);
++        monthlyCalendar0.setDateBackground(null);
++
++        // Assert that the side effects are observable
++        assertEquals(defaultMonth + 1, monthlyCalendar0.getMonth());
++        assertEquals(defaultYear + 1, monthlyCalendar0.getYear());
++        assertTrue(monthlyCalendar0.getMouseListeningEnabled());
++    }
++
+ public void test55() throws Throwable {
+     MonthlyCalendar monthlyCalendar0 = new MonthlyCalendar();
+     assertNotNull(monthlyCalendar0);

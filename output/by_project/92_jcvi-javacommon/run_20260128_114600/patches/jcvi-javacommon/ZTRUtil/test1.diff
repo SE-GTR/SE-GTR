@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/ztr/ZTRUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/ztr/ZTRUtil_ESTest.java
+@@ -23,13 +23,17 @@
+       assertFalse(boolean0);
+       assertArrayEquals(new byte[] {(byte)0, (byte)0, (byte)0, (byte)0, (byte)0}, byteArray0);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        byte[] magic = ZTRUtil.getMagicNumber();
++        assertTrue(ZTRUtil.isMagicNumber(magic));
++        byte[] notMagic = new byte[magic.length];
++        for (int i = 0; i < notMagic.length; i++) {
++            notMagic[i] = (byte) (magic[i] ^ 0xFF);
++        }
++        assertFalse(ZTRUtil.isMagicNumber(notMagic));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      byte[] byteArray0 = ZTRUtil.getMagicNumber();
+-      boolean boolean0 = ZTRUtil.isMagicNumber(byteArray0);
+-      assertTrue(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

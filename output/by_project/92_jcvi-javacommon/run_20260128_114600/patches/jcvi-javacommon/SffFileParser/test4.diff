@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/SffFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/SffFileParser_ESTest.java
+@@ -92,23 +92,19 @@
+          verifyException("org.jcvi.jillion.trace.sff.SffFileParser$FileBasesSffParser", e);
+       }
+   }
++@Test(timeout = 4000, expected = IOException.class)
++  public void test4() throws Throwable {
++      InputStream failingStream = new InputStream() {
++          @Override
++          public int read() throws IOException {
++              throw new IOException("forced");
++          }
++      };
++      SffFileParser parser = SffFileParser.create(failingStream);
++      SffFileVisitor visitor = mock(SffFileVisitor.class, new ViolatedAssumptionAnswer());
++      parser.accept(visitor);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      PipedInputStream pipedInputStream0 = new PipedInputStream();
+-      SffFileParser sffFileParser0 = SffFileParser.create((InputStream) pipedInputStream0);
+-      SffFileVisitor sffFileVisitor0 = mock(SffFileVisitor.class, new ViolatedAssumptionAnswer());
+-      try { 
+-        sffFileParser0.accept(sffFileVisitor0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // inputstream is not open
+-         //
+-         verifyException("org.jcvi.jillion.trace.sff.SffFileParser$InputStreamBasedSffParser", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

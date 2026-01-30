@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/yahoo/platform/yui/compressor/ScriptOrFnScope_ESTest.java
++++ b/evosuite-tests/com/yahoo/platform/yui/compressor/ScriptOrFnScope_ESTest.java
+@@ -24,15 +24,20 @@
+     scriptOrFnScope0 = new ScriptOrFnScope(56, (ScriptOrFnScope) null);
+     scriptOrFnScope1 = new ScriptOrFnScope(56, scriptOrFnScope0);
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Declare an identifier in the second scope and verify a non‑null result.
++        JavaScriptIdentifier id1 = scriptOrFnScope1.declareIdentifier("var1");
++        assertNotNull(id1);
++        // Perform munging on the first scope.
++        scriptOrFnScope0.munge();
++        // After munging, declaring another identifier should still succeed.
++        JavaScriptIdentifier id2 = scriptOrFnScope0.declareIdentifier("var2");
++        assertNotNull(id2);
++        // The identifiers created in different scopes should be distinct objects.
++        assertNotSame(id1, id2);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      scriptOrFnScope1.declareIdentifier("");
+-      scriptOrFnScope0.munge();
+-      scriptOrFnScope0.munge();
+-      assertNotSame(scriptOrFnScope0, scriptOrFnScope1);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

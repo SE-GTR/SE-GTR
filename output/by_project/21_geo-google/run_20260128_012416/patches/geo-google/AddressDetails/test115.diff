@@ -1,0 +1,37 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -1139,13 +1139,27 @@
+       addressDetails0.setPostalServiceElements(addressDetails_PostalServiceElements0);
+       assertNull(addressDetails0.getAddressDetailsKey());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test115()  throws Throwable  {
+-      AddressDetails addressDetails0 = new AddressDetails();
+-      addressDetails0.setCode((String) null);
+-      assertNull(addressDetails0.getValidFromDate());
+-  }
++@Test(timeout = 4000)
++public void test115() throws Throwable {
++    AddressDetails addressDetails0 = new AddressDetails();
++
++    // Verify initial state
++    assertNull(addressDetails0.getCode());
++    assertNull(addressDetails0.getValidFromDate());
++
++    // Set code to null and verify side‑effect
++    addressDetails0.setCode((String) null);
++    assertNull(addressDetails0.getCode());
++
++    // Set a non‑null code and verify it is stored correctly
++    String testCode = "ABC123";
++    addressDetails0.setCode(testCode);
++    assertEquals(testCode, addressDetails0.getCode());
++
++    // Ensure other fields remain unaffected
++    assertNull(addressDetails0.getValidFromDate());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test116()  throws Throwable  {

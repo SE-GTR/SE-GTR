@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/javathena/conf/LoginAthena_ESTest.java
++++ b/evosuite-tests/org/javathena/conf/LoginAthena_ESTest.java
+@@ -18,23 +18,19 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class LoginAthena_ESTest extends LoginAthena_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("conf/login_athena.xml");
+-      FileSystemHandling.appendStringToFile(evoSuiteFile0, " PS(hNDM[7T'`YO");
+-      // Undeclared exception!
+-      try { 
+-        LoginAthena.load();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         //  : Content is not allowed in prolog.
+-         //
+-         verifyException("com.thoughtworks.xstream.io.xml.DomDriver", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("conf/login_athena.xml");
++        boolean appendResult = FileSystemHandling.appendStringToFile(evoSuiteFile0, " PS(hNDM[7T'`YO");
++        assertTrue("Appending string to file should succeed", appendResult);
++        try {
++            LoginAthena.load();
++            fail("Expecting exception: RuntimeException");
++        } catch (RuntimeException e) {
++            verifyException("com.thoughtworks.xstream.io.xml.DomDriver", e);
++        }
++    }
++
+ @Test(timeout = 4000)
+     public void test01() throws Throwable {
+         LoginAthena loginAthena0 = new LoginAthena();

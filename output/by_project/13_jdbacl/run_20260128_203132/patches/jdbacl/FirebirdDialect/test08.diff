@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/FirebirdDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/FirebirdDialect_ESTest.java
+@@ -74,16 +74,22 @@
+       boolean boolean0 = firebirdDialect0.isDeterministicPKName("INTEG_0");
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        FirebirdDialect firebirdDialect0 = new FirebirdDialect();
++        DBSequence dBSequence0 = new DBSequence("", "", "");
++        BigInteger bigInteger0 = BigInteger.TEN;
++        // Verify initial state before mutation
++        assertNull(dBSequence0.getStart());
++        // Act: set the start value
++        dBSequence0.setStart(bigInteger0);
++        // Assert the side‑effect of setStart
++        assertEquals(bigInteger0, dBSequence0.getStart());
++        // Additional behavior verification
++        String string0 = firebirdDialect0.renderCreateSequence(dBSequence0);
++        assertEquals("CREATE GENERATOR ; SET GENERATOR  TO 9;", string0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      FirebirdDialect firebirdDialect0 = new FirebirdDialect();
+-      DBSequence dBSequence0 = new DBSequence("", "", "");
+-      BigInteger bigInteger0 = BigInteger.TEN;
+-      dBSequence0.setStart(bigInteger0);
+-      String string0 = firebirdDialect0.renderCreateSequence(dBSequence0);
+-      assertEquals("CREATE GENERATOR ; SET GENERATOR  TO 9;", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

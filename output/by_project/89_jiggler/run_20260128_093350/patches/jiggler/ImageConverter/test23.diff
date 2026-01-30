@@ -1,0 +1,59 @@
+--- a/evosuite-tests/jigl/image/utils/ImageConverter_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/ImageConverter_ESTest.java
+@@ -467,35 +467,27 @@
+           verifyException("jigl.image.types.ComplexImage", e);
+       }
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      InterpolatedColorImage interpolatedColorImage0 = new InterpolatedColorImage(0, 4);
+-      assertEquals(ColorModel.RGB, interpolatedColorImage0.getColorModel());
+-      assertEquals(4, interpolatedColorImage0.Y());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
+-      assertEquals(0, interpolatedColorImage0.X());
+-      
+-      ComplexImage complexImage0 = ImageConverter.toComplex((ColorImage) interpolatedColorImage0);
+-      assertEquals(ColorModel.RGB, interpolatedColorImage0.getColorModel());
+-      assertEquals(4, interpolatedColorImage0.Y());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
+-      assertEquals(0, interpolatedColorImage0.X());
+-      assertEquals(4, complexImage0.Y());
+-      assertEquals(0, complexImage0.X());
+-      
+-      ColorImage colorImage0 = ImageConverter.toColor(complexImage0);
+-      assertEquals(ColorModel.RGB, interpolatedColorImage0.getColorModel());
+-      assertEquals(4, interpolatedColorImage0.Y());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
+-      assertEquals(0, interpolatedColorImage0.X());
+-      assertEquals(4, complexImage0.Y());
+-      assertEquals(0, complexImage0.X());
+-      assertEquals(ColorModel.RGB, colorImage0.getColorModel());
+-      assertEquals(4, colorImage0.Y());
+-      assertEquals(0, colorImage0.X());
+-  }
++@Test(timeout = 4000)
++public void test23() throws Throwable {
++    InterpolatedColorImage interpolatedColorImage0 = new InterpolatedColorImage(0, 4);
++    // Verify object initialization
++    assertEquals(ColorModel.RGB, interpolatedColorImage0.getColorModel());
++    assertEquals(0, interpolatedColorImage0.X());
++    assertEquals(4, interpolatedColorImage0.Y());
++    assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
++
++    ComplexImage complexImage0 = ImageConverter.toComplex((ColorImage) interpolatedColorImage0);
++    // Verify conversion preserves dimensions
++    assertEquals(0, complexImage0.X());
++    assertEquals(4, complexImage0.Y());
++
++    ColorImage colorImage0 = ImageConverter.toColor(complexImage0);
++    // Verify round‑trip preserves key properties
++    assertEquals(ColorModel.RGB, colorImage0.getColorModel());
++    assertEquals(0, colorImage0.X());
++    assertEquals(4, colorImage0.Y());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

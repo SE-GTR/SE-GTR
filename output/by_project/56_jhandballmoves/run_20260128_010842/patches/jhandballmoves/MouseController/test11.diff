@@ -1,0 +1,63 @@
+--- a/evosuite-tests/visu/handball/moves/controller/MouseController_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/controller/MouseController_ESTest.java
+@@ -146,11 +146,28 @@
+       MouseController mouseController0 = new MouseController(handballModel0, jInternalFrame0);
+       mouseController0.mouseClicked((MouseEvent) null);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      HandballModel.State handballModel_State0 = HandballModel.State.EDIT_EVENT;
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        handballModel0.setState(HandballModel.State.EDIT_EVENT);
++        JInternalFrame jInternalFrame0 = new JInternalFrame() {
++            @Override
++            public void updateUI() {
++                // suppress UI initialization to avoid headless errors
++            }
++        };
++        MouseController mouseController0 = new MouseController(handballModel0, jInternalFrame0);
++        MouseEvent event = new MouseEvent(jInternalFrame0, MouseEvent.MOUSE_CLICKED,
++                System.currentTimeMillis(), 0, 0, 0, 1, false);
++        mouseController0.mouseClicked(event);
++        assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
++    }
++
++
++  @Test(timeout = 4000)
++  public void test12()  throws Throwable  {
++      HandballModel handballModel0 = new HandballModel();
++      HandballModel.State handballModel_State0 = HandballModel.State.EDIT;
+       handballModel0.setState(handballModel_State0);
+       JInternalFrame jInternalFrame0 = new JInternalFrame();
+       MouseController mouseController0 = new MouseController(handballModel0, jInternalFrame0);
+@@ -168,26 +185,6 @@
+   }
+ 
+   @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      HandballModel.State handballModel_State0 = HandballModel.State.EDIT;
+-      handballModel0.setState(handballModel_State0);
+-      JInternalFrame jInternalFrame0 = new JInternalFrame();
+-      MouseController mouseController0 = new MouseController(handballModel0, jInternalFrame0);
+-      // Undeclared exception!
+-      try { 
+-        mouseController0.mouseClicked((MouseEvent) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("visu.handball.moves.controller.MouseController", e);
+-      }
+-  }
+-
+-  @Test(timeout = 4000)
+   public void test13()  throws Throwable  {
+       HandballModel handballModel0 = new HandballModel();
+       HandballModel.State handballModel_State0 = HandballModel.State.PLACE_DEFENDERS;

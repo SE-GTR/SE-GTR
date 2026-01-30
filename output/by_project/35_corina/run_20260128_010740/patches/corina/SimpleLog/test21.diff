@@ -1,0 +1,36 @@
+--- a/evosuite-tests/corina/util/SimpleLog_ESTest.java
++++ b/evosuite-tests/corina/util/SimpleLog_ESTest.java
+@@ -218,16 +218,23 @@
+       assertFalse(simpleLog0.isDebugEnabled());
+       assertTrue(simpleLog0.isInfoEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      SimpleLog simpleLog0 = new SimpleLog("#");
+-      SecurityException securityException0 = new SecurityException();
+-      simpleLog0.warn((Object) "#", (Throwable) securityException0);
+-      assertFalse(simpleLog0.isDebugEnabled());
+-      assertTrue(simpleLog0.isInfoEnabled());
+-      assertTrue(simpleLog0.isWarnEnabled());
+-  }
++@Test(timeout = 4000)
++  public void test21() throws Throwable {
++      PrintStream originalErr = System.err;
++      ByteArrayOutputStream baos = new ByteArrayOutputStream();
++      System.setErr(new PrintStream(baos));
++      try {
++          SimpleLog simpleLog0 = new SimpleLog("#");
++          SecurityException securityException0 = new SecurityException();
++          simpleLog0.warn((Object) "#", (Throwable) securityException0);
++          String output = baos.toString();
++          assertTrue(output.contains("#"));
++          assertTrue(output.contains(SecurityException.class.getSimpleName()));
++      } finally {
++          System.setErr(originalErr);
++      }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

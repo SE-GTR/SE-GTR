@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -1139,23 +1139,20 @@
+       assertFalse(config0.hasOrphans());
+       assertFalse(config0.hasRoutines());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test079()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.setDriverPath("\" of additional parameters.");
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-u' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test079() throws Throwable {
++        Config config0 = Config.getInstance();
++        config0.setDriverPath("driver.jar");
++        config0.setUser("testUser");
++        config0.setDb("testdb");
++        config0.setHost("localhost");
++        config0.setPort(Integer.valueOf(3306));
++        List<String> list = config0.asList();
++        assertNotNull(list);
++        assertTrue(list.contains("-u"));
++        assertTrue(list.contains("testUser"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test080()  throws Throwable  {

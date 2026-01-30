@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Undeploy_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Undeploy_ESTest.java
+@@ -114,18 +114,27 @@
+     boolean boolean0 = undeploy0.equals(undeploy1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      Undeploy undeploy0 = new Undeploy();
+-      Application[] applicationArray0 = new Application[0];
+-      undeploy0.setApps(applicationArray0);
+-      Undeploy undeploy1 = new Undeploy();
+-      boolean boolean0 = undeploy1.equals(undeploy0);
+-      assertFalse(undeploy0.equals((Object)undeploy1));
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        // Verify that setting an empty array results in inequality with a fresh instance
++        Undeploy undeploy0 = new Undeploy();
++        Application[] emptyArray = new Application[0];
++        undeploy0.setApps(emptyArray);
++        Undeploy undeploy1 = new Undeploy();
++        boolean eqEmpty = undeploy1.equals(undeploy0);
++        assertFalse(eqEmpty);
++        assertFalse(undeploy0.equals((Object) undeploy1));
++
++        // Verify that setting the same non‑empty array on two instances makes them equal
++        Application app = new Application();
++        Application[] apps = new Application[] { app };
++        Undeploy undeploy2 = new Undeploy();
++        Undeploy undeploy3 = new Undeploy();
++        undeploy2.setApps(apps);
++        undeploy3.setApps(apps);
++        assertTrue(undeploy2.equals(undeploy3));
++    }
++
+ @Test(timeout = 4000)
+   public void test08() throws Throwable {
+       Undeploy undeploy0 = new Undeploy();

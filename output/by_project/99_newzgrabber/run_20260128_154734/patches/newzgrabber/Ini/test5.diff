@@ -1,0 +1,33 @@
+--- a/evosuite-tests/Newzgrabber/Ini_ESTest.java
++++ b/evosuite-tests/Newzgrabber/Ini_ESTest.java
+@@ -107,22 +107,15 @@
+     assertNotNull(readResult);
+     assertTrue("File should contain data after writeIni", file0.length() > 0);
+ }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    java.io.File tempFile = java.io.File.createTempFile("ini_test", ".tmp");
++    tempFile.deleteOnExit();
++    Ini ini0 = new Ini(tempFile.getAbsolutePath(), "S");
++    java.util.Vector result = ini0.getIniVector();
++    assertNotNull(result);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      Ini ini0 = new Ini("S", "S");
+-      try { 
+-        ini0.getIniVector();
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+ public void test6() throws Throwable {
+     File file0 = MockFile.createTempFile("ig{", "ig{", (File) null);

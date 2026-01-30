@@ -1,0 +1,48 @@
+--- a/evosuite-tests/corina/formats/Spreadsheet_ESTest.java
++++ b/evosuite-tests/corina/formats/Spreadsheet_ESTest.java
+@@ -150,23 +150,29 @@
+       String string0 = spreadsheet0.getDefaultExtension();
+       assertEquals(".TXT", string0);
+   }
++@Test(timeout = 4000)
++    public void test7() throws Throwable {
++        Spreadsheet spreadsheet0 = new Spreadsheet();
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      Spreadsheet spreadsheet0 = new Spreadsheet();
+-      StringReader stringReader0 = new StringReader(".TXT");
+-      BufferedReader bufferedReader0 = new BufferedReader(stringReader0);
+-      try { 
+-        spreadsheet0.load(bufferedReader0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.formats.Spreadsheet", e);
+-      }
+-  }
++        class ThrowingBufferedReader extends BufferedReader {
++            ThrowingBufferedReader() {
++                super(new StringReader(""));
++            }
++
++            @Override
++            public String readLine() throws IOException {
++                throw new IOException("forced for test");
++            }
++        }
++
++        try {
++            spreadsheet0.load(new ThrowingBufferedReader());
++            fail("Expecting exception: IOException");
++        } catch (IOException e) {
++            // expected exception
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

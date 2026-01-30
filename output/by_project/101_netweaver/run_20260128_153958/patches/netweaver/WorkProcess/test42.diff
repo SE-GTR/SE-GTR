@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -660,20 +660,27 @@
+         TypeDesc td2 = WorkProcess.getTypeDesc();
+         assertSame(td1, td2);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test42()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
+-      workProcess0.setTime("1'qPb(h TU-4i{:r");
+-      WorkProcess workProcess1 = new WorkProcess();
+-      assertFalse(workProcess1.equals((Object)workProcess0));
+-      
+-      workProcess1.setTime("1'qPb(h TU-4i{:r");
+-      boolean boolean0 = workProcess0.equals(workProcess1);
+-      assertTrue(workProcess1.equals((Object)workProcess0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test42() throws Throwable {
++    WorkProcess workProcess0 = new WorkProcess();
++    // Verify initial state before setting time
++    assertNull(workProcess0.getTime());
++    workProcess0.setTime("1'qPb(h TU-4i{:r");
++    // Observe side‑effect of setTime
++    assertEquals("1'qPb(h TU-4i{:r", workProcess0.getTime());
++
++    WorkProcess workProcess1 = new WorkProcess();
++    assertFalse(workProcess1.equals((Object) workProcess0));
++
++    workProcess1.setTime("1'qPb(h TU-4i{:r");
++    // Observe side‑effect on the second instance
++    assertEquals("1'qPb(h TU-4i{:r", workProcess1.getTime());
++
++    boolean boolean0 = workProcess0.equals(workProcess1);
++    assertTrue(workProcess1.equals((Object) workProcess0));
++    assertTrue(boolean0);
++}
++
+ @Test(timeout = 4000)
+     public void test43() throws Throwable {
+         Class<Object> class0 = Object.class;

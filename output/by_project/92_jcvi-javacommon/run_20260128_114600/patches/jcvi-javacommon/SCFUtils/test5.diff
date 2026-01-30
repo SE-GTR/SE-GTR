@@ -1,0 +1,48 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/scf/SCFUtils_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/scf/SCFUtils_ESTest.java
+@@ -81,26 +81,28 @@
+       boolean boolean0 = SCFUtils.isMagicNumber(byteArray0);
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    Iterator<Position> iterator0 = (Iterator<Position>) mock(Iterator.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(iterator0).hasNext();
++    PositionSequence positionSequence0 = mock(PositionSequence.class, new ViolatedAssumptionAnswer());
++    doReturn(iterator0).when(positionSequence0).iterator();
++    doReturn(0L).when(positionSequence0).getLength();
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      Iterator<Position> iterator0 = (Iterator<Position>) mock(Iterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(iterator0).hasNext();
+-      PositionSequence positionSequence0 = mock(PositionSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(iterator0).when(positionSequence0).iterator();
+-      doReturn(0L).when(positionSequence0).getLength();
+-      // Undeclared exception!
+-      try { 
++    // Verify stubbed return values
++    assertFalse(iterator0.hasNext());
++    assertSame(iterator0, positionSequence0.iterator());
++    assertEquals(0L, positionSequence0.getLength());
++
++    try {
+         SCFUtils.deltaDeltaEncode(positionSequence0);
+         fail("Expecting exception: IndexOutOfBoundsException");
+-      
+-      } catch(IndexOutOfBoundsException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.nio.Buffer", e);
+-      }
+-  }
++    } catch (IndexOutOfBoundsException e) {
++        // no message in exception (getMessage() returned null)
++        verifyException("java.nio.Buffer", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

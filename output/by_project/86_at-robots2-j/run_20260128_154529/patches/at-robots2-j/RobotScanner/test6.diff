@@ -1,0 +1,41 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/robot/RobotScanner_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/robot/RobotScanner_ESTest.java
+@@ -129,10 +129,8 @@
+         // Verify visit side‑effect (no kills should be recorded)
+         assertEquals(0, robot1.getRoundKills());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test6() throws Throwable {
+       Robot robot0 = new Robot("ne.virt>ali+finity.atobots.rbot.RoboKScanner", (-2145281689), (RobotScore) null);
+       Robot robot1 = new Robot("ne.virt>ali+finity.atobots.rbot.RoboKScanner", (-2145281689), (RobotScore) null);
+       Position position0 = robot1.getPosition();
+@@ -141,13 +139,24 @@
+       RelativeAngle relativeAngle0 = RelativeAngle.HALF_CIRCLE;
+       Vector vector0 = absoluteAngle1.toUnitVector();
+       Position position1 = new Position(vector0);
++
++      // Verify copyFrom copies the vector from position1 to position0
++      Vector beforeCopy = position0.getVector();
+       position0.copyFrom(position1);
++      assertEquals(position1.getVector(), position0.getVector());
++
+       AngleBracket angleBracket0 = AngleBracket.clockwiseFrom(absoluteAngle0, relativeAngle0);
++
++      // Verify move changes the position's vector
++      Vector beforeMove = position1.getVector();
+       position1.move(vector0);
++      assertNotEquals(beforeMove, position1.getVector());
++
+       RobotScanner robotScanner0 = new RobotScanner(robot0, position1, angleBracket0, (-2145281689), false);
+       robotScanner0.visit(robot1);
+-      assertFalse(robot1.equals((Object)robot0));
++      assertFalse(robot1.equals((Object) robot0));
+   }
++
+ @Test(timeout = 4000)
+ public void test7() throws Throwable {
+     Robot robot0 = new Robot("P", -15, null);

@@ -1,0 +1,49 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
+@@ -152,20 +152,32 @@
+         j2EEWebSession2.setUser(" !\"/*'kr'@f@0ldyh~Z");
+         assertTrue(j2EEWebSession0.equals(j2EEWebSession2));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      J2EEWebSession j2EEWebSession0 = new J2EEWebSession();
+-      J2EEWebSession j2EEWebSession1 = new J2EEWebSession();
+-      j2EEWebSession0.setBackingStore("mustUndestand");
+-      assertFalse(j2EEWebSession0.equals((Object)j2EEWebSession1));
+-      
+-      j2EEWebSession1.setBackingStore("mustUndestand");
+-      boolean boolean0 = j2EEWebSession1.equals(j2EEWebSession0);
+-      assertTrue(j2EEWebSession0.equals((Object)j2EEWebSession1));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        J2EEWebSession j2EEWebSession0 = new J2EEWebSession();
++        J2EEWebSession j2EEWebSession1 = new J2EEWebSession();
++
++        // Verify initial state of backingStore
++        assertNull(j2EEWebSession0.getBackingStore());
++        assertNull(j2EEWebSession1.getBackingStore());
++
++        // Set and verify backingStore for the first instance
++        j2EEWebSession0.setBackingStore("mustUndestand");
++        assertEquals("mustUndestand", j2EEWebSession0.getBackingStore());
++
++        // Objects should not be equal before both have the same backingStore
++        assertFalse(j2EEWebSession0.equals((Object) j2EEWebSession1));
++
++        // Set and verify backingStore for the second instance
++        j2EEWebSession1.setBackingStore("mustUndestand");
++        assertEquals("mustUndestand", j2EEWebSession1.getBackingStore());
++
++        // Verify equality after both have identical backingStore
++        boolean boolean0 = j2EEWebSession1.equals(j2EEWebSession0);
++        assertTrue(j2EEWebSession0.equals((Object) j2EEWebSession1));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

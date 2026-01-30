@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -144,20 +144,25 @@
+       assertEquals(0, iCMProxyConnection0.getPeerPort());
+       assertEquals(0, iCMProxyConnection0.getNihdl());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test09() throws Throwable {
+       ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+       iCMProxyConnection0.setTidUidMode("TZ][[jj{MzUM7aI");
+-      ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
+-      assertFalse(iCMProxyConnection1.equals((Object)iCMProxyConnection0));
+-      
++      // Verify that the side‑effect of setTidUidMode is observable
++      assertEquals("TZ][[jj{MzUM7aI", iCMProxyConnection0.getTidUidMode());
++
++      ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
++      assertFalse(iCMProxyConnection1.equals((Object) iCMProxyConnection0));
++
+       iCMProxyConnection1.setTidUidMode("TZ][[jj{MzUM7aI");
+-      boolean boolean0 = iCMProxyConnection0.equals(iCMProxyConnection1);
+-      assertTrue(iCMProxyConnection1.equals((Object)iCMProxyConnection0));
+-      assertTrue(boolean0);
+-  }
++      // Verify side‑effect on the second instance as well
++      assertEquals("TZ][[jj{MzUM7aI", iCMProxyConnection1.getTidUidMode());
++
++      boolean boolean0 = iCMProxyConnection0.equals(iCMProxyConnection1);
++      assertTrue(iCMProxyConnection1.equals((Object) iCMProxyConnection0));
++      assertTrue(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

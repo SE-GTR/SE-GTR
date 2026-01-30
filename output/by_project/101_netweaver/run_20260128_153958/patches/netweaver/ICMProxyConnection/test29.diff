@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -496,18 +496,25 @@
+         boolean boolean0 = iCMProxyConnection1.equals(iCMProxyConnection0);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+-      ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
+-      assertTrue(iCMProxyConnection1.equals((Object)iCMProxyConnection0));
+-      
+-      iCMProxyConnection0.setStatus("UBS]+==A");
+-      boolean boolean0 = iCMProxyConnection0.equals(iCMProxyConnection1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test29() throws Throwable {
++    ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
++    ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
++    assertTrue(iCMProxyConnection1.equals((Object) iCMProxyConnection0));
++
++    // Verify initial status is null before modification
++    assertNull(iCMProxyConnection0.getStatus());
++
++    // Act: change status
++    iCMProxyConnection0.setStatus("UBS]+==A");
++
++    // Assert: status field reflects the change
++    assertEquals("UBS]+==A", iCMProxyConnection0.getStatus());
++
++    // The status change should affect equality
++    assertFalse(iCMProxyConnection0.equals(iCMProxyConnection1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

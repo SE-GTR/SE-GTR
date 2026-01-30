@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/AdvancedSettings_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/AdvancedSettings_ESTest.java
+@@ -219,15 +219,28 @@
+       assertEquals(0, advancedSettings0.getClientSocketSendBufferSize());
+       assertEquals(0, advancedSettings0.getClientSocketReceiveBufferSize());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      AdvancedSettings advancedSettings0 = new AdvancedSettings();
+-      assertEquals(0, advancedSettings0.getPerformancePreferencesBandwidth());
+-      
+-      advancedSettings0.setPerformancePreferencesBandwidth(1);
+-      assertEquals(1, advancedSettings0.getPerformancePreferencesBandwidth());
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        AdvancedSettings advancedSettings0 = new AdvancedSettings();
++        assertEquals(0, advancedSettings0.getPerformancePreferencesBandwidth());
++
++        advancedSettings0.setPerformancePreferencesBandwidth(1);
++        assertEquals(1, advancedSettings0.getPerformancePreferencesBandwidth());
++
++        // Verify that the state is correctly preserved through serialization
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(advancedSettings0);
++        oos.close();
++
++        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++        AdvancedSettings deserialized = (AdvancedSettings) ois.readObject();
++        ois.close();
++
++        assertEquals(1, deserialized.getPerformancePreferencesBandwidth());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

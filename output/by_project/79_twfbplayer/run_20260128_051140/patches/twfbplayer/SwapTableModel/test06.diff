@@ -1,0 +1,37 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/gui/statistics/SwapTableModel_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/gui/statistics/SwapTableModel_ESTest.java
+@@ -111,17 +111,23 @@
+       Object object0 = swapTableModel0.getValueAt(0, 5);
+       assertNull(object0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      ArrayList<PositionSwitch> arrayList0 = new ArrayList<PositionSwitch>();
+-      PositionSwitch positionSwitch0 = mock(PositionSwitch.class, new ViolatedAssumptionAnswer());
+-      doReturn(2537).when(positionSwitch0).compareTo(any(de.outstare.fortbattleplayer.statistics.PositionSwitch.class));
+-      arrayList0.add(positionSwitch0);
+-      SwapTableModel swapTableModel0 = new SwapTableModel(arrayList0);
+-      Object object0 = swapTableModel0.getValueAt(0, 0);
+-      assertEquals(1, object0);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        ArrayList<PositionSwitch> arrayList0 = new ArrayList<>();
++        PositionSwitch positionSwitch0 = mock(PositionSwitch.class, new ViolatedAssumptionAnswer());
++        doReturn(2537).when(positionSwitch0).compareTo(any(de.outstare.fortbattleplayer.statistics.PositionSwitch.class));
++        // Verify that the stubbed compareTo returns the expected value
++        PositionSwitch anotherSwitch = mock(PositionSwitch.class);
++        int compareResult = positionSwitch0.compareTo(anotherSwitch);
++        assertEquals(2537, compareResult);
++        // Assert that adding to the list succeeds
++        boolean added = arrayList0.add(positionSwitch0);
++        assertTrue(added);
++        SwapTableModel swapTableModel0 = new SwapTableModel(arrayList0);
++        Object object0 = swapTableModel0.getValueAt(0, 0);
++        assertEquals(1, object0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

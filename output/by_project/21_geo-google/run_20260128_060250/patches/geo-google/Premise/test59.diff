@@ -1,0 +1,32 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Premise_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Premise_ESTest.java
+@@ -467,13 +467,22 @@
+       Premise premise1 = premise0.getPremise();
+       assertNull(premise1);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test59()  throws Throwable  {
+-    premise0 = new Premise();
+-      premise0.setPremiseLocation((Premise.PremiseLocation) null);
+-      assertNull(premise0.getType());
+-  }
++@Test(timeout = 4000)
++public void test59() throws Throwable {
++    Premise premise0 = new Premise();
++    // default type should be null
++    assertNull(premise0.getType());
++
++    // setting premiseLocation to null should be observable via getter
++    premise0.setPremiseLocation(null);
++    assertNull(premise0.getPremiseLocation());
++
++    // setting a non‑null premiseLocation should be reflected by the getter
++    Premise.PremiseLocation loc = new Premise.PremiseLocation();
++    premise0.setPremiseLocation(loc);
++    assertSame(loc, premise0.getPremiseLocation());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test60()  throws Throwable  {

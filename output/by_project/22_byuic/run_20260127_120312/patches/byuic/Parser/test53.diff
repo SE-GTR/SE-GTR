@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
+@@ -531,25 +531,13 @@
+         ScriptOrFnNode node = parser0.parse(reader, "test.js", 1);
+         assertNotNull(node);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test53()  throws Throwable  {
+-      DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+-      // Undeclared exception!
+-      try { 
++@Test(expected = RuntimeException.class, timeout = 4000)
++    public void test53() throws Throwable {
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        Parser parser0 = new Parser(compilerEnvirons0, DefaultErrorReporter.instance);
+         parser0.parse(";-{8ajX-cl", ";-{8ajX-cl", 12);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // missing : after property id (;-{8ajX-cl#12)
+-         //
+-         verifyException("org.mozilla.javascript.DefaultErrorReporter", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test54()  throws Throwable  {

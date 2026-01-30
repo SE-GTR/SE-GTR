@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/xml/XMLModelExporter_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/xml/XMLModelExporter_ESTest.java
+@@ -132,22 +132,28 @@
+       xMLModelExporter0.export(defaultDatabase0);
+       assertEquals(288L, mockFile0.length());
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        xSQLVAR0 = new XSQLVAR();
++        // Use a concrete Date instead of decoding from null
++        java.util.Date importDate = new java.util.Date(0L);
++        versionNumber0 = VersionNumber.valueOf("CeGH~hZo!");
++        defaultDatabase0 = new DefaultDatabase((String) null, (String) null, versionNumber0);
++        // Verify that setImportDate actually changes the state
++        defaultDatabase0.setImportDate(importDate);
++        assertEquals(importDate, defaultDatabase0.getImportDate());
++        mockFile0 = new MockFile("CeGH~hZo!");
++        xMLModelExporter0 = new XMLModelExporter(mockFile0);
++        DBCatalog dBCatalog0 = new DBCatalog("CeGH~hZo!", defaultDatabase0);
++        DBSchema dBSchema0 = new DBSchema("", dBCatalog0);
++        DBPackage dBPackage0 = new DBPackage("Ag/;=M", dBSchema0);
++        long lengthBefore = mockFile0.length();
++        xMLModelExporter0.export(defaultDatabase0);
++        long lengthAfter = mockFile0.length();
++        assertTrue(lengthAfter > lengthBefore);
++        assertEquals(318L, lengthAfter);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    xSQLVAR0 = new XSQLVAR();
+-    time0 = xSQLVAR0.decodeTime((byte[]) null);
+-    versionNumber0 = VersionNumber.valueOf("CeGH~hZo!");
+-    defaultDatabase0 = new DefaultDatabase((String) null, (String) null, versionNumber0);
+-      defaultDatabase0.setImportDate(time0);
+-    mockFile0 = new MockFile("CeGH~hZo!");
+-    xMLModelExporter0 = new XMLModelExporter(mockFile0);
+-      DBCatalog dBCatalog0 = new DBCatalog("CeGH~hZo!", defaultDatabase0);
+-      DBSchema dBSchema0 = new DBSchema("", dBCatalog0);
+-      DBPackage dBPackage0 = new DBPackage("Ag/;=M", dBSchema0);
+-      xMLModelExporter0.export(defaultDatabase0);
+-      assertEquals(318L, mockFile0.length());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

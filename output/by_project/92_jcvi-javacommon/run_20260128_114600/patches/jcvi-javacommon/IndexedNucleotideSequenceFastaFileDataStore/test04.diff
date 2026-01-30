@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jcvi/jillion/fasta/nt/IndexedNucleotideSequenceFastaFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/fasta/nt/IndexedNucleotideSequenceFastaFileDataStore_ESTest.java
+@@ -92,22 +92,19 @@
+          verifyException("org.jcvi.jillion.fasta.nt.IndexedNucleotideSequenceFastaFileDataStore", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("gC8");
+-      DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
+-      try { 
+-        IndexedNucleotideSequenceFastaFileDataStore.create((File) mockFile0, dataStoreFilter0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // /PATH/TO/SF110-20130704-src/92_jcvi-javacommon/gC8
+-         //
+-         verifyException("org.jcvi.jillion.fasta.nt.IndexedNucleotideSequenceFastaFileDataStore", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        File file = new File("nonexistent_file_12345.tmp");
++        assertFalse("Test file should not exist before execution", file.exists());
++        DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
++        try {
++            IndexedNucleotideSequenceFastaFileDataStore.create(file, dataStoreFilter0);
++            fail("Expecting exception: FileNotFoundException");
++        } catch (FileNotFoundException e) {
++            // expected exception for non‑existent file
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

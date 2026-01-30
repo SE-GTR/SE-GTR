@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Start_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Start_ESTest.java
+@@ -121,17 +121,25 @@
+         Serializer serializer0 = Start.getSerializer("p7Z^^`g?~aQOScChA>B", class0, qName0);
+         assertNotNull(serializer0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      Start start0 = new Start();
+-      Option[] optionArray0 = new Option[25];
+-      start0.setOptions(optionArray0);
+-      Start start1 = new Start();
+-      boolean boolean0 = start0.equals(start1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    Start start0 = new Start();
++    // Verify initial state before setting options
++    assertNull(start0.getOptions());
++
++    Option[] optionArray0 = new Option[25];
++    start0.setOptions(optionArray0);
++
++    // Verify that setOptions correctly updated the internal state
++    Option[] retrieved = start0.getOptions();
++    assertNotNull(retrieved);
++    assertSame(optionArray0, retrieved);
++    assertEquals(25, retrieved.length);
++
++    Start start1 = new Start();
++    assertFalse(start0.equals(start1));
++}
++
+ @Test(timeout = 4000)
+ public void test11() throws Throwable {
+     Application[] applicationArray0 = new Application[1];

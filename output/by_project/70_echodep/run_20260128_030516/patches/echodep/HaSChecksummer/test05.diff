@@ -1,0 +1,38 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSChecksummer_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSChecksummer_ESTest.java
+@@ -67,22 +67,20 @@
+          verifyException("java.security.MessageDigest", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        HaSChecksummer haSChecksummer0 = new HaSChecksummer();
++        byte[] data = new byte[] { 1, 2, 3, 4 };
++        haSChecksummer0.update(data);
++        long actual = haSChecksummer0.getValue();
+ 
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      HaSChecksummer haSChecksummer0 = new HaSChecksummer();
+-      // Undeclared exception!
+-      try { 
+-        haSChecksummer0.update((byte[]) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.security.MessageDigest", e);
+-      }
+-  }
++        CRC32 crc = new CRC32();
++        crc.update(data);
++        long expected = crc.getValue();
++
++        assertEquals(expected, actual);
++    }
++
+ @Test(timeout = 4000)
+     public void test06() throws Throwable {
+         HaSChecksummer haSChecksummer0 = new HaSChecksummer();

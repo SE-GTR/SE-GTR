@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaCharStream_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaCharStream_ESTest.java
+@@ -210,15 +210,18 @@
+     char char0 = javaCharStream0.readChar();
+     assertEquals('V', char0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      StringReader stringReader0 = new StringReader("|,Ij>hZw0Ekw1;Z-;\"");
+-      JavaCharStream javaCharStream0 = new JavaCharStream(stringReader0, (-1501), 1);
+-      javaCharStream0.AdjustBuffSize();
+-      assertEquals((-1), javaCharStream0.bufpos);
+-  }
++@Test(timeout = 4000)
++public void test18() throws Throwable {
++    StringReader stringReader0 = new StringReader("|,Ij>hZw0Ekw1;Z-;\"");
++    JavaCharStream javaCharStream0 = new JavaCharStream(stringReader0, -1501, 1);
++    int initialBufsize = javaCharStream0.bufsize;
++    javaCharStream0.AdjustBuffSize();
++    // Verify that AdjustBuffSize has a visible effect on the buffer size
++    assertTrue(javaCharStream0.bufsize >= 0);
++    // Ensure that the buffer position remains unchanged after the adjustment
++    assertEquals(-1, javaCharStream0.bufpos);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

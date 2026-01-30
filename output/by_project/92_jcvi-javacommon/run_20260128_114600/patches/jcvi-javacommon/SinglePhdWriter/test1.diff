@@ -1,0 +1,57 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/SinglePhdWriter_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/SinglePhdWriter_ESTest.java
+@@ -42,31 +42,33 @@
+   public void test0()  throws Throwable  {
+       singlePhdWriter0.close();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
+     mockFile0 = new MockFile("T\"xN'4UietLbX");
+     singlePhdWriter0 = new SinglePhdWriter(mockFile0);
+-      Iterator<Nucleotide> iterator0 = (Iterator<Nucleotide>) mock(Iterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(iterator0).hasNext();
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(iterator0).when(nucleotideSequence0).iterator();
+-      doReturn(1385L).when(nucleotideSequence0).getLength();
+-      QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+-      doReturn((Iterator<PhredQuality>) null).when(qualitySequence0).iterator();
+-      DefaultPhd defaultPhd0 = new DefaultPhd("T\"xN'4UietLbX", nucleotideSequence0, qualitySequence0, (PositionSequence) null);
++    Iterator<Nucleotide> iterator0 = (Iterator<Nucleotide>) mock(Iterator.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(iterator0).hasNext();
++    NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++    doReturn(iterator0).when(nucleotideSequence0).iterator();
++    doReturn(1385L).when(nucleotideSequence0).getLength();
++    QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
++    doReturn((Iterator<PhredQuality>) null).when(qualitySequence0).iterator();
++    // Verify stubbed return values
++    assertFalse(iterator0.hasNext());
++    assertSame(iterator0, nucleotideSequence0.iterator());
++    assertEquals(1385L, nucleotideSequence0.getLength());
++    assertNull(qualitySequence0.iterator());
++    DefaultPhd defaultPhd0 = new DefaultPhd("T\"xN'4UietLbX", nucleotideSequence0, qualitySequence0, (PositionSequence) null);
++    singlePhdWriter0.write((Phd) defaultPhd0);
++    try {
+       singlePhdWriter0.write((Phd) defaultPhd0);
+-      try { 
+-        singlePhdWriter0.write((Phd) defaultPhd0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // already wrote a phd to this file; only one allowed per file
+-         //
+-         verifyException("org.jcvi.jillion.assembly.consed.phd.SinglePhdWriter", e);
+-      }
++      fail("Expecting exception: IOException");
++    } catch (IOException e) {
++      // already wrote a phd to this file; only one allowed per file
++      verifyException("org.jcvi.jillion.assembly.consed.phd.SinglePhdWriter", e);
++    }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

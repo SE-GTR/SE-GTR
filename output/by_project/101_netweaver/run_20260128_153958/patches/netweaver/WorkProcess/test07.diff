@@ -1,0 +1,47 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -104,20 +104,30 @@
+       workProcess0.setAction("_O1");
+       assertTrue(workProcess1.equals(workProcess0));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
+-      WorkProcess workProcess1 = new WorkProcess();
+-      workProcess1.setUser("v`6!$TWK@\"xf");
+-      assertFalse(workProcess1.equals((Object)workProcess0));
+-      
+-      workProcess0.setUser("v`6!$TWK@\"xf");
+-      boolean boolean0 = workProcess1.equals(workProcess0);
+-      assertTrue(workProcess1.equals((Object)workProcess0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    WorkProcess workProcess0 = new WorkProcess();
++    WorkProcess workProcess1 = new WorkProcess();
++
++    // Verify initial user is null
++    assertNull(workProcess1.getUser());
++
++    // Set user and assert side‑effect
++    workProcess1.setUser("v`6!$TWK@\"xf");
++    assertEquals("v`6!$TWK@\"xf", workProcess1.getUser());
++
++    // Objects differ because user differs
++    assertFalse(workProcess1.equals((Object) workProcess0));
++
++    // Set same user on the second instance and assert
++    workProcess0.setUser("v`6!$TWK@\"xf");
++    assertEquals("v`6!$TWK@\"xf", workProcess0.getUser());
++
++    boolean boolean0 = workProcess1.equals(workProcess0);
++    assertTrue(workProcess1.equals((Object) workProcess0));
++    assertTrue(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

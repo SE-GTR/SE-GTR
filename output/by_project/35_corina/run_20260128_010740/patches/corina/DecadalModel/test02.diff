@@ -1,0 +1,34 @@
+--- a/evosuite-tests/corina/editor/DecadalModel_ESTest.java
++++ b/evosuite-tests/corina/editor/DecadalModel_ESTest.java
+@@ -53,16 +53,21 @@
+         // ensure the sample's metadata flag is unchanged
+         assertFalse(sample0.wasMetadataChanged());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      DecadalModel decadalModel0 = new DecadalModel(sample0);
+-      decadalModel0.setValueAt(sample0.range, 0, 2);
+-      decadalModel0.setValueAt(2, 0, 2);
+-      assertEquals(12, decadalModel0.getColumnCount());
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    Sample sample0 = new Sample();
++    DecadalModel decadalModel0 = new DecadalModel(sample0);
++    // first modification
++    decadalModel0.setValueAt(sample0.range, 0, 2);
++    Object firstVal = decadalModel0.getValueAt(0, 2);
++    assertNotNull(firstVal);
++    // second modification overrides the first
++    decadalModel0.setValueAt(2, 0, 2);
++    assertEquals(Integer.valueOf(2), decadalModel0.getValueAt(0, 2));
++    // column count should remain unchanged
++    assertEquals(12, decadalModel0.getColumnCount());
++}
++
+ @Test(timeout = 4000, expected = IndexOutOfBoundsException.class)
+ public void test03() throws Throwable {
+     Sample sample0 = new Sample();

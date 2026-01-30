@@ -1,0 +1,33 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostOffice_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostOffice_ESTest.java
+@@ -220,13 +220,23 @@
+       PostalCode postalCode0 = postOffice0.getPostalCode();
+       assertNull(postalCode0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      PostOffice postOffice0 = new PostOffice();
+-      postOffice0.setPostBox((PostBox) null);
+-      assertNull(postOffice0.getIndicator());
+-  }
++@Test(timeout = 4000)
++    public void test28() throws Throwable {
++        PostOffice postOffice0 = new PostOffice();
++        // Verify initial state
++        assertNull(postOffice0.getIndicator());
++
++        // Exercise setter and verify side‑effect via the corresponding getter
++        PostBox box = new PostBox();
++        postOffice0.setPostBox(box);
++        assertSame(box, postOffice0.getPostBox());
++
++        // Change another property and assert the change is observed
++        String indicator = "testIndicator";
++        postOffice0.setIndicator(indicator);
++        assertEquals(indicator, postOffice0.getIndicator());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test29()  throws Throwable  {

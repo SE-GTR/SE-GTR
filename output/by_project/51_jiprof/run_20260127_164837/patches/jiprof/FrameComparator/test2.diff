@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/output/FrameComparator_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/output/FrameComparator_ESTest.java
+@@ -42,14 +42,19 @@
+     int int0 = frameComparator0.compare(frame0, frame0);
+     assertNotEquals(0, int0);
+ }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    FrameComparator comparator = new FrameComparator();
++    Frame frame0 = mock(Frame.class, new ViolatedAssumptionAnswer());
++    doReturn(-2084L, -2084L, -1041L, -1041L).when(frame0).netTime();
++    Frame frame1 = mock(Frame.class, new ViolatedAssumptionAnswer());
++    doReturn(0L, 0L, 0L, 0L).when(frame1).netTime();
+ 
++    int resultSame = comparator.compare(frame0, frame0);
++    assertEquals(0, resultSame);
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    frameComparator0 = new FrameComparator();
+-    frame0 = mock(Frame.class, new ViolatedAssumptionAnswer());
+-      doReturn((-2084L), (-2084L), (-1041L), (-1041L)).when(frame0).netTime();
+-      int int0 = frameComparator0.compare(frame0, frame0);
+-      assertEquals(0, int0);
+-  }
++    int resultDiff = comparator.compare(frame0, frame1);
++    assertNotEquals(0, resultDiff);
+ }
++
++}

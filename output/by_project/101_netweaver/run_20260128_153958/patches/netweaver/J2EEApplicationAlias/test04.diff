@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEApplicationAlias_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEApplicationAlias_ESTest.java
+@@ -83,20 +83,28 @@
+     assertFalse(boolean0);
+     assertEquals(0, j2EEApplicationAlias1.getTotalRequests());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-    j2EEApplicationAlias0 = new J2EEApplicationAlias();
+-      j2EEApplicationAlias0.setAppActive("vz4m8!qK");
+-    j2EEApplicationAlias1 = new J2EEApplicationAlias();
+-      assertFalse(j2EEApplicationAlias1.equals((Object)j2EEApplicationAlias0));
+-      
+-      j2EEApplicationAlias1.setAppActive("vz4m8!qK");
+-      boolean boolean0 = j2EEApplicationAlias0.equals(j2EEApplicationAlias1);
+-      assertTrue(j2EEApplicationAlias1.equals((Object)j2EEApplicationAlias0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        j2EEApplicationAlias0 = new J2EEApplicationAlias();
++        // verify initial state before setting appActive
++        assertNull(j2EEApplicationAlias0.getAppActive());
++        j2EEApplicationAlias0.setAppActive("vz4m8!qK");
++        // assert side‑effect of setAppActive
++        assertEquals("vz4m8!qK", j2EEApplicationAlias0.getAppActive());
++
++        j2EEApplicationAlias1 = new J2EEApplicationAlias();
++        assertNull(j2EEApplicationAlias1.getAppActive());
++        assertFalse(j2EEApplicationAlias1.equals((Object) j2EEApplicationAlias0));
++
++        j2EEApplicationAlias1.setAppActive("vz4m8!qK");
++        // assert side‑effect for the second instance as well
++        assertEquals("vz4m8!qK", j2EEApplicationAlias1.getAppActive());
++
++        boolean boolean0 = j2EEApplicationAlias0.equals(j2EEApplicationAlias1);
++        assertTrue(j2EEApplicationAlias1.equals((Object) j2EEApplicationAlias0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/quickserver/util/FileChangeMonitor_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/FileChangeMonitor_ESTest.java
+@@ -32,13 +32,17 @@
+         assertNotNull(fileChangeMonitor0);
+         assertTrue(fileChangeMonitor0 instanceof Runnable);
+     }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    // First stop attempt and verify that monitoring is not active
++    FileChangeMonitor.stopMonitoring();
++    assertFalse(FileChangeMonitor.isMonitoring());
+ 
++    // Second stop attempt should be idempotent; monitoring should still be inactive
++    FileChangeMonitor.stopMonitoring();
++    assertFalse(FileChangeMonitor.isMonitoring());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      FileChangeMonitor.stopMonitoring();
+-      FileChangeMonitor.stopMonitoring();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

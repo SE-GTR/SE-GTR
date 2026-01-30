@@ -1,0 +1,46 @@
+--- a/evosuite-tests/de/progra/charting/CoordSystemUtilities_ESTest.java
++++ b/evosuite-tests/de/progra/charting/CoordSystemUtilities_ESTest.java
+@@ -68,26 +68,23 @@
+          verifyException("de.progra.charting.CoordSystemUtilities", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      EditableChartDataModel editableChartDataModel0 = new EditableChartDataModel();
+-      editableChartDataModel0.setMinimumColumnValue(22.0);
+-      editableChartDataModel0.setManualScale(true);
+-      CoordSystem coordSystem0 = new CoordSystem(editableChartDataModel0);
+-      CoordSystemUtilities coordSystemUtilities0 = coordSystem0.c;
+-      // Undeclared exception!
+-      try { 
+-        coordSystemUtilities0.getYAxisLine2D();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.progra.charting.CoordSystemUtilities", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        EditableChartDataModel model = new EditableChartDataModel();
++        model.setMinimumColumnValue(0.0);
++        model.setMaximumColumnValue(10.0);
++        model.setMinimumRowValue(0.0);
++        model.setMaximumRowValue(10.0);
++        model.setManualScale(true);
++        CoordSystem coordSystem = new CoordSystem(model);
++        CoordSystemUtilities utils = coordSystem.c;
++        Line2D yAxisLine = utils.getYAxisLine2D();
++        assertNotNull("YAxis line should not be null after proper initialization", yAxisLine);
++        // The Y‑axis line is vertical, therefore its X coordinates must be equal.
++        assertEquals("Y‑axis line should be vertical (equal X coordinates)",
++                yAxisLine.getX1(), yAxisLine.getX2(), 0.0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

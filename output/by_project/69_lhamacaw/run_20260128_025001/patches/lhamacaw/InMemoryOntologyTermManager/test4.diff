@@ -1,0 +1,34 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermManager_ESTest.java
+@@ -104,20 +104,21 @@
+     ArrayList<OntologyTerm> afterDelete = inMemoryOntologyTermManager0.getAllOntologyTerms(user0);
+     assertTrue(afterDelete.isEmpty());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test4() throws Throwable {
+     inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+     ontologyTerm0 = new OntologyTerm();
+     inMemoryOntologyTermManager0 = new InMemoryOntologyTermManager(inMemoryChangeEventManager0);
+-      ontologyTerm0.setTerm("general.error.nonExistentItem");
+-      User user0 = new User();
+-      inMemoryOntologyTermManager0.addOntologyTerm(user0, ontologyTerm0);
+-      inMemoryOntologyTermManager0.updateOntologyTerm(user0, ontologyTerm0);
+-      assertFalse(ontologyTerm0.isNewRecord());
+-      assertEquals("1", ontologyTerm0.getDisplayItemIdentifier());
++    ontologyTerm0.setTerm("general.error.nonExistentItem");
++    // Verify that setTerm correctly updates the term field
++    assertEquals("general.error.nonExistentItem", ontologyTerm0.getTerm());
++    User user0 = new User();
++    inMemoryOntologyTermManager0.addOntologyTerm(user0, ontologyTerm0);
++    inMemoryOntologyTermManager0.updateOntologyTerm(user0, ontologyTerm0);
++    assertFalse(ontologyTerm0.isNewRecord());
++    assertEquals("1", ontologyTerm0.getDisplayItemIdentifier());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

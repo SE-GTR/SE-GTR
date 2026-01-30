@@ -1,0 +1,33 @@
+--- a/evosuite-tests/corina/index/Index_ESTest.java
++++ b/evosuite-tests/corina/index/Index_ESTest.java
+@@ -174,16 +174,20 @@
+       assertTrue(horizontal0.canUndo());
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      Exponential exponential0 = new Exponential(sample0);
+-      exponential0.redo();
+-      exponential0.undo();
+-      boolean boolean0 = exponential0.canRedo();
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        Sample sample0 = new Sample();
++        Exponential exponential0 = new Exponential(sample0);
++        // Perform a redo operation
++        exponential0.redo();
++        // After a redo, there should be no further redo available until an undo occurs
++        assertFalse(exponential0.canRedo());
++        // Undo the redo
++        exponential0.undo();
++        // After undoing, redo should be possible again
++        assertTrue(exponential0.canRedo());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

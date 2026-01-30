@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DBUniqueConstraint_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DBUniqueConstraint_ESTest.java
+@@ -53,16 +53,19 @@
+       boolean boolean0 = dBUniqueConstraint0.isIdentical(dBPrimaryKeyConstraint0);
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        DefaultDBTable defaultDBTable0 = new DefaultDBTable("k#D>Ic1");
++        String[] emptyColumns = new String[0];
++        DBPrimaryKeyConstraint primaryKey = new DBPrimaryKeyConstraint(defaultDBTable0, "", true, emptyColumns);
++        DBUniqueConstraint uniqueConstraint = new DBUniqueConstraint(defaultDBTable0, "", false, emptyColumns);
++        // identical when name and columns match
++        assertTrue(uniqueConstraint.isIdentical(primaryKey));
++        // different name should not be identical
++        DBUniqueConstraint differentNameConstraint = new DBUniqueConstraint(defaultDBTable0, "different", false, emptyColumns);
++        assertFalse(uniqueConstraint.isIdentical(differentNameConstraint));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable("k#D>Ic1");
+-      String[] stringArray0 = new String[0];
+-      DBPrimaryKeyConstraint dBPrimaryKeyConstraint0 = new DBPrimaryKeyConstraint(defaultDBTable0, "", true, stringArray0);
+-      DBUniqueConstraint dBUniqueConstraint0 = new DBUniqueConstraint(defaultDBTable0, "", false, stringArray0);
+-      boolean boolean0 = dBUniqueConstraint0.isIdentical(dBPrimaryKeyConstraint0);
+-      assertTrue(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

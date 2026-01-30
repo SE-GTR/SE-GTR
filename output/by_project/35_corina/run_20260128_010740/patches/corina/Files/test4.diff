@@ -1,0 +1,36 @@
+--- a/evosuite-tests/corina/io/Files_ESTest.java
++++ b/evosuite-tests/corina/io/Files_ESTest.java
+@@ -80,20 +80,18 @@
+          verifyException("corina.io.Files", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        Sample sample0 = new Sample();
++        java.nio.file.Path tempPath = java.nio.file.Files.createTempFile("test4", ".GRF");
++        String filename = tempPath.toString();
++        // Save the sample to a temporary file
++        Files.save(sample0, filename);
++        // Loading the file should succeed without throwing an exception
++        Sample loaded = Files.load(filename);
++        assertNotNull(loaded);
++        // Clean up the temporary file
++        java.nio.file.Files.deleteIfExists(tempPath);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      Files.save(sample0, "COUNT.GRF");
+-      try { 
+-        Files.load("COUNT.GRF");
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.io.Files", e);
+-      }
+-  }
+ }

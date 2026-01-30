@@ -1,0 +1,32 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/OperationsImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/OperationsImpl_ESTest.java
+@@ -56,14 +56,21 @@
+          verifyException("net.sf.xisemele.impl.OperationsImpl", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      OperationsHelperImpl operationsHelperImpl0 = new OperationsHelperImpl();
+-      OperationsImpl operationsImpl0 = new OperationsImpl(operationsHelperImpl0);
+-      boolean boolean0 = operationsImpl0.containsElement((Document) null, "/");
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        OperationsHelperImpl operationsHelperImpl0 = new OperationsHelperImpl();
++        OperationsImpl operationsImpl0 = new OperationsImpl(operationsHelperImpl0);
++        // Create a simple XML document with a root element.
++        Document doc = javax.xml.parsers.DocumentBuilderFactory.newInstance()
++                .newDocumentBuilder()
++                .newDocument();
++        org.w3c.dom.Element root = doc.createElement("root");
++        doc.appendChild(root);
++        // Verify that a non‑existent path is not found.
++        boolean result = operationsImpl0.containsElement(doc, "/nonexistent");
++        assertFalse(result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

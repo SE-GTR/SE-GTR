@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -323,11 +323,17 @@
+   public void test46()  throws Throwable  {
+       ConfigurationManagement.getAccess_order();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test47()  throws Throwable  {
+-      ConfigurationManagement.addNum_regs((long) (-95));
+-  }
++@Test(timeout = 4000)
++    public void test47() throws Throwable {
++        // Capture the current number of registrations
++        long before = ConfigurationManagement.getNum_regs();
++        // Apply a change to the registration count
++        ConfigurationManagement.addNum_regs(-95L);
++        // Verify that the side‑effect is observable via the public getter
++        long after = ConfigurationManagement.getNum_regs();
++        assertEquals(before - 95L, after);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test48()  throws Throwable  {

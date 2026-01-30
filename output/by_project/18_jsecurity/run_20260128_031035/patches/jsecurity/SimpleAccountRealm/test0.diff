@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jsecurity/realm/SimpleAccountRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/SimpleAccountRealm_ESTest.java
+@@ -31,14 +31,28 @@
+       simpleAccountRealm0.setAuthorizationCache(hashtableCache0);
+       simpleAccountRealm0.addAccount("Th8 cre&entiaWs for &cco [", "Th8 cre&entiaWs for &cco [");
+   }
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    // Verify setAuthorizationCache side‑effect
++    Cache previousCache = simpleAccountRealm0.getAuthorizationCache();
++    simpleAccountRealm0.setAuthorizationCache(hashtableCache0);
++    assertSame(hashtableCache0, simpleAccountRealm0.getAuthorizationCache());
+ 
++    // Verify addAccount side‑effect
++    String newUser = "newUser0";
++    String newPass = "newPass0";
++    simpleAccountRealm0.addAccount(newUser, newPass, "roleX");
++    UsernamePasswordToken newToken = new UsernamePasswordToken(newUser, newPass);
++    SimpleAuthorizingAccount newAccount = (SimpleAuthorizingAccount) simpleAccountRealm0.doGetAuthenticationInfo(newToken);
++    assertNotNull(newAccount);
++    assertFalse(newAccount.isCredentialsExpired());
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      UsernamePasswordToken usernamePasswordToken0 = new UsernamePasswordToken("Th8 cre&entiaWs for &cco [", "Th8 cre&entiaWs for &cco [");
+-      SimpleAuthorizingAccount simpleAuthorizingAccount0 = (SimpleAuthorizingAccount)simpleAccountRealm0.doGetAuthenticationInfo(usernamePasswordToken0);
+-      assertFalse(simpleAuthorizingAccount0.isCredentialsExpired());
+-  }
++    // Original assertion
++    UsernamePasswordToken usernamePasswordToken0 = new UsernamePasswordToken("Th8 cre&entiaWs for &cco [", "Th8 cre&entiaWs for &cco [");
++    SimpleAuthorizingAccount simpleAuthorizingAccount0 = (SimpleAuthorizingAccount) simpleAccountRealm0.doGetAuthenticationInfo(usernamePasswordToken0);
++    assertFalse(simpleAuthorizingAccount0.isCredentialsExpired());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

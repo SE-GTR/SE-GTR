@@ -1,0 +1,29 @@
+--- a/evosuite-tests/framework/util/jdbc/JDBCUtils_ESTest.java
++++ b/evosuite-tests/framework/util/jdbc/JDBCUtils_ESTest.java
+@@ -106,19 +106,20 @@
+         verifyException("com.mysql.jdbc.ResultSetMetaData", e);
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test11() throws Throwable {
+       ArrayList<Time> arrayList0 = new ArrayList<Time>();
+-      arrayList0.add((Time) null);
++      boolean added = arrayList0.add((Time) null);
++      assertTrue(added);
+       RowDataStatic rowDataStatic0 = new RowDataStatic(arrayList0);
+       Field[] fieldArray0 = new Field[0];
+       ResultSet resultSet0 = new ResultSet(fieldArray0, rowDataStatic0);
+-      JDBCUtils.getResultSetAsCollectionOfMap(resultSet0);
++      Collection result = JDBCUtils.getResultSetAsCollectionOfMap(resultSet0);
++      assertNotNull(result);
+       assertTrue(resultSet0.isAfterLast());
+       assertEquals(1, rowDataStatic0.getCurrentRowNumber());
+   }
++
+ @Test(expected = NullPointerException.class, timeout = 4000)
+     public void test12() throws Throwable {
+         JDBCUtils.getTableColumns((Connection) null, "");

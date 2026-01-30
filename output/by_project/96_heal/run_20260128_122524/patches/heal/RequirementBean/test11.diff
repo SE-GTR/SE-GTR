@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/heal/module/metadata/RequirementBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/RequirementBean_ESTest.java
+@@ -155,14 +155,20 @@
+         RequirementBean deserialized = (RequirementBean) in.readObject();
+         assertEquals(expectedId, deserialized.getRequirementId());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      RequirementBean requirementBean0 = new RequirementBean();
+-      requirementBean0.setDescription("");
+-      assertEquals("", requirementBean0.getDescription());
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    RequirementBean requirementBean0 = new RequirementBean();
++    requirementBean0.setDescription("");
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(requirementBean0);
++    oos.flush();
++    byte[] bytes = baos.toByteArray();
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(bytes));
++    RequirementBean deserialized = (RequirementBean) ois.readObject();
++    assertEquals("", deserialized.getDescription());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

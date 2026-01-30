@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/abi/tag/TaggedDataRecordBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/abi/tag/TaggedDataRecordBuilder_ESTest.java
+@@ -159,24 +159,20 @@
+          verifyException("org.jcvi.jillion.internal.trace.chromat.abi.tag.TaggedDataRecordBuilder", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      TaggedDataName taggedDataName0 = TaggedDataName.phTR;
+-      TaggedDataRecordBuilder taggedDataRecordBuilder0 = new TaggedDataRecordBuilder(taggedDataName0, 2623L);
+-      taggedDataRecordBuilder0.setRecordLength(2623L);
+-      // Undeclared exception!
+-      try { 
+-        taggedDataRecordBuilder0.build();
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // invalid record length: expected(2623) but was 0
+-         //
+-         verifyException("org.jcvi.jillion.internal.trace.chromat.abi.tag.TaggedDataRecordBuilder", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        TaggedDataName taggedDataName0 = TaggedDataName.phTR;
++        TaggedDataRecordBuilder taggedDataRecordBuilder0 = new TaggedDataRecordBuilder(taggedDataName0, 2623L);
++        TaggedDataRecordBuilder returnedBuilder = taggedDataRecordBuilder0.setRecordLength(2623L);
++        assertSame(taggedDataRecordBuilder0, returnedBuilder);
++        try {
++            taggedDataRecordBuilder0.build();
++            fail("Expecting exception: IllegalStateException");
++        } catch (IllegalStateException e) {
++            verifyException("org.jcvi.jillion.internal.trace.chromat.abi.tag.TaggedDataRecordBuilder", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

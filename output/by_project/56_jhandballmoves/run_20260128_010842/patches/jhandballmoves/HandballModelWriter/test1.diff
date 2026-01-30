@@ -1,0 +1,34 @@
+--- a/evosuite-tests/visu/handball/moves/xml/HandballModelWriter_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/xml/HandballModelWriter_ESTest.java
+@@ -31,17 +31,22 @@
+         assertSame(handballModelWriter1, handballModelWriter0);
+         assertNotNull(handballModelWriter0.toString());
+     }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        MockFile mockFile0 = new MockFile("startY", "startY");
++        // Verify initial state of the mock file before writing
++        assertEquals(0L, mockFile0.length());
++        assertEquals("startY", mockFile0.getName());
+ 
++        HandballModel handballModel0 = new HandballModel();
++        handballModel0.addOffender((-1062), (-1062));
++        HandballModelWriter handballModelWriter0 = HandballModelWriter.getInstance(mockFile0, handballModel0);
++        handballModelWriter0.writeToXml();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("startY", "startY");
+-      HandballModel handballModel0 = new HandballModel();
+-      handballModel0.addOffender((-1062), (-1062));
+-      HandballModelWriter handballModelWriter0 = HandballModelWriter.getInstance(mockFile0, handballModel0);
+-      handballModelWriter0.writeToXml();
+-      assertEquals(403L, mockFile0.length());
+-  }
++        // Verify the side‑effect of writeToXml
++        assertEquals(403L, mockFile0.length());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

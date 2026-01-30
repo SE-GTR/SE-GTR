@@ -1,0 +1,141 @@
+--- a/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
+@@ -2379,86 +2379,58 @@
+     // Optional stronger check (uncomment if median is guaranteed to modify the pixel):
+     // assertNotEquals(before, after);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      RealGrayImage realGrayImage0 = new RealGrayImage(2667, 0);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(2667, realGrayImage0.X());
+-      
+-      String string0 = realGrayImage0.toString();
+-      assertNotNull(string0);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(2667, realGrayImage0.X());
+-      
+-      ROI rOI0 = new ROI();
+-      assertEquals(1, rOI0.X());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(1, rOI0.Y());
+-      
+-      realGrayImage0.median(0);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(2667, realGrayImage0.X());
+-      
+-      RealGrayImage realGrayImage1 = new RealGrayImage(realGrayImage0);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(2667, realGrayImage0.X());
+-      assertEquals(32767.0F, realGrayImage1.min(), 0.01F);
+-      assertEquals(0.0, realGrayImage1.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage1.addSum(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage1.max(), 0.01F);
+-      assertEquals(0.0F, realGrayImage1.absSum(), 0.01F);
+-      assertEquals(2667, realGrayImage1.X());
+-      assertEquals(0, realGrayImage1.Y());
+-      assertFalse(realGrayImage1.equals((Object)realGrayImage0));
+-      
+-      ROI rOI1 = new ROI();
+-      assertEquals(0, rOI1.ly());
+-      assertEquals(0, rOI1.lx());
+-      assertEquals(1, rOI1.Y());
+-      assertEquals(1, rOI1.X());
+-      assertEquals(0, rOI1.uy());
+-      assertEquals(0, rOI1.ux());
+-      assertFalse(rOI1.equals((Object)rOI0));
+-      
+-      Float float0 = new Float((float) 0);
+-      assertEquals(0.0F, (float)float0, 0.01F);
+-      
+-      realGrayImage0.byteSize();
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(2667, realGrayImage0.X());
+-      assertNotSame(realGrayImage0, realGrayImage1);
+-      assertFalse(realGrayImage0.equals((Object)realGrayImage1));
+-  }
++@Test(timeout = 4000)
++    public void test34() throws Throwable {
++        RealGrayImage img = new RealGrayImage(2667, 0);
++        // Initial state assertions
++        assertEquals(32767.0F, img.min(), 0.01F);
++        assertEquals(-32768.0F, img.max(), 0.01F);
++        assertEquals(0.0, img.sqrSum(), 0.01);
++        assertEquals(0.0F, img.addSum(), 0.01F);
++        assertEquals(0.0F, img.absSum(), 0.01F);
++        assertEquals(2667, img.X());
++        assertEquals(0, img.Y());
++        assertNotNull(img.toString());
++
++        // ROI default values
++        ROI roi0 = new ROI();
++        assertEquals(1, roi0.X());
++        assertEquals(1, roi0.Y());
++        assertEquals(0, roi0.lx());
++        assertEquals(0, roi0.ly());
++
++        // median should not alter min/max
++        img.median(0);
++        assertEquals(32767.0F, img.min(), 0.01F);
++        assertEquals(-32768.0F, img.max(), 0.01F);
++
++        // copy constructor verification
++        RealGrayImage copy = new RealGrayImage(img);
++        assertEquals(32767.0F, copy.min(), 0.01F);
++        assertEquals(-32768.0F, copy.max(), 0.01F);
++        assertEquals(0.0, copy.sqrSum(), 0.01);
++        assertEquals(0.0F, copy.addSum(), 0.01F);
++        assertEquals(0.0F, copy.absSum(), 0.01F);
++        assertEquals(2667, copy.X());
++        assertEquals(0, copy.Y());
++        assertFalse(copy.equals((Object) img));
++
++        // distinct ROI instance
++        ROI roi1 = new ROI();
++        assertFalse(roi1.equals((Object) roi0));
++
++        // Float zero value check
++        Float f0 = Float.valueOf(0f);
++        assertEquals(0.0F, f0.floatValue(), 0.01F);
++
++        // byteSize side‑effect verification (no state change)
++        img.byteSize();
++        assertEquals(32767.0F, img.min(), 0.01F);
++        assertEquals(-32768.0F, img.max(), 0.01F);
++        assertNotSame(img, copy);
++        assertFalse(img.equals((Object) copy));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test35()  throws Throwable  {

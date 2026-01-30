@@ -1,0 +1,50 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -334,21 +334,32 @@
+       assertEquals("testValue", usageType);
+   }
+ @Test(timeout = 4000)
+-    public void test30() throws Throwable {
+-        AdministrativeArea.SubAdministrativeArea subArea = new AdministrativeArea.SubAdministrativeArea();
+-        // Verify initial state
+-        assertNull(subArea.getPostalCode());
+-        assertNull(subArea.getUsageType());
+-
+-        // Setting null should leave postalCode as null
+-        subArea.setPostalCode(null);
+-        assertNull(subArea.getPostalCode());
+-
+-        // Set a real PostalCode instance and verify the side‑effect
+-        PostalCode pc = new PostalCode();
+-        subArea.setPostalCode(pc);
+-        assertSame(pc, subArea.getPostalCode());
+-    }
++public void test30() throws Throwable {
++    AdministrativeArea.SubAdministrativeArea subArea = new AdministrativeArea.SubAdministrativeArea();
++
++    // Verify initial state
++    assertNull(subArea.getPostalCode());
++    assertNull(subArea.getUsageType());
++
++    // Setting null should leave postalCode as null and not affect usageType
++    subArea.setPostalCode(null);
++    assertNull(subArea.getPostalCode());
++    assertNull(subArea.getUsageType());
++
++    // Set a real PostalCode instance and verify the side‑effect
++    PostalCode pc1 = new PostalCode();
++    subArea.setPostalCode(pc1);
++    assertSame(pc1, subArea.getPostalCode());
++    assertNull(subArea.getUsageType());
++
++    // Replace the PostalCode with another instance and verify replacement
++    PostalCode pc2 = new PostalCode();
++    subArea.setPostalCode(pc2);
++    assertSame(pc2, subArea.getPostalCode());
++    assertNotSame(pc1, subArea.getPostalCode());
++    assertNull(subArea.getUsageType());
++}
++
+ @Test(timeout = 4000)
+ public void test31() throws Throwable {
+     AdministrativeArea.SubAdministrativeArea subArea = new AdministrativeArea.SubAdministrativeArea();

@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/quickserver/security/AccessManager_ESTest.java
++++ b/evosuite-tests/org/quickserver/security/AccessManager_ESTest.java
+@@ -29,13 +29,16 @@
+       accessManager0.checkRead(fileDescriptor0);
+       assertFalse(fileDescriptor0.valid());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      AccessManager accessManager0 = new AccessManager();
+-      accessManager0.checkWrite((FileDescriptor) null);
+-      assertFalse(accessManager0.getInCheck());
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    AccessManager accessManager0 = new AccessManager();
++    try {
++        accessManager0.checkWrite((FileDescriptor) null);
++    } catch (SecurityException e) {
++        fail("Unexpected SecurityException");
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

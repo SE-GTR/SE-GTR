@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ViewStructureBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ViewStructureBean_ESTest.java
+@@ -22,13 +22,24 @@
+       viewStructureBean0.setDefinition((String) null);
+       assertEquals("", viewStructureBean0.getViewName());
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        ViewStructureBean bean = new ViewStructureBean();
++        String originalDefinition = bean.getDefinition();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ViewStructureBean viewStructureBean0 = new ViewStructureBean();
+-      String string0 = viewStructureBean0.getDefinition();
+-      assertEquals("", string0);
+-  }
++        // Act: serialize and then deserialize the bean
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(bean);
++        oos.flush();
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++                new java.io.ByteArrayInputStream(baos.toByteArray()));
++        ViewStructureBean deserializedBean = (ViewStructureBean) ois.readObject();
++
++        // Assert: the definition is preserved after the round‑trip
++        assertEquals(originalDefinition, deserializedBean.getDefinition());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

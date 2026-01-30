@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/pmdesigns/jvc/tools/SimpleCharStream_ESTest.java
++++ b/evosuite-tests/com/pmdesigns/jvc/tools/SimpleCharStream_ESTest.java
+@@ -147,26 +147,23 @@
+       simpleCharStream0.ReInit((InputStream) pushbackInputStream0, 0, -308, 0);
+       assertEquals(initialBufPos, simpleCharStream0.bufpos);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      byte[] byteArray0 = new byte[3];
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      SimpleCharStream simpleCharStream0 = new SimpleCharStream(byteArrayInputStream0, (byte)13, 4092);
+-      simpleCharStream0.readChar();
+-      simpleCharStream0.BeginToken();
+-      try { 
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    byte[] byteArray0 = new byte[3];
++    ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
++    SimpleCharStream simpleCharStream0 = new SimpleCharStream(byteArrayInputStream0, (byte) 13, 4092);
++    char c1 = simpleCharStream0.readChar();
++    assertEquals('\0', c1);
++    char c2 = simpleCharStream0.BeginToken();
++    assertEquals('\0', c2);
++    try {
+         simpleCharStream0.FillBuff();
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.pmdesigns.jvc.tools.SimpleCharStream", e);
+-      }
+-  }
++        fail("Expected IOException");
++    } catch (IOException e) {
++        // expected exception
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryListChoiceManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryListChoiceManager_ESTest.java
+@@ -554,7 +554,11 @@
+     User user0 = new User("edy/`_f", "edy/`_f");
+     CleaningState cleaningState0 = new CleaningState(2965, "edy/`_f");
+     InMemoryListChoiceManager inMemoryListChoiceManager0 = new InMemoryListChoiceManager(inMemoryChangeEventManager0);
++    // verify that no cleaning state is associated with the user initially
++    assertNull(inMemoryListChoiceManager0.getCleaningState(user0));
++    // add a cleaning state and verify the side‑effect
+     inMemoryListChoiceManager0.addCleaningState(user0, cleaningState0);
++    assertEquals(cleaningState0, inMemoryListChoiceManager0.getCleaningState(user0));
+     ArrayList<Variable> arrayList0 = new ArrayList<Variable>();
+     DerivedVariable derivedVariable0 = new DerivedVariable();
+     String status = "edy/`_f";
+@@ -563,9 +567,12 @@
+     assertEquals(status, derivedVariable0.getCleaningStatus());
+     arrayList0.add((Variable) derivedVariable0);
+     CleaningState cleaningState1 = new CleaningState(1, "FOX%Z,M8v6zb?@jG,.");
++    // update the cleaning state and verify the side‑effect
+     inMemoryListChoiceManager0.updateCleaningState(user0, cleaningState1, arrayList0);
++    assertEquals(cleaningState1, inMemoryListChoiceManager0.getCleaningState(user0));
+     assertFalse(cleaningState1.equals((Object) cleaningState0));
+ }
++
+ @Test(timeout = 4000)
+ public void test33() throws Throwable {
+     InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();

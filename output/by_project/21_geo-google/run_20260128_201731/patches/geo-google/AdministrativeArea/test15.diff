@@ -1,0 +1,39 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -179,15 +179,32 @@
+ @Test(timeout = 4000)
+ public void test15() throws Throwable {
+     AdministrativeArea.SubAdministrativeArea.SubAdministrativeAreaName name = new AdministrativeArea.SubAdministrativeArea.SubAdministrativeAreaName();
+-    // Verify initial state
++    // initial state
+     assertNull(name.getCode());
+-    // First assignment
++
++    // first assignment and verification
+     name.setCode("=N9S");
+     assertEquals("=N9S", name.getCode());
+-    // Update the value and verify the change
++
++    // update the value and verify the change
+     name.setCode("XYZ");
+     assertEquals("XYZ", name.getCode());
+-}
++
++    // exercise another accessor to avoid a pure getter/setter test
++    name.setType("typeA");
++    assertEquals("typeA", name.getType());
++
++    // verify logical behavior (equals) that depends on the state set above
++    AdministrativeArea.SubAdministrativeArea.SubAdministrativeAreaName other = new AdministrativeArea.SubAdministrativeArea.SubAdministrativeAreaName();
++    other.setCode("XYZ");
++    other.setType("typeA");
++    assertTrue(name.equals(other));
++
++    // change a field and ensure inequality
++    other.setCode("different");
++    assertFalse(name.equals(other));
++}
++
+ 
+ @Test(timeout = 4000)
+     public void test16() throws Throwable {

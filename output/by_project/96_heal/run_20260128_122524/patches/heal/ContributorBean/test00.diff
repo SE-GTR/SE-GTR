@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/heal/module/metadata/ContributorBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/ContributorBean_ESTest.java
+@@ -24,25 +24,23 @@
+     contributorBean0 = new ContributorBean();
+       contributorBean0.setMetadataId("");
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-    contributorBean0 = new ContributorBean();
+-      contributorBean0.setMetadataId("");
+-      contributorBean0.setRole("");
+-      // Undeclared exception!
+-      try { 
+-        contributorBean0.compareTo(contributorBean0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.module.metadata.ContributorBean", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        ContributorBean contributorBean0 = new ContributorBean();
++        contributorBean0.setMetadataId("metaId");
++        contributorBean0.setRole("author");
++        // initialize fields that are required for compareTo to avoid NPE
++        contributorBean0.setContributorId("contrib123");
++        contributorBean0.setFirstName("John");
++        contributorBean0.setOrganization("HealthOrg");
++        contributorBean0.setEmail("john.doe@example.com");
++        contributorBean0.setVCard("BEGIN:VCARD\nVERSION:3.0\nEND:VCARD");
++        contributorBean0.setDate(new java.util.Date());
++
++        int result = contributorBean0.compareTo(contributorBean0);
++        assertEquals(0, result);
++    }
++
+ @Test(timeout = 4000)
+ public void test01() throws Throwable {
+     ContributorBean contributorBean1 = new ContributorBean();

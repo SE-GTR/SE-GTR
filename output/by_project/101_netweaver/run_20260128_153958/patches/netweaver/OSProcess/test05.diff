@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
+@@ -80,19 +80,23 @@
+     assertNotEquals(hashBefore, hashAfter);
+     assertEquals(0, oSProcess0.getPid());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      OSProcess oSProcess0 = new OSProcess();
+-      OSProcess oSProcess1 = new OSProcess();
+-      oSProcess0.setTextstatus("Q +u?xTPjyL-");
+-      oSProcess1.setTextstatus("Q +u?xTPjyL-");
+-      oSProcess1.setPid(378);
+-      boolean boolean0 = oSProcess1.equals(oSProcess0);
+-      assertEquals(378, oSProcess1.getPid());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    OSProcess oSProcess0 = new OSProcess();
++    OSProcess oSProcess1 = new OSProcess();
++    String status = "Q +u?xTPjyL-";
++    oSProcess0.setTextstatus(status);
++    oSProcess1.setTextstatus(status);
++    // Verify that setTextstatus correctly updates the internal state
++    assertEquals(status, oSProcess0.getTextstatus());
++    assertEquals(status, oSProcess1.getTextstatus());
++
++    oSProcess1.setPid(378);
++    boolean boolean0 = oSProcess1.equals(oSProcess0);
++    assertEquals(378, oSProcess1.getPid());
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/probelistpage/WicketValuePair_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/probelistpage/WicketValuePair_ESTest.java
+@@ -21,11 +21,22 @@
+       String string0 = wicketValuePair0.getValue();
+       assertEquals("#", string0);
+   }
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
++      WicketValuePair original = new WicketValuePair("#", "#");
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      WicketValuePair wicketValuePair0 = new WicketValuePair("#", "#");
+-      String string0 = wicketValuePair0.getKey();
+-      assertEquals("#", string0);
++      // Act: serialize and deserialize the object
++      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++      oos.writeObject(original);
++      oos.flush();
++      byte[] bytes = baos.toByteArray();
++
++      java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(bytes));
++      WicketValuePair deserialized = (WicketValuePair) ois.readObject();
++
++      // Assert: the key is preserved after the round‑trip
++      assertEquals("#", deserialized.getKey());
+   }
++
+ }

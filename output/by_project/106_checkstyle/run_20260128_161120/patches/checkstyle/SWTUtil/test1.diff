@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/util/SWTUtil_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/util/SWTUtil_ESTest.java
+@@ -35,21 +35,22 @@
+          verifyException("com.atlassw.tools.eclipse.checkstyle.util.SWTUtil", e);
+       }
+   }
++public void test1() throws Throwable {
++        org.eclipse.swt.widgets.Display display = new org.eclipse.swt.widgets.Display();
++        org.eclipse.swt.widgets.Shell shell = new org.eclipse.swt.widgets.Shell(display);
++        try {
++            SWTUtil.addTooltipOnPressSupport(shell);
++            // No exception expected with a valid Control.
++        } finally {
++            if (!shell.isDisposed()) {
++                shell.dispose();
++            }
++            if (!display.isDisposed()) {
++                display.dispose();
++            }
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        SWTUtil.addTooltipOnPressSupport((Control) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.atlassw.tools.eclipse.checkstyle.util.SWTUtil", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

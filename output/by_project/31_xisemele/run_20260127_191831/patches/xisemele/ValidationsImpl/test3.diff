@@ -1,0 +1,36 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/ValidationsImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/ValidationsImpl_ESTest.java
+@@ -63,14 +63,26 @@
+          verifyException("net.sf.xisemele.impl.ValidationsImpl", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
++        FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
++        ValidationsImpl validationsImpl0 = new ValidationsImpl(factoryImpl0);
++        // Valid name should not throw an exception
++        try {
++            validationsImpl0.assertValidName("messages");
++        } catch (net.sf.xisemele.exception.InvalidNameException e) {
++            fail("Valid name caused InvalidNameException");
++        }
++        // Invalid name should cause an exception
++        try {
++            validationsImpl0.assertValidName("invalid name with spaces");
++            fail("Expected InvalidNameException for invalid name");
++        } catch (net.sf.xisemele.exception.InvalidNameException e) {
++            // expected exception
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
+-      FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+-      ValidationsImpl validationsImpl0 = new ValidationsImpl(factoryImpl0);
+-      validationsImpl0.assertValidName("messages");
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

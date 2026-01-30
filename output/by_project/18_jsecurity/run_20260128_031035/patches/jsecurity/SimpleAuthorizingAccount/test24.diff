@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
+@@ -262,15 +262,20 @@
+       simpleAuthorizingAccount1.addAll(set0);
+       assertFalse(simpleAuthorizingAccount1.isCredentialsExpired());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
+-      SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount(simplePrincipalCollection0, simplePrincipalCollection0, "]");
+-      LinkedHashSet<SimpleRole> linkedHashSet0 = new LinkedHashSet<SimpleRole>();
+-      simpleAuthorizingAccount0.addAll(linkedHashSet0);
+-      assertFalse(simpleAuthorizingAccount0.isLocked());
+-  }
++@Test(timeout = 4000)
++public void test24() throws Throwable {
++    SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
++    SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount(simplePrincipalCollection0, simplePrincipalCollection0, "]");
++    LinkedHashSet<SimpleRole> linkedHashSet0 = new LinkedHashSet<SimpleRole>();
++    SimpleRole role = new SimpleRole("testRole");
++    linkedHashSet0.add(role);
++    int beforeSize = (simpleAuthorizingAccount0.getRoles() == null) ? 0 : simpleAuthorizingAccount0.getRoles().size();
++    simpleAuthorizingAccount0.addAll(linkedHashSet0);
++    assertEquals(beforeSize + 1, simpleAuthorizingAccount0.getRoles().size());
++    assertTrue(simpleAuthorizingAccount0.getRoles().contains(role));
++    assertFalse(simpleAuthorizingAccount0.isLocked());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test25()  throws Throwable  {

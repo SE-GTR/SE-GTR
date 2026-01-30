@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
+@@ -364,21 +364,12 @@
+       blockingClient0.setClientAuthKeystoreInputStream(sequenceInputStream0);
+       assertFalse(blockingClient0.isUseDummyTrustManager());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      BlockingClient blockingClient0 = new BlockingClient();
+-      try { 
+-        blockingClient0.readByte();
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Stream closed
+-         //
+-         verifyException("java.io.BufferedInputStream", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = IOException.class)
++public void test34() throws Throwable {
++    BlockingClient blockingClient0 = new BlockingClient();
++    blockingClient0.readByte();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test35()  throws Throwable  {

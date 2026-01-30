@@ -1,0 +1,42 @@
+--- a/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
+@@ -35,22 +35,23 @@
+       assertEquals(938, moveEvent0.getSequenceNr());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      Offender offender0 = new Offender(0, 0);
+-      MoveEvent moveEvent0 = new MoveEvent(offender0, 0);
+-      MoveEvent moveEvent1 = new MoveEvent(offender0, 0, 0);
+-      moveEvent0.setDestinationPoint(756, 0, false);
+-      MovePoint movePoint0 = moveEvent0.destinationPoint;
+-      moveEvent1.player = (Player) null;
+-      moveEvent1.destinationPoint = movePoint0;
+-      moveEvent0.setControlPoint(1, 0, false);
+-      moveEvent1.setControlPoint(1, 0, false);
+-      moveEvent1.equals(moveEvent0);
+-      assertTrue(moveEvent0.isControlPointSet());
+-      assertEquals(0, moveEvent0.getControlPointY());
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    Offender offender0 = new Offender(0, 0);
++    MoveEvent moveEvent0 = new MoveEvent(offender0, 0);
++    MoveEvent moveEvent1 = new MoveEvent(offender0, 0, 0);
++    moveEvent0.setDestinationPoint(756, 0, false);
++    MovePoint movePoint0 = moveEvent0.destinationPoint;
++    assertNotNull("Destination point should be set", movePoint0);
++    moveEvent1.player = null;
++    moveEvent1.destinationPoint = movePoint0;
++    assertSame("Destination point should be shared", movePoint0, moveEvent1.destinationPoint);
++    moveEvent0.setControlPoint(1, 0, false);
++    moveEvent1.setControlPoint(1, 0, false);
++    moveEvent1.equals(moveEvent0);
++    assertEquals(0, moveEvent0.getControlPointY());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

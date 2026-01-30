@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/ib/client/EReader_ESTest.java
++++ b/evosuite-tests/com/ib/client/EReader_ESTest.java
+@@ -58,27 +58,21 @@
+         EReader eReader0 = new EReader(dataInputStream0, null, (byte) 44);
+         eReader0.readDouble();
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      byte[] byteArray0 = new byte[3];
+-      byteArray0[0] = (byte)3;
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      DataInputStream dataInputStream0 = new DataInputStream(byteArrayInputStream0);
+-      EReader eReader0 = new EReader(dataInputStream0, (EWrapper) null, (byte)3);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    byte[] byteArray0 = new byte[3];
++    byteArray0[0] = (byte) 3;
++    ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
++    DataInputStream dataInputStream0 = new DataInputStream(byteArrayInputStream0);
++    EReader eReader0 = new EReader(dataInputStream0, null, (byte) 3);
++    try {
+         eReader0.readLong();
+-        fail("Expecting exception: NumberFormatException");
+-      
+-      } catch(NumberFormatException e) {
+-         //
+-         // For input string: \"\u0003\"
+-         //
+-         verifyException("java.lang.NumberFormatException", e);
+-      }
+-  }
++        fail("Expected NumberFormatException");
++    } catch (NumberFormatException e) {
++        assertTrue(e.getMessage().contains("\u0003"));
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

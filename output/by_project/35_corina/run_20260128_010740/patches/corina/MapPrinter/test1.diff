@@ -1,0 +1,42 @@
+--- a/evosuite-tests/corina/map/MapPrinter_ESTest.java
++++ b/evosuite-tests/corina/map/MapPrinter_ESTest.java
+@@ -44,19 +44,25 @@
+       int int0 = mapPrinter0.print((Graphics) null, (PageFormat) null, 167);
+       assertEquals(1, int0);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        // Create a minimal graphics context using a 1x1 image.
++        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(1, 1,
++                java.awt.image.BufferedImage.TYPE_INT_RGB);
++        java.awt.Graphics2D g2d = img.createGraphics();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        mapPrinter0.print((Graphics) null, (PageFormat) null, (-75));
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.map.MapPrinter", e);
+-      }
+-  }
++        // Use a default PageFormat.
++        java.awt.print.PageFormat pageFormat = new java.awt.print.PageFormat();
++
++        // Invoke the method under test with valid arguments.
++        int result = mapPrinter0.print(g2d, pageFormat, 0);
++
++        // Verify that the method returns a valid Printable constant.
++        org.junit.Assert.assertTrue(
++                result == java.awt.print.Printable.PAGE_EXISTS ||
++                result == java.awt.print.Printable.NO_SUCH_PAGE);
++
++        g2d.dispose();
++    }
++
+ }

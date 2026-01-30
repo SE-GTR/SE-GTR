@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -622,18 +622,25 @@
+     assertTrue(session0.equals(session1));
+     assertTrue(session1.equals(session0));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      assertTrue(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      
++@Test(timeout = 4000)
++  public void test34() throws Throwable {
++      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
++      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
++      assertTrue(j2EEEJBSession1.equals((Object) j2EEEJBSession0));
++
++      // Verify initial state is null (default)
++      assertNull(j2EEEJBSession1.getState());
++
++      // Act: change state
+       j2EEEJBSession1.setState("'D&");
+-      boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
+-      assertFalse(boolean0);
+-  }
++
++      // Observe side‑effect via getter
++      assertEquals("'D&", j2EEEJBSession1.getState());
++
++      // Objects should now be different after state change
++      assertFalse(j2EEEJBSession0.equals(j2EEEJBSession1));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test35()  throws Throwable  {

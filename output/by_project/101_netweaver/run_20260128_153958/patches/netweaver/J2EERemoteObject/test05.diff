@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EERemoteObject_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EERemoteObject_ESTest.java
+@@ -102,18 +102,24 @@
+     assertTrue(obj0.equals((Object) obj1));
+     assertTrue(eq);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      J2EERemoteObject j2EERemoteObject0 = new J2EERemoteObject();
+-      J2EERemoteObject j2EERemoteObject1 = new J2EERemoteObject();
+-      assertTrue(j2EERemoteObject1.equals((Object)j2EERemoteObject0));
+-      
+-      j2EERemoteObject1.setUpdateTime("http://www.w3.org/XML/1998/namespace");
+-      boolean boolean0 = j2EERemoteObject0.equals(j2EERemoteObject1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    J2EERemoteObject j2EERemoteObject0 = new J2EERemoteObject();
++    J2EERemoteObject j2EERemoteObject1 = new J2EERemoteObject();
++    assertTrue(j2EERemoteObject1.equals((Object) j2EERemoteObject0));
++
++    // Verify initial state of updateTime (expected to be null)
++    assertNull(j2EERemoteObject1.getUpdateTime());
++
++    String newUpdateTime = "http://www.w3.org/XML/1998/namespace";
++    j2EERemoteObject1.setUpdateTime(newUpdateTime);
++    // Assert that the side‑effect of setUpdateTime is observable
++    assertEquals(newUpdateTime, j2EERemoteObject1.getUpdateTime());
++
++    boolean boolean0 = j2EERemoteObject0.equals(j2EERemoteObject1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

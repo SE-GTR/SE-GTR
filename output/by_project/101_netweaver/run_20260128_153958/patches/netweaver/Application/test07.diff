@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
+@@ -144,18 +144,25 @@
+         // The change should affect equality
+         assertFalse(application1.equals(application0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-    application0 = new Application();
+-    application1 = new Application();
+-      assertTrue(application1.equals((Object)application0));
+-      
+-      application1.setName("");
+-      boolean boolean0 = application0.equals(application1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++  public void test07() throws Throwable {
++    application0 = new Application();
++    application1 = new Application();
++    assertTrue(application1.equals((Object) application0));
++
++    // Verify initial state before mutation
++    assertNull(application1.getName());
++
++    // Mutate state
++    application1.setName("");
++
++    // Assert the side‑effect of setName
++    assertEquals("", application1.getName());
++
++    // Equality should now reflect the changed state
++    assertFalse(application0.equals(application1));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

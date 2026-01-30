@@ -1,0 +1,42 @@
+--- a/evosuite-tests/gui/PlayerTreeModel_ESTest.java
++++ b/evosuite-tests/gui/PlayerTreeModel_ESTest.java
+@@ -151,19 +151,26 @@
+         int int0 = playerTreeModel0.getChildCount(party0);
+         assertEquals(0, int0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      PlayerTreeModel playerTreeModel0 = new PlayerTreeModel();
+-      Object object0 = playerTreeModel0.getRoot();
+-      GameState gameState0 = new GameState();
+-      playerTreeModel0.setState(gameState0);
+-      Player player0 = new Player(4, "|=ZzC_emLS>_", "|=ZzC_emLS>_", 128, 128);
+-      gameState0.addPlayer(player0);
+-      int int0 = playerTreeModel0.getChildCount(object0);
+-      assertEquals(1, int0);
+-  }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    PlayerTreeModel model = new PlayerTreeModel();
++    Object root = model.getRoot();
++    // Before any state is set, there should be no children.
++    assertEquals(0, model.getChildCount(root));
++
++    GameState state = new GameState();
++    model.setState(state);
++    // After setting the state but before adding a player, still no children.
++    assertEquals(0, model.getChildCount(root));
++
++    Player player = new Player(4, "|=ZzC_emLS>_", "|=ZzC_emLS>_", 128, 128);
++    state.addPlayer(player);
++    int childCount = model.getChildCount(root);
++    assertEquals(1, childCount);
++    // The added child should be retrievable and not null.
++    assertNotNull(model.getChild(root, 0));
++}
++
+ @Test(timeout = 4000)
+     public void test13() throws Throwable {
+         PlayerTreeModel playerTreeModel0 = new PlayerTreeModel();

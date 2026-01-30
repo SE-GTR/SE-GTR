@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BlockingClientHandler_ESTest.java
+@@ -53,13 +53,21 @@
+          verifyException("org.quickserver.net.server.impl.BlockingClientHandler", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
+-      blockingClientHandler0.run();
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:106>", blockingClientHandler0.getName());
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        BlockingClientHandler handler = new BlockingClientHandler();
++        // Capture the thread name before execution (should be set by the constructor)
++        String nameBefore = handler.getName();
++        // Execute the handler logic
++        handler.run();
++        // Verify that the name remains a valid, non‑null identifier containing the expected hint
++        String nameAfter = handler.getName();
++        assertNotNull("Handler name should not be null after run()", nameAfter);
++        assertTrue("Handler name should contain 'ClientHandler'", nameAfter.contains("ClientHandler"));
++        // The name should not change as a result of run()
++        assertEquals("Handler name should remain unchanged after run()", nameBefore, nameAfter);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

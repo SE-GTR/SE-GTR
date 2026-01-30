@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/gbshape/dbe/utils/DBEHelper_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/utils/DBEHelper_ESTest.java
+@@ -124,17 +124,19 @@
+       StringBuffer stringBuffer0 = DBEHelper.createInsertQuery((HttpServletRequest) httpServletRequestWrapper0, dBDataBean0, "=N", tableStructureBean0);
+       assertEquals("INSERT INTO =N () VALUES () ", stringBuffer0.toString());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      byte[] byteArray0 = new byte[1];
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0, (byte) (-113), (-4202));
+-      BufferedInputStream bufferedInputStream0 = new BufferedInputStream(byteArrayInputStream0);
+-      ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
+-      doReturn(bufferedInputStream0).when(servletContext0).getResourceAsStream(anyString());
+-      String string0 = DBEHelper.getImplementationVersion(servletContext0);
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    byte[] byteArray0 = new byte[1];
++    ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0, (byte) (-113), (-4202));
++    BufferedInputStream bufferedInputStream0 = new BufferedInputStream(byteArrayInputStream0);
++    ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
++    doReturn(bufferedInputStream0).when(servletContext0).getResourceAsStream(anyString());
++    InputStream resultStream = servletContext0.getResourceAsStream("any");
++    assertSame(bufferedInputStream0, resultStream);
++    String string0 = DBEHelper.getImplementationVersion(servletContext0);
++    assertNull(string0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

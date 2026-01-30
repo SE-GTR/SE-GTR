@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
+@@ -610,21 +610,14 @@
+          verifyException("java.io.PipedInputStream", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test63()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        IOUtil.toByteArray((InputStream) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.core.io.IOUtil", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test63() throws Throwable {
++        byte[] expected = new byte[] { 10, 20, 30, 40, 50 };
++        java.io.InputStream in = new java.io.ByteArrayInputStream(expected);
++        byte[] actual = IOUtil.toByteArray(in);
++        org.junit.Assert.assertArrayEquals(expected, actual);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test64()  throws Throwable  {

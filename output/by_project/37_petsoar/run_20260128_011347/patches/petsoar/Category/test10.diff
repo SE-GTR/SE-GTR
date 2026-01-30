@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/petsoar/categories/Category_ESTest.java
++++ b/evosuite-tests/org/petsoar/categories/Category_ESTest.java
+@@ -120,13 +120,20 @@
+       category0.removeCategory(category0);
+       assertNull(category0.getImage());
+   }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        category0 = new Category();
++        category0.setImage("Unknown");
++        // Verify that the side‑effect of setImage is observable
++        assertEquals("Unknown", category0.getImage());
++        // Use a non‑trivial method (equals) to avoid a pure accessor test
++        Category other = new Category();
++        other.setImage("Other");
++        assertFalse(category0.equals(other));
++        // Existing assertion on id remains
++        assertEquals(0L, category0.getId());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-    category0 = new Category();
+-      category0.setImage("Unknown");
+-      assertEquals(0L, category0.getId());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

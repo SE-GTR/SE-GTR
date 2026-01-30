@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/tivo/jipviewer/TableSorter_ESTest.java
++++ b/evosuite-tests/com/tivo/jipviewer/TableSorter_ESTest.java
+@@ -168,13 +168,24 @@
+       tableSorter0.getHeaderRendererIcon(2, (-1));
+       assertTrue(tableSorter0.isSorting());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      TableSorter tableSorter0 = new TableSorter();
+-      Icon icon0 = tableSorter0.getHeaderRendererIcon(0, 0);
+-      assertNull(icon0);
+-  }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    // Arrange: create a simple table model and its header
++    javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
++            new Object[][] { { "value" } },
++            new Object[] { "Column" });
++    javax.swing.JTable table = new javax.swing.JTable(model);
++    javax.swing.table.JTableHeader header = table.getTableHeader();
++
++    // Act: instantiate TableSorter with the model and header, set a sorting status, and obtain the header icon
++    TableSorter sorter = new TableSorter(model, header);
++    sorter.setSortingStatus(0, TableSorter.ASCENDING);
++    javax.swing.Icon icon = sorter.getHeaderRendererIcon(0, 16);
++
++    // Assert: the icon should be non‑null, reflecting the sorting indicator
++    assertNotNull(icon);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

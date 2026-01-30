@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/ib/client/ScannerSubscription_ESTest.java
++++ b/evosuite-tests/com/ib/client/ScannerSubscription_ESTest.java
+@@ -491,22 +491,20 @@
+         scannerSubscription0.numberOfRows(3536);
+         assertEquals(3536, scannerSubscription0.numberOfRows());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      ScannerSubscription scannerSubscription0 = new ScannerSubscription();
+-      scannerSubscription0.excludeConvertible("");
+-      assertEquals(Integer.MAX_VALUE, scannerSubscription0.averageOptionVolumeAbove());
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.couponRateAbove(), 0.01);
+-      assertEquals((-1), scannerSubscription0.numberOfRows());
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.couponRateBelow(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.marketCapBelow(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.abovePrice(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.belowPrice(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.marketCapAbove(), 0.01);
+-      assertEquals(Integer.MAX_VALUE, scannerSubscription0.aboveVolume());
+-  }
++@Test(timeout = 4000)
++    public void test30() throws Throwable {
++        ScannerSubscription scannerSubscription0 = new ScannerSubscription();
++        // Verify a minimal default state
++        assertEquals(ScannerSubscription.NO_ROW_NUMBER_SPECIFIED, scannerSubscription0.numberOfRows());
++        // Act: modify state
++        scannerSubscription0.excludeConvertible("");
++        scannerSubscription0.abovePrice(123.45);
++        scannerSubscription0.numberOfRows(10);
++        // Assert side‑effects of the modifications
++        assertEquals(123.45, scannerSubscription0.abovePrice(), 0.01);
++        assertEquals(10, scannerSubscription0.numberOfRows());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

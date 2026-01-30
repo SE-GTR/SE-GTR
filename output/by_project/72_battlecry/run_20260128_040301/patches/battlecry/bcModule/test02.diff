@@ -1,0 +1,41 @@
+--- a/evosuite-tests/bcry/bcModule_ESTest.java
++++ b/evosuite-tests/bcry/bcModule_ESTest.java
+@@ -38,18 +38,26 @@
+     bcWordList bcWordList0 = bcModule0.getWordList("DEMO");
+     assertNull(bcWordList0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("data/bcDemoModule.template");
+-      FileSystemHandling.appendStringToFile(evoSuiteFile0, "//DEMOMAKER: INSERT WORDLISTS HERE!");
+-      boolean[] booleanArray0 = new boolean[2];
+-      bcVoice bcVoice0 = new bcVoice(booleanArray0, (battlecryGUI) null);
+-      bcModule bcModule0 = new bcModule("DEMO", "DEMO", bcVoice0);
+-      // Undeclared exception!
+-      bcModule0.toDemoClass("//DEMOMAKER: INSERT WORDLISTS HERE!");
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("data/bcDemoModule.template");
++        boolean appended = FileSystemHandling.appendStringToFile(evoSuiteFile0,
++                "//DEMOMAKER: INSERT WORDLISTS HERE!");
++        assertTrue("Template file should be appended", appended);
++
++        boolean[] booleanArray0 = new boolean[2];
++        bcVoice bcVoice0 = new bcVoice(booleanArray0, (battlecryGUI) null);
++        bcModule bcModule0 = new bcModule("DEMO", "DEMO", bcVoice0);
++
++        File tempOutput = File.createTempFile("demo", ".bcm");
++        tempOutput.deleteOnExit();
++
++        bcModule0.toDemoClass(tempOutput.getAbsolutePath());
++
++        assertTrue("Demo class file should be created", tempOutput.exists());
++        assertTrue("Demo class file should not be empty", tempOutput.length() > 0);
++    }
++
+ @Test(expected = NullPointerException.class, timeout = 4000)
+     public void test03() throws Throwable {
+         EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("data/bcDemoModule.template");

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/KeyStoreInfo_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/KeyStoreInfo_ESTest.java
+@@ -44,14 +44,19 @@
+       String xml = keyStoreInfo0.toXML("");
+       assertTrue(xml.contains("<key-password>" + expectedPassword + "</key-password>"));
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    KeyStoreInfo keyStoreInfo0 = new KeyStoreInfo();
++    // verify initial state
++    assertNull(keyStoreInfo0.getKeyPassword());
++    // act
++    keyStoreInfo0.setKeyPassword(null);
++    // assert that the side‑effect is as expected
++    assertNull(keyStoreInfo0.getKeyPassword());
++    // existing behavior check
++    assertEquals("NONE", keyStoreInfo0.getStoreFile());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      KeyStoreInfo keyStoreInfo0 = new KeyStoreInfo();
+-      keyStoreInfo0.setKeyPassword((String) null);
+-      assertEquals("NONE", keyStoreInfo0.getStoreFile());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

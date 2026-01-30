@@ -1,0 +1,42 @@
+--- a/evosuite-tests/bierse/model/Settings_ESTest.java
++++ b/evosuite-tests/bierse/model/Settings_ESTest.java
+@@ -147,17 +147,28 @@
+       assertEquals(10, settings0.getMessageSpeed());
+       assertEquals("Das ist eine Standard-Nachrichtf\u00FCr das Laufband!", settings0.getMessage());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      Model model0 = new Model();
+-      Settings settings0 = model0.getSettings();
+-      assertTrue(settings0.isStandardLogic());
+-      
+-      settings0.setStandardLogic(false);
+-      settings0.save();
+-      assertFalse(settings0.isStandardLogic());
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        Model model0 = new Model();
++        Settings settings0 = model0.getSettings();
++        assertTrue(settings0.isStandardLogic());
++
++        // capture the original value
++        boolean before = settings0.isStandardLogic();
++
++        // change the setting
++        settings0.setStandardLogic(false);
++
++        // observe the result of save()
++        java.io.File savedFile = settings0.save();
++        assertNotNull(savedFile);
++
++        // verify the side‑effect
++        assertFalse(settings0.isStandardLogic());
++        // ensure the value actually changed
++        assertNotEquals(before, settings0.isStandardLogic());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

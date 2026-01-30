@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/quickserver/util/logging/SimpleTextFormatter_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/logging/SimpleTextFormatter_ESTest.java
+@@ -28,18 +28,23 @@
+       String string0 = simpleTextFormatter0.format(mockLogRecord0);
+       //  // Unstable assertion: assertEquals("2014-02-14 20:21:21,320 [FINEST ] [0] - null - [TEST_EXECUTION_THREAD_1] - &%k>(c|L\n[StackTrace: sun.reflect.GeneratedConstructorAccessor39.newInstance(Unknown Source)\n<evosuite>.<evosuite>(<evosuite>)\n<evosuite>.<evosuite>(<evosuite>)\n<evosuite>.<evosuite>(<evosuite>)\n<evosuite>.<evosuite>(<evosuite>)\n<evosuite>.<evosuite>(<evosuite>)\n]\n", string0);
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    SimpleTextFormatter simpleTextFormatter0 = new SimpleTextFormatter();
++    assertTrue(simpleTextFormatter0.isLogThreadName());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      SimpleTextFormatter simpleTextFormatter0 = new SimpleTextFormatter();
+-      assertTrue(simpleTextFormatter0.isLogThreadName());
+-      
+-      Level level0 = Level.FINEST;
+-      MockLogRecord mockLogRecord0 = new MockLogRecord(level0, "&%k>(c|L");
+-      simpleTextFormatter0.setLogThreadName(false);
+-      simpleTextFormatter0.format(mockLogRecord0);
+-      assertFalse(simpleTextFormatter0.isLogThreadName());
+-  }
++    Level level0 = Level.FINEST;
++    MockLogRecord mockLogRecord0 = new MockLogRecord(level0, "&%k>(c|L");
++    simpleTextFormatter0.setLogThreadName(false);
++    assertFalse(simpleTextFormatter0.isLogThreadName());
++
++    String result = simpleTextFormatter0.format(mockLogRecord0);
++    assertNotNull(result);
++    assertTrue(result.contains("&%k>(c|L"));
++
++    assertFalse(simpleTextFormatter0.isLogThreadName());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

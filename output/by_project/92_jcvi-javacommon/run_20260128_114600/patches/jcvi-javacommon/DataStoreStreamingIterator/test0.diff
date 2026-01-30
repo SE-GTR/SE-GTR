@@ -1,0 +1,48 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/datastore/DataStoreStreamingIterator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/datastore/DataStoreStreamingIterator_ESTest.java
+@@ -29,27 +29,27 @@
+     dataStore0 = (DataStore<Object>) mock(DataStore.class, new ViolatedAssumptionAnswer());
+       doReturn(true).when(dataStore0).isClosed();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
+     dataStore0 = (DataStore<Object>) mock(DataStore.class, new ViolatedAssumptionAnswer());
+-      doReturn(true).when(dataStore0).isClosed();
+-      StreamingIterator<Object> streamingIterator0 = (StreamingIterator<Object>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(true).when(streamingIterator0).hasNext();
+-      DataStoreStreamingIterator<Object> dataStoreStreamingIterator0 = DataStoreStreamingIterator.create((DataStore<?>) dataStore0, streamingIterator0);
+-      // Undeclared exception!
+-      try { 
++    doReturn(true).when(dataStore0).isClosed();
++    StreamingIterator<Object> streamingIterator0 = (StreamingIterator<Object>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++    doReturn(true).when(streamingIterator0).hasNext();
++    // Assert the stubbed return values
++    assertTrue(dataStore0.isClosed());
++    assertTrue(streamingIterator0.hasNext());
++    DataStoreStreamingIterator<Object> dataStoreStreamingIterator0 = DataStoreStreamingIterator.create((DataStore<?>) dataStore0, streamingIterator0);
++    try {
+         dataStoreStreamingIterator0.hasNext();
+         fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // datastore is closed
+-         //
+-         verifyException("org.jcvi.jillion.internal.core.datastore.DataStoreStreamingIterator", e);
+-      }
+-  }
++    } catch (IllegalStateException e) {
++        //
++        // datastore is closed
++        //
++        verifyException("org.jcvi.jillion.internal.core.datastore.DataStoreStreamingIterator", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

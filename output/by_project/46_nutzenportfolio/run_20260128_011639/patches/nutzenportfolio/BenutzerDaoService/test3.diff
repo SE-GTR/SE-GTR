@@ -1,0 +1,39 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/benutzer/BenutzerDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/benutzer/BenutzerDaoService_ESTest.java
+@@ -69,23 +69,20 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
++      ch.bfh.egov.nutzenportfolio.persistence.benutzer.BenutzerDao mockDao = new ch.bfh.egov.nutzenportfolio.persistence.benutzer.BenutzerDao() {
++          @Override
++          public java.util.List<ch.bfh.egov.nutzenportfolio.tos.Benutzer> getAllBenutzer(Integer mandantId) {
++              return java.util.Collections.emptyList();
++          }
++      };
++      BenutzerDaoService benutzerDaoService0 = new BenutzerDaoService(mockDao);
++      java.util.List<ch.bfh.egov.nutzenportfolio.tos.Benutzer> result = benutzerDaoService0.getAllBenutzer(1);
++      org.junit.Assert.assertNotNull(result);
++      org.junit.Assert.assertTrue(result.isEmpty());
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      BenutzerIbatisDao benutzerIbatisDao0 = new BenutzerIbatisDao();
+-      BenutzerDaoService benutzerDaoService0 = new BenutzerDaoService(benutzerIbatisDao0);
+-      // Undeclared exception!
+-      try { 
+-        benutzerDaoService0.getAllBenutzer((Integer) null);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

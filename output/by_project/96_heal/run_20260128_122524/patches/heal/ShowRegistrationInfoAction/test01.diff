@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/heal/servlet/ShowRegistrationInfoAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/ShowRegistrationInfoAction_ESTest.java
+@@ -57,19 +57,21 @@
+          verifyException("org.heal.servlet.ShowRegistrationInfoAction", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      UserBean userBean0 = new UserBean();
+-      ProfessionalRoleBean professionalRoleBean0 = new ProfessionalRoleBean();
+-      professionalRoleBean0.setProfessionalRole("student or resident");
+-      userBean0.addProfessionalRole(professionalRoleBean0);
+-      ShowRegistrationInfoAction showRegistrationInfoAction0 = new ShowRegistrationInfoAction();
+-      showRegistrationInfoAction0.setUserAttributes(httpServletRequestWrapper0, userBean0);
+-      assertTrue(showRegistrationInfoAction0.actionRequiresLogin());
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    UserBean userBean0 = new UserBean();
++    ProfessionalRoleBean professionalRoleBean0 = new ProfessionalRoleBean();
++    professionalRoleBean0.setProfessionalRole("student or resident");
++    assertEquals("student or resident", professionalRoleBean0.getProfessionalRole());
++    userBean0.addProfessionalRole(professionalRoleBean0);
++    assertTrue(userBean0.getProfessionalRoles().contains(professionalRoleBean0));
++    ShowRegistrationInfoAction showRegistrationInfoAction0 = new ShowRegistrationInfoAction();
++    showRegistrationInfoAction0.setUserAttributes(httpServletRequestWrapper0, userBean0);
++    assertTrue(showRegistrationInfoAction0.actionRequiresLogin());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

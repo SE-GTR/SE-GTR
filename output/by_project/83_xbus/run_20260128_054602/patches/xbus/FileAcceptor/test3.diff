@@ -1,0 +1,23 @@
+--- a/evosuite-tests/net/sf/xbus/base/xbussystem/FileAcceptor_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/xbussystem/FileAcceptor_ESTest.java
+@@ -40,12 +40,15 @@
+     FileAcceptor fileAcceptor0 = new FileAcceptor("The FilenameFilter must not be null$WILDCARD$");
+     assertFalse(fileAcceptor0.accept((File) null, "003"));
+ }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    FileAcceptor fileAcceptor0 = new FileAcceptor("$WILDCARD$|");
++    // Verify that the accept method behaves according to the pattern:
++    // filenames ending with '|' should be accepted.
++    boolean accepted = fileAcceptor0.accept(new File("."), "test|");
++    assertTrue("FileAcceptor should accept a filename ending with '|'", accepted);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      FileAcceptor fileAcceptor0 = new FileAcceptor("$WILDCARD$|");
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

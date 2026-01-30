@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/heal/module/metadata/RequirementBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/RequirementBean_ESTest.java
+@@ -196,12 +196,26 @@
+         }
+         assertEquals(expected, deserialized.getOtherPlatform());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      RequirementBean requirementBean0 = new RequirementBean();
+-      requirementBean0.setRequirementName("Requirement: ID:null metadataId:null requirementType:null requirementName:null");
+-      assertEquals("Requirement: ID:null metadataId:null requirementType:null requirementName:null", requirementBean0.getRequirementName());
+-  }
+-}
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    RequirementBean requirementBean0 = new RequirementBean();
++    String name = "Requirement: ID:null metadataId:null requirementType:null requirementName:null";
++    requirementBean0.setRequirementName(name);
++
++    // Serialize the bean
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(requirementBean0);
++    oos.flush();
++    byte[] serialized = baos.toByteArray();
++
++    // Deserialize the bean
++    java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(serialized);
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++    RequirementBean deserialized = (RequirementBean) ois.readObject();
++
++    // Verify that the requirement name was preserved through serialization
++    assertEquals(name, deserialized.getRequirementName());
++}
++
++}

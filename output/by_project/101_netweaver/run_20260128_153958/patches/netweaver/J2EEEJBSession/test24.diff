@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -450,18 +450,26 @@
+         assertTrue(j2EEEJBSession1.equals((Object) j2EEEJBSession0));
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      assertTrue(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      
+-      j2EEEJBSession1.setStartTime("A&j");
+-      boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test24() throws Throwable {
++    J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
++    J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
++    assertTrue(j2EEEJBSession1.equals((Object) j2EEEJBSession0));
++
++    // Verify initial state before mutation
++    assertNull(j2EEEJBSession1.getStartTime());
++
++    // Act: set start time
++    j2EEEJBSession1.setStartTime("A&j");
++
++    // Assert side‑effect observable via getter
++    assertEquals("A&j", j2EEEJBSession1.getStartTime());
++
++    // Ensure objects are now different after mutation
++    boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test25()  throws Throwable  {

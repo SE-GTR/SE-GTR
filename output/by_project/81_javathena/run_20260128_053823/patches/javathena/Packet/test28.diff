@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/javathena/core/data/Packet_ESTest.java
++++ b/evosuite-tests/org/javathena/core/data/Packet_ESTest.java
+@@ -306,12 +306,16 @@
+       int int0 = packet0.getCurrentIndex();
+       assertEquals(0, int0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      Packet packet0 = new Packet(2083);
+-      byte[] byteArray0 = packet0.getData();
+-      assertEquals(0, packet0.getCurrentIndex());
+-      assertEquals(2083, byteArray0.length);
+-  }
++@Test(timeout = 4000)
++public void test28() throws Throwable {
++    Packet packet0 = new Packet(2083);
++    // Exercise a state‑changing operation
++    packet0.writeBoolean(true);
++    // Verify that the operation affected the packet's state
++    assertEquals(1, packet0.getCurrentIndex());
++    byte[] byteArray0 = packet0.getData();
++    assertEquals(2083, byteArray0.length);
++    assertEquals((byte) 1, byteArray0[0]);
+ }
++
++}

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Department_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Department_ESTest.java
+@@ -197,13 +197,19 @@
+         assertSame(mailStop, retrieved);
+     }
+ @Test(timeout = 4000)
+-  public void test16() throws Throwable {
+-      Department department0 = new Department();
+-      String expected = "Finance";
+-      department0.setType(expected);
+-      String actual = department0.getType();
+-      assertEquals(expected, actual);
+-  }
++public void test16() throws Throwable {
++    Department department0 = new Department();
++    // Verify the type setter/getter
++    department0.setType("Finance");
++    assertEquals("Finance", department0.getType());
++
++    // Non‑trivial interaction: manipulate the otherAttributes map
++    java.util.Map<javax.xml.namespace.QName, String> attrs = department0.getOtherAttributes();
++    javax.xml.namespace.QName key = new javax.xml.namespace.QName("http://example.com", "key");
++    attrs.put(key, "value");
++    assertEquals("value", department0.getOtherAttributes().get(key));
++}
++
+ @Test(timeout = 4000)
+ public void test17() throws Throwable {
+     Department department0 = new Department();

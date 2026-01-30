@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/databene/jdbacl/proxy/LoggingStatementHandler_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/proxy/LoggingStatementHandler_ESTest.java
+@@ -209,20 +209,10 @@
+          verifyException("org.databene.jdbacl.proxy.LoggingStatementHandler", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      LoggingStatementHandler loggingStatementHandler0 = new LoggingStatementHandler((Statement) null, true);
+-      // Undeclared exception!
+-      try { 
+-        loggingStatementHandler0.execute("", (-624));
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // Tried to mutate a database with read-only settings: 
+-         //
+-         verifyException("org.databene.jdbacl.DBUtil", e);
+-      }
+-  }
++@Test(expected = IllegalStateException.class, timeout = 4000)
++    public void test14() throws Throwable {
++        LoggingStatementHandler loggingStatementHandler0 = new LoggingStatementHandler((Statement) null, true);
++        loggingStatementHandler0.execute("", -624);
++    }
++
+ }

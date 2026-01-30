@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/pmdesigns/jvc/tools/SimpleCharStream_ESTest.java
++++ b/evosuite-tests/com/pmdesigns/jvc/tools/SimpleCharStream_ESTest.java
+@@ -341,13 +341,19 @@
+          //
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      SimpleCharStream simpleCharStream0 = new SimpleCharStream((Reader) null, 2103, 2103);
+-      simpleCharStream0.setTabSize(2103);
+-      assertEquals((-1), simpleCharStream0.bufpos);
+-  }
++@Test(timeout = 4000)
++    public void test29() throws Throwable {
++        java.io.Reader reader = new java.io.StringReader("\t");
++        SimpleCharStream stream = new SimpleCharStream(reader, 1, 1);
++        stream.setTabSize(4);
++        char ch = stream.readChar();
++        assertEquals('\t', ch);
++        // After reading a tab, column should be equal to the tab size (4)
++        assertEquals(4, stream.getColumn());
++        // bufpos should have advanced to the first character position (0)
++        assertEquals(0, stream.bufpos);
++    }
++
+ @Test(expected = NullPointerException.class, timeout = 4000)
+     public void test30() throws Throwable {
+         SimpleCharStream simpleCharStream0 = new SimpleCharStream((Reader) null);

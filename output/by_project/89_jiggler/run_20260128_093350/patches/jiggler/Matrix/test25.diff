@@ -1,0 +1,39 @@
+--- a/evosuite-tests/jigl/math/Matrix_ESTest.java
++++ b/evosuite-tests/jigl/math/Matrix_ESTest.java
+@@ -354,22 +354,20 @@
+          verifyException("jigl.math.Matrix", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      Matrix matrix0 = new Matrix(3, 3);
+-      // Undeclared exception!
+-      try { 
+-        matrix0.sub(matrix0);
+-        fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // 3
+-         //
+-         verifyException("jigl.math.Matrix", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        Matrix matrix0 = new Matrix(3, 3);
++        Matrix result = matrix0.sub(matrix0);
++        assertNotNull(result);
++        assertEquals(3, result.mem.length);
++        assertEquals(3, result.mem[0].length);
++        for (int i = 0; i < result.mem.length; i++) {
++            for (int j = 0; j < result.mem[i].length; j++) {
++                assertEquals(0.0, result.mem[i][j], 0.0);
++            }
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

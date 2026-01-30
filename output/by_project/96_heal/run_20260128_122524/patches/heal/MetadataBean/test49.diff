@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/heal/module/metadata/MetadataBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/MetadataBean_ESTest.java
+@@ -395,14 +395,19 @@
+     metadataBean0.setRadiographType("CT");
+     assertEquals("CT", metadataBean0.getRadiographType());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test49()  throws Throwable  {
+-    metadataBean0 = new MetadataBean();
+-      metadataBean0.setInappropriate("~s=_aj}to]_hkh&4xa]");
+-      assertNull(metadataBean0.getSubmissionAgreement());
+-  }
++@Test(timeout = 4000)
++    public void test49() throws Throwable {
++        metadataBean0 = new MetadataBean();
++        // Verify initial state before setting
++        assertNull(metadataBean0.getInappropriate());
++        String inappropriateValue = "~s=_aj}to]_hkh&4xa]";
++        // Exercise the setter (void method) and assert its side‑effect via the getter
++        metadataBean0.setInappropriate(inappropriateValue);
++        assertEquals(inappropriateValue, metadataBean0.getInappropriate());
++        // Existing behavior: submissionAgreement should still be null
++        assertNull(metadataBean0.getSubmissionAgreement());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test50()  throws Throwable  {

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
+@@ -119,25 +119,20 @@
+         Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+         parser0.parse("B$[[", "B$[[", 1007);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+-      // Undeclared exception!
+-      try { 
+-        parser0.parse("(new BoYea:(fale)j", "(new BoYea:(fale)j", 6133);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // missing ) in parenthetical ((new BoYea:(fale)j#6133)
+-         //
+-         verifyException("org.mozilla.javascript.DefaultErrorReporter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
++        try {
++            parser0.parse("(new BoYea:(fale)j", "(new BoYea:(fale)j", 6133);
++            fail("Expecting RuntimeException");
++        } catch (RuntimeException e) {
++            // Verify that the exception message indicates the missing closing parenthesis
++            assertTrue(e.getMessage().contains("missing )"));
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

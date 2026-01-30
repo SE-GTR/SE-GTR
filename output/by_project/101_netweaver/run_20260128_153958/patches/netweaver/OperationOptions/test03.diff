@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/OperationOptions_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/OperationOptions_ESTest.java
+@@ -43,19 +43,25 @@
+       boolean boolean0 = operationOptions0.equals(operationOptions1);
+       assertTrue(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        OperationOptions operationOptions0 = new OperationOptions();
++        OperationOptions operationOptions1 = new OperationOptions();
++        assertTrue(operationOptions1.equals((Object) operationOptions0));
+ 
++        // Verify initial state of mOptions is null
++        assertNull(operationOptions1.getMOptions());
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      OperationOptions operationOptions0 = new OperationOptions();
+-      OperationOptions operationOptions1 = new OperationOptions();
+-      assertTrue(operationOptions1.equals((Object)operationOptions0));
+-      
+-      InstanceOptionsFlags[] instanceOptionsFlagsArray0 = new InstanceOptionsFlags[0];
+-      operationOptions1.setMOptions(instanceOptionsFlagsArray0);
+-      boolean boolean0 = operationOptions0.equals(operationOptions1);
+-      assertFalse(boolean0);
+-  }
++        InstanceOptionsFlags[] instanceOptionsFlagsArray0 = new InstanceOptionsFlags[0];
++        operationOptions1.setMOptions(instanceOptionsFlagsArray0);
++
++        // Assert that the side‑effect of setMOptions is observable via the getter
++        assertArrayEquals(instanceOptionsFlagsArray0, operationOptions1.getMOptions());
++
++        // The objects should now be different
++        assertFalse(operationOptions0.equals(operationOptions1));
++    }
++
+ @Test(timeout = 4000)
+   public void test04() throws Throwable {
+       OperationOptions operationOptions0 = new OperationOptions();

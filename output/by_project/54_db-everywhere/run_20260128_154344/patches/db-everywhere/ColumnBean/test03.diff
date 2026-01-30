@@ -1,0 +1,26 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
+@@ -36,11 +36,18 @@
+         assertTrue(columnBean0.getLen() >= 0);
+     }
+ @Test(timeout = 4000)
+-    public void test03() throws Throwable {
+-        ColumnBean columnBean0 = new ColumnBean();
+-        assertEquals(0, columnBean0.getLen());
+-        assertEquals(0, columnBean0.getDec());
+-    }
++public void test03() throws Throwable {
++    ColumnBean columnBean0 = new ColumnBean();
++    int initialLen = columnBean0.getLen();
++    int initialDec = columnBean0.getDec();
++    assertEquals(0, initialLen);
++    assertEquals(0, initialDec);
++    columnBean0.setExtra("extra");
++    // Verify that setting extra does not affect len or dec
++    assertEquals(initialLen, columnBean0.getLen());
++    assertEquals(initialDec, columnBean0.getDec());
++}
++
+ @Test(timeout = 4000)
+     public void test04() throws Throwable {
+         ColumnBean columnBean0 = new ColumnBean();

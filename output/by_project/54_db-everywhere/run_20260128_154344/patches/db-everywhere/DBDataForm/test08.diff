@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/form/DBDataForm_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/form/DBDataForm_ESTest.java
+@@ -82,13 +82,25 @@
+     assertEquals("FR", dBDataForm0.getLanguage());
+     assertEquals("ISO-8859-1", dBDataForm0.getEncoding());
+ }
+-
+ @Test(timeout = 4000)
+ public void test08() throws Throwable {
+-    DBDataForm dBDataForm0 = new DBDataForm();
+-    String dbName = dBDataForm0.getDbName();
+-    assertEquals("", dbName);
++    DBDataForm original = new DBDataForm();
++
++    // Serialize the object
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(original);
++    oos.flush();
++
++    // Deserialize the object
++    java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++    DBDataForm deserialized = (DBDataForm) ois.readObject();
++
++    // Verify that the deserialized instance retains the default dbName
++    assertEquals("", deserialized.getDbName());
+ }
++
+ @Test(timeout = 4000)
+     public void test09() throws Throwable {
+         DBDataForm dBDataForm0 = new DBDataForm();

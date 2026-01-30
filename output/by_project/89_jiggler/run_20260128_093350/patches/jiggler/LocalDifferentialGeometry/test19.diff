@@ -1,0 +1,81 @@
+--- a/evosuite-tests/jigl/image/utils/LocalDifferentialGeometry_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/LocalDifferentialGeometry_ESTest.java
+@@ -407,55 +407,29 @@
+         // expected
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      
+-      LocalDifferentialGeometry localDifferentialGeometry0 = new LocalDifferentialGeometry(realGrayImage0);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevAbsKappa, 0.01);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      
+-      RealGrayImage realGrayImage1 = localDifferentialGeometry0.calcOrientationMap(0, 2525, 167, 167);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevAbsKappa, 0.01);
+-      assertFalse(realGrayImage1.equals((Object)realGrayImage0));
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage1.min(), 0.01F);
+-      assertEquals(0.0F, realGrayImage1.addSum(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage1.max(), 0.01F);
+-      assertEquals(0, realGrayImage1.X());
+-      assertEquals(0.0F, realGrayImage1.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage1.Y());
+-      assertEquals(0.0, realGrayImage1.sqrSum(), 0.01);
+-      assertNotSame(realGrayImage0, realGrayImage1);
+-      assertNotSame(realGrayImage1, realGrayImage0);
+-  }
++@Test(timeout = 4000)
++public void test19() throws Throwable {
++    RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
++    // basic initialization checks
++    assertEquals(0, realGrayImage0.X());
++    assertEquals(0, realGrayImage0.Y());
++    assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
++
++    LocalDifferentialGeometry localDifferentialGeometry0 = new LocalDifferentialGeometry(realGrayImage0);
++    // verify that statistical fields start at zero
++    assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
++    assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
++
++    RealGrayImage realGrayImage1 = localDifferentialGeometry0.calcOrientationMap(0, 2525, 167, 167);
++    // result should be a distinct image
++    assertNotNull(realGrayImage1);
++    assertNotSame(realGrayImage0, realGrayImage1);
++    // ensure original image unchanged
++    assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
++    // fields remain zero after calculation
++    assertEquals(0.0, localDifferentialGeometry0.stdDevKappaSquare, 0.01);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

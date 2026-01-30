@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/Alert_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/Alert_ESTest.java
+@@ -235,19 +235,28 @@
+       assertTrue(alert1.equals((Object) alert0));
+       assertTrue(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      Alert alert0 = new Alert();
+-      Alert alert1 = new Alert();
+-      assertTrue(alert1.equals((Object)alert0));
+-      
+-      STATECOLOR sTATECOLOR0 = STATECOLOR.value1;
+-      alert1.setValue(sTATECOLOR0);
+-      boolean boolean0 = alert1.equals(alert0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        Alert alert0 = new Alert();
++        Alert alert1 = new Alert();
++        // Both alerts start with default state and should be equal
++        assertTrue(alert1.equals((Object) alert0));
++
++        // Verify initial values are null (default)
++        assertNull(alert0.getValue());
++        assertNull(alert1.getValue());
++
++        STATECOLOR sTATECOLOR0 = STATECOLOR.value1;
++        alert1.setValue(sTATECOLOR0);
++
++        // Observe the side‑effect of setValue
++        assertEquals(sTATECOLOR0, alert1.getValue());
++        assertNull(alert0.getValue());
++
++        // After changing one alert, they should no longer be equal
++        assertFalse(alert1.equals(alert0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

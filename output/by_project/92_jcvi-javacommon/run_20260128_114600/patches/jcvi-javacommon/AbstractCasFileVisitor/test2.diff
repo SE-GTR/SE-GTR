@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/AbstractCasFileVisitor_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/AbstractCasFileVisitor_ESTest.java
+@@ -64,20 +64,25 @@
+         Cas2Consed cas2Consed0 = new Cas2Consed(file0, casGappedReferenceDataStore0, mockFile0, "}@''86m-+~\"HR<?o&");
+         cas2Consed0.visitMetaData(0L, 0L);
+     }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        MockFile mockFile0 = new MockFile("consensus caller can not be null", ";/km2g21xg@F/z^Aj");
++        StreamingIterator<String> streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++        doReturn(false).when(streamingIterator0).hasNext();
++        StreamingIterator<NucleotideSequence> streamingIterator1 = (StreamingIterator<NucleotideSequence>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++        CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
++        doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
++        doReturn(streamingIterator1).when(casGappedReferenceDataStore0).iterator();
+ 
++        // Assert the stubbed return values
++        assertFalse(streamingIterator0.hasNext());
++        assertSame(streamingIterator0, casGappedReferenceDataStore0.idIterator());
++        assertSame(streamingIterator1, casGappedReferenceDataStore0.iterator());
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("consensus caller can not be null", ";/km2g21xg@F/z^Aj");
+-      StreamingIterator<String> streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(streamingIterator0).hasNext();
+-      StreamingIterator<NucleotideSequence> streamingIterator1 = (StreamingIterator<NucleotideSequence>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
+-      doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
+-      doReturn(streamingIterator1).when(casGappedReferenceDataStore0).iterator();
+-      Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "%O2");
+-      cas2Consed0.visitNumberOfReadFiles((-113L));
+-  }
++        Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "%O2");
++        cas2Consed0.visitNumberOfReadFiles((-113L));
++    }
++
+ @Test(timeout = 4000)
+ public void test3() throws Throwable {
+     File file0 = MockFile.createTempFile("}@''86m-+~\"HR<?o&", "}@''86m-+~\"HR<?o&");

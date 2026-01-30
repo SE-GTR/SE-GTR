@@ -1,0 +1,47 @@
+--- a/evosuite-tests/mygrid/web/Job_ESTest.java
++++ b/evosuite-tests/mygrid/web/Job_ESTest.java
+@@ -270,21 +270,29 @@
+     // jobs should no longer be equal after the dependency change
+     assertFalse(job0.equals(job1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      Job job0 = new Job();
+-      Discriminator discriminator0 = new Discriminator();
+-      job0.setDiscriminators(discriminator0);
+-      Job job1 = new Job();
+-      assertFalse(job1.equals((Object)job0));
+-      
+-      job1.setDiscriminators(discriminator0);
+-      boolean boolean0 = job0.equals(job1);
+-      assertTrue(job1.equals((Object)job0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test17() throws Throwable {
++        Job job0 = new Job();
++        // verify initial state before setting discriminators
++        assertNull(job0.getDiscriminators());
++
++        Discriminator discriminator0 = new Discriminator();
++        job0.setDiscriminators(discriminator0);
++        // assert side‑effect of setDiscriminators
++        assertSame(discriminator0, job0.getDiscriminators());
++
++        Job job1 = new Job();
++        assertFalse(job1.equals((Object) job0));
++
++        job1.setDiscriminators(discriminator0);
++        // assert side‑effect on the second instance as well
++        assertSame(discriminator0, job1.getDiscriminators());
++
++        boolean boolean0 = job0.equals(job1);
++        assertTrue(job1.equals((Object) job0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/quickserver/util/pool/thread/ClientThread_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/thread/ClientThread_ESTest.java
+@@ -58,20 +58,20 @@
+     int instanceId = clientThread0.getInstanceId();
+     assertTrue("Instance id should be non‑negative", instanceId >= 0);
+ }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    ClientHandlerObjectFactory clientHandlerObjectFactory0 = new ClientHandlerObjectFactory(false);
++    BasicObjectPool.Config basicObjectPool_Config0 = new BasicObjectPool.Config();
++    BasicObjectPool basicObjectPool0 = new BasicObjectPool(clientHandlerObjectFactory0, basicObjectPool_Config0);
++    QSAdminServerConfig qSAdminServerConfig0 = new QSAdminServerConfig();
++    ObjectPoolConfig objectPoolConfig0 = qSAdminServerConfig0.getObjectPoolConfig();
++    ClientPool clientPool0 = new ClientPool(basicObjectPool0, objectPoolConfig0);
++    ClientThread clientThread0 = new ClientThread(clientPool0, 10);
++    clientThread0.start();
++    Thread.sleep(50);
++    assertTrue(clientThread0.isAlive());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      ClientHandlerObjectFactory clientHandlerObjectFactory0 = new ClientHandlerObjectFactory(false);
+-      BasicObjectPool.Config basicObjectPool_Config0 = new BasicObjectPool.Config();
+-      BasicObjectPool basicObjectPool0 = new BasicObjectPool(clientHandlerObjectFactory0, basicObjectPool_Config0);
+-      QSAdminServerConfig qSAdminServerConfig0 = new QSAdminServerConfig();
+-      ObjectPoolConfig objectPoolConfig0 = qSAdminServerConfig0.getObjectPoolConfig();
+-      ClientPool clientPool0 = new ClientPool(basicObjectPool0, objectPoolConfig0);
+-      ClientThread clientThread0 = new ClientThread(clientPool0, 10);
+-      int int0 = clientThread0.getInstanceId();
+-      assertEquals(1, int0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

@@ -1,0 +1,67 @@
+--- a/evosuite-tests/org/petsoar/persistence/hibernate/HibernatePersistenceManager_ESTest.java
++++ b/evosuite-tests/org/petsoar/persistence/hibernate/HibernatePersistenceManager_ESTest.java
+@@ -93,23 +93,47 @@
+          verifyException("org.petsoar.persistence.hibernate.HibernatePersistenceManager", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-    hibernatePersistenceManager0 = new HibernatePersistenceManager();
+-    class0 = Date.class;
+-      // Undeclared exception!
+-      try { 
+-        hibernatePersistenceManager0.getByPrimaryKey(class0, class0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.petsoar.persistence.hibernate.HibernatePersistenceManager", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        // Properly initialize HibernatePersistenceManager with dummy factory and session
++        HibernatePersistenceManager manager = new HibernatePersistenceManager();
++
++        // Create a dummy Session that returns null for any method call
++        net.sf.hibernate.Session dummySession = (net.sf.hibernate.Session) java.lang.reflect.Proxy.newProxyInstance(
++                net.sf.hibernate.Session.class.getClassLoader(),
++                new Class<?>[]{net.sf.hibernate.Session.class},
++                (proxy, method, args) -> null);
++
++        // Create a dummy HibernateSessionFactory that returns the dummy Session
++        org.petsoar.persistence.hibernate.HibernateSessionFactory dummyFactory = (org.petsoar.persistence.hibernate.HibernateSessionFactory) java.lang.reflect.Proxy
++                .newProxyInstance(
++                        org.petsoar.persistence.hibernate.HibernateSessionFactory.class.getClassLoader(),
++                        new Class<?>[]{org.petsoar.persistence.hibernate.HibernateSessionFactory.class},
++                        (proxy, method, args) -> {
++                            if ("openSession".equals(method.getName())) {
++                                return dummySession;
++                            }
++                            return null;
++                        });
++
++        // Inject the dummy factory and session via reflection
++        java.lang.reflect.Field factoryField = HibernatePersistenceManager.class
++                .getDeclaredField("hibernateSessionFactory");
++        factoryField.setAccessible(true);
++        factoryField.set(manager, dummyFactory);
++
++        java.lang.reflect.Field sessionField = HibernatePersistenceManager.class
++                .getDeclaredField("session");
++        sessionField.setAccessible(true);
++        sessionField.set(manager, dummySession);
++
++        // Invoke the method under test with valid arguments
++        Object result = manager.getByPrimaryKey(java.util.Date.class, new java.util.Date());
++
++        // Verify that the result is null (the dummy session returns null)
++        org.junit.Assert.assertNull(result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

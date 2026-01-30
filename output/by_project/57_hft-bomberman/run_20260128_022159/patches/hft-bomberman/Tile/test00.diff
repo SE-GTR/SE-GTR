@@ -1,0 +1,36 @@
+--- a/evosuite-tests/common/Tile_ESTest.java
++++ b/evosuite-tests/common/Tile_ESTest.java
+@@ -18,14 +18,26 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Tile_ESTest extends Tile_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    Tile tile0 = new Tile((Point) null);
++    // verify initial defaults (optional sanity check)
++    assertTrue(tile0.isAccessible());
++    assertFalse(tile0.isBombable());
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Tile tile0 = new Tile((Point) null);
+-      tile0.setProperties("maps empty?: ", true, true);
+-      tile0.destroy();
+-      assertFalse(tile0.isActive());
+-  }
++    // act: set properties
++    tile0.setProperties("maps empty?: ", true, true);
++
++    // assert side‑effects of setProperties
++    assertEquals("maps empty?: ", tile0.getType());
++    assertTrue(tile0.isAccessible());
++    assertTrue(tile0.isBombable());
++
++    // destroy and verify the tile becomes inactive
++    tile0.destroy();
++    assertFalse(tile0.isActive());
++}
++
+ @Test(timeout = 4000)
+ public void test01() throws Throwable {
+     Tile tile0 = new Tile((Point) null);

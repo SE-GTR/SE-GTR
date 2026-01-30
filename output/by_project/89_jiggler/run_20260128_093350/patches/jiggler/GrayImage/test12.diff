@@ -1,0 +1,90 @@
+--- a/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
+@@ -372,51 +372,42 @@
+         int min = img.min(roi);
+         assertEquals(32767, min);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(1, 1);
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      
+-      ROI rOI0 = new ROI();
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(1, rOI0.X());
+-      
+-      interpolatedGrayImage0.median((-433), rOI0);
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(0L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(0, interpolatedGrayImage0.addSum());
+-      assertEquals(0, interpolatedGrayImage0.absSum());
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(1, rOI0.X());
+-      
+-      interpolatedGrayImage0.byteSize(rOI0);
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(0L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(0, interpolatedGrayImage0.addSum());
+-      assertEquals(0, interpolatedGrayImage0.absSum());
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(1, rOI0.X());
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        InterpolatedGrayImage img = new InterpolatedGrayImage(1, 1);
++        // verify construction
++        assertEquals(1, img.X());
++        assertEquals(1, img.Y());
++        assertEquals(InterpolationMethod.NEIGHBOR, img.getInterpolationMethod());
++
++        ROI roi = new ROI();
++        // verify ROI defaults
++        assertEquals(1, roi.X());
++        assertEquals(1, roi.Y());
++        assertEquals(0, roi.lx());
++        assertEquals(0, roi.ly());
++        assertEquals(0, roi.ux());
++        assertEquals(0, roi.uy());
++
++        // act: median
++        img.median(-433, roi);
++        // assert side‑effects of median
++        assertEquals(1, img.X()); // dimensions unchanged
++        assertEquals(1, img.Y());
++        assertEquals(0L, img.sqrSum());
++        assertEquals(0, img.addSum());
++        assertEquals(0, img.absSum());
++
++        // act: byteSize
++        img.byteSize(roi);
++        // assert side‑effects of byteSize
++        assertEquals(1, img.X());
++        assertEquals(1, img.Y());
++        assertEquals(0L, img.sqrSum());
++        assertEquals(0, img.addSum());
++        assertEquals(0, img.absSum());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

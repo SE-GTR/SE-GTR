@@ -1,0 +1,41 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/persistence/projektgruppe/ProjektgruppeIbatisDao_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/persistence/projektgruppe/ProjektgruppeIbatisDao_ESTest.java
+@@ -106,23 +106,22 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
++@Test(timeout = 4000)
++  public void test5() throws Throwable {
++    projektgruppeIbatisDao0 = new ProjektgruppeIbatisDao();
++    // Provide a dummy SqlMapClient to avoid IllegalArgumentException caused by missing client
++    com.ibatis.sqlmap.client.SqlMapClient dummyClient = (com.ibatis.sqlmap.client.SqlMapClient) java.lang.reflect.Proxy
++        .newProxyInstance(com.ibatis.sqlmap.client.SqlMapClient.class.getClassLoader(),
++            new Class[] { com.ibatis.sqlmap.client.SqlMapClient.class },
++            (proxy, method, args) -> null);
++    projektgruppeIbatisDao0.setSqlMapClient(dummyClient);
++    projektgruppe0 = new Projektgruppe();
++    // Invoke the method under normal conditions
++    Projektgruppe result = projektgruppeIbatisDao0.getByName(projektgruppe0);
++    // With the dummy client, the expected result is null
++    assertNull(result);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    projektgruppeIbatisDao0 = new ProjektgruppeIbatisDao();
+-    projektgruppe0 = new Projektgruppe();
+-      // Undeclared exception!
+-      try { 
+-        projektgruppeIbatisDao0.getByName(projektgruppe0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

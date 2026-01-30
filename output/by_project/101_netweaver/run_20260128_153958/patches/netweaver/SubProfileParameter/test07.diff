@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SubProfileParameter_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SubProfileParameter_ESTest.java
+@@ -118,18 +118,24 @@
+         assertFalse(boolean0);
+         assertFalse(subProfileParameter1.equals((Object) subProfileParameter0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      SubProfileParameter subProfileParameter0 = new SubProfileParameter();
+-      SubProfileParameter subProfileParameter1 = new SubProfileParameter();
+-      assertTrue(subProfileParameter1.equals((Object)subProfileParameter0));
+-      
+-      subProfileParameter1.setUnit("");
+-      boolean boolean0 = subProfileParameter0.equals(subProfileParameter1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    SubProfileParameter subProfileParameter0 = new SubProfileParameter();
++    SubProfileParameter subProfileParameter1 = new SubProfileParameter();
++    assertTrue(subProfileParameter1.equals((Object) subProfileParameter0));
++
++    // Verify initial state of the unit field
++    assertNull(subProfileParameter1.getUnit());
++
++    // Change the unit and assert the side‑effect
++    subProfileParameter1.setUnit("ms");
++    assertEquals("ms", subProfileParameter1.getUnit());
++
++    // Equality should now reflect the changed state
++    boolean boolean0 = subProfileParameter0.equals(subProfileParameter1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

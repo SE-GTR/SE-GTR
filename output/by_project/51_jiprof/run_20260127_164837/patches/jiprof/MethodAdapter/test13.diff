@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodAdapter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodAdapter_ESTest.java
+@@ -169,23 +169,25 @@
+         Label label0 = new Label();
+         methodAdapter0.visitTryCatchBlock(label0, label0, label0, "org.objectweb.asm.jip.MethodAdapter");
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      MethodAdapter methodAdapter0 = new MethodAdapter((MethodVisitor) null);
+-      // Undeclared exception!
+-      try { 
+-        methodAdapter0.visitIincInsn(0, 0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.MethodAdapter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        final int[] captured = new int[2];
++        MethodVisitor mv = (MethodVisitor) java.lang.reflect.Proxy.newProxyInstance(
++                MethodVisitor.class.getClassLoader(),
++                new Class<?>[]{MethodVisitor.class},
++                (proxy, method, args) -> {
++                    if ("visitIincInsn".equals(method.getName()) && args != null && args.length == 2) {
++                        captured[0] = (Integer) args[0];
++                        captured[1] = (Integer) args[1];
++                    }
++                    return null;
++                });
++        MethodAdapter methodAdapter0 = new MethodAdapter(mv);
++        methodAdapter0.visitIincInsn(5, 3);
++        assertEquals(5, captured[0]);
++        assertEquals(3, captured[1]);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

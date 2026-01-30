@@ -1,0 +1,53 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/SAXEvents2HL7Impl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/SAXEvents2HL7Impl_ESTest.java
+@@ -49,24 +49,32 @@
+         assertEquals('|', cut.getFieldSeparator());
+         assertEquals("\n", cut.getSegmentSeparator());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      SAXEvents2HL7Impl sAXEvents2HL7Impl0 = new SAXEvents2HL7Impl();
+-      StringWriter stringWriter0 = new StringWriter();
+-      sAXEvents2HL7Impl0.setWriter(stringWriter0);
+-      sAXEvents2HL7Impl0.processStartTag("MSH");
+-      sAXEvents2HL7Impl0.processStartTag("MSH");
+-      sAXEvents2HL7Impl0.processStartTag("MS].1");
+-      sAXEvents2HL7Impl0.processText("+0L(=*M>wbeO!%lf!3~");
+-      assertEquals('\\', sAXEvents2HL7Impl0.getEscapeCharacter());
+-      assertEquals('&', sAXEvents2HL7Impl0.getSubComponentSeparator());
+-      assertEquals('^', sAXEvents2HL7Impl0.getComponentSeparator());
+-      assertEquals("\n", sAXEvents2HL7Impl0.getSegmentSeparator());
+-      assertEquals('~', sAXEvents2HL7Impl0.getRepeatableSeparator());
+-      assertEquals('|', sAXEvents2HL7Impl0.getFieldSeparator());
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        SAXEvents2HL7Impl sAXEvents2HL7Impl0 = new SAXEvents2HL7Impl();
++        StringWriter stringWriter0 = new StringWriter();
++        sAXEvents2HL7Impl0.setWriter(stringWriter0);
++        // Verify that the writer is initially empty (observes setWriter side‑effect)
++        assertEquals("", stringWriter0.toString());
++
++        sAXEvents2HL7Impl0.processStartTag("MSH");
++        sAXEvents2HL7Impl0.processStartTag("MSH");
++        sAXEvents2HL7Impl0.processStartTag("MS].1");
++        sAXEvents2HL7Impl0.processText("+0L(=*M>wbeO!%lf!3~");
++
++        // Observe the effect of processing tags/text on the writer
++        String output = stringWriter0.toString();
++        assertTrue("Writer should contain processed tag", output.contains("MSH"));
++        assertTrue("Writer should not be empty after processing", output.length() > 0);
++
++        assertEquals('\\', sAXEvents2HL7Impl0.getEscapeCharacter());
++        assertEquals('&', sAXEvents2HL7Impl0.getSubComponentSeparator());
++        assertEquals('^', sAXEvents2HL7Impl0.getComponentSeparator());
++        assertEquals("\n", sAXEvents2HL7Impl0.getSegmentSeparator());
++        assertEquals('~', sAXEvents2HL7Impl0.getRepeatableSeparator());
++        assertEquals('|', sAXEvents2HL7Impl0.getFieldSeparator());
++    }
++
+ @Test(timeout = 4000)
+ public void test04() throws Throwable {
+     SAXEvents2HL7Impl cut = new SAXEvents2HL7Impl();

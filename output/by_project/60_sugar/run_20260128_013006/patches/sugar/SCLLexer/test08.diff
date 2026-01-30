@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sf/sugar/scl/SCLLexer_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/scl/SCLLexer_ESTest.java
+@@ -101,17 +101,21 @@
+     int afterPos = sCLLexer0.getCharPositionInLine();
+     assertTrue(afterPos > beforePos);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      char[] charArray0 = new char[2];
+-      charArray0[0] = '[';
+-      ANTLRStringStream aNTLRStringStream0 = new ANTLRStringStream(charArray0, 1024);
+-      SCLLexer sCLLexer0 = new SCLLexer(aNTLRStringStream0);
+-      sCLLexer0.mTokens();
+-      assertEquals(1, sCLLexer0.getCharPositionInLine());
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        char[] charArray0 = new char[2];
++        charArray0[0] = '[';
++        ANTLRStringStream aNTLRStringStream0 = new ANTLRStringStream(charArray0, 1024);
++        SCLLexer sCLLexer0 = new SCLLexer(aNTLRStringStream0);
++        // Act: obtain the first token produced by the lexer
++        org.antlr.runtime.Token token = sCLLexer0.nextToken();
++        // Assert that the lexer correctly tokenizes the '[' character
++        assertEquals("[", token.getText());
++        // Verify that the lexer reaches EOF after the token
++        org.antlr.runtime.Token eof = sCLLexer0.nextToken();
++        assertEquals(org.antlr.runtime.Token.EOF, eof.getType());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

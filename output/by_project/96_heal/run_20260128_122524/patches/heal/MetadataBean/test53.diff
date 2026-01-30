@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/heal/module/metadata/MetadataBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/MetadataBean_ESTest.java
+@@ -429,14 +429,19 @@
+     String result = metadataBean0.getSourceCollectionId();
+     assertEquals("testId", result);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test53()  throws Throwable  {
+-    metadataBean0 = new MetadataBean();
+-      metadataBean0.setPrivate(false);
+-      assertFalse(metadataBean0.isHidden());
+-  }
++@Test(timeout = 4000)
++public void test53() throws Throwable {
++    metadataBean0 = new MetadataBean();
++    // Verify initial state (not hidden by default)
++    assertFalse(metadataBean0.isHidden());
++    // Setting private to false should keep the bean not hidden
++    metadataBean0.setPrivate(false);
++    assertFalse(metadataBean0.isHidden());
++    // Setting private to true should make the bean hidden
++    metadataBean0.setPrivate(true);
++    assertTrue(metadataBean0.isHidden());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test54()  throws Throwable  {

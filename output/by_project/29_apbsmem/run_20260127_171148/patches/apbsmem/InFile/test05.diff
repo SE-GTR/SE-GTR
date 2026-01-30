@@ -1,0 +1,26 @@
+--- a/evosuite-tests/apbs_mem_gui/InFile_ESTest.java
++++ b/evosuite-tests/apbs_mem_gui/InFile_ESTest.java
+@@ -60,15 +60,17 @@
+     assertNotNull(result);
+     assertEquals(1, inFile0.getType());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      InFile inFile0 = new InFile();
+-      inFile0.setMol3("3>ct:/#<_oz");
++@Test(timeout = 4000)
++  public void test05() throws Throwable {
++      InFile inFile0 = new InFile();
++      String mol3 = "3>ct:/#<_oz";
++      inFile0.setMol3(mol3);
+       String string0 = inFile0.toString(true);
++      // Verify that the side‑effect of setMol3 is reflected in the output
++      assertTrue(string0.contains(mol3));
+       assertEquals("#APBSmem geometric factors\n#zmem \n#lmem \n#mdie \n#idie \n#geo1 \n#geo2 \n#geo3 \n\n# READ IN MOLECULES\nread\nmol pqr \"\"\nmol pqr \"3>ct:/#<_oz\"\n\nend\n\nelec name solv0\nmg-dummy\ndime \nglen \n\npdie \nsdie \nbcfl zero\nion   \nion   \ngcent \nmol 1\nchgm spl2\nsrfm mol\nsrad \nswin 0.3\nsdens \ntemp \ncalcenergy no\ncalcforce no\nwrite dielx dx dielx_1\nwrite diely dx diely_1\nwrite dielz dx dielz_1\nwrite kappa dx kappa_1\nwrite charge dx charge_1\nend\n\nquit", string0);
+   }
++
+ @Test(timeout = 4000)
+ public void test06() throws Throwable {
+     InFile inFile0 = new InFile();

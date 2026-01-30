@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jsecurity/subject/DelegatingSubject_ESTest.java
++++ b/evosuite-tests/org/jsecurity/subject/DelegatingSubject_ESTest.java
+@@ -146,12 +146,16 @@
+          verifyException("org.jsecurity.subject.DelegatingSubject", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager();
++    DelegatingSubject delegatingSubject0 = new DelegatingSubject(defaultSecurityManager0);
++    // Create a session to verify that logout clears it
++    org.jsecurity.session.Session session = delegatingSubject0.getSession(true);
++    assertNotNull(session);
++    delegatingSubject0.logout();
++    assertNull(delegatingSubject0.getSession(false));
++    assertFalse(delegatingSubject0.isAuthenticated());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager();
+-      DelegatingSubject delegatingSubject0 = new DelegatingSubject(defaultSecurityManager0);
+-      delegatingSubject0.logout();
+-      assertFalse(delegatingSubject0.isAuthenticated());
+-  }
+ }

@@ -1,0 +1,43 @@
+--- a/evosuite-tests/fps370/KeyUpBehavior_ESTest.java
++++ b/evosuite-tests/fps370/KeyUpBehavior_ESTest.java
+@@ -39,27 +39,23 @@
+         verifyException("javax.media.j3d.Behavior", e);
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     keyUpBehavior0 = new KeyUpBehavior((Fps370Panel) null);
+     stack0 = new Stack<WakeupOnAWTEvent>();
+-      WakeupOnAWTEvent wakeupOnAWTEvent0 = new WakeupOnAWTEvent(503L);
+-      stack0.add(wakeupOnAWTEvent0);
+-      Enumeration<WakeupOnAWTEvent> enumeration0 = stack0.elements();
+-      // Undeclared exception!
+-      try { 
++    WakeupOnAWTEvent wakeupOnAWTEvent0 = new WakeupOnAWTEvent(503L);
++    boolean added = stack0.add(wakeupOnAWTEvent0);
++    assertTrue(added);
++    Enumeration<WakeupOnAWTEvent> enumeration0 = stack0.elements();
++    try {
+         keyUpBehavior0.processStimulus(enumeration0);
+         fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // wakeupOn must be called from initialize or processStimulus
+-         //
+-         verifyException("javax.media.j3d.Behavior", e);
+-      }
+-  }
++    } catch (IllegalStateException e) {
++        // wakeupOn must be called from initialize or processStimulus
++        verifyException("javax.media.j3d.Behavior", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

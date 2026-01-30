@@ -1,0 +1,37 @@
+--- a/evosuite-tests/corina/util/SimpleLog_ESTest.java
++++ b/evosuite-tests/corina/util/SimpleLog_ESTest.java
+@@ -99,16 +99,24 @@
+       simpleLog0.warn((Object) null);
+       assertEquals(1208, simpleLog0.getLevel());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      SimpleLog simpleLog0 = new SimpleLog("FEBhgc0`:ul");
+-      simpleLog0.setLevel(1024);
+-      Object object0 = new Object();
+-      MockThrowable mockThrowable0 = new MockThrowable("FEBhgc0`:ul");
+-      simpleLog0.info(object0, (Throwable) mockThrowable0);
+-      assertEquals(1024, simpleLog0.getLevel());
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        SimpleLog simpleLog0 = new SimpleLog("FEBhgc0`:ul");
++        simpleLog0.setLevel(1024);
++        // Verify that setLevel correctly updates the log level
++        assertEquals(1024, simpleLog0.getLevel());
++
++        // Capture the level before invoking info to ensure it remains unchanged
++        int levelBeforeInfo = simpleLog0.getLevel();
++
++        Object object0 = new Object();
++        MockThrowable mockThrowable0 = new MockThrowable("FEBhgc0`:ul");
++        simpleLog0.info(object0, (Throwable) mockThrowable0);
++
++        // The info method should not alter the log level
++        assertEquals(levelBeforeInfo, simpleLog0.getLevel());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

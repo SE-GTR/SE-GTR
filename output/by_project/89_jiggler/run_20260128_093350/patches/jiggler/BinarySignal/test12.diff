@@ -1,0 +1,31 @@
+--- a/evosuite-tests/jigl/signal/BinarySignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/BinarySignal_ESTest.java
+@@ -149,16 +149,21 @@
+     assertSame(binarySignal0, result1);
+     assertEquals(1, binarySignal1.count());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test12() throws Throwable {
+       short[] shortArray0 = new short[5];
+-      shortArray0[1] = (short) (byte)1;
++      shortArray0[1] = (short) (byte) 1;
+       DiscreteSignal discreteSignal0 = new DiscreteSignal(shortArray0);
+       BinarySignal binarySignal0 = new BinarySignal(discreteSignal0);
+-      assertEquals(1, binarySignal0.count());
+-  }
++      int expectedCount = 0;
++      for (short s : shortArray0) {
++          if (s != 0) {
++              expectedCount++;
++          }
++      }
++      assertEquals(expectedCount, binarySignal0.count());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

@@ -1,0 +1,55 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSZipUtils_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSZipUtils_ESTest.java
+@@ -97,21 +97,38 @@
+          verifyException("edu.uiuc.ndiipp.hubandspoke.utils.HaSZipUtils", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    // Create a temporary zip file containing a single entry
++    java.nio.file.Path zipPath = java.nio.file.Files.createTempFile("test", ".zip");
++    try (java.io.FileOutputStream fos = new java.io.FileOutputStream(zipPath.toFile());
++         java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(fos)) {
++        java.util.zip.ZipEntry entry = new java.util.zip.ZipEntry("test.txt");
++        zos.putNextEntry(entry);
++        byte[] data = "hello".getBytes(java.nio.charset.StandardCharsets.UTF_8);
++        zos.write(data);
++        zos.closeEntry();
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        HaSZipUtils.unzip((ZipFile) null, "");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("edu.uiuc.ndiipp.hubandspoke.utils.HaSZipUtils", e);
+-      }
+-  }
++    // Create a temporary directory for extraction
++    java.nio.file.Path outDir = java.nio.file.Files.createTempDirectory("unzipOut");
++
++    // Perform unzip with a valid ZipFile instance
++    java.util.zip.ZipFile zipFile = new java.util.zip.ZipFile(zipPath.toFile());
++    java.io.File result = HaSZipUtils.unzip(zipFile, outDir.toString());
++
++    // Verify that the returned directory is the one we supplied
++    org.junit.Assert.assertEquals(outDir.toFile().getAbsolutePath(), result.getAbsolutePath());
++
++    // Verify that the file was extracted correctly
++    java.io.File extracted = new java.io.File(outDir.toFile(), "test.txt");
++    org.junit.Assert.assertTrue("Extracted file should exist", extracted.isFile());
++
++    // Cleanup resources
++    zipFile.close();
++    java.nio.file.Files.deleteIfExists(zipPath);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

@@ -1,0 +1,49 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
+@@ -440,20 +440,32 @@
+         assertEquals(0, j2EESession0.getIdHash());
+         assertEquals(0, j2EESession0.getTimeout());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
+-      J2EESession j2EESession0 = new J2EESession();
+-      j2EESession0.setCorrupt("Attempted to reset the LoggerFactory without possessing the guard.");
+-      J2EESession j2EESession1 = new J2EESession();
+-      assertFalse(j2EESession1.equals((Object)j2EESession0));
+-      
+-      j2EESession1.setCorrupt("Attempted to reset the LoggerFactory without possessing the guard.");
+-      boolean boolean0 = j2EESession1.equals(j2EESession0);
+-      assertTrue(j2EESession1.equals((Object)j2EESession0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test27() throws Throwable {
++        J2EESession j2EESession0 = new J2EESession();
++        // Verify initial state of corrupt field (should be null)
++        assertNull(j2EESession0.getCorrupt());
++
++        String corruptMsg = "Attempted to reset the LoggerFactory without possessing the guard.";
++        j2EESession0.setCorrupt(corruptMsg);
++        // Observe side‑effect of setCorrupt
++        assertEquals(corruptMsg, j2EESession0.getCorrupt());
++
++        J2EESession j2EESession1 = new J2EESession();
++        // Different instance should not be equal before corrupt is set
++        assertFalse(j2EESession1.equals((Object) j2EESession0));
++
++        // Set same corrupt message on the second instance
++        j2EESession1.setCorrupt(corruptMsg);
++        // Observe side‑effect on the second instance as well
++        assertEquals(corruptMsg, j2EESession1.getCorrupt());
++
++        // Now both instances have identical state and should be equal
++        boolean boolean0 = j2EESession1.equals(j2EESession0);
++        assertTrue(j2EESession1.equals((Object) j2EESession0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test28()  throws Throwable  {

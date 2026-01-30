@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DBForeignKeyConstraint_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DBForeignKeyConstraint_ESTest.java
+@@ -65,17 +65,26 @@
+     DBForeignKeyConstraint c2 = new DBForeignKeyConstraint("", true, defaultDBTable0, emptyColumns, defaultDBTable0, otherColumns);
+     assertFalse(c1.isIdentical(c2));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable("Pq?qH2rnI's.Z");
+-      String[] stringArray0 = new String[1];
+-      DBForeignKeyConstraint dBForeignKeyConstraint0 = new DBForeignKeyConstraint("org.apache.derby.impl.sql.compile.ScrollInsensitiveResultSetNode", true, defaultDBTable0, stringArray0, defaultDBTable0, stringArray0);
+-      DBForeignKeyConstraint dBForeignKeyConstraint1 = new DBForeignKeyConstraint("org.apache.derby.impl.sql.compile.ScrollInsensitiveResultSetNode", false, defaultDBTable0, (String[]) null, defaultDBTable0, (String[]) null);
+-      boolean boolean0 = dBForeignKeyConstraint1.isIdentical(dBForeignKeyConstraint0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        DefaultDBTable defaultDBTable0 = new DefaultDBTable("Pq?qH2rnI's.Z");
++        String[] stringArray0 = new String[1];
++        DBForeignKeyConstraint constraintA = new DBForeignKeyConstraint(
++                "org.apache.derby.impl.sql.compile.ScrollInsensitiveResultSetNode", true,
++                defaultDBTable0, stringArray0, defaultDBTable0, stringArray0);
++        DBForeignKeyConstraint constraintB = new DBForeignKeyConstraint(
++                "org.apache.derby.impl.sql.compile.ScrollInsensitiveResultSetNode", false,
++                defaultDBTable0, null, defaultDBTable0, null);
++        // Different nameDeterministic values should make them non‑identical
++        assertFalse(constraintB.isIdentical(constraintA));
++
++        // Two constraints with identical configuration must be identified as identical
++        DBForeignKeyConstraint constraintC = new DBForeignKeyConstraint(
++                "org.apache.derby.impl.sql.compile.ScrollInsensitiveResultSetNode", true,
++                defaultDBTable0, stringArray0, defaultDBTable0, stringArray0);
++        assertTrue(constraintA.isIdentical(constraintC));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

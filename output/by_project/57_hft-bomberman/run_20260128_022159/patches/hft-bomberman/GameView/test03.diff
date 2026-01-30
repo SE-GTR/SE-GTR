@@ -1,0 +1,69 @@
+--- a/evosuite-tests/client/view/GameView_ESTest.java
++++ b/evosuite-tests/client/view/GameView_ESTest.java
+@@ -147,37 +147,35 @@
+          verifyException("client.view.PlayerView", e);
+       }
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      GameCanvas gameCanvas0 = new GameCanvas(20000, 20000);
+-      GameView gameView0 = new GameView(gameCanvas0);
+-      Point point0 = new Point(20000, (-97));
+-      gameCanvas0.createImage(2463, 225);
+-      gameCanvas0.imageUpdate((Image) null, 2463, 20000, 20000, (-281), 20000);
+-      Point point1 = new Point(point0);
+-      Player player0 = new Player(point0);
+-      Bomb bomb0 = new Bomb(point0, player0, (-3339));
+-      GfxFactory gfxFactory0 = new GfxFactory();
+-      PowerUpView powerUpView0 = new PowerUpView(bomb0, gfxFactory0);
+-      gameView0.addGameObjectView(powerUpView0);
+-      Point point2 = new Point(point0);
+-      Bomb bomb1 = new Bomb(point2);
+-      TileView tileView0 = new TileView(bomb1, gfxFactory0);
+-      gameView0.addGameObjectView(tileView0);
+-      // Undeclared exception!
+-      try { 
+-        gameView0.paint();
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // common.Bomb cannot be cast to common.PowerUp
+-         //
+-         verifyException("client.view.PowerUpView", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    GameCanvas gameCanvas0 = new GameCanvas(20000, 20000);
++    GameView gameView0 = new GameView(gameCanvas0);
++    Point point0 = new Point(20000, -97);
++    Image img = gameCanvas0.createImage(2463, 225);
++    assertNotNull(img);
++    boolean updated = gameCanvas0.imageUpdate((Image) null, 2463, 20000, 20000, -281, 20000);
++    assertFalse(updated);
++    Point point1 = new Point(point0);
++    Player player0 = new Player(point0);
++    Bomb bomb0 = new Bomb(point0, player0, -3339);
++    GfxFactory gfxFactory0 = new GfxFactory();
++    PowerUpView powerUpView0 = new PowerUpView(bomb0, gfxFactory0);
++    boolean addedPowerUp = gameView0.addGameObjectView(powerUpView0);
++    assertTrue(addedPowerUp);
++    Point point2 = new Point(point0);
++    Bomb bomb1 = new Bomb(point2);
++    TileView tileView0 = new TileView(bomb1, gfxFactory0);
++    boolean addedTile = gameView0.addGameObjectView(tileView0);
++    assertTrue(addedTile);
++    try {
++        gameView0.paint();
++        fail("Expecting exception: ClassCastException");
++    } catch (ClassCastException e) {
++        verifyException("client.view.PowerUpView", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

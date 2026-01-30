@@ -1,0 +1,40 @@
+--- a/evosuite-tests/corina/util/SimpleLog_ESTest.java
++++ b/evosuite-tests/corina/util/SimpleLog_ESTest.java
+@@ -228,15 +228,28 @@
+       assertTrue(simpleLog0.isInfoEnabled());
+       assertTrue(simpleLog0.isWarnEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      SimpleLog simpleLog0 = new SimpleLog("");
+-      simpleLog0.setLevel((-4199));
+-      Object object0 = new Object();
+-      simpleLog0.trace(object0, (Throwable) null);
+-      assertEquals((-4199), simpleLog0.getLevel());
+-  }
++@Test(timeout = 4000)
++    public void test22() throws Throwable {
++        SimpleLog simpleLog0 = new SimpleLog("");
++        simpleLog0.setLevel((-4199));
++        Object object0 = new Object();
++
++        // Capture System.err output produced by trace
++        PrintStream originalErr = System.err;
++        ByteArrayOutputStream baos = new ByteArrayOutputStream();
++        System.setErr(new PrintStream(baos));
++        try {
++            simpleLog0.trace(object0, (Throwable) null);
++            System.err.flush();
++            String logged = baos.toString();
++            assertFalse("Trace should produce output", logged.isEmpty());
++        } finally {
++            System.setErr(originalErr);
++        }
++
++        assertEquals((-4199), simpleLog0.getLevel());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

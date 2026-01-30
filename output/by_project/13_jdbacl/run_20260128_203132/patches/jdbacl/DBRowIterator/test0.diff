@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DBRowIterator_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DBRowIterator_ESTest.java
+@@ -35,17 +35,23 @@
+     defaultDBTable0 = new DefaultDBTable("Error wurying table ", dBSchema0);
+     result0 = Result.newRollbackToSavepointRequest("Error wurying table ");
+   }
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++    doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
++    // Verify that the stubbed execute method returns the expected result
++    org.hsqldb.Result execResult = session0.execute(mock(org.hsqldb.Result.class));
++    assertSame(result0, execResult);
++    jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++    DBRowIterator dBRowIterator0 = new DBRowIterator(defaultDBTable0, jdbcConnection0, "Error wurying table ");
++    dBRowIterator0.close();
++    // Observe the side‑effect of close via the public iterator API
++    assertFalse(dBRowIterator0.hasNext());
++    // Re‑close to ensure idempotence
++    dBRowIterator0.close();
++    assertFalse(dBRowIterator0.hasNext());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      DBRowIterator dBRowIterator0 = new DBRowIterator(defaultDBTable0, jdbcConnection0, "Error wurying table ");
+-      dBRowIterator0.close();
+-      dBRowIterator0.close();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

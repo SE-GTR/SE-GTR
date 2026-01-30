@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/TasmFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/TasmFileParser_ESTest.java
+@@ -26,22 +26,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class TasmFileParser_ESTest extends TasmFileParser_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("X/Ef8g!", (String) null);
+-      file0.setReadable(false, true);
+-      try { 
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    File file0 = MockFile.createTempFile("X/Ef8g!", (String) null);
++    boolean setResult = file0.setReadable(false, true);
++    assertTrue("setReadable should succeed", setResult);
++    assertFalse("file should not be readable", file0.canRead());
++    try {
+         TasmFileParser.create(file0);
+         fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // tasm file is not readable : /tmp/X/Ef8g!0.tmp
+-         //
+-         verifyException("org.jcvi.jillion.assembly.tigr.tasm.TasmFileParser$FileBasedTasmFileParser", e);
+-      }
+-  }
++    } catch (FileNotFoundException e) {
++        // tasm file is not readable : /tmp/X/Ef8g!0.tmp
++        verifyException("org.jcvi.jillion.assembly.tigr.tasm.TasmFileParser$FileBasedTasmFileParser", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

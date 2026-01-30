@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/MapValueComparator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/MapValueComparator_ESTest.java
+@@ -20,28 +20,25 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class MapValueComparator_ESTest extends MapValueComparator_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        HashMap<Integer, Integer> hashMap0 = new HashMap<Integer, Integer>();
++        Integer integer0 = Integer.valueOf(911);
++        hashMap0.put(integer0, integer0);
++        Integer integer1 = Integer.valueOf(942);
++        hashMap0.putIfAbsent(integer1, integer1);
++        SortedMap<Integer, Integer> sortedMap0 = MapValueComparator.sortAscending((Map<Integer, Integer>) hashMap0);
++        assertNotNull(sortedMap0);
++        assertEquals(integer0, sortedMap0.firstKey());
++        assertEquals(integer1, sortedMap0.lastKey());
++        Comparator<Integer> comparator = Comparator.naturalOrder();
++        SortedMap<Integer, Integer> sortedMap1 = MapValueComparator.sortAscending((Map<Integer, Integer>) sortedMap0, comparator);
++        assertNotNull(sortedMap1);
++        assertEquals(sortedMap0.size(), sortedMap1.size());
++        assertEquals(sortedMap0.get(integer0), sortedMap1.get(integer0));
++        assertEquals(sortedMap0.get(integer1), sortedMap1.get(integer1));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      HashMap<Integer, Integer> hashMap0 = new HashMap<Integer, Integer>();
+-      Integer integer0 = new Integer(911);
+-      hashMap0.put(integer0, integer0);
+-      Integer integer1 = new Integer(942);
+-      hashMap0.putIfAbsent(integer1, integer1);
+-      SortedMap<Integer, Integer> sortedMap0 = MapValueComparator.sortAscending((Map<Integer, Integer>) hashMap0);
+-      hashMap0.remove((Object) integer1);
+-      // Undeclared exception!
+-      try { 
+-        MapValueComparator.sortAscending((Map<Integer, Integer>) sortedMap0, (Comparator<Integer>) null);
+-       //  fail("Expecting exception: NullPointerException");
+-       // Unstable assertion
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.core.util.MapValueComparator", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

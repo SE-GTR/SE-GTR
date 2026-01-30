@@ -1,0 +1,47 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ParameterRestriction_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ParameterRestriction_ESTest.java
+@@ -323,21 +323,29 @@
+       assertNotNull(typeDesc0);
+       assertSame(typeDesc0, typeDesc1);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      ParameterRestriction parameterRestriction0 = new ParameterRestriction();
+-      Long long0 = new Long(727L);
+-      parameterRestriction0.setIntMax(long0);
+-      ParameterRestriction parameterRestriction1 = new ParameterRestriction();
+-      assertFalse(parameterRestriction1.equals((Object)parameterRestriction0));
+-      
+-      parameterRestriction1.setIntMax(long0);
+-      boolean boolean0 = parameterRestriction1.equals(parameterRestriction0);
+-      assertTrue(parameterRestriction1.equals((Object)parameterRestriction0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test22() throws Throwable {
++        ParameterRestriction parameterRestriction0 = new ParameterRestriction();
++        Long long0 = Long.valueOf(727L);
++        // Verify initial state before setting intMax
++        assertNull(parameterRestriction0.getIntMax());
++        parameterRestriction0.setIntMax(long0);
++        // Verify side‑effect of setIntMax
++        assertEquals(long0, parameterRestriction0.getIntMax());
++
++        ParameterRestriction parameterRestriction1 = new ParameterRestriction();
++        assertFalse(parameterRestriction1.equals((Object) parameterRestriction0));
++        // Verify initial state of second instance
++        assertNull(parameterRestriction1.getIntMax());
++        parameterRestriction1.setIntMax(long0);
++        // Verify side‑effect on second instance
++        assertEquals(long0, parameterRestriction1.getIntMax());
++
++        boolean boolean0 = parameterRestriction1.equals(parameterRestriction0);
++        assertTrue(boolean0);
++        assertTrue(parameterRestriction1.equals((Object) parameterRestriction0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

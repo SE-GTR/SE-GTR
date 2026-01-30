@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/util/AbstractFOQueue_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/util/AbstractFOQueue_ESTest.java
+@@ -72,14 +72,22 @@
+     assertTrue(containsAdded);
+     assertFalse(containsOther);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      LIFOQueue<Integer> lIFOQueue0 = new LIFOQueue<Integer>();
+-      boolean boolean0 = lIFOQueue0.isEmpty();
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        LIFOQueue<Integer> queue = new LIFOQueue<Integer>();
++        // Act: add two elements
++        queue.add(1);
++        queue.add(2);
++        // Assert: LIFO behavior – the last added element is returned first
++        Integer firstPolled = queue.poll();
++        assertEquals(Integer.valueOf(2), firstPolled);
++        assertFalse(queue.isEmpty());
++        // Act & Assert: remaining element is returned next and queue becomes empty
++        Integer secondPolled = queue.poll();
++        assertEquals(Integer.valueOf(1), secondPolled);
++        assertTrue(queue.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

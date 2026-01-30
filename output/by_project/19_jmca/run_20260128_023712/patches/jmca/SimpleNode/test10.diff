@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
+@@ -129,15 +129,26 @@
+       simpleNode0.dump("IUIn*E[2Qv3cNk", stringWriter0);
+       assertEquals("<VariableDeclaratorId>\n</VariableDeclaratorId>\n", stringWriter0.toString());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test10() throws Throwable {
+       SimpleNode simpleNode0 = new SimpleNode(18);
+-      StringWriter stringWriter0 = new StringWriter();
++      StringWriter preWriter = new StringWriter();
++      // Capture dump output before identifier is set
++      simpleNode0.dump("}qrlB", preWriter);
++      String beforeDump = preWriter.toString();
++
+       simpleNode0.setIdentifier("}qrlB");
+-      simpleNode0.dump("}qrlB", stringWriter0);
+-      assertEquals("<VariableDeclaratorId>\n  <identifier>}qrlB</identifier>\n</VariableDeclaratorId>\n", stringWriter0.toString());
+-  }
++      StringWriter postWriter = new StringWriter();
++      // Dump after identifier is set
++      simpleNode0.dump("}qrlB", postWriter);
++      String afterDump = postWriter.toString();
++
++      // Verify that setting the identifier changes the dump output
++      assertNotEquals(beforeDump, afterDump);
++      assertEquals("<VariableDeclaratorId>\n  <identifier>}qrlB</identifier>\n</VariableDeclaratorId>\n",
++              afterDump);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

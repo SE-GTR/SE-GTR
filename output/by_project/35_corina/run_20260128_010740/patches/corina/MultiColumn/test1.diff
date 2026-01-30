@@ -1,0 +1,46 @@
+--- a/evosuite-tests/corina/formats/MultiColumn_ESTest.java
++++ b/evosuite-tests/corina/formats/MultiColumn_ESTest.java
+@@ -39,23 +39,27 @@
+       multiColumn0.save(sample0, bufferedWriter0);
+       assertFalse(sample0.isIndexed());
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        Sample sample0 = new Sample();
++        StringWriter stringWriter0 = new StringWriter(2);
++        BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0);
++        MultiColumn multiColumn0 = new MultiColumn();
++        LinkedList<Integer> linkedList0 = new LinkedList<Integer>();
++        sample0.data = (List) linkedList0;
++        Year year0 = new Year((-1));
++        Range range0 = new Range(year0, 2);
++        sample0.range = range0;
++        linkedList0.add((Integer) 2);
++        linkedList0.add((Integer) 2);
++        int beforeLength = stringWriter0.getBuffer().length();
++        multiColumn0.save(sample0, bufferedWriter0);
++        bufferedWriter0.flush();
++        int afterLength = stringWriter0.getBuffer().length();
++        assertTrue("Expected output to be written by save()", afterLength > beforeLength);
++        assertFalse(sample0.hasWeiserjahre());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      StringWriter stringWriter0 = new StringWriter(2);
+-      BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0);
+-      MultiColumn multiColumn0 = new MultiColumn();
+-      LinkedList<Integer> linkedList0 = new LinkedList<Integer>();
+-      sample0.data = (List) linkedList0;
+-      Year year0 = new Year((-1));
+-      Range range0 = new Range(year0, 2);
+-      sample0.range = range0;
+-      linkedList0.add((Integer) 2);
+-      linkedList0.add((Integer) 2);
+-      multiColumn0.save(sample0, bufferedWriter0);
+-      assertFalse(sample0.hasWeiserjahre());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

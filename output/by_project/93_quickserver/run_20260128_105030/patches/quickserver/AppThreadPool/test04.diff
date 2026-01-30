@@ -1,0 +1,23 @@
+--- a/evosuite-tests/org/quickserver/util/pool/thread/app/AppThreadPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/thread/app/AppThreadPool_ESTest.java
+@@ -42,12 +42,15 @@
+     java.util.concurrent.TimeUnit timeUnit = AppThreadPool.getDefaultTimeUnit();
+     assertEquals(java.util.concurrent.TimeUnit.SECONDS, timeUnit);
+ }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    int original = AppThreadPool.getDefaultCorePoolSize();
++    AppThreadPool.setDefaultCorePoolSize(120);
++    assertEquals(120, AppThreadPool.getDefaultCorePoolSize());
++    // Restore original value to avoid affecting other tests
++    AppThreadPool.setDefaultCorePoolSize(original);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      AppThreadPool.setDefaultCorePoolSize(120);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

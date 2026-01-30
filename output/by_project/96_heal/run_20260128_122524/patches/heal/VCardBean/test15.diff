@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/heal/util/VCardBean_ESTest.java
++++ b/evosuite-tests/org/heal/util/VCardBean_ESTest.java
+@@ -230,19 +230,28 @@
+     assertTrue(vCard.contains("FN:qXw}nWJuW]P qXw}nWJuW]P qXw}nWJuW]P"));
+     assertEquals("BEGIN:VCARD\nFN:qXw}nWJuW]P qXw}nWJuW]P qXw}nWJuW]P\nN:qXw}nWJuW]P;qXw}nWJuW]P;qXw}nWJuW]P;\nORG:qXw}nWJuW]P\nEMAIL;TYPE=INTERNET:qXw}nWJuW]P\nEND:VCARD", vCard);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      VCardBean vCardBean0 = new VCardBean();
+-      vCardBean0.setOrganization("qXw}nWJuW]P");
+-      vCardBean0.setFirstName("qXw}nWJuW]P");
+-      vCardBean0.setFormattedName("qXw}nWJuW]P");
+-      vCardBean0.setLastName("qXw}nWJuW]P");
+-      vCardBean0.setEmail("qXw}nWJuW]P");
+-      String string0 = vCardBean0.getVCard();
+-      assertEquals("BEGIN:VCARD\nFN:qXw}nWJuW]P\nN:qXw}nWJuW]P;;qXw}nWJuW]P;\nORG:qXw}nWJuW]P\nEMAIL;TYPE=INTERNET:qXw}nWJuW]P\nEND:VCARD", string0);
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    VCardBean vCardBean0 = new VCardBean();
++    // Verify initial state does not already contain the test token
++    String initial = vCardBean0.getVCard();
++    if (initial != null) {
++        assertFalse(initial.contains("qXw}nWJuW]P"));
++    }
++    vCardBean0.setOrganization("qXw}nWJuW]P");
++    vCardBean0.setFirstName("qXw}nWJuW]P");
++    vCardBean0.setFormattedName("qXw}nWJuW]P");
++    vCardBean0.setLastName("qXw}nWJuW]P");
++    vCardBean0.setEmail("qXw}nWJuW]P");
++    String string0 = vCardBean0.getVCard();
++    assertEquals("BEGIN:VCARD\nFN:qXw}nWJuW]P\nN:qXw}nWJuW]P;;qXw}nWJuW]P;\nORG:qXw}nWJuW]P\nEMAIL;TYPE=INTERNET:qXw}nWJuW]P\nEND:VCARD", string0);
++    // Verify each field contributed to the VCard output
++    assertTrue(string0.contains("FN:qXw}nWJuW]P"));
++    assertTrue(string0.contains("N:qXw}nWJuW]P;;qXw}nWJuW]P;"));
++    assertTrue(string0.contains("ORG:qXw}nWJuW]P"));
++    assertTrue(string0.contains("EMAIL;TYPE=INTERNET:qXw}nWJuW]P"));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

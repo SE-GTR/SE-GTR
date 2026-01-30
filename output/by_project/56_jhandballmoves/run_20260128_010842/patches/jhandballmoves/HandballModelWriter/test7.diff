@@ -1,0 +1,30 @@
+--- a/evosuite-tests/visu/handball/moves/xml/HandballModelWriter_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/xml/HandballModelWriter_ESTest.java
+@@ -131,13 +131,21 @@
+       HandballModelWriter handballModelWriter0 = HandballModelWriter.getInstance(mockFile0, (HandballModel) null);
+       handballModelWriter0.writeToXml();
+   }
++@Test(timeout = 4000)
++public void test7() throws Throwable {
++    java.io.File tempFile = java.io.File.createTempFile("handball", ".xml");
++    // Ensure the file does not exist before the writer creates it
++    tempFile.delete();
++    HandballModel handballModel0 = new HandballModel();
++    HandballModelWriter handballModelWriter0 = HandballModelWriter.getInstance(tempFile, handballModel0);
++    handballModelWriter0.writeToXml();
++    // Verify that the writer produced an output file and that it contains data
++    assertTrue("Output file should have been created", tempFile.exists());
++    assertTrue("Output file should not be empty", tempFile.length() > 0);
++    // Clean up the temporary file
++    tempFile.delete();
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      HandballModelWriter handballModelWriter0 = HandballModelWriter.getInstance((File) null, handballModel0);
+-      handballModelWriter0.writeToXml();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

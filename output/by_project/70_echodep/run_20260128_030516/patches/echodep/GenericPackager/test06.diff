@@ -1,0 +1,52 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/GenericPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/GenericPackager_ESTest.java
+@@ -109,28 +109,27 @@
+     genericPackager0.createFileSec(mockFile0, haSMETSProfile0);
+     assertFalse(mockFile0.isHidden());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-    genericPackager0 = new GenericPackager();
+-      MockFile mockFile0 = new MockFile("", "");
+-      MockFile.createTempFile("directory", "");
+-      HaSMETSProfile haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn((MetsFileType) null).when(haSMETSProfile0).addFile(any(java.io.File.class));
+-      doReturn((MetsStructMapType) null).when(haSMETSProfile0).getPrimaryStructMap();
+-      // Undeclared exception!
+-      try { 
+-        genericPackager0.createFileSec(mockFile0, haSMETSProfile0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("edu.uiuc.ndiipp.hubandspoke.packager.GenericPackager", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        genericPackager0 = new GenericPackager();
++        MockFile mockFile0 = new MockFile("", "");
++        java.io.File tempFile = MockFile.createTempFile("directory", "");
++        assertNotNull("createTempFile should return a non‑null File", tempFile);
++        HaSMETSProfile haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
++        org.mockito.stubbing.OngoingStubbing<MetsFileType> stub1 = doReturn((MetsFileType) null)
++                .when(haSMETSProfile0).addFile(any(java.io.File.class));
++        assertNotNull("Stubbing addFile should produce a non‑null OngoingStubbing", stub1);
++        org.mockito.stubbing.OngoingStubbing<MetsStructMapType> stub2 = doReturn((MetsStructMapType) null)
++                .when(haSMETSProfile0).getPrimaryStructMap();
++        assertNotNull("Stubbing getPrimaryStructMap should produce a non‑null OngoingStubbing", stub2);
++        try {
++            genericPackager0.createFileSec(mockFile0, haSMETSProfile0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            verifyException("edu.uiuc.ndiipp.hubandspoke.packager.GenericPackager", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

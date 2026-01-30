@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ConsedUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ConsedUtil_ESTest.java
+@@ -224,21 +224,25 @@
+       File file0 = ConsedUtil.getPhdBallDirFor(mockFile0);
+       assertFalse(file0.canExecute());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        ConsedUtil.getPhdDirFor((File) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // consedDir can not be null
+-         //
+-         verifyException("org.jcvi.jillion.assembly.consed.ConsedUtil", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("consedTest");
++        try {
++            java.io.File consedDir = tempDir.toFile();
++            java.io.File phdDir = ConsedUtil.getPhdDirFor(consedDir);
++            java.io.File expected = new java.io.File(consedDir, "phd");
++            assertEquals(expected.getAbsolutePath(), phdDir.getAbsolutePath());
++            assertTrue(phdDir.isDirectory());
++        } finally {
++            // clean up created directories
++            java.io.File phdDir = new java.io.File(tempDir.toFile(), "phd");
++            if (phdDir.exists()) {
++                phdDir.delete();
++            }
++            tempDir.toFile().delete();
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

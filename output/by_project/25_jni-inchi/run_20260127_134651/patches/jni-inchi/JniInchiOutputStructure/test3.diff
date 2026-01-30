@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/sf/jniinchi/JniInchiOutputStructure_ESTest.java
++++ b/evosuite-tests/net/sf/jniinchi/JniInchiOutputStructure_ESTest.java
+@@ -38,14 +38,25 @@
+     assertNotNull(message);
+     assertFalse(message.isEmpty());
+ }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    JniInchiOutputStructure out = new JniInchiOutputStructure(1158, "", "", 1158, 1384L, 0L, 0L);
++    // Verify initial warning flags are not null (default state)
++    assertNotNull(out.getWarningFlags());
+ 
++    // Set warning flags to null and verify the change
++    out.setWarningFlags((long[][]) null);
++    assertNull(out.getWarningFlags());
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      JniInchiOutputStructure jniInchiOutputStructure0 = new JniInchiOutputStructure(1158, "", "", 1158, 1384L, 0L, 0L);
+-      jniInchiOutputStructure0.setWarningFlags((long[][]) null);
+-      assertNull(jniInchiOutputStructure0.getReturnStatus());
+-  }
++    // Set warning flags to a specific non‑null value and verify it is stored correctly
++    long[][] flags = new long[][]{{1L, 2L}, {3L, 4L}};
++    out.setWarningFlags(flags);
++    assertArrayEquals(flags, out.getWarningFlags());
++
++    // Ensure the return status remains unchanged (null) after these operations
++    assertNull(out.getReturnStatus());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

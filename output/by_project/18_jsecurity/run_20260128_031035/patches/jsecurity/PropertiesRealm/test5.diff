@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jsecurity/realm/text/PropertiesRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/text/PropertiesRealm_ESTest.java
+@@ -85,15 +85,26 @@
+          verifyException("org.jsecurity.realm.text.PropertiesRealm", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
++@Test(timeout = 4000)
++public void test5() throws Throwable {
+     hashtableCacheManager0 = new HashtableCacheManager();
+     propertiesRealm0 = new PropertiesRealm(hashtableCacheManager0);
+-      propertiesRealm0.setResourcePath("T");
+-      assertEquals("guest = guest,guest\npresidentskroob = 12345,president\ndarkhelmet = ludicrousspeed,darklord,schwartz\nroot = secret,root\nlonestarr = vespa,goodguy,schwartz\n", propertiesRealm0.getUserDefinitions());
+-      assertEquals("goodguy = winnebago:drive:eagle5\nroot = *\nschwartz = lightsaber:*\n", propertiesRealm0.getRoleDefinitions());
+-  }
++    propertiesRealm0.setResourcePath("T");
++
++    // Verify that a known user can be authenticated using the loaded definitions
++    org.jsecurity.authc.UsernamePasswordToken token =
++        new org.jsecurity.authc.UsernamePasswordToken("guest", "guest");
++    org.jsecurity.authc.AuthenticationInfo authInfo = propertiesRealm0.getAuthenticationInfo(token);
++    assertNotNull(authInfo);
++    assertEquals("guest", authInfo.getCredentials());
++    assertEquals("guest", authInfo.getPrincipals().getPrimaryPrincipal());
++
++    assertEquals("guest = guest,guest\npresidentskroob = 12345,president\ndarkhelmet = ludicrousspeed,darklord,schwartz\nroot = secret,root\nlonestarr = vespa,goodguy,schwartz\n",
++        propertiesRealm0.getUserDefinitions());
++    assertEquals("goodguy = winnebago:drive:eagle5\nroot = *\nschwartz = lightsaber:*\n",
++        propertiesRealm0.getRoleDefinitions());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

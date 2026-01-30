@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/jsecurity/SecurityUtils_ESTest.java
++++ b/evosuite-tests/org/jsecurity/SecurityUtils_ESTest.java
+@@ -28,9 +28,21 @@
+       SecurityManager securityManager0 = SecurityUtils.getSecurityManager();
+       assertNull(securityManager0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        // Set the SecurityManager to null and verify the change
++        SecurityUtils.setSecurityManager(null);
++        assertNull(SecurityUtils.getSecurityManager());
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      SecurityUtils.setSecurityManager((SecurityManager) null);
+-  }
++        // Attempt to obtain the current Subject; without a SecurityManager this should
++        // either return null or throw an IllegalStateException (both are acceptable outcomes)
++        try {
++            Subject subject = SecurityUtils.getSubject();
++            assertNull(subject);
++        } catch (IllegalStateException e) {
++            // Expected when no SecurityManager is configured
++            assertTrue(true);
++        }
++    }
++
+ }

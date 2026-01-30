@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DBForeignKeyConstraint_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DBForeignKeyConstraint_ESTest.java
+@@ -213,17 +213,25 @@
+     FKChangeRule rule = constraint.getUpdateRule();
+     assertEquals(FKChangeRule.CASCADE, rule);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable();
+-      String[] stringArray0 = new String[0];
+-      DBForeignKeyConstraint dBForeignKeyConstraint0 = new DBForeignKeyConstraint("Pq?qH2rnI's.Z", true, defaultDBTable0, stringArray0, defaultDBTable0, stringArray0);
+-      FKChangeRule fKChangeRule0 = FKChangeRule.NO_ACTION;
+-      dBForeignKeyConstraint0.setUpdateRule(fKChangeRule0);
+-      assertNull(dBForeignKeyConstraint0.getDoc());
+-  }
++@Test(timeout = 4000)
++public void test18() throws Throwable {
++    DefaultDBTable defaultDBTable0 = new DefaultDBTable();
++    String[] stringArray0 = new String[0];
++    DBForeignKeyConstraint constraint = new DBForeignKeyConstraint("Pq?qH2rnI's.Z", true, defaultDBTable0, stringArray0, defaultDBTable0, stringArray0);
++    FKChangeRule rule = FKChangeRule.NO_ACTION;
++    constraint.setUpdateRule(rule);
++    assertNull(constraint.getDoc());
++
++    // Verify that the update rule was correctly set
++    assertEquals(rule, constraint.getUpdateRule());
++
++    // Create another constraint with identical parameters and rule and verify equality logic
++    DBForeignKeyConstraint other = new DBForeignKeyConstraint("Pq?qH2rnI's.Z", true, defaultDBTable0, stringArray0, defaultDBTable0, stringArray0);
++    other.setUpdateRule(rule);
++    assertEquals(constraint, other);
++    assertEquals(constraint.hashCode(), other.hashCode());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

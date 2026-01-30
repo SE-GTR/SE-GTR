@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/character/data/map/TXTMapPersistence_ESTest.java
++++ b/evosuite-tests/org/character/data/map/TXTMapPersistence_ESTest.java
+@@ -62,16 +62,26 @@
+       IndexedFastMap<Integer, String> indexedFastMap0 = tXTMapPersistence0.load();
+       assertNotNull(indexedFastMap0);
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    tXTMapPersistence0 = new TXTMapPersistence();
++    IndexedFastMap<Integer, String> original = new IndexedFastMap<Integer, String>();
++    original.put(null, "// -22db/map_index.txt -2458");
++    // Act: persist the map
++    tXTMapPersistence0.save(original);
++    // Verify side‑effect of save: the backing file should have been created
++    java.io.File dbFile = new java.io.File("db/map_index.txt");
++    assertTrue("Persistence file should exist after save", dbFile.exists());
++    // Act: load the persisted data
++    IndexedFastMap<Integer, String> loaded = tXTMapPersistence0.load();
++    // Verify that a new map instance is returned
++    assertNotSame("Loaded map should be a different instance", original, loaded);
++    // Verify that the loaded map does not contain the null key (saved entry is ignored)
++    assertNull("Loaded map should not contain the null key", loaded.get(null));
++    // Clean up the file created during the test
++    dbFile.delete();
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    tXTMapPersistence0 = new TXTMapPersistence();
+-      IndexedFastMap<Integer, String> indexedFastMap0 = new IndexedFastMap<Integer, String>();
+-      indexedFastMap0.put((Integer) null, "// -22db/map_index.txt -2458");
+-      tXTMapPersistence0.save(indexedFastMap0);
+-      IndexedFastMap<Integer, String> indexedFastMap1 = tXTMapPersistence0.load();
+-      assertFalse(indexedFastMap1.equals((Object)indexedFastMap0));
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

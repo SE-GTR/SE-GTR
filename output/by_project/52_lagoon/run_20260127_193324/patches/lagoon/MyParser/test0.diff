@@ -1,0 +1,30 @@
+--- a/evosuite-tests/nu/staldal/lagoon/MyParser_ESTest.java
++++ b/evosuite-tests/nu/staldal/lagoon/MyParser_ESTest.java
+@@ -25,14 +25,20 @@
+     myParser0 = new MyParser();
+     locatorImpl0 = new LocatorImpl();
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        myParser0 = new MyParser();
++        SAXParseException sAXParseException0 = new SAXParseException("", "", "", -1616443422, -1616443422);
++        // Verify initial state before invoking fatalError
++        assertNull(myParser0.getIoError());
++        // Act
++        myParser0.fatalError(sAXParseException0);
++        // Assert that the side‑effect (ioError) is recorded
++        IOException ioError = myParser0.getIoError();
++        assertNotNull(ioError);
++        assertSame(sAXParseException0, ioError.getCause());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    myParser0 = new MyParser();
+-      SAXParseException sAXParseException0 = new SAXParseException("", "", "", (-1616443422), (-1616443422));
+-      myParser0.fatalError(sAXParseException0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

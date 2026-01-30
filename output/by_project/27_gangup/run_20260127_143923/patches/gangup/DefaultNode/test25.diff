@@ -1,0 +1,35 @@
+--- a/evosuite-tests/map/DefaultNode_ESTest.java
++++ b/evosuite-tests/map/DefaultNode_ESTest.java
+@@ -266,15 +266,23 @@
+       defaultNode0.setZ((-75.8F));
+       assertEquals((-75.8F), defaultNode0.getZ(), 0.01F);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      DirtyNode dirtyNode0 = new DirtyNode((-1L), (-1784), (-169));
+-      DefaultNode defaultNode0 = new DefaultNode(dirtyNode0);
+-      defaultNode0.setCost((-1.0F));
+-      assertEquals((-1.0F), defaultNode0.getCost(), 0.01F);
+-      assertEquals(0.0F, defaultNode0.getScore(), 0.01F);
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        DirtyNode dirtyNode0 = new DirtyNode((-1L), (-1784), (-169));
++        DefaultNode defaultNode0 = new DefaultNode(dirtyNode0);
++        // initial state assertions
++        assertEquals(0.0F, defaultNode0.getCost(), 0.01F);
++        assertEquals(0.0F, defaultNode0.getScore(), 0.01F);
++        // modify cost and verify side‑effect
++        defaultNode0.setCost((-1.0F));
++        assertEquals((-1.0F), defaultNode0.getCost(), 0.01F);
++        // further modify cost to ensure the setter really changes the internal state
++        defaultNode0.setCost(2.5F);
++        assertEquals(2.5F, defaultNode0.getCost(), 0.01F);
++        // score should remain unchanged as no logic updates it
++        assertEquals(0.0F, defaultNode0.getScore(), 0.01F);
++    }
++
+ @Test(timeout = 4000)
+ public void test26() throws Throwable {
+     DefaultNode defaultNode0 = new DefaultNode();

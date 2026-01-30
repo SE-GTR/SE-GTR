@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/fasta/aa/DefaultAminoAcidSequenceFastaDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/fasta/aa/DefaultAminoAcidSequenceFastaDataStore_ESTest.java
+@@ -20,21 +20,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DefaultAminoAcidSequenceFastaDataStore_ESTest extends DefaultAminoAcidSequenceFastaDataStore_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        File nonExistent = new File("nonexistent_" + System.nanoTime());
++        try {
++            DefaultAminoAcidSequenceFastaDataStore.create(nonExistent, null);
++            fail("Expecting exception: FileNotFoundException");
++        } catch (FileNotFoundException e) {
++            // expected exception for a missing file
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("Z}cD&1#dNhQ^G ");
+-      try { 
+-        DefaultAminoAcidSequenceFastaDataStore.create((File) mockFile0, (DataStoreFilter) null);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // fasta file /PATH/TO/SF110-20130704-src/92_jcvi-javacommon/Z}cD&1#dNhQ^G  does not exist
+-         //
+-         verifyException("org.jcvi.jillion.fasta.FastaFileParser$FileFastaParser", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/actions/DeactivateProjectsAction_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/actions/DeactivateProjectsAction_ESTest.java
+@@ -30,12 +30,23 @@
+       deactivateProjectsAction0.selectionChanged(labelRetargetAction0, treeSelection0);
+       assertEquals(0, labelRetargetAction0.getAccelerator());
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    DeactivateProjectsAction action = new DeactivateProjectsAction();
++    // Capture the state before invoking the method.
++    java.util.Collection<?> before = action.getSelectedProjects();
++    // Invoke the method under test with null arguments.
++    action.selectionChanged((IAction) null, (ISelection) null);
++    // Observe the side‑effect via the public accessor.
++    java.util.Collection<?> after = action.getSelectedProjects();
++    // The selection should be empty (or null) after a null selection.
++    assertTrue(after == null || after.isEmpty());
++    // If there was a previous non‑empty selection, ensure it changed.
++    if (before != null && !before.isEmpty()) {
++        assertNotEquals(before, after);
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      DeactivateProjectsAction deactivateProjectsAction0 = new DeactivateProjectsAction();
+-      deactivateProjectsAction0.selectionChanged((IAction) null, (ISelection) null);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

@@ -1,0 +1,28 @@
+--- a/evosuite-tests/jigl/signal/DiscreteSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/DiscreteSignal_ESTest.java
+@@ -49,14 +49,17 @@
+       DiscreteSignal discreteSignal0 = new DiscreteSignal(shortArray0);
+       discreteSignal0.clip(2, (int) (short) (-844), rOI0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      ROI rOI0 = new ROI();
+-      short[] shortArray0 = new short[8];
+-      DiscreteSignal discreteSignal0 = new DiscreteSignal(shortArray0);
+-      discreteSignal0.clip((int) (short) (-844), 197, rOI0);
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        ROI rOI0 = new ROI();
++        short[] shortArray0 = new short[8]; // all elements are 0, already within clipping bounds
++        short[] before = java.util.Arrays.copyOf(shortArray0, shortArray0.length);
++        DiscreteSignal discreteSignal0 = new DiscreteSignal(shortArray0);
++        discreteSignal0.clip((int) (short) (-844), 197, rOI0);
++        // Verify that the clip operation does not alter values that are already within the bounds
++        org.junit.Assert.assertArrayEquals("Array contents should remain unchanged after clipping", before, shortArray0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

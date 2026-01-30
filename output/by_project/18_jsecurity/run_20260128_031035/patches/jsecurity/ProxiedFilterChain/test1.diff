@@ -1,0 +1,58 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/ProxiedFilterChain_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/ProxiedFilterChain_ESTest.java
+@@ -41,22 +41,40 @@
+          verifyException("org.jsecurity.web.servlet.OncePerRequestFilter", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        // Create a dummy original FilterChain that records invocation
++        final boolean[] called = new boolean[1];
++        FilterChain originalChain = new FilterChain() {
++            @Override
++            public void doFilter(ServletRequest req, ServletResponse res) {
++                called[0] = true;
++            }
++        };
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ProxiedFilterChain proxiedFilterChain0 = new ProxiedFilterChain((FilterChain) null, (List<Filter>) null);
+-      // Undeclared exception!
+-      try { 
+-        proxiedFilterChain0.doFilter((ServletRequest) null, (ServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.servlet.ProxiedFilterChain", e);
+-      }
+-  }
++        // Use an empty list of filters
++        List<Filter> emptyFilters = java.util.Collections.emptyList();
++
++        // Instantiate the ProxiedFilterChain with valid arguments
++        ProxiedFilterChain proxiedFilterChain0 = new ProxiedFilterChain(originalChain, emptyFilters);
++
++        // Create minimal non‑null ServletRequest and ServletResponse using dynamic proxies
++        ServletRequest request = (ServletRequest) java.lang.reflect.Proxy.newProxyInstance(
++                ServletRequest.class.getClassLoader(),
++                new Class<?>[] { ServletRequest.class },
++                (proxy, method, args) -> null);
++        ServletResponse response = (ServletResponse) java.lang.reflect.Proxy.newProxyInstance(
++                ServletResponse.class.getClassLoader(),
++                new Class<?>[] { ServletResponse.class },
++                (proxy, method, args) -> null);
++
++        // Execute the filter chain; no exception should be thrown
++        proxiedFilterChain0.doFilter(request, response);
++
++        // Verify that the original chain's doFilter method was invoked
++        org.junit.Assert.assertTrue("Original FilterChain should have been called", called[0]);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

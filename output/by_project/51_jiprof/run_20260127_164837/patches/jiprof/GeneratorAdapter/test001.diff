@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/GeneratorAdapter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/GeneratorAdapter_ESTest.java
+@@ -34,27 +34,20 @@
+         generatorAdapter0.catchException(label0, label0, (Type) null);
+         assertNotNull(label0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test001()  throws Throwable  {
+-      Type type0 = Type.FLOAT_TYPE;
+-      ClassWriter classWriter0 = new ClassWriter(0);
+-      Type[] typeArray0 = new Type[0];
+-      Method method0 = new Method("y1", type0, typeArray0);
+-      GeneratorAdapter generatorAdapter0 = new GeneratorAdapter(9, method0, "y1", typeArray0, classWriter0);
+-      Label label0 = generatorAdapter0.mark();
+-      // Undeclared exception!
+-      try { 
+-        generatorAdapter0.catchException(label0, label0, type0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test001() throws Throwable {
++        Type exceptionType = Type.getObjectType("java/lang/Exception");
++        ClassWriter classWriter0 = new ClassWriter(0);
++        Type[] typeArray0 = new Type[0];
++        Method method0 = new Method("y1", Type.FLOAT_TYPE, typeArray0);
++        GeneratorAdapter generatorAdapter0 = new GeneratorAdapter(9, method0, "y1", typeArray0, classWriter0);
++        Label label0 = generatorAdapter0.mark();
++        // This call should succeed when a valid exception type is provided.
++        generatorAdapter0.catchException(label0, label0, exceptionType);
++        // Verify that the label was created (basic sanity check).
++        assertNotNull(label0);
++    }
++
+ @Test(timeout = 4000)
+ public void test002() throws Throwable {
+     Type type0 = Type.CHAR_TYPE;

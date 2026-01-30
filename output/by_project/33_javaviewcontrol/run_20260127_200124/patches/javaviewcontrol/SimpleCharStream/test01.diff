@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/pmdesigns/jvc/tools/SimpleCharStream_ESTest.java
++++ b/evosuite-tests/com/pmdesigns/jvc/tools/SimpleCharStream_ESTest.java
+@@ -36,15 +36,17 @@
+     char second = simpleCharStream0.readChar();
+     assertEquals('7', second);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      StringReader stringReader0 = new StringReader("_7");
+-      SimpleCharStream simpleCharStream0 = new SimpleCharStream(stringReader0, (-308), 4096);
+-      simpleCharStream0.adjustBeginLineColumn((-308), (-750));
+-      assertEquals((-307), simpleCharStream0.getBeginLine());
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        StringReader stringReader0 = new StringReader("_7");
++        SimpleCharStream simpleCharStream0 = new SimpleCharStream(stringReader0, -308, 4096);
++        int beforeLine = simpleCharStream0.getBeginLine();
++        simpleCharStream0.adjustBeginLineColumn(-308, -750);
++        int afterLine = simpleCharStream0.getBeginLine();
++        assertNotEquals("Begin line should change after adjustment", beforeLine, afterLine);
++        assertEquals("Begin line should be adjusted correctly", -307, afterLine);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

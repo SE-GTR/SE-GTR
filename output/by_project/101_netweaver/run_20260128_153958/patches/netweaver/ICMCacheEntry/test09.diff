@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
+@@ -146,20 +146,29 @@
+     // Changing the cache URL should break equality with the untouched entry
+     assertFalse(iCMCacheEntry0.equals(iCMCacheEntry1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
+-      ICMCacheEntry iCMCacheEntry1 = new ICMCacheEntry();
+-      iCMCacheEntry0.setExpirationTime(" ");
+-      assertFalse(iCMCacheEntry0.equals((Object)iCMCacheEntry1));
+-      
+-      iCMCacheEntry1.setExpirationTime(" ");
+-      boolean boolean0 = iCMCacheEntry0.equals(iCMCacheEntry1);
+-      assertTrue(iCMCacheEntry0.equals((Object)iCMCacheEntry1));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
++    ICMCacheEntry iCMCacheEntry1 = new ICMCacheEntry();
++
++    // Verify initial state
++    assertNull(iCMCacheEntry0.getExpirationTime());
++
++    // Exercise and verify setExpirationTime on first instance
++    iCMCacheEntry0.setExpirationTime(" ");
++    assertEquals(" ", iCMCacheEntry0.getExpirationTime());
++    assertFalse(iCMCacheEntry0.equals((Object) iCMCacheEntry1));
++
++    // Exercise and verify setExpirationTime on second instance
++    iCMCacheEntry1.setExpirationTime(" ");
++    assertEquals(" ", iCMCacheEntry1.getExpirationTime());
++
++    // Verify equality after both have the same expiration time
++    boolean boolean0 = iCMCacheEntry0.equals(iCMCacheEntry1);
++    assertTrue(iCMCacheEntry0.equals((Object) iCMCacheEntry1));
++    assertTrue(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

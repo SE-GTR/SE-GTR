@@ -1,0 +1,33 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/nutzenkriterium/NutzenkriteriumDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/nutzenkriterium/NutzenkriteriumDaoService_ESTest.java
+@@ -273,23 +273,13 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      NutzenkriteriumIbatisDao nutzenkriteriumIbatisDao0 = new NutzenkriteriumIbatisDao();
+-      NutzenkriteriumDaoService nutzenkriteriumDaoService0 = new NutzenkriteriumDaoService(nutzenkriteriumIbatisDao0);
+-      // Undeclared exception!
+-      try { 
+-        nutzenkriteriumDaoService0.getByProjektId((NaOpNu) null);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++@Test(expected = IllegalArgumentException.class)
++  public void test15() throws Throwable {
++      NutzenkriteriumIbatisDao nutzenkriteriumIbatisDao0 = new NutzenkriteriumIbatisDao();
++      NutzenkriteriumDaoService nutzenkriteriumDaoService0 = new NutzenkriteriumDaoService(nutzenkriteriumIbatisDao0);
++      nutzenkriteriumDaoService0.getByProjektId((NaOpNu) null);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

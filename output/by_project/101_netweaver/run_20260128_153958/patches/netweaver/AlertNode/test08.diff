@@ -1,0 +1,48 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
+@@ -135,21 +135,33 @@
+     boolean boolean0 = alertNode1.equals(alertNode0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      AlertNode alertNode0 = new AlertNode();
++@Test(timeout = 4000)
++  public void test08() throws Throwable {
++      AlertNode alertNode0 = new AlertNode();
++      AlertNode alertNode1 = new AlertNode();
+       STATECOLOR sTATECOLOR0 = STATECOLOR.value4;
+-      AlertNode alertNode1 = new AlertNode();
++
++      // initially highAlertValue should be null for both nodes
++      assertNull(alertNode0.getHighAlertValue());
++      assertNull(alertNode1.getHighAlertValue());
++
++      // set highAlertValue on the first node and verify the side‑effect
+       alertNode0.setHighAlertValue(sTATECOLOR0);
+-      assertFalse(alertNode0.equals((Object)alertNode1));
+-      
++      assertEquals(sTATECOLOR0, alertNode0.getHighAlertValue());
++
++      // nodes differ because only one has the value set
++      assertFalse(alertNode0.equals((Object) alertNode1));
++
++      // set the same value on the second node and verify
+       alertNode1.setHighAlertValue(sTATECOLOR0);
+-      boolean boolean0 = alertNode1.equals(alertNode0);
+-      assertTrue(alertNode0.equals((Object)alertNode1));
+-      assertTrue(boolean0);
+-  }
++      assertEquals(sTATECOLOR0, alertNode1.getHighAlertValue());
++
++      // now both nodes should be equal
++      boolean boolean0 = alertNode1.equals(alertNode0);
++      assertTrue(alertNode0.equals((Object) alertNode1));
++      assertTrue(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

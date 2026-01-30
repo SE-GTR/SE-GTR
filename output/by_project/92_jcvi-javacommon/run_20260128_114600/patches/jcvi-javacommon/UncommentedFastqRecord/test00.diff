@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/UncommentedFastqRecord_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/UncommentedFastqRecord_ESTest.java
+@@ -20,23 +20,27 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class UncommentedFastqRecord_ESTest extends UncommentedFastqRecord_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++        doReturn((String) null, (String) null).when(nucleotideSequence0).toString();
++        String ns0String = nucleotideSequence0.toString();
++        assertNull(ns0String);
++        QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
++        UncommentedFastqRecord uncommentedFastqRecord0 = new UncommentedFastqRecord("", nucleotideSequence0, qualitySequence0);
++        NucleotideSequence nucleotideSequence1 = uncommentedFastqRecord0.getNucleotideSequence();
++        QualitySequence qualitySequence1 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
++        doReturn((String) null, (String) null).when(qualitySequence1).toString();
++        String qs1String = qualitySequence1.toString();
++        assertNull(qs1String);
++        CommentedFastqRecord commentedFastqRecord0 = new CommentedFastqRecord("", nucleotideSequence1, qualitySequence1, "");
++        QualitySequence qualitySequence2 = commentedFastqRecord0.getQualitySequence();
++        UncommentedFastqRecord uncommentedFastqRecord1 = new UncommentedFastqRecord("", nucleotideSequence1, qualitySequence2);
++        boolean boolean0 = commentedFastqRecord0.equals(uncommentedFastqRecord1);
++        assertTrue(boolean0);
++        assertFalse(uncommentedFastqRecord1.equals((Object) uncommentedFastqRecord0));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null, (String) null).when(nucleotideSequence0).toString();
+-      QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+-      UncommentedFastqRecord uncommentedFastqRecord0 = new UncommentedFastqRecord("", nucleotideSequence0, qualitySequence0);
+-      NucleotideSequence nucleotideSequence1 = uncommentedFastqRecord0.getNucleotideSequence();
+-      QualitySequence qualitySequence1 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null, (String) null).when(qualitySequence1).toString();
+-      CommentedFastqRecord commentedFastqRecord0 = new CommentedFastqRecord("", nucleotideSequence1, qualitySequence1, "");
+-      QualitySequence qualitySequence2 = commentedFastqRecord0.getQualitySequence();
+-      UncommentedFastqRecord uncommentedFastqRecord1 = new UncommentedFastqRecord("", nucleotideSequence1, qualitySequence2);
+-      boolean boolean0 = commentedFastqRecord0.equals(uncommentedFastqRecord1);
+-      assertTrue(boolean0);
+-      assertFalse(uncommentedFastqRecord1.equals((Object)uncommentedFastqRecord0));
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

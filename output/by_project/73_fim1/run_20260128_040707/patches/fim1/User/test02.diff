@@ -1,0 +1,50 @@
+--- a/evosuite-tests/osa/ora/server/beans/User_ESTest.java
++++ b/evosuite-tests/osa/ora/server/beans/User_ESTest.java
+@@ -32,23 +32,30 @@
+       user0.setStatus_id((-1));
+       assertEquals((-1), user0.getStatus_id());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      User user0 = new User();
+-      StringWriter stringWriter0 = new StringWriter(4543);
+-      BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0, 4543);
+-      try { 
+-        user0.writeToFile(bufferedWriter0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("osa.ora.server.utils.XMLParser", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    User user0 = new User();
++    // Initialize required fields to avoid NPE inside writeToFile
++    user0.setId(1);
++    user0.setName("Test User");
++    user0.setEmail("test@example.com");
++    user0.setJobTitle("Developer");
++    user0.setDirectPhone("1234567890");
++    user0.setGroupId(10);
++    user0.setStatusId(1);
++    user0.setShowMyStatus(true);
++    user0.setOnlyStartChat(false);
++    user0.setCanJoinChatRoom(true);
++
++    StringWriter stringWriter0 = new StringWriter(4543);
++    BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0, 4543);
++    user0.writeToFile(bufferedWriter0);
++    bufferedWriter0.flush();
++
++    String result = stringWriter0.toString();
++    assertFalse("The output should not be empty", result.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

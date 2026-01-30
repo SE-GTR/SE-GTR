@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/ib/client/EReader_ESTest.java
++++ b/evosuite-tests/com/ib/client/EReader_ESTest.java
+@@ -366,22 +366,13 @@
+          verifyException("java.io.DataInputStream", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      EWrapper eWrapper0 = mock(EWrapper.class, new ViolatedAssumptionAnswer());
+-      EReader eReader0 = new EReader((DataInputStream) null, eWrapper0, 46);
+-      // Undeclared exception!
+-      try { 
+-        eReader0.processMsg(46);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test23() throws Throwable {
++    EWrapper eWrapper0 = mock(EWrapper.class, new ViolatedAssumptionAnswer());
++    EReader eReader0 = new EReader((DataInputStream) null, eWrapper0, 46);
++    eReader0.processMsg(46);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

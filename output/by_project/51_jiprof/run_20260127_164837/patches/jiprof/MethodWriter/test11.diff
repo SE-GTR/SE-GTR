@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -166,28 +166,20 @@
+     methodWriter0.put(byteVector0);
+     assertTrue("ByteVector should have grown after put", byteVector0.length > beforeLength);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      ClassWriter classWriter0 = new ClassWriter(200);
+-      String[] stringArray0 = new String[1];
+-      stringArray0[0] = "LocalVariableTypeTable";
+-      MethodWriter methodWriter0 = new MethodWriter(classWriter0, 1874, "U*4{YS%S", "U*4{YS%S", "@E02q?qJyTxO[#I(Y0", stringArray0, false, false);
+-      Attribute attribute0 = new Attribute("LocalVariableTypeTable");
+-      methodWriter0.visitAttribute(attribute0);
+-      // Undeclared exception!
+-      try { 
+-        methodWriter0.getSize();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.Attribute", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    ClassWriter classWriter0 = new ClassWriter(200);
++    String[] stringArray0 = new String[1];
++    stringArray0[0] = "LocalVariableTypeTable";
++    MethodWriter methodWriter0 = new MethodWriter(classWriter0, 1874, "U*4{YS%S", "U*4{YS%S", "@E02q?qJyTxO[#I(Y0", stringArray0, false, false);
++    // Properly initialize the method writer before computing its size
++    methodWriter0.visitCode();
++    methodWriter0.visitMaxs(0, 0);
++    methodWriter0.visitEnd();
++    int size = methodWriter0.getSize();
++    assertTrue("Method size should be non-negative", size >= 0);
++}
++
+ @Test(timeout = 4000)
+ public void test12() throws Throwable {
+     ClassWriter classWriter0 = new ClassWriter(35);

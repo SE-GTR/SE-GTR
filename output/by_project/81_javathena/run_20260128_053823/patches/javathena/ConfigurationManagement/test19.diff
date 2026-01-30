@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -162,12 +162,18 @@
+     ConfigurationManagement.setAuth_before_save_file(2379);
+     assertEquals(2379, ConfigurationManagement.getAuth_before_save_file());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      ConfigurationManagement.setAccess_denynum(1107);
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        // Preserve original value to avoid side effects on other tests
++        int original = ConfigurationManagement.getAccess_denynum();
++        // Act: change the configuration value
++        ConfigurationManagement.setAccess_denynum(1107);
++        // Assert: the new value is observable via the corresponding getter
++        assertEquals(1107, ConfigurationManagement.getAccess_denynum());
++        // Clean up: restore original state
++        ConfigurationManagement.setAccess_denynum(original);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

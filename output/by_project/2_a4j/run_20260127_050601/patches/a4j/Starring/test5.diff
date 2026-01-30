@@ -1,0 +1,37 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/Starring_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/Starring_ESTest.java
+@@ -69,16 +69,26 @@
+         assertNull(starring0.getActor(0));
+         assertNull(starring0.getActor(1));
+     }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        Starring starring0 = new Starring();
++        // Capture the initial state (may be null or empty)
++        String[] beforeActors = starring0.getActor();
++        int beforeLength = (beforeActors == null) ? 0 : beforeActors.length;
+ 
++        // Prepare a distinct input array
++        String[] stringArray0 = new String[] { "Ken" };
++        starring0.setActor(stringArray0);
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      Starring starring0 = new Starring();
+-      String[] stringArray0 = new String[1];
+-      starring0.setActor(stringArray0);
+-      String[] stringArray1 = starring0.getActor();
+-      assertEquals(1, stringArray1.length);
+-  }
++        // Verify that the side‑effect of setActor is observable via getActor()
++        String[] afterActors = starring0.getActor();
++        assertNotNull("Actors should not be null after setActor", afterActors);
++        assertEquals("Length should reflect the input array length", stringArray0.length, afterActors.length);
++        assertArrayEquals("Content should match the input array", stringArray0, afterActors);
++        // Ensure that the state actually changed compared to the initial snapshot
++        assertTrue("State should change after setActor", afterActors.length != beforeLength);
++    }
++
+ @Test(timeout = 4000)
+   public void test6() throws Throwable {
+       Starring starring0 = new Starring();

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/residue/aa/Codon_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/residue/aa/Codon_ESTest.java
+@@ -82,22 +82,12 @@
+          verifyException("org.jcvi.jillion.core.residue.aa.Codon", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      LinkedList<Nucleotide> linkedList0 = new LinkedList<Nucleotide>();
+-      // Undeclared exception!
+-      try { 
+-        Codon.getCodonByOffset((List<Nucleotide>) linkedList0, (-2114));
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // offset must be >=0 -2114
+-         //
+-         verifyException("org.jcvi.jillion.core.residue.aa.Codon", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = IllegalArgumentException.class)
++    public void test06() throws Throwable {
++        List<Nucleotide> bases = Arrays.asList(Nucleotide.A, Nucleotide.C, Nucleotide.G);
++        Codon.getCodonByOffset(bases, 5);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

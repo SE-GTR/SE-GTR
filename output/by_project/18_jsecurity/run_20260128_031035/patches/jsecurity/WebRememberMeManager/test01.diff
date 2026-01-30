@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jsecurity/web/WebRememberMeManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/WebRememberMeManager_ESTest.java
+@@ -23,13 +23,17 @@
+       String string0 = webRememberMeManager0.getCookieName();
+       assertEquals("rememberMe", string0);
+   }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        WebRememberMeManager manager = new WebRememberMeManager();
++        // Create a custom attribute and set it
++        CookieAttribute<String> customAttribute = new CookieAttribute<>("customRememberMe");
++        manager.setIdentityAttribute(customAttribute);
++        // Retrieve the attribute and verify that the manager returns the one we set
++        WebAttribute<String> retrievedAttribute = manager.getIdentityAttribute();
++        assertSame(customAttribute, retrievedAttribute);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      WebRememberMeManager webRememberMeManager0 = new WebRememberMeManager();
+-      WebAttribute<String> webAttribute0 = webRememberMeManager0.getIdentityAttribute();
+-      assertNotNull(webAttribute0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

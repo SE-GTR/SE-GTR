@@ -1,0 +1,33 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -439,11 +439,28 @@
+ @Test(timeout = 4000)
+ public void test38() throws Throwable {
+     AdministrativeArea administrativeArea0 = new AdministrativeArea();
+-    String type = ",eu76E&qobXbBzx";
++    String type = ",eu76E&qobXbB\u007fzx";
+     administrativeArea0.setType(type);
+     assertEquals(type, administrativeArea0.getType());
++
++    // Verify that changing the type updates the field
++    String newType = "newType";
++    administrativeArea0.setType(newType);
++    assertEquals(newType, administrativeArea0.getType());
++
++    // Verify default indicator and ability to set it
+     assertNull(administrativeArea0.getIndicator());
+-}
++    String indicator = "ind";
++    administrativeArea0.setIndicator(indicator);
++    assertEquals(indicator, administrativeArea0.getIndicator());
++
++    // Exercise non‑trivial list behavior
++    assertTrue(administrativeArea0.getAdministrativeAreaName().isEmpty());
++    AdministrativeArea.AdministrativeAreaName name = new AdministrativeArea.AdministrativeAreaName();
++    administrativeArea0.getAdministrativeAreaName().add(name);
++    assertEquals(1, administrativeArea0.getAdministrativeAreaName().size());
++}
++
+ 
+ @Test(timeout = 4000)
+     public void test39() throws Throwable {

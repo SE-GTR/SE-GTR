@@ -1,0 +1,30 @@
+--- a/evosuite-tests/server/ServerGameLoop_ESTest.java
++++ b/evosuite-tests/server/ServerGameLoop_ESTest.java
+@@ -17,21 +17,11 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ServerGameLoop_ESTest extends ServerGameLoop_ESTest_scaffolding {
++@Test(timeout = 4000, expected = NullPointerException.class)
++  public void test0() throws Throwable {
++      GameModel gameModel0 = new GameModel();
++      ServerGameLoop serverGameLoop0 = new ServerGameLoop(gameModel0, null);
++      serverGameLoop0.doPostGameProcessing();
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      GameModel gameModel0 = new GameModel();
+-      ServerGameLoop serverGameLoop0 = new ServerGameLoop(gameModel0, (ServerGameRound) null);
+-      // Undeclared exception!
+-      try { 
+-        serverGameLoop0.doPostGameProcessing();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("server.ServerGameLoop", e);
+-      }
+-  }
+ }

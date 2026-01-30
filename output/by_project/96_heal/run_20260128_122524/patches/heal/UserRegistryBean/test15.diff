@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/heal/module/user/UserRegistryBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserRegistryBean_ESTest.java
+@@ -200,15 +200,19 @@
+         UserRegistryBean userRegistryBean0 = new UserRegistryBean();
+         userRegistryBean0.updateEmail("t:dQOPx>7", "t:dQOPx>7");
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      UserRegistryBean userRegistryBean0 = new UserRegistryBean();
+-      SQLServerDataSource sQLServerDataSource0 = new SQLServerDataSource();
+-      userRegistryBean0.setDataSource(sQLServerDataSource0);
+-      userRegistryBean0.updateEmail("t=OPx>7", "t=OPx>7");
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    UserRegistryBean userRegistryBean0 = new UserRegistryBean();
++    SQLServerDataSource sQLServerDataSource0 = new SQLServerDataSource();
++    userRegistryBean0.setDataSource(sQLServerDataSource0);
++    // Verify that the data source was correctly set
++    assertSame(sQLServerDataSource0, userRegistryBean0.getDataSource());
++    // Execute the email update operation
++    userRegistryBean0.updateEmail("t=OPx>7", "t=OPx>7");
++    // Ensure the data source remains unchanged after the update
++    assertSame(sQLServerDataSource0, userRegistryBean0.getDataSource());
++}
++
+ @Test(expected = NullPointerException.class, timeout = 4000)
+ public void test16() throws Throwable {
+     UserRegistryBean userRegistryBean0 = new UserRegistryBean();

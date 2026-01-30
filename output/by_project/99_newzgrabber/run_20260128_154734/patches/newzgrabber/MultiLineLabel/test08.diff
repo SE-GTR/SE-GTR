@@ -1,0 +1,43 @@
+--- a/evosuite-tests/Newzgrabber/MultiLineLabel_ESTest.java
++++ b/evosuite-tests/Newzgrabber/MultiLineLabel_ESTest.java
+@@ -88,24 +88,22 @@
+     assertTrue("Preferred width should be positive", prefSize.width > 0);
+     assertTrue("Preferred height should be positive", prefSize.height > 0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      MultiLineLabel multiLineLabel0 = new MultiLineLabel("Newzgrabber.MultiLineLabel", 2);
+-      DebugGraphics debugGraphics0 = new DebugGraphics();
+-      // Undeclared exception!
+-      try { 
+-        multiLineLabel0.paint(debugGraphics0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("javax.swing.DebugGraphics", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    MultiLineLabel multiLineLabel0 = new MultiLineLabel("Newzgrabber.MultiLineLabel", 2);
++    // Complete minimal initialization required for paint()
++    multiLineLabel0.margin_height = 0;
++    multiLineLabel0.margin_width = 0;
++    multiLineLabel0.line_height = 10;
++    multiLineLabel0.line_ascent = 8;
++    multiLineLabel0.max_width = 100;
++    multiLineLabel0.line_widths = new int[multiLineLabel0.num_lines];
++    multiLineLabel0.x = 0;
++    DebugGraphics debugGraphics0 = new DebugGraphics();
++    // The paint method should now execute without throwing an exception
++    multiLineLabel0.paint(debugGraphics0);
++}
++
+ @Test(timeout = 4000)
+ public void test09() throws Throwable {
+     MultiLineLabel multiLineLabel0 = new MultiLineLabel("6");

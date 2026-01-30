@@ -1,0 +1,85 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/AbstractValidatingSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/AbstractValidatingSessionManager_ESTest.java
+@@ -66,40 +66,48 @@
+       DefaultSessionManager defaultSessionManager0 = new DefaultSessionManager();
+       defaultSessionManager0.getGlobalSessionTimeout();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      DefaultSessionManager defaultSessionManager0 = new DefaultSessionManager();
+-      Session session0 = defaultSessionManager0.createSession((InetAddress) null);
+-      defaultSessionManager0.getSessionValidationInterval();
+-      MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
+-      memorySessionDAO0.delete(session0);
+-      defaultSessionManager0.onExpiration(session0);
+-      CacheManager cacheManager0 = memorySessionDAO0.getCacheManager();
+-      memorySessionDAO0.getActiveSessions();
+-      memorySessionDAO0.setCacheManager(cacheManager0);
+-      memorySessionDAO0.create(session0);
+-      memorySessionDAO0.setActiveSessionsCacheName("");
+-      memorySessionDAO0.create(session0);
+-      defaultSessionManager0.setSessionDAO(memorySessionDAO0);
+-      defaultSessionManager0.validateSessions();
+-      defaultSessionManager0.getSessionValidationScheduler();
+-      defaultSessionManager0.getActiveSessions();
+-      defaultSessionManager0.getTimeout(session0);
+-      defaultSessionManager0.create(session0);
+-      defaultSessionManager0.afterSessionValidationEnabled();
+-      defaultSessionManager0.getTimeout(session0);
+-      defaultSessionManager0.getSessionValidationInterval();
+-      defaultSessionManager0.getSessionDAO();
+-      defaultSessionManager0.doCreateSession((InetAddress) null);
+-      defaultSessionManager0.setSessionValidationInterval(3600000L);
+-      defaultSessionManager0.newSessionInstance((InetAddress) null);
+-      defaultSessionManager0.onStop(session0);
+-      defaultSessionManager0.getActiveSessions();
+-      defaultSessionManager0.setSessionValidationInterval(114L);
+-      defaultSessionManager0.createSessionValidationScheduler();
+-      defaultSessionManager0.getSessionValidationScheduler();
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        DefaultSessionManager manager = new DefaultSessionManager();
++        Session session = manager.createSession((InetAddress) null);
++        assertNotNull("Session should be created", session);
++
++        int activeBefore = manager.getActiveSessions().size();
++
++        MemorySessionDAO dao = new MemorySessionDAO();
++        dao.delete(session); // ensure DAO does not contain the session
++        manager.onExpiration(session); // should not affect manager's active sessions
++
++        manager.setSessionDAO(dao);
++        manager.validateSessions();
++
++        // Active sessions count should remain unchanged after validation
++        assertEquals("Active sessions count should stay the same after validation",
++                activeBefore, manager.getActiveSessions().size());
++
++        // afterSessionValidationEnabled should initialise the scheduler
++        manager.afterSessionValidationEnabled();
++        assertNotNull("Session validation scheduler should be created",
++                manager.getSessionValidationScheduler());
++
++        // Verify default validation interval is positive
++        long defaultInterval = manager.getSessionValidationInterval();
++        assertTrue("Default validation interval should be positive", defaultInterval > 0);
++
++        // Change interval and verify getter reflects the change
++        manager.setSessionValidationInterval(114L);
++        assertEquals("Session validation interval should be updated", 114L,
++                manager.getSessionValidationInterval());
++
++        // Verify the DAO getter returns the same instance that was set
++        assertSame("SessionDAO getter should return the DAO that was set",
++                dao, manager.getSessionDAO());
++
++        // Verify timeout for the created session is a positive value
++        long timeout = manager.getTimeout(session);
++        assertTrue("Session timeout should be positive", timeout > 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

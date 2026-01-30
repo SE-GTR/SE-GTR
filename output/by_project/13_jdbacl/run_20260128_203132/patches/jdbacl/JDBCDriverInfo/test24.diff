@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/databene/jdbacl/JDBCDriverInfo_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/JDBCDriverInfo_ESTest.java
+@@ -184,13 +184,19 @@
+       jDBCDriverInfo0.FIREBIRD.setDefaultSchema("Gyx");
+       assertEquals("HSQL Server", jDBCDriverInfo0.getDbSystem());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      JDBCDriverInfo jDBCDriverInfo0 = new JDBCDriverInfo("", "", "");
+-      String string0 = jDBCDriverInfo0.getName();
+-      assertEquals("", string0);
+-  }
++@Test(timeout = 4000)
++    public void test24() throws Throwable {
++        JDBCDriverInfo original = new JDBCDriverInfo("", "", "");
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(original);
++        oos.flush();
++        byte[] bytes = baos.toByteArray();
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(bytes));
++        JDBCDriverInfo deserialized = (JDBCDriverInfo) ois.readObject();
++        assertEquals(original.getName(), deserialized.getName());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test25()  throws Throwable  {

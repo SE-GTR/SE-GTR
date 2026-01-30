@@ -1,0 +1,41 @@
+--- a/evosuite-tests/mygrid/web/_Request_ESTest.java
++++ b/evosuite-tests/mygrid/web/_Request_ESTest.java
+@@ -45,21 +45,26 @@
+     int hash2 = _Request0.hashCode();
+     assertEquals(hash1, hash2);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test02() throws Throwable {
+     _Request0 = new _Request();
+     job0 = new Job();
+-      _Request0.setJob(job0);
+-      _Request _Request1 = new _Request();
+-      assertFalse(_Request1.equals((Object)_Request0));
+-      
+-      _Request1.setJob(job0);
+-      boolean boolean0 = _Request0.equals(_Request1);
+-      assertTrue(_Request1.equals((Object)_Request0));
+-      assertTrue(boolean0);
++    _Request0.setJob(job0);
++    // Verify that the job was set correctly
++    assertSame(job0, _Request0.getJob());
++
++    _Request _Request1 = new _Request();
++    assertFalse(_Request1.equals((Object) _Request0));
++
++    _Request1.setJob(job0);
++    // Verify that the second request also received the same job instance
++    assertSame(job0, _Request1.getJob());
++
++    boolean boolean0 = _Request0.equals(_Request1);
++    assertTrue(_Request1.equals((Object) _Request0));
++    assertTrue(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

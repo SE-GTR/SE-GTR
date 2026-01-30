@@ -1,0 +1,33 @@
+--- a/evosuite-tests/gui/GUIState_ESTest.java
++++ b/evosuite-tests/gui/GUIState_ESTest.java
+@@ -18,15 +18,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class GUIState_ESTest extends GUIState_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    GUIState gUIState0 = new GUIState();
++    Player player0 = new Player(1, "gui.GUIState", "gui.GUIState", 0, 128);
++    // Verify initial selected state is null
++    assertNull(gUIState0.getSelected());
++    // Act: set the selected player
++    gUIState0.setSelected(player0);
++    // Assert: the selected player was correctly stored
++    assertSame(player0, gUIState0.getSelected());
++    // Act: invoke update with null arguments
++    gUIState0.update((Observable) null, (Object) null);
++    // Assert: hasChanged remains false after the update
++    assertFalse(gUIState0.hasChanged());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      GUIState gUIState0 = new GUIState();
+-      Player player0 = new Player(1, "gui.GUIState", "gui.GUIState", 0, 128);
+-      gUIState0.setSelected(player0);
+-      gUIState0.update((Observable) null, (Object) null);
+-      assertFalse(gUIState0.hasChanged());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

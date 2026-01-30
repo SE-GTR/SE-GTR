@@ -1,0 +1,47 @@
+--- a/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
+@@ -188,28 +188,24 @@
+         verifyException("jigl.image.types.RealGrayImage", e);
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
+-      ROI rOI0 = new ROI(0, 0, 0, 0);
+-      RealGrayImage realGrayImage1 = realGrayImage0.addbuffer(1, 1, 1, (-217), (float) 1);
+-      realGrayImage0.getJavaImage();
+-      realGrayImage1.getJavaImage();
+-      realGrayImage0.byteSize();
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
++    ROI rOI0 = new ROI(0, 0, 0, 0);
++    RealGrayImage realGrayImage1 = realGrayImage0.addbuffer(1, 1, 1, (-217), (float) 1);
++    java.awt.image.ImageProducer ip0 = realGrayImage0.getJavaImage();
++    assertNotNull(ip0);
++    java.awt.image.ImageProducer ip1 = realGrayImage1.getJavaImage();
++    assertNotNull(ip1);
++    realGrayImage0.byteSize();
++    try {
+         realGrayImage0.max(rOI0);
+         fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // 0
+-         //
+-         verifyException("jigl.image.types.RealGrayImage", e);
+-      }
+-  }
++    } catch (ArrayIndexOutOfBoundsException e) {
++        verifyException("jigl.image.types.RealGrayImage", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

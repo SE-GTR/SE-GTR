@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/heal/module/oai/heal/HEALOAIDCRecordAdapter_ESTest.java
++++ b/evosuite-tests/org/heal/module/oai/heal/HEALOAIDCRecordAdapter_ESTest.java
+@@ -235,16 +235,19 @@
+     hEALOAIDCRecordAdapter0.appendFormatElements((Element) null, (Document) null);
+     assertFalse(hEALOAIDCRecordAdapter0.hasOAIAbout());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-    completeMetadataBean0 = new CompleteMetadataBean();
+-    hEALOAIDCRecordAdapter0 = new HEALOAIDCRecordAdapter(completeMetadataBean0, (HEALProviderConfig) null);
+-      completeMetadataBean0.setFileWidth("7");
+-      hEALOAIDCRecordAdapter0.appendFormatElements((Element) null, (Document) null);
+-      assertFalse(hEALOAIDCRecordAdapter0.hasOAIAbout());
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    completeMetadataBean0 = new CompleteMetadataBean();
++    String beforeWidth = completeMetadataBean0.getFileWidth();
++    hEALOAIDCRecordAdapter0 = new HEALOAIDCRecordAdapter(completeMetadataBean0, (HEALProviderConfig) null);
++    completeMetadataBean0.setFileWidth("7");
++    assertEquals("7", completeMetadataBean0.getFileWidth());
++    // optional sanity check that the value actually changed
++    assertNotEquals(beforeWidth, completeMetadataBean0.getFileWidth());
++    hEALOAIDCRecordAdapter0.appendFormatElements((Element) null, (Document) null);
++    assertFalse(hEALOAIDCRecordAdapter0.hasOAIAbout());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

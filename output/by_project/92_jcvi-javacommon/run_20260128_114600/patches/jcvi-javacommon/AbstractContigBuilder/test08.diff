@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/assembly/AbstractContigBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/assembly/AbstractContigBuilder_ESTest.java
+@@ -88,17 +88,18 @@
+     public void test07() throws Throwable {
+         new DefaultContig.Builder((String) null, "R");
+     }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    MostFrequentBasecallConsensusCaller mostFrequentBasecallConsensusCaller0 = MostFrequentBasecallConsensusCaller.INSTANCE;
++    DefaultContig.Builder defaultContig_Builder0 = new DefaultContig.Builder("R", "R");
++    ContigBuilder<AssembledRead, Contig<AssembledRead>> recallResult = defaultContig_Builder0.recallConsensus((ConsensusCaller) mostFrequentBasecallConsensusCaller0);
++    assertSame(defaultContig_Builder0, recallResult);
++    DefaultContig.Builder addReadResult = defaultContig_Builder0.addRead("R", 0, "R");
++    assertSame(defaultContig_Builder0, addReadResult);
++    ContigBuilder<AssembledRead, Contig<AssembledRead>> contigBuilder0 = defaultContig_Builder0.recallConsensusNow();
++    assertEquals(1, contigBuilder0.numberOfReads());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      MostFrequentBasecallConsensusCaller mostFrequentBasecallConsensusCaller0 = MostFrequentBasecallConsensusCaller.INSTANCE;
+-      DefaultContig.Builder defaultContig_Builder0 = new DefaultContig.Builder("R", "R");
+-      defaultContig_Builder0.recallConsensus((ConsensusCaller) mostFrequentBasecallConsensusCaller0);
+-      defaultContig_Builder0.addRead("R", 0, "R");
+-      ContigBuilder<AssembledRead, Contig<AssembledRead>> contigBuilder0 = defaultContig_Builder0.recallConsensusNow();
+-      assertEquals(1, contigBuilder0.numberOfReads());
+-  }
+ @Test(timeout = 4000, expected = NullPointerException.class)
+     public void test09() throws Throwable {
+         DefaultContig.Builder defaultContig_Builder0 = new DefaultContig.Builder("R", "R");

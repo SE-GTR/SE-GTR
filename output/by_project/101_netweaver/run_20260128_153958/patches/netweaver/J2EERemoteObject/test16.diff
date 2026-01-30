@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EERemoteObject_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EERemoteObject_ESTest.java
+@@ -276,20 +276,28 @@
+       assertEquals(0, j2EERemoteObject0.getIdHash());
+       assertFalse(notEqual);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      J2EERemoteObject j2EERemoteObject0 = new J2EERemoteObject();
+-      j2EERemoteObject0.setAddress("");
+-      J2EERemoteObject j2EERemoteObject1 = new J2EERemoteObject();
+-      assertFalse(j2EERemoteObject1.equals((Object)j2EERemoteObject0));
+-      
+-      j2EERemoteObject1.setAddress("");
+-      boolean boolean0 = j2EERemoteObject0.equals(j2EERemoteObject1);
+-      assertTrue(j2EERemoteObject1.equals((Object)j2EERemoteObject0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        J2EERemoteObject j2EERemoteObject0 = new J2EERemoteObject();
++        // Verify initial state before setting address
++        assertNull(j2EERemoteObject0.getAddress());
++        j2EERemoteObject0.setAddress("");
++        // Assert side‑effect of setAddress
++        assertEquals("", j2EERemoteObject0.getAddress());
++
++        J2EERemoteObject j2EERemoteObject1 = new J2EERemoteObject();
++        assertNull(j2EERemoteObject1.getAddress());
++        assertFalse(j2EERemoteObject1.equals((Object) j2EERemoteObject0));
++
++        j2EERemoteObject1.setAddress("");
++        // Assert side‑effect on the second instance
++        assertEquals("", j2EERemoteObject1.getAddress());
++
++        boolean boolean0 = j2EERemoteObject0.equals(j2EERemoteObject1);
++        assertTrue(j2EERemoteObject1.equals((Object) j2EERemoteObject0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

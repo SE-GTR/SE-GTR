@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
+@@ -213,12 +213,18 @@
+       MySQLConfig.setDefault_codepage(expectedCodepage);
+       assertEquals(expectedCodepage, MySQLConfig.getDefault_codepage());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      MySQLConfig.setLogin_server_id("user_pass");
+-  }
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        // Preserve original value to avoid side effects on other tests
++        String original = MySQLConfig.getLogin_server_id();
++        // Act: change the login server id
++        MySQLConfig.setLogin_server_id("user_pass");
++        // Assert: the change is observable via the corresponding getter
++        assertEquals("user_pass", MySQLConfig.getLogin_server_id());
++        // Restore original state
++        MySQLConfig.setLogin_server_id(original);
++    }
++
+ @Test(timeout = 4000)
+     public void test27() throws Throwable {
+         String accountId = MySQLConfig.getLogin_db_account_id();

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
+@@ -319,13 +319,22 @@
+       user0.setOrg("1hZ");
+       assertFalse(user0.getPasschange());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-    user0 = new User();
+-      user0.setPasschange(false);
+-      assertFalse(user0.getPasschange());
+-  }
++@Test(timeout = 4000)
++    public void test29() throws Throwable {
++        user0 = new User();
++        // Verify the default value
++        assertFalse(user0.getPasschange());
++        // Change the state and verify the side‑effect
++        user0.setPasschange(true);
++        assertTrue(user0.getPasschange());
++        // Reset and verify again
++        user0.setPasschange(false);
++        assertFalse(user0.getPasschange());
++        // Invoke a non‑trivial method (compareTo) and assert its behavior
++        User other = new User();
++        assertEquals(0, user0.compareTo(other));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

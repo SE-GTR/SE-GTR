@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/heal/servlet/userreview/ApproveUserReviewAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/userreview/ApproveUserReviewAction_ESTest.java
+@@ -22,30 +22,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ApproveUserReviewAction_ESTest extends ApproveUserReviewAction_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        ApproveUserReviewAction action = new ApproveUserReviewAction();
++        Servlet servlet = new Servlet("READONLY");
++        HttpSession session = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++        // Provide a non‑null user bean to satisfy AuthenticationTools
++        org.heal.module.user.UserBean userBean = mock(org.heal.module.user.UserBean.class);
++        doReturn(userBean).when(session).getAttribute(anyString());
++        HttpServletRequest request = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn(session).when(request).getSession();
++        HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(request);
++        HttpServletResponse response = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        // Execute the action; no exception should be thrown with proper setup
++        action.perform(servlet, requestWrapper, response);
++        // Verify that the session was queried for attributes
++        verify(session, atLeastOnce()).getAttribute(anyString());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ApproveUserReviewAction approveUserReviewAction0 = new ApproveUserReviewAction();
+-      Servlet servlet0 = new Servlet("READONLY");
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
+-      HttpSession httpSession1 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null, (Object) null).when(httpSession1).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0, httpSession1, httpSession1).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      // Undeclared exception!
+-      try { 
+-        approveUserReviewAction0.perform(servlet0, httpServletRequestWrapper0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.userreview.ApproveUserReviewAction", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

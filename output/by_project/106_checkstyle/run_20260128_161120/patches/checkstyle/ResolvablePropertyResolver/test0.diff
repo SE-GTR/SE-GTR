@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/configtypes/ResolvablePropertyResolver_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/configtypes/ResolvablePropertyResolver_ESTest.java
+@@ -34,18 +34,28 @@
+     resolvableProperty0 = new ResolvableProperty("", "r?i_DAiO");
+       linkedList0.add(resolvableProperty0);
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Arrange: set up a resolvable property with a known name
++        resolvableProperty0.setPropertyName("r?i_DAiO");
++        CheckConfiguration checkConfiguration0 = new CheckConfiguration("", "", "r?i_DAiO",
++                internalConfigurationType0, true, linkedList0, (Map) null);
++        ICheckConfigurationWorkingSet iCheckConfigurationWorkingSet0 = mock(ICheckConfigurationWorkingSet.class,
++                new ViolatedAssumptionAnswer());
++        CheckConfigurationWorkingCopy checkConfigurationWorkingCopy0 = new CheckConfigurationWorkingCopy(
++                checkConfiguration0, iCheckConfigurationWorkingSet0);
++        ResolvablePropertyResolver resolvablePropertyResolver0 = new ResolvablePropertyResolver(
++                checkConfigurationWorkingCopy0);
+ 
++        // Act: resolve the property name
++        String string0 = resolvablePropertyResolver0.resolve("r?i_DAiO");
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      resolvableProperty0.setPropertyName("r?i_DAiO");
+-      CheckConfiguration checkConfiguration0 = new CheckConfiguration("", "", "r?i_DAiO", internalConfigurationType0, true, linkedList0, (Map) null);
+-      ICheckConfigurationWorkingSet iCheckConfigurationWorkingSet0 = mock(ICheckConfigurationWorkingSet.class, new ViolatedAssumptionAnswer());
+-      CheckConfigurationWorkingCopy checkConfigurationWorkingCopy0 = new CheckConfigurationWorkingCopy(checkConfiguration0, iCheckConfigurationWorkingSet0);
+-      ResolvablePropertyResolver resolvablePropertyResolver0 = new ResolvablePropertyResolver(checkConfigurationWorkingCopy0);
+-      String string0 = resolvablePropertyResolver0.resolve("r?i_DAiO");
+-      assertEquals("r?i_DAiO", string0);
+-  }
++        // Assert: the resolver returns the expected value
++        assertEquals("r?i_DAiO", string0);
++        // Assert: the side‑effect of setting the property name is observable
++        assertEquals("r?i_DAiO", resolvableProperty0.getPropertyName());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

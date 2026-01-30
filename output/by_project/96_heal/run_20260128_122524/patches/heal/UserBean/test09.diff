@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
+@@ -126,18 +126,27 @@
+     assertFalse(userBean0.isCataloger());
+     assertFalse(userBean0.isApprover());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    userBean0 = new UserBean();
+-      userBean0.setEmailValidated(false);
+-      assertFalse(userBean0.isAdministrator());
+-      assertFalse(userBean0.isEmailValidated());
+-      assertTrue(userBean0.isMinor());
+-      assertFalse(userBean0.isApprover());
+-      assertFalse(userBean0.isCataloger());
+-  }
++@Test(timeout = 4000)
++  public void test09() throws Throwable {
++    UserBean bean = new UserBean();
++    bean.setEmailValidated(false);
++    // Serialize the bean
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(bean);
++    oos.flush();
++    byte[] serialized = baos.toByteArray();
++    // Deserialize the bean
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(serialized));
++    UserBean deserialized = (UserBean) ois.readObject();
++    // Verify state after deserialization
++    org.junit.Assert.assertFalse(deserialized.isAdministrator());
++    org.junit.Assert.assertFalse(deserialized.isEmailValidated());
++    org.junit.Assert.assertTrue(deserialized.isMinor());
++    org.junit.Assert.assertFalse(deserialized.isApprover());
++    org.junit.Assert.assertFalse(deserialized.isCataloger());
++  }
++
+ @Test(timeout = 4000)
+ public void test10() throws Throwable {
+     userBean0 = new UserBean();

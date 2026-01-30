@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/jsecurity/mgt/SessionsSecurityManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/mgt/SessionsSecurityManager_ESTest.java
+@@ -63,22 +63,25 @@
+       defaultSecurityManager0.getRememberMeManager();
+       defaultSecurityManager0.applyCacheManagerToSessionManager();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      LinkedHashSet<Realm> linkedHashSet0 = new LinkedHashSet<Realm>();
+-    defaultWebSecurityManager0 = new DefaultWebSecurityManager();
+-      LinkedHashSet<SessionListener> linkedHashSet1 = new LinkedHashSet<SessionListener>();
+-      DefaultWebSecurityManager defaultWebSecurityManager1 = new DefaultWebSecurityManager();
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
+-      LinkedList<Locale.LanguageRange> linkedList0 = new LinkedList<Locale.LanguageRange>();
+-      Locale locale0 = Locale.ENGLISH;
+-      Set<String> set0 = locale0.getUnicodeLocaleAttributes();
+-      List<String> list0 = Locale.filterTags((List<Locale.LanguageRange>) linkedList0, (Collection<String>) set0);
+-      defaultWebSecurityManager1.hasRoles(simplePrincipalCollection0, list0);
+-      defaultWebSecurityManager1.setRememberMeEncryptionCipherKeyBase64("");
+-      ((SessionsSecurityManager)defaultWebSecurityManager0).ensureSessionManager();
+-  }
++public void test1() throws Throwable {
++    LinkedHashSet<Realm> linkedHashSet0 = new LinkedHashSet<Realm>();
++    defaultWebSecurityManager0 = new DefaultWebSecurityManager();
++    LinkedHashSet<SessionListener> linkedHashSet1 = new LinkedHashSet<SessionListener>();
++    DefaultWebSecurityManager defaultWebSecurityManager1 = new DefaultWebSecurityManager();
++    SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
++    LinkedList<Locale.LanguageRange> linkedList0 = new LinkedList<Locale.LanguageRange>();
++    Locale locale0 = Locale.ENGLISH;
++    Set<String> set0 = locale0.getUnicodeLocaleAttributes();
++    List<String> list0 = Locale.filterTags((List<Locale.LanguageRange>) linkedList0, (Collection<String>) set0);
++    boolean[] rolesResult = defaultWebSecurityManager1.hasRoles(simplePrincipalCollection0, list0);
++    assertNotNull(rolesResult);
++    assertEquals(0, rolesResult.length);
++    defaultWebSecurityManager1.setRememberMeEncryptionCipherKeyBase64("");
++    SessionsSecurityManager sessSecMgr = (SessionsSecurityManager) defaultWebSecurityManager0;
++    sessSecMgr.ensureSessionManager();
++    assertNotNull(sessSecMgr.getSessionManager());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

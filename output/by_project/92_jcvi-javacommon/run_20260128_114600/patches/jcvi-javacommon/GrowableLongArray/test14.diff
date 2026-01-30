@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/util/GrowableLongArray_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/util/GrowableLongArray_ESTest.java
+@@ -185,15 +185,21 @@
+       growableLongArray0.append(growableLongArray0);
+       assertEquals(0, growableLongArray0.getCurrentLength());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      GrowableLongArray growableLongArray0 = new GrowableLongArray(6);
+-      growableLongArray0.append((long) 6);
+-      Range range0 = Range.ofLength(0L);
+-      growableLongArray0.remove(range0);
+-      assertEquals(1, growableLongArray0.getCurrentLength());
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    GrowableLongArray growableLongArray0 = new GrowableLongArray(6);
++    int lengthBeforeAppend = growableLongArray0.getCurrentLength();
++    growableLongArray0.append(6L);
++    assertEquals(lengthBeforeAppend + 1, growableLongArray0.getCurrentLength());
++
++    Range range0 = Range.ofLength(0L);
++    int lengthBeforeRemove = growableLongArray0.getCurrentLength();
++    growableLongArray0.remove(range0);
++    assertEquals(lengthBeforeRemove, growableLongArray0.getCurrentLength());
++
++    assertEquals(1, growableLongArray0.getCurrentLength());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

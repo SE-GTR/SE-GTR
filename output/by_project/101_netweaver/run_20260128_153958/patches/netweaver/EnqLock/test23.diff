@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -352,17 +352,23 @@
+     assertTrue(enqLock1.equals((Object) enqLock0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
++@Test(timeout = 4000)
++  public void test23() throws Throwable {
++      EnqLock enqLock0 = new EnqLock();
++      // verify initial state before setting owner
++      assertNull(enqLock0.getOwner());
+       enqLock0.setOwner(" faultActor: ");
+-      EnqLock enqLock1 = new EnqLock();
+-      boolean boolean0 = enqLock1.equals(enqLock0);
+-      assertFalse(boolean0);
+-      assertFalse(enqLock0.equals((Object)enqLock1));
+-  }
++      // assert the side‑effect of setOwner
++      assertEquals(" faultActor: ", enqLock0.getOwner());
++
++      EnqLock enqLock1 = new EnqLock();
++      assertNull(enqLock1.getOwner());
++
++      boolean boolean0 = enqLock1.equals(enqLock0);
++      assertFalse(boolean0);
++      assertFalse(enqLock0.equals((Object) enqLock1));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

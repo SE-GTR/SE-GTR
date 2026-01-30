@@ -1,0 +1,28 @@
+--- a/evosuite-tests/module/ServerConnectionListener_ESTest.java
++++ b/evosuite-tests/module/ServerConnectionListener_ESTest.java
+@@ -21,13 +21,17 @@
+         ServerConnectionListener serverConnectionListener0 = new ServerConnectionListener((ServerNetworkModule) null, 0);
+         serverConnectionListener0.run();
+     }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    ServerConnectionListener serverConnectionListener0 = new ServerConnectionListener((ServerNetworkModule) null, 33108);
++    // Verify that the listener is not marked as done initially
++    assertFalse(serverConnectionListener0.isDone());
++    // Invoke the method that changes the internal state
++    serverConnectionListener0.exit();
++    // Assert that the side‑effect is observable via the public API
++    assertTrue(serverConnectionListener0.isDone());
++    // Execute the run logic (no additional assertions needed for this test)
++    serverConnectionListener0.run();
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ServerConnectionListener serverConnectionListener0 = new ServerConnectionListener((ServerNetworkModule) null, 33108);
+-      serverConnectionListener0.exit();
+-      serverConnectionListener0.run();
+-      //  // Unstable assertion: assertFalse(serverConnectionListener0.isDaemon());
+-  }
+ }

@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
+@@ -116,20 +116,20 @@
+     assertFalse(blockingClientPool0.isDebug());
+     assertEquals(0, blockingClientPool0.getLogPoolStatsTimeInMinute());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test08() throws Throwable {
+       LoadDistributor loadDistributor0 = mock(LoadDistributor.class, new ViolatedAssumptionAnswer());
+       doReturn((Host) null).when(loadDistributor0).getHost(any(org.quickserver.net.client.ClientInfo.class));
+       PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+       doReturn((String) null).when(poolableBlockingClient0).toString();
+       doReturn(loadDistributor0).when(poolableBlockingClient0).getLoadDistributor();
+       BlockingClientPool blockingClientPool0 = new BlockingClientPool("t9$\"H'?`9m", poolableBlockingClient0);
+-      blockingClientPool0.getBlockingClient();
++      PooledBlockingClient client = blockingClientPool0.getBlockingClient();
++      assertNotNull(client);
+       assertFalse(blockingClientPool0.isDebug());
+       assertEquals(0, blockingClientPool0.getLogPoolStatsTimeInMinute());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/quickserver/util/TextFile_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/TextFile_ESTest.java
+@@ -94,23 +94,21 @@
+          verifyException("org.evosuite.runtime.mock.java.io.MockFileOutputStream", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        MockFile mockFile0 = new MockFile("org.quickserver.util.io.DirFileList");
++        boolean shouldThrow = FileSystemHandling.shouldAllThrowIOExceptions();
++        assertTrue("FileSystemHandling should be configured to throw IOExceptions", shouldThrow);
++        TextFile.write((File) mockFile0, "org.quickserver.util.io.DirFileList");
++        try {
++            TextFile.read((File) mockFile0);
++            fail("Expecting exception: IOException");
++        } catch (IOException e) {
++            // Simulated IOException
++            verifyException("org.evosuite.runtime.vfs.VirtualFileSystem", e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("org.quickserver.util.io.DirFileList");
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-      TextFile.write((File) mockFile0, "org.quickserver.util.io.DirFileList");
+-      try { 
+-        TextFile.read((File) mockFile0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Simulated IOException
+-         //
+-         verifyException("org.evosuite.runtime.vfs.VirtualFileSystem", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

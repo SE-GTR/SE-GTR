@@ -1,0 +1,41 @@
+--- a/evosuite-tests/macaw/businessLayer/Variable_ESTest.java
++++ b/evosuite-tests/macaw/businessLayer/Variable_ESTest.java
+@@ -54,25 +54,19 @@
+       assertFalse(rawVariable1.isNewRecord());
+       assertEquals("0", rawVariable1.getDisplayItemIdentifier());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      RawVariable rawVariable0 = new RawVariable();
+-      ArrayList<SupportingDocument> arrayList0 = new ArrayList<SupportingDocument>();
+-      arrayList0.add((SupportingDocument) null);
+-      rawVariable0.addSupportingDocuments(arrayList0);
+-      // Undeclared exception!
+-      try { 
+-        rawVariable0.clone();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("macaw.businessLayer.Variable", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        RawVariable rawVariable0 = new RawVariable();
++        ArrayList<SupportingDocument> arrayList0 = new ArrayList<>();
++        SupportingDocument doc = new SupportingDocument();
++        boolean added = arrayList0.add(doc);
++        assertTrue(added);
++        rawVariable0.addSupportingDocuments(arrayList0);
++        Variable cloned = (Variable) rawVariable0.clone();
++        assertNotNull(cloned);
++        assertNotSame(rawVariable0, cloned);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

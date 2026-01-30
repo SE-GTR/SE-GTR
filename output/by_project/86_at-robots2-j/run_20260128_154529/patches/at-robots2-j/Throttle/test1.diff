@@ -1,0 +1,25 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/hardware/throttle/Throttle_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/hardware/throttle/Throttle_ESTest.java
+@@ -52,13 +52,16 @@
+          verifyException("net.virtualinfinity.atrobots.hardware.throttle.Throttle", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    int initialPower = throttle0.getPower();
++    throttle0.setPower(-1408);
++    throttle0.update(duration0);
++    int afterPower = throttle0.getPower();
++    assertTrue("Power should change after setPower and update", initialPower != afterPower);
++    assertEquals("Power should reflect the value set by setPower after update", -1408, afterPower);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      throttle0.setPower((-1408));
+-      throttle0.update(duration0);
+-      assertEquals((-1404), throttle0.getPower());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

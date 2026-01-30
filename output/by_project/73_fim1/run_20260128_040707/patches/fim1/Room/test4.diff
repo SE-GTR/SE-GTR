@@ -1,0 +1,32 @@
+--- a/evosuite-tests/osa/ora/server/beans/Room_ESTest.java
++++ b/evosuite-tests/osa/ora/server/beans/Room_ESTest.java
+@@ -47,14 +47,22 @@
+     Room room0 = new Room();
+     assertNotNull(room0);
+ }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        Room room0 = new Room();
++        // Serialize the Room instance
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(room0);
++        oos.flush();
++        byte[] serialized = baos.toByteArray();
++        // Deserialize back to a Room object
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(serialized));
++        Room deserialized = (Room) ois.readObject();
++        // Verify that the userId remains null after the round‑trip
++        assertNull(deserialized.getUserId());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      Room room0 = new Room();
+-      int[] intArray0 = room0.getUserId();
+-      assertNull(intArray0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

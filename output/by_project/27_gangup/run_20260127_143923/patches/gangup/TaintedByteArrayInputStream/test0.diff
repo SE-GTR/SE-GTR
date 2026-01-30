@@ -1,0 +1,28 @@
+--- a/evosuite-tests/util/TaintedByteArrayInputStream_ESTest.java
++++ b/evosuite-tests/util/TaintedByteArrayInputStream_ESTest.java
+@@ -14,12 +14,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class TaintedByteArrayInputStream_ESTest extends TaintedByteArrayInputStream_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    TaintedByteArrayInputStream taintedByteArrayInputStream0 = new TaintedByteArrayInputStream();
++    byte[] byteArray0 = new byte[3];
++    taintedByteArrayInputStream0.setByteArray(byteArray0);
++    assertEquals(3, taintedByteArrayInputStream0.available());
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      TaintedByteArrayInputStream taintedByteArrayInputStream0 = new TaintedByteArrayInputStream();
+-      byte[] byteArray0 = new byte[3];
+-      taintedByteArrayInputStream0.setByteArray(byteArray0);
+-      assertEquals(3, taintedByteArrayInputStream0.available());
+-  }
++    byte[] readBuffer = new byte[3];
++    int bytesRead = taintedByteArrayInputStream0.read(readBuffer, 0, readBuffer.length);
++    assertEquals(3, bytesRead);
++    assertArrayEquals(new byte[3], readBuffer);
++    assertEquals(0, taintedByteArrayInputStream0.available());
+ }
++
++}

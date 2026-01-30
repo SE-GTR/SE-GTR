@@ -1,0 +1,49 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/MultipleSchemaAnalyzer_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/MultipleSchemaAnalyzer_ESTest.java
+@@ -28,30 +28,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class MultipleSchemaAnalyzer_ESTest extends MultipleSchemaAnalyzer_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    MultipleSchemaAnalyzer multipleSchemaAnalyzer0 = MultipleSchemaAnalyzer.getInstance();
++    Config config0 = new Config();
++    config0.setOutputDir("UTF-8");
++    LinkedList<Locale.LanguageRange> linkedList0 = new LinkedList<>();
++    List<String> list0 = Locale.filterTags(linkedList0, java.util.Collections.emptyList());
++    DatabaseMetaData databaseMetaData0 = mock(DatabaseMetaData.class, new ViolatedAssumptionAnswer());
++    ResultSet rs = mock(ResultSet.class);
++    when(rs.next()).thenReturn(false);
++    doReturn(rs).when(databaseMetaData0).getCatalogs();
++    doReturn(true).when(databaseMetaData0).supportsCatalogsInTableDefinitions();
++    doReturn(false).when(databaseMetaData0).supportsSchemasInTableDefinitions();
++    List<String> schemas = new java.util.ArrayList<>();
++    multipleSchemaAnalyzer0.analyze("UTF-8", databaseMetaData0, "UTF-8", schemas, list0, config0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      MultipleSchemaAnalyzer multipleSchemaAnalyzer0 = MultipleSchemaAnalyzer.getInstance();
+-      Config config0 = new Config();
+-      config0.setOutputDir("UTF-8");
+-      LinkedList<Locale.LanguageRange> linkedList0 = new LinkedList<Locale.LanguageRange>();
+-      List<String> list0 = Locale.filterTags((List<Locale.LanguageRange>) linkedList0, (Collection<String>) null);
+-      DatabaseMetaData databaseMetaData0 = mock(DatabaseMetaData.class, new ViolatedAssumptionAnswer());
+-      doReturn((ResultSet) null).when(databaseMetaData0).getCatalogs();
+-      doReturn(true).when(databaseMetaData0).supportsCatalogsInTableDefinitions();
+-      doReturn(false).when(databaseMetaData0).supportsSchemasInTableDefinitions();
+-      // Undeclared exception!
+-      try { 
+-        multipleSchemaAnalyzer0.analyze("UTF-8", databaseMetaData0, "UTF-8", (List<String>) null, list0, config0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.schemaspy.DbAnalyzer", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

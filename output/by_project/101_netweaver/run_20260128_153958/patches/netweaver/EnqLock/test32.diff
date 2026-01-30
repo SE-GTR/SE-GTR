@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -523,19 +523,29 @@
+       enqLock2.setLockName("W)5N=GbFEN~Y)^9");
+       assertTrue(enqLock0.equals(enqLock2));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
+-      EnqLock enqLock1 = new EnqLock();
+-      assertTrue(enqLock1.equals((Object)enqLock0));
+-      
++@Test(timeout = 4000)
++  public void test32() throws Throwable {
++      EnqLock enqLock0 = new EnqLock();
++      EnqLock enqLock1 = new EnqLock();
++      assertTrue(enqLock1.equals((Object) enqLock0));
++
++      // Verify that the lock name is initially null for both objects
++      assertNull(enqLock0.getLockName());
++      assertNull(enqLock1.getLockName());
++
++      // Act: change the lock name of enqLock0
+       enqLock0.setLockName("(");
+-      boolean boolean0 = enqLock0.equals(enqLock1);
+-      assertFalse(enqLock1.equals((Object)enqLock0));
+-      assertFalse(boolean0);
+-  }
++
++      // Assert the side‑effect of setLockName
++      assertEquals("(", enqLock0.getLockName());
++      // Ensure the other instance remains unchanged
++      assertNull(enqLock1.getLockName());
++
++      boolean boolean0 = enqLock0.equals(enqLock1);
++      assertFalse(enqLock1.equals((Object) enqLock0));
++      assertFalse(boolean0);
++  }
++
+ @Test(timeout = 4000)
+ public void test33() throws Throwable {
+     EnqLock enqLock0 = new EnqLock();

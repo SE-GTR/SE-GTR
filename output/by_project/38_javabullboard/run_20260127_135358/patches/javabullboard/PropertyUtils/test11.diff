@@ -1,0 +1,37 @@
+--- a/evosuite-tests/framework/util/PropertyUtils_ESTest.java
++++ b/evosuite-tests/framework/util/PropertyUtils_ESTest.java
+@@ -90,22 +90,18 @@
+         PropertyUtils.setIndexedProperty(bean, "values", 0, 99);
+         assertEquals(99, bean.getValues()[0]);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        PropertyUtils.setIndexedProperty((Object) "bytes", "bytes", (-1171708159), (Object) "bytes");
+-        fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.lang.reflect.Array", e);
+-      }
+-  }
++public void test11() throws Throwable {
++        class SimpleBean {
++            private String[] bytes = new String[3];
++            public String[] getBytes() { return bytes; }
++            public void setBytes(String[] bytes) { this.bytes = bytes; }
++            public void setBytes(int index, String value) { this.bytes[index] = value; }
++        }
++        SimpleBean bean = new SimpleBean();
++        PropertyUtils.setIndexedProperty(bean, "bytes", 0, "hello");
++        assertEquals("hello", bean.getBytes()[0]);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jcvi/jillion/fasta/FastaFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/fasta/FastaFileParser_ESTest.java
+@@ -143,24 +143,13 @@
+     defaultQualityFastaFileDataStoreBuilder0 = new DefaultQualityFastaFileDataStoreBuilder((DataStoreFilter) null);
+       fastaFileParser0.accept((FastaVisitor) defaultQualityFastaFileDataStoreBuilder0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      PipedInputStream pipedInputStream0 = new PipedInputStream();
+-      SequenceInputStream sequenceInputStream0 = new SequenceInputStream(pipedInputStream0, pipedInputStream0);
+-    fastaFileParser0 = FastaFileParser.create((InputStream) sequenceInputStream0);
+-      // Undeclared exception!
+-      try { 
+-        fastaFileParser0.accept((FastaVisitor) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // visitor can not be null
+-         //
+-         verifyException("org.jcvi.jillion.fasta.FastaFileParser", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test06() throws Throwable {
++        java.io.InputStream emptyStream = new java.io.ByteArrayInputStream(new byte[0]);
++        FastaFileParser parser = FastaFileParser.create(emptyStream);
++        parser.accept((FastaVisitor) null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

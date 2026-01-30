@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/heal/module/user/UserPermissionsBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserPermissionsBean_ESTest.java
+@@ -19,18 +19,27 @@
+     UserPermissionsBean userPermissionsBean0 = new UserPermissionsBean();
+     assertFalse(userPermissionsBean0.isMinor());
+ }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        UserPermissionsBean bean = new UserPermissionsBean();
++        // Verify default permission values
++        assertFalse(bean.isAdministrator());
++        assertFalse(bean.isApprover());
++        assertFalse(bean.isIAMSEMember());
++        assertFalse(bean.isMinor());
++        assertFalse(bean.isCataloger());
+ 
++        // Change a permission and verify the side‑effect
++        bean.setCataloger(true);
++        assertTrue(bean.isCataloger());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      UserPermissionsBean userPermissionsBean0 = new UserPermissionsBean();
+-      userPermissionsBean0.setCataloger(false);
+-      assertFalse(userPermissionsBean0.isAdministrator());
+-      assertFalse(userPermissionsBean0.isApprover());
+-      assertFalse(userPermissionsBean0.isIAMSEMember());
+-      assertFalse(userPermissionsBean0.isMinor());
+-      assertFalse(userPermissionsBean0.isCataloger());
+-  }
++        // Ensure other permissions remain unchanged
++        assertFalse(bean.isAdministrator());
++        assertFalse(bean.isApprover());
++        assertFalse(bean.isIAMSEMember());
++        assertFalse(bean.isMinor());
++    }
++
+ @Test(timeout = 4000)
+ public void test2() throws Throwable {
+     UserPermissionsBean userPermissionsBean0 = new UserPermissionsBean();

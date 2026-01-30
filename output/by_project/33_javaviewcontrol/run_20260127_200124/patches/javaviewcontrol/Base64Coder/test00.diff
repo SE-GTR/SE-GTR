@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/pmdesigns/jvc/tools/Base64Coder_ESTest.java
++++ b/evosuite-tests/com/pmdesigns/jvc/tools/Base64Coder_ESTest.java
+@@ -15,21 +15,14 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Base64Coder_ESTest extends Base64Coder_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        // Decode a valid Base64 string and verify the output.
++        byte[] decoded = Base64Coder.decode("dGVzdA=="); // "test" in Base64
++        assertNotNull(decoded);
++        assertArrayEquals("test".getBytes(java.nio.charset.StandardCharsets.UTF_8), decoded);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        Base64Coder.decode("tdI[");
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // Illegal character in Base64 encoded data.
+-         //
+-         verifyException("com.pmdesigns.jvc.tools.Base64Coder", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

@@ -1,0 +1,57 @@
+--- a/evosuite-tests/com/ib/client/ScannerSubscription_ESTest.java
++++ b/evosuite-tests/com/ib/client/ScannerSubscription_ESTest.java
+@@ -380,22 +380,38 @@
+       scannerSubscription0.couponRateAbove(-1588.455874651);
+       assertEquals(-1588.455874651, scannerSubscription0.couponRateAbove(), 0.01);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      ScannerSubscription scannerSubscription0 = new ScannerSubscription();
+-      scannerSubscription0.moodyRatingAbove();
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.belowPrice(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.marketCapBelow(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.marketCapAbove(), 0.01);
+-      assertEquals(Integer.MAX_VALUE, scannerSubscription0.averageOptionVolumeAbove());
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.couponRateAbove(), 0.01);
+-      assertEquals((-1), scannerSubscription0.numberOfRows());
+-      assertEquals(Integer.MAX_VALUE, scannerSubscription0.aboveVolume());
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.couponRateBelow(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.abovePrice(), 0.01);
+-  }
++@Test(timeout = 4000)
++    public void test22() throws Throwable {
++        ScannerSubscription sub = new ScannerSubscription();
++        // Verify default state (minimal initialization checks)
++        assertEquals(ScannerSubscription.NO_ROW_NUMBER_SPECIFIED, sub.numberOfRows());
++        assertNull(sub.moodyRatingAbove());
++
++        // Act: change several fields using setters
++        sub.abovePrice(123.45);
++        sub.belowPrice(67.89);
++        sub.marketCapAbove(1.0e9);
++        sub.marketCapBelow(5.0e8);
++        sub.aboveVolume(1000);
++        sub.averageOptionVolumeAbove(200);
++        sub.couponRateAbove(5.5);
++        sub.couponRateBelow(2.5);
++        sub.moodyRatingAbove("Aaa");
++        sub.numberOfRows(10);
++
++        // Assert that the setters affected the observable state
++        assertEquals(123.45, sub.abovePrice(), 0.01);
++        assertEquals(67.89, sub.belowPrice(), 0.01);
++        assertEquals(1.0e9, sub.marketCapAbove(), 0.01);
++        assertEquals(5.0e8, sub.marketCapBelow(), 0.01);
++        assertEquals(1000, sub.aboveVolume());
++        assertEquals(200, sub.averageOptionVolumeAbove());
++        assertEquals(5.5, sub.couponRateAbove(), 0.01);
++        assertEquals(2.5, sub.couponRateBelow(), 0.01);
++        assertEquals("Aaa", sub.moodyRatingAbove());
++        assertEquals(10, sub.numberOfRows());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

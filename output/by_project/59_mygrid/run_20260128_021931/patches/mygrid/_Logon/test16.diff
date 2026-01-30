@@ -1,0 +1,33 @@
+--- a/evosuite-tests/mygrid/web/_Logon_ESTest.java
++++ b/evosuite-tests/mygrid/web/_Logon_ESTest.java
+@@ -207,14 +207,22 @@
+       Deserializer deserializer0 = _Logon.getDeserializer("\"+4=TB", class0, qName0);
+       assertFalse(deserializer0.componentsReady());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test16() throws Throwable {
+       _Logon _Logon0 = new _Logon();
+       _Logon0.setUser("R*/jDZ43.dr)]>7");
++
++      // Verify that two objects with different users are not equal
+       _Logon _Logon1 = new _Logon();
+-      boolean boolean0 = _Logon1.equals(_Logon0);
+-      assertFalse(boolean0);
+-      assertFalse(_Logon0.equals((Object)_Logon1));
+-  }
+-}
++      assertFalse(_Logon1.equals(_Logon0));
++      assertFalse(_Logon0.equals((Object) _Logon1));
++
++      // Verify that setUser correctly stores the user value by comparing
++      // with another instance that has the same user set
++      _Logon _Logon2 = new _Logon();
++      _Logon2.setUser("R*/jDZ43.dr)]>7");
++      assertTrue(_Logon0.equals(_Logon2));
++      assertTrue(_Logon2.equals(_Logon0));
++  }
++
++}

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PremiseNumber_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PremiseNumber_ESTest.java
+@@ -65,13 +65,22 @@
+       String string0 = premiseNumber0.getType();
+       assertNull(string0);
+   }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        PremiseNumber premiseNumber0 = new PremiseNumber();
++        premiseNumber0.setNumberType(".8)Gh");
++        assertEquals(".8)Gh", premiseNumber0.getNumberType());
+ 
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      PremiseNumber premiseNumber0 = new PremiseNumber();
+-      premiseNumber0.setNumberType(".8)Gh");
+-      assertEquals(".8)Gh", premiseNumber0.getNumberType());
+-  }
++        // Marshal the object to XML and verify that the numberType attribute is present
++        javax.xml.bind.JAXBContext jaxbContext = javax.xml.bind.JAXBContext.newInstance(PremiseNumber.class);
++        javax.xml.bind.Marshaller marshaller = jaxbContext.createMarshaller();
++        marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.FALSE);
++        java.io.StringWriter sw = new java.io.StringWriter();
++        marshaller.marshal(premiseNumber0, sw);
++        String xml = sw.toString();
++        assertTrue(xml.contains("numberType=\".8)Gh\"") || xml.contains("NumberType=\".8)Gh\""));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

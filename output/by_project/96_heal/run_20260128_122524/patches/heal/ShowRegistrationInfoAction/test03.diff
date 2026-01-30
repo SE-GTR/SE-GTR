@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/heal/servlet/ShowRegistrationInfoAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/ShowRegistrationInfoAction_ESTest.java
+@@ -87,20 +87,34 @@
+     // original assertion about approver status
+     assertFalse(userBean0.isApprover());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      ShowRegistrationInfoAction showRegistrationInfoAction0 = new ShowRegistrationInfoAction();
+-      UserBean userBean0 = new UserBean();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      ProfessionalRoleBean professionalRoleBean0 = new ProfessionalRoleBean();
+-      professionalRoleBean0.setProfessionalRole("Instructional Developer");
+-      userBean0.addProfessionalRole(professionalRoleBean0);
+-      showRegistrationInfoAction0.setUserAttributes(httpServletRequestWrapper0, userBean0);
+-      assertEquals("", userBean0.getZipCode());
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    ShowRegistrationInfoAction showRegistrationInfoAction0 = new ShowRegistrationInfoAction();
++    UserBean userBean0 = new UserBean();
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    ProfessionalRoleBean professionalRoleBean0 = new ProfessionalRoleBean();
++
++    // Verify that setProfessionalRole updates the bean
++    professionalRoleBean0.setProfessionalRole("Instructional Developer");
++    assertEquals("Instructional Developer", professionalRoleBean0.getProfessionalRole());
++
++    // Verify that adding a professional role mutates the user bean
++    int beforeSize = userBean0.getProfessionalRoles().size();
++    userBean0.addProfessionalRole(professionalRoleBean0);
++    assertEquals(beforeSize + 1, userBean0.getProfessionalRoles().size());
++    assertTrue(userBean0.getProfessionalRoles().contains(professionalRoleBean0));
++
++    // Execute the method under test
++    showRegistrationInfoAction0.setUserAttributes(httpServletRequestWrapper0, userBean0);
++
++    // Verify that setUserAttributes performed a side‑effect on the request
++    verify(httpServletRequest0).setAttribute(Mockito.anyString(), Mockito.any());
++
++    // Existing assertion retained
++    assertEquals("", userBean0.getZipCode());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

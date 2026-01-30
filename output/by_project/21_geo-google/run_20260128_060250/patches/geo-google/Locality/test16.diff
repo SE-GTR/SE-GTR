@@ -1,0 +1,35 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Locality_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Locality_ESTest.java
+@@ -141,13 +141,25 @@
+       locality0.setPostBox((PostBox) null);
+       assertNull(locality0.getIndicator());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      Locality locality0 = new Locality();
+-      locality0.setPostOffice((PostOffice) null);
+-      assertNull(locality0.getIndicator());
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        Locality locality = new Locality();
++
++        // Verify initial state
++        assertNull(locality.getIndicator());
++        assertNull(locality.getPostOffice());
++
++        // Set and verify PostOffice
++        PostOffice po = new PostOffice();
++        locality.setPostOffice(po);
++        assertSame(po, locality.getPostOffice());
++
++        // Set and verify indicator
++        String indicator = "testIndicator";
++        locality.setIndicator(indicator);
++        assertEquals(indicator, locality.getIndicator());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

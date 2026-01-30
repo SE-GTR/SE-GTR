@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/fixsuite/message/info/ComponentInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/ComponentInfo_ESTest.java
+@@ -116,16 +116,26 @@
+          verifyException("java.util.TreeMap", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      MessageInfo messageInfo0 = new MessageInfo();
+-      FieldInfo fieldInfo0 = new FieldInfo();
+-      fieldInfo0.setName("org.fixsuite.message.info.ComponentInfo");
+-      messageInfo0.addField(fieldInfo0, (-772.18067801739));
++@Test(timeout = 4000)
++  public void test09() throws Throwable {
++      MessageInfo messageInfo0 = new MessageInfo();
++      FieldInfo fieldInfo0 = new FieldInfo();
++
++      // Verify setName side‑effect
++      String expectedName = "org.fixsuite.message.info.ComponentInfo";
++      fieldInfo0.setName(expectedName);
++      assertEquals(expectedName, fieldInfo0.getName());
++
++      // Verify addField side‑effect
++      messageInfo0.addField(fieldInfo0, -772.18067801739);
++      FieldInfo retrievedByName = messageInfo0.getField(expectedName);
++      assertSame(fieldInfo0, retrievedByName);
++
++      // Existing behavior: unknown name returns null
+       FieldInfo fieldInfo1 = messageInfo0.getField("");
+       assertNull(fieldInfo1);
+   }
++
+ @Test(timeout = 4000)
+ public void test10() throws Throwable {
+     MessageInfo messageInfo0 = new MessageInfo();

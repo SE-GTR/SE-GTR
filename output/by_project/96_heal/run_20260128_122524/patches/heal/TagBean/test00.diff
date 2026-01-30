@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/heal/servlet/tagcloud/TagBean_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/tagcloud/TagBean_ESTest.java
+@@ -16,13 +16,32 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class TagBean_ESTest extends TagBean_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        TagBean tagBean0 = new TagBean();
++        // set a non‑default value
++        tagBean0.setTag("sampleTag");
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      TagBean tagBean0 = new TagBean();
+-      String string0 = tagBean0.getTag();
+-      assertNull(string0);
+-  }
++        // serialize the bean
++        java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(bos);
++        out.writeObject(tagBean0);
++        out.flush();
++        byte[] serialized = bos.toByteArray();
++        out.close();
++        bos.close();
++
++        // deserialize the bean
++        java.io.ByteArrayInputStream bis = new java.io.ByteArrayInputStream(serialized);
++        java.io.ObjectInputStream in = new java.io.ObjectInputStream(bis);
++        TagBean deserialized = (TagBean) in.readObject();
++        in.close();
++        bis.close();
++
++        // verify that the logical state is preserved after the round‑trip
++        assertEquals("sampleTag", deserialized.getTag());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

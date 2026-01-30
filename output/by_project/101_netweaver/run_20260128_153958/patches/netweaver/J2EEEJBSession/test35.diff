@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -640,18 +640,25 @@
+       // Objects should now be different after state change
+       assertFalse(j2EEEJBSession0.equals(j2EEEJBSession1));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test35()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      j2EEEJBSession0.setState("*3wQ:2rbp:a;LtbM,");
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
+-      assertFalse(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      assertFalse(boolean0);
+-      assertEquals(0, j2EEEJBSession1.getIdHash());
+-  }
++@Test(timeout = 4000)
++    public void test35() throws Throwable {
++        J2EEEJBSession s0 = new J2EEEJBSession();
++        J2EEEJBSession s1 = new J2EEEJBSession();
++
++        // Apply a state to the first session and verify the objects are not equal
++        s0.setState("*3wQ:2rbp:a;LtbM,");
++        assertFalse(s0.equals(s1));
++        assertFalse(s1.equals(s0));
++
++        // Apply the same state to the second session and verify they become equal
++        s1.setState("*3wQ:2rbp:a;LtbM,");
++        assertTrue(s0.equals(s1));
++        assertTrue(s1.equals(s0));
++
++        // Verify an observable property of the second session
++        assertEquals(0, s1.getIdHash());
++    }
++
+ @Test(timeout = 4000)
+   public void test36() throws Throwable {
+       J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
+@@ -158,15 +158,26 @@
+       simpleNode0.dump("", stringWriter0);
+       assertEquals("<ConditionalOrExpression>\n</ConditionalOrExpression>\n", stringWriter0.toString());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test12() throws Throwable {
+       SimpleNode simpleNode0 = new SimpleNode(8);
++      StringWriter beforeWriter = new StringWriter();
++      // Capture dump output before setting identifier
++      simpleNode0.dump("{", beforeWriter);
++      String beforeOutput = beforeWriter.toString();
++
+       simpleNode0.setIdentifier("{");
+-      StringWriter stringWriter0 = new StringWriter();
+-      simpleNode0.dump("{", stringWriter0);
+-      assertEquals("<EnumDeclaration>\n</EnumDeclaration>\n", stringWriter0.toString());
+-  }
++      StringWriter afterWriter = new StringWriter();
++      // Capture dump output after setting identifier
++      simpleNode0.dump("{", afterWriter);
++      String afterOutput = afterWriter.toString();
++
++      // Verify the expected dump result after identifier is set
++      assertEquals("<EnumDeclaration>\n</EnumDeclaration>\n", afterOutput);
++      // Ensure that setting the identifier actually changes the dump output
++      assertNotEquals(beforeOutput, afterOutput);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

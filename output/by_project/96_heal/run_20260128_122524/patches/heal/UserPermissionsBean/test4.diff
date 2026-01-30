@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/heal/module/user/UserPermissionsBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserPermissionsBean_ESTest.java
+@@ -53,16 +53,30 @@
+         userPermissionsBean0.setApprover(true);
+         assertTrue(userPermissionsBean0.isApprover());
+     }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    UserPermissionsBean bean = new UserPermissionsBean();
+ 
++    // Verify default permission values
++    assertFalse(bean.isAdministrator());
++    assertFalse(bean.isMinor());
++    assertFalse(bean.isCataloger());
++    assertFalse(bean.isApprover());
++    assertFalse(bean.isIAMSEMember());
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      UserPermissionsBean userPermissionsBean0 = new UserPermissionsBean();
+-      assertFalse(userPermissionsBean0.isAdministrator());
+-      
+-      userPermissionsBean0.setAdministrator(true);
+-      assertTrue(userPermissionsBean0.isAdministrator());
+-  }
++    // Change administrator flag and verify it does not affect other permissions
++    bean.setAdministrator(true);
++    assertTrue(bean.isAdministrator());
++    assertFalse(bean.isMinor());
++    assertFalse(bean.isCataloger());
++    assertFalse(bean.isApprover());
++    assertFalse(bean.isIAMSEMember());
++
++    // Reset administrator flag
++    bean.setAdministrator(false);
++    assertFalse(bean.isAdministrator());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

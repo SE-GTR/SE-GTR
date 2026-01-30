@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/javathena/conf/LoginAthena_ESTest.java
++++ b/evosuite-tests/org/javathena/conf/LoginAthena_ESTest.java
+@@ -369,17 +369,21 @@
+         assertEquals(436, updated);
+         assertNotEquals(original, updated);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test40()  throws Throwable  {
+-      LoginAthena loginAthena0 = new LoginAthena();
+-      loginAthena0.setIpban(true);
+-      assertFalse(loginAthena0.isConsole());
+-      assertEquals("127.0.0.1", loginAthena0.getBind_ip_str());
+-      assertTrue(loginAthena0.isDynamic_pass_failure_ban());
+-      assertTrue(loginAthena0.isIpban());
+-  }
++@Test(timeout = 4000)
++    public void test40() throws Throwable {
++        LoginAthena loginAthena0 = new LoginAthena();
++        // Capture the original ipban state
++        boolean originalIpban = loginAthena0.isIpban();
++        // Toggle the ipban flag
++        loginAthena0.setIpban(!originalIpban);
++        // Verify that the side‑effect took place
++        assertEquals(!originalIpban, loginAthena0.isIpban());
++        // Existing assertions for other properties
++        assertFalse(loginAthena0.isConsole());
++        assertEquals("127.0.0.1", loginAthena0.getBind_ip_str());
++        assertTrue(loginAthena0.isDynamic_pass_failure_ban());
++    }
++
+ @Test(timeout = 4000)
+     public void test41() throws Throwable {
+         LoginAthena loginAthena0 = new LoginAthena();

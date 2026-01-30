@@ -1,0 +1,70 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/assembly/DefaultAssembledRead_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/assembly/DefaultAssembledRead_ESTest.java
+@@ -28,31 +28,42 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DefaultAssembledRead_ESTest extends DefaultAssembledRead_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      ReferenceMappedNucleotideSequence referenceMappedNucleotideSequence0 = mock(ReferenceMappedNucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(referenceMappedNucleotideSequence0).toString();
+-      doReturn((-841L), 2549L).when(referenceMappedNucleotideSequence0).getLength();
+-      Direction direction0 = Direction.FORWARD;
+-      Range range0 = Range.of((long) 2986);
+-      DefaultAssembledRead defaultAssembledRead0 = new DefaultAssembledRead("pZVZnSaw#y)ym.2)D", referenceMappedNucleotideSequence0, 2986, direction0, 2986, range0);
+-      MockDate mockDate0 = new MockDate();
+-      PhdInfo phdInfo0 = new PhdInfo("pZVZnSaw#y)ym.2)D", "pZVZnSaw#y)ym.2)D", mockDate0);
+-      AceAssembledReadAdapter aceAssembledReadAdapter0 = new AceAssembledReadAdapter(defaultAssembledRead0, phdInfo0);
+-      ReferenceMappedNucleotideSequence referenceMappedNucleotideSequence1 = aceAssembledReadAdapter0.getNucleotideSequence();
+-      // Undeclared exception!
+-      try { 
+-        DefaultAssembledRead.createBuilder((NucleotideSequence) referenceMappedNucleotideSequence1, "pZVZnSaw#y)ym.2)D", (NucleotideSequence) referenceMappedNucleotideSequence1, 2986, direction0, range0, (-417));
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // clear range extends beyond ungapped full length
+-         //
+-         verifyException("org.jcvi.jillion.internal.assembly.DefaultAssembledRead$Builder", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        ReferenceMappedNucleotideSequence referenceMappedNucleotideSequence0 = mock(ReferenceMappedNucleotideSequence.class,
++                new ViolatedAssumptionAnswer());
++        doReturn((String) null).when(referenceMappedNucleotideSequence0).toString();
++        doReturn((-841L), 2549L).when(referenceMappedNucleotideSequence0).getLength();
++
++        // Assert the stubbed return values to avoid NARV
++        assertNull(referenceMappedNucleotideSequence0.toString());
++        assertEquals(-841L, referenceMappedNucleotideSequence0.getLength());
++        assertEquals(2549L, referenceMappedNucleotideSequence0.getLength());
++
++        Direction direction0 = Direction.FORWARD;
++        Range range0 = Range.of((long) 2986);
++        DefaultAssembledRead defaultAssembledRead0 = new DefaultAssembledRead("pZVZnSaw#y)ym.2)D",
++                referenceMappedNucleotideSequence0, 2986, direction0, 2986, range0);
++        MockDate mockDate0 = new MockDate();
++        PhdInfo phdInfo0 = new PhdInfo("pZVZnSaw#y)ym.2)D", "pZVZnSaw#y)ym.2)D", mockDate0);
++        AceAssembledReadAdapter aceAssembledReadAdapter0 = new AceAssembledReadAdapter(defaultAssembledRead0,
++                phdInfo0);
++        ReferenceMappedNucleotideSequence referenceMappedNucleotideSequence1 = aceAssembledReadAdapter0
++                .getNucleotideSequence();
++        // Undeclared exception!
++        try {
++            DefaultAssembledRead.createBuilder((NucleotideSequence) referenceMappedNucleotideSequence1,
++                    "pZVZnSaw#y)ym.2)D", (NucleotideSequence) referenceMappedNucleotideSequence1, 2986, direction0,
++                    range0, (-417));
++            fail("Expecting exception: IllegalArgumentException");
++        } catch (IllegalArgumentException e) {
++            //
++            // clear range extends beyond ungapped full length
++            //
++            verifyException("org.jcvi.jillion.internal.assembly.DefaultAssembledRead$Builder", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

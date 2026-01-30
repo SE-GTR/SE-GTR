@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -320,23 +320,20 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test022()  throws Throwable  {
+-      Config config0 = new Config();
+-      config0.isHighQuality();
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-u' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test022() throws Throwable {
++        Config config0 = new Config();
++        boolean highQuality = config0.isHighQuality();
++        assertFalse(highQuality);
++        try {
++            config0.asList();
++            fail("Expecting exception: RuntimeException");
++        } catch (RuntimeException e) {
++            assertTrue(e.getMessage().contains("-u"));
++            verifyException("net.sourceforge.schemaspy.Config", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test023()  throws Throwable  {

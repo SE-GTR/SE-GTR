@@ -1,0 +1,54 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache2_ESTest.java
+@@ -214,26 +214,31 @@
+     assertTrue(j2EECache2_1.equals((Object) j2EECache2_0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      J2EECache2 j2EECache2_0 = new J2EECache2();
+-      j2EECache2_0.setUpdateTime("[");
+-      J2EECache2 j2EECache2_1 = new J2EECache2();
+-      boolean boolean0 = j2EECache2_1.equals(j2EECache2_0);
+-      assertEquals(0, j2EECache2_1.getGets());
+-      assertEquals(0, j2EECache2_1.getHits());
+-      assertEquals(0, j2EECache2_1.getPuts());
+-      assertEquals(0, j2EECache2_1.getEvictions());
+-      assertEquals(0, j2EECache2_1.getUsedObjects());
+-      assertEquals(0, j2EECache2_1.getClusterInvalidations());
+-      assertEquals(0, j2EECache2_1.getCachedObjects());
+-      assertEquals(0, j2EECache2_1.getInstanceInvalidations());
+-      assertEquals(0, j2EECache2_1.getRemoves());
+-      assertEquals(0, j2EECache2_1.getChanges());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    J2EECache2 j2EECache2_0 = new J2EECache2();
++    j2EECache2_0.setUpdateTime("[");
++    J2EECache2 j2EECache2_1 = new J2EECache2();
++    // Initially the objects differ because only the first has an updateTime set
++    assertFalse(j2EECache2_1.equals(j2EECache2_0));
++    // Apply the same updateTime to the second instance
++    j2EECache2_1.setUpdateTime("[");
++    // Now they should be equal, confirming that setUpdateTime influences state
++    assertTrue(j2EECache2_1.equals(j2EECache2_0));
++
++    // Verify that other counters remain at their default values
++    assertEquals(0, j2EECache2_1.getGets());
++    assertEquals(0, j2EECache2_1.getHits());
++    assertEquals(0, j2EECache2_1.getPuts());
++    assertEquals(0, j2EECache2_1.getEvictions());
++    assertEquals(0, j2EECache2_1.getUsedObjects());
++    assertEquals(0, j2EECache2_1.getClusterInvalidations());
++    assertEquals(0, j2EECache2_1.getCachedObjects());
++    assertEquals(0, j2EECache2_1.getInstanceInvalidations());
++    assertEquals(0, j2EECache2_1.getRemoves());
++    assertEquals(0, j2EECache2_1.getChanges());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

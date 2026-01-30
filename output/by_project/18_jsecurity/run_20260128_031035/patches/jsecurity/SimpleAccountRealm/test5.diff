@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/realm/SimpleAccountRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/SimpleAccountRealm_ESTest.java
+@@ -68,15 +68,19 @@
+       boolean boolean0 = simpleAccountRealm0.roleExists("org.apache.log4j.spi.DefaultRepositorySelector");
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
++public void test5() throws Throwable {
+     simpleAccountRealm0 = new SimpleAccountRealm();
+     hashtableCache0 = new HashtableCache("The credentials for account [");
+-      simpleAccountRealm0.setAuthorizationCache(hashtableCache0);
+-      boolean boolean0 = simpleAccountRealm0.roleExists("The credentials for account [");
+-      assertFalse(boolean0);
+-  }
++    // Verify that the authorization cache is initially null
++    assertNull(simpleAccountRealm0.getAuthorizationCache());
++    // Set the cache and assert the side‑effect
++    simpleAccountRealm0.setAuthorizationCache(hashtableCache0);
++    assertSame(hashtableCache0, simpleAccountRealm0.getAuthorizationCache());
++    // Existing behavior check
++    boolean boolean0 = simpleAccountRealm0.roleExists("The credentials for account [");
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

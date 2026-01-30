@@ -1,0 +1,32 @@
+--- a/evosuite-tests/bible/util/DbConnectionAttributes_ESTest.java
++++ b/evosuite-tests/bible/util/DbConnectionAttributes_ESTest.java
+@@ -30,17 +30,18 @@
+     connection0 = mock(Connection.class, new ViolatedAssumptionAnswer());
+       doReturn(statement0).when(connection0).createStatement();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-    dbConnectionAttributes0 = new DbConnectionAttributes(3);
+-      assertFalse(dbConnectionAttributes0.isNotUsed());
+-      
+-      dbConnectionAttributes0.release();
+-      dbConnectionAttributes0.getStatusString();
+-      assertTrue(dbConnectionAttributes0.isNotUsed());
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        dbConnectionAttributes0 = new DbConnectionAttributes(3);
++        // Verify initial state before exercising release()
++        assertFalse(dbConnectionAttributes0.isNotUsed());
++
++        dbConnectionAttributes0.release();
++        String status = dbConnectionAttributes0.getStatusString();
++        assertNotNull(status);
++        assertTrue(dbConnectionAttributes0.isNotUsed());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/QSAdminServerConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/QSAdminServerConfig_ESTest.java
+@@ -31,20 +31,26 @@
+     assertEquals("false", qSAdminServerConfig0.getCommandShellEnable());
+     assertEquals(9877, qSAdminServerConfig0.getPort());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test01() throws Throwable {
+       QSAdminServerConfig qSAdminServerConfig0 = new QSAdminServerConfig();
+       AccessConstraintConfig accessConstraintConfig0 = new AccessConstraintConfig();
+       qSAdminServerConfig0.setAccessConstraintConfig(accessConstraintConfig0);
+-      qSAdminServerConfig0.toString();
+-      assertEquals(1L, qSAdminServerConfig0.getMaxConnection());
+-      assertEquals("false", qSAdminServerConfig0.getCommandShellEnable());
+-      assertEquals("QSAdminServer v 2.0", qSAdminServerConfig0.getName());
+-      assertEquals(9877, qSAdminServerConfig0.getPort());
+-      assertEquals("QSAdmin", qSAdminServerConfig0.getCommandShellPromptName());
+-  }
++      // verify side‑effect of setAccessConstraintConfig
++      assertSame(accessConstraintConfig0, qSAdminServerConfig0.getAccessConstraintConfig());
++
++      String configString = qSAdminServerConfig0.toString();
++      // verify return value of toString()
++      assertNotNull(configString);
++      assertTrue(configString.contains("QSAdminServer"));
++
++      assertEquals(1L, qSAdminServerConfig0.getMaxConnection());
++      assertEquals("false", qSAdminServerConfig0.getCommandShellEnable());
++      assertEquals("QSAdminServer v 2.0", qSAdminServerConfig0.getName());
++      assertEquals(9877, qSAdminServerConfig0.getPort());
++      assertEquals("QSAdmin", qSAdminServerConfig0.getCommandShellPromptName());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/netweaver/porta/ide/eclipse/server/runtime/SapNWRuntime_ESTest.java
++++ b/evosuite-tests/com/sap/netweaver/porta/ide/eclipse/server/runtime/SapNWRuntime_ESTest.java
+@@ -19,25 +19,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SapNWRuntime_ESTest extends SapNWRuntime_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      SapNW720Runtime sapNW720Runtime0 = new SapNW720Runtime();
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("cache_jars/cache_jars/j2ee/cluster/bin/ext/tc~je~jacc~plb/lib/jacc-1_1-fr-class.jar");
+-      FileSystemHandling.createFolder(evoSuiteFile0);
+-      MockFile mockFile0 = new MockFile("cache_jars", "cache_jars");
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    SapNW720Runtime sapNW720Runtime0 = new SapNW720Runtime();
++    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("cache_jars/cache_jars/j2ee/cluster/bin/ext/tc~je~jacc~plb/lib/jacc-1_1-fr-class.jar");
++    boolean created = FileSystemHandling.createFolder(evoSuiteFile0);
++    assertTrue(created);
++    MockFile mockFile0 = new MockFile("cache_jars", "cache_jars");
++    try {
+         sapNW720Runtime0.validateClasspath(mockFile0);
+         fail("Expecting exception: NoClassDefFoundError");
+-      
+-      } catch(NoClassDefFoundError e) {
+-         //
+-         // Could not initialize class org.eclipse.core.runtime.Status
+-         //
+-         verifyException("com.sap.netweaver.porta.ide.eclipse.server.runtime.SapNWRuntime", e);
+-      }
+-  }
++    } catch (NoClassDefFoundError e) {
++        verifyException("com.sap.netweaver.porta.ide.eclipse.server.runtime.SapNWRuntime", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

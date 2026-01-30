@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/templateit/StaticTemplate_ESTest.java
++++ b/evosuite-tests/org/templateit/StaticTemplate_ESTest.java
+@@ -71,22 +71,18 @@
+          verifyException("org.templateit.StaticTemplate", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      StaticTemplate staticTemplate0 = new StaticTemplate(",", (HSSFSheet) null);
+-      // Undeclared exception!
+-      try { 
+-        staticTemplate0.absoluteColumn(1);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.templateit.StaticTemplate", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        // Create a minimal valid workbook and sheet for the StaticTemplate constructor
++        org.apache.poi.hssf.usermodel.HSSFWorkbook workbook = new org.apache.poi.hssf.usermodel.HSSFWorkbook();
++        HSSFSheet sheet = workbook.createSheet("testSheet");
++        StaticTemplate staticTemplate0 = new StaticTemplate(",", sheet);
++        // Invoke the method under test and verify normal behavior (no exception)
++        int result = staticTemplate0.absoluteColumn(1);
++        // The method should return a non‑negative column index
++        assertTrue("absoluteColumn should return a non‑negative value", result >= 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

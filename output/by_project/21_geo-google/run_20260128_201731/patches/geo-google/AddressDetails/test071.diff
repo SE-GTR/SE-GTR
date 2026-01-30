@@ -1,0 +1,19 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -743,7 +743,15 @@
+     String testValue = "US";
+     code.setContent(testValue);
+     assertEquals(testValue, code.getContent());
+-}
++
++    // Verify that the object can be marshalled to XML and contains the set value
++    javax.xml.bind.JAXBContext jaxbContext = javax.xml.bind.JAXBContext.newInstance(AddressDetails.Country.CountryNameCode.class);
++    java.io.StringWriter writer = new java.io.StringWriter();
++    jaxbContext.createMarshaller().marshal(code, writer);
++    String xml = writer.toString();
++    assertTrue(xml.contains(testValue));
++}
++
+ @Test(timeout = 4000)
+     public void test072() throws Throwable {
+         AddressDetails.Country.CountryNameCode code = new AddressDetails.Country.CountryNameCode();

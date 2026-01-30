@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/heal/module/notice/NotificationServicesBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/notice/NotificationServicesBean_ESTest.java
+@@ -292,14 +292,18 @@
+     // Act: invoke method with null recipients; ensure no exception is thrown.
+     notificationServicesBean0.sendEmailToUsers((String[]) null, "(w@ki");
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      NotificationServicesBean notificationServicesBean0 = new NotificationServicesBean();
+-      notificationServicesBean0.setMailhost((String) null);
+-      assertNull(notificationServicesBean0.getMailhost());
+-  }
++@Test(timeout = 4000)
++public void test24() throws Throwable {
++    NotificationServicesBean notificationServicesBean0 = new NotificationServicesBean();
++    // Verify initial state
++    assertNull(notificationServicesBean0.getMailhost());
++    // Act: set a non‑null mailhost
++    String expectedHost = "smtp.example.com";
++    notificationServicesBean0.setMailhost(expectedHost);
++    // Assert that the side effect is observable via the getter
++    assertEquals(expectedHost, notificationServicesBean0.getMailhost());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test25()  throws Throwable  {

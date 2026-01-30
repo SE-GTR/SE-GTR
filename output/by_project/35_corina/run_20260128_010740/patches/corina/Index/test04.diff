@@ -1,0 +1,32 @@
+--- a/evosuite-tests/corina/index/Index_ESTest.java
++++ b/evosuite-tests/corina/index/Index_ESTest.java
+@@ -60,17 +60,24 @@
+       assertFalse(boolean0);
+       assertTrue(exponential0.canUndo());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      Horizontal horizontal0 = new Horizontal(sample0);
++@Test(timeout = 4000)
++  public void test04() throws Throwable {
++      Sample sample0 = new Sample();
++      Horizontal horizontal0 = new Horizontal(sample0);
++      // first redo should affect the sample
+       horizontal0.redo();
++      assertTrue(sample0.isModified());
++      assertEquals(0.1F, sample0.getScale(), 0.01F);
++      // second redo – state should remain consistent
+       horizontal0.redo();
++      assertTrue(sample0.isModified());
++      assertEquals(0.1F, sample0.getScale(), 0.01F);
++      // undo – verify the state after undo as well
+       horizontal0.undo();
+       assertTrue(sample0.isModified());
+       assertEquals(0.1F, sample0.getScale(), 0.01F);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

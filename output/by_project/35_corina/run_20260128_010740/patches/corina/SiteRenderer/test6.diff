@@ -1,0 +1,43 @@
+--- a/evosuite-tests/corina/map/SiteRenderer_ESTest.java
++++ b/evosuite-tests/corina/map/SiteRenderer_ESTest.java
+@@ -95,17 +95,30 @@
+       SiteRenderer.drawLabel(graphics2D0, point1, site0, 0, view0, point0, false);
+       assertEquals(101.0, point0.getX(), 0.01);
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        Graphic graphic0 = new Graphic();
++        Graphics2D graphics2D0 = graphic0.createGraphicsShapes((float) 2, (float) 2);
++        Site site0 = new Site();
++        Point point0 = new Point(2, 1000);
++        View view0 = new View();
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      Graphic graphic0 = new Graphic();
+-      Graphics2D graphics2D0 = graphic0.createGraphicsShapes((float) 2, (float) 2);
+-      Site site0 = new Site();
+-      Point point0 = new Point(2, 1000);
+-      View view0 = new View();
+-      SiteRenderer.drawLabel(graphics2D0, point0, site0, 1, view0, point0, true);
+-      assertNull(site0.getFolder());
+-  }
++        // Capture state before drawing the label
++        int beforeX = site0.getX();
++        int beforeY = site0.getY();
++        int beforeWidth = site0.getWidth();
++        int beforeHeight = site0.getHeight();
++
++        SiteRenderer.drawLabel(graphics2D0, point0, site0, 1, view0, point0, true);
++
++        // Verify that drawLabel caused a change in the site's geometry
++        assertTrue(site0.getX() != beforeX || site0.getY() != beforeY
++                || site0.getWidth() != beforeWidth || site0.getHeight() != beforeHeight);
++
++        // Existing check remains relevant
++        assertNull(site0.getFolder());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/framework/persistence/jdbc/tools/ui/ViewAction_ESTest.java
++++ b/evosuite-tests/framework/persistence/jdbc/tools/ui/ViewAction_ESTest.java
+@@ -71,23 +71,25 @@
+          verifyException("org.apache.struts.action.DynaActionForm", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
+       ViewAction viewAction0 = new ViewAction();
+       ActionMapping actionMapping0 = new ActionMapping();
+       DynaActionForm dynaActionForm0 = new DynaActionForm();
+-      try { 
+-        viewAction0.edit(actionMapping0, dynaActionForm0, (HttpServletRequest) null, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.apache.struts.action.DynaActionForm", e);
++
++      // Prepare a minimal mock request/response to satisfy the edit method's expectations
++      org.apache.struts.mock.MockHttpServletRequest request = new org.apache.struts.mock.MockHttpServletRequest();
++      org.apache.struts.mock.MockHttpServletResponse response = new org.apache.struts.mock.MockHttpServletResponse();
++      // Set the mode that the action expects (if any)
++      request.setParameter("mode", "edit");
++
++      try {
++          viewAction0.edit(actionMapping0, dynaActionForm0, request, response);
++      } catch (Exception e) {
++          fail("Unexpected exception during edit: " + e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

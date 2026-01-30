@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/SerialVersionUIDAdder_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/SerialVersionUIDAdder_ESTest.java
+@@ -145,23 +145,16 @@
+     org.junit.Assert.assertTrue(after.length > before.length);
+     org.junit.Assert.assertFalse(java.util.Arrays.equals(before, after));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      SerialVersionUIDAdder serialVersionUIDAdder0 = new SerialVersionUIDAdder((ClassVisitor) null);
+-      // Undeclared exception!
+-      try { 
+-        serialVersionUIDAdder0.visitField((-1545), "L", "L", "L", (Object) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.ClassAdapter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    org.objectweb.asm.jip.ClassVisitor cv = new org.objectweb.asm.jip.ClassVisitor(org.objectweb.asm.jip.Opcodes.ASM5) {
++        // No-op implementation
++    };
++    SerialVersionUIDAdder adder = new SerialVersionUIDAdder(cv);
++    // Invoke with valid arguments; the call should complete without throwing an exception.
++    adder.visitField(org.objectweb.asm.jip.Opcodes.ACC_PUBLIC, "field", "I", null, null);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

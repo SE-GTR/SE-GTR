@@ -1,0 +1,55 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/config/HL7ConfigurationImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/config/HL7ConfigurationImpl_ESTest.java
+@@ -117,20 +117,38 @@
+          verifyException("com.browsersoft.openhre.hl7.impl.config.HL7ConfigurationImpl", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      HL7ConfigurationImpl hL7ConfigurationImpl0 = new HL7ConfigurationImpl();
+-      HL7DataTypeMapImpl hL7DataTypeMapImpl0 = new HL7DataTypeMapImpl();
+-      HL7DataTypeImpl hL7DataTypeImpl0 = new HL7DataTypeImpl();
+-      HL7DataTypePartListImpl hL7DataTypePartListImpl0 = new HL7DataTypePartListImpl();
+-      HL7DataTypePartSubPartImpl hL7DataTypePartSubPartImpl0 = new HL7DataTypePartSubPartImpl();
+-      hL7DataTypePartListImpl0.addItem(hL7DataTypePartSubPartImpl0);
+-      hL7DataTypeImpl0.setParts(hL7DataTypePartListImpl0);
+-      hL7ConfigurationImpl0.setDataTypes(hL7DataTypeMapImpl0);
+-      hL7DataTypeMapImpl0.addItem(hL7DataTypeImpl0);
+-      hL7ConfigurationImpl0.connectConfigurations();
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    HL7ConfigurationImpl hL7ConfigurationImpl0 = new HL7ConfigurationImpl();
++    HL7DataTypeMapImpl hL7DataTypeMapImpl0 = new HL7DataTypeMapImpl();
++    HL7DataTypeImpl hL7DataTypeImpl0 = new HL7DataTypeImpl();
++    HL7DataTypePartListImpl hL7DataTypePartListImpl0 = new HL7DataTypePartListImpl();
++    HL7DataTypePartSubPartImpl hL7DataTypePartSubPartImpl0 = new HL7DataTypePartSubPartImpl();
++
++    // Verify that the part list is initially empty
++    assertTrue(hL7DataTypePartListImpl0.isEmpty());
++
++    // Add a sub‑part and verify the addition
++    hL7DataTypePartListImpl0.addItem(hL7DataTypePartSubPartImpl0);
++    assertTrue(hL7DataTypePartListImpl0.contains(hL7DataTypePartSubPartImpl0));
++
++    // Set the parts on the data type and verify the reference is stored
++    hL7DataTypeImpl0.setParts(hL7DataTypePartListImpl0);
++    assertSame(hL7DataTypePartListImpl0, hL7DataTypeImpl0.getParts());
++
++    // Attach the data‑type map to the configuration and verify the reference
++    hL7ConfigurationImpl0.setDataTypes(hL7DataTypeMapImpl0);
++    assertSame(hL7DataTypeMapImpl0, hL7ConfigurationImpl0.getDataTypes());
++
++    // Add the data type to the map and verify it is present
++    hL7DataTypeMapImpl0.addItem(hL7DataTypeImpl0);
++    assertTrue(hL7DataTypeMapImpl0.contains(hL7DataTypeImpl0));
++
++    // Connect configurations and ensure the previously added data type is still reachable
++    hL7ConfigurationImpl0.connectConfigurations();
++    assertTrue(hL7ConfigurationImpl0.getDataTypes().contains(hL7DataTypeImpl0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

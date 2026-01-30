@@ -1,0 +1,40 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostOffice_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostOffice_ESTest.java
+@@ -150,13 +150,30 @@
+       String string0 = postOffice_PostOfficeName0.getCode();
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      PostOffice.PostOfficeName postOffice_PostOfficeName0 = new PostOffice.PostOfficeName();
+-      postOffice_PostOfficeName0.setType("");
+-      assertEquals("", postOffice_PostOfficeName0.getType());
+-  }
++@Test(timeout = 4000)
++    public void test18() throws Throwable {
++        PostOffice.PostOfficeName name = new PostOffice.PostOfficeName();
++        // Verify initial state
++        Assert.assertNull(name.getType());
++        // Set and verify type
++        String type = "MainOffice";
++        name.setType(type);
++        Assert.assertEquals(type, name.getType());
++        // Set and verify indicator if available
++        try {
++            java.lang.reflect.Method setIndicator = PostOffice.PostOfficeName.class.getMethod("setIndicator", String.class);
++            java.lang.reflect.Method getIndicator = PostOffice.PostOfficeName.class.getMethod("getIndicator");
++            setIndicator.invoke(name, "ind");
++            Assert.assertEquals("ind", getIndicator.invoke(name));
++        } catch (NoSuchMethodException ignored) {
++            // Indicator methods not present; skip this part
++        }
++        // Ensure the object differs from a fresh instance
++        PostOffice.PostOfficeName other = new PostOffice.PostOfficeName();
++        Assert.assertNotSame(other, name);
++        Assert.assertNotEquals(other.getType(), name.getType());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

@@ -1,0 +1,24 @@
+--- a/evosuite-tests/macaw/system/MacawMessages_ESTest.java
++++ b/evosuite-tests/macaw/system/MacawMessages_ESTest.java
+@@ -16,10 +16,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class MacawMessages_ESTest extends MacawMessages_ESTest_scaffolding {
+-@Test(timeout = 4000, expected = MissingResourceException.class)
+-  public void test0() {
+-      MacawMessages.getMessage("Y$0x");
+-  }
++@Test(timeout = 4000)
++public void test0() {
++    String invalidKey = "Y$0x";
++    try {
++        MacawMessages.getMessage(invalidKey);
++        fail("Expected MissingResourceException");
++    } catch (MissingResourceException e) {
++        assertTrue(e.getMessage().contains(invalidKey));
++    }
++}
++
+ @Test(expected = MissingResourceException.class, timeout = 4000)
+   public void test1() {
+       MacawMessages.getMessage("j/F ;Twc,,WovV", "j/F ;Twc,,WovV", "j/F ;Twc,,WovV", "j/F ;Twc,,WovV", "j/F ;Twc,,WovV");

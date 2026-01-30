@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
+@@ -59,17 +59,23 @@
+     assertEquals("SAPControl-YELLOW", gCInfo2_0.getProcessname());
+     assertEquals("SAPControl-GRAY", gCInfo2_0.getStartTime());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      GCInfo2 gCInfo2_0 = new GCInfo2();
+-      gCInfo2_0.setProcessname("invalidEncodingStyle");
+-      gCInfo2_0.hashCode();
+-      assertEquals(0, gCInfo2_0.getDuration());
+-      assertEquals(0, gCInfo2_0.getUnloadedClasses());
+-      assertEquals(0, gCInfo2_0.getCpuTime());
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    GCInfo2 gCInfo2_0 = new GCInfo2();
++    // Verify that the process name is set correctly (side‑effect of setProcessname)
++    gCInfo2_0.setProcessname("invalidEncodingStyle");
++    assertEquals("invalidEncodingStyle", gCInfo2_0.getProcessname());
++
++    // Assert the return value of hashCode()
++    int hash = gCInfo2_0.hashCode();
++    assertEquals(hash, gCInfo2_0.hashCode());
++
++    // Existing assertions
++    assertEquals(0, gCInfo2_0.getDuration());
++    assertEquals(0, gCInfo2_0.getUnloadedClasses());
++    assertEquals(0, gCInfo2_0.getCpuTime());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Department_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Department_ESTest.java
+@@ -98,13 +98,30 @@
+       Map<QName, String> map0 = department_DepartmentName0.getOtherAttributes();
+       assertEquals(0, map0.size());
+   }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    Department.DepartmentName name1 = new Department.DepartmentName();
++    Department.DepartmentName name2 = new Department.DepartmentName();
+ 
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      Department.DepartmentName department_DepartmentName0 = new Department.DepartmentName();
+-      department_DepartmentName0.setType("nHZ8MOW}*K;Cn");
+-      assertEquals("nHZ8MOW}*K;Cn", department_DepartmentName0.getType());
+-  }
++    // Initially both have no type set
++    assertNull(name1.getType());
++    assertNull(name2.getType());
++
++    // Set a specific type on the first instance
++    String type = "nHZ8MOW}*K;Cn";
++    name1.setType(type);
++    assertEquals(type, name1.getType());
++
++    // The second instance should remain unchanged
++    assertNull(name2.getType());
++
++    // Objects with different type values should not be equal
++    assertNotEquals(name1, name2);
++
++    // Their hash codes should also differ
++    assertNotEquals(name1.hashCode(), name2.hashCode());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

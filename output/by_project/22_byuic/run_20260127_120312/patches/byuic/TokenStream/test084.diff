@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
+@@ -933,23 +933,12 @@
+         assertTrue(TokenStream.isKeyword("float"));
+         assertFalse(TokenStream.isKeyword("notAKeyword"));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test084()  throws Throwable  {
+-      TokenStream tokenStream0 = new TokenStream((Parser) null, (Reader) null, "final", 116);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test084() throws Throwable {
++        TokenStream tokenStream0 = new TokenStream((Parser) null, (Reader) null, "final", 116);
+         tokenStream0.getToken();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.mozilla.javascript.TokenStream", e);
+-      }
+-  }
++    }
++
+ @Test(timeout = 4000)
+     public void test085() throws Throwable {
+         boolean isConst = TokenStream.isKeyword("const");

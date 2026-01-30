@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/templateit/TemplateProcessor_ESTest.java
++++ b/evosuite-tests/org/templateit/TemplateProcessor_ESTest.java
+@@ -93,20 +93,16 @@
+       MockFileInputStream mockFileInputStream0 = new MockFileInputStream(file0);
+       TemplateProcessor templateProcessor0 = new TemplateProcessor(mockFileInputStream0);
+   }
++@Test(timeout = 4000)
++public void test7() throws Throwable {
++    File nonExistent = new File(System.getProperty("java.io.tmpdir"),
++            "nonexistent_" + System.nanoTime() + ".xls");
++    try {
++        new TemplateProcessor(nonExistent);
++        fail("Expecting IOException");
++    } catch (IOException e) {
++        // expected exception for missing template file
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("+u>ta+)nt17N]/1H;_", "+u>ta+)nt17N]/1H;_");
+-      TemplateProcessor templateProcessor0 = new TemplateProcessor(file0);
+-      try { 
+-        templateProcessor0.process((Iterator<String[]>) null, file0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Unable to read entire header; 0 bytes read; expected 512 bytes
+-         //
+-         verifyException("org.apache.poi.poifs.storage.HeaderBlockReader", e);
+-      }
+-  }
+ }

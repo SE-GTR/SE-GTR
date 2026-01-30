@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/TasmFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/TasmFileParser_ESTest.java
+@@ -57,29 +57,26 @@
+          verifyException("org.jcvi.jillion.assembly.tigr.tasm.TasmFileParser$FileBasedTasmFileParser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      byte[] byteArray0 = new byte[9];
+-      byteArray0[2] = (byte)10;
+-      byteArray0[5] = (byte)11;
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      TasmFileParser tasmFileParser0 = TasmFileParser.create((InputStream) byteArrayInputStream0);
+-      TextLineParser textLineParser0 = new TextLineParser(byteArrayInputStream0, (byte)83);
+-      TasmFileVisitor tasmFileVisitor0 = mock(TasmFileVisitor.class, new ViolatedAssumptionAnswer());
+-      doReturn((TasmContigVisitor) null).when(tasmFileVisitor0).visitContig(any(org.jcvi.jillion.assembly.tigr.tasm.TasmFileVisitor.TasmContigVisitorCallback.class) , anyString());
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    byte[] byteArray0 = new byte[9];
++    byteArray0[2] = (byte) 10;
++    byteArray0[5] = (byte) 11;
++    ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
++    TasmFileParser tasmFileParser0 = TasmFileParser.create((InputStream) byteArrayInputStream0);
++    TextLineParser textLineParser0 = new TextLineParser(byteArrayInputStream0, (byte) 83);
++    TasmFileVisitor tasmFileVisitor0 = mock(TasmFileVisitor.class, new ViolatedAssumptionAnswer());
++    try {
+         tasmFileParser0.parseTasm(textLineParser0, tasmFileVisitor0, 3524L);
+         fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // unknown attribute \u0000\u0000
+-         //
+-         verifyException("org.jcvi.jillion.assembly.tigr.tasm.TasmReadAttribute", e);
+-      }
+-  }
++    } catch (IllegalArgumentException e) {
++        //
++        // unknown attribute \u0000\u0000
++        //
++        verifyException("org.jcvi.jillion.assembly.tigr.tasm.TasmReadAttribute", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/heal/util/InterfaceUtilitiesBean_ESTest.java
++++ b/evosuite-tests/org/heal/util/InterfaceUtilitiesBean_ESTest.java
+@@ -154,15 +154,24 @@
+     ThumbnailBean thumbnailBean2 = interfaceUtilitiesBean0.getThumbnail(thumbnailBean1, "E|:T'yB)]", "E|:T'yB)]");
+     assertNotNull(thumbnailBean2);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test17() throws Throwable {
+       InterfaceUtilitiesBean interfaceUtilitiesBean0 = new InterfaceUtilitiesBean();
+       FileLocator fileLocator0 = new FileLocator();
++
++      // Verify that init correctly sets up internal state (e.g., unknownThumbnail)
+       interfaceUtilitiesBean0.init(fileLocator0);
+-      ThumbnailBean thumbnailBean0 = interfaceUtilitiesBean0.getThumbnail((ThumbnailBean) null, "text/html", "package");
+-      assertEquals("80", thumbnailBean0.getFileWidth());
+-      assertEquals("package/images/thumbnails/thb_website.jpg", thumbnailBean0.getLocation());
++      ThumbnailBean unknownThumbnail = interfaceUtilitiesBean0.getThumbnail(null, "text/html", "package");
++      assertNotNull("init should initialise the unknown thumbnail", unknownThumbnail);
++      assertEquals("80", unknownThumbnail.getFileWidth());
++      assertEquals("package/images/thumbnails/thb_website.jpg", unknownThumbnail.getLocation());
++
++      // Also verify that getThumbnail populates a provided ThumbnailBean instance
++      ThumbnailBean thumbnailBean0 = new ThumbnailBean();
++      ThumbnailBean populated = interfaceUtilitiesBean0.getThumbnail(thumbnailBean0, "text/html", "package");
++      assertNotNull("getThumbnail should return a populated ThumbnailBean", populated);
++      assertEquals("80", populated.getFileWidth());
++      assertEquals("package/images/thumbnails/thb_website.jpg", populated.getLocation());
+   }
++
+ }

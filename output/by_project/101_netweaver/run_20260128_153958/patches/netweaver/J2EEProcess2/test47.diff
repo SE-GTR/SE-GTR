@@ -1,0 +1,47 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess2_ESTest.java
+@@ -757,19 +757,31 @@
+       // Verify the second instance still has a null type
+       assertNull(j2EEProcess2_1.getType());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test47()  throws Throwable  {
+-      J2EEProcess2 j2EEProcess2_0 = new J2EEProcess2();
+-      j2EEProcess2_0.setStatetext("%Yam<UQ<*S");
+-      j2EEProcess2_0.hashCode();
+-      assertEquals(0, j2EEProcess2_0.getClusterId());
+-      assertEquals(0, j2EEProcess2_0.getErrorCount());
+-      assertEquals(0, j2EEProcess2_0.getTelnetPort());
+-      assertEquals(0, j2EEProcess2_0.getRestartCount());
+-      assertEquals(0, j2EEProcess2_0.getPid());
+-  }
++@Test(timeout = 4000)
++public void test47() throws Throwable {
++    J2EEProcess2 j2EEProcess2_0 = new J2EEProcess2();
++
++    // Verify that the initial statetext is null or empty before setting it
++    String initialStatetext = j2EEProcess2_0.getStatetext();
++    assertTrue(initialStatetext == null || initialStatetext.isEmpty());
++
++    // Set a specific statetext and assert the side‑effect
++    j2EEProcess2_0.setStatetext("%Yam<UQ<*S");
++    assertEquals("%Yam<UQ<*S", j2EEProcess2_0.getStatetext());
++
++    // Assert that hashCode returns a stable value
++    int hash1 = j2EEProcess2_0.hashCode();
++    int hash2 = j2EEProcess2_0.hashCode();
++    assertEquals(hash1, hash2);
++
++    // Existing assertions on other fields
++    assertEquals(0, j2EEProcess2_0.getClusterId());
++    assertEquals(0, j2EEProcess2_0.getErrorCount());
++    assertEquals(0, j2EEProcess2_0.getTelnetPort());
++    assertEquals(0, j2EEProcess2_0.getRestartCount());
++    assertEquals(0, j2EEProcess2_0.getPid());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test48()  throws Throwable  {

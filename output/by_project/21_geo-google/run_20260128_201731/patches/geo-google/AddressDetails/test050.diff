@@ -1,0 +1,35 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -514,16 +514,22 @@
+     assertEquals(content, code.getContent());
+     assertNull(code.getType());
+ }
+-
+-@Test(timeout = 4000)
+-  public void test050() throws Throwable {
+-      AddressDetails.PostalServiceElements.EndorsementLineCode endorsement = new AddressDetails.PostalServiceElements.EndorsementLineCode();
+-      Map<QName, String> map = endorsement.getOtherAttributes();
+-      QName key = new QName("test");
+-      map.put(key, "value");
+-      assertEquals(1, map.size());
+-      assertEquals("value", map.get(key));
+-  }
++@Test(timeout = 4000)
++public void test050() throws Throwable {
++    AddressDetails.PostalServiceElements.EndorsementLineCode endorsement = new AddressDetails.PostalServiceElements.EndorsementLineCode();
++    // Verify setting and retrieving the value works
++    String testValue = "ABC";
++    endorsement.setValue(testValue);
++    assertEquals(testValue, endorsement.getValue());
++
++    // Verify the otherAttributes map is mutable and reflects changes
++    Map<QName, String> map = endorsement.getOtherAttributes();
++    QName key = new QName("test");
++    map.put(key, "value");
++    assertEquals("value", map.get(key));
++    assertTrue(map.containsKey(key));
++}
++
+ @Test(timeout = 4000)
+ public void test051() throws Throwable {
+     AddressDetails.PostalServiceElements.EndorsementLineCode addressDetails_PostalServiceElements_EndorsementLineCode0 = new AddressDetails.PostalServiceElements.EndorsementLineCode();

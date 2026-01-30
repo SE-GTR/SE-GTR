@@ -1,0 +1,63 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/PhdBallWriter_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/PhdBallWriter_ESTest.java
+@@ -133,31 +133,35 @@
+       phdBallWriter0.write((Phd) artificialPhd0);
+       assertEquals("#890m*", artificialPhd0.getId());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("5>jr&=", "5>jr&=");
+-      PhdBallWriter phdBallWriter0 = new PhdBallWriter(mockFile0, "5>jr&=");
+-      Iterator<Nucleotide> iterator0 = (Iterator<Nucleotide>) mock(Iterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(iterator0).hasNext();
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(iterator0).when(nucleotideSequence0).iterator();
+-      doReturn(883L).when(nucleotideSequence0).getLength();
+-      Iterator<PhredQuality> iterator1 = (Iterator<PhredQuality>) mock(Iterator.class, new ViolatedAssumptionAnswer());
+-      QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(iterator1).when(qualitySequence0).iterator();
+-      DefaultPhd defaultPhd0 = new DefaultPhd("", nucleotideSequence0, qualitySequence0, (PositionSequence) null);
+-      Map<String, String> map0 = defaultPhd0.getComments();
+-      LinkedList<PhdWholeReadItem> linkedList0 = new LinkedList<PhdWholeReadItem>();
+-      LinkedList<Locale.LanguageRange> linkedList1 = new LinkedList<Locale.LanguageRange>();
+-      List<String> list0 = Locale.filterTags((List<Locale.LanguageRange>) linkedList1, (Collection<String>) null);
+-      DefaultPhdWholeReadItem defaultPhdWholeReadItem0 = new DefaultPhdWholeReadItem(list0);
+-      linkedList0.add((PhdWholeReadItem) defaultPhdWholeReadItem0);
+-      List<PhdReadTag> list1 = defaultPhd0.getReadTags();
+-      DefaultPhd defaultPhd1 = new DefaultPhd("", nucleotideSequence0, qualitySequence0, (PositionSequence) null, map0, linkedList0, list1);
+-      phdBallWriter0.write((Phd) defaultPhd1);
+-      assertNotSame(defaultPhd0, defaultPhd1);
+-  }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    MockFile mockFile0 = new MockFile("5>jr&=", "5>jr&=");
++    PhdBallWriter phdBallWriter0 = new PhdBallWriter(mockFile0, "5>jr&=");
++    Iterator<Nucleotide> iterator0 = (Iterator<Nucleotide>) mock(Iterator.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(iterator0).hasNext();
++    NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++    doReturn(iterator0).when(nucleotideSequence0).iterator();
++    doReturn(883L).when(nucleotideSequence0).getLength();
++    Iterator<PhredQuality> iterator1 = (Iterator<PhredQuality>) mock(Iterator.class, new ViolatedAssumptionAnswer());
++    QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
++    doReturn(iterator1).when(qualitySequence0).iterator();
++    DefaultPhd defaultPhd0 = new DefaultPhd("", nucleotideSequence0, qualitySequence0, (PositionSequence) null);
++    Map<String, String> map0 = defaultPhd0.getComments();
++    assertNotNull(map0);
++    LinkedList<PhdWholeReadItem> linkedList0 = new LinkedList<PhdWholeReadItem>();
++    LinkedList<Locale.LanguageRange> linkedList1 = new LinkedList<Locale.LanguageRange>();
++    List<String> list0 = Locale.filterTags((List<Locale.LanguageRange>) linkedList1, (Collection<String>) null);
++    assertNotNull(list0);
++    DefaultPhdWholeReadItem defaultPhdWholeReadItem0 = new DefaultPhdWholeReadItem(list0);
++    boolean added = linkedList0.add((PhdWholeReadItem) defaultPhdWholeReadItem0);
++    assertTrue(added);
++    List<PhdReadTag> list1 = defaultPhd0.getReadTags();
++    assertNotNull(list1);
++    DefaultPhd defaultPhd1 = new DefaultPhd("", nucleotideSequence0, qualitySequence0, (PositionSequence) null, map0, linkedList0, list1);
++    phdBallWriter0.write((Phd) defaultPhd1);
++    assertNotSame(defaultPhd0, defaultPhd1);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

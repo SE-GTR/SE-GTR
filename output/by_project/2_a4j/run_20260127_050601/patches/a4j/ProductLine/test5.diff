@@ -1,0 +1,33 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ProductLine_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ProductLine_ESTest.java
+@@ -61,12 +61,24 @@
+       // Verify a non‑trivial property of the object
+       assertTrue(productLine0 instanceof java.io.Serializable);
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        ProductLine original = new ProductLine();
+ 
++        // Exercise a non‑trivial behavior: Java serialization round‑trip
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        try (java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos)) {
++            oos.writeObject(original);
++        }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      ProductLine productLine0 = new ProductLine();
+-      String string0 = productLine0.getMode();
+-      assertNull(string0);
+-  }
++        ProductLine deserialized;
++        try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++                new java.io.ByteArrayInputStream(baos.toByteArray()))) {
++            deserialized = (ProductLine) ois.readObject();
++        }
++
++        // Verify that the state (mode) is preserved through serialization
++        assertNull(deserialized.getMode());
++    }
++
+ }

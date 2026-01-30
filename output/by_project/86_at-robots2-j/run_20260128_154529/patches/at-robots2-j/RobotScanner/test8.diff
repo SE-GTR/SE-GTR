@@ -1,0 +1,27 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/robot/RobotScanner_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/robot/RobotScanner_ESTest.java
+@@ -174,12 +174,17 @@
+     assertSame("Robot position should remain unchanged after scan", position0, robot0.getPosition());
+     assertEquals("Robot name should stay unchanged after scan", "P", robot0.getName());
+ }
++@Test(timeout = 4000)
++public void test8() throws Throwable {
++    AngleBracket angleBracket0 = AngleBracket.all();
++    RobotScanner robotScanner0 = new RobotScanner((Robot) null, (Position) null, angleBracket0, 2025.25826506, true);
++    Robot beforeClosest = robotScanner0.getClosest();
++    double beforeDist = robotScanner0.getClosestDistanceSquared();
++    Vector beforeVector = robotScanner0.getVectorToClosest();
++    robotScanner0.visit((Robot) null);
++    assertSame(beforeClosest, robotScanner0.getClosest());
++    assertEquals(beforeDist, robotScanner0.getClosestDistanceSquared(), 0.0);
++    assertSame(beforeVector, robotScanner0.getVectorToClosest());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-      AngleBracket angleBracket0 = AngleBracket.all();
+-      RobotScanner robotScanner0 = new RobotScanner((Robot) null, (Position) null, angleBracket0, 2025.25826506, true);
+-      robotScanner0.visit((Robot) null);
+-  }
+ }

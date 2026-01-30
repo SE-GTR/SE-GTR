@@ -1,0 +1,28 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/XAL_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/XAL_ESTest.java
+@@ -48,11 +48,19 @@
+       String string0 = xAL0.getVersion();
+       assertNull(string0);
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        XAL xAL0 = new XAL();
++        // Verify version setter/getter
++        xAL0.setVersion("1.0");
++        assertEquals("1.0", xAL0.getVersion());
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      XAL xAL0 = new XAL();
+-      xAL0.setVersion("");
+-      assertEquals("", xAL0.getVersion());
+-  }
++        // Verify mutable list behavior for addressDetails
++        int beforeSize = xAL0.getAddressDetails().size();
++        AddressDetails addressDetails = new AddressDetails();
++        xAL0.getAddressDetails().add(addressDetails);
++        assertEquals(beforeSize + 1, xAL0.getAddressDetails().size());
++        assertTrue(xAL0.getAddressDetails().contains(addressDetails));
++    }
++
+ }

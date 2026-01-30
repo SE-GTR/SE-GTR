@@ -1,0 +1,49 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/probe/plugins/measurement/WatchedTask_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/probe/plugins/measurement/WatchedTask_ESTest.java
+@@ -162,24 +162,27 @@
+       MeasurementTask measurementTask1 = watchedTask0.getMeasurementTask();
+       assertEquals(0L, measurementTask1.getStartTime());
+   }
++@Test(timeout = 4000)
++    public void test7() throws Throwable {
++        callable0 = (Callable<Object>) mock(Callable.class, new ViolatedAssumptionAnswer());
++        futureTask0 = new FutureTask<Object>(callable0);
++        BundleContext bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++        doReturn((ServiceReference[]) null).when(bundleContext0).getServiceReferences(anyString(), anyString());
++        // Verify that the stubbed method returns null as configured
++        org.osgi.framework.ServiceReference[] refs = bundleContext0.getServiceReferences("foo", "bar");
++        assertNull(refs);
++        Boolean boolean0 = Boolean.valueOf(false);
++        ServerAgentImpl serverAgentImpl0 = new ServerAgentImpl(bundleContext0, (-1), boolean0);
++        TestProbe1 testProbe1_0 = new TestProbe1();
++        MeasurementRequest measurementRequest0 = new MeasurementRequest(serverAgentImpl0, "", testProbe1_0, (-1490L));
++        BlackboardImpl blackboardImpl0 = new BlackboardImpl();
++        MeasurementTask measurementTask0 = new MeasurementTask(measurementRequest0, blackboardImpl0);
++        BundleContext bundleContext1 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++        MeasurementProvider measurementProvider0 = new MeasurementProvider(bundleContext1, blackboardImpl0);
++        Map<Long, WatchedTask> map0 = measurementProvider0.getSubscriptions();
++        WatchedTask watchedTask0 = new WatchedTask(futureTask0, measurementTask0, map0, false, serverAgentImpl0);
++        long long0 = watchedTask0.getRunningTime();
++        assertEquals(0L, long0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-    callable0 = (Callable<Object>) mock(Callable.class, new ViolatedAssumptionAnswer());
+-    futureTask0 = new FutureTask<Object>(callable0);
+-      BundleContext bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((ServiceReference[]) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-      Boolean boolean0 = Boolean.valueOf(false);
+-      ServerAgentImpl serverAgentImpl0 = new ServerAgentImpl(bundleContext0, (-1), boolean0);
+-      TestProbe1 testProbe1_0 = new TestProbe1();
+-      MeasurementRequest measurementRequest0 = new MeasurementRequest(serverAgentImpl0, "", testProbe1_0, (-1490L));
+-      BlackboardImpl blackboardImpl0 = new BlackboardImpl();
+-      MeasurementTask measurementTask0 = new MeasurementTask(measurementRequest0, blackboardImpl0);
+-      BundleContext bundleContext1 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      MeasurementProvider measurementProvider0 = new MeasurementProvider(bundleContext1, blackboardImpl0);
+-      Map<Long, WatchedTask> map0 = measurementProvider0.getSubscriptions();
+-      WatchedTask watchedTask0 = new WatchedTask(futureTask0, measurementTask0, map0, false, serverAgentImpl0);
+-      long long0 = watchedTask0.getRunningTime();
+-      assertEquals(0L, long0);
+-  }
+ }

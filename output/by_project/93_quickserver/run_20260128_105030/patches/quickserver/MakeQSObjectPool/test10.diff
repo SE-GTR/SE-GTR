@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/quickserver/util/pool/MakeQSObjectPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/MakeQSObjectPool_ESTest.java
+@@ -146,22 +146,17 @@
+         int numActive = cut.getNumActive();
+         assertEquals(0, numActive);
+     }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    makeQSObjectPool0 = new MakeQSObjectPool();
++    // Properly initialize the required object pool to avoid NullPointerException
++    makeQSObjectPool0.objectPool = new org.apache.commons.pool.impl.StackObjectPool();
++    // Invoke clear; it should complete without throwing an exception
++    makeQSObjectPool0.clear();
++    // Verify that the object pool remains initialized after the operation
++    assertNotNull(makeQSObjectPool0.objectPool);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-    makeQSObjectPool0 = new MakeQSObjectPool();
+-      try { 
+-        makeQSObjectPool0.clear();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.util.pool.MakeQSObjectPool", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

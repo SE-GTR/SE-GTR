@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -738,17 +738,22 @@
+         assertEquals(0, iCMProxyConnection1.getSocket());
+         assertEquals(0, iCMProxyConnection1.getNihdl());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test44()  throws Throwable  {
+-      ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+-      iCMProxyConnection0.setLocalAddress("t+K+R");
+-      ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
+-      boolean boolean0 = iCMProxyConnection1.equals(iCMProxyConnection0);
+-      assertEquals(0, iCMProxyConnection1.getPeerPort());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test44() throws Throwable {
++        ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
++        iCMProxyConnection0.setLocalAddress("t+K+R");
++
++        ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
++        assertEquals(0, iCMProxyConnection1.getPeerPort());
++
++        // Initially the two objects are not equal because localAddress differs (default vs set value)
++        assertFalse(iCMProxyConnection1.equals(iCMProxyConnection0));
++
++        // After setting the same local address on the second object, they should be equal
++        iCMProxyConnection1.setLocalAddress("t+K+R");
++        assertTrue(iCMProxyConnection1.equals(iCMProxyConnection0));
++    }
++
+ @Test(timeout = 4000)
+     public void test45() throws Throwable {
+         Class<Object> class0 = Object.class;

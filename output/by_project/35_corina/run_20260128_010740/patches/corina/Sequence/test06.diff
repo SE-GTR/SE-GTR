@@ -1,0 +1,39 @@
+--- a/evosuite-tests/corina/cross/Sequence_ESTest.java
++++ b/evosuite-tests/corina/cross/Sequence_ESTest.java
+@@ -77,18 +77,25 @@
+       sequence0.prevPairing();
+       assertTrue(sequence0.isFirst());
+   }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        LinkedList<Object> linkedList0 = new LinkedList<>();
++        Sequence sequence0 = new Sequence(linkedList0, linkedList0);
++        // initial state should be the first pairing
++        assertTrue(sequence0.isFirst());
+ 
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      Sequence sequence0 = new Sequence(linkedList0, linkedList0);
+-      assertTrue(sequence0.isFirst());
+-      
+-      sequence0.nextPairing();
+-      sequence0.nextPairing();
+-      sequence0.nextPairing();
+-      assertFalse(sequence0.isFirst());
+-  }
++        // after the first call we are no longer at the first pairing
++        sequence0.nextPairing();
++        assertFalse(sequence0.isFirst());
++
++        // subsequent calls should keep the state as not first
++        sequence0.nextPairing();
++        assertFalse(sequence0.isFirst());
++
++        sequence0.nextPairing();
++        assertFalse(sequence0.isFirst());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

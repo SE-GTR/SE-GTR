@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
+@@ -268,11 +268,21 @@
+       boolean boolean0 = user0.getPasschange();
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      User.setSalt("");
+-  }
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        // Preserve original salt to avoid affecting other tests
++        String originalSalt = User.getSalt();
++        try {
++            String newSalt = "testSaltValue";
++            User.setSalt(newSalt);
++            // Verify that the side‑effect of setSalt is observable via the getter
++            assertEquals(newSalt, User.getSalt());
++        } finally {
++            // Restore original state
++            User.setSalt(originalSalt);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

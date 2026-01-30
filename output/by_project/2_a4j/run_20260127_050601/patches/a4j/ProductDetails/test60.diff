@@ -1,0 +1,30 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ProductDetails_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ProductDetails_ESTest.java
+@@ -514,14 +514,19 @@
+     String string0 = productDetails0.getRecommendation();
+     assertEquals("40% of our Customers recommend this Product!", string0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test60()  throws Throwable  {
+-      ProductDetails productDetails0 = new ProductDetails();
+-      productDetails0.setSalesRank("Feature - ");
+-      assertNull(productDetails0.getMpaaRating());
+-  }
++@Test(timeout = 4000)
++public void test60() throws Throwable {
++    ProductDetails productDetails0 = new ProductDetails();
++    // Verify initial state (no sales rank set)
++    assertNull(productDetails0.getSalesRank());
++    // Apply side‑effect
++    productDetails0.setSalesRank("Feature - ");
++    // Observe the effect via the corresponding getter
++    assertEquals("Feature - ", productDetails0.getSalesRank());
++    // Existing assertion remains valid
++    assertNull(productDetails0.getMpaaRating());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test61()  throws Throwable  {

@@ -1,0 +1,52 @@
+--- a/evosuite-tests/bible/servlet/ServletConnection_ESTest.java
++++ b/evosuite-tests/bible/servlet/ServletConnection_ESTest.java
+@@ -203,27 +203,28 @@
+     assertNotNull(pw);
+     assertFalse(servletConnection0.isRedirected());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(httpServletRequest0).getRemoteHost();
+-      doReturn((String) null).when(httpServletRequest0).getRemoteUser();
+-      doReturn((String) null).when(httpServletRequest0).getRequestURI();
+-      ServletConnection servletConnection0 = new ServletConnection(httpServletRequest0, (HttpServletResponse) null);
+-      // Undeclared exception!
+-      try { 
+-        servletConnection0.displayOfflineMessage();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("bible.servlet.ServletConnection", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        HttpServletRequest request = mock(HttpServletRequest.class);
++        when(request.getRemoteHost()).thenReturn("localhost");
++        when(request.getRemoteUser()).thenReturn("user");
++        when(request.getRequestURI()).thenReturn("/test");
++
++        HttpServletResponse response = mock(HttpServletResponse.class);
++        StringWriter stringWriter = new StringWriter();
++        PrintWriter printWriter = new PrintWriter(stringWriter);
++        when(response.getWriter()).thenReturn(printWriter);
++
++        ServletConnection servletConnection = new ServletConnection(request, response);
++        servletConnection.displayOfflineMessage();
++
++        printWriter.flush();
++        String output = stringWriter.toString();
++        assertNotNull("The output should not be null", output);
++        assertTrue("The output should contain some content", output.length() > 0);
++        verify(response, atLeastOnce()).getWriter();
++    }
++
+ @Test(timeout = 4000)
+ public void test14() throws Throwable {
+     HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());

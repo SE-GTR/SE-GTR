@@ -1,0 +1,40 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/GenericPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/GenericPackager_ESTest.java
+@@ -131,25 +131,21 @@
+          verifyException("edu.uiuc.ndiipp.hubandspoke.packager.GenericPackager", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("E", "E");
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("E/E/mastermets.xml");
+-      FileSystemHandling.appendLineToFile(evoSuiteFile0, "");
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    MockFile mockFile0 = new MockFile("E", "E");
++    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("E/E/mastermets.xml");
++    boolean result = FileSystemHandling.appendLineToFile(evoSuiteFile0, "");
++    assertTrue(result);
+     genericPackager0 = new GenericPackager();
+-      // Undeclared exception!
+-      try { 
++    try {
+         genericPackager0.createHubPackage((File) mockFile0, (File) mockFile0);
+         fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // net.sf.saxon.trans.StaticError: Invalid QName for variable: this
+-         //
+-         verifyException("org.apache.xmlbeans.impl.xpath.saxon.XBeansXPath", e);
+-      }
+-  }
++    } catch (RuntimeException e) {
++        verifyException("org.apache.xmlbeans.impl.xpath.saxon.XBeansXPath", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

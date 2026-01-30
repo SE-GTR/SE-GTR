@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jsecurity/session/StoppedSessionException_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/StoppedSessionException_ESTest.java
+@@ -16,11 +16,28 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class StoppedSessionException_ESTest extends StoppedSessionException_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        StoppedSessionException original = new StoppedSessionException();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      StoppedSessionException stoppedSessionException0 = new StoppedSessionException();
+-  }
++        // Serialize the exception
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(original);
++        oos.flush();
++        byte[] serialized = baos.toByteArray();
++
++        // Deserialize the exception
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++                new java.io.ByteArrayInputStream(serialized));
++        Object deserialized = ois.readObject();
++
++        // Verify that deserialization preserved the type and message
++        assertTrue(deserialized instanceof StoppedSessionException);
++        StoppedSessionException recovered = (StoppedSessionException) deserialized;
++        assertEquals(original.getMessage(), recovered.getMessage());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
+@@ -71,23 +71,13 @@
+     byte[] result = BlockingClient.readInputStream(in, 0);
+     assertArrayEquals(empty, result);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      byte[] byteArray0 = new byte[2];
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0, (byte)0, (byte)12);
+-      try { 
+-        BlockingClient.readInputStream((InputStream) byteArrayInputStream0, 10);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // we have eof!
+-         //
+-         verifyException("org.quickserver.net.client.BlockingClient", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = IOException.class)
++    public void test05() throws Throwable {
++        byte[] byteArray0 = new byte[2];
++        ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0, 0, 12);
++        BlockingClient.readInputStream(byteArrayInputStream0, 10);
++    }
++
+ @Test(timeout = 4000)
+     public void test06() throws Throwable {
+         byte[] expected = new byte[] {10, 20, 30, 40, 50};

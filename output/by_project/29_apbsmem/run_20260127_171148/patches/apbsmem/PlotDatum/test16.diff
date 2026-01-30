@@ -1,0 +1,31 @@
+--- a/evosuite-tests/jahuwaldt/plot/PlotDatum_ESTest.java
++++ b/evosuite-tests/jahuwaldt/plot/PlotDatum_ESTest.java
+@@ -167,15 +167,18 @@
+         datum.setY(123.45);
+         assertEquals(123.45, datum.y, 0.01);
+     }
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    PlotDatum original = new PlotDatum(0.0, 0.0, true);
++    assertEquals(0.0, original.getX(), 0.01);
++    PlotDatum copy = (PlotDatum) original.clone();
++    assertNotSame(original, copy);
++    assertEquals(original.getX(), copy.getX(), 0.01);
++    assertEquals(original.connected(), copy.connected());
++    // modify original and ensure the clone remains unchanged
++    original.x = 5.0;
++    assertEquals(5.0, original.getX(), 0.01);
++    assertEquals(0.0, copy.getX(), 0.01);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-    plotDatum0 = new PlotDatum(0.0, 0.0, true);
+-      double double0 = plotDatum0.getX();
+-      assertEquals(0.0, double0, 0.01);
+-      assertFalse(plotDatum0.hasErrorBar());
+-      assertEquals(0.0, plotDatum0.y, 0.01);
+-      assertTrue(plotDatum0.connected());
+-  }
+ }

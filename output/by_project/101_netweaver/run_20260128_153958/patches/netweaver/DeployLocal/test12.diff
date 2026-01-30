@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/DeployLocal_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/DeployLocal_ESTest.java
+@@ -126,16 +126,23 @@
+          verifyException("com.sap.engine.services.dc.wsgate.DeployLocal", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    deployLocal0 = new DeployLocal();
++    // Verify initial state before setting options
++    assertNull(deployLocal0.getOptions());
+ 
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-    deployLocal0 = new DeployLocal();
+-      Option[] optionArray0 = new Option[0];
+-      deployLocal0.setOptions(optionArray0);
+-      DeployLocal deployLocal1 = new DeployLocal();
+-      boolean boolean0 = deployLocal0.equals(deployLocal1);
+-      assertFalse(boolean0);
+-  }
++    Option[] optionArray0 = new Option[0];
++    deployLocal0.setOptions(optionArray0);
++
++    // Verify that setOptions correctly updates the internal options array
++    assertArrayEquals(optionArray0, deployLocal0.getOptions());
++
++    DeployLocal deployLocal1 = new DeployLocal();
++    boolean boolean0 = deployLocal0.equals(deployLocal1);
++    assertFalse(boolean0);
++}
++
+ @Test(timeout = 4000)
+     public void test13() throws Throwable {
+         String[] archivePaths = new String[] { "archive1", "archive2" };

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/XML2HL7Impl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/XML2HL7Impl_ESTest.java
+@@ -147,14 +147,19 @@
+     xML2HL7Impl0 = new XML2HL7Impl();
+       xML2HL7Impl0.endPrefixMapping("OgQw8su-'b9O6D");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
++@Test(timeout = 4000)
++public void test14() throws Throwable {
+     xML2HL7Impl0 = new XML2HL7Impl();
+     convertorXMLToHL7_0 = new ConvertorXMLToHL7();
+-      xML2HL7Impl0.setHandler(convertorXMLToHL7_0);
+-      LocatorImpl locatorImpl0 = new LocatorImpl();
+-      SAXParseException sAXParseException0 = new SAXParseException("", locatorImpl0);
+-      xML2HL7Impl0.warning(sAXParseException0);
+-  }
++    xML2HL7Impl0.setHandler(convertorXMLToHL7_0);
++    // Verify that the handler was correctly set
++    assertSame(convertorXMLToHL7_0, xML2HL7Impl0.getHandler());
++
++    LocatorImpl locatorImpl0 = new LocatorImpl();
++    SAXParseException sAXParseException0 = new SAXParseException("", locatorImpl0);
++    xML2HL7Impl0.warning(sAXParseException0);
++    // Verify that calling warning does not alter the handler
++    assertSame(convertorXMLToHL7_0, xML2HL7Impl0.getHandler());
+ }
++
++}

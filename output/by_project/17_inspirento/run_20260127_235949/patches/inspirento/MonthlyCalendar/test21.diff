@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/allenstudio/ir/ui/calendar/MonthlyCalendar_ESTest.java
++++ b/evosuite-tests/com/allenstudio/ir/ui/calendar/MonthlyCalendar_ESTest.java
+@@ -280,16 +280,23 @@
+       monthlyCalendar0.paintComponent(graphics0);
+       assertEquals(28, monthlyCalendar0.getSelectedDay());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      MonthlyCalendar monthlyCalendar0 = new MonthlyCalendar();
+-      BufferedImage bufferedImage0 = new BufferedImage(20, 27, 1);
+-      Graphics graphics0 = bufferedImage0.getGraphics();
+-      monthlyCalendar0.setMonth(1);
+-      monthlyCalendar0.paintComponent(graphics0);
+-      assertEquals(1, monthlyCalendar0.getMonth());
+-  }
++public void test21() throws Throwable {
++    MonthlyCalendar monthlyCalendar0 = new MonthlyCalendar();
++    BufferedImage bufferedImage0 = new BufferedImage(20, 27, BufferedImage.TYPE_INT_RGB);
++    Graphics graphics0 = bufferedImage0.getGraphics();
++    monthlyCalendar0.setMonth(1);
++    monthlyCalendar0.paintComponent(graphics0);
++    // Verify that painting modifies the image buffer
++    int pixelSum = 0;
++    for (int x = 0; x < bufferedImage0.getWidth(); x++) {
++        for (int y = 0; y < bufferedImage0.getHeight(); y++) {
++            pixelSum += bufferedImage0.getRGB(x, y);
++        }
++    }
++    assertTrue("paintComponent should change the image content", pixelSum != 0);
++    assertEquals(1, monthlyCalendar0.getMonth());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

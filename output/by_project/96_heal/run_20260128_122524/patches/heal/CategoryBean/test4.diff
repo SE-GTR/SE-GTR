@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/heal/module/browse/CategoryBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/browse/CategoryBean_ESTest.java
+@@ -37,14 +37,28 @@
+     CategoryBean categoryBean0 = new CategoryBean();
+     assertEquals(0, categoryBean0.getCount());
+ }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        CategoryBean categoryBean0 = new CategoryBean();
++        categoryBean0.setCount(1457);
++        assertEquals(1457, categoryBean0.getCount());
+ 
++        // Serialize the bean
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(categoryBean0);
++        oos.flush();
++        byte[] serialized = baos.toByteArray();
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      CategoryBean categoryBean0 = new CategoryBean();
+-      categoryBean0.setCount(1457);
+-      assertEquals(1457, categoryBean0.getCount());
+-  }
++        // Deserialize the bean
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++                new java.io.ByteArrayInputStream(serialized));
++        CategoryBean deserialized = (CategoryBean) ois.readObject();
++
++        // Verify that the state is preserved after serialization round‑trip
++        assertEquals(1457, deserialized.getCount());
++    }
++
+ @Test(timeout = 4000)
+     public void test5() throws Throwable {
+         CategoryBean categoryBean0 = new CategoryBean();

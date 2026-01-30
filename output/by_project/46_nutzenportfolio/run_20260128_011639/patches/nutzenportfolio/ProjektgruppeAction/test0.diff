@@ -1,0 +1,37 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/action/ProjektgruppeAction_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/action/ProjektgruppeAction_ESTest.java
+@@ -36,9 +36,7 @@
+     projektgruppeIbatisDao0 = new ProjektgruppeIbatisDao();
+     projektgruppeDaoService0 = new ProjektgruppeDaoService(projektgruppeIbatisDao0);
+   }
+-
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test0()  throws Throwable  {
+     projektgruppeIbatisDao0 = new ProjektgruppeIbatisDao();
+     projektgruppeDaoService0 = new ProjektgruppeDaoService(projektgruppeIbatisDao0);
+@@ -53,10 +51,14 @@
+       doReturn(httpSession0).when(httpServletRequest0).getSession();
+       HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+       ActionMapping actionMapping0 = new ActionMapping();
++      // Verify stubbed return values
++      assertNull(httpSession0.getAttribute("anyKey"));
++      assertEquals("action", httpServletRequest0.getParameter("anyKey"));
++      assertSame(httpSession0, httpServletRequest0.getSession());
+       try { 
+         projektgruppeAction0.deleteQuestion(actionMapping0, fragenForm0, httpServletRequest0, httpServletResponse0);
+         fail("Expecting exception: NullPointerException");
+-      
++
+       } catch(NullPointerException e) {
+          //
+          // no message in exception (getMessage() returned null)
+@@ -64,6 +66,7 @@
+          verifyException("org.apache.struts.action.ActionMapping", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

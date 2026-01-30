@@ -1,0 +1,31 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/DocumentHandlerAdapter_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/DocumentHandlerAdapter_ESTest.java
+@@ -188,14 +188,20 @@
+       documentHandlerAdapter0.startPrefixMapping("", "z3T5}SfR-iCo");
+       documentHandlerAdapter0.startElement("z3T5}SfR-iCo", "", "", attributesImpl0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      HandlerBase handlerBase0 = new HandlerBase();
+-      DocumentHandlerAdapter documentHandlerAdapter0 = new DocumentHandlerAdapter(handlerBase0);
+-      Attributes2Impl attributes2Impl0 = new Attributes2Impl();
+-      documentHandlerAdapter0.startElement("", "", "", attributes2Impl0);
+-  }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        HandlerBase handlerBase0 = new HandlerBase();
++        DocumentHandlerAdapter documentHandlerAdapter0 = new DocumentHandlerAdapter(handlerBase0);
++        Attributes2Impl attributes2Impl0 = new Attributes2Impl();
++        // Verify initial state before invoking startElement
++        boolean before = documentHandlerAdapter0.getContextPushed();
++        assertFalse("Context should not be pushed before startElement", before);
++        // Act
++        documentHandlerAdapter0.startElement("", "", "", attributes2Impl0);
++        // Assert that the side‑effect of startElement is observable
++        assertTrue("Context should be pushed after startElement", documentHandlerAdapter0.getContextPushed());
++    }
++
+ @Test(timeout = 4000)
+   public void test15() throws Throwable {
+       HandlerBase handlerBase0 = new HandlerBase();

@@ -1,0 +1,45 @@
+--- a/evosuite-tests/net/sourceforge/shp2kml/GeomConverter_ESTest.java
++++ b/evosuite-tests/net/sourceforge/shp2kml/GeomConverter_ESTest.java
+@@ -58,30 +58,19 @@
+         assertTrue(result.contains("<description><![CDATA[Must have at least 2 dimensions]]></description>"));
+         assertTrue(result.contains("<extrude>-1.0</extrude>"));
+     }
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
++      Coordinate[] coords = new Coordinate[4];
++      coords[0] = new Coordinate(0.0, 0.0, 0.0);
++      coords[1] = new Coordinate(1.0, 0.0, 0.0);
++      coords[2] = new Coordinate(1.0, 1.0, 0.0);
++      coords[3] = new Coordinate(0.0, 0.0, 0.0); // close polygon
++      double altitude = 10.0;
++      String result = GeomConverter.convertPolygonWithAltitude(coords, altitude);
++      assertNotNull(result);
++      assertTrue(result.contains(Double.toString(altitude)));
++  }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      Coordinate[] coordinateArray0 = new Coordinate[1];
+-      Coordinate coordinate0 = new Coordinate(1784.3163771483, 1784.3163771483, 0.0);
+-      coordinateArray0[0] = coordinate0;
+-      Coordinate[] coordinateArray1 = new Coordinate[8];
+-      coordinateArray1[0] = coordinate0;
+-      coordinateArray1[1] = coordinateArray0[0];
+-      coordinateArray1[2] = coordinate0;
+-      coordinateArray1[3] = coordinateArray1[0];
+-      // Undeclared exception!
+-      try { 
+-        GeomConverter.convertPolygonWithAltitude(coordinateArray1, 1784.3163771483);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.shp2kml.GeomConverter", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

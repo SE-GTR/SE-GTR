@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/assembly/util/AbstractSliceMap_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/assembly/util/AbstractSliceMap_ESTest.java
+@@ -64,22 +64,28 @@
+           verifyException("java.util.LinkedList$ListItr", e);
+       }
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
+       LinkedList<Slice> linkedList0 = new LinkedList<Slice>();
+       LinkedList<AceAssembledReadAdapter> linkedList1 = new LinkedList<AceAssembledReadAdapter>();
+       ListIterator<AceAssembledReadAdapter> listIterator0 = linkedList1.listIterator();
+       CoverageRegion<AceAssembledReadAdapter> coverageRegion0 = (CoverageRegion<AceAssembledReadAdapter>) mock(CoverageRegion.class, new ViolatedAssumptionAnswer());
+       doReturn(listIterator0).when(coverageRegion0).iterator();
+       doReturn(246).when(coverageRegion0).getCoverageDepth();
++
++      // Assert the stubbed return values
++      Iterator<AceAssembledReadAdapter> iteratorResult = coverageRegion0.iterator();
++      assertSame(listIterator0, iteratorResult);
++      int depthResult = coverageRegion0.getCoverageDepth();
++      assertEquals(246, depthResult);
++
+       DefaultSliceMap defaultSliceMap0 = new DefaultSliceMap(linkedList0);
+       QualitySequenceDataStore qualitySequenceDataStore0 = mock(QualitySequenceDataStore.class, new ViolatedAssumptionAnswer());
+       GapQualityValueStrategy gapQualityValueStrategy0 = GapQualityValueStrategy.ALWAYS_ZERO;
+       List<SliceElement> list0 = defaultSliceMap0.createSliceElementsFor(coverageRegion0, 246, qualitySequenceDataStore0, gapQualityValueStrategy0);
+       assertTrue(list0.isEmpty());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

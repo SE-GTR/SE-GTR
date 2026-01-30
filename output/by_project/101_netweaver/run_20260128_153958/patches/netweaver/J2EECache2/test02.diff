@@ -1,0 +1,64 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache2_ESTest.java
+@@ -63,24 +63,43 @@
+     assertEquals(0, j2EECache2_0.getPuts());
+     assertEquals(0, j2EECache2_0.getChanges());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      J2EECache2 j2EECache2_0 = new J2EECache2();
+-      j2EECache2_0.setType("}'9]");
+-      j2EECache2_0.hashCode();
+-      assertEquals(0, j2EECache2_0.getRemoves());
+-      assertEquals(0, j2EECache2_0.getUsedObjects());
+-      assertEquals(0, j2EECache2_0.getEvictions());
+-      assertEquals(0, j2EECache2_0.getInstanceInvalidations());
+-      assertEquals(0, j2EECache2_0.getChanges());
+-      assertEquals(0, j2EECache2_0.getHits());
+-      assertEquals(0, j2EECache2_0.getGets());
+-      assertEquals(0, j2EECache2_0.getPuts());
+-      assertEquals(0, j2EECache2_0.getCachedObjects());
+-      assertEquals(0, j2EECache2_0.getClusterInvalidations());
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    J2EECache2 cache = new J2EECache2();
++
++    // Capture initial state
++    int hashBefore = cache.hashCode();
++    int removesBefore = cache.getRemoves();
++    int usedBefore = cache.getUsedObjects();
++    int evictionsBefore = cache.getEvictions();
++    int instanceInvalidationsBefore = cache.getInstanceInvalidations();
++    int changesBefore = cache.getChanges();
++    int hitsBefore = cache.getHits();
++    int getsBefore = cache.getGets();
++    int putsBefore = cache.getPuts();
++    int cachedObjectsBefore = cache.getCachedObjects();
++    int clusterInvalidationsBefore = cache.getClusterInvalidations();
++
++    // Act
++    cache.setType("}'9]");
++
++    // Observe side‑effect of setType via hashCode
++    int hashAfter = cache.hashCode();
++    assertNotEquals("hashCode should reflect type change", hashBefore, hashAfter);
++
++    // Verify other fields remain unchanged
++    assertEquals(removesBefore, cache.getRemoves());
++    assertEquals(usedBefore, cache.getUsedObjects());
++    assertEquals(evictionsBefore, cache.getEvictions());
++    assertEquals(instanceInvalidationsBefore, cache.getInstanceInvalidations());
++    assertEquals(changesBefore, cache.getChanges());
++    assertEquals(hitsBefore, cache.getHits());
++    assertEquals(getsBefore, cache.getGets());
++    assertEquals(putsBefore, cache.getPuts());
++    assertEquals(cachedObjectsBefore, cache.getCachedObjects());
++    assertEquals(clusterInvalidationsBefore, cache.getClusterInvalidations());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

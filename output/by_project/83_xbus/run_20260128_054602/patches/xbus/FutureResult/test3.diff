@@ -1,0 +1,27 @@
+--- a/evosuite-tests/net/sf/xbus/base/core/timeoutcall/FutureResult_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/core/timeoutcall/FutureResult_ESTest.java
+@@ -61,15 +61,16 @@
+       Object object0 = futureResult0.timedGet(0L);
+       assertNull(object0);
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    FutureResult futureResult0 = new FutureResult();
++    Callable callable0 = mock(Callable.class, new ViolatedAssumptionAnswer());
++    TimedCallable timedCallable0 = new TimedCallable(callable0, 1L);
++    Runnable setterResult = futureResult0.setter(timedCallable0);
++    assertNotNull(setterResult);
++    assertFalse(futureResult0.isReady());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      FutureResult futureResult0 = new FutureResult();
+-      Callable callable0 = mock(Callable.class, new ViolatedAssumptionAnswer());
+-      TimedCallable timedCallable0 = new TimedCallable(callable0, 1L);
+-      futureResult0.setter(timedCallable0);
+-      assertFalse(futureResult0.isReady());
+-  }
+ @Test(timeout = 4000)
+ public void test4() throws Throwable {
+     FutureResult futureResult0 = new FutureResult();

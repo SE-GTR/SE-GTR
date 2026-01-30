@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
+@@ -244,22 +244,12 @@
+          verifyException("org.databene.jdbacl.DatabaseDialect", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      // Undeclared exception!
+-      try { 
+-        oracleDialect0.setNextSequenceValue("tKacUwK45CPk[SFTUJ", 50L, (Connection) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.DBUtil", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class, timeout = 4000)
++    public void test15() throws Throwable {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        oracleDialect0.setNextSequenceValue("tKacUwK45CPk[SFTUJ", 50L, null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

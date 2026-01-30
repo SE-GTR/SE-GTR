@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -1012,22 +1012,19 @@
+       ANTLRStringStream aNTLRStringStream0 = new ANTLRStringStream("C>?'4<8P");
+       aNTLRStringStream0.consume();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test091()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mT__73();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test091() throws Throwable {
++        // Provide a valid input that matches the literal for token T__73 (e.g., "BETWEEN")
++        org.antlr.runtime.ANTLRStringStream input = new org.antlr.runtime.ANTLRStringStream("BETWEEN");
++        SQLLexer lexer = new SQLLexer(input);
++        // The lexer should recognize the token without throwing an exception
++        lexer.mT__73();
++        // Verify that a token was emitted and its type corresponds to T__73
++        org.antlr.runtime.Token token = lexer.getToken();
++        assertNotNull(token);
++        assertEquals(SQLLexer.T__73, token.getType());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test092()  throws Throwable  {

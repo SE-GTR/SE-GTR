@@ -1,0 +1,35 @@
+--- a/evosuite-tests/jigl/signal/ComplexSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/ComplexSignal_ESTest.java
+@@ -289,14 +289,24 @@
+       assertNotNull(phaseSignal);
+       assertEquals(0, phaseSignal.length());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      ComplexSignal complexSignal0 = new ComplexSignal();
+-      complexSignal0.setImag((RealSignal) null);
+-      assertEquals(0, complexSignal0.length());
+-  }
++@Test(timeout = 4000)
++    public void test34() throws Throwable {
++        ComplexSignal complexSignal0 = new ComplexSignal();
++        // initially the length should be zero
++        assertEquals(0, complexSignal0.length());
++
++        // setting imag to null should not change the length
++        complexSignal0.setImag((RealSignal) null);
++        assertEquals(0, complexSignal0.length());
++
++        // set imag to a non‑null signal and verify length reflects it
++        RealSignal imagSignal = new RealSignal(3);
++        complexSignal0.setImag(imagSignal);
++        assertEquals(3, complexSignal0.length());
++        // verify the imag plane was stored correctly
++        assertSame(imagSignal, complexSignal0.getImag());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test35()  throws Throwable  {

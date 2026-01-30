@@ -1,0 +1,34 @@
+--- a/evosuite-tests/mygrid/web/_Request_ESTest.java
++++ b/evosuite-tests/mygrid/web/_Request_ESTest.java
+@@ -101,18 +101,22 @@
+       org.apache.axis.description.TypeDesc typeDesc1 = _Request.getTypeDesc();
+       assertSame(typeDesc0, typeDesc1);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test08() throws Throwable {
+     _Request0 = new _Request();
+     job0 = new Job();
+-      _Request0.setJob(job0);
+-      _Request _Request1 = new _Request();
+-      boolean boolean0 = _Request0.equals(_Request1);
+-      assertFalse(boolean0);
+-      assertFalse(_Request1.equals((Object)_Request0));
++    _Request0.setJob(job0);
++    // Verify that the job was stored by comparing with another request having the same job
++    _Request requestWithSameJob = new _Request();
++    requestWithSameJob.setJob(job0);
++    assertTrue(_Request0.equals(requestWithSameJob));
++    // Original behavior: a request without a job should not be equal
++    _Request _Request1 = new _Request();
++    boolean boolean0 = _Request0.equals(_Request1);
++    assertFalse(boolean0);
++    assertFalse(_Request1.equals((Object) _Request0));
+   }
++
+ @Test(timeout = 4000)
+   public void test09() throws Throwable {
+     _Request request = new _Request();

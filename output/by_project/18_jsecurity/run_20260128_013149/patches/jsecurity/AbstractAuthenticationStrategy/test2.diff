@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jsecurity/authc/pam/AbstractAuthenticationStrategy_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/pam/AbstractAuthenticationStrategy_ESTest.java
+@@ -69,16 +69,21 @@
+       SimpleAccount simpleAccount1 = (SimpleAccount)atLeastOneSuccessfulModularAuthenticationStrategy0.afterAttempt(simpleAccountRealm0, usernamePasswordToken0, simpleAccount0, simpleAccount0, (Throwable) null);
+       assertFalse(simpleAccount1.isLocked());
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    FirstSuccessfulAuthenticationStrategy strategy = new FirstSuccessfulAuthenticationStrategy();
++    SimpleAccountRealm realm = new SimpleAccountRealm("");
++    UsernamePasswordToken token = new UsernamePasswordToken(
++            "org.jsecurity.authc.pam.AbstractAuthenticationStrategy",
++            "rRWe Q|i+&%Cr9oK",
++            false);
++    MockThrowable throwable = new MockThrowable();
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    firstSuccessfulAuthenticationStrategy0 = new FirstSuccessfulAuthenticationStrategy();
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm("");
+-    usernamePasswordToken0 = new UsernamePasswordToken("org.jsecurity.authc.pam.AbstractAuthenticationStrategy", "rRWe Q|i+&%Cr9oK", false);
+-      MockThrowable mockThrowable0 = new MockThrowable();
+-      AuthenticationInfo authenticationInfo0 = firstSuccessfulAuthenticationStrategy0.afterAttempt(simpleAccountRealm0, usernamePasswordToken0, (AuthenticationInfo) null, (AuthenticationInfo) null, mockThrowable0);
+-      assertNull(authenticationInfo0);
+-  }
++    AuthenticationInfo info = strategy.afterAttempt(realm, token, null, null, throwable);
++    assertNull(info);
++    assertEquals("org.jsecurity.authc.pam.AbstractAuthenticationStrategy", token.getUsername());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

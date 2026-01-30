@@ -1,0 +1,45 @@
+--- a/evosuite-tests/mygrid/JobProcessor_ESTest.java
++++ b/evosuite-tests/mygrid/JobProcessor_ESTest.java
+@@ -50,19 +50,32 @@
+         // existing assertion retained
+         assertFalse(job0.isBroadcasted());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     job0 = new Job();
+     arrayOfContextElement0 = new ArrayOfContextElement();
+     contextElementArray0 = new ContextElement[0];
+-      arrayOfContextElement0.setContextElement(contextElementArray0);
+-      job0.setContext(arrayOfContextElement0);
+-      JobProcessor.setContextElement(job0, (String) null, (String) null);
+-      JobProcessor.setContextElement(job0, (String) null, (String) null);
+-      assertNull(job0.getCurrentEngineId());
+-  }
++
++    // Verify that the ArrayOfContextElement initially has no elements
++    assertNull(arrayOfContextElement0.getContextElement());
++
++    // Set an empty ContextElement array and verify the side‑effect
++    arrayOfContextElement0.setContextElement(contextElementArray0);
++    assertSame(contextElementArray0, arrayOfContextElement0.getContextElement());
++
++    // Associate the context with the job and verify the linkage
++    job0.setContext(arrayOfContextElement0);
++    assertSame(arrayOfContextElement0, job0.getContext());
++
++    // Invoke the processor method twice; ensure it does not disturb the established state
++    JobProcessor.setContextElement(job0, null, null);
++    JobProcessor.setContextElement(job0, null, null);
++    assertNotNull(job0.getContext());
++
++    // Final observable state: current engine id should remain null
++    assertNull(job0.getCurrentEngineId());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

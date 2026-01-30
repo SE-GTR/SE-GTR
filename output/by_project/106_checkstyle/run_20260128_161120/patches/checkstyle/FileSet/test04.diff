@@ -1,0 +1,48 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/projectconfig/FileSet_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/projectconfig/FileSet_ESTest.java
+@@ -67,28 +67,25 @@
+       assertNotSame(fileSet1, fileSet0);
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      FileSet fileSet0 = new FileSet();
+-      Path path0 = Path.EMPTY;
+-      IFile iFile0 = mock(IFile.class, new ViolatedAssumptionAnswer());
+-      doReturn(path0).when(iFile0).getProjectRelativePath();
+-      ArrayList<FileSet> arrayList0 = new ArrayList<FileSet>();
+-      arrayList0.add(fileSet0);
+-      fileSet0.setFileMatchPatterns(arrayList0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    FileSet fileSet0 = new FileSet();
++    Path path0 = Path.EMPTY;
++    IFile iFile0 = mock(IFile.class, new ViolatedAssumptionAnswer());
++    org.mockito.stubbing.OngoingStubbing<?> stub = doReturn(path0).when(iFile0).getProjectRelativePath();
++    assertNotNull(stub);
++    ArrayList<FileSet> arrayList0 = new ArrayList<FileSet>();
++    boolean added = arrayList0.add(fileSet0);
++    assertTrue(added);
++    fileSet0.setFileMatchPatterns(arrayList0);
++    try {
+         fileSet0.includesFile(iFile0);
+         fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // com.atlassw.tools.eclipse.checkstyle.projectconfig.FileSet cannot be cast to com.atlassw.tools.eclipse.checkstyle.projectconfig.FileMatchPattern
+-         //
+-         verifyException("com.atlassw.tools.eclipse.checkstyle.projectconfig.FileSet", e);
+-      }
+-  }
++    } catch (ClassCastException e) {
++        verifyException("com.atlassw.tools.eclipse.checkstyle.projectconfig.FileSet", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

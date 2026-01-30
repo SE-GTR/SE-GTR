@@ -1,0 +1,41 @@
+--- a/evosuite-tests/corina/cross/GridView_ESTest.java
++++ b/evosuite-tests/corina/cross/GridView_ESTest.java
+@@ -19,23 +19,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class GridView_ESTest extends GridView_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Prepare a non‑empty model to avoid NullPointerException inside GridView
++        Vector<DefaultTableModel> vector0 = new Vector<>();
++        DefaultTableModel model = new DefaultTableModel(
++                new Object[][] { { "value" } },
++                new Object[] { "column" });
++        vector0.add(model);
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Vector<DefaultTableModel> vector0 = new Vector<DefaultTableModel>();
+-      Grid grid0 = new Grid(vector0);
+-      GridView gridView0 = null;
+-      try {
+-        gridView0 = new GridView(grid0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.cross.Grid", e);
+-      }
+-  }
++        Grid grid0 = new Grid(vector0);
++        GridView gridView0 = new GridView(grid0);
++
++        // Verify that the view was created successfully
++        assertNotNull(gridView0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,51 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -644,21 +644,33 @@
+         sortingCode.setType("test");
+         assertEquals("test", sortingCode.getType());
+     }
+-@Test(timeout = 4000)
+-    public void test062() throws Throwable {
+-        AddressDetails.PostalServiceElements.SortingCode sortingCode = new AddressDetails.PostalServiceElements.SortingCode();
+-        // Verify initial state
+-        assertNull(sortingCode.getType());
+-
+-        // Set a non‑null type and verify the change
+-        String type = "ZIP";
+-        sortingCode.setType(type);
+-        assertEquals(type, sortingCode.getType());
+-
+-        // Reset to null and verify again
+-        sortingCode.setType(null);
+-        assertNull(sortingCode.getType());
+-    }
++public void test062() throws Throwable {
++    AddressDetails.PostalServiceElements.SortingCode sortingCode = new AddressDetails.PostalServiceElements.SortingCode();
++    // Verify initial state
++    assertNull(sortingCode.getType());
++    assertNull(sortingCode.getValue());
++
++    // Set a value and verify it is stored
++    String value = "12345";
++    sortingCode.setValue(value);
++    assertEquals(value, sortingCode.getValue());
++
++    // Set a non‑null type and verify the change while ensuring the value is unchanged
++    String type = "ZIP";
++    sortingCode.setType(type);
++    assertEquals(type, sortingCode.getType());
++    assertEquals(value, sortingCode.getValue());
++
++    // Reset type to null and verify again; value should remain unchanged
++    sortingCode.setType(null);
++    assertNull(sortingCode.getType());
++    assertEquals(value, sortingCode.getValue());
++
++    // Finally, reset the value to null and verify
++    sortingCode.setValue(null);
++    assertNull(sortingCode.getValue());
++}
++
+ 
+ @Test(timeout = 4000)
+   public void test063() throws Throwable {

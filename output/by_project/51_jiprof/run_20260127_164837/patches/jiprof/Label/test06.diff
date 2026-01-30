@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
+@@ -114,15 +114,20 @@
+       boolean boolean0 = label0.inSameSubroutine(label0);
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      Label label0 = new Label();
+-      label0.addToSubroutine(108L, 1582);
+-      Label label1 = new Label();
+-      boolean boolean0 = label0.inSameSubroutine(label1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        Label label0 = new Label();
++        label0.addToSubroutine(108L, 1582);
++        Label label1 = new Label();
++        label1.addToSubroutine(108L, 1582);
++        // Both labels belong to the same subroutine after the call.
++        assertTrue(label0.inSameSubroutine(label1));
++        Label label2 = new Label();
++        // A label that was not added to the same subroutine should not match.
++        boolean boolean0 = label0.inSameSubroutine(label2);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

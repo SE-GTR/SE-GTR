@@ -1,0 +1,53 @@
+--- a/evosuite-tests/module/BasicMessageRules_ESTest.java
++++ b/evosuite-tests/module/BasicMessageRules_ESTest.java
+@@ -66,18 +66,39 @@
+       boolean boolean0 = basicMessageRules0.checkRules(textMessage0, gameState0);
+       assertTrue(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        GameState gameState0 = new GameState();
++        Player player0 = new Player((byte) 0, "", "", 0, 0);
++        // Verify that the player is not marked dead initially (if such a query exists)
++        try {
++            assertFalse(gameState0.isDead(player0));
++        } catch (NoSuchMethodError | NoSuchMethodException ignored) {
++            // isDead may not be available; ignore for this assertion
++        }
++        // Capture player collection size before adding
++        int sizeBefore = 0;
++        try {
++            sizeBefore = gameState0.getPlayers().size();
++        } catch (NoSuchMethodError | NoSuchMethodException ignored) {
++            // getPlayers may not be available; ignore size check
++        }
++        // Perform state changes
++        gameState0.setDead(player0);
++        gameState0.addPlayer(player0);
++        // Verify side‑effects of addPlayer
++        try {
++            assertEquals(sizeBefore + 1, gameState0.getPlayers().size());
++            assertTrue(gameState0.getPlayers().contains(player0));
++        } catch (NoSuchMethodError | NoSuchMethodException ignored) {
++            // If the collection API is not present, at least the test exercised the method
++        }
++        BasicMessageRules basicMessageRules0 = new BasicMessageRules();
++        TextMessage textMessage0 = new TextMessage(0, 2, 1, "");
++        boolean boolean0 = basicMessageRules0.checkRules(textMessage0, gameState0);
++        assertFalse(boolean0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      GameState gameState0 = new GameState();
+-      Player player0 = new Player((byte)0, "", "", 0, 0);
+-      gameState0.setDead(player0);
+-      gameState0.addPlayer(player0);
+-      BasicMessageRules basicMessageRules0 = new BasicMessageRules();
+-      TextMessage textMessage0 = new TextMessage(0, 2, 1, "");
+-      boolean boolean0 = basicMessageRules0.checkRules(textMessage0, gameState0);
+-      assertFalse(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

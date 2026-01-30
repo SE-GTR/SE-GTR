@@ -1,0 +1,48 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SyslogEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SyslogEntry_ESTest.java
+@@ -143,20 +143,31 @@
+         // Ensure the mutation affects equality as expected
+         assertFalse(syslogEntry1.equals(syslogEntry0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      SyslogEntry syslogEntry0 = new SyslogEntry();
+-      SyslogEntry syslogEntry1 = new SyslogEntry();
+-      syslogEntry1.setTcode("tcode");
+-      assertFalse(syslogEntry1.equals((Object)syslogEntry0));
+-      
+-      syslogEntry0.setTcode("tcode");
+-      boolean boolean0 = syslogEntry1.equals(syslogEntry0);
+-      assertTrue(syslogEntry1.equals((Object)syslogEntry0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        SyslogEntry syslogEntry0 = new SyslogEntry();
++        SyslogEntry syslogEntry1 = new SyslogEntry();
++
++        // Verify initial state (tcode should be null)
++        assertNull(syslogEntry0.getTcode());
++        assertNull(syslogEntry1.getTcode());
++
++        // Set tcode on the first instance and assert the side‑effect
++        syslogEntry1.setTcode("tcode");
++        assertEquals("tcode", syslogEntry1.getTcode());
++
++        // Objects differ because only one has a tcode set
++        assertFalse(syslogEntry1.equals((Object) syslogEntry0));
++
++        // Set the same tcode on the second instance and assert the side‑effect
++        syslogEntry0.setTcode("tcode");
++        assertEquals("tcode", syslogEntry0.getTcode());
++
++        // Now the two instances should be equal
++        assertTrue(syslogEntry1.equals((Object) syslogEntry0));
++        assertTrue(syslogEntry1.equals(syslogEntry0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/fasta/aa/IndexedAminoAcidSequenceFastaFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/fasta/aa/IndexedAminoAcidSequenceFastaFileDataStore_ESTest.java
+@@ -144,19 +144,19 @@
+   public void test09()  throws Throwable  {
+       IndexedAminoAcidSequenceFastaFileDataStore indexedAminoAcidSequenceFastaFileDataStore0 = new IndexedAminoAcidSequenceFastaFileDataStore();
+   }
++@Test(timeout = 4000)
++  public void test10() throws Throwable {
++      // Create a temporary FASTA file with minimal valid content
++      java.io.File tempFile = java.io.File.createTempFile("test10", ".fasta");
++      tempFile.deleteOnExit();
++      try (java.io.Writer writer = new java.io.FileWriter(tempFile)) {
++          writer.write(">seq1\n");
++          writer.write("ARNDCEQGHILKMFPSTWYV\n");
++      }
++      // The CUT should be able to create a data store from an existing file without throwing
++      org.jcvi.jillion.fasta.aa.AminoAcidFastaDataStore dataStore = 
++          org.jcvi.jillion.internal.fasta.aa.IndexedAminoAcidSequenceFastaFileDataStore.create(tempFile);
++      assertNotNull(dataStore);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("org.jcvi.jillion.internal.fasta.aa.IndexedAminoAcidSequenceFastaFileDataStore$IndexedAminoAcidSequenceFastaFileDataStore2", "D7Ja/&L P");
+-      try { 
+-        IndexedAminoAcidSequenceFastaFileDataStore.create((File) mockFile0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // /PATH/TO/SF110-20130704-src/92_jcvi-javacommon/org.jcvi.jillion.internal.fasta.aa.IndexedAminoAcidSequenceFastaFileDataStore$IndexedAminoAcidSequenceFastaFileDataStore2/D7Ja/&L P
+-         //
+-         verifyException("org.jcvi.jillion.internal.fasta.aa.IndexedAminoAcidSequenceFastaFileDataStore", e);
+-      }
+-  }
+ }

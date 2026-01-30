@@ -1,0 +1,23 @@
+--- a/evosuite-tests/macaw/system/MacawMessages_ESTest.java
++++ b/evosuite-tests/macaw/system/MacawMessages_ESTest.java
+@@ -30,11 +30,16 @@
+ public void test1() {
+     MacawMessages.getMessage("nonexistent.key", "param0", "param1", "param2", "param3");
+ }
++public void test2() {
++    try {
++        MacawMessages.getMessage("Yy\"", "Yy\"", "Yy\"", "Yy\"");
++        fail("Expected MissingResourceException");
++    } catch (MissingResourceException e) {
++        // Verify that the exception references the missing key
++        assertTrue(e.getMessage().contains("Yy\""));
++    }
++}
+ 
+-@Test(timeout = 4000, expected = MissingResourceException.class)
+-  public void test2() {
+-      MacawMessages.getMessage("Yy\"", "Yy\"", "Yy\"", "Yy\"");
+-  }
+ @Test(timeout = 4000, expected = MissingResourceException.class)
+   public void test3() throws Throwable {
+       MacawMessages.getMessage("", "", "");

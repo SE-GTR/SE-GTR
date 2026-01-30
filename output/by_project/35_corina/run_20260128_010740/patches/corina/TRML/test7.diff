@@ -1,0 +1,42 @@
+--- a/evosuite-tests/corina/formats/TRML_ESTest.java
++++ b/evosuite-tests/corina/formats/TRML_ESTest.java
+@@ -153,24 +153,22 @@
+          verifyException("corina.formats.TRML", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test7() throws Throwable {
++        tRML0 = new TRML();
++        StringReader stringReader0 = new StringReader("?40)}at");
++        BufferedReader bufferedReader0 = new BufferedReader(stringReader0);
++        String line = bufferedReader0.readLine();
++        assertEquals("?40)}at", line);
++        try {
++            tRML0.load(bufferedReader0);
++            fail("Expecting exception: IOException");
++        } catch (IOException e) {
++            // no message in exception (getMessage() returned null)
++            verifyException("corina.formats.TRML", e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-    tRML0 = new TRML();
+-      StringReader stringReader0 = new StringReader("?40)}at");
+-      BufferedReader bufferedReader0 = new BufferedReader(stringReader0);
+-      bufferedReader0.readLine();
+-      try { 
+-        tRML0.load(bufferedReader0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.formats.TRML", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

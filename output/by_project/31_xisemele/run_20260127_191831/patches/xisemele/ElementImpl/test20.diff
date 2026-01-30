@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/ElementImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/ElementImpl_ESTest.java
+@@ -266,22 +266,18 @@
+       List<Element> list0 = elementImpl0.children();
+       assertEquals(0, list0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
+-      FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+-      ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, (Node) null);
+-      // Undeclared exception!
+-      try { 
+-        elementImpl0.containsChildren();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.xisemele.impl.OperationsHelperImpl", e);
+-      }
+-  }
+-}
++@Test(timeout = 4000)
++    public void test20() throws Throwable {
++        FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
++        FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
++        // create a minimal DOM element without children
++        org.w3c.dom.Document doc = javax.xml.parsers.DocumentBuilderFactory.newInstance()
++                .newDocumentBuilder().newDocument();
++        org.w3c.dom.Element domElement = doc.createElement("root");
++        ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, domElement);
++        // the element has no children, so containsChildren should return false
++        boolean hasChildren = elementImpl0.containsChildren();
++        org.junit.Assert.assertFalse(hasChildren);
++    }
++
++}

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/DefaultPhd_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/DefaultPhd_ESTest.java
+@@ -85,12 +85,18 @@
+       boolean boolean0 = defaultPhd0.equals(artificialPhd0);
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test04() throws Throwable {
+       NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+       doReturn((String) null).when(nucleotideSequence0).toString();
+       doReturn(0L).when(nucleotideSequence0).getLength();
++
++      // Assert the stubbed return values to eliminate NARV smell
++      String mockedString = nucleotideSequence0.toString();
++      assertNull(mockedString);
++      long mockedLength = nucleotideSequence0.getLength();
++      assertEquals(0L, mockedLength);
++
+       QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+       DefaultPhd defaultPhd0 = new DefaultPhd("", nucleotideSequence0, qualitySequence0, (PositionSequence) null);
+       NucleotideSequence nucleotideSequence1 = defaultPhd0.getNucleotideSequence();
+@@ -100,6 +106,7 @@
+       boolean boolean0 = defaultPhd0.equals(artificialPhd0);
+       assertFalse(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

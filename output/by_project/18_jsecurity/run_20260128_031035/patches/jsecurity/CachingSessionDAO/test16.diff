@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/eis/CachingSessionDAO_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/eis/CachingSessionDAO_ESTest.java
+@@ -185,13 +185,21 @@
+          verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
+-      memorySessionDAO0.setActiveSessionsCacheName("jsecurity-activeSessionCache");
+-      assertEquals("jsecurity-activeSessionCache", memorySessionDAO0.getActiveSessionsCacheName());
+-  }
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    MemorySessionDAO dao = new MemorySessionDAO();
++    dao.setActiveSessionsCacheName("jsecurity-activeSessionCache");
++    assertEquals("jsecurity-activeSessionCache", dao.getActiveSessionsCacheName());
++
++    // Create a simple session, store it, and verify it can be retrieved.
++    org.jsecurity.session.mgt.SimpleSession session = new org.jsecurity.session.mgt.SimpleSession();
++    java.io.Serializable id = dao.create(session);
++    assertNotNull(id);
++    org.jsecurity.session.Session retrieved = dao.readSession(id);
++    assertNotNull(retrieved);
++    assertEquals(session.getId(), retrieved.getId());
++}
++
+ @Test(timeout = 4000)
+     public void test17() throws Throwable {
+         MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();

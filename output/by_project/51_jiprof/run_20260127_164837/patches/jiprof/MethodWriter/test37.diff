@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -460,22 +460,26 @@
+       MethodWriter methodWriter0 = classWriter0.firstMethod;
+       methodWriter0.visitVarInsn(57, 259);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test37()  throws Throwable  {
+-      ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
+-      ClassWriter classWriter0 = new ClassWriter(181);
+-      String[] stringArray0 = new String[4];
+-      stringArray0[0] = "org.yasl.jars.JarFileFilter";
+-      stringArray0[1] = "org.yasl.jars.JarFileFilter";
+-      stringArray0[2] = "org.yasl.jars.JarFileFilter";
+-      stringArray0[3] = "";
+-      MethodWriter methodWriter0 = new MethodWriter(classWriter0, 8, "org.yasl.jars.JarFileFilter", "org.yasl.jars.JarFileFilter", "", stringArray0, false, false);
+-      classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 181);
+-      MethodWriter methodWriter1 = methodWriter0.next;
+-      methodWriter1.visitVarInsn(24, 366);
+-      assertFalse(methodWriter1.equals((Object)methodWriter0));
+-  }
++@Test(timeout = 4000)
++    public void test37() throws Throwable {
++        ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
++        ClassWriter classWriter0 = new ClassWriter(181);
++        String[] stringArray0 = new String[4];
++        stringArray0[0] = "org.yasl.jars.JarFileFilter";
++        stringArray0[1] = "org.yasl.jars.JarFileFilter";
++        stringArray0[2] = "org.yasl.jars.JarFileFilter";
++        stringArray0[3] = "";
++        MethodWriter methodWriter0 = new MethodWriter(classWriter0, 8, "org.yasl.jars.JarFileFilter",
++                "org.yasl.jars.JarFileFilter", "", stringArray0, false, false);
++        classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 181);
++        MethodWriter methodWriter1 = methodWriter0.next;
++        byte[] before = classWriter0.toByteArray();
++        methodWriter1.visitVarInsn(24, 366);
++        byte[] after = classWriter0.toByteArray();
++        assertTrue(after.length > before.length);
++        assertFalse(methodWriter1.equals((Object) methodWriter0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test38()  throws Throwable  {

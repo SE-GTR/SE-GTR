@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/heal/module/metadata/RequirementBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/RequirementBean_ESTest.java
+@@ -44,13 +44,26 @@
+       requirementBean0.setMetadataId("Requirement: ID:null metadataId:null requirementType:null requirementName:null");
+       assertEquals("Requirement: ID:null metadataId:null requirementType:null requirementName:null", requirementBean0.getMetadataId());
+   }
++@Test(timeout = 4000)
++  public void test04() throws Throwable {
++      RequirementBean requirementBean0 = new RequirementBean();
++      // Set a non‑default value to exercise state change
++      requirementBean0.setDescription("sample description");
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      RequirementBean requirementBean0 = new RequirementBean();
+-      String string0 = requirementBean0.getDescription();
+-      assertNull(string0);
++      // Serialize and deserialize to invoke non‑trivial behavior
++      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++      oos.writeObject(requirementBean0);
++      oos.flush();
++
++      java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++          new java.io.ByteArrayInputStream(baos.toByteArray()));
++      RequirementBean deserialized = (RequirementBean) ois.readObject();
++
++      // Verify that the description survived the round‑trip
++      assertEquals("sample description", deserialized.getDescription());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

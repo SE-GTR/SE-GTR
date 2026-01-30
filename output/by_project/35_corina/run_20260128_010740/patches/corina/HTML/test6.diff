@@ -1,0 +1,38 @@
+--- a/evosuite-tests/corina/formats/HTML_ESTest.java
++++ b/evosuite-tests/corina/formats/HTML_ESTest.java
+@@ -115,19 +115,21 @@
+       String string0 = hTML0.toString();
+       assertEquals("HTML", string0);
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        HTML html = new HTML();
++        BufferedReader br = new BufferedReader(new java.io.Reader() {
++            @Override
++            public int read(char[] cbuf, int off, int len) throws IOException {
++                throw new IOException("forced");
++            }
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      HTML hTML0 = new HTML();
+-      try { 
+-        hTML0.load((BufferedReader) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // HTML is a write-only format for samples
+-         //
+-         verifyException("corina.formats.HTML", e);
+-      }
+-  }
++            @Override
++            public void close() throws IOException {
++                // no-op
++            }
++        });
++        assertThrows(IOException.class, () -> html.load(br));
++    }
++
+ }

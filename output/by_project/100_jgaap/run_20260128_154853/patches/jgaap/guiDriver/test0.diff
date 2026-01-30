@@ -1,0 +1,37 @@
+--- a/evosuite-tests/guiDriver_ESTest.java
++++ b/evosuite-tests/guiDriver_ESTest.java
+@@ -19,16 +19,25 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class guiDriver_ESTest extends guiDriver_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    guiDriver guiDriver0 = new guiDriver();
++    JTabbedPane jTabbedPane0 = new JTabbedPane();
++    JProgressBar jProgressBar0 = new JProgressBar();
++    guiDriver.runStatisticalAnalysisDriver guiDriver_runStatisticalAnalysisDriver0 = guiDriver0.runStatisticalAnalysisDriver("crossentropy", jTabbedPane0, jProgressBar0);
++    // Capture state before execution (may be null)
++    Object resultsBefore = guiDriver_runStatisticalAnalysisDriver0.getResults();
++    // Act
++    guiDriver_runStatisticalAnalysisDriver0.run();
++    // Verify side‑effect: results should be populated after run()
++    Object resultsAfter = guiDriver_runStatisticalAnalysisDriver0.getResults();
++    assertNotNull("Results should not be null after run()", resultsAfter);
++    // If there was a previous value, ensure it changed
++    if (resultsBefore != null) {
++        assertNotSame("Results instance should change after run()", resultsBefore, resultsAfter);
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      guiDriver guiDriver0 = new guiDriver();
+-      JTabbedPane jTabbedPane0 = new JTabbedPane();
+-      JProgressBar jProgressBar0 = new JProgressBar();
+-      guiDriver.runStatisticalAnalysisDriver guiDriver_runStatisticalAnalysisDriver0 = guiDriver0.runStatisticalAnalysisDriver("crossentropy", jTabbedPane0, jProgressBar0);
+-      guiDriver_runStatisticalAnalysisDriver0.run();
+-      //  // Unstable assertion: assertFalse(guiDriver_runStatisticalAnalysisDriver0.isDaemon());
+-  }
+ @Test(timeout = 4000)
+ public void test1() throws Throwable {
+     guiDriver guiDriver0 = new guiDriver();

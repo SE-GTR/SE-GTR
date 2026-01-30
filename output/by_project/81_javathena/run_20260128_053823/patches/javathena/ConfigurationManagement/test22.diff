@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -167,12 +167,19 @@
+       int int0 = ConfigurationManagement.getGm_allow_level();
+       assertEquals(0, int0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      String string0 = ConfigurationManagement.getScdata_txt();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++    public void test22() throws Throwable {
++        // Act: invoke a configuration loading routine (may fail gracefully in test environment)
++        try {
++            ConfigurationManagement.login_config_readXML();
++        } catch (Throwable ignored) {
++            // The method may rely on external files; ignore any exception for this test.
++        }
++        // Assert: the scdata_txt value remains null when no configuration is successfully loaded.
++        String string0 = ConfigurationManagement.getScdata_txt();
++        assertNull(string0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

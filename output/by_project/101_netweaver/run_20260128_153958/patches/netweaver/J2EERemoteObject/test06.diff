@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EERemoteObject_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EERemoteObject_ESTest.java
+@@ -119,18 +119,24 @@
+     boolean boolean0 = j2EERemoteObject0.equals(j2EERemoteObject1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      J2EERemoteObject j2EERemoteObject0 = new J2EERemoteObject();
+-      J2EERemoteObject j2EERemoteObject1 = new J2EERemoteObject();
+-      assertTrue(j2EERemoteObject1.equals((Object)j2EERemoteObject0));
+-      
+-      j2EERemoteObject1.setUpdateTime("M:$AVMkkjDRY4b:Ty");
+-      boolean boolean0 = j2EERemoteObject1.equals(j2EERemoteObject0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        J2EERemoteObject j2EERemoteObject0 = new J2EERemoteObject();
++        J2EERemoteObject j2EERemoteObject1 = new J2EERemoteObject();
++        assertTrue(j2EERemoteObject1.equals((Object) j2EERemoteObject0));
++
++        // verify initial state of updateTime (expected to be null)
++        assertNull(j2EERemoteObject1.getUpdateTime());
++
++        String newUpdateTime = "M:$AVMkkjDRY4b:Ty";
++        j2EERemoteObject1.setUpdateTime(newUpdateTime);
++        // assert that the side‑effect of setUpdateTime is observable
++        assertEquals(newUpdateTime, j2EERemoteObject1.getUpdateTime());
++
++        // the change in updateTime should affect equality
++        assertFalse(j2EERemoteObject1.equals(j2EERemoteObject0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

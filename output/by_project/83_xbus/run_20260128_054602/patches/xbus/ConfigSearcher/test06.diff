@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/sf/xbus/tools/ConfigSearcher_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/tools/ConfigSearcher_ESTest.java
+@@ -111,22 +111,20 @@
+         verifyException("net.sf.xbus.tools.ConfigSearcher", e);
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test06() throws Throwable {
+       EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("Process/null/configuration.csv0mntCVS.java");
+-      FileSystemHandling.appendLineToFile(evoSuiteFile0, "[getValue");
++      boolean appendResult = FileSystemHandling.appendLineToFile(evoSuiteFile0, "[getValue");
++      assertTrue("Appending line to file should succeed", appendResult);
+       MockFile mockFile0 = new MockFile("Process");
+       ConfigSearcher configSearcher0 = new ConfigSearcher();
+-      // Undeclared exception!
+-      try { 
+-        configSearcher0.getEntriesFromDirectory(mockFile0);
+-        fail("Expecting exception: StringIndexOutOfBoundsException");
+-      
+-      } catch(StringIndexOutOfBoundsException e) {
++      try {
++          configSearcher0.getEntriesFromDirectory(mockFile0);
++          fail("Expecting exception: StringIndexOutOfBoundsException");
++      } catch (StringIndexOutOfBoundsException e) {
+       }
+   }
++
+ @Test(timeout = 4000)
+ public void test07() throws Throwable {
+     MockFile mockFile0 = new MockFile("`(CVS");

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/LogFile_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/LogFile_ESTest.java
+@@ -154,20 +154,27 @@
+     assertFalse(boolean0);
+     assertFalse(logFile1.equals((Object) logFile0));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test10() throws Throwable {
+       LogFile logFile0 = new LogFile();
++      // verify initial state before setting modtime
++      assertNull(logFile0.getModtime());
+       logFile0.setModtime("], Rendered class: [");
++      // assert side‑effect of setModtime
++      assertEquals("], Rendered class: [", logFile0.getModtime());
++
+       LogFile logFile1 = new LogFile();
+-      assertFalse(logFile1.equals((Object)logFile0));
+-      
++      assertFalse(logFile1.equals((Object) logFile0));
++
+       logFile1.setModtime("], Rendered class: [");
++      // assert side‑effect for the second instance as well
++      assertEquals("], Rendered class: [", logFile1.getModtime());
++
+       boolean boolean0 = logFile1.equals(logFile0);
+-      assertTrue(logFile1.equals((Object)logFile0));
++      assertTrue(logFile1.equals((Object) logFile0));
+       assertTrue(boolean0);
+   }
++
+ @Test(timeout = 4000)
+ public void test11() throws Throwable {
+     Class<Object> class0 = Object.class;

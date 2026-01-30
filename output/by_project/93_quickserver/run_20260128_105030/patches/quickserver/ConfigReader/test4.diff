@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/ConfigReader_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/ConfigReader_ESTest.java
+@@ -48,20 +48,22 @@
+       File file0 = ConfigReader.makeAbsoluteToConfig(">FC<$o*n#", quickServerConfig0);
+       assertFalse(file0.isHidden());
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        // Create a temporary, minimal XML configuration file
++        java.io.File tempFile = java.io.File.createTempFile("config", ".xml");
++        tempFile.deleteOnExit();
++        java.nio.file.Files.write(
++                tempFile.toPath(),
++                "<quickserver></quickserver>".getBytes(java.nio.charset.StandardCharsets.UTF_8));
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      try { 
+-        ConfigReader.read("TrustStore loaded");
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
++        // Read the configuration using the InputStream overload
++        try (java.io.FileInputStream fis = new java.io.FileInputStream(tempFile)) {
++            Object config = ConfigReader.read(fis, tempFile.getAbsolutePath());
++            assertNotNull("ConfigReader should return a non‑null configuration object", config);
++        }
++    }
++
+ @Test(timeout = 4000)
+ public void test5() throws Throwable {
+     ConfigReader configReader0 = new ConfigReader();

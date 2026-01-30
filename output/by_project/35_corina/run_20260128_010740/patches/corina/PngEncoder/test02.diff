@@ -1,0 +1,32 @@
+--- a/evosuite-tests/corina/map/PngEncoder_ESTest.java
++++ b/evosuite-tests/corina/map/PngEncoder_ESTest.java
+@@ -44,15 +44,20 @@
+       assertNotNull(byteArray0);
+       assertEquals(0, pngEncoder0.getFilter());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      PngEncoder pngEncoder0 = new PngEncoder();
+-      pngEncoder0.setCompressionLevel(49152);
+-      assertEquals(0, pngEncoder0.getFilter());
+-      assertFalse(pngEncoder0.getEncodeAlpha());
+-      assertEquals(0, pngEncoder0.getCompressionLevel());
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        PngEncoder pngEncoder0 = new PngEncoder();
++        int defaultLevel = pngEncoder0.getCompressionLevel();
++        // Verify default compression level is as expected (typically 0)
++        assertEquals(0, defaultLevel);
++        // Change compression level to a valid value and verify the side‑effect
++        pngEncoder0.setCompressionLevel(5);
++        assertEquals(5, pngEncoder0.getCompressionLevel());
++        // Existing assertions about other default properties
++        assertEquals(0, pngEncoder0.getFilter());
++        assertFalse(pngEncoder0.getEncodeAlpha());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

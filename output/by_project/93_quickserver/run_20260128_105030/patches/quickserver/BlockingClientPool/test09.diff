@@ -1,0 +1,76 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
+@@ -137,34 +137,46 @@
+       assertFalse(blockingClientPool0.isDebug());
+       assertEquals(0, blockingClientPool0.getLogPoolStatsTimeInMinute());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      HostList hostList0 = mock(HostList.class, new ViolatedAssumptionAnswer());
+-      doReturn((List) null).when(hostList0).getFullList();
+-      LoadDistributor loadDistributor0 = mock(LoadDistributor.class, new ViolatedAssumptionAnswer());
+-      doReturn(hostList0, hostList0).when(loadDistributor0).getHostList();
+-      HostMonitor hostMonitor0 = mock(HostMonitor.class, new ViolatedAssumptionAnswer());
+-      PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null, (String) null, (String) null).when(poolableBlockingClient0).toString();
+-      doReturn(hostMonitor0).when(poolableBlockingClient0).getHostMonitor();
+-      doReturn(0, 0).when(poolableBlockingClient0).getHostMonitoringIntervalInSec();
+-      doReturn(loadDistributor0).when(poolableBlockingClient0).getLoadDistributor();
+-      doReturn(0).when(poolableBlockingClient0).getMaxIntervalForBorrowInSec();
+-      doReturn((long)0).when(poolableBlockingClient0).getNoOpTimeIntervalMiliSec();
+-      BlockingClientPool blockingClientPool0 = new BlockingClientPool("Pw_}.IrN\u0004Sdanls-m", poolableBlockingClient0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        // Arrange
++        HostList hostList0 = mock(HostList.class, new ViolatedAssumptionAnswer());
++        Host dummyHost = mock(Host.class, new ViolatedAssumptionAnswer());
++        List<Host> fullHostList = Collections.singletonList(dummyHost);
++        doReturn(fullHostList).when(hostList0).getFullList();
++
++        LoadDistributor loadDistributor0 = mock(LoadDistributor.class, new ViolatedAssumptionAnswer());
++        doReturn(hostList0).when(loadDistributor0).getHostList();
++
++        HostMonitor hostMonitor0 = mock(HostMonitor.class, new ViolatedAssumptionAnswer());
++
++        PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
++        doReturn(hostMonitor0).when(poolableBlockingClient0).getHostMonitor();
++        doReturn(loadDistributor0).when(poolableBlockingClient0).getLoadDistributor();
++
++        int monitoringInterval = 5;
++        int maxBorrowInterval = 10;
++        long noopInterval = 100L;
++        doReturn(monitoringInterval).when(poolableBlockingClient0).getHostMonitoringIntervalInSec();
++        doReturn(maxBorrowInterval).when(poolableBlockingClient0).getMaxIntervalForBorrowInSec();
++        doReturn(noopInterval).when(poolableBlockingClient0).getNoOpTimeIntervalMiliSec();
++
++        BlockingClientPool blockingClientPool0 = new BlockingClientPool("testPool", poolableBlockingClient0);
++
++        // Act
+         blockingClientPool0.init();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.net.client.pool.BlockingClientPool", e);
+-      }
+-  }
++
++        // Assert
++        assertSame(hostMonitor0, blockingClientPool0.getHostMonitor());
++        assertSame(loadDistributor0, blockingClientPool0.getLoadDistributor());
++        assertEquals(monitoringInterval, blockingClientPool0.getHostMonitoringIntervalInSec());
++        assertEquals(maxBorrowInterval, blockingClientPool0.getMaxIntervalForBorrowInSec());
++        assertEquals(noopInterval, blockingClientPool0.getNoOpTimeIntervalMiliSec());
++
++        // Verify interaction
++        verify(hostList0).getFullList();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

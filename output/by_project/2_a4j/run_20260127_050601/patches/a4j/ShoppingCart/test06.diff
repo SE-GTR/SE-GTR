@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ShoppingCart_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ShoppingCart_ESTest.java
+@@ -116,17 +116,21 @@
+     // original behavior check
+     assertEquals("1", shoppingCart0.getNumItems());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-    shoppingCart0 = new ShoppingCart();
+-    items0 = new Items();
+-      shoppingCart0.setItems(items0);
+-      items0.items = null;
+-      Item item0 = shoppingCart0.getItem("HMAC = null\nPurchase URL = null\nCartId = null\nitems = \n");
+-      assertNull(item0);
+-  }
++@Test(timeout = 4000)
++  public void test06() throws Throwable {
++    shoppingCart0 = new ShoppingCart();
++    items0 = new Items();
++    // verify initial state before setting items
++    assertNull(shoppingCart0.getItems());
++    shoppingCart0.setItems(items0);
++    // assert that setItems correctly stored the reference
++    assertSame(items0, shoppingCart0.getItems());
++    // mutate the Items object after it has been set
++    items0.items = null;
++    Item item0 = shoppingCart0.getItem("HMAC = null\nPurchase URL = null\nCartId = null\nitems = \n");
++    assertNull(item0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

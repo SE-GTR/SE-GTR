@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/chromat/ChromatogramFactory_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/chromat/ChromatogramFactory_ESTest.java
+@@ -58,19 +58,13 @@
+          verifyException("org.jcvi.jillion.trace.chromat.ChromatogramFactory", e);
+       }
+   }
++@Test(timeout = 4000, expected = FileNotFoundException.class)
++    public void test2() throws Throwable {
++        java.io.File nonExistent = new java.io.File("nonexistent_file_123456789.tmp");
++        if (nonExistent.exists()) {
++            nonExistent.delete();
++        }
++        ChromatogramFactory.create(nonExistent);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("J:=1&dy4L7 LS");
+-      try { 
+-        ChromatogramFactory.create((File) mockFile0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
+ }

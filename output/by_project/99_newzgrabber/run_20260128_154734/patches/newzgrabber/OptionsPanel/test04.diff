@@ -1,0 +1,30 @@
+--- a/evosuite-tests/Newzgrabber/OptionsPanel_ESTest.java
++++ b/evosuite-tests/Newzgrabber/OptionsPanel_ESTest.java
+@@ -65,15 +65,19 @@
+     optionsPanel0.updateIni();
+     assertSame(jRadioButton0, optionsPanel0.GetAll);
+ }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    OptionsPanel optionsPanel0 = new OptionsPanel((Frame) null);
++    OptionsPanel.PasswordText = null;
++    java.io.File iniFile = new java.io.File(OptionsPanel.OptionFilename);
++    if (iniFile.exists()) {
++        iniFile.delete();
++    }
++    optionsPanel0.updateIni();
++    assertTrue("INI file should be created after updateIni", iniFile.exists());
++    assertNull("PasswordText should remain null after updateIni", OptionsPanel.PasswordText);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      OptionsPanel optionsPanel0 = new OptionsPanel((Frame) null);
+-      OptionsPanel.PasswordText = null;
+-      optionsPanel0.updateIni();
+-      assertTrue(optionsPanel0.getFocusTraversalKeysEnabled());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

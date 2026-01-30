@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jsecurity/cache/ehcache/EhCache_ESTest.java
++++ b/evosuite-tests/org/jsecurity/cache/ehcache/EhCache_ESTest.java
+@@ -16,17 +16,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class EhCache_ESTest extends EhCache_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
+       Cache cache0 = new Cache("", 2634, true, true, 2634, 2634, true, 2634);
+       cache0.initialise();
+       EhCache ehCache0 = new EhCache(cache0);
+       ehCache0.put("", cache0);
+-      ehCache0.values();
++      java.util.Set values = ehCache0.values();
++      assertNotNull(values);
++      assertEquals(1, values.size());
++      assertTrue(values.contains(cache0));
+       assertEquals(1, cache0.getMemoryStoreHitCount());
+       assertEquals(1, cache0.getHitCount());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

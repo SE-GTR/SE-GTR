@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -488,16 +488,19 @@
+     int afterSize = classWriter0.toByteArray().length;
+     assertTrue(afterSize > beforeSize);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
+-      ClassWriter classWriter0 = new ClassWriter(1);
+-      classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 259);
+-      MethodWriter methodWriter0 = classWriter0.firstMethod;
+-      methodWriter0.visitTypeInsn(1823, "4^,S&|> u HQB");
+-  }
++@Test(timeout = 4000)
++public void test34() throws Throwable {
++    ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
++    ClassWriter classWriter0 = new ClassWriter(1);
++    classReader0.accept(classWriter0, null, 259);
++    MethodWriter methodWriter0 = classWriter0.firstMethod;
++    assertNotNull("MethodWriter should be created after accept", methodWriter0);
++    byte[] before = classWriter0.toByteArray();
++    methodWriter0.visitTypeInsn(1823, "4^,S&|> u HQB");
++    byte[] after = classWriter0.toByteArray();
++    assertTrue("Bytecode length should not decrease after visitTypeInsn", after.length >= before.length);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test35()  throws Throwable  {

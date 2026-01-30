@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -185,20 +185,31 @@
+         boolean boolean0 = simpleAccountRealm0.hasRole("G4", (AuthorizationInfo) simpleAuthorizingAccount0);
+         org.junit.Assert.assertEquals(Boolean.FALSE, Boolean.valueOf(boolean0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test15() throws Throwable {
+       SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+       LinkedList<Permission> linkedList0 = new LinkedList<Permission>();
+       WildcardPermissionResolver wildcardPermissionResolver0 = new WildcardPermissionResolver();
+       Permission permission0 = wildcardPermissionResolver0.resolvePermission("org.jsecurity.authc.credential.Sha512CredentialsMatcher");
+       linkedList0.addFirst(permission0);
+       SimpleAuthorizationInfo simpleAuthorizationInfo0 = new SimpleAuthorizationInfo();
++
++      // Observe initial state of object permissions
++      Collection<Permission> beforePermissions = simpleAuthorizationInfo0.getObjectPermissions();
++      int beforeSize = (beforePermissions == null) ? 0 : beforePermissions.size();
++
+       simpleAuthorizationInfo0.addObjectPermissions(linkedList0);
++
++      // Verify that addObjectPermissions had the expected side‑effect
++      Collection<Permission> afterPermissions = simpleAuthorizationInfo0.getObjectPermissions();
++      assertNotNull(afterPermissions);
++      assertEquals(beforeSize + 1, afterPermissions.size());
++      assertTrue(afterPermissions.contains(permission0));
++
+       simpleAccountRealm0.checkPermissions((Collection<Permission>) linkedList0, (AuthorizationInfo) simpleAuthorizationInfo0);
+       assertEquals("org.jsecurity.realm.SimpleAccountRealm_0", simpleAccountRealm0.getName());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

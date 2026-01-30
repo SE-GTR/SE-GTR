@@ -1,0 +1,41 @@
+--- a/evosuite-tests/mygrid/web/Discriminator_ESTest.java
++++ b/evosuite-tests/mygrid/web/Discriminator_ESTest.java
+@@ -120,21 +120,27 @@
+     boolean boolean0 = discriminator0.equals(discriminator1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test08() throws Throwable {
+       Discriminator discriminator0 = new Discriminator();
+       ArrayOfString arrayOfString0 = new ArrayOfString();
++
++      // Verify initial state before setting allowed engines
++      assertNull(discriminator0.getAllowedEngines());
++
++      // Act: set allowed engines and verify side‑effect via getter
+       discriminator0.setAllowedEngines(arrayOfString0);
+-      Discriminator discriminator1 = new Discriminator();
+-      assertFalse(discriminator1.equals((Object)discriminator0));
+-      
++      assertSame(arrayOfString0, discriminator0.getAllowedEngines());
++
++      Discriminator discriminator1 = new Discriminator();
++      assertFalse(discriminator1.equals((Object) discriminator0));
++
+       discriminator1.setAllowedEngines(arrayOfString0);
+-      boolean boolean0 = discriminator0.equals(discriminator1);
+-      assertTrue(discriminator1.equals((Object)discriminator0));
+-      assertTrue(boolean0);
+-  }
++      // Both discriminators should now be equal because they share the same allowedEngines
++      assertTrue(discriminator0.equals(discriminator1));
++      assertTrue(discriminator1.equals((Object) discriminator0));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

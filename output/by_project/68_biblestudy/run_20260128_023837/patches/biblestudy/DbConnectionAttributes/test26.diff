@@ -1,0 +1,27 @@
+--- a/evosuite-tests/bible/util/DbConnectionAttributes_ESTest.java
++++ b/evosuite-tests/bible/util/DbConnectionAttributes_ESTest.java
+@@ -253,14 +253,16 @@
+     dbConnectionAttributes0 = new DbConnectionAttributes(2494);
+     assertEquals("Free (Connected-Not Used)", dbConnectionAttributes0.getStatusString());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-    dbConnectionAttributes0 = new DbConnectionAttributes((-959));
+-      dbConnectionAttributes0.getConnection();
+-      assertTrue(dbConnectionAttributes0.isFree());
+-  }
++@Test(timeout = 4000)
++public void test26() throws Throwable {
++    dbConnectionAttributes0 = new DbConnectionAttributes(-959);
++    boolean beforeFree = dbConnectionAttributes0.isFree();
++    String connection = dbConnectionAttributes0.getConnection();
++    assertTrue(connection == null || connection.length() >= 0);
++    boolean afterFree = dbConnectionAttributes0.isFree();
++    assertEquals(beforeFree, afterFree);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

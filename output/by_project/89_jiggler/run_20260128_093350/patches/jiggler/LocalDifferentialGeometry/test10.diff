@@ -1,0 +1,67 @@
+--- a/evosuite-tests/jigl/image/utils/LocalDifferentialGeometry_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/LocalDifferentialGeometry_ESTest.java
+@@ -244,45 +244,25 @@
+         // expected
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      
+-      LocalDifferentialGeometry localDifferentialGeometry0 = new LocalDifferentialGeometry(realGrayImage0);
+-      assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevAbsKappa, 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      
+-      localDifferentialGeometry0.calcIy(realGrayImage0, realGrayImage0, (-266), (-1102), 0, (-1102));
+-      assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevAbsKappa, 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
++    // Verify initial state of the empty image
++    assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
++
++    LocalDifferentialGeometry localDifferentialGeometry0 = new LocalDifferentialGeometry(realGrayImage0);
++    // Verify initial state of the geometry object
++    assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
++
++    // Perform Iy calculation on an empty image region
++    localDifferentialGeometry0.calcIy(realGrayImage0, realGrayImage0, -266, -1102, 0, -1102);
++
++    // Observe side effect: IyImage should remain null for an empty source image
++    assertNull(localDifferentialGeometry0.IyImage);
++    // Ensure statistical fields are still at their default values
++    assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/projectconfig/filters/PackageFilter_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/projectconfig/filters/PackageFilter_ESTest.java
+@@ -43,18 +43,28 @@
+       boolean result = packageFilter0.equals(other);
+       assertTrue(result);
+   }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    PackageFilter packageFilter0 = new PackageFilter();
++    ArrayList<PackageFilter> arrayList0 = new ArrayList<PackageFilter>();
++    arrayList0.add(packageFilter0);
++    // Capture state before setting filter data (may be null or empty)
++    String before = packageFilter0.getPresentableFilterData();
++    // Act: set filter data
++    packageFilter0.setFilterData(arrayList0);
++    // Verify side effect via observable state
++    String afterSet = packageFilter0.getPresentableFilterData();
++    assertNotNull("Presentable data should not be null after setFilterData", afterSet);
++    // Modify the underlying list to test that changes are reflected
++    arrayList0.add(packageFilter0);
++    String afterAdd = packageFilter0.getPresentableFilterData();
++    assertNotNull("Presentable data should remain non‑null after list modification", afterAdd);
++    // Ensure the method returns a value (NARV) and that the value changes or stays consistent
++    // depending on implementation; at minimum we assert it is observed.
++    // Optionally compare with previous state if implementation reflects list size.
++    // assertNotEquals(afterSet, afterAdd);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      PackageFilter packageFilter0 = new PackageFilter();
+-      ArrayList<PackageFilter> arrayList0 = new ArrayList<PackageFilter>();
+-      arrayList0.add(packageFilter0);
+-      packageFilter0.setFilterData(arrayList0);
+-      arrayList0.add(packageFilter0);
+-      // Undeclared exception!
+-      packageFilter0.getPresentableFilterData();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -1429,23 +1429,19 @@
+       assertFalse(config0.hasRoutines());
+       assertFalse(config0.hasOrphans());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test099()  throws Throwable  {
+-      Config config0 = new Config();
+-      config0.setCatalog("font");
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-u' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test099() throws Throwable {
++        Config config0 = new Config();
++        config0.setCatalog("font");
++        // Provide the required user parameter to avoid RuntimeException
++        config0.setUser("testUser");
++        List<String> result = config0.asList();
++        assertNotNull(result);
++        // Verify that the user option is correctly included in the argument list
++        assertTrue(result.contains("-u"));
++        assertTrue(result.contains("testUser"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test100()  throws Throwable  {

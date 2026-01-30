@@ -1,0 +1,30 @@
+--- a/evosuite-tests/geo/google/datamodel/GeoAddress_ESTest.java
++++ b/evosuite-tests/geo/google/datamodel/GeoAddress_ESTest.java
+@@ -38,13 +38,21 @@
+       AddressDetails addressDetails0 = geoAddress0.getAddressDetails();
+       assertNull(addressDetails0);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        GeoAddress address1 = new GeoAddress();
++        GeoAddress address2 = new GeoAddress();
++        // Initially both objects should be equal (default state)
++        assertEquals(address1, address2);
++        // Apply a side‑effect operation
++        address1.setCoordinate(null);
++        // The side effect should be reflected in the equality logic
++        assertEquals(address1, address2);
++        // Verify a non‑trivial getter as well
++        assertEquals("", address1.getAddressLine());
++        assertEquals("", address2.getAddressLine());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      GeoAddress geoAddress0 = new GeoAddress();
+-      geoAddress0.setCoordinate((GeoCoordinate) null);
+-      assertEquals("", geoAddress0.getAddressLine());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/heal/servlet/tagcloud/TagCloudDAO_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/tagcloud/TagCloudDAO_ESTest.java
+@@ -40,23 +40,16 @@
+ public void test1() throws Throwable {
+     assertNotNull(tagCloudDAO0);
+ }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        TagCloudDAO dao = new TagCloudDAO();
++        TagBean bean = new TagBean();
++        try {
++            dao.saveTagEntry(bean, null);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            // Expected exception due to null Connection argument
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    tagCloudDAO0 = new TagCloudDAO();
+-    tagBean0 = new TagBean();
+-      SQLServerConnection sQLServerConnection0 = new SQLServerConnection();
+-      // Undeclared exception!
+-      try { 
+-        tagCloudDAO0.saveTagEntry(tagBean0, (Connection) sQLServerConnection0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.microsoft.jdbc.base.BaseConnection", e);
+-      }
+-  }
+ }

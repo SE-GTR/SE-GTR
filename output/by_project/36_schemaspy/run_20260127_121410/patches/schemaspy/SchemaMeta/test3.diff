@@ -1,0 +1,26 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/xml/SchemaMeta_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/xml/SchemaMeta_ESTest.java
+@@ -81,12 +81,18 @@
+          verifyException("net.sourceforge.schemaspy.model.xml.SchemaMeta", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    // Verify that Config.setInstance correctly updates the singleton instance
++    Config originalInstance = Config.getInstance();
++    Config.setInstance(originalInstance);
++    assertSame(originalInstance, Config.getInstance());
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      List<TableMeta> list0 = schemaMeta0.getTables();
+-      assertTrue(list0.isEmpty());
+-  }
++    // Original behavior check
++    List<TableMeta> list0 = schemaMeta0.getTables();
++    assertTrue(list0.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

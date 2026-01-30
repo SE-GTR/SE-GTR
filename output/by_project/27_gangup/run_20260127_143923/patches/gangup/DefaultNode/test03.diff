@@ -1,0 +1,33 @@
+--- a/evosuite-tests/map/DefaultNode_ESTest.java
++++ b/evosuite-tests/map/DefaultNode_ESTest.java
+@@ -40,14 +40,22 @@
+         DefaultNode defaultNode0 = new DefaultNode();
+         assertNotNull(defaultNode0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      DefaultNode defaultNode0 = new DefaultNode();
+-      defaultNode0.setVisible(true);
+-      assertEquals(1.0F, defaultNode0.getVisibility(), 0.01F);
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        DefaultNode defaultNode0 = new DefaultNode();
++        float before = defaultNode0.getVisibility();
++
++        defaultNode0.setVisible(true);
++        float afterTrue = defaultNode0.getVisibility();
++        assertTrue("Visibility should increase after setting true", afterTrue > before);
++        assertEquals(1.0F, afterTrue, 0.01F);
++
++        defaultNode0.setVisible(false);
++        float afterFalse = defaultNode0.getVisibility();
++        assertTrue("Visibility should decrease after setting false", afterFalse < afterTrue);
++        assertEquals(0.0F, afterFalse, 0.01F);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

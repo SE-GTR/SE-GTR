@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/petsoar/persistence/petsoar/PetSoarPersistenceManager_ESTest.java
++++ b/evosuite-tests/org/petsoar/persistence/petsoar/PetSoarPersistenceManager_ESTest.java
+@@ -23,23 +23,31 @@
+       LuceneIndexer luceneIndexer0 = new LuceneIndexer();
+       petSoarPersistenceManager0.setIndexer(luceneIndexer0);
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    PetSoarPersistenceManager manager = new PetSoarPersistenceManager();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      PetSoarPersistenceManager petSoarPersistenceManager0 = new PetSoarPersistenceManager();
+-      Object object0 = new Object();
+-      // Undeclared exception!
+-      try { 
+-        petSoarPersistenceManager0.remove(object0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.petsoar.persistence.petsoar.PetSoarPersistenceManager", e);
+-      }
+-  }
++    // Create a dummy Indexer implementation using a dynamic proxy
++    java.lang.reflect.InvocationHandler handler = (proxy, method, args) -> null;
++    org.petsoar.search.Indexer dummyIndexer = (org.petsoar.search.Indexer) java.lang.reflect.Proxy.newProxyInstance(
++            org.petsoar.search.Indexer.class.getClassLoader(),
++            new Class[]{org.petsoar.search.Indexer.class},
++            handler);
++
++    // Inject the dummy Indexer into the manager
++    java.lang.reflect.Field luceneField = PetSoarPersistenceManager.class.getDeclaredField("luceneIndexer");
++    luceneField.setAccessible(true);
++    luceneField.set(manager, dummyIndexer);
++
++    Object obj = new Object();
++
++    // Invoke remove – should not throw NullPointerException now that the indexer is initialized
++    manager.remove(obj);
++
++    // Verify that the luceneIndexer field is indeed set
++    org.junit.Assert.assertNotNull(luceneField.get(manager));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

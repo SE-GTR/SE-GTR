@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/CheckstyleConfigurationFile_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/CheckstyleConfigurationFile_ESTest.java
+@@ -53,14 +53,21 @@
+       long long0 = checkstyleConfigurationFile0.getModificationStamp();
+       assertEquals(0L, long0);
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    CheckstyleConfigurationFile file = new CheckstyleConfigurationFile();
++    byte[] data = new byte[] {0, 1, 2, 3, 4, 5, 6};
++    file.setCheckConfigFileBytes(data);
++    // Verify that the bytes were stored correctly
++    assertArrayEquals(data, file.getCheckConfigFileBytes());
++    // Verify that an input stream can be created from the stored bytes
++    java.io.InputStream stream = file.getCheckConfigFileInputStream();
++    byte[] read = new byte[data.length];
++    int count = stream.read(read);
++    assertEquals(data.length, count);
++    assertArrayEquals(data, read);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      CheckstyleConfigurationFile checkstyleConfigurationFile0 = new CheckstyleConfigurationFile();
+-      byte[] byteArray0 = new byte[7];
+-      checkstyleConfigurationFile0.setCheckConfigFileBytes(byteArray0);
+-      assertEquals(7, byteArray0.length);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

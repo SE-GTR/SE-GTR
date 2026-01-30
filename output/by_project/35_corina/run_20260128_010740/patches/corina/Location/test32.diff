@@ -1,0 +1,24 @@
+--- a/evosuite-tests/corina/site/Location_ESTest.java
++++ b/evosuite-tests/corina/site/Location_ESTest.java
+@@ -316,11 +316,14 @@
+       assertFalse(location0.valid());
+       assertEquals(0.0F, location0.getLongitudeAsDegrees(), 0.01F);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
+-    location0 = new Location();
+-      location0.hashCode();
+-      assertFalse(location0.valid());
+-  }
++@Test(timeout = 4000)
++public void test32() throws Throwable {
++    location0 = new Location();
++    int hash = location0.hashCode();
++    // hashCode should be consistent on repeated calls
++    assertEquals(hash, location0.hashCode());
++    // default location is expected to be invalid
++    assertFalse(location0.valid());
+ }
++
++}

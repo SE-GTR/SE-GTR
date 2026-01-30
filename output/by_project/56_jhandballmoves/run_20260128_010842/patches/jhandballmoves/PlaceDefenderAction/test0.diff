@@ -1,0 +1,30 @@
+--- a/evosuite-tests/visu/handball/moves/actions/PlaceDefenderAction_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/actions/PlaceDefenderAction_ESTest.java
+@@ -27,15 +27,19 @@
+     handballModel0 = new HandballModel();
+     placeDefenderAction0 = new PlaceDefenderAction(handballModel0);
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        Offender offender0 = new Offender(898, 898);
++        MoveEvent moveEvent0 = new MoveEvent(offender0, 2, 358);
++        // capture the state before the side‑effect
++        HandballModel.State beforeState = handballModel0.getState();
++        handballModel0.setActualMoveEvent(moveEvent0);
++        // verify that the side‑effect is observable via the public API
++        assertSame(moveEvent0, handballModel0.getActualMoveEvent());
++        assertNotEquals(beforeState, handballModel0.getState());
++        assertFalse(handballModel0.isBallSet());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Offender offender0 = new Offender(898, 898);
+-      MoveEvent moveEvent0 = new MoveEvent(offender0, 2, 358);
+-      handballModel0.setActualMoveEvent(moveEvent0);
+-      assertFalse(handballModel0.isBallSet());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

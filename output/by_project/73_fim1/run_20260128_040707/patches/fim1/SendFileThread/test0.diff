@@ -1,0 +1,23 @@
+--- a/evosuite-tests/osa/ora/server/client/threads/SendFileThread_ESTest.java
++++ b/evosuite-tests/osa/ora/server/client/threads/SendFileThread_ESTest.java
+@@ -18,11 +18,14 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SendFileThread_ESTest extends SendFileThread_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        MockFile mockFile0 = new MockFile("/images/cut.png");
++        BinaryMessage binaryMessage0 = new BinaryMessage();
++        SendFileThread sendFileThread0 = new SendFileThread(mockFile0, null, binaryMessage0, null);
++        sendFileThread0.start();
++        sendFileThread0.join();
++        assertFalse(sendFileThread0.isAlive());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("/images/cut.png");
+-      BinaryMessage binaryMessage0 = new BinaryMessage();
+-      SendFileThread sendFileThread0 = new SendFileThread(mockFile0, (ChatWindowPanel) null, binaryMessage0, (ChatClientApp) null);
+-  }
+ }

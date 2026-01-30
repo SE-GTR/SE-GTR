@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/heal/module/user/UserRegistryBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserRegistryBean_ESTest.java
+@@ -214,16 +214,19 @@
+     UserRegistryBean userRegistryBean0 = new UserRegistryBean();
+     userRegistryBean0.validateEmail("selectMethod=", 8);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      UserRegistryBean userRegistryBean0 = new UserRegistryBean();
+-      SQLServerDataSource sQLServerDataSource0 = new SQLServerDataSource();
+-      userRegistryBean0.setDataSource(sQLServerDataSource0);
++@Test(timeout = 4000)
++  public void test17() throws Throwable {
++      UserRegistryBean userRegistryBean0 = new UserRegistryBean();
++      // Verify initial state of dataSource is null
++      assertNull(userRegistryBean0.getDataSource());
++      SQLServerDataSource sQLServerDataSource0 = new SQLServerDataSource();
++      userRegistryBean0.setDataSource(sQLServerDataSource0);
++      // Verify that setDataSource correctly updates the field
++      assertSame(sQLServerDataSource0, userRegistryBean0.getDataSource());
+       boolean boolean0 = userRegistryBean0.validateEmail("", 1031);
+       assertFalse(boolean0);
+   }
++
+ @Test(expected = NullPointerException.class, timeout = 4000)
+     public void test18() throws Throwable {
+         UserRegistryBean userRegistryBean0 = new UserRegistryBean();

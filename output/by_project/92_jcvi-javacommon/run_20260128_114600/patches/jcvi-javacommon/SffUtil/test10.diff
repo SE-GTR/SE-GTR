@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/SffUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/SffUtil_ESTest.java
+@@ -110,14 +110,16 @@
+          verifyException("org.jcvi.jillion.trace.sff.SffUtil", e);
+       }
+   }
++@Test(timeout = 4000)
++  public void test10() throws Throwable {
++      Range zeroRange = Range.ofLength(0L);
++      DefaultSffReadHeader header = new DefaultSffReadHeader(353, zeroRange, zeroRange, "o!Qk;");
++      Range trim = SffUtil.computeTrimRangeFor(header);
++      // The trim range should not be empty and should span the full read length when no clipping is present
++      assertFalse(trim.isEmpty());
++      assertEquals(353L, trim.getLength());
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      Range range0 = Range.ofLength(0L);
+-      DefaultSffReadHeader defaultSffReadHeader0 = new DefaultSffReadHeader(353, range0, range0, "o!Qk;");
+-      Range range1 = SffUtil.computeTrimRangeFor((SffReadHeader) defaultSffReadHeader0);
+-      assertFalse(range1.isEmpty());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

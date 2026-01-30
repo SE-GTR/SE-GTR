@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/heal/module/notice/NotificationServicesBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/notice/NotificationServicesBean_ESTest.java
+@@ -274,24 +274,18 @@
+       boolean result = notificationServicesBean0.sendEmailToUsers(new String[0], null);
+       assertFalse(result);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      NotificationServicesBean notificationServicesBean0 = new NotificationServicesBean();
+-      String[] stringArray0 = new String[0];
+-      // Undeclared exception!
+-      try { 
+-        notificationServicesBean0.sendEmailToUsers(stringArray0, "Your registration has not been completed yet.  Please confirm your account by clicking on this link \n");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.module.notice.NotificationServicesBean", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test22() throws Throwable {
++    NotificationServicesBean bean = new NotificationServicesBean();
++    // Minimal required initialization to avoid NullPointerException
++    bean.userRegistry = new UserRegistryBean();
++    String[] emptyUserArray = new String[0];
++    boolean result = bean.sendEmailToUsers(emptyUserArray,
++        "Your registration has not been completed yet.  Please confirm your account by clicking on this link \n");
++    // With no users, no email should be sent
++    assertFalse(result);
++}
++
+ @Test(timeout = 4000)
+ public void test23() throws Throwable {
+     NotificationServicesBean notificationServicesBean0 = new NotificationServicesBean();

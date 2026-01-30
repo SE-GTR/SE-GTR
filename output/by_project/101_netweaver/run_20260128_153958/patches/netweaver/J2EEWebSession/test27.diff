@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
+@@ -422,20 +422,28 @@
+       assertEquals(1, j2EEWebSession0.getIdHash());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test27() throws Throwable {
+       J2EEWebSession j2EEWebSession0 = new J2EEWebSession();
+       j2EEWebSession0.setState(" !\"/*'kr'@f@0ldyh~Z");
+-      J2EEWebSession j2EEWebSession1 = new J2EEWebSession();
+-      boolean boolean0 = j2EEWebSession0.equals(j2EEWebSession1);
+-      assertFalse(boolean0);
++
++      J2EEWebSession j2EEWebSession1 = new J2EEWebSession();
++      // The state set on j2EEWebSession0 makes it unequal to a default instance
++      assertFalse(j2EEWebSession0.equals(j2EEWebSession1));
++
++      // Verify that two sessions with the same state are considered equal
++      J2EEWebSession j2EEWebSession2 = new J2EEWebSession();
++      j2EEWebSession2.setState(" !\"/*'kr'@f@0ldyh~Z");
++      assertTrue(j2EEWebSession0.equals(j2EEWebSession2));
++
++      // Existing assertions on the untouched default instance
+       assertEquals(0, j2EEWebSession1.getActiveRequests());
+       assertEquals(0, j2EEWebSession1.getSize());
+       assertEquals(0, j2EEWebSession1.getTimeout());
+       assertEquals(0, j2EEWebSession1.getIdHash());
+   }
+ 
++
+   @Test(timeout = 4000)
+   public void test28()  throws Throwable  {
+       J2EEWebSession j2EEWebSession0 = new J2EEWebSession();

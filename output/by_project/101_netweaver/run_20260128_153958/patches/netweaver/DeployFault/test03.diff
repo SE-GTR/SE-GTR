@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/DeployFault_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/DeployFault_ESTest.java
+@@ -50,18 +50,20 @@
+     boolean notEqual = deployFault0.equals(deployFault1);
+     assertFalse(notEqual);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
++@Test(timeout = 4000)
++public void test03() throws Throwable {
+     deployFault0 = new DeployFault();
+     deployFault1 = new DeployFault();
+-      assertTrue(deployFault1.equals((Object)deployFault0));
+-      
+-      deployFault1.setMessage1("k#zA");
+-      boolean boolean0 = deployFault0.equals(deployFault1);
+-      assertFalse(boolean0);
+-  }
++    assertTrue(deployFault1.equals((Object) deployFault0));
++
++    deployFault1.setMessage1("k#zA");
++    // Verify that the side‑effect of setMessage1 is observable
++    assertEquals("k#zA", deployFault1.getMessage1());
++
++    boolean boolean0 = deployFault0.equals(deployFault1);
++    assertFalse(boolean0);
++}
++
+ @Test(timeout = 4000)
+ public void test04() throws Throwable {
+     DeployFault defaultFault = new DeployFault();

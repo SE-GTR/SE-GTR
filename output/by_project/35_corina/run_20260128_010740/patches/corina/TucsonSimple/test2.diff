@@ -1,0 +1,31 @@
+--- a/evosuite-tests/corina/formats/TucsonSimple_ESTest.java
++++ b/evosuite-tests/corina/formats/TucsonSimple_ESTest.java
+@@ -77,16 +77,19 @@
+          verifyException("java.util.ArrayList", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        TucsonSimple tucsonSimple0 = new TucsonSimple();
++        StringWriter stringWriter0 = new StringWriter();
++        sample0 = new Sample();
++        BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0, 2);
++        // Verify initial state before the side‑effect
++        assertEquals(0, stringWriter0.getBuffer().length());
++        tucsonSimple0.saveData(sample0, bufferedWriter0);
++        // Verify the side‑effect on the writer after the call
++        assertEquals("000000  1001   999", stringWriter0.toString());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      TucsonSimple tucsonSimple0 = new TucsonSimple();
+-      StringWriter stringWriter0 = new StringWriter();
+-    sample0 = new Sample();
+-      BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0, 2);
+-      tucsonSimple0.saveData(sample0, bufferedWriter0);
+-      assertEquals("000000  1001   999", stringWriter0.toString());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

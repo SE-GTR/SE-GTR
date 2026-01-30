@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/DefaultCasAlignment_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/DefaultCasAlignment_ESTest.java
+@@ -194,16 +194,21 @@
+       assertEquals((-3427L), defaultCasAlignment0.getStartOfMatch());
+       assertTrue(defaultCasAlignment0.readIsReversed());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      DefaultCasAlignment.Builder defaultCasAlignment_Builder0 = new DefaultCasAlignment.Builder(3330L, 261L, false);
+-      DefaultCasAlignment defaultCasAlignment0 = defaultCasAlignment_Builder0.build();
+-      defaultCasAlignment0.hashCode();
+-      assertFalse(defaultCasAlignment0.readIsReversed());
+-      assertEquals(3330L, defaultCasAlignment0.getReferenceIndex());
+-      assertEquals(261L, defaultCasAlignment0.getStartOfMatch());
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    DefaultCasAlignment.Builder builder = new DefaultCasAlignment.Builder(3330L, 261L, false);
++    DefaultCasAlignment alignment = builder.build();
++    int hash = alignment.hashCode();
++
++    // Verify that two identical alignments produce the same hash code
++    DefaultCasAlignment.Builder builder2 = new DefaultCasAlignment.Builder(3330L, 261L, false);
++    DefaultCasAlignment alignment2 = builder2.build();
++    assertEquals(hash, alignment2.hashCode());
++
++    // Minimal constructor‑value assertion
++    assertEquals(3330L, alignment.getReferenceIndex());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

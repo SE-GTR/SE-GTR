@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/quickserver/util/logging/AsyncHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/logging/AsyncHandler_ESTest.java
+@@ -28,9 +28,8 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AsyncHandler_ESTest extends AsyncHandler_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
+       MockPrintStream mockPrintStream0 = new MockPrintStream(byteArrayOutputStream0, true);
+       Object[] objectArray0 = new Object[0];
+@@ -38,17 +37,23 @@
+       SimpleFormatter simpleFormatter0 = new SimpleFormatter();
+       StreamHandler streamHandler0 = new StreamHandler(printStream0, simpleFormatter0);
+       AsyncHandler asyncHandler0 = new AsyncHandler(streamHandler0, 1, 1);
++
+       Level level0 = asyncHandler0.getLevel();
++      asyncHandler0.setLevel(level0);
++      assertEquals(level0, asyncHandler0.getLevel());
++
+       asyncHandler0.getErrorManager();
+-      asyncHandler0.setLevel(level0);
+-      level0.getLocalizedName();
++
+       MockLogRecord mockLogRecord0 = new MockLogRecord(level0, "");
++      String beforePublish = byteArrayOutputStream0.toString();
+       asyncHandler0.publish(mockLogRecord0);
+-      asyncHandler0.setBufferSize((-1));
+-      asyncHandler0.close();
++      String afterPublish = byteArrayOutputStream0.toString();
++      assertTrue(afterPublish.length() > beforePublish.length());
++
+       AsyncHandler.LogEntry asyncHandler_LogEntry0 = new AsyncHandler.LogEntry(mockLogRecord0, asyncHandler0);
+       asyncHandler_LogEntry0.flush();
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

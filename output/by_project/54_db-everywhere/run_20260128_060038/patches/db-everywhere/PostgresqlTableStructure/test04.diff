@@ -1,0 +1,61 @@
+--- a/evosuite-tests/com/gbshape/dbe/postgresql/PostgresqlTableStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/postgresql/PostgresqlTableStructure_ESTest.java
+@@ -96,22 +96,42 @@
+       ArrayList arrayList0 = postgresqlTableStructure0.create((HttpServletRequest) null, dBDataBean0, createTableXmlBean0);
+       assertFalse(arrayList0.isEmpty());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      PostgresqlTableStructure postgresqlTableStructure0 = new PostgresqlTableStructure();
+-      DBDataBean dBDataBean0 = new DBDataBean();
+-      ColumnBean columnBean0 = new ColumnBean();
+-      columnBean0.setUnique(true);
+-      columnBean0.setName("[J{Kst");
+-      CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
+-      createTableXmlBean0.addColumn(columnBean0);
+-      createTableXmlBean0.addColumn(columnBean0);
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      ArrayList arrayList0 = postgresqlTableStructure0.create(httpServletRequestWrapper0, dBDataBean0, createTableXmlBean0);
+-      assertFalse(arrayList0.isEmpty());
+-  }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    PostgresqlTableStructure postgresqlTableStructure0 = new PostgresqlTableStructure();
++    DBDataBean dBDataBean0 = new DBDataBean();
++    ColumnBean columnBean0 = new ColumnBean();
++
++    // verify initial state of the column bean
++    assertFalse(columnBean0.isUnique());
++    assertNull(columnBean0.getName());
++
++    // act: modify the column bean
++    columnBean0.setUnique(true);
++    columnBean0.setName("[J{Kst");
++
++    // verify side‑effects of the setters
++    assertTrue(columnBean0.isUnique());
++    assertEquals("[J{Kst", columnBean0.getName());
++
++    CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
++
++    // verify initial column collection size
++    int initialSize = createTableXmlBean0.getColumns().size();
++
++    // act: add the column twice
++    createTableXmlBean0.addColumn(columnBean0);
++    createTableXmlBean0.addColumn(columnBean0);
++
++    // verify that the columns were added
++    assertEquals(initialSize + 2, createTableXmlBean0.getColumns().size());
++
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    ArrayList arrayList0 = postgresqlTableStructure0.create(httpServletRequestWrapper0, dBDataBean0, createTableXmlBean0);
++    assertFalse(arrayList0.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

@@ -1,0 +1,46 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/snapshots/RobotSnapshot_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/snapshots/RobotSnapshot_ESTest.java
+@@ -64,26 +64,23 @@
+     int hash = robotSnapshot0.hashCode();
+     assertEquals(hash, robotSnapshot0.hashCode());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      RobotSnapshot robotSnapshot0 = new RobotSnapshot();
+-      robotSnapshot0.setActiveShield(true);
+-      Temperature temperature0 = Temperature.BASE_TEMPERATURE;
+-      robotSnapshot0.setTemperature(temperature0);
+-      // Undeclared exception!
+-      try { 
+-        robotSnapshot0.hashCode();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.virtualinfinity.atrobots.snapshots.RobotSnapshot", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        RobotSnapshot robotSnapshot0 = new RobotSnapshot();
++        robotSnapshot0.setActiveShield(true);
++        robotSnapshot0.setTemperature(Temperature.BASE_TEMPERATURE);
++        // Initialize fields that are required for a safe hashCode computation
++        robotSnapshot0.setArmor(0.0);
++        robotSnapshot0.setHeading(new AbsoluteAngle(0.0));
++        robotSnapshot0.setTurretHeading(new AbsoluteAngle(0.0));
++        robotSnapshot0.setName("test");
++        robotSnapshot0.setId(1);
++        robotSnapshot0.setLastMessage("");
++        // Compute hash code and verify it is deterministic
++        int hash = robotSnapshot0.hashCode();
++        assertEquals(hash, robotSnapshot0.hashCode());
++    }
++
+ @Test(timeout = 4000)
+     public void test03() throws Throwable {
+         RobotSnapshot robotSnapshot0 = new RobotSnapshot();

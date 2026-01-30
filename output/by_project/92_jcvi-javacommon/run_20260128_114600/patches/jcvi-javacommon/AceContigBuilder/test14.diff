@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceContigBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceContigBuilder_ESTest.java
+@@ -182,25 +182,14 @@
+     AceContigBuilder aceContigBuilder1 = aceContigBuilder0.computeConsensusQualities(qualitySequenceDataStore0);
+     assertSame(aceContigBuilder0, aceContigBuilder1);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      MostFrequentBasecallConsensusCaller mostFrequentBasecallConsensusCaller0 = MostFrequentBasecallConsensusCaller.INSTANCE;
+-      AceContigBuilder aceContigBuilder0 = new AceContigBuilder("", "");
+-      GapQualityValueStrategy gapQualityValueStrategy0 = GapQualityValueStrategy.ALWAYS_ZERO;
+-      // Undeclared exception!
+-      try { 
+-        aceContigBuilder0.recallConsensus((ConsensusCaller) mostFrequentBasecallConsensusCaller0, (QualitySequenceDataStore) null, gapQualityValueStrategy0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // quality datastore can not be null
+-         //
+-         verifyException("org.jcvi.jillion.assembly.consed.ace.AceContigBuilder", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test14() throws Throwable {
++        MostFrequentBasecallConsensusCaller mostFrequentBasecallConsensusCaller0 = MostFrequentBasecallConsensusCaller.INSTANCE;
++        AceContigBuilder aceContigBuilder0 = new AceContigBuilder("", "");
++        GapQualityValueStrategy gapQualityValueStrategy0 = GapQualityValueStrategy.ALWAYS_ZERO;
++        aceContigBuilder0.recallConsensus(mostFrequentBasecallConsensusCaller0, null, gapQualityValueStrategy0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

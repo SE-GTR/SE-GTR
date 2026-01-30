@@ -1,0 +1,55 @@
+--- a/evosuite-tests/org/heal/util/FileLocator_ESTest.java
++++ b/evosuite-tests/org/heal/util/FileLocator_ESTest.java
+@@ -386,20 +386,42 @@
+     assertEquals("InstrsctionalLevel: instructionalLevel: /upload", fileLocator0.getUploadFilePath());
+     assertEquals("package", fileLocator0.getPackageDirectory());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test34() throws Throwable {
+       FileLocator fileLocator0 = new FileLocator();
+       fileLocator0.setBaseFilePath("9M+!ISHG[e");
+-      fileLocator0.generateFullDirectories();
+-      fileLocator0.generateFullDirectories();
+-      assertEquals("9M+!ISHG[e/content", fileLocator0.getContentFilePath());
+-      assertEquals(536870912L, fileLocator0.getMaxUploadSize());
+-      assertEquals("9M+!ISHG[e/upload", fileLocator0.getUploadFilePath());
+-      assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
++      // First generation of directory paths
++      fileLocator0.generateFullDirectories();
++
++      // Capture state after first call
++      String contentPathFirst = fileLocator0.getContentFilePath();
++      String uploadPathFirst = fileLocator0.getUploadFilePath();
++      String packagePathFirst = fileLocator0.getPackageFilePath();
++      String thumbnailDirFirst = fileLocator0.getThumbnailDirectory();
++
++      // Second generation – should be idempotent
++      fileLocator0.generateFullDirectories();
++
++      // Capture state after second call
++      String contentPathSecond = fileLocator0.getContentFilePath();
++      String uploadPathSecond = fileLocator0.getUploadFilePath();
++      String packagePathSecond = fileLocator0.getPackageFilePath();
++      String thumbnailDirSecond = fileLocator0.getThumbnailDirectory();
++
++      // Verify that repeated invocation does not change the observable state
++      assertEquals(contentPathFirst, contentPathSecond);
++      assertEquals(uploadPathFirst, uploadPathSecond);
++      assertEquals(packagePathFirst, packagePathSecond);
++      assertEquals(thumbnailDirFirst, thumbnailDirSecond);
++
++      // Original assertions confirming the expected paths and limits
++      assertEquals("9M+!ISHG[e/content", contentPathSecond);
++      assertEquals(536870912L, fileLocator0.getMaxUploadSize());
++      assertEquals("9M+!ISHG[e/upload", uploadPathSecond);
++      assertEquals("thumbnails", thumbnailDirSecond);
+       assertEquals("9M+!ISHG[e/package", fileLocator0.getPackageFilePath());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test35()  throws Throwable  {

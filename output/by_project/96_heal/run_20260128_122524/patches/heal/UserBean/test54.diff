@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
+@@ -548,14 +548,25 @@
+     assertFalse(userBean0.isAdministrator());
+     assertFalse(userBean0.isCataloger());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test54()  throws Throwable  {
+-    userBean0 = new UserBean();
+-      userBean0.setLoginModified(true);
+-      assertTrue(userBean0.isLoginModified());
+-  }
++@Test(timeout = 4000)
++    public void test54() throws Throwable {
++        UserBean bean = new UserBean();
++        bean.setLoginModified(true);
++        assertTrue(bean.isLoginModified());
++
++        // Verify that the loginModified flag survives serialization
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        try (java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos)) {
++            oos.writeObject(bean);
++        }
++        byte[] data = baos.toByteArray();
++
++        try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data))) {
++            UserBean deserialized = (UserBean) ois.readObject();
++            assertTrue(deserialized.isLoginModified());
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test55()  throws Throwable  {

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/output/ProfileTextDump_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/output/ProfileTextDump_ESTest.java
+@@ -17,12 +17,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ProfileTextDump_ESTest extends ProfileTextDump_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Arrange
++        Controller._methodCount = 419;
++        int beforeSize = (ProfileTextDump._clumpedFrameMap == null) ? 0 : ProfileTextDump._clumpedFrameMap.size();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Controller._methodCount = 419;
+-      ProfileTextDump.dump();
+-  }
++        // Act
++        ProfileTextDump.dump();
++
++        // Assert
++        assertNotNull("The clumped frame map should be initialized after dump()", ProfileTextDump._clumpedFrameMap);
++        int afterSize = ProfileTextDump._clumpedFrameMap.size();
++        assertTrue("The clumped frame map size should not decrease after dump()", afterSize >= beforeSize);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

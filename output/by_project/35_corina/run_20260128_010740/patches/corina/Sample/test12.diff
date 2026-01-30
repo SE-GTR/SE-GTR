@@ -1,0 +1,43 @@
+--- a/evosuite-tests/corina/Sample_ESTest.java
++++ b/evosuite-tests/corina/Sample_ESTest.java
+@@ -183,25 +183,21 @@
+       assertFalse(sample0.isModified());
+       assertEquals(0, int0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      sample0.data = (List) linkedList0;
+-      linkedList0.add((Object) sample0);
+-      // Undeclared exception!
+-      try { 
+-        sample0.guessIndexed();
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // corina.Sample cannot be cast to java.lang.Number
+-         //
+-         verifyException("corina.Sample", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        Sample sample0 = new Sample();
++        LinkedList<Object> linkedList0 = new LinkedList<Object>();
++        sample0.data = (List) linkedList0;
++        boolean added = linkedList0.add((Object) sample0);
++        assertTrue(added);
++        try {
++            sample0.guessIndexed();
++            fail("Expecting exception: ClassCastException");
++        } catch (ClassCastException e) {
++            verifyException("corina.Sample", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

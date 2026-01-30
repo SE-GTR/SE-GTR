@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/character/data/config/TXTCharConfig_ESTest.java
++++ b/evosuite-tests/org/character/data/config/TXTCharConfig_ESTest.java
+@@ -26,25 +26,15 @@
+     TXTCharConfig tXTCharConfig0 = new TXTCharConfig();
+     tXTCharConfig0.load();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("conf/char_athena.conf");
+-      FileSystemHandling.appendLineToFile(evoSuiteFile0, "fame_list_taekwon");
+-      TXTCharConfig tXTCharConfig0 = new TXTCharConfig();
+-      // Undeclared exception!
+-      try { 
+-        tXTCharConfig0.load();
+-        fail("Expecting exception: NumberFormatException");
+-      
+-      } catch(NumberFormatException e) {
+-         //
+-         // For input string: \"fame_list_taekwon\"
+-         //
+-         verifyException("java.lang.NumberFormatException", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NumberFormatException.class)
++    public void test01() throws Throwable {
++        EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("conf/char_athena.conf");
++        boolean appended = FileSystemHandling.appendLineToFile(evoSuiteFile0, "fame_list_taekwon");
++        assertTrue(appended);
++        TXTCharConfig tXTCharConfig0 = new TXTCharConfig();
++        tXTCharConfig0.load();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

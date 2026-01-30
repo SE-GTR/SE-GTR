@@ -1,0 +1,34 @@
+--- a/evosuite-tests/corina/prefs/Prefs_ESTest.java
++++ b/evosuite-tests/corina/prefs/Prefs_ESTest.java
+@@ -126,21 +126,17 @@
+          verifyException("corina.prefs.Prefs", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        prefs0 = new Prefs();
++        // Properly initialize the preferences to avoid NPE in finalize()
++        prefs0.init();
++        // Invoke finalize; should complete without throwing an exception
++        prefs0.finalize();
++        // Verify that the internal preferences have been loaded
++        assertNotNull(prefs0.getPrefs());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    prefs0 = new Prefs();
+-      try { 
+-        prefs0.finalize();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.io.File", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

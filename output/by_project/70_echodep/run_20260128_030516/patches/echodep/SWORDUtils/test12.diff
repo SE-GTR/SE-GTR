@@ -1,0 +1,36 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/workflow/SWORDUtils_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/workflow/SWORDUtils_ESTest.java
+@@ -170,16 +170,23 @@
+     JTextPane jTextPane0 = new JTextPane();
+     sWORDUtils0.showWorkspace(workspace0, jTextPane0);
+ }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        SWORDUtils sWORDUtils0 = new SWORDUtils();
++        SWORDEntry sWORDEntry0 = new SWORDEntry();
++        Author author0 = new Author("9tAq|UJSMOj1~T", "9tAq|UJSMOj1~T", "9tAq|UJSMOj1~T");
++        sWORDEntry0.addAuthors(author0);
++        JTextPane jTextPane0 = new JTextPane();
+ 
++        String beforeText = jTextPane0.getText();
++        sWORDUtils0.showEntry(sWORDEntry0, jTextPane0);
++        String afterText = jTextPane0.getText();
+ 
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      SWORDUtils sWORDUtils0 = new SWORDUtils();
+-      SWORDEntry sWORDEntry0 = new SWORDEntry();
+-      Author author0 = new Author("9tAq|UJSMOj1~T", "9tAq|UJSMOj1~T", "9tAq|UJSMOj1~T");
+-      sWORDEntry0.addAuthors(author0);
+-      JTextPane jTextPane0 = new JTextPane();
+-      sWORDUtils0.showEntry(sWORDEntry0, jTextPane0);
+-      assertNull(sWORDEntry0.getTreatment());
+-  }
++        // Verify that the entry display does not remove existing text and may add content
++        assertTrue(afterText.length() >= beforeText.length());
++
++        // Existing assertion retained for completeness
++        assertNull(sWORDEntry0.getTreatment());
++    }
++
+ }

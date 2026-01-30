@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -54,16 +54,19 @@
+       MethodWriter.getNewOffset(intArray0, intArray0, label0);
+       assertEquals(1, intArray0.length);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
+-      ClassWriter classWriter0 = new ClassWriter(259);
+-      classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 4);
+-      MethodWriter methodWriter0 = classWriter0.lastMethod;
+-      ByteVector byteVector0 = classWriter0.pool;
+-      methodWriter0.put(byteVector0);
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
++    ClassWriter classWriter0 = new ClassWriter(259);
++    classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 4);
++    MethodWriter methodWriter0 = classWriter0.lastMethod;
++    assertNotNull("MethodWriter should be created after accept", methodWriter0);
++    ByteVector byteVector0 = classWriter0.pool;
++    int beforeLength = byteVector0.length;
++    methodWriter0.put(byteVector0);
++    assertTrue("ByteVector length should increase after MethodWriter.put", byteVector0.length > beforeLength);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/tos/NaOpNu_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/tos/NaOpNu_ESTest.java
+@@ -108,13 +108,20 @@
+       naOpNu0.setOperativerNutzen(boolean0);
+       assertFalse(naOpNu0.getOperativerNutzen());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-    naOpNu0 = new NaOpNu();
+-    integer0 = naOpNu0.getProjektId();
+-      assertNull(integer0);
+-  }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    NaOpNu original = new NaOpNu();
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(original);
++    oos.flush();
++    java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++    NaOpNu deserialized = (NaOpNu) ois.readObject();
++    assertNull(deserialized.getProjektId());
++    assertNotSame(original, deserialized);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

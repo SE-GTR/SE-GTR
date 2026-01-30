@@ -1,0 +1,36 @@
+--- a/evosuite-tests/bcry/battlecry_ESTest.java
++++ b/evosuite-tests/bcry/battlecry_ESTest.java
+@@ -29,14 +29,26 @@
+       } catch(NullPointerException e) {
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        String[] args = new String[1];
++        args[0] = "-i";
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      String[] stringArray0 = new String[1];
+-      stringArray0[0] = "-i";
+-      battlecry.main(stringArray0);
+-      assertEquals(1, stringArray0.length);
+-  }
++        java.io.PrintStream originalOut = System.out;
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        System.setOut(new java.io.PrintStream(baos));
++
++        try {
++            battlecry.main(args);
++        } finally {
++            System.setOut(originalOut);
++        }
++
++        String output = baos.toString();
++        assertFalse("Expected some output from battlecry.main", output.isEmpty());
++        assertEquals(1, args.length);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

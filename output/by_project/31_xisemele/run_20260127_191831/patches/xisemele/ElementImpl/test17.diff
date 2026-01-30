@@ -1,0 +1,38 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/ElementImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/ElementImpl_ESTest.java
+@@ -232,21 +232,20 @@
+       ValueList valueList0 = elementImpl0.childrenValue("");
+       assertNotNull(valueList0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
+-      FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+-      IIOMetadataNode iIOMetadataNode0 = new IIOMetadataNode();
+-      ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, iIOMetadataNode0);
+-      // Undeclared exception!
+-      try { 
+-        elementImpl0.path();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test17() throws Throwable {
++        FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
++        FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
++        // Create a proper DOM node to avoid incomplete setup
++        javax.xml.parsers.DocumentBuilderFactory dbFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
++        org.w3c.dom.Document doc = dbFactory.newDocumentBuilder().newDocument();
++        org.w3c.dom.Node node = doc.createElement("root");
++        ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, node);
++        // Verify that path() returns a non‑null value when the element is correctly initialized
++        String path = elementImpl0.path();
++        assertNotNull("Path should not be null for a properly initialized element", path);
++    }
++
+ @Test(timeout = 4000)
+ public void test18() throws Throwable {
+     FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();

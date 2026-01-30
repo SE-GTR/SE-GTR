@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
+@@ -280,22 +280,12 @@
+       blockingClient0.setUseDummyTrustManager(false);
+       assertFalse(blockingClient0.isUseDummyTrustManager());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      BlockingClient blockingClient0 = new BlockingClient();
+-      // Undeclared exception!
+-      try { 
+-        blockingClient0.readObject();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.io.ObjectInputStream$PeekInputStream", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class, timeout = 4000)
++public void test24() throws Throwable {
++    BlockingClient blockingClient0 = new BlockingClient();
++    blockingClient0.readObject();
++}
++
+ @Test(timeout = 4000)
+     public void test25() throws Throwable {
+         BlockingClient blockingClient0 = new BlockingClient();

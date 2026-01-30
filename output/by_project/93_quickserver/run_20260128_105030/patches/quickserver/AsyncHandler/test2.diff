@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/quickserver/util/logging/AsyncHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/logging/AsyncHandler_ESTest.java
+@@ -66,10 +66,12 @@
+          verifyException("java.util.logging.MemoryHandler", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      AsyncHandler.isDebugMode();
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
++      // Verify default debug mode (static method return value)
++      boolean debugMode = AsyncHandler.isDebugMode();
++      assertFalse("Debug mode should be false by default", debugMode);
++
+       Level level0 = Level.FINEST;
+       MockLogRecord mockLogRecord0 = new MockLogRecord(level0, "AsyncHandler");
+       MockFileHandler mockFileHandler0 = new MockFileHandler(" Gib#{`$-T,pc0", false);
+@@ -79,13 +81,20 @@
+       mockLogRecord0.setSourceMethodName(string0);
+       String string1 = "ppY;{H[4fjeh='#";
+       mockLogRecord0.setMessage(string1);
+-      int int0 = (-1);
++      int int0 = -1;
+       AsyncHandler asyncHandler0 = new AsyncHandler(mockFileHandler0, int0, int0);
+       AsyncHandler.LogEntry asyncHandler_LogEntry0 = new AsyncHandler.LogEntry(mockLogRecord0, asyncHandler0);
+-      int int1 = (-2769);
+-      asyncHandler0.setBufferSize(int1);
+-      asyncHandler0.getBufferSize();
+-  }
++
++      // Capture current buffer size, then change it and verify the side effect
++      int originalBufferSize = asyncHandler0.getBufferSize();
++      int newBufferSize = -2769;
++      asyncHandler0.setBufferSize(newBufferSize);
++      int updatedBufferSize = asyncHandler0.getBufferSize();
++      assertEquals("Buffer size should be updated to the new value", newBufferSize, updatedBufferSize);
++      // Ensure the buffer size actually changed
++      assertNotEquals("Buffer size should differ from the original after setBufferSize", originalBufferSize, updatedBufferSize);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

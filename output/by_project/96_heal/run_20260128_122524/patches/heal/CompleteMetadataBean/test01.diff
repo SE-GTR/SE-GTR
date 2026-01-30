@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/heal/module/metadata/CompleteMetadataBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/CompleteMetadataBean_ESTest.java
+@@ -38,17 +38,23 @@
+       String string0 = completeMetadataBean0.toString();
+       assertEquals("Basic metadata:\nmetadataId: null\ntitle: null\ndescription: null\nlocation: null\ncontributeName: null\ncontributeUserId: null\nfileName: null\nfileExtension: null\nfileHeight: null\nfileWidth: null\nformat: null\nglobalId: null\nsourceCollection: null\nthumbnail: null\nsourcecollections: null\n\nExtended Metadata:  sourceCollectionId:null annotated:false inappropriate:false archived:false private:false specimenType:null radiographType:null orientation:null magnification:null clinicalHistory:null duration:null publicationId:null publicationName:null publicationDate:null approveDate:null catalogDate:null rejectDate:null creationDate:null languageType:null\nComplete Metadata: Disease Diagnoses: \nCopyrights: \nNULL\nTaxonPaths: \nCopyrightHolders: \nContextURLs: \nrequirements: \nMetametadata Identifiers: \nMetametadata Contributors: \nrelations: \nkeywords: \nformats: \nTargetUserGroups: \n", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      String string0 = completeMetadataBean0.toString();
+-      ContributorBean contributorBean0 = new ContributorBean();
+-      contributorBean0.setRole(string0);
+-      completeMetadataBean0.addContributor(contributorBean0);
+-      String string1 = completeMetadataBean0.toString();
+-      assertFalse(string1.equals((Object)string0));
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++        String string0 = completeMetadataBean0.toString();
++        ContributorBean contributorBean0 = new ContributorBean();
++        contributorBean0.setRole(string0);
++        // Verify that setRole correctly updates the role field
++        assertEquals(string0, contributorBean0.getRole());
++        // Add the contributor and observe the effect via toString
++        completeMetadataBean0.addContributor(contributorBean0);
++        String string1 = completeMetadataBean0.toString();
++        // The string representation should now reflect the added contributor
++        assertTrue(string1.contains(string0));
++        // Ensure the representation has actually changed
++        assertFalse(string1.equals(string0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
+@@ -106,20 +106,24 @@
+       assertTrue(h2Dialect0.isSequenceSupported());
+       assertEquals("insert into . () values ()", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      String[] stringArray0 = new String[9];
+-      DBSchema dBSchema0 = new DBSchema("!iaWyZ(kV:zP{s!");
+-      DBCatalog dBCatalog0 = new DBCatalog("?F/&B4H\"wSF+J!wga_");
+-      dBSchema0.setCatalog(dBCatalog0);
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable("!iaWyZ(kV:zP{s!", dBSchema0);
+-      ConstraintDescriptorList constraintDescriptorList0 = new ConstraintDescriptorList();
+-      String string0 = oracleDialect0.update(defaultDBTable0, stringArray0, constraintDescriptorList0);
+-      assertEquals("oracle", oracleDialect0.getSystem());
+-      assertEquals("update \"?F/&B4H\"wSF+J!wga_\".\"!iaWyZ(kV:zP{s!\".\"!iaWyZ(kV:zP{s!\" set where \"null\"=? and \"null\"=? and \"null\"=? and \"null\"=? and \"null\"=? and \"null\"=? and \"null\"=? and \"null\"=? and \"null\"=?", string0);
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        String[] stringArray0 = new String[9];
++        DBSchema dBSchema0 = new DBSchema("!iaWyZ(kV:zP{s!");
++        DBCatalog dBCatalog0 = new DBCatalog("?F/&B4H\"wSF+J!wga_");
++        // Verify that setCatalog correctly registers the catalog in the schema
++        dBSchema0.setCatalog(dBCatalog0);
++        assertSame("Catalog should be set on the schema", dBCatalog0, dBSchema0.getCatalog());
++        DefaultDBTable defaultDBTable0 = new DefaultDBTable("!iaWyZ(kV:zP{s!", dBSchema0);
++        ConstraintDescriptorList constraintDescriptorList0 = new ConstraintDescriptorList();
++        String string0 = oracleDialect0.update(defaultDBTable0, stringArray0, constraintDescriptorList0);
++        assertEquals("oracle", oracleDialect0.getSystem());
++        assertEquals(
++                "update \"?F/&B4H\"wSF+J!wga_\".\"!iaWyZ(kV:zP{s!\".\"!iaWyZ(kV:zP{s!\" set where \"null\"=? and \"null\"=? and \"null\"=? and \"null\"=? and \"null\"=? and \"null\"=? and \"null\"=? and \"null\"=? and \"null\"=?",
++                string0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

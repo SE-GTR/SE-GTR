@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
+@@ -130,22 +130,12 @@
+       assertEquals("dn: cn=, o=, c=\ncn: \nid: \nsn: \nuserPassword: \nrole: null\nobjectClass: top\nobjectClass: person\n", string0);
+       assertFalse(user0.getPasschange());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    user0 = new User();
+-      // Undeclared exception!
+-      try { 
+-        user0.setDN("cn=");
+-        fail("Expecting exception: NoSuchElementException");
+-      
+-      } catch(NoSuchElementException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.util.StringTokenizer", e);
+-      }
+-  }
++@Test(expected = NoSuchElementException.class, timeout = 4000)
++public void test09() throws Throwable {
++    user0 = new User();
++    user0.setDN("cn=");
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

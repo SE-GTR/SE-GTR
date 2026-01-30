@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/DatabaseComponent_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/DatabaseComponent_ESTest.java
+@@ -67,19 +67,28 @@
+     assertFalse(databaseComponent1.equals((Object) databaseComponent0));
+     assertFalse(boolean0);
+ }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    DatabaseComponent databaseComponent0 = new DatabaseComponent();
++    DatabaseComponent databaseComponent1 = new DatabaseComponent();
++    // initially both components should be equal (no status set)
++    assertTrue(databaseComponent1.equals((Object) databaseComponent0));
+ 
++    // verify initial status is null for both components
++    assertNull(databaseComponent0.getMStatus());
++    assertNull(databaseComponent1.getMStatus());
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      DatabaseComponent databaseComponent0 = new DatabaseComponent();
+-      DatabaseComponent databaseComponent1 = new DatabaseComponent();
+-      assertTrue(databaseComponent1.equals((Object)databaseComponent0));
+-      
+-      DatabaseStatus databaseStatus0 = DatabaseStatus.value7;
+-      databaseComponent1.setMStatus(databaseStatus0);
+-      boolean boolean0 = databaseComponent0.equals(databaseComponent1);
+-      assertFalse(boolean0);
+-  }
++    DatabaseStatus databaseStatus0 = DatabaseStatus.value7;
++    databaseComponent1.setMStatus(databaseStatus0);
++
++    // assert that the status was set only on component1
++    assertEquals(databaseStatus0, databaseComponent1.getMStatus());
++    assertNull(databaseComponent0.getMStatus());
++
++    // now the components should no longer be equal
++    assertFalse(databaseComponent0.equals(databaseComponent1));
++}
++
+ @Test(timeout = 4000)
+ public void test05() throws Throwable {
+     Property[] propertyArray0 = new Property[1];

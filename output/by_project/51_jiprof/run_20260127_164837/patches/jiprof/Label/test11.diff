@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
+@@ -147,15 +147,18 @@
+       label0.visitSubroutine((Label) null, 50, 1614);
+       label0.visitSubroutine((Label) null, 1614, 1614);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      Label label0 = new Label();
+-      Frame frame0 = new Frame();
+-      label0.frame = frame0;
+-      Label label1 = label0.getFirst();
+-      assertNull(label1);
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    Label label0 = new Label();
++    Label label1 = new Label();
++    // Create a non‑trivial relationship between labels
++    label0.successor = label1;
++    // Act
++    Label first = label0.getFirst();
++    // Verify behavior of getFirst on a linked label
++    assertNotNull(first);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

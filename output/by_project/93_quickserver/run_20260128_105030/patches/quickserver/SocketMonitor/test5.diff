@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/client/monitoring/impl/SocketMonitor_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/monitoring/impl/SocketMonitor_ESTest.java
+@@ -84,15 +84,21 @@
+         assertNull(monitor.getSslSocketFactory());
+         assertEquals(0, monitor.getCloseDelayMiliSec());
+     }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    socketMonitor0 = new SocketMonitor();
++    // Verify default state
++    assertEquals(0, socketMonitor0.getCloseDelayMiliSec());
++    assertFalse(socketMonitor0.isUseDummyTrustManager());
+ 
++    // Change the dummy trust manager flag and verify the side‑effect
++    socketMonitor0.setUseDummyTrustManager(true);
++    assertTrue(socketMonitor0.isUseDummyTrustManager());
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    socketMonitor0 = new SocketMonitor();
+-      socketMonitor0.setUseDummyTrustManager(false);
+-      assertEquals(0, socketMonitor0.getCloseDelayMiliSec());
+-      assertFalse(socketMonitor0.isUseDummyTrustManager());
+-  }
++    socketMonitor0.setUseDummyTrustManager(false);
++    assertFalse(socketMonitor0.isUseDummyTrustManager());
++}
++
+ @Test(timeout = 4000)
+ public void test6() throws Throwable {
+     socketMonitor0 = new SocketMonitor();

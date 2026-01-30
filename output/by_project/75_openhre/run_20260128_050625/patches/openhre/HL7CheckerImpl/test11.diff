@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerImpl_ESTest.java
+@@ -142,15 +142,20 @@
+       HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
+       hL7CheckerImpl0.emptyField();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
+-      HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
+-      hL7CheckerStateImpl0.setSeriousError(true);
+-      hL7CheckerImpl0.setState(hL7CheckerStateImpl0);
+-      hL7CheckerImpl0.emptyField();
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
++        HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
++        // Set a serious error flag and verify the side‑effect
++        hL7CheckerStateImpl0.setSeriousError(true);
++        assertTrue("Serious error should be set to true", hL7CheckerStateImpl0.isSeriousError());
++        // Associate the state with the checker
++        hL7CheckerImpl0.setState(hL7CheckerStateImpl0);
++        // Invoke emptyField and ensure it does not unintentionally clear the serious error flag
++        hL7CheckerImpl0.emptyField();
++        assertTrue("Serious error flag should remain true after emptyField", hL7CheckerStateImpl0.isSeriousError());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

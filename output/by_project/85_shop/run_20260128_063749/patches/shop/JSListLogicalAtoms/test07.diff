@@ -1,0 +1,41 @@
+--- a/evosuite-tests/umd/cs/shop/JSListLogicalAtoms_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSListLogicalAtoms_ESTest.java
+@@ -105,14 +105,30 @@
+     assertNotNull(jSListLogicalAtoms1);
+     assertTrue(jSListLogicalAtoms1 instanceof JSListLogicalAtoms);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      jSListLogicalAtoms0.add(0, (Object) jSPredicateForm0);
+-      jSListLogicalAtoms0.print();
+-      assertEquals(10, jSListLogicalAtoms0.capacity());
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        // Verify that add modifies the list as expected
++        int sizeBefore = jSListLogicalAtoms0.size();
++        jSListLogicalAtoms0.add(0, (Object) jSPredicateForm0);
++        assertEquals(sizeBefore + 1, jSListLogicalAtoms0.size());
++        assertSame(jSPredicateForm0, jSListLogicalAtoms0.get(0));
++
++        // Capture output of print to assert it produces some output
++        java.io.ByteArrayOutputStream outContent = new java.io.ByteArrayOutputStream();
++        java.io.PrintStream originalOut = System.out;
++        System.setOut(new java.io.PrintStream(outContent));
++        try {
++            jSListLogicalAtoms0.print();
++        } finally {
++            System.setOut(originalOut);
++        }
++        String printed = outContent.toString();
++        assertFalse("print() should produce output", printed.isEmpty());
++
++        // Existing capacity assertion
++        assertEquals(10, jSListLogicalAtoms0.capacity());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

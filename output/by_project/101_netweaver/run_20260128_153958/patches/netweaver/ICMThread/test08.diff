@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMThread_ESTest.java
+@@ -123,18 +123,26 @@
+     boolean boolean0 = iCMThread0.equals(iCMThread1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      ICMThread iCMThread0 = new ICMThread();
+-      ICMThread iCMThread1 = new ICMThread();
+-      assertTrue(iCMThread1.equals((Object)iCMThread0));
+-      
+-      iCMThread1.setName("");
+-      boolean boolean0 = iCMThread0.equals(iCMThread1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    ICMThread iCMThread0 = new ICMThread();
++    ICMThread iCMThread1 = new ICMThread();
++    assertTrue(iCMThread1.equals((Object) iCMThread0));
++
++    // Verify initial state before setting the name
++    assertNull(iCMThread1.getName());
++
++    // Act: change the name
++    iCMThread1.setName("");
++
++    // Assert the side‑effect of setName
++    assertEquals("", iCMThread1.getName());
++
++    // Existing behavior checks
++    boolean boolean0 = iCMThread0.equals(iCMThread1);
++    assertFalse(boolean0);
++}
++
+ @Test(timeout = 4000)
+ public void test09() throws Throwable {
+     ICMThread threadA = new ICMThread("threadA", "1", 10L, "RUNNING", "HTTP");

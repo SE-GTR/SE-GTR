@@ -1,0 +1,41 @@
+--- a/evosuite-tests/gui/PlayerTreeModel_ESTest.java
++++ b/evosuite-tests/gui/PlayerTreeModel_ESTest.java
+@@ -134,20 +134,24 @@
+     int int0 = playerTreeModel0.getIndexOfChild(object0, new Object());
+     assertEquals(-1, int0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      PlayerTreeModel playerTreeModel0 = new PlayerTreeModel();
+-      GameState gameState0 = new GameState();
+-      playerTreeModel0.setState(gameState0);
+-      Party party0 = (Party)playerTreeModel0.getRoot();
+-      Player player0 = new Player(4, "|=ZzC_emLS>_", "|=ZzC_emLS>_", 128, 128);
+-      party0.add(player0);
+-      gameState0.addPlayer(player0);
+-      int int0 = playerTreeModel0.getChildCount(party0);
+-      assertEquals(0, int0);
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        PlayerTreeModel playerTreeModel0 = new PlayerTreeModel();
++        GameState gameState0 = new GameState();
++        playerTreeModel0.setState(gameState0);
++        Party party0 = (Party) playerTreeModel0.getRoot();
++        assertNotNull(party0);
++        assertSame(party0, playerTreeModel0.getRoot());
++        int beforeAdd = playerTreeModel0.getChildCount(party0);
++        Player player0 = new Player(4, "|=ZzC_emLS>_", "|=ZzC_emLS>_", 128, 128);
++        party0.add(player0);
++        int afterAdd = playerTreeModel0.getChildCount(party0);
++        assertEquals(beforeAdd, afterAdd);
++        gameState0.addPlayer(player0);
++        int int0 = playerTreeModel0.getChildCount(party0);
++        assertEquals(0, int0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

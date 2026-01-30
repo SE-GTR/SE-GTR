@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SyslogEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SyslogEntry_ESTest.java
+@@ -108,16 +108,24 @@
+     boolean equal = syslogEntry1.equals(syslogEntry0);
+     assertFalse(equal);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      SyslogEntry syslogEntry0 = new SyslogEntry();
+-      syslogEntry0.setMNo("@oB54gjP&'Org2hHn!");
+-      SyslogEntry syslogEntry1 = new SyslogEntry();
+-      boolean boolean0 = syslogEntry1.equals(syslogEntry0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        SyslogEntry syslogEntry0 = new SyslogEntry();
++        // Verify initial state before setting MNo
++        assertNull(syslogEntry0.getMNo());
++        // Act: set the MNo field
++        syslogEntry0.setMNo("@oB54gjP&'Org2hHn!");
++        // Assert: the side‑effect is observable via the getter
++        assertEquals("@oB54gjP&'Org2hHn!", syslogEntry0.getMNo());
++
++        SyslogEntry syslogEntry1 = new SyslogEntry();
++        // Ensure the second instance has its default state
++        assertNull(syslogEntry1.getMNo());
++
++        boolean boolean0 = syslogEntry1.equals(syslogEntry0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/eis/CachingSessionDAO_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/eis/CachingSessionDAO_ESTest.java
+@@ -27,15 +27,19 @@
+       java.util.Collection<?> sessions = memorySessionDAO0.getActiveSessions();
+       assertTrue(sessions.isEmpty());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
+-      memorySessionDAO0.setCacheManager((CacheManager) null);
+-      memorySessionDAO0.getActiveSessions();
+-      assertEquals("jsecurity-activeSessionCache", memorySessionDAO0.getActiveSessionsCacheName());
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
++    java.util.Collection<org.jsecurity.session.Session> initialSessions = memorySessionDAO0.getActiveSessions();
++    org.junit.Assert.assertTrue(initialSessions.isEmpty());
++
++    memorySessionDAO0.setCacheManager((org.jsecurity.cache.CacheManager) null);
++    java.util.Collection<org.jsecurity.session.Session> afterSessions = memorySessionDAO0.getActiveSessions();
++    org.junit.Assert.assertTrue(afterSessions.isEmpty());
++
++    org.junit.Assert.assertEquals("jsecurity-activeSessionCache", memorySessionDAO0.getActiveSessionsCacheName());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

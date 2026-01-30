@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
+@@ -167,14 +167,26 @@
+         BlockingClient blockingClient0 = new BlockingClient();
+         blockingClient0.readLine();
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      BlockingClient blockingClient0 = new BlockingClient();
+-      blockingClient0.setCharset((String) null);
+-      assertFalse(blockingClient0.isDebug());
+-  }
++@Test(timeout = 4000)
++public void test17() throws Throwable {
++    BlockingClient client = new BlockingClient();
++
++    // Verify default debug state
++    assertFalse(client.isDebug());
++
++    // Change debug flag and verify the side‑effect
++    client.setDebug(true);
++    assertTrue(client.isDebug());
++
++    // Set a specific charset and verify it is stored correctly
++    client.setCharset("UTF-8");
++    assertEquals("UTF-8", client.getCharset());
++
++    // Reset charset to null and verify the change
++    client.setCharset(null);
++    assertNull(client.getCharset());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

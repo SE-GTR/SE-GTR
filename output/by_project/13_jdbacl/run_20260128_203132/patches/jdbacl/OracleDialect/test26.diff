@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
+@@ -344,15 +344,21 @@
+       String string0 = oracleDialect0.renderCreateSequence(dBSequence0);
+       assertEquals("CREATE SEQUENCE \"$w]5b|5-TmYS3s:/$l\".\"Imported trigger: {}\"NOORDER", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      DBSequence dBSequence0 = new DBSequence("Imported trigger: {}", "o7f$|rnDh", "$w]5b|5-TmYS3s:/$l");
+-      dBSequence0.setOrder((Boolean) oracleDialect0.quoteTableNames);
+-      String string0 = oracleDialect0.renderCreateSequence(dBSequence0);
+-      assertEquals("CREATE SEQUENCE \"$w]5b|5-TmYS3s:/$l\".\"Imported trigger: {}\" ORDER", string0);
+-  }
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        DBSequence dBSequence0 = new DBSequence("Imported trigger: {}", "o7f$|rnDh", "$w]5b|5-TmYS3s:/$l");
++        // Verify that the order flag is initially unset (null)
++        assertNull(dBSequence0.getOrder());
++        // Apply the side‑effect
++        dBSequence0.setOrder((Boolean) oracleDialect0.quoteTableNames);
++        // Assert that the side‑effect took place
++        assertEquals(oracleDialect0.quoteTableNames, dBSequence0.getOrder());
++        // Verify the rendered DDL reflects the order flag
++        String string0 = oracleDialect0.renderCreateSequence(dBSequence0);
++        assertEquals("CREATE SEQUENCE \"$w]5b|5-TmYS3s:/$l\".\"Imported trigger: {}\" ORDER", string0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

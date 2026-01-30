@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/browsersoft/aacs/Person_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/Person_ESTest.java
+@@ -678,14 +678,19 @@
+     CompoundName compoundName0 = new CompoundName("objectclass", properties0);
+     person0.modifyAttributes((Name) compoundName0, (ModificationItem[]) null);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test72()  throws Throwable  {
+-      Person person0 = new Person();
+-      person0.setUid("IDDefaultTypeInvalid");
+-      assertEquals("IDDefaultTypeInvalid", person0.getUid());
+-  }
++@Test(timeout = 4000)
++    public void test72() throws Throwable {
++        Person person0 = new Person();
++        // Verify initial state (both uid and id should be null)
++        assertNull(person0.getUid());
++        assertNull(person0.getId());
++        // Act: set the uid, which also updates the id field
++        person0.setUid("IDDefaultTypeInvalid");
++        // Observe the side‑effects via public getters
++        assertEquals("IDDefaultTypeInvalid", person0.getUid());
++        assertEquals("IDDefaultTypeInvalid", person0.getId());
++    }
++
+ @Test(timeout = 4000)
+     public void test73() throws Throwable {
+         String expected = "}SWE@[KC/UnW";

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Stop_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Stop_ESTest.java
+@@ -159,23 +159,17 @@
+         TypeDesc typeDesc1 = Stop.getTypeDesc();
+         assertSame(typeDesc0, typeDesc1);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      Stop stop0 = new Stop();
+-      // Undeclared exception!
+-      try { 
+-        stop0.getApps((-3100));
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.sap.engine.services.dc.wsgate.Stop", e);
+-      }
+-  }
++@Test(expected = ArrayIndexOutOfBoundsException.class)
++    public void test14() throws Throwable {
++        Stop stop0 = new Stop();
++        java.lang.reflect.Field appsField = Stop.class.getDeclaredField("apps");
++        appsField.setAccessible(true);
++        Object emptyAppsArray = java.lang.reflect.Array.newInstance(
++                Class.forName("com.sap.engine.services.dc.wsgate.Application"), 0);
++        appsField.set(stop0, emptyAppsArray);
++        stop0.getApps(0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

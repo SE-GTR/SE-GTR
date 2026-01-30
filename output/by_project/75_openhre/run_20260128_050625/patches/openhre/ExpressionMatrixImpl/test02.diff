@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/regular/ExpressionMatrixImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/regular/ExpressionMatrixImpl_ESTest.java
+@@ -47,18 +47,23 @@
+     assertNotEquals(before, after);
+     assertTrue(after.contains("256"));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      ExpressionMatrixImpl expressionMatrixImpl0 = new ExpressionMatrixImpl();
+-      expressionMatrixImpl0.addNewNode();
+-      expressionMatrixImpl0.creatMatrix(256);
+-      expressionMatrixImpl0.addNewNode();
+-      expressionMatrixImpl0.setValue(1, 0, 256);
+-      expressionMatrixImpl0.outNoStandardConnections(false, (ExpressionElementMapper) null);
+-      assertEquals(256, expressionMatrixImpl0.getNumberOfElements());
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    ExpressionMatrixImpl cut = new ExpressionMatrixImpl();
++    int firstNode = cut.addNewNode();
++    cut.creatMatrix(256);
++    int secondNode = cut.addNewNode();
++    cut.setValue(1, 0, 256);
++    String output = cut.outNoStandardConnections(false, null);
++    // Verify that the matrix size was set correctly
++    assertEquals(256, cut.getNumberOfElements());
++    // Verify that nodes were added (indices should be non‑negative and increasing)
++    assertTrue(firstNode >= 0);
++    assertTrue(secondNode > firstNode);
++    // Verify that the outNoStandardConnections method returns a usable string
++    assertNotNull(output);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

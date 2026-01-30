@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/scf/section/AbstractBasesSectionCodec_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/scf/section/AbstractBasesSectionCodec_ESTest.java
+@@ -48,22 +48,17 @@
+ public void test2() throws Throwable {
+     AbstractBasesSectionCodec.setConfidences((ScfChromatogramBuilder) null, (byte[][]) null);
+ }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        Version2BasesSectionCodec codec = new Version2BasesSectionCodec();
++        DefaultSCFHeader header = new DefaultSCFHeader();
+ 
++        ScfChromatogramBuilder builder = new ScfChromatogramBuilder();
++        builder.setHeader(header);
++        ScfChromatogram chrom = builder.build();
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      Version2BasesSectionCodec version2BasesSectionCodec0 = new Version2BasesSectionCodec();
+-      DefaultSCFHeader defaultSCFHeader0 = new DefaultSCFHeader();
+-      // Undeclared exception!
+-      try { 
+-        version2BasesSectionCodec0.encode((ScfChromatogram) null, defaultSCFHeader0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.internal.trace.chromat.scf.section.AbstractBasesSectionCodec", e);
+-      }
+-  }
++        AbstractBasesSectionCodec.EncodedSection encoded = codec.encode(chrom, header);
++        assertNotNull(encoded);
++    }
++
+ }

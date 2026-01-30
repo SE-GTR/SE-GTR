@@ -1,0 +1,48 @@
+--- a/evosuite-tests/com/gbshape/dbe/oracle/OracleTableStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/oracle/OracleTableStructure_ESTest.java
+@@ -48,20 +48,31 @@
+          verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
+-      ColumnBean columnBean0 = new ColumnBean();
+-      columnBean0.setName("org.apache.commons.fileupload.DiskFileUpload");
+-      columnBean0.setUnique(true);
+-      createTableXmlBean0.addColumn(columnBean0);
+-      DBDataBean dBDataBean0 = new DBDataBean();
+-      dBDataBean0.setDriver("org.apache.commons.fileupload.DiskFileUpload");
+-      OracleTableStructure oracleTableStructure0 = new OracleTableStructure();
+-      ArrayList arrayList0 = oracleTableStructure0.create((HttpServletRequest) null, dBDataBean0, createTableXmlBean0);
+-      assertEquals(2, arrayList0.size());
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
++        // verify initial state of columns list
++        int initialColumnCount = createTableXmlBean0.getColumns() != null ? createTableXmlBean0.getColumns().size() : 0;
++
++        ColumnBean columnBean0 = new ColumnBean();
++        columnBean0.setName("org.apache.commons.fileupload.DiskFileUpload");
++        assertEquals("org.apache.commons.fileupload.DiskFileUpload", columnBean0.getName());
++
++        columnBean0.setUnique(true);
++        assertTrue(columnBean0.isUnique());
++
++        createTableXmlBean0.addColumn(columnBean0);
++        assertEquals(initialColumnCount + 1, createTableXmlBean0.getColumns().size());
++
++        DBDataBean dBDataBean0 = new DBDataBean();
++        dBDataBean0.setDriver("org.apache.commons.fileupload.DiskFileUpload");
++        assertEquals("org.apache.commons.fileupload.DiskFileUpload", dBDataBean0.getDriver());
++
++        OracleTableStructure oracleTableStructure0 = new OracleTableStructure();
++        ArrayList arrayList0 = oracleTableStructure0.create((HttpServletRequest) null, dBDataBean0, createTableXmlBean0);
++        assertEquals(2, arrayList0.size());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

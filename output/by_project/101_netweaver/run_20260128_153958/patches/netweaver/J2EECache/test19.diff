@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache_ESTest.java
+@@ -259,18 +259,26 @@
+         assertFalse(boolean0);
+         assertFalse(j2EECache1.equals((Object) j2EECache0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      J2EECache j2EECache0 = new J2EECache();
+-      J2EECache j2EECache1 = new J2EECache();
+-      assertTrue(j2EECache1.equals((Object)j2EECache0));
+-      
+-      j2EECache1.setProcessname("processname");
+-      boolean boolean0 = j2EECache0.equals(j2EECache1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test19() throws Throwable {
++    J2EECache j2EECache0 = new J2EECache();
++    J2EECache j2EECache1 = new J2EECache();
++    assertTrue(j2EECache1.equals((Object) j2EECache0));
++
++    // Verify initial state of processname
++    assertNull(j2EECache0.getProcessname());
++    assertNull(j2EECache1.getProcessname());
++
++    // Exercise the void method and assert its side‑effect
++    j2EECache1.setProcessname("processname");
++    assertEquals("processname", j2EECache1.getProcessname());
++    assertNull(j2EECache0.getProcessname());
++
++    // Ensure the objects are now different
++    boolean boolean0 = j2EECache0.equals(j2EECache1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

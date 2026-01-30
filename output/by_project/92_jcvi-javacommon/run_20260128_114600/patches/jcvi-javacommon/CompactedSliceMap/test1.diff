@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/assembly/util/CompactedSliceMap_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/assembly/util/CompactedSliceMap_ESTest.java
+@@ -37,22 +37,32 @@
+          verifyException("org.jcvi.jillion.internal.assembly.util.CompactedSliceMap", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        GapQualityValueStrategy gapQualityValueStrategy0 = GapQualityValueStrategy.ALWAYS_ZERO;
++        StreamingIterator<AceAssembledReadAdapter> iter = new StreamingIterator<AceAssembledReadAdapter>() {
++            @Override
++            public boolean hasNext() {
++                return false;
++            }
++            @Override
++            public AceAssembledReadAdapter next() {
++                throw new java.util.NoSuchElementException();
++            }
++            @Override
++            public void close() {
++                // no resources to close
++            }
++            @Override
++            public void remove() {
++                throw new UnsupportedOperationException();
++            }
++        };
++        PhredQuality defaultQuality = PhredQuality.valueOf((byte) 30);
++        CompactedSliceMap map = CompactedSliceMap.create(iter, 780, defaultQuality, gapQualityValueStrategy0);
++        assertNotNull(map);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      GapQualityValueStrategy gapQualityValueStrategy0 = GapQualityValueStrategy.ALWAYS_ZERO;
+-      // Undeclared exception!
+-      try { 
+-        CompactedSliceMap.create((StreamingIterator<AceAssembledReadAdapter>) null, 780, (PhredQuality) null, gapQualityValueStrategy0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.internal.assembly.util.CompactedSliceMap", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

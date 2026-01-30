@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/jstevh/viewer/ClassInfo_ESTest.java
++++ b/evosuite-tests/com/jstevh/viewer/ClassInfo_ESTest.java
+@@ -115,18 +115,21 @@
+       String[] stringArray0 = classInfo0.srchMethods("9");
+       assertEquals(1, stringArray0.length);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test10() throws Throwable {
+       Class<JFrame> class0 = JFrame.class;
++      @SuppressWarnings("unchecked")
+       Class<JFrame>[] classArray0 = (Class<JFrame>[]) Array.newInstance(Class.class, 3);
+       classArray0[0] = class0;
+       classArray0[1] = class0;
+       classArray0[2] = class0;
+       String[] stringArray0 = ClassInfo.getData(classArray0);
++      boolean beforeDebug = ClassInfo.debug;
+       ClassInfo.main(stringArray0);
++      assertTrue("debug flag should change after main execution", ClassInfo.debug != beforeDebug);
+       assertEquals(3, stringArray0.length);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

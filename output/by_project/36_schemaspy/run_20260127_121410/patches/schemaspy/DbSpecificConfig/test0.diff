@@ -1,0 +1,27 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/util/DbSpecificConfig_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/util/DbSpecificConfig_ESTest.java
+@@ -15,13 +15,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DbSpecificConfig_ESTest extends DbSpecificConfig_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    DbSpecificConfig oraConfig = new DbSpecificConfig("ora");
++    String oraDesc = oraConfig.toString();
++    assertEquals("Oracle with OCI8 Driver", oraDesc);
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      DbSpecificConfig dbSpecificConfig0 = new DbSpecificConfig("ora");
+-      String string0 = dbSpecificConfig0.toString();
+-      assertEquals("Oracle with OCI8 Driver", string0);
+-  }
++    DbSpecificConfig mysqlConfig = new DbSpecificConfig("mysql");
++    String mysqlDesc = mysqlConfig.toString();
++    // Verify that different database types produce different descriptions
++    assertNotEquals(oraDesc, mysqlDesc);
++}
++
+ public void test1() throws Throwable {
+     DbSpecificConfig dbSpecificConfig0 = new DbSpecificConfig("ora");
+     Config config0 = dbSpecificConfig0.getConfig();

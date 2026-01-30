@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -701,20 +701,28 @@
+     assertEquals(0, workProcess1.getNo());
+     assertEquals(0, workProcess1.getPid());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test45()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
+-      workProcess0.setStatus("F?Wu=B");
+-      WorkProcess workProcess1 = new WorkProcess();
+-      assertFalse(workProcess1.equals((Object)workProcess0));
+-      
+-      workProcess1.setStatus("F?Wu=B");
+-      boolean boolean0 = workProcess1.equals(workProcess0);
+-      assertTrue(workProcess1.equals((Object)workProcess0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test45() throws Throwable {
++        WorkProcess workProcess0 = new WorkProcess();
++        // Verify initial state
++        assertNull(workProcess0.getStatus());
++        // Apply side‑effect and assert it
++        workProcess0.setStatus("F?Wu=B");
++        assertEquals("F?Wu=B", workProcess0.getStatus());
++
++        WorkProcess workProcess1 = new WorkProcess();
++        assertNull(workProcess1.getStatus());
++        assertFalse(workProcess1.equals((Object) workProcess0));
++
++        // Apply same status to second instance and verify
++        workProcess1.setStatus("F?Wu=B");
++        assertEquals("F?Wu=B", workProcess1.getStatus());
++
++        boolean boolean0 = workProcess1.equals(workProcess0);
++        assertTrue(boolean0);
++        assertTrue(workProcess1.equals((Object) workProcess0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test46()  throws Throwable  {

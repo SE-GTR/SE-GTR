@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
+@@ -1389,23 +1389,19 @@
+         // The parser should handle a minimal valid input without throwing NPE
+         javaParser0.CompilationUnit();
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test123()  throws Throwable  {
+-      String[] stringArray0 = new String[1];
+-      // Undeclared exception!
+-      try { 
+-        JavaParser.main(stringArray0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test123() throws Throwable {
++        java.io.File tempFile = java.io.File.createTempFile("temp", ".java");
++        tempFile.deleteOnExit();
++        java.nio.file.Files.write(
++                tempFile.toPath(),
++                "public class Temp {}", 
++                java.nio.charset.StandardCharsets.UTF_8);
++        String[] args = new String[] { tempFile.getAbsolutePath() };
++        // The main method should execute without throwing a NullPointerException
++        JavaParser.main(args);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test124()  throws Throwable  {

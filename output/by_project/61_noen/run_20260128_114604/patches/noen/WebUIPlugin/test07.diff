@@ -1,0 +1,40 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
+@@ -138,24 +138,19 @@
+       List<BMResult> list0 = webUIPlugin0.getBMResults();
+       assertTrue(list0.isEmpty());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-    webUIPlugin0 = new WebUIPlugin(bundleContext0);
+-      // Undeclared exception!
+-      try { 
+-        webUIPlugin0.getAvailability();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("fi.vtt.noen.mfw.bundle.server.plugins.webui.WebUIPlugin", e);
+-      }
+-  }
++@Test(timeout = 4000)
++  public void test07() throws Throwable {
++    BundleContext bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++    @SuppressWarnings("unchecked")
++    ServiceReference<Object> mockRef = mock(ServiceReference.class);
++    ServiceReference<?>[] refs = new ServiceReference<?>[] { mockRef };
++    doReturn(refs).when(bundleContext0).getServiceReferences(anyString(), anyString());
++    WebUIPlugin webUIPlugin0 = new WebUIPlugin(bundleContext0);
++    // Verify that getAvailability executes without throwing and returns a non‑null result
++    Availability availability = webUIPlugin0.getAvailability();
++    assertNotNull("Availability should not be null", availability);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

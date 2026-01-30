@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/jchapman/jipsnapman/models/NumbersOnlyDocument_ESTest.java
++++ b/evosuite-tests/com/jchapman/jipsnapman/models/NumbersOnlyDocument_ESTest.java
+@@ -45,18 +45,25 @@
+     assertEquals(beforeLength + 1, afterLength);
+     assertEquals("0", numbersOnlyDocument0.getText(1, 1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
+     numbersOnlyDocument0 = new NumbersOnlyDocument();
+     styleContext0 = new StyleContext();
+     gapContent0 = new GapContent();
+     defaultStyledDocument0 = new DefaultStyledDocument(gapContent0, styleContext0);
+     jTextPane0 = new JTextPane(defaultStyledDocument0);
+     style0 = jTextPane0.getLogicalStyle();
+-      numbersOnlyDocument0.insertString((-913), "", style0);
++
++    int lengthBefore = numbersOnlyDocument0.getLength();
++    numbersOnlyDocument0.insertString(-913, "", style0);
++    int lengthAfter = numbersOnlyDocument0.getLength();
++
++    assertEquals("Inserting an empty string should not change document length", lengthBefore, lengthAfter);
++    if (lengthAfter > 0) {
++      assertEquals("Document content should remain unchanged", "", numbersOnlyDocument0.getText(0, lengthAfter));
++    }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

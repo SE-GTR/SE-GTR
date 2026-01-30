@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -406,18 +406,27 @@
+     boolean boolean0 = enqLock0.equals(enqLock1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
+-      EnqLock enqLock1 = new EnqLock();
+-      assertTrue(enqLock1.equals((Object)enqLock0));
+-      
+-      enqLock1.setLockMode("JV+J@)y cy][+y.&");
++@Test(timeout = 4000)
++  public void test26() throws Throwable {
++      EnqLock enqLock0 = new EnqLock();
++      EnqLock enqLock1 = new EnqLock();
++      assertTrue(enqLock1.equals((Object) enqLock0));
++
++      // Verify initial state of lockMode fields
++      assertNull(enqLock0.getLockMode());
++      assertNull(enqLock1.getLockMode());
++
++      String mode = "JV+J@)y cy][+y.&";
++      enqLock1.setLockMode(mode);
++
++      // Observe the side‑effect of setLockMode
++      assertEquals(mode, enqLock1.getLockMode());
++      assertNull(enqLock0.getLockMode());
++
+       boolean boolean0 = enqLock1.equals(enqLock0);
+       assertFalse(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

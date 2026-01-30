@@ -1,0 +1,53 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/DefaultChannelGroup_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/DefaultChannelGroup_ESTest.java
+@@ -222,26 +222,30 @@
+          verifyException("org.jcvi.jillion.internal.trace.chromat.DefaultChannelGroup", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(1L, 1L, 1L, 1L).when(qualitySequence0).getLength();
+-      PositionSequence positionSequence0 = mock(PositionSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(1L, 1L, 1L, 0L).when(positionSequence0).getLength();
+-      DefaultChannel defaultChannel0 = new DefaultChannel(qualitySequence0, positionSequence0);
+-      DefaultChannelGroup defaultChannelGroup0 = null;
+-      try {
+-        defaultChannelGroup0 = new DefaultChannelGroup(defaultChannel0, defaultChannel0, defaultChannel0, defaultChannel0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // positions must all have the same length
+-         //
+-         verifyException("org.jcvi.jillion.internal.trace.chromat.DefaultChannelGroup", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
++        doReturn(1L, 1L, 1L, 1L).when(qualitySequence0).getLength();
++        PositionSequence positionSequence0 = mock(PositionSequence.class, new ViolatedAssumptionAnswer());
++        doReturn(1L, 1L, 1L, 0L).when(positionSequence0).getLength();
++
++        // Assert the stubbed return values to avoid NARV smell
++        long qualityLen = qualitySequence0.getLength();
++        assertEquals(1L, qualityLen);
++        long positionLen = positionSequence0.getLength();
++        assertEquals(1L, positionLen);
++
++        DefaultChannel defaultChannel0 = new DefaultChannel(qualitySequence0, positionSequence0);
++        DefaultChannelGroup defaultChannelGroup0 = null;
++        try {
++            defaultChannelGroup0 = new DefaultChannelGroup(defaultChannel0, defaultChannel0, defaultChannel0, defaultChannel0);
++            fail("Expecting exception: IllegalArgumentException");
++        } catch (IllegalArgumentException e) {
++            // positions must all have the same length
++            verifyException("org.jcvi.jillion.internal.trace.chromat.DefaultChannelGroup", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

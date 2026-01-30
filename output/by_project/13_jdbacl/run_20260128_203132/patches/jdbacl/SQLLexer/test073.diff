@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -815,22 +815,14 @@
+          verifyException("org.antlr.runtime.Lexer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test073()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mAND();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test073() throws Throwable {
++    ANTLRStringStream input = new ANTLRStringStream("AND");
++    SQLLexer lexer = new SQLLexer(input);
++    lexer.mAND();
++    assertEquals("AND", lexer.getText());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test074()  throws Throwable  {

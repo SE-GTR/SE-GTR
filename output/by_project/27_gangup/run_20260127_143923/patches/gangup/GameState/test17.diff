@@ -1,0 +1,32 @@
+--- a/evosuite-tests/state/GameState_ESTest.java
++++ b/evosuite-tests/state/GameState_ESTest.java
+@@ -227,16 +227,19 @@
+     gameState0.reset(true);
+     assertEquals(0, gameState0.getNumOfPlayers());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      GameState gameState0 = new GameState();
+-      Player player0 = new Player(2);
+-      gameState0.addPlayer(player0);
+-      gameState0.reset(false);
+-      assertEquals(1, gameState0.getNumOfPlayers());
+-  }
++@Test(timeout = 4000)
++    public void test17() throws Throwable {
++        GameState gameState0 = new GameState();
++        Player player0 = new Player(2);
++        gameState0.addPlayer(player0);
++        // Verify that addPlayer correctly registers the player
++        assertEquals(1, gameState0.getNumOfPlayers());
++        int beforeReset = gameState0.getNumOfPlayers();
++        gameState0.reset(false);
++        // Verify that reset does not unintentionally alter the player count
++        assertEquals(beforeReset, gameState0.getNumOfPlayers());
++    }
++
+ @Test(timeout = 4000)
+ public void test18() throws Throwable {
+     GameState gameState0 = new GameState(1L);

@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/jstevh/viewer/SAXDirParser_ESTest.java
++++ b/evosuite-tests/com/jstevh/viewer/SAXDirParser_ESTest.java
+@@ -66,20 +66,27 @@
+     // State after characters call
+     assertEquals("", sAXDirParser0.webData);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      SAXDirParser sAXDirParser0 = new SAXDirParser();
+-      char[] charArray0 = new char[6];
+-      AttributesImpl attributesImpl0 = new AttributesImpl();
+-      sAXDirParser0.startElement("", "", "Local", (Attributes) null);
+-      sAXDirParser0.startElement("_Lcal", "pkg", "pkg", attributesImpl0);
+-      sAXDirParser0.characters(charArray0, 1, 1);
+-      assertEquals("", sAXDirParser0.getLocalBrowser());
+-      assertEquals("", sAXDirParser0.lineNumberParameter());
+-      assertEquals("", sAXDirParser0.getEditor());
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        SAXDirParser parser = new SAXDirParser();
++        char[] chars = new char[6];
++        AttributesImpl attrs = new AttributesImpl();
++
++        // Capture initial observable state
++        String initialWebData = parser.webData;
++
++        // Act
++        parser.startElement("", "", "Local", (Attributes) null);
++        parser.startElement("_Lcal", "pkg", "pkg", attrs);
++        parser.characters(chars, 1, 1);
++
++        // Assert side‑effect (or lack thereof) on observable state
++        assertEquals(initialWebData, parser.webData);
++
++        // Minimal initialization check retained
++        assertEquals("", SAXDirParser.lineNumberParameter());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

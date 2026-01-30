@@ -1,0 +1,45 @@
+--- a/evosuite-tests/corina/util/UpdateFolder_ESTest.java
++++ b/evosuite-tests/corina/util/UpdateFolder_ESTest.java
+@@ -38,22 +38,27 @@
+          verifyException("org.evosuite.runtime.vfs.VirtualFileSystem", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        java.nio.file.Path srcDir = java.nio.file.Files.createTempDirectory("src");
++        java.nio.file.Path dstDir = java.nio.file.Files.createTempDirectory("dst");
++        java.io.File srcFile = new java.io.File(srcDir.toFile(), "test.txt");
++        java.io.File dstFile = new java.io.File(dstDir.toFile(), "copy.txt");
++        java.nio.file.Files.write(srcFile.toPath(),
++                "sample data".getBytes(java.nio.charset.StandardCharsets.UTF_8));
++        UpdateFolder updater = new UpdateFolder(srcFile, dstFile);
++        updater.copy(srcFile, dstFile);
++        org.junit.Assert.assertTrue("Destination file should exist after copy", dstFile.exists());
++        byte[] srcBytes = java.nio.file.Files.readAllBytes(srcFile.toPath());
++        byte[] dstBytes = java.nio.file.Files.readAllBytes(dstFile.toPath());
++        org.junit.Assert.assertArrayEquals("Copied content should match source", srcBytes, dstBytes);
++        // clean up temporary files and directories
++        srcFile.delete();
++        dstFile.delete();
++        srcDir.toFile().delete();
++        dstDir.toFile().delete();
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("", "");
+-      UpdateFolder updateFolder0 = new UpdateFolder(mockFile0, mockFile0);
+-      try { 
+-        updateFolder0.copy(mockFile0, mockFile0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

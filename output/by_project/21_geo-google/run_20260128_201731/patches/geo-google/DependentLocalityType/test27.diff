@@ -1,0 +1,30 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
+@@ -288,14 +288,21 @@
+         // Assert that the side effect is observable
+         assertNull(dependentLocalityType0.getDependentLocality());
+     }
+-
+-@Test(timeout = 4000)
+-public void test27() throws Throwable {
+-    dependentLocalityType0 = new DependentLocalityType();
++@Test(timeout = 4000)
++public void test27() throws Exception {
++    DependentLocalityType dependentLocalityType0 = new DependentLocalityType();
+     String expected = "example";
+     dependentLocalityType0.setUsageType(expected);
+-    assertEquals(expected, dependentLocalityType0.getUsageType());
+-}
++    // Marshal the object to XML and verify that the usageType attribute is present
++    javax.xml.bind.JAXBContext jaxbContext = javax.xml.bind.JAXBContext.newInstance(DependentLocalityType.class);
++    java.io.StringWriter sw = new java.io.StringWriter();
++    javax.xml.bind.Marshaller marshaller = jaxbContext.createMarshaller();
++    marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
++    marshaller.marshal(dependentLocalityType0, sw);
++    String xml = sw.toString();
++    assertTrue(xml.contains(expected));
++}
++
+ @Test(timeout = 4000)
+     public void test28() throws Throwable {
+         DependentLocalityType dependentLocalityType0 = new DependentLocalityType();

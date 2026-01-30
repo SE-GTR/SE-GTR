@@ -1,0 +1,43 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/action/BenutzerAction_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/action/BenutzerAction_ESTest.java
+@@ -31,26 +31,21 @@
+     actionMapping0 = new ActionMapping();
+     dynaActionForm0 = new DynaActionForm();
+   }
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    HttpServletResponse response = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++    HttpServletRequest request = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    HttpSession session = mock(HttpSession.class);
++    doReturn("dummy").when(request).getParameter(anyString());
++    doReturn(session).when(request).getSession();
++    BenutzerService service = mock(BenutzerService.class);
++    BenutzerAction action = new BenutzerAction(service);
++    ActionMapping mapping = mock(ActionMapping.class);
++    DynaActionForm form = mock(DynaActionForm.class);
++    ActionForward forward = action.delete(mapping, form, request, response);
++    assertNotNull("delete should return a non‑null ActionForward", forward);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(httpServletRequest0).getParameter(anyString());
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession();
+-      BenutzerAction benutzerAction0 = new BenutzerAction((BenutzerService) null);
+-      try { 
+-        benutzerAction0.delete(actionMapping0, dynaActionForm0, httpServletRequest0, httpServletResponse0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.action.BenutzerAction", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/ContextURLRecordModifier_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/ContextURLRecordModifier_ESTest.java
+@@ -39,19 +39,21 @@
+     contextURLRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
+     assertEquals(beforeSpecimenType, completeMetadataBean0.getSpecimenType());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
+     contextURLRecordModifier0 = new ContextURLRecordModifier();
+     completeMetadataBean0 = new CompleteMetadataBean();
+     servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("contextURL", "contextURL", "-1", "-1", "(6`iLNF)kWk_").when(servletRequest0).getParameter(anyString());
+-      ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
+-      contextURLRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
+-      contextURLRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
+-      assertFalse(completeMetadataBean0.isInappropriate());
++    doReturn("contextURL", "contextURL", "-1", "-1", "(6`iLNF)kWk_")
++        .when(servletRequest0).getParameter(anyString());
++    ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
++    boolean before = completeMetadataBean0.isInappropriate();
++    contextURLRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
++    boolean after = completeMetadataBean0.isInappropriate();
++    assertEquals("The inappropriate flag should remain unchanged after updateMetadata", before, after);
++    assertFalse("Metadata should not be marked as inappropriate", after);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

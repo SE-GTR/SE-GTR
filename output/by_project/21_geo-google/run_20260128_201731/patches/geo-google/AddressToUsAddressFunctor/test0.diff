@@ -1,0 +1,43 @@
+--- a/evosuite-tests/geo/google/mapping/AddressToUsAddressFunctor_ESTest.java
++++ b/evosuite-tests/geo/google/mapping/AddressToUsAddressFunctor_ESTest.java
+@@ -32,20 +32,28 @@
+     addressDetails0 = new AddressDetails();
+   }
+ @Test(timeout = 4000)
+-    public void test0() throws Throwable {
+-        GeoCoordinate geoCoordinate0 = new GeoCoordinate();
+-        geoAddress0.setCoordinate(geoCoordinate0);
+-        // Verify that the coordinate was set correctly
+-        assertSame(geoCoordinate0, geoAddress0.getCoordinate());
++public void test0() throws Throwable {
++    GeoCoordinate geoCoordinate0 = new GeoCoordinate();
+ 
+-        geoAddress0.setAddressDetails(addressDetails0);
+-        // Verify that the address details were set correctly
+-        assertSame(addressDetails0, geoAddress0.getAddressDetails());
++    // Capture the initial coordinate (expected to be null or a different instance)
++    Object beforeCoord = geoAddress0.getCoordinate();
++    geoAddress0.setCoordinate(geoCoordinate0);
++    // Verify that the coordinate was actually changed and set correctly
++    assertNotSame(beforeCoord, geoAddress0.getCoordinate());
++    assertSame(geoCoordinate0, geoAddress0.getCoordinate());
+ 
+-        AddressToUsAddressFunctor addressToUsAddressFunctor0 = AddressToUsAddressFunctor.getInstance();
+-        GeoUsAddress geoUsAddress0 = addressToUsAddressFunctor0.execute(geoAddress0);
+-        assertEquals("", geoUsAddress0.getAddressLine1());
+-    }
++    // Capture the initial address details (expected to be null or a different instance)
++    Object beforeDetails = geoAddress0.getAddressDetails();
++    geoAddress0.setAddressDetails(addressDetails0);
++    // Verify that the address details were actually changed and set correctly
++    assertNotSame(beforeDetails, geoAddress0.getAddressDetails());
++    assertSame(addressDetails0, geoAddress0.getAddressDetails());
++
++    AddressToUsAddressFunctor addressToUsAddressFunctor0 = AddressToUsAddressFunctor.getInstance();
++    GeoUsAddress geoUsAddress0 = addressToUsAddressFunctor0.execute(geoAddress0);
++    assertEquals("", geoUsAddress0.getAddressLine1());
++}
++
+ @Test(timeout = 4000)
+     public void test1() throws Throwable {
+         addressDetails0 = new AddressDetails();

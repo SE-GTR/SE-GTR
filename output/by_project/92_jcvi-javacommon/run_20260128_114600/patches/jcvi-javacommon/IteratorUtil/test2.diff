@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/iter/IteratorUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/iter/IteratorUtil_ESTest.java
+@@ -57,21 +57,19 @@
+          verifyException("org.jcvi.jillion.core.util.iter.IteratorUtil$PeekableStreamingIteratorImpl", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        // Use a minimal non‑null iterator to exercise normal behavior
++        java.util.Iterator<Integer> iter = java.util.Collections.singletonList(1).iterator();
++        IteratorUtil.PeekableIterator<Integer> peekable = IteratorUtil.createPeekableIterator(iter);
++        // The peekable iterator should expose the element without consuming it
++        assertTrue(peekable.hasNext());
++        assertEquals(Integer.valueOf(1), peekable.peek());
++        // Consuming the element should advance the iterator
++        assertEquals(Integer.valueOf(1), peekable.next());
++        assertFalse(peekable.hasNext());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        IteratorUtil.createPeekableIterator((Iterator<Iterator<StreamingIteratorAdapter>>) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.core.util.iter.IteratorUtil$PeekableIteratorImpl", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

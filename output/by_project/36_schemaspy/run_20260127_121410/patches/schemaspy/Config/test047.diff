@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -711,23 +711,20 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test047()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.getFont();
+-      // Undeclared exception!
+-      try { 
+-        config0.getRemainingParameters();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // org.evosuite.runtime.mock.java.lang.MockThrowable: Required parameter '-o' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test047() throws Throwable {
++        Config config0 = Config.getInstance();
++        String font = config0.getFont();
++        assertNotNull("Font should not be null", font);
++        try {
++            config0.getRemainingParameters();
++            fail("Expecting RuntimeException due to missing required '-o' parameter");
++        } catch (RuntimeException e) {
++            assertTrue("Exception message should mention missing '-o' option", e.getMessage().contains("-o"));
++            verifyException("net.sourceforge.schemaspy.Config", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test048()  throws Throwable  {

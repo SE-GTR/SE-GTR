@@ -1,0 +1,40 @@
+--- a/evosuite-tests/Newzgrabber/Ini_ESTest.java
++++ b/evosuite-tests/Newzgrabber/Ini_ESTest.java
+@@ -145,17 +145,26 @@
+         String string0 = ini0.getProperty();
+         assertNotNull(string0);
+     }
++@Test(timeout = 4000)
++public void test9() throws Throwable {
++    File file0 = MockFile.createTempFile("|*_Cg$KY^dW~ |ZJ&", "=", (File) null);
++    Ini ini0 = new Ini(file0, "Active Groups (Required for Search)");
++    ini0.setProperty("=");
++    // Verify that the property was set
++    assertEquals("=", ini0.getProperty());
+ 
++    LinkedList<Object> linkedList0 = new LinkedList<Object>();
++    ini0.writeIni(linkedList0);
++    // Verify that writeIni produced some output
++    assertTrue(file0.length() > 0);
+ 
+-  @Test(timeout = 4000)
+-  public void test9()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("|*_Cg$KY^dW~ |ZJ&", "=", (File) null);
+-      Ini ini0 = new Ini(file0, "Active Groups (Required for Search)");
+-      ini0.setProperty("=");
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      ini0.writeIni(linkedList0);
+-      Ini ini1 = new Ini(file0, "Active Groups (Required for Search)");
+-      ini1.readIni();
+-      assertEquals(4L, file0.length());
+-  }
++    Ini ini1 = new Ini(file0, "Active Groups (Required for Search)");
++    java.util.Hashtable<?, ?> table = ini1.readIni();
++    // Verify the return value of readIni
++    assertNotNull(table);
++    assertTrue(table.isEmpty());
++
++    assertEquals(4L, file0.length());
+ }
++
++}

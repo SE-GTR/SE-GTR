@@ -1,0 +1,33 @@
+--- a/evosuite-tests/jaw/metamodelo/Entidade_ESTest.java
++++ b/evosuite-tests/jaw/metamodelo/Entidade_ESTest.java
+@@ -96,14 +96,24 @@
+       String string0 = entidade0.getNomeAsTexto();
+       assertNotNull(string0);
+   }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    Entidade entidade0 = new Entidade();
++    // exercise a setter that mutates internal state
++    entidade0.setChavesPrimarias((List<Atributo>) null);
++    // verify the default name
++    assertEquals("", entidade0.getNome());
+ 
++    // add a non‑trivial interaction: compareTo based on the name field
++    Entidade other = new Entidade();
++    entidade0.setNome("Alpha");
++    other.setNome("Beta");
++    int cmp = entidade0.compareTo(other);
++    assertTrue(cmp < 0);
++    // confirm that the name was correctly set
++    assertEquals("Alpha", entidade0.getNome());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      Entidade entidade0 = new Entidade();
+-      entidade0.setChavesPrimarias((List<Atributo>) null);
+-      assertEquals("", entidade0.getNome());
+-  }
+ @Test(timeout = 4000)
+ public void test12() throws Throwable {
+     Entidade entidade0 = new Entidade("");

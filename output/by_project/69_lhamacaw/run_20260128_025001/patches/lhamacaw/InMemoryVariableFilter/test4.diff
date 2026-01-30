@@ -1,0 +1,43 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryVariableFilter_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryVariableFilter_ESTest.java
+@@ -93,20 +93,27 @@
+     assertFalse(arrayList1.isEmpty());
+     assertEquals(1, arrayList1.size());
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        inMemoryVariableFilter0 = new InMemoryVariableFilter();
++        user0 = new User();
++        arrayList0 = new ArrayList<Variable>();
++        RawVariable rawVariable0 = new RawVariable();
++        arrayList0.add((Variable) rawVariable0);
++        // verify that the filter starts with no variables
++        int beforeSize = inMemoryVariableFilter0.getVariables().size();
++        assertEquals(0, beforeSize);
++        // set the variables and assert the side‑effect
++        inMemoryVariableFilter0.setVariables(arrayList0);
++        int afterSize = inMemoryVariableFilter0.getVariables().size();
++        assertEquals(beforeSize + 1, afterSize);
++        VariableTypeFilter variableTypeFilter0 = VariableTypeFilter.DERIVED;
++        ArrayList<VariableSummary> arrayList1 = inMemoryVariableFilter0.filterVariableSummaries(
++                user0, "+<skEZ'SbF?GE", "+<skEZ'SbF?GE", "+<skEZ'SbF?GE", variableTypeFilter0);
++        // the filter with the given criteria should return an empty list
++        assertTrue(arrayList1.isEmpty());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    inMemoryVariableFilter0 = new InMemoryVariableFilter();
+-    user0 = new User();
+-    arrayList0 = new ArrayList<Variable>();
+-      RawVariable rawVariable0 = new RawVariable();
+-      arrayList0.add((Variable) rawVariable0);
+-      inMemoryVariableFilter0.setVariables(arrayList0);
+-      VariableTypeFilter variableTypeFilter0 = VariableTypeFilter.DERIVED;
+-      ArrayList<VariableSummary> arrayList1 = inMemoryVariableFilter0.filterVariableSummaries(user0, "+<skEZ'SbF?GE", "+<skEZ'SbF?GE", "+<skEZ'SbF?GE", variableTypeFilter0);
+-      assertTrue(arrayList1.isEmpty());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

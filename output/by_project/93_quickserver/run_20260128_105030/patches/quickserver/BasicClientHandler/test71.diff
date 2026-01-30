@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
+@@ -802,14 +802,20 @@
+       nonBlockingClientHandler0.getAppLogger();
+       //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:26>", nonBlockingClientHandler0.getName());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test71()  throws Throwable  {
+-      BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
+-      int int0 = blockingClientHandler0.getTotalReadBytes();
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:21>", blockingClientHandler0.getName());
+-      //  // Unstable assertion: assertEquals(0, int0);
+-  }
++@Test(timeout = 4000)
++    public void test71() throws Throwable {
++        BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
++        int beforeReadBytes = blockingClientHandler0.getTotalReadBytes();
++        // Ensure the initial read bytes count is a sensible non‑negative value
++        assertTrue("Initial read bytes should be non‑negative", beforeReadBytes >= 0);
++        // Act: invoke a method that does not modify the read‑bytes counter
++        String description = blockingClientHandler0.toString();
++        assertNotNull("toString() should not return null", description);
++        // Verify that the read‑bytes counter remains unchanged after the act step
++        int afterReadBytes = blockingClientHandler0.getTotalReadBytes();
++        assertEquals("Read bytes count should remain unchanged after toString()", beforeReadBytes, afterReadBytes);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test72()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/LocalVariablesSorter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/LocalVariablesSorter_ESTest.java
+@@ -273,22 +273,20 @@
+          verifyException("org.objectweb.asm.jip.commons.LocalVariablesSorter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      LocalVariablesSorter localVariablesSorter0 = new LocalVariablesSorter(21, "K)]M8*8-%hd,p_XHi7;f", (MethodVisitor) null);
+-      // Undeclared exception!
+-      try { 
+-        localVariablesSorter0.visitVarInsn(21, 21);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.commons.LocalVariablesSorter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        org.objectweb.asm.jip.ClassWriter cw = new org.objectweb.asm.jip.ClassWriter(0);
++        org.objectweb.asm.jip.MethodVisitor mv = cw.visitMethod(
++                org.objectweb.asm.jip.Opcodes.ACC_PUBLIC,
++                "m",
++                "()V",
++                null,
++                null);
++        LocalVariablesSorter sorter = new LocalVariablesSorter(21, "K)]M8*8-%hd,p_XHi7;f", mv);
++        // Verify that visitVarInsn executes without throwing an exception.
++        sorter.visitVarInsn(org.objectweb.asm.jip.Opcodes.ILOAD, 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

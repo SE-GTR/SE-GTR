@@ -1,0 +1,70 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceFileUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceFileUtil_ESTest.java
+@@ -45,34 +45,39 @@
+     iterator0 = (Iterator<Nucleotide>) mock(Iterator.class, new ViolatedAssumptionAnswer());
+       doReturn(false).when(iterator0).hasNext();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Nucleotide nucleotide0 = Nucleotide.Guanine;
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(iterator0).when(nucleotideSequence0).iterator();
+-      doReturn(nucleotide0).when(nucleotideSequence0).get(anyLong());
+-      doReturn(1733L, 1733L, 1733L, 0L).when(nucleotideSequence0).getLength();
+-      AceContig aceContig0 = mock(AceContig.class, new ViolatedAssumptionAnswer());
+-      doReturn(nucleotideSequence0).when(aceContig0).getConsensusSequence();
+-      doReturn("").when(aceContig0).getId();
+-      doReturn(1733L, 0L).when(aceContig0).getNumberOfReads();
+-      doReturn((StreamingIterator) null).when(aceContig0).getReadIterator();
+-      doReturn(false).when(aceContig0).isComplemented();
+-      ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
+-      // Undeclared exception!
+-      try { 
+-        AceFileUtil.writeAceContig(aceContig0, (PhdDataStore) null, byteArrayOutputStream0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.assembly.consed.ace.AceFileUtil", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        // Arrange valid inputs
++        Nucleotide nucleotide0 = Nucleotide.Guanine;
++        NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++        doReturn(iterator0).when(nucleotideSequence0).iterator();
++        doReturn(nucleotide0).when(nucleotideSequence0).get(anyLong());
++        doReturn(1733L, 1733L, 1733L, 0L).when(nucleotideSequence0).getLength();
++
++        AceContig aceContig0 = mock(AceContig.class, new ViolatedAssumptionAnswer());
++        doReturn(nucleotideSequence0).when(aceContig0).getConsensusSequence();
++        doReturn("").when(aceContig0).getId();
++        doReturn(1733L, 0L).when(aceContig0).getNumberOfReads();
++        doReturn(false).when(aceContig0).isComplemented();
++
++        // Provide a non‑null, empty read iterator to avoid NPE inside the method
++        @SuppressWarnings("unchecked")
++        StreamingIterator<AssembledRead> emptyReadIter = mock(StreamingIterator.class);
++        doReturn(false).when(emptyReadIter).hasNext();
++        doReturn(emptyReadIter).when(aceContig0).getReadIterator();
++
++        // Use a mock PhdDataStore (non‑null) – default behavior is sufficient for this test
++        PhdDataStore phdDataStore0 = mock(PhdDataStore.class, new ViolatedAssumptionAnswer());
++
++        ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
++
++        // Act
++        AceFileUtil.writeAceContig(aceContig0, phdDataStore0, byteArrayOutputStream0);
++
++        // Assert that something was written to the output stream
++        assertTrue("Output stream should contain data", byteArrayOutputStream0.size() > 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

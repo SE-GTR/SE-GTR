@@ -1,0 +1,28 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
+@@ -183,14 +183,17 @@
+       DMMonitorPlugin dMMonitorPlugin0 = webUIPlugin0.getDMMonitor();
+       assertNull(dMMonitorPlugin0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-    webUIPlugin0 = new WebUIPlugin(bundleContext0);
+-      webUIPlugin0.registerMFWClient((MFWClient) null);
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++    doReturn((Object) null, (Object) null, (Object) null)
++        .when(bundleContext0).getServiceReferences(anyString(), anyString());
++    // Verify that the stubbed method returns null as configured
++    assertNull(bundleContext0.getServiceReferences("any", "any"));
++    webUIPlugin0 = new WebUIPlugin(bundleContext0);
++    assertNotNull(webUIPlugin0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

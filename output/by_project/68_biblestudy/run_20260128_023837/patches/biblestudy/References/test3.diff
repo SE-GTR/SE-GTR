@@ -1,0 +1,50 @@
+--- a/evosuite-tests/bible/obj/References_ESTest.java
++++ b/evosuite-tests/bible/obj/References_ESTest.java
+@@ -68,25 +68,29 @@
+       doReturn((Object) stringArray0, (Object) stringArray0).when(httpServletRequest0).getParameterValues(anyString());
+       References references0 = new References(httpServletRequest0);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        stringArray0 = new String[0];
++        httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("4,k2^}$y").when(httpServletRequest0).getParameter(anyString());
++        doReturn((Object) stringArray0, (Object) stringArray0).when(httpServletRequest0).getParameterValues(anyString());
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    stringArray0 = new String[0];
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("4,k2^}$y").when(httpServletRequest0).getParameter(anyString());
+-      doReturn((Object) stringArray0, (Object) stringArray0).when(httpServletRequest0).getParameterValues(anyString());
+-      References references0 = null;
+-      try {
+-        references0 = new References(httpServletRequest0);
+-        fail("Expecting exception: NumberFormatException");
+-      
+-      } catch(NumberFormatException e) {
+-         //
+-         // For input string: \"k2^}$y\"
+-         //
+-         verifyException("java.lang.NumberFormatException", e);
+-      }
+-  }
++        // Verify the mocked return values are as expected
++        String param = httpServletRequest0.getParameter("anyKey");
++        assertEquals("4,k2^}$y", param);
++        String[] values = httpServletRequest0.getParameterValues("anyKey");
++        assertNotNull(values);
++        assertEquals(0, values.length);
++
++        // The constructor is expected to throw NumberFormatException for the invalid input
++        try {
++            new References(httpServletRequest0);
++            fail("Expecting exception: NumberFormatException");
++        } catch (NumberFormatException e) {
++            assertTrue(e.getMessage().contains("k2^}$y"));
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

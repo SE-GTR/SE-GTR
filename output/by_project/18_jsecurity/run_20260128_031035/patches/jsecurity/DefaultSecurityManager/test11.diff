@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/jsecurity/mgt/DefaultSecurityManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/mgt/DefaultSecurityManager_ESTest.java
+@@ -229,29 +229,25 @@
+          verifyException("org.jsecurity.mgt.DefaultSecurityManager", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager();
+-      defaultSecurityManager0.getRememberedIdentity();
+-      defaultSecurityManager0.rememberMeLogout((PrincipalCollection) null);
+-      String string0 = "Og.fw+CB[";
+-      InetAddress inetAddress0 = MockInetAddress.getByName("");
+-      defaultSecurityManager0.start(inetAddress0);
+-      char[] charArray0 = null;
+-      UsernamePasswordToken usernamePasswordToken0 = new UsernamePasswordToken("Og.fw+CB[", (char[]) null);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager();
++    PrincipalCollection pc = defaultSecurityManager0.getRememberedIdentity();
++    assertNull(pc);
++    defaultSecurityManager0.rememberMeLogout((PrincipalCollection) null);
++    String string0 = "Og.fw+CB[";
++    InetAddress inetAddress0 = MockInetAddress.getByName("");
++    Session session = defaultSecurityManager0.start(inetAddress0);
++    assertNotNull(session);
++    UsernamePasswordToken usernamePasswordToken0 = new UsernamePasswordToken("Og.fw+CB[", (char[]) null);
++    try {
+         defaultSecurityManager0.setRememberMeCipherKeyHex("Og.fw+CB[");
+         fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // The convenience passthrough methods for setting remember me cipher attributes are only available when the underlying RememberMeManager implementation is a subclass of org.jsecurity.subject.AbstractRememberMeManager.
+-         //
+-         verifyException("org.jsecurity.mgt.DefaultSecurityManager", e);
+-      }
+-  }
++    } catch (IllegalStateException e) {
++        verifyException("org.jsecurity.mgt.DefaultSecurityManager", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

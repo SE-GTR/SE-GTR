@@ -1,0 +1,35 @@
+--- a/evosuite-tests/corina/site/Location_ESTest.java
++++ b/evosuite-tests/corina/site/Location_ESTest.java
+@@ -259,14 +259,24 @@
+       location0.toISO6709();
+       assertEquals((-90.0F), location0.getLatitudeAsDegrees(), 0.01F);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-    location0 = new Location();
+-      location0.setLongitudeAsDegrees(1791.5F);
+-      location0.toISO6709();
+-      assertTrue(location0.valid());
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        location0 = new Location();
++        // Capture the initial longitude (should be the default value)
++        float before = location0.getLongitudeAsDegrees();
++        // Apply the operation that changes the internal state
++        location0.setLongitudeAsDegrees(1791.5F);
++        // Verify that the state actually changed
++        float after = location0.getLongitudeAsDegrees();
++        assertNotEquals("Longitude should be updated after setLongitudeAsDegrees", before, after);
++        // Observe the return value of toISO6709
++        String isoString = location0.toISO6709();
++        assertNotNull("toISO6709 should not return null", isoString);
++        assertFalse("toISO6709 should not return an empty string", isoString.isEmpty());
++        // Keep the original validity check
++        assertTrue(location0.valid());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

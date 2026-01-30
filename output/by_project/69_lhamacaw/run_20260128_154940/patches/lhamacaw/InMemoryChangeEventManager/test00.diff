@@ -1,0 +1,35 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryChangeEventManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryChangeEventManager_ESTest.java
+@@ -28,16 +28,26 @@
+     User user0 = new User();
+     DerivedVariable derivedVariable0 = new DerivedVariable();
+     MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent();
+-    MockDate mockDate0 = new MockDate(66, (-862), 45, 4683, 45, (-1982292595));
++    MockDate mockDate0 = new MockDate(66, -862, 45, 4683, 45, -1982292595);
+     MacawChangeEvent macawChangeEvent1 = Variable.detectChangesInAlternativeVariable(user0, derivedVariable0, derivedVariable0);
+     macawChangeEvent1.setDate(mockDate0);
+     assertEquals(mockDate0, macawChangeEvent1.getDate());
+-    inMemoryChangeEventManager0.registerChangeEvent(macawChangeEvent0);
++
++    // Verify that registering a change event updates the manager's history
++    int initialSize = inMemoryChangeEventManager0.getChangeHistoryByUser(user0).size();
++
++    inMemoryChangeEventManager0.registerChangeEvent(macawChangeEvent0);
++    ArrayList<MacawChangeEvent> afterFirst = inMemoryChangeEventManager0.getChangeHistoryByUser(user0);
++    assertEquals(initialSize + 1, afterFirst.size());
++    assertTrue(afterFirst.contains(macawChangeEvent0));
++
+     inMemoryChangeEventManager0.registerChangeEvent(macawChangeEvent1);
+-    ArrayList<MacawChangeEvent> arrayList0 = inMemoryChangeEventManager0.getChangeHistoryByUser(user0);
+-    assertTrue(arrayList0.contains(macawChangeEvent1));
+-    assertTrue(arrayList0.contains(macawChangeEvent0));
+-}
++    ArrayList<MacawChangeEvent> afterSecond = inMemoryChangeEventManager0.getChangeHistoryByUser(user0);
++    assertEquals(initialSize + 2, afterSecond.size());
++    assertTrue(afterSecond.contains(macawChangeEvent1));
++    assertTrue(afterSecond.contains(macawChangeEvent0));
++}
++
+ @Test(timeout = 4000)
+ public void test01() throws Throwable {
+     InMemoryChangeEventManager manager = new InMemoryChangeEventManager();

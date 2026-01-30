@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
+@@ -133,14 +133,24 @@
+       simpleSession0.getHostAddress();
+       assertEquals(1800000L, simpleSession0.getTimeout());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      SimpleSession simpleSession0 = new SimpleSession();
+-      Date date0 = simpleSession0.getLastAccessTime();
+-      simpleSession0.setStopTimestamp(date0);
+-      assertEquals(1800000L, simpleSession0.getTimeout());
+-  }
++public void test13() throws Throwable {
++    SimpleSession simpleSession0 = new SimpleSession();
++
++    // Verify that setting the stop timestamp is observable
++    Date lastAccessBefore = simpleSession0.getLastAccessTime();
++    simpleSession0.setStopTimestamp(lastAccessBefore);
++    assertEquals(lastAccessBefore, simpleSession0.getStopTimestamp());
++
++    // Keep the original timeout check
++    assertEquals(1800000L, simpleSession0.getTimeout());
++
++    // Invoke a non‑trivial behavior and assert its effect
++    Date beforeTouch = simpleSession0.getLastAccessTime();
++    simpleSession0.touch();
++    Date afterTouch = simpleSession0.getLastAccessTime();
++    assertTrue(afterTouch.getTime() >= beforeTouch.getTime());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

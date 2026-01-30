@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
+@@ -150,25 +150,16 @@
+          verifyException("org.databene.jdbacl.DBUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      Result result0 = Result.newRollbackToSavepointRequest("Wnk@@:B.");
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      // Undeclared exception!
+-      try { 
++@Test(expected = RuntimeException.class, timeout = 4000)
++    public void test08() throws Throwable {
++        Result result0 = Result.newRollbackToSavepointRequest("Wnk@@:B.");
++        assertNotNull(result0);
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+         DBUtil.querySingleRow("Wnk@@:B.", jdbcConnection0);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Database query did not return a result: Wnk@@:B.
+-         //
+-         verifyException("org.databene.jdbacl.DBUtil", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

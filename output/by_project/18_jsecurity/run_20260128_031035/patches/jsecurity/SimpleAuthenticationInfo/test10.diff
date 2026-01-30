@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/authc/SimpleAuthenticationInfo_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/SimpleAuthenticationInfo_ESTest.java
+@@ -109,12 +109,21 @@
+     simpleAuthenticationInfo0 = new SimpleAuthenticationInfo();
+       simpleAuthenticationInfo0.merge(simpleAuthenticationInfo0);
+   }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    simpleAuthenticationInfo0 = new SimpleAuthenticationInfo();
++    // Verify initial state is null
++    assertNull(simpleAuthenticationInfo0.getPrincipals());
++    assertNull(simpleAuthenticationInfo0.getCredentials());
+ 
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-    simpleAuthenticationInfo0 = new SimpleAuthenticationInfo();
+-      simpleAuthenticationInfo0.merge((AuthenticationInfo) null);
+-  }
++    // Act: merge with null should not alter state
++    simpleAuthenticationInfo0.merge((AuthenticationInfo) null);
++
++    // Verify state remains unchanged after merge
++    assertNull(simpleAuthenticationInfo0.getPrincipals());
++    assertNull(simpleAuthenticationInfo0.getCredentials());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

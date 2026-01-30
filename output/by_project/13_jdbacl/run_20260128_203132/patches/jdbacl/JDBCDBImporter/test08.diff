@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
+@@ -119,14 +119,17 @@
+       assertFalse(jDBCDBImporter0.isImportingPackages());
+       assertTrue(jDBCDBImporter0.isImportingIndexes());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter("", "", "", "", "", "");
+-      jDBCDBImporter0.setIncludeTables("");
+-      assertTrue(jDBCDBImporter0.isImportingIndexes());
+-      assertFalse(jDBCDBImporter0.isImportingPackages());
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    JDBCDBImporter importer = new JDBCDBImporter("", "", "", "", "", "");
++    boolean beforeIndexes = importer.isImportingIndexes();
++    boolean beforePackages = importer.isImportingPackages();
++    importer.setIncludeTables("");
++    // Verify that setting the include tables pattern does not alter the importing flags
++    assertEquals(beforeIndexes, importer.isImportingIndexes());
++    assertEquals(beforePackages, importer.isImportingPackages());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

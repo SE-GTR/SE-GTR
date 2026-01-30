@@ -1,0 +1,67 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/builder/BuildProjectJob_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/builder/BuildProjectJob_ESTest.java
+@@ -17,23 +17,48 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class BuildProjectJob_ESTest extends BuildProjectJob_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        IProject[] projects = new IProject[0];
++        BuildProjectJob job = new BuildProjectJob(projects, 129);
++        IProgressMonitor monitor = new IProgressMonitor() {
++            @Override
++            public void beginTask(String name, int totalWork) {
++            }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      IProject[] iProjectArray0 = new IProject[0];
+-      BuildProjectJob buildProjectJob0 = new BuildProjectJob(iProjectArray0, 129);
+-      // Undeclared exception!
+-      try { 
+-        buildProjectJob0.run((IProgressMonitor) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.atlassw.tools.eclipse.checkstyle.builder.BuildProjectJob", e);
+-      }
+-  }
++            @Override
++            public void done() {
++            }
++
++            @Override
++            public void internalWorked(double work) {
++            }
++
++            @Override
++            public boolean isCanceled() {
++                return false;
++            }
++
++            @Override
++            public void setCanceled(boolean value) {
++            }
++
++            @Override
++            public void setTaskName(String name) {
++            }
++
++            @Override
++            public void subTask(String name) {
++            }
++
++            @Override
++            public void worked(int work) {
++            }
++        };
++        IStatus status = job.run(monitor);
++        assertNotNull(status);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

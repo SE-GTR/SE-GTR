@@ -1,0 +1,46 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/projektgruppe/ProjektgruppeDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/projektgruppe/ProjektgruppeDaoService_ESTest.java
+@@ -65,25 +65,24 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      ProjektgruppeDaoService projektgruppeDaoService0 = new ProjektgruppeDaoService((ProjektgruppeDao) null);
+-      Projektgruppe projektgruppe0 = new Projektgruppe();
+-      Integer integer0 = Integer.valueOf((-408));
+-      projektgruppe0.setProjektgruppeId(integer0);
+-      // Undeclared exception!
+-      try { 
+-        projektgruppeDaoService0.exists(projektgruppe0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.service.projektgruppe.ProjektgruppeDaoService", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    ProjektgruppeDao dao = (ProjektgruppeDao) java.lang.reflect.Proxy.newProxyInstance(
++        ProjektgruppeDao.class.getClassLoader(),
++        new Class<?>[]{ProjektgruppeDao.class},
++        (proxy, method, args) -> {
++            if (method.getReturnType().equals(boolean.class)) {
++                return false;
++            }
++            return null;
++        });
++    ProjektgruppeDaoService projektgruppeDaoService0 = new ProjektgruppeDaoService(dao);
++    Projektgruppe projektgruppe0 = new Projektgruppe();
++    projektgruppe0.setProjektgruppeId(Integer.valueOf(-408));
++    boolean result = projektgruppeDaoService0.exists(projektgruppe0);
++    org.junit.Assert.assertFalse(result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

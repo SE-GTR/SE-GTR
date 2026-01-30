@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/GetVersionResponse_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/GetVersionResponse_ESTest.java
+@@ -25,13 +25,22 @@
+       int hash2 = getVersionResponse0.hashCode();
+       assertEquals(hash1, hash2);
+   }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        GetVersionResponse responseA = new GetVersionResponse("7C6");
++        int hashA = responseA.hashCode();
+ 
++        GetVersionResponse responseB = new GetVersionResponse("7C6");
++        int hashB = responseB.hashCode();
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      GetVersionResponse getVersionResponse0 = new GetVersionResponse("7C6");
+-      getVersionResponse0.hashCode();
+-  }
++        assertEquals("Hash codes should be equal for identical return values", hashA, hashB);
++
++        GetVersionResponse responseC = new GetVersionResponse("different");
++        int hashC = responseC.hashCode();
++
++        assertNotEquals("Hash codes should differ for different return values", hashA, hashC);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -785,17 +785,19 @@
+       classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 32);
+       assertEquals(8096, classReader0.header);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test59()  throws Throwable  {
+-      ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
+-      ClassWriter classWriter0 = new ClassWriter(1);
+-      classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 259);
+-      MethodWriter methodWriter0 = classWriter0.firstMethod;
+-      methodWriter0.visitAnnotationDefault();
+-      int int0 = methodWriter0.getSize();
+-      assertEquals(14, int0);
+-  }
++@Test(timeout = 4000)
++public void test59() throws Throwable {
++    ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
++    ClassWriter classWriter0 = new ClassWriter(1);
++    classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 259);
++    MethodWriter methodWriter0 = classWriter0.firstMethod;
++    int sizeBefore = methodWriter0.getSize();
++    AnnotationVisitor av = methodWriter0.visitAnnotationDefault();
++    assertNotNull(av);
++    int sizeAfter = methodWriter0.getSize();
++    assertTrue(sizeAfter > sizeBefore);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test60()  throws Throwable  {

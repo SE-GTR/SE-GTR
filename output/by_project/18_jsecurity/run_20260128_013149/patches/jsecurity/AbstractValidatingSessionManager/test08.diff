@@ -1,0 +1,59 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/AbstractValidatingSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/AbstractValidatingSessionManager_ESTest.java
+@@ -173,21 +173,41 @@
+          verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      DefaultSessionManager defaultSessionManager0 = new DefaultSessionManager();
+-      defaultSessionManager0.getActiveSessions();
+-      defaultSessionManager0.setSessionValidationSchedulerEnabled(false);
+-      MemorySessionDAO memorySessionDAO0 = (MemorySessionDAO)defaultSessionManager0.sessionDAO;
+-      defaultSessionManager0.setSessionDAO(memorySessionDAO0);
+-      defaultSessionManager0.disableSessionValidation();
+-      defaultSessionManager0.beforeSessionValidationDisabled();
+-      defaultSessionManager0.beforeSessionValidationDisabled();
+-      InetAddress inetAddress0 = MockInetAddress.getByName("");
+-      Session session0 = defaultSessionManager0.createSession(inetAddress0);
+-      defaultSessionManager0.validate(session0);
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    DefaultSessionManager defaultSessionManager0 = new DefaultSessionManager();
++    // initial scheduler state (should be true by default)
++    assertTrue(defaultSessionManager0.isSessionValidationSchedulerEnabled());
++
++    // invoke for coverage
++    defaultSessionManager0.getActiveSessions();
++
++    // disable the scheduler and verify side‑effect
++    defaultSessionManager0.setSessionValidationSchedulerEnabled(false);
++    assertFalse(defaultSessionManager0.isSessionValidationSchedulerEnabled());
++
++    // obtain current DAO and set it back, then verify
++    MemorySessionDAO memorySessionDAO0 = (MemorySessionDAO) defaultSessionManager0.sessionDAO;
++    defaultSessionManager0.setSessionDAO(memorySessionDAO0);
++    assertSame(memorySessionDAO0, defaultSessionManager0.getSessionDAO());
++
++    // disable session validation (should keep scheduler disabled)
++    defaultSessionManager0.disableSessionValidation();
++    assertFalse(defaultSessionManager0.isSessionValidationSchedulerEnabled());
++
++    // call lifecycle hook twice (no observable state change expected)
++    defaultSessionManager0.beforeSessionValidationDisabled();
++    defaultSessionManager0.beforeSessionValidationDisabled();
++
++    // create a session and verify it is created
++    InetAddress inetAddress0 = MockInetAddress.getByName("");
++    Session session0 = defaultSessionManager0.createSession(inetAddress0);
++    assertNotNull(session0);
++
++    // validate the session (no exception means success)
++    defaultSessionManager0.validate(session0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

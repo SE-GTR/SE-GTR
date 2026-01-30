@@ -1,0 +1,59 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/MetadataRecordModifier_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/MetadataRecordModifier_ESTest.java
+@@ -58,33 +58,33 @@
+     metadataRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
+     assertNull(completeMetadataBean0.getFormat());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++public void test3() throws Throwable {
+     metadataRecordModifier0 = new MetadataRecordModifier();
+     completeMetadataBean0 = new CompleteMetadataBean();
+-      ArrayList<Object> arrayList0 = new ArrayList<Object>();
+-      Object object0 = new Object();
+-      arrayList0.add(object0);
+-      completeMetadataBean0.setRequirements(arrayList0);
+-      String[] stringArray0 = new String[6];
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("^fileWidtl", "@rbj}x/iS90l%", "@rbj}x/iS90l%", "@rbj}x/iS90l%", "^fileWidtl").when(httpServletRequest0).getParameter(anyString());
+-      doReturn((Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0).when(httpServletRequest0).getParameterValues(anyString());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      // Undeclared exception!
+-      try { 
++    ArrayList<Object> arrayList0 = new ArrayList<Object>();
++    Object object0 = new Object();
++    boolean added = arrayList0.add(object0);
++    assertTrue("Element should be added to list", added);
++    assertSame("First element should be the added object", object0, arrayList0.get(0));
++    completeMetadataBean0.setRequirements(arrayList0);
++    assertEquals("Requirements list should contain one element", 1, completeMetadataBean0.getRequirements().size());
++
++    String[] stringArray0 = new String[6];
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn("^fileWidtl", "@rbj}x/iS90l%", "@rbj}x/iS90l%", "@rbj}x/iS90l%", "^fileWidtl")
++        .when(httpServletRequest0).getParameter(anyString());
++    doReturn((Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0)
++        .when(httpServletRequest0).getParameterValues(anyString());
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    try {
+         metadataRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
+         fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.lang.Object cannot be cast to org.heal.module.metadata.RequirementBean
+-         //
+-         verifyException("org.heal.servlet.cataloger.MetadataRecordModifier", e);
+-      }
+-  }
++    } catch (ClassCastException e) {
++        verifyException("org.heal.servlet.cataloger.MetadataRecordModifier", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

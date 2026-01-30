@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/FastqFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/FastqFileParser_ESTest.java
+@@ -71,23 +71,16 @@
+          verifyException("org.jcvi.jillion.trace.fastq.FastqFileParser$OffsetMemento", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      BufferedInputStream bufferedInputStream0 = new BufferedInputStream((InputStream) null);
+-      FastqFileParser fastqFileParser0 = FastqFileParser.create((InputStream) bufferedInputStream0);
+-      FastqVisitor fastqVisitor0 = mock(FastqVisitor.class, new ViolatedAssumptionAnswer());
+-      try { 
+-        fastqFileParser0.accept(fastqVisitor0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Stream closed
+-         //
+-         verifyException("java.io.BufferedInputStream", e);
+-      }
+-  }
++@Test(timeout = 4000)
++  public void test04() throws Throwable {
++      try {
++          FastqFileParser.create(null);
++          fail("Expecting exception: NullPointerException");
++      } catch (NullPointerException e) {
++          // expected exception
++      }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

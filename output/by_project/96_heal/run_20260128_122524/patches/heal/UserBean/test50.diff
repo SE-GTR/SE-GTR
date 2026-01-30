@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
+@@ -507,14 +507,25 @@
+         userBean0.setEmail(testEmail);
+         assertEquals(testEmail, userBean0.getEmail());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test50()  throws Throwable  {
+-    userBean0 = new UserBean();
+-      userBean0.setMiddleInitial("kO");
+-      assertEquals("kO", userBean0.getMiddleInitial());
+-  }
++@Test(timeout = 4000)
++  public void test50() throws Throwable {
++    userBean0 = new UserBean();
++    userBean0.setMiddleInitial("kO");
++    assertEquals("kO", userBean0.getMiddleInitial());
++
++    // Verify that the middle initial survives a serialization round‑trip
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(userBean0);
++    oos.flush();
++    byte[] serialized = baos.toByteArray();
++
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(serialized));
++    UserBean deserialized = (UserBean) ois.readObject();
++
++    assertEquals("kO", deserialized.getMiddleInitial());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test51()  throws Throwable  {

@@ -1,0 +1,48 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/player/Battleplayer_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/player/Battleplayer_ESTest.java
+@@ -42,23 +42,30 @@
+         assertEquals(2, list0.size());
+         assertTrue(list0.contains(28));
+     }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    HashSet<Round> hashSet0 = new HashSet<Round>();
++    Round round0 = mock(Round.class, new ViolatedAssumptionAnswer());
++    doReturn(31).when(round0).getNo();
++    Round round1 = mock(Round.class, new ViolatedAssumptionAnswer());
++    doReturn(0).when(round1).getNo();
+ 
++    // Assert the stubbed return values
++    assertEquals(31, round0.getNo());
++    assertEquals(0, round1.getNo());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      HashSet<Round> hashSet0 = new HashSet<Round>();
+-      Round round0 = mock(Round.class, new ViolatedAssumptionAnswer());
+-      doReturn(31).when(round0).getNo();
+-      Round round1 = mock(Round.class, new ViolatedAssumptionAnswer());
+-      doReturn(0).when(round1).getNo();
+-      hashSet0.add(round1);
+-      hashSet0.add(round0);
+-      Battleplan battleplan0 = new Battleplan(hashSet0);
+-      Battleplayer battleplayer0 = new Battleplayer(battleplan0);
+-      List<Integer> list0 = battleplayer0.getRoundNumbers();
+-      assertEquals(2, list0.size());
+-      assertTrue(list0.contains(31));
+-  }
++    boolean added1 = hashSet0.add(round1);
++    boolean added0 = hashSet0.add(round0);
++    assertTrue(added1);
++    assertTrue(added0);
++
++    Battleplan battleplan0 = new Battleplan(hashSet0);
++    Battleplayer battleplayer0 = new Battleplayer(battleplan0);
++    List<Integer> list0 = battleplayer0.getRoundNumbers();
++    assertEquals(2, list0.size());
++    assertTrue(list0.contains(31));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

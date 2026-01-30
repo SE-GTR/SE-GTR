@@ -1,0 +1,51 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/gui/ToggleProperty_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/gui/ToggleProperty_ESTest.java
+@@ -76,24 +76,31 @@
+       ToggleProperty toggleProperty0 = new ToggleProperty((BooleanAccessor) null);
+       toggleProperty0.addPropertyChangeListener((PropertyChangeListener) null);
+   }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    // Provide a minimal non‑null BooleanAccessor implementation
++    BooleanAccessor accessor = new BooleanAccessor() {
++        @Override
++        public boolean get() {
++            return false;
++        }
+ 
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      ToggleProperty toggleProperty0 = new ToggleProperty((BooleanAccessor) null);
+-      JCheckBoxMenuItem jCheckBoxMenuItem0 = new JCheckBoxMenuItem();
+-      toggleProperty0.configure(jCheckBoxMenuItem0);
+-      // Undeclared exception!
+-      try { 
+-        jCheckBoxMenuItem0.getSelectedObjects();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.virtualinfinity.atrobots.gui.ToggleProperty$Action$1", e);
+-      }
+-  }
++        @Override
++        public void set(boolean value) {
++            // no‑op
++        }
++    };
++    ToggleProperty toggleProperty0 = new ToggleProperty(accessor);
++    JCheckBoxMenuItem jCheckBoxMenuItem0 = new JCheckBoxMenuItem();
++
++    // Capture and assert the return value of configure
++    JCheckBoxMenuItem configured = toggleProperty0.configure(jCheckBoxMenuItem0);
++    assertSame(jCheckBoxMenuItem0, configured);
++
++    // Verify that calling a method on the button does not throw an exception
++    assertNull(jCheckBoxMenuItem0.getSelectedObjects());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

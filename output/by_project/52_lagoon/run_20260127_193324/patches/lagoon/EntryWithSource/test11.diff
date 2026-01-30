@@ -1,0 +1,28 @@
+--- a/evosuite-tests/nu/staldal/lagoon/core/EntryWithSource_ESTest.java
++++ b/evosuite-tests/nu/staldal/lagoon/core/EntryWithSource_ESTest.java
+@@ -155,14 +155,17 @@
+          verifyException("nu.staldal.lagoon.core.EntryWithSource", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("file:part:", "file:part:");
+-      PartEntry partEntry0 = new PartEntry((LagoonProcessor) null, (Sitemap) null, "file:part:", mockFile0);
+-      javax.xml.transform.Source source0 = partEntry0.getFileAsJAXPSource("file:part:", (Target) null);
+-      assertNotNull(source0);
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    MockFile mockFile0 = new MockFile("file:part:", "file:part:");
++    PartEntry partEntry0 = new PartEntry((LagoonProcessor) null, (Sitemap) null, "file:part:", mockFile0);
++    javax.xml.transform.Source source0 = partEntry0.getFileAsJAXPSource("file:part:", (Target) null);
++    assertNotNull(source0);
++    assertTrue(source0 instanceof javax.xml.transform.stream.StreamSource);
++    javax.xml.transform.stream.StreamSource ss = (javax.xml.transform.stream.StreamSource) source0;
++    assertEquals("file:part:", ss.getSystemId());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

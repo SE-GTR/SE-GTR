@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -1053,22 +1053,18 @@
+          verifyException("org.antlr.runtime.Lexer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test094()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mT__115();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test094() throws Throwable {
++        org.antlr.runtime.ANTLRStringStream input = new org.antlr.runtime.ANTLRStringStream("invalid");
++        SQLLexer lexer = new SQLLexer(input);
++        try {
++            lexer.mT__115();
++            fail("Expecting MismatchedTokenException");
++        } catch (org.antlr.runtime.MismatchedTokenException e) {
++            // expected exception due to mismatched token
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test095()  throws Throwable  {

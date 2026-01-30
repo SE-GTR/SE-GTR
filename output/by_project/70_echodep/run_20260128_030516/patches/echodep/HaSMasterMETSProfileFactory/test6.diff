@@ -1,0 +1,45 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/profile/HaSMasterMETSProfileFactory_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/profile/HaSMasterMETSProfileFactory_ESTest.java
+@@ -83,19 +83,28 @@
+          verifyException("edu.uiuc.ndiipp.hubandspoke.profile.HaSMasterMETSProfileFactory", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        // Create a temporary zip file with a dummy entry
++        java.io.File zipFile = java.io.File.createTempFile("test", ".zip");
++        zipFile.deleteOnExit();
++        try (java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(new java.io.FileOutputStream(zipFile))) {
++            java.util.zip.ZipEntry entry = new java.util.zip.ZipEntry("dummy.txt");
++            zos.putNextEntry(entry);
++            zos.write("dummy".getBytes());
++            zos.closeEntry();
++        }
++        java.util.zip.ZipFile zip = new java.util.zip.ZipFile(zipFile);
++        // Create a temporary directory
++        java.io.File tempDir = new java.io.File(System.getProperty("java.io.tmpdir"),
++                "testTempDir" + System.nanoTime());
++        tempDir.mkdir();
++        tempDir.deleteOnExit();
++        // Invoke the factory method with valid arguments
++        edu.uiuc.ndiipp.hubandspoke.profile.HaSMasterMETSProfile profile = 
++                HaSMasterMETSProfileFactory.newInstance(zip, tempDir, true);
++        org.junit.Assert.assertNotNull(profile);
++        zip.close();
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        HaSMasterMETSProfileFactory.newInstance((ZipFile) null, (File) null, true);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("edu.uiuc.ndiipp.hubandspoke.profile.HaSMasterMETSProfileFactory", e);
+-      }
+-  }
+ }

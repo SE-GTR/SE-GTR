@@ -1,0 +1,39 @@
+--- a/evosuite-tests/mygrid/web/Processor_ESTest.java
++++ b/evosuite-tests/mygrid/web/Processor_ESTest.java
+@@ -55,18 +55,26 @@
+     assertTrue(processor0.equals((Object) processor1));
+     assertTrue(processor0.equals(processor1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
++@Test(timeout = 4000)
++public void test03() throws Throwable {
+     processor0 = new Processor();
+     processor1 = new Processor();
+-      assertTrue(processor1.equals((Object)processor0));
+-      
+-      processor1.setAssembly("+i6.g:E9~N|u&tvK");
+-      boolean boolean0 = processor0.equals(processor1);
+-      assertFalse(boolean0);
+-  }
++    assertTrue(processor1.equals((Object) processor0));
++
++    // Verify initial state
++    assertNull(processor0.getAssembly());
++    assertNull(processor1.getAssembly());
++
++    // Exercise the void method and observe its effect
++    processor1.setAssembly("+i6.g:E9~N|u&tvK");
++    assertEquals("+i6.g:E9~N|u&tvK", processor1.getAssembly());
++    assertNull(processor0.getAssembly());
++
++    // Equality should now differ
++    boolean boolean0 = processor0.equals(processor1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

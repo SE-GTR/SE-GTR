@@ -1,0 +1,27 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Premise_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Premise_ESTest.java
+@@ -503,13 +503,17 @@
+       String string0 = premise0.getPremiseThoroughfareConnector();
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test64()  throws Throwable  {
+-    premise0 = new Premise();
+-      premise0.setPremise((Premise) null);
+-      assertNull(premise0.getPremiseDependencyType());
+-  }
++@Test(timeout = 4000)
++public void test64() throws Throwable {
++    Premise premise0 = new Premise();
++    Premise innerPremise = new Premise();
++    innerPremise.setPremiseDependencyType("dependency");
++    premise0.setPremise(innerPremise);
++    assertNotNull(premise0.getPremise());
++    assertEquals("dependency", premise0.getPremise().getPremiseDependencyType());
++    assertNull(premise0.getPremiseDependencyType());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test65()  throws Throwable  {

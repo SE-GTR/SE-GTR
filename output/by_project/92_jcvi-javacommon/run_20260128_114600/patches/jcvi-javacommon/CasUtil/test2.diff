@@ -1,0 +1,59 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/CasUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/CasUtil_ESTest.java
+@@ -50,34 +50,30 @@
+          verifyException("org.jcvi.jillion.assembly.clc.cas.CasUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      LinkedList<CasAlignmentRegion> linkedList0 = new LinkedList<CasAlignmentRegion>();
+-      PhaseChangeCasAlignmentRegion phaseChangeCasAlignmentRegion0 = new PhaseChangeCasAlignmentRegion((byte)0);
+-      linkedList0.add((CasAlignmentRegion) phaseChangeCasAlignmentRegion0);
+-      DefaultCasAlignment defaultCasAlignment0 = new DefaultCasAlignment((-3292L), (-3292L), false, linkedList0);
+-      Range range0 = Range.of((long) (byte)0, 1L);
+-      DefaultCasMatch defaultCasMatch0 = new DefaultCasMatch(false, 254L, (byte) (-2), false, defaultCasAlignment0, (byte) (-2), range0);
+-      Iterator<Nucleotide> iterator0 = (Iterator<Nucleotide>) mock(Iterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(iterator0).hasNext();
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(iterator0).when(nucleotideSequence0).iterator();
+-      doReturn(254L).when(nucleotideSequence0).getLength();
+-      doReturn((int)(byte) (-2)).when(nucleotideSequence0).getGappedOffsetFor(anyInt());
+-      doReturn((long)(byte) (-2)).when(nucleotideSequence0).getUngappedLength();
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    LinkedList<CasAlignmentRegion> linkedList0 = new LinkedList<CasAlignmentRegion>();
++    PhaseChangeCasAlignmentRegion phaseChangeCasAlignmentRegion0 = new PhaseChangeCasAlignmentRegion((byte) 0);
++    boolean added = linkedList0.add((CasAlignmentRegion) phaseChangeCasAlignmentRegion0);
++    assertTrue(added);
++    DefaultCasAlignment defaultCasAlignment0 = new DefaultCasAlignment((-3292L), (-3292L), false, linkedList0);
++    Range range0 = Range.of((long) (byte) 0, 1L);
++    DefaultCasMatch defaultCasMatch0 = new DefaultCasMatch(false, 254L, (byte) (-2), false, defaultCasAlignment0, (byte) (-2), range0);
++    Iterator<Nucleotide> iterator0 = (Iterator<Nucleotide>) mock(Iterator.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(iterator0).hasNext();
++    NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++    doReturn(iterator0).when(nucleotideSequence0).iterator();
++    doReturn(254L).when(nucleotideSequence0).getLength();
++    doReturn((int) (byte) (-2)).when(nucleotideSequence0).getGappedOffsetFor(anyInt());
++    doReturn((long) (byte) (-2)).when(nucleotideSequence0).getUngappedLength();
++    try {
+         CasUtil.createCasPlacedRead(defaultCasMatch0, "91RJ4ftGhXNo?V", nucleotideSequence0, range0, nucleotideSequence0);
+         fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // can not start before reference: -2
+-         //
+-         verifyException("org.jcvi.jillion.core.residue.nt.DefaultReferenceEncodedNucleotideSequence", e);
+-      }
+-  }
++    } catch (IllegalArgumentException e) {
++        verifyException("org.jcvi.jillion.core.residue.nt.DefaultReferenceEncodedNucleotideSequence", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

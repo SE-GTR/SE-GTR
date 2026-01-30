@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/heal/servlet/ViewDownloadFolderAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/ViewDownloadFolderAction_ESTest.java
+@@ -48,30 +48,25 @@
+          verifyException("org.heal.servlet.ViewDownloadFolderAction", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    ViewDownloadFolderAction viewDownloadFolderAction0 = new ViewDownloadFolderAction();
++    Servlet servlet0 = new Servlet("");
++    DownloadQueueBean downloadQueueBean0 = new DownloadQueueBean();
++    HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    doReturn(downloadQueueBean0).when(httpSession0).getAttribute(anyString());
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn(httpSession0).when(httpServletRequest0).getSession();
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ViewDownloadFolderAction viewDownloadFolderAction0 = new ViewDownloadFolderAction();
+-      Servlet servlet0 = new Servlet((String) null);
+-      DownloadQueueBean downloadQueueBean0 = new DownloadQueueBean();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(downloadQueueBean0).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      // Undeclared exception!
+-      try { 
+-        viewDownloadFolderAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponse0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("javax.servlet.GenericServlet", e);
+-      }
+-  }
++    // Act
++    viewDownloadFolderAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponse0);
++
++    // Verify that the session attribute was accessed during execution
++    verify(httpSession0).getAttribute(anyString());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

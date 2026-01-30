@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/PooledBlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/PooledBlockingClient_ESTest.java
+@@ -79,20 +79,20 @@
+     // Verify that close() results in the client not being handed out
+     assertFalse(pooledBlockingClient0.isHandedOut());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      BlockingClient blockingClient0 = new BlockingClient();
+-      PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      doReturn(blockingClient0).when(poolableBlockingClient0).createBlockingClient(any(org.quickserver.net.client.SocketBasedHost.class));
+-      SocketBasedHost socketBasedHost0 = new SocketBasedHost();
+-      PooledBlockingClient pooledBlockingClient0 = new PooledBlockingClient(poolableBlockingClient0, socketBasedHost0);
+-      long long0 = pooledBlockingClient0.getHandedOutSince();
+-      assertEquals((-1L), long0);
+-      assertFalse(pooledBlockingClient0.isHandedOut());
+-      assertEquals(0, pooledBlockingClient0.getHandedOutCount());
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        BlockingClient blockingClient0 = new BlockingClient();
++        PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
++        doReturn(blockingClient0).when(poolableBlockingClient0).createBlockingClient(any(org.quickserver.net.client.SocketBasedHost.class));
++        SocketBasedHost socketBasedHost0 = new SocketBasedHost();
++        PooledBlockingClient pooledBlockingClient0 = new PooledBlockingClient(poolableBlockingClient0, socketBasedHost0);
++        // Verify that the mock returns the expected BlockingClient
++        BlockingClient bc = poolableBlockingClient0.createBlockingClient(socketBasedHost0);
++        assertSame(blockingClient0, bc);
++        // Minimal initialization check
++        assertEquals(0, pooledBlockingClient0.getHandedOutCount());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

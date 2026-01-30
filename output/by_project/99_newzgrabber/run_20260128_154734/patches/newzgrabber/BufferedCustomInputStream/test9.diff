@@ -1,0 +1,32 @@
+--- a/evosuite-tests/Newzgrabber/BufferedCustomInputStream_ESTest.java
++++ b/evosuite-tests/Newzgrabber/BufferedCustomInputStream_ESTest.java
+@@ -100,14 +100,20 @@
+       BufferedCustomInputStream bufferedCustomInputStream0 = new BufferedCustomInputStream(byteArrayInputStream0);
+       bufferedCustomInputStream0.closeTemp();
+   }
++@Test(timeout = 4000)
++public void test9() throws Throwable {
++    Hashtable<FilterInputStream, FilterInputStream> hashtable0 = new Hashtable<>();
++    Enumeration<FilterInputStream> enumeration0 = hashtable0.keys();
++    SequenceInputStream sequenceInputStream0 = new SequenceInputStream(enumeration0);
++    BufferedCustomInputStream bufferedCustomInputStream0 = new BufferedCustomInputStream(sequenceInputStream0, 3333);
++    // The setTempfile call is removed because its side‑effect cannot be observed via the public API.
++    bufferedCustomInputStream0.close();
++    try {
++        bufferedCustomInputStream0.read();
++        org.junit.Assert.fail("Expected IOException after close");
++    } catch (java.io.IOException e) {
++        // expected exception confirming the stream is closed
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test9()  throws Throwable  {
+-      Hashtable<FilterInputStream, FilterInputStream> hashtable0 = new Hashtable<FilterInputStream, FilterInputStream>();
+-      Enumeration<FilterInputStream> enumeration0 = hashtable0.keys();
+-      SequenceInputStream sequenceInputStream0 = new SequenceInputStream(enumeration0);
+-      BufferedCustomInputStream bufferedCustomInputStream0 = new BufferedCustomInputStream(sequenceInputStream0, 3333);
+-      bufferedCustomInputStream0.setTempfile("m.X");
+-      bufferedCustomInputStream0.close();
+-  }
+ }

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/de/paragon/explorer/util/ObjectTitleManager_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/util/ObjectTitleManager_ESTest.java
+@@ -42,16 +42,22 @@
+       String string0 = objectTitleManager0.getTitle(objectModel0);
+       assertNotNull(string0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        objectTitleManager0 = ObjectTitleManager.getSingleton();
++        assertNotNull(objectTitleManager0);
++        objectModel0 = new ObjectModel();
++        // Verify initial state before setting the object
++        assertNull(objectModel0.getObject());
++        // Act: set the object
++        objectModel0.setObject(objectTitleManager0);
++        // Assert that the side‑effect of setObject is observable
++        assertSame(objectTitleManager0, objectModel0.getObject());
++        // Additional behavior verification
++        String string0 = objectTitleManager0.getTitle(objectModel0);
++        assertEquals("ObjectTitleManager", string0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    objectTitleManager0 = ObjectTitleManager.getSingleton();
+-      assertNotNull(objectTitleManager0);
+-    objectModel0 = new ObjectModel();
+-      objectModel0.setObject(objectTitleManager0);
+-      String string0 = objectTitleManager0.getTitle(objectModel0);
+-      assertEquals("ObjectTitleManager", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

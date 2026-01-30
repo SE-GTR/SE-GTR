@@ -1,0 +1,30 @@
+--- a/evosuite-tests/Newzgrabber/NewsFactory_ESTest.java
++++ b/evosuite-tests/Newzgrabber/NewsFactory_ESTest.java
+@@ -22,11 +22,23 @@
+       newsFactory0.releaseConnection();
+       assertEquals(0, newsFactory0.getThreadLimit());
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        // Preserve original username to avoid side‑effects on other tests
++        String original = NewsFactory.getUsername();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      NewsFactory.setUsername((String) null);
+-  }
++        // Set a non‑null username and verify the change is observable
++        NewsFactory.setUsername("testUser");
++        assertEquals("testUser", NewsFactory.getUsername());
++
++        // Set the username to null and verify the change
++        NewsFactory.setUsername(null);
++        assertNull(NewsFactory.getUsername());
++
++        // Restore original state
++        NewsFactory.setUsername(original);
++    }
++
+ @Test(timeout = 4000)
+ public void test2() throws Throwable {
+     int limit = NewsFactory.getThreadLimit();

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostalRouteType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostalRouteType_ESTest.java
+@@ -87,13 +87,22 @@
+       String string0 = postalRouteType_PostalRouteName0.getCode();
+       assertNull(string0);
+   }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    PostalRouteType route = new PostalRouteType();
++    PostalRouteType.PostalRouteName name = new PostalRouteType.PostalRouteName();
++    String content = "oasis.names.tc.ciq.xsdschema.xal._2.PostalCode";
++    name.setContent(content);
++    // Verify that the setter correctly updates the content
++    assertEquals(content, name.getContent());
+ 
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      PostalRouteType.PostalRouteName postalRouteType_PostalRouteName0 = new PostalRouteType.PostalRouteName();
+-      postalRouteType_PostalRouteName0.setContent("oasis.names.tc.ciq.xsdschema.xal._2.PostalCode");
+-      assertEquals("oasis.names.tc.ciq.xsdschema.xal._2.PostalCode", postalRouteType_PostalRouteName0.getContent());
+-  }
++    // Exercise non‑trivial behavior by adding the name to the outer object's list
++    route.getPostalRouteName().add(name);
++    assertEquals(1, route.getPostalRouteName().size());
++    assertSame(name, route.getPostalRouteName().get(0));
++    assertEquals(content, route.getPostalRouteName().get(0).getContent());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

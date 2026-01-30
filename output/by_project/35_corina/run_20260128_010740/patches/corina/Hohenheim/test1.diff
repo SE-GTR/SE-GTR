@@ -1,0 +1,32 @@
+--- a/evosuite-tests/corina/formats/Hohenheim_ESTest.java
++++ b/evosuite-tests/corina/formats/Hohenheim_ESTest.java
+@@ -42,16 +42,20 @@
+       hohenheim0.save(sample0, bufferedWriter0);
+       assertTrue(sample0.isSummed());
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        hohenheim0 = new Hohenheim();
++        sample0 = new Sample();
++        StringWriter stringWriter0 = new StringWriter();
++        BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0);
++        int beforeLength = stringWriter0.getBuffer().length();
++        hohenheim0.save(sample0, bufferedWriter0);
++        bufferedWriter0.flush();
++        int afterLength = stringWriter0.getBuffer().length();
++        assertTrue("Writer content should not shrink after save", afterLength >= beforeLength);
++        assertEquals(".M", hohenheim0.getDefaultExtension());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    hohenheim0 = new Hohenheim();
+-    sample0 = new Sample();
+-      StringWriter stringWriter0 = new StringWriter();
+-      BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0);
+-      hohenheim0.save(sample0, bufferedWriter0);
+-      assertEquals(".M", hohenheim0.getDefaultExtension());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

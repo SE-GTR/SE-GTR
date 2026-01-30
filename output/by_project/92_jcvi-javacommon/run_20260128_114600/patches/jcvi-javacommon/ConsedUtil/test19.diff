@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ConsedUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ConsedUtil_ESTest.java
+@@ -200,23 +200,25 @@
+       File file0 = ConsedUtil.getEditDirFor(mockFile0);
+       assertEquals("/PATH/TO/SF110-20130704-src/92_jcvi-javacommon/org.jcvi.jillion.internal.assembly.util.DefaultSlice$1", file0.getParent());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      ConsensusAceTag consensusAceTag0 = mock(ConsensusAceTag.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(consensusAceTag0).getData();
+-      doReturn("contigName").when(consensusAceTag0).getType();
+-      // Undeclared exception!
+-      try { 
+-        ConsedUtil.getRenamedContigId(consensusAceTag0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        ConsensusAceTag consensusAceTag0 = mock(ConsensusAceTag.class, new ViolatedAssumptionAnswer());
++        doReturn((String) null).when(consensusAceTag0).getData();
++        doReturn("contigName").when(consensusAceTag0).getType();
++
++        // Assert the stubbed return values
++        assertNull(consensusAceTag0.getData());
++        assertEquals("contigName", consensusAceTag0.getType());
++
++        // Undeclared exception!
++        try {
++            ConsedUtil.getRenamedContigId(consensusAceTag0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            // expected
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

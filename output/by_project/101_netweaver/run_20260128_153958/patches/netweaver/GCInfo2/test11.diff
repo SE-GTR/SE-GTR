@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
+@@ -173,19 +173,32 @@
+       assertEquals((-2145674477), gCInfo2_1.getDuration());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      GCInfo2 gCInfo2_0 = new GCInfo2();
+-      GCInfo2 gCInfo2_1 = new GCInfo2();
++@Test(timeout = 4000)
++  public void test11() throws Throwable {
++      GCInfo2 gCInfo2_0 = new GCInfo2();
++      GCInfo2 gCInfo2_1 = new GCInfo2();
++
++      // Verify initial state
++      assertNull(gCInfo2_0.getStartTime());
++      assertNull(gCInfo2_1.getStartTime());
++
++      // Set start time on first instance and assert side‑effect
+       gCInfo2_0.setStartTime("SAPControl-GRAY");
+-      assertFalse(gCInfo2_0.equals((Object)gCInfo2_1));
+-      
++      assertEquals("SAPControl-GRAY", gCInfo2_0.getStartTime());
++
++      // Objects differ because the second instance still has null startTime
++      assertFalse(gCInfo2_0.equals((Object) gCInfo2_1));
++
++      // Set same start time on second instance and assert side‑effect
+       gCInfo2_1.setStartTime("SAPControl-GRAY");
+-      boolean boolean0 = gCInfo2_1.equals(gCInfo2_0);
+-      assertTrue(gCInfo2_0.equals((Object)gCInfo2_1));
++      assertEquals("SAPControl-GRAY", gCInfo2_1.getStartTime());
++
++      // Now both objects should be equal
++      boolean boolean0 = gCInfo2_1.equals(gCInfo2_0);
++      assertTrue(gCInfo2_0.equals((Object) gCInfo2_1));
+       assertTrue(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

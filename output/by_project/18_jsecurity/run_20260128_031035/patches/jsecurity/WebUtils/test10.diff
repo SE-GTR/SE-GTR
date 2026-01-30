@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/jsecurity/web/WebUtils_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/WebUtils_ESTest.java
+@@ -116,24 +116,30 @@
+          verifyException("org.jsecurity.web.WebUtils", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("", (Object) null).when(httpServletRequest0).getAttribute(anyString());
+-      doReturn("", "").when(httpServletRequest0).getCharacterEncoding();
+-      doReturn((String) null).when(httpServletRequest0).getRequestURI();
+-      // Undeclared exception!
+-      try { 
+-        WebUtils.getPathWithinApplication(httpServletRequest0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("", (Object) null).when(httpServletRequest0).getAttribute(anyString());
++        doReturn("", "").when(httpServletRequest0).getCharacterEncoding();
++        doReturn((String) null).when(httpServletRequest0).getRequestURI();
++
++        // Verify stubbed return values
++        Object firstAttr = httpServletRequest0.getAttribute("test");
++        assertEquals("", firstAttr);
++        Object secondAttr = httpServletRequest0.getAttribute("test");
++        assertNull(secondAttr);
++        String encoding = httpServletRequest0.getCharacterEncoding();
++        assertEquals("", encoding);
++
++        // Undeclared exception!
++        try {
++            WebUtils.getPathWithinApplication(httpServletRequest0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            // expected
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

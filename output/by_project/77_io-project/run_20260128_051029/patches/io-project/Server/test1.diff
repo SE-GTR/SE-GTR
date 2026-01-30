@@ -1,0 +1,46 @@
+--- a/evosuite-tests/ioproject/client/network/Server_ESTest.java
++++ b/evosuite-tests/ioproject/client/network/Server_ESTest.java
+@@ -52,29 +52,21 @@
+          verifyException("ioproject.client.network.Server", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    VmPipeAddress vmPipeAddress0 = new VmPipeAddress(1);
++    StateMultiplexer stateMultiplexer0 = new StateMultiplexer();
++    ConnectFuture connectFuture0 = mock(ConnectFuture.class, new ViolatedAssumptionAnswer());
++    IoSession session0 = mock(IoSession.class, new ViolatedAssumptionAnswer());
++    doReturn(session0).when(connectFuture0).getSession();
++    IoConnector ioConnector0 = mock(IoConnector.class, new ViolatedAssumptionAnswer());
++    doReturn(connectFuture0).when(ioConnector0).connect(any(java.net.SocketAddress.class), any(org.apache.mina.common.IoHandler.class), any(org.apache.mina.common.IoServiceConfig.class));
++    Server server0 = new Server(ioConnector0);
++    server0.connect(vmPipeAddress0, stateMultiplexer0);
++    server0.disconnect();
++    verify(session0).close();
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      VmPipeAddress vmPipeAddress0 = new VmPipeAddress(1);
+-      StateMultiplexer stateMultiplexer0 = new StateMultiplexer();
+-    connectFuture0 = mock(ConnectFuture.class, new ViolatedAssumptionAnswer());
+-      doReturn((IoSession) null).when(connectFuture0).getSession();
+-    ioConnector0 = mock(IoConnector.class, new ViolatedAssumptionAnswer());
+-      doReturn(connectFuture0).when(ioConnector0).connect(any(java.net.SocketAddress.class) , any(org.apache.mina.common.IoHandler.class) , any(org.apache.mina.common.IoServiceConfig.class));
+-    server0 = new Server(ioConnector0);
+-      server0.connect(vmPipeAddress0, stateMultiplexer0);
+-      // Undeclared exception!
+-      try { 
+-        server0.disconnect();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ioproject.client.network.Server", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

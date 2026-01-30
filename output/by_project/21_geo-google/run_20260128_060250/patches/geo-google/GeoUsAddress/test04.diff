@@ -1,0 +1,39 @@
+--- a/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
++++ b/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
+@@ -46,13 +46,29 @@
+       geoUsAddress0.setCounty("E J|Zrj&U");
+       assertEquals("", geoUsAddress0.getState());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      GeoUsAddress geoUsAddress0 = new GeoUsAddress();
+-      geoUsAddress0.setCity("&%RaQ9<9");
+-      assertEquals("", geoUsAddress0.getPostalCode());
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        GeoUsAddress addr1 = new GeoUsAddress();
++        GeoUsAddress addr2 = new GeoUsAddress();
++
++        // Both addresses are initially equal (all fields empty)
++        assertEquals(addr1, addr2);
++
++        // Change city in the first address
++        addr1.setCity("&%RaQ9<9");
++        // The addresses should now differ
++        assertNotEquals(addr1, addr2);
++
++        // Apply the same city to the second address
++        addr2.setCity("&%RaQ9<9");
++        // They should be equal again
++        assertEquals(addr1, addr2);
++
++        // Verify that postal code remains the default empty string
++        assertEquals("", addr1.getPostalCode());
++        assertEquals("", addr2.getPostalCode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

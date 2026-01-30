@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
+@@ -627,17 +627,26 @@
+         assertFalse(j2EEThread1.equals((Object) j2EEThread0));
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test40()  throws Throwable  {
+-      J2EEThread j2EEThread0 = new J2EEThread();
+-      j2EEThread0.setProcessname("`u'5(C&.");
+-      J2EEThread j2EEThread1 = new J2EEThread();
+-      boolean boolean0 = j2EEThread1.equals(j2EEThread0);
+-      assertFalse(boolean0);
+-      assertFalse(j2EEThread0.equals((Object)j2EEThread1));
+-  }
++@Test(timeout = 4000)
++public void test40() throws Throwable {
++    J2EEThread j2EEThread0 = new J2EEThread();
++    // Verify initial state before setting the process name
++    assertNull(j2EEThread0.getProcessname());
++
++    String expectedName = "`u'5(C&.";
++    j2EEThread0.setProcessname(expectedName);
++    // Assert that the side‑effect of setProcessname is observable
++    assertEquals(expectedName, j2EEThread0.getProcessname());
++
++    J2EEThread j2EEThread1 = new J2EEThread();
++    // The second instance should still have a null process name
++    assertNull(j2EEThread1.getProcessname());
++
++    boolean boolean0 = j2EEThread1.equals(j2EEThread0);
++    assertFalse(boolean0);
++    assertFalse(j2EEThread0.equals((Object) j2EEThread1));
++}
++
+ @Test(timeout = 4000)
+   public void test41() throws Throwable {
+       J2EEThread thread = new J2EEThread();

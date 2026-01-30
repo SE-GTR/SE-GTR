@@ -1,0 +1,39 @@
+--- a/evosuite-tests/jigl/gui/JImageCanvas_ESTest.java
++++ b/evosuite-tests/jigl/gui/JImageCanvas_ESTest.java
+@@ -241,23 +241,19 @@
+     assertTrue(prefSize.width >= 0);
+     assertTrue(prefSize.height >= 0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      JImageCanvas jImageCanvas0 = new JImageCanvas();
+-      // Undeclared exception!
+-      try { 
+-        jImageCanvas0.setImage((java.awt.Image) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.gui.JImageCanvas", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test20() throws Throwable {
++        JImageCanvas jImageCanvas0 = new JImageCanvas();
++        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(1, 1,
++                java.awt.image.BufferedImage.TYPE_INT_RGB);
++        // Use a valid non‑null image; the method should accept it without throwing.
++        jImageCanvas0.setImage(img);
++        // Verify that the canvas now holds a non‑null Java image.
++        assertNotNull("Canvas image should not be null after setting a valid image", jImageCanvas0.getJavaImage());
++        // Optionally, check that the stored image is the one we provided.
++        assertSame("Stored image should be the same instance that was set", img, jImageCanvas0.getJavaImage());
++    }
++
+ @Test(timeout = 4000)
+     public void test21() throws Throwable {
+         JImageCanvas canvas = new JImageCanvas();

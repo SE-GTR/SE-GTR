@@ -1,0 +1,28 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -84,15 +84,19 @@
+         assertSame(names, namesAgain);
+         assertTrue(namesAgain.contains(cn));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test005()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test005() throws Throwable {
+       AddressDetails.Country addressDetails_Country0 = new AddressDetails.Country();
+       List<AddressDetails.Country.CountryNameCode> list0 = addressDetails_Country0.getCountryNameCode();
++      // Act: modify the list returned by the getter
++      AddressDetails.Country.CountryNameCode code = new AddressDetails.Country.CountryNameCode();
++      list0.add(code);
++      // Assert: the modification is reflected when the getter is called again
+       List<AddressDetails.Country.CountryNameCode> list1 = addressDetails_Country0.getCountryNameCode();
+-      assertSame(list1, list0);
+-  }
++      assertEquals(1, list1.size());
++      assertSame(code, list1.get(0));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test006()  throws Throwable  {

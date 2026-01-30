@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/javathena/login/Login_ESTest.java
++++ b/evosuite-tests/org/javathena/login/Login_ESTest.java
+@@ -95,16 +95,18 @@
+     login0.save_config_in_log();
+     assertEquals(0, login0.getAuth_max());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      Login login0 = new Login();
+-      ACO aCO0 = ACO.MUTUAL_FAILTURE;
+-      ConfigurationManagement.setAccess_order(aCO0);
+-      login0.do_initTXT();
+-      assertEquals(0, login0.getAuth_max());
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        Login login0 = new Login();
++        ACO aCO0 = ACO.MUTUAL_FAILTURE;
++        ConfigurationManagement.setAccess_order(aCO0);
++        // Verify that the access order was correctly set
++        assertEquals(aCO0, ConfigurationManagement.getAccess_order());
++        login0.do_initTXT();
++        // Verify the effect of do_initTXT on the Login instance
++        assertEquals(0, login0.getAuth_max());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

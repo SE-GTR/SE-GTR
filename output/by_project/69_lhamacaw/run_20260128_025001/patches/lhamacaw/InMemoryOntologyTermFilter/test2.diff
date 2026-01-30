@@ -1,0 +1,45 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermFilter_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermFilter_ESTest.java
+@@ -44,19 +44,31 @@
+     ArrayList<OntologyTerm> arrayList0 = inMemoryOntologyTermFilter0.filterOntologyTerms(user0, "ci:EllkJd}_P,/H~f", null);
+     assertNotNull(arrayList0);
+ }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        inMemoryOntologyTermFilter0 = new InMemoryOntologyTermFilter();
++        user0 = new User();
+ 
++        // Capture the state before setting ontology terms
++        int beforeSize = 0;
++        if (inMemoryOntologyTermFilter0.getOntologyTerms() != null) {
++            beforeSize = inMemoryOntologyTermFilter0.getOntologyTerms().size();
++        }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    inMemoryOntologyTermFilter0 = new InMemoryOntologyTermFilter();
+-    user0 = new User();
+-      ArrayList<OntologyTerm> arrayList0 = new ArrayList<OntologyTerm>();
+-      OntologyTerm ontologyTerm0 = new OntologyTerm();
+-      arrayList0.add(ontologyTerm0);
+-      inMemoryOntologyTermFilter0.setOntologyTerms(arrayList0);
+-      ArrayList<OntologyTerm> arrayList1 = inMemoryOntologyTermFilter0.filterOntologyTerms(user0, "Y", "Y");
+-      assertEquals(0, arrayList1.size());
+-  }
++        ArrayList<OntologyTerm> arrayList0 = new ArrayList<OntologyTerm>();
++        OntologyTerm ontologyTerm0 = new OntologyTerm();
++        arrayList0.add(ontologyTerm0);
++        inMemoryOntologyTermFilter0.setOntologyTerms(arrayList0);
++
++        // Verify that the side‑effect of setOntologyTerms is observable
++        assertNotNull(inMemoryOntologyTermFilter0.getOntologyTerms());
++        assertEquals(beforeSize + 1, inMemoryOntologyTermFilter0.getOntologyTerms().size());
++        assertTrue(inMemoryOntologyTermFilter0.getOntologyTerms().contains(ontologyTerm0));
++
++        ArrayList<OntologyTerm> arrayList1 = inMemoryOntologyTermFilter0.filterOntologyTerms(user0, "Y", "Y");
++        assertEquals(0, arrayList1.size());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

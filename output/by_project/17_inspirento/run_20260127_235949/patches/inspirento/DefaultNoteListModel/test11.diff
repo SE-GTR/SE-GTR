@@ -1,0 +1,54 @@
+--- a/evosuite-tests/com/allenstudio/ir/ui/DefaultNoteListModel_ESTest.java
++++ b/evosuite-tests/com/allenstudio/ir/ui/DefaultNoteListModel_ESTest.java
+@@ -119,24 +119,33 @@
+     defaultNoteListModel0 = new DefaultNoteListModel();
+     defaultNoteListModel0.lastElement();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-    defaultNoteListModel0 = new DefaultNoteListModel();
+-    commonNote0 = new CommonNote();
+-      // Undeclared exception!
+-      try { 
+-        defaultNoteListModel0.fireContentChanged(commonNote0, 0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.allenstudio.ir.ui.DefaultNoteListModel", e);
+-      }
+-  }
++public void test11() throws Throwable {
++    defaultNoteListModel0 = new DefaultNoteListModel();
++    commonNote0 = new CommonNote();
++
++    final boolean[] notified = new boolean[1];
++    NoteListDataListener listener = new NoteListDataListener() {
++        @Override
++        public void intervalAdded(NoteListDataEvent e) {
++        }
++
++        @Override
++        public void intervalRemoved(NoteListDataEvent e) {
++        }
++
++        @Override
++        public void contentsChanged(NoteListDataEvent e) {
++            notified[0] = true;
++        }
++    };
++    java.lang.reflect.Field f = DefaultNoteListModel.class.getDeclaredField("dataListener");
++    f.setAccessible(true);
++    f.set(defaultNoteListModel0, listener);
++
++    defaultNoteListModel0.fireContentChanged(commonNote0, 0);
++    org.junit.Assert.assertTrue("Listener should be notified", notified[0]);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

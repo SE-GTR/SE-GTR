@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/heal/module/metadata/RequirementBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/RequirementBean_ESTest.java
+@@ -90,14 +90,22 @@
+       requirementBean0.setOtherPlatform("Requirement: ID:null metadataId:null requirementType:null requirementName:null");
+       assertEquals("Requirement: ID:null metadataId:null requirementType:null requirementName:null", requirementBean0.getOtherPlatform());
+   }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    RequirementBean bean = new RequirementBean();
++    bean.setRequirementId("S^0{da");
++    // Serialize the bean
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(bean);
++    oos.flush();
++    byte[] data = baos.toByteArray();
++    // Deserialize the bean
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++    RequirementBean deserialized = (RequirementBean) ois.readObject();
++    assertEquals("S^0{da", deserialized.getRequirementId());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      RequirementBean requirementBean0 = new RequirementBean();
+-      requirementBean0.setRequirementId("S^0{da");
+-      assertEquals("S^0{da", requirementBean0.getRequirementId());
+-  }
+ @Test(timeout = 4000)
+     public void test07() throws Throwable {
+         RequirementBean requirementBean0 = new RequirementBean();

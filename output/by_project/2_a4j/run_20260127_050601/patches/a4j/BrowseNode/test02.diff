@@ -1,0 +1,32 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/BrowseNode_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/BrowseNode_ESTest.java
+@@ -50,16 +50,20 @@
+     // Final assertion confirming browseName remains null
+     assertNull(browseNode0.getBrowseName());
+ }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    BrowseNode browseNode0 = new BrowseNode();
++    // Verify initial state before setting the browseId
++    assertNull(browseNode0.getBrowseId());
++    // Set and verify the browseId side‑effect
++    browseNode0.setBrowseId("w|*_cg$ky");
++    assertEquals("w|*_cg$ky", browseNode0.getBrowseId());
++    // Add sub‑node and verify the relationship
++    browseNode0.addSubNode(browseNode0);
++    BrowseNode browseNode1 = browseNode0.getSubNode("w|*_cg$ky");
++    assertSame(browseNode0, browseNode1);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      BrowseNode browseNode0 = new BrowseNode();
+-      browseNode0.setBrowseId("w|*_cg$ky");
+-      browseNode0.addSubNode(browseNode0);
+-      BrowseNode browseNode1 = browseNode0.getSubNode("w|*_cg$ky");
+-      assertSame(browseNode0, browseNode1);
+-  }
+ @Test(timeout = 4000)
+   public void test03() throws Throwable {
+       BrowseNode browseNode0 = new BrowseNode();

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
+@@ -357,18 +357,27 @@
+       assertTrue(j2EEThread1.equals((Object) j2EEThread0));
+       assertTrue(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      J2EEThread j2EEThread0 = new J2EEThread();
+-      J2EEThread j2EEThread1 = new J2EEThread();
+-      assertTrue(j2EEThread1.equals((Object)j2EEThread0));
+-      
+-      j2EEThread1.setName(":w{l-cw]&zwNE''P#9");
+-      boolean boolean0 = j2EEThread0.equals(j2EEThread1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test24() throws Throwable {
++    J2EEThread j2EEThread0 = new J2EEThread();
++    J2EEThread j2EEThread1 = new J2EEThread();
++    assertTrue(j2EEThread1.equals((Object) j2EEThread0));
++
++    // Verify initial state of the name field
++    assertNull(j2EEThread1.getName());
++
++    String newName = ":w{l-cw]&zwNE''P#9";
++    j2EEThread1.setName(newName);
++    // Observe the side‑effect of setName
++    assertEquals(newName, j2EEThread1.getName());
++
++    // Ensure the other instance remains unchanged
++    assertNull(j2EEThread0.getName());
++
++    boolean boolean0 = j2EEThread0.equals(j2EEThread1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test25()  throws Throwable  {

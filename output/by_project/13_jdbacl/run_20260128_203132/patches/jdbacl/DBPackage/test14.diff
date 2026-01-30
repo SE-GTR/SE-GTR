@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DBPackage_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DBPackage_ESTest.java
+@@ -159,17 +159,20 @@
+         // Verify that a DBPackage instance is equal to itself (reflexivity)
+         assertTrue(pkg.equals(pkg));
+     }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        DBPackage dBPackage0 = new DBPackage("0", (DBSchema) null);
++        // Verify initial state before mutation
++        assertNull(dBPackage0.getSubObjectName());
++        // Mutate state
++        dBPackage0.setSubObjectName("[;v");
++        DBPackage dBPackage1 = new DBPackage("0", (DBSchema) null);
++        boolean boolean0 = dBPackage1.isIdentical(dBPackage0);
++        assertFalse(boolean0);
++        // Observe the side effect via the getter
++        assertEquals("[;v", dBPackage0.getSubObjectName());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      DBPackage dBPackage0 = new DBPackage("0", (DBSchema) null);
+-      dBPackage0.setSubObjectName("[;v");
+-      DBPackage dBPackage1 = new DBPackage("0", (DBSchema) null);
+-      boolean boolean0 = dBPackage1.isIdentical(dBPackage0);
+-      assertFalse(boolean0);
+-      assertEquals("[;v", dBPackage0.getSubObjectName());
+-  }
+ @Test(timeout = 4000)
+     public void test15() throws Throwable {
+         DBSchema schema = new DBSchema("");

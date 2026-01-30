@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/output/ProfileTextDump_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/output/ProfileTextDump_ESTest.java
+@@ -45,13 +45,25 @@
+         assertTrue("The clumped frame map should not shrink after dump", afterSize >= beforeSize);
+         assertNotNull("The clumped frame map should be initialized after dump", ProfileTextDump._clumpedFrameMap);
+     }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        // arrange
++        Controller._outputSummaryOnly = true;
++        java.util.HashMap<String, ?> beforeMap = ProfileTextDump._clumpedFrameMap;
+ 
++        // act
++        ProfileTextDump.dump();
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      Controller._outputSummaryOnly = true;
+-      ProfileTextDump.dump();
+-  }
++        // assert – verify that dump() produced a non‑null map (side effect)
++        assertNotNull("The clumped frame map should be initialized after dump()", ProfileTextDump._clumpedFrameMap);
++        // if a map existed before, its size should not decrease
++        if (beforeMap != null) {
++            assertTrue("Map size should not shrink after dump()", ProfileTextDump._clumpedFrameMap.size() >= beforeMap.size());
++        }
++        // also confirm the flag remains as set
++        assertTrue("Output summary only flag should stay true", Controller._outputSummaryOnly);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

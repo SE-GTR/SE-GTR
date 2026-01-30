@@ -1,0 +1,39 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -237,15 +237,27 @@
+         // The usageType field is expected to be null by default
+         assertNull(subArea.getUsageType());
+     }
+-
+-@Test(timeout = 4000)
+-    public void test21() throws Throwable {
+-        AdministrativeArea.SubAdministrativeArea subAdministrativeArea = new AdministrativeArea.SubAdministrativeArea();
+-        Locality locality = new Locality();
+-        subAdministrativeArea.setLocality(locality);
+-        Locality retrievedLocality = subAdministrativeArea.getLocality();
+-        assertSame(locality, retrievedLocality);
+-    }
++@Test(timeout = 4000)
++public void test21() throws Throwable {
++    AdministrativeArea.SubAdministrativeArea subAdministrativeArea = new AdministrativeArea.SubAdministrativeArea();
++    // Verify initial state
++    assertNull(subAdministrativeArea.getLocality());
++
++    // Set a locality and verify
++    Locality locality = new Locality();
++    subAdministrativeArea.setLocality(locality);
++    assertSame(locality, subAdministrativeArea.getLocality());
++
++    // Change to a different locality and verify
++    Locality anotherLocality = new Locality();
++    subAdministrativeArea.setLocality(anotherLocality);
++    assertSame(anotherLocality, subAdministrativeArea.getLocality());
++
++    // Reset to null and verify
++    subAdministrativeArea.setLocality(null);
++    assertNull(subAdministrativeArea.getLocality());
++}
++
+ @Test(timeout = 4000)
+ public void test22() throws Throwable {
+     AdministrativeArea.SubAdministrativeArea subArea = new AdministrativeArea.SubAdministrativeArea();

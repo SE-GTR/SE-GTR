@@ -1,0 +1,28 @@
+--- a/evosuite-tests/net/sf/lavalamp/device/Actions_ESTest.java
++++ b/evosuite-tests/net/sf/lavalamp/device/Actions_ESTest.java
+@@ -36,16 +36,18 @@
+       Action action0 = actions0.getErrorAction();
+       assertNotNull(action0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     dummyDevice0 = new DummyDevice();
+     deviceProperties0 = new DeviceProperties();
+-      dummyDevice0.setProperties(deviceProperties0);
++    // Verify that setProperties actually updates the device's properties
++    dummyDevice0.setProperties(deviceProperties0);
++    assertSame("Device properties should be updated by setProperties()", deviceProperties0, dummyDevice0.getProperties());
+     actions0 = dummyDevice0.getActions();
+-      Action action0 = actions0.getSuccessAction();
+-      assertNotNull(action0);
+-  }
++    Action action0 = actions0.getSuccessAction();
++    assertNotNull(action0);
++}
++
+ @Test(timeout = 4000)
+ public void test2() throws Throwable {
+     Crash crash0 = new Crash();

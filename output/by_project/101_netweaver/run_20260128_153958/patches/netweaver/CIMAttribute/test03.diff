@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/CIMAttribute_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/CIMAttribute_ESTest.java
+@@ -58,17 +58,26 @@
+         boolean boolean0 = cIMAttribute1.equals(cIMAttribute0);
+         assertFalse(boolean0);
+     }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        cIMAttribute0 = new CIMAttribute();
++        // verify initial state before setting the value
++        assertNull(cIMAttribute0.getMValue());
++        cIMAttribute0.setMValue("H0z94s=8");
++        // assert the side‑effect of setMValue
++        assertEquals("H0z94s=8", cIMAttribute0.getMValue());
+ 
++        cIMAttribute1 = new CIMAttribute();
++        boolean boolean0 = cIMAttribute1.equals(cIMAttribute0);
++        assertFalse(cIMAttribute0.equals((Object) cIMAttribute1));
++        assertFalse(boolean0);
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    cIMAttribute0 = new CIMAttribute();
+-      cIMAttribute0.setMValue("H0z94s=8");
+-    cIMAttribute1 = new CIMAttribute();
+-      boolean boolean0 = cIMAttribute1.equals(cIMAttribute0);
+-      assertFalse(cIMAttribute0.equals((Object)cIMAttribute1));
+-      assertFalse(boolean0);
+-  }
++        // a different attribute with the same value should be equal
++        CIMAttribute cIMAttribute2 = new CIMAttribute();
++        cIMAttribute2.setMValue("H0z94s=8");
++        assertTrue(cIMAttribute0.equals(cIMAttribute2));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

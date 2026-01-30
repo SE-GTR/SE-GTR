@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jsecurity/cache/ehcache/EhCacheManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/cache/ehcache/EhCacheManager_ESTest.java
+@@ -45,14 +45,20 @@
+       ehCacheManager0.init();
+       assertEquals(600, EhCacheManager.DEFAULT_ACTIVE_SESSIONS_DISK_EXPIRY_THREAD_INTERVAL_SECONDS);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        ehCacheManager0 = new EhCacheManager();
++        // Verify that before initialization the underlying CacheManager is not created
++        assertNull(ehCacheManager0.getCacheManager());
++        // Act: initialize the manager
++        ehCacheManager0.init();
++        // Verify that init created the underlying CacheManager
++        assertNotNull(ehCacheManager0.getCacheManager());
++        // Retrieve a cache and ensure it is available
++        Cache cache0 = ehCacheManager0.getCache("k<)~E)2-7;Tz{H");
++        assertNotNull(cache0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    ehCacheManager0 = new EhCacheManager();
+-      ehCacheManager0.init();
+-      Cache cache0 = ehCacheManager0.getCache("k<)~E)2-7;Tz{H");
+-      assertNotNull(cache0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/QSAdminServerConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/QSAdminServerConfig_ESTest.java
+@@ -79,19 +79,25 @@
+       assertEquals(9877, qSAdminServerConfig0.getPort());
+       assertEquals(1L, qSAdminServerConfig0.getMaxConnection());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      QSAdminServerConfig qSAdminServerConfig0 = new QSAdminServerConfig();
+-      qSAdminServerConfig0.setClientBinaryHandler("applicationJarPath");
+-      qSAdminServerConfig0.toString();
+-      assertEquals("QSAdmin", qSAdminServerConfig0.getCommandShellPromptName());
+-      assertEquals("false", qSAdminServerConfig0.getCommandShellEnable());
+-      assertEquals("QSAdminServer v 2.0", qSAdminServerConfig0.getName());
+-      assertEquals(1L, qSAdminServerConfig0.getMaxConnection());
+-      assertEquals(9877, qSAdminServerConfig0.getPort());
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        QSAdminServerConfig qSAdminServerConfig0 = new QSAdminServerConfig();
++        qSAdminServerConfig0.setClientBinaryHandler("applicationJarPath");
++        // Verify side‑effect of setClientBinaryHandler
++        assertEquals("applicationJarPath", qSAdminServerConfig0.getClientBinaryHandler());
++
++        // Capture and assert return value of toString()
++        String configString = qSAdminServerConfig0.toString();
++        assertNotNull(configString);
++        assertTrue(configString.contains("applicationJarPath"));
++
++        assertEquals("QSAdmin", qSAdminServerConfig0.getCommandShellPromptName());
++        assertEquals("false", qSAdminServerConfig0.getCommandShellEnable());
++        assertEquals("QSAdminServer v 2.0", qSAdminServerConfig0.getName());
++        assertEquals(1L, qSAdminServerConfig0.getMaxConnection());
++        assertEquals(9877, qSAdminServerConfig0.getPort());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

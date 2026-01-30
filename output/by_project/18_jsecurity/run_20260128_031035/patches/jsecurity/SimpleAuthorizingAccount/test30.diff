@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
+@@ -319,15 +319,21 @@
+       assertEquals("org.jsecurity.authz.SimpleAuthorizingAccount_PRIVATE_ROLE_org.jsecurity.subject.PrincipalCollection", simpleRole0.getName());
+       assertEquals("org.jsecurity.authz.SimpleAuthorizingAccount_PRIVATE_ROLE_org.jsecurity.subject.PrincipalCollection", simpleRole0.toString());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount("<6l^d8", "<6l^d8", "<6l^d8");
+-      LinkedHashSet<SimpleRole> linkedHashSet0 = new LinkedHashSet<SimpleRole>();
+-      simpleAuthorizingAccount0.setSimpleRoles(linkedHashSet0);
+-      simpleAuthorizingAccount0.addRole("<6l^d8");
+-      assertFalse(simpleAuthorizingAccount0.isCredentialsExpired());
+-  }
++@Test(timeout = 4000)
++public void test30() throws Throwable {
++    SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount("<6l^d8", "<6l^d8", "<6l^d8");
++    LinkedHashSet<SimpleRole> linkedHashSet0 = new LinkedHashSet<SimpleRole>();
++    simpleAuthorizingAccount0.setSimpleRoles(linkedHashSet0);
++    // Verify that setSimpleRoles correctly initialized the role collection
++    assertTrue(simpleAuthorizingAccount0.getRoles().isEmpty());
++    int before = simpleAuthorizingAccount0.getRoles().size();
++    simpleAuthorizingAccount0.addRole("<6l^d8");
++    // Verify that addRole mutates the internal state as expected
++    assertEquals(before + 1, simpleAuthorizingAccount0.getRoles().size());
++    assertTrue(simpleAuthorizingAccount0.getRoles().contains("<6l^d8"));
++    assertFalse(simpleAuthorizingAccount0.isCredentialsExpired());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

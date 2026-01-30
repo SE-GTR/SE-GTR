@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
+@@ -160,14 +160,20 @@
+     int afterHash = j2EEThread0.hashCode();
+     assertNotEquals(beforeHash, afterHash);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      J2EEThread j2EEThread0 = new J2EEThread();
+-      j2EEThread0.setProcessname("Pl");
+-      j2EEThread0.hashCode();
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        J2EEThread j2EEThread0 = new J2EEThread();
++        // initial state should have no process name
++        assertNull(j2EEThread0.getProcessname());
++        // set and verify the process name
++        j2EEThread0.setProcessname("Pl");
++        assertEquals("Pl", j2EEThread0.getProcessname());
++        // verify hashCode is stable
++        int hash1 = j2EEThread0.hashCode();
++        int hash2 = j2EEThread0.hashCode();
++        assertEquals(hash1, hash2);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

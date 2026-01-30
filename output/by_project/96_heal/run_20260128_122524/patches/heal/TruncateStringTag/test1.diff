@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/heal/tag/TruncateStringTag_ESTest.java
++++ b/evosuite-tests/org/heal/tag/TruncateStringTag_ESTest.java
+@@ -31,24 +31,21 @@
+          verifyException("org.heal.tag.TruncateStringTag", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    TruncateStringTag truncateStringTag0 = new TruncateStringTag();
++    truncateStringTag0.setLength("3");
++    truncateStringTag0.setString("org.apache.axis.utils.ClasspathUtils$JavaArchiveFilter");
++    // Properly initialize the required page context to avoid NPE
++    javax.servlet.jsp.PageContext mockPageContext = org.mockito.Mockito.mock(javax.servlet.jsp.PageContext.class);
++    javax.servlet.jsp.JspWriter mockWriter = org.mockito.Mockito.mock(javax.servlet.jsp.JspWriter.class);
++    org.mockito.Mockito.when(mockPageContext.getOut()).thenReturn(mockWriter);
++    truncateStringTag0.setPageContext(mockPageContext);
++    int result = truncateStringTag0.doEndTag();
++    // Verify that the tag processing completes normally
++    org.junit.Assert.assertEquals(javax.servlet.jsp.tagext.TagSupport.EVAL_PAGE, result);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      TruncateStringTag truncateStringTag0 = new TruncateStringTag();
+-      truncateStringTag0.setLength("3");
+-      truncateStringTag0.setString("org.apache.axis.utils.ClasspathUtils$JavaArchiveFilter");
+-      // Undeclared exception!
+-      try { 
+-        truncateStringTag0.doEndTag();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.tag.TruncateStringTag", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+ public void test2() throws Throwable {
+     TruncateStringTag truncateStringTag0 = new TruncateStringTag();

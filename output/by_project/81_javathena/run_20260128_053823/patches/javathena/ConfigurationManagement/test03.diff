@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -46,14 +46,20 @@
+     assertNotEquals(before, after);
+     ConfigurationManagement.display_conf_warnings();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      ACO aCO0 = ACO.DENY_ALLOW;
+-      ConfigurationManagement.setAccess_order(aCO0);
+-      ConfigurationManagement.display_conf_warnings();
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    ACO aCO0 = ACO.DENY_ALLOW;
++    // Record the current access order (may be null)
++    ACO previous = ConfigurationManagement.getAccess_order();
++    // Set a new access order and verify the side‑effect
++    ConfigurationManagement.setAccess_order(aCO0);
++    assertEquals(aCO0, ConfigurationManagement.getAccess_order());
++    // Ensure the warning display runs without error
++    ConfigurationManagement.display_conf_warnings();
++    // Verify that the access order remains unchanged after displaying warnings
++    assertEquals(aCO0, ConfigurationManagement.getAccess_order());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

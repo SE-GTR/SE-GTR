@@ -1,0 +1,38 @@
+--- a/evosuite-tests/Newzgrabber/Newzgrabber_ESTest.java
++++ b/evosuite-tests/Newzgrabber/Newzgrabber_ESTest.java
+@@ -19,15 +19,27 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Newzgrabber_ESTest extends Newzgrabber_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    // Ensure a known initial state for the static flags
++    Newzgrabber.debug = false;
++    Newzgrabber.verbose = false;
++    Newzgrabber.batch = false;
++    Newzgrabber.IsBatch = false;
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      String[] stringArray0 = new String[2];
+-      stringArray0[0] = "#";
+-      stringArray0[1] = "-debug";
+-      Newzgrabber.main(stringArray0);
+-      assertEquals(2, stringArray0.length);
+-  }
++    String[] stringArray0 = new String[2];
++    stringArray0[0] = "#";
++    stringArray0[1] = "-debug";
++
++    Newzgrabber.main(stringArray0);
++
++    // Verify the side‑effects produced by the main method
++    assertTrue(Newzgrabber.debug);
++    assertFalse(Newzgrabber.verbose);
++    assertFalse(Newzgrabber.batch);
++    assertFalse(Newzgrabber.IsBatch);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

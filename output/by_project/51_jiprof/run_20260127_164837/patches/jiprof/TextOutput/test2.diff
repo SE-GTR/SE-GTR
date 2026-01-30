@@ -1,0 +1,27 @@
+--- a/evosuite-tests/net/sourceforge/jiprof/timeline/TextOutput_ESTest.java
++++ b/evosuite-tests/net/sourceforge/jiprof/timeline/TextOutput_ESTest.java
+@@ -42,11 +42,20 @@
+          verifyException("net.sourceforge.jiprof.timeline.TextOutput", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    // Act
++    TimeLineProfiler.initProfiler();
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      TimeLineProfiler.initProfiler();
+-  }
++    // Assert side effects of initProfiler
++    long startTime = TimeLineProfiler.getStartTime();
++    assertTrue("Start time should be non‑negative after initProfiler", startTime >= 0L);
++
++    java.util.List<?> timeline = TimeLineProfiler.getTimeLine();
++    assertNotNull("Timeline should be initialized after initProfiler", timeline);
++    assertTrue("Timeline should be empty after initProfiler", timeline.isEmpty());
++}
++
+ @Test(timeout = 4000)
+ public void test3() throws Throwable {
+     TextOutput textOutput0 = new TextOutput();

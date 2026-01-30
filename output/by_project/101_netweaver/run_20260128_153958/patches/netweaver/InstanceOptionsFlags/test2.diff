@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/InstanceOptionsFlags_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/InstanceOptionsFlags_ESTest.java
+@@ -36,13 +36,20 @@
+       boolean boolean0 = instanceOptionsFlags0.equals(serializer0);
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    InstanceOptionsFlags original = InstanceOptionsFlags.value4;
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(original);
++    oos.flush();
++    byte[] bytes = baos.toByteArray();
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(bytes));
++    InstanceOptionsFlags deserialized = (InstanceOptionsFlags) ois.readObject();
++    assertEquals("O-POSTHOOK", deserialized.getValue());
++    assertEquals(original.getValue(), deserialized.getValue());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      InstanceOptionsFlags instanceOptionsFlags0 = InstanceOptionsFlags.value4;
+-      String string0 = instanceOptionsFlags0.getValue();
+-      assertEquals("O-POSTHOOK", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

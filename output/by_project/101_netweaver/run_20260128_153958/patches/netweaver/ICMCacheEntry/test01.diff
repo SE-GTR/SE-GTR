@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
+@@ -31,15 +31,22 @@
+         // Existing assertion on version
+         assertEquals(0, iCMCacheEntry0.getVersion());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
+-      iCMCacheEntry0.setExpirationTime("lastAccessTime");
+-      iCMCacheEntry0.hashCode();
+-      assertEquals(0, iCMCacheEntry0.getVersion());
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    ICMCacheEntry entry = new ICMCacheEntry();
++    // Verify initial state
++    assertEquals(0, entry.getVersion());
++
++    // Exercise and verify side‑effect of setExpirationTime
++    entry.setExpirationTime("lastAccessTime");
++    assertEquals("lastAccessTime", entry.getExpirationTime());
++
++    // Assert return value of hashCode is stable
++    int hash1 = entry.hashCode();
++    int hash2 = entry.hashCode();
++    assertEquals(hash1, hash2);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

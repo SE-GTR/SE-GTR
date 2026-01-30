@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/residue/aa/Codon_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/residue/aa/Codon_ESTest.java
+@@ -115,24 +115,27 @@
+          verifyException("org.jcvi.jillion.core.residue.aa.Codon", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(65531L).when(nucleotideSequence0).getLength();
+-      doReturn((Iterator) null).when(nucleotideSequence0).iterator(any(org.jcvi.jillion.core.Range.class));
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++    doReturn(65531L).when(nucleotideSequence0).getLength();
++    doReturn((Iterator) null).when(nucleotideSequence0).iterator(any(org.jcvi.jillion.core.Range.class));
++    // Assert the stubbed return values
++    assertEquals(65531L, nucleotideSequence0.getLength());
++    org.jcvi.jillion.core.Range range = mock(org.jcvi.jillion.core.Range.class);
++    assertNull(nucleotideSequence0.iterator(range));
++    // Undeclared exception!
++    try {
+         Codon.getCodonFor(nucleotideSequence0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.core.residue.aa.Codon", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        //
++        // no message in exception (getMessage() returned null)
++        //
++        verifyException("org.jcvi.jillion.core.residue.aa.Codon", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

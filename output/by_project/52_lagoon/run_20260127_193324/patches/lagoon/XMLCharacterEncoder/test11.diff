@@ -1,0 +1,36 @@
+--- a/evosuite-tests/nu/staldal/xodus/XMLCharacterEncoder_ESTest.java
++++ b/evosuite-tests/nu/staldal/xodus/XMLCharacterEncoder_ESTest.java
+@@ -138,23 +138,16 @@
+       xMLCharacterEncoder0.write(charArray0);
+       assertArrayEquals(new char[] {}, charArray0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-    xMLCharacterEncoder0 = new XMLCharacterEncoder((Writer) null);
+-      char[] charArray0 = new char[0];
+-      // Undeclared exception!
+-      try { 
+-        xMLCharacterEncoder0.write(charArray0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("nu.staldal.xodus.XMLCharacterEncoder", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    java.io.StringWriter writer = new java.io.StringWriter();
++    XMLCharacterEncoder encoder = new XMLCharacterEncoder(writer);
++    char[] charArray0 = new char[0];
++    encoder.write(charArray0);
++    encoder.flush();
++    assertEquals("", writer.toString());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

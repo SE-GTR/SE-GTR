@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/MapValueComparator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/MapValueComparator_ESTest.java
+@@ -76,23 +76,23 @@
+       SortedMap<Integer, Integer> sortedMap1 = MapValueComparator.sortDescending((Map<Integer, Integer>) sortedMap0);
+       assertTrue(sortedMap1.equals((Object)sortedMap0));
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        Function<Integer, Integer> function0 = Function.identity();
++        Comparator<Integer> comparator0 = Comparator.comparing(function0);
++        java.util.Map<Integer, Integer> map = new java.util.HashMap<>();
++        map.put(2, 20);
++        map.put(1, 10);
++        map.put(3, 30);
++        java.util.SortedMap<Integer, Integer> sorted = MapValueComparator.sortAscending(map, comparator0);
++        org.junit.Assert.assertEquals(3, sorted.size());
++        org.junit.Assert.assertEquals(Integer.valueOf(1), sorted.firstKey());
++        org.junit.Assert.assertEquals(Integer.valueOf(3), sorted.lastKey());
++        org.junit.Assert.assertEquals(Integer.valueOf(10), sorted.get(1));
++        org.junit.Assert.assertEquals(Integer.valueOf(20), sorted.get(2));
++        org.junit.Assert.assertEquals(Integer.valueOf(30), sorted.get(3));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      Function<Integer, Integer> function0 = Function.identity();
+-      Comparator<Integer> comparator0 = Comparator.comparing((Function<? super Integer, ? extends Integer>) function0);
+-      // Undeclared exception!
+-      try { 
+-        MapValueComparator.sortAscending((Map<Integer, Integer>) null, comparator0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // map can not be null
+-         //
+-         verifyException("org.jcvi.jillion.core.util.MapValueComparator", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

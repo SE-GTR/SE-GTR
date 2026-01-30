@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
+@@ -143,15 +143,16 @@
+          verifyException("org.jsecurity.config.ReflectionBuilder", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
+-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
+-      Map<String, Filter> map0 = iniWebConfiguration0.getFilters(hashMap0);
+-      iniWebConfiguration0.createChains(hashMap0, map0);
+-      assertEquals(6, map0.size());
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        IniWebConfiguration config = new IniWebConfiguration();
++        Map<String, String> emptyUrls = new HashMap<>();
++        Map<String, Filter> filters = config.getFilters(emptyUrls);
++        Map<String, List<Filter>> chains = config.createChains(emptyUrls, filters);
++        assertNotNull(chains);
++        assertTrue(chains.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

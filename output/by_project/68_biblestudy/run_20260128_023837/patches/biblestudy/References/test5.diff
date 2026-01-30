@@ -1,0 +1,33 @@
+--- a/evosuite-tests/bible/obj/References_ESTest.java
++++ b/evosuite-tests/bible/obj/References_ESTest.java
+@@ -101,16 +101,20 @@
+     assertArrayEquals(stringArray0, values);
+     References references0 = new References(httpServletRequest0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
++@Test(timeout = 4000)
++public void test5() throws Throwable {
+     stringArray0 = new String[0];
+     httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("3").when(httpServletRequest0).getParameter(anyString());
+-      doReturn((Object) stringArray0, (Object) stringArray0).when(httpServletRequest0).getParameterValues(anyString());
+-      References references0 = new References(httpServletRequest0);
+-      ArrayList arrayList0 = references0.getVerses();
+-      assertEquals(0, arrayList0.size());
+-  }
++    doReturn("3").when(httpServletRequest0).getParameter(anyString());
++    doReturn((Object) stringArray0, (Object) stringArray0).when(httpServletRequest0).getParameterValues(anyString());
++
++    // Verify the stubbed return values
++    assertEquals("3", httpServletRequest0.getParameter("any"));
++    assertArrayEquals(stringArray0, httpServletRequest0.getParameterValues("any"));
++
++    References references0 = new References(httpServletRequest0);
++    ArrayList arrayList0 = references0.getVerses();
++    assertEquals(0, arrayList0.size());
+ }
++
++}

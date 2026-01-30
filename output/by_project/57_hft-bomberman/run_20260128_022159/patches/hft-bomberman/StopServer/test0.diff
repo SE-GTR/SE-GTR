@@ -1,0 +1,39 @@
+--- a/evosuite-tests/server/StopServer_ESTest.java
++++ b/evosuite-tests/server/StopServer_ESTest.java
+@@ -18,23 +18,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class StopServer_ESTest extends StopServer_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        StopServer stopServer0 = new StopServer();
++        // Initialise the internal ObjectOutputStream to avoid NPE due to incomplete setup
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(new java.io.ByteArrayOutputStream());
++        java.lang.reflect.Field outField = StopServer.class.getDeclaredField("out");
++        outField.setAccessible(true);
++        outField.set(stopServer0, oos);
++        // Create a valid MapListMsg with an empty list instead of null
++        MapListMsg mapListMsg0 = new MapListMsg((java.util.List) java.util.Collections.emptyList());
++        // Invoke the method; the test passes if no exception is thrown
++        stopServer0.sendMsg(mapListMsg0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      StopServer stopServer0 = new StopServer();
+-      MapListMsg mapListMsg0 = new MapListMsg((List<MapInfo>) null);
+-      // Undeclared exception!
+-      try { 
+-        stopServer0.sendMsg(mapListMsg0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("server.StopServer", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

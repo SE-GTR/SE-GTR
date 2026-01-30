@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/jdbc/LazyTable_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/jdbc/LazyTable_ESTest.java
+@@ -237,24 +237,14 @@
+          verifyException("org.databene.jdbacl.model.jdbc.JDBCDBImporter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter(">8", ">8", ">8", ">8", ">8", ">8");
+-      DBSchema dBSchema0 = new DBSchema(">8");
+-      LazyTable lazyTable0 = new LazyTable(jDBCDBImporter0, dBSchema0, ">8", ">8");
+-      // Undeclared exception!
+-      try { 
+-        lazyTable0.query(">8", (Connection) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.model.jdbc.JDBCDBImporter", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class, timeout = 4000)
++    public void test13() throws Throwable {
++        JDBCDBImporter importer = new JDBCDBImporter(">8", ">8", ">8", ">8", ">8", ">8");
++        DBSchema schema = new DBSchema(">8");
++        LazyTable lazyTable = new LazyTable(importer, schema, ">8", ">8");
++        lazyTable.query(">8", null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

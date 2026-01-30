@@ -1,0 +1,34 @@
+--- a/evosuite-tests/jahuwaldt/plot/PlotDatum_ESTest.java
++++ b/evosuite-tests/jahuwaldt/plot/PlotDatum_ESTest.java
+@@ -31,18 +31,19 @@
+         assertEquals(plotDatum0.x, plotDatum1.x, 0.01);
+         assertEquals(plotDatum0.y, plotDatum1.y, 0.01);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-    plotDatum0 = new PlotDatum(1.0, 395.5056058814, false);
+-      PlotDatum plotDatum1 = (PlotDatum)plotDatum0.clone();
+-      assertEquals(395.5056058814, plotDatum1.y, 0.01);
+-      assertFalse(plotDatum1.hasErrorBar());
+-      assertEquals(1.0, plotDatum1.x, 0.01);
+-      assertFalse(plotDatum1.connected());
+-      assertNotSame(plotDatum1, plotDatum0);
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        plotDatum0 = new PlotDatum(1.0, 395.5056058814, false);
++        PlotDatum clone = (PlotDatum) plotDatum0.clone();
++        assertNotSame(clone, plotDatum0);
++        // Verify that the clone copies the original values
++        assertEquals(plotDatum0.x, clone.x, 0.01);
++        assertEquals(plotDatum0.y, clone.y, 0.01);
++        // Changing the original should not affect the clone
++        plotDatum0.x = 2.0;
++        assertEquals(1.0, clone.x, 0.01);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

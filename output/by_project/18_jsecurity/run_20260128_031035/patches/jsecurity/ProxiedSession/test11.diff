@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/session/ProxiedSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/ProxiedSession_ESTest.java
+@@ -133,16 +133,17 @@
+       Collection<Object> collection0 = proxiedSession0.getAttributeKeys();
+       assertNull(collection0);
+   }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        doReturn((Object) null).when(session0).getAttribute(any());
++        proxiedSession0 = new ProxiedSession(session0);
++        Object key = new Object();
++        Object result = proxiedSession0.getAttribute(key);
++        assertNull(result);
++        verify(session0).getAttribute(key);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-    session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(session0).getAttribute(any());
+-    proxiedSession0 = new ProxiedSession(session0);
+-      Object object0 = new Object();
+-      Object object1 = proxiedSession0.getAttribute(object0);
+-      assertNull(object1);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

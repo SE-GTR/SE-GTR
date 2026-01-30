@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/ProxiedFilterChain_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/ProxiedFilterChain_ESTest.java
+@@ -57,21 +57,32 @@
+          verifyException("org.jsecurity.web.servlet.ProxiedFilterChain", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        // Prepare a flag to verify that the original FilterChain is invoked
++        final boolean[] called = new boolean[1];
++        FilterChain originalChain = new FilterChain() {
++            @Override
++            public void doFilter(ServletRequest request, ServletResponse response) {
++                called[0] = true;
++            }
++        };
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      LinkedList<Filter> linkedList0 = new LinkedList<Filter>();
+-      ProxiedFilterChain proxiedFilterChain0 = new ProxiedFilterChain((FilterChain) null, linkedList0);
+-      // Undeclared exception!
+-      try { 
+-        proxiedFilterChain0.doFilter((ServletRequest) null, (ServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.servlet.ProxiedFilterChain", e);
+-      }
+-  }
++        // No additional filters
++        LinkedList<Filter> filters = new LinkedList<>();
++
++        // Create the ProxiedFilterChain with a non‑null original chain
++        ProxiedFilterChain proxiedFilterChain = new ProxiedFilterChain(originalChain, filters);
++
++        // Use mock request/response objects (non‑null)
++        ServletRequest request = org.mockito.Mockito.mock(ServletRequest.class);
++        ServletResponse response = org.mockito.Mockito.mock(ServletResponse.class);
++
++        // Execute the filter chain
++        proxiedFilterChain.doFilter(request, response);
++
++        // Verify that the original chain's doFilter method was called
++        org.junit.Assert.assertTrue("Original FilterChain should have been invoked", called[0]);
++    }
++
+ }

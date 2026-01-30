@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -180,12 +180,22 @@
+       ConfigurationManagement.setSubnetmaski(intArray0);
+       assertEquals(0, intArray0.length);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      String string0 = ConfigurationManagement.getAccess_deny();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++    public void test24() throws Throwable {
++        // Arrange: set a known value for the access deny configuration
++        String testValue = "testValue";
++        ConfigurationManagement.setAccess_deny(testValue);
++        try {
++            // Act: retrieve the value via the getter
++            String result = ConfigurationManagement.getAccess_deny();
++            // Assert: the getter returns the value that was set
++            assertEquals(testValue, result);
++        } finally {
++            // Clean up: reset the static field to its default state
++            ConfigurationManagement.setAccess_deny(null);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test25()  throws Throwable  {

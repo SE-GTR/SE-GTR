@@ -1,0 +1,40 @@
+--- a/evosuite-tests/corina/util/SimpleLog_ESTest.java
++++ b/evosuite-tests/corina/util/SimpleLog_ESTest.java
+@@ -35,14 +35,29 @@
+       simpleLog0.fatal((Object) "org.apache.batk.apps.rasterizer.SVGConverter$SVGFileFilter", (Throwable) securityException0);
+       assertEquals(35, simpleLog0.getLevel());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      SimpleLog simpleLog0 = new SimpleLog("FEBhgc0`:ul");
+-      simpleLog0.setLevel(1024);
+-      simpleLog0.fatal((Object) "FEBhgc0`:ul");
+-      assertEquals(1024, simpleLog0.getLevel());
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        // Arrange
++        SimpleLog simpleLog0 = new SimpleLog("FEBhgc0`:ul");
++        simpleLog0.setLevel(1024);
++        PrintStream originalErr = System.err;
++        ByteArrayOutputStream capturedErr = new ByteArrayOutputStream();
++        System.setErr(new PrintStream(capturedErr));
++
++        try {
++            // Act
++            simpleLog0.fatal((Object) "FEBhgc0`:ul");
++        } finally {
++            // Restore original System.err
++            System.setErr(originalErr);
++        }
++
++        // Assert
++        assertEquals(1024, simpleLog0.getLevel());
++        String errOutput = capturedErr.toString();
++        assertTrue(errOutput.contains("FEBhgc0`:ul"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

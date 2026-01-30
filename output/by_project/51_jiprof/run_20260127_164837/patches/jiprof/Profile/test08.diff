@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
+@@ -115,13 +115,21 @@
+         Profile.unwind("4kursY", "4kursY", "4kursY");
+         assertTrue("unwind should complete without exception", true);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      Profile.initProfiler();
+-      Profile.unwind("<init>", "Ef6=#'jSd=<C-/czZ", " : ");
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    // Initialise the profiler
++    Profile.initProfiler();
++
++    // Verify that the profiler initialisation has created the expected controller objects
++    assertNotNull("Controller should be initialised", Profile.getController());
++    assertNotNull("Controller thread should be initialised", Profile.getControllerThread());
++
++    // Perform an unwind operation and check that it produced a frame entry
++    Profile.unwind("<init>", "Ef6=#'jSd=<C-/czZ", " : ");
++    assertTrue("Frame list should contain at least one frame after unwind",
++            Profile.getFrameList() != null && !Profile.getFrameList().isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

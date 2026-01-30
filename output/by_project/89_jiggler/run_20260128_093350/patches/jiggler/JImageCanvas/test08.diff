@@ -1,0 +1,37 @@
+--- a/evosuite-tests/jigl/gui/JImageCanvas_ESTest.java
++++ b/evosuite-tests/jigl/gui/JImageCanvas_ESTest.java
+@@ -113,23 +113,17 @@
+     assertTrue("Selection box extent X should be non‑negative after painting",
+                jImageCanvas0.getSelectionBoxExtentX() >= 0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      RealColorImage realColorImage0 = new RealColorImage();
+-      JImageCanvas jImageCanvas0 = null;
+-      try {
+-        jImageCanvas0 = new JImageCanvas(realColorImage0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.image.types.RealColorImage", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        // Create a minimal valid RealColorImage (e.g., 2x2 pixels)
++        RealColorImage realColorImage0 = new RealColorImage(2, 2);
++        // Construct the canvas with the valid image; no exception expected
++        JImageCanvas jImageCanvas0 = new JImageCanvas(realColorImage0);
++        // Verify that the canvas was created and holds the same image
++        assertNotNull(jImageCanvas0);
++        assertSame(realColorImage0, jImageCanvas0.getImage());
++    }
++
+ @Test(timeout = 4000)
+     public void test09() throws Throwable {
+         InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(4409, 4409);

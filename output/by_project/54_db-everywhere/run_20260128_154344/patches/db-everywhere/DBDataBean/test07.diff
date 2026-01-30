@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/DBDataBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/DBDataBean_ESTest.java
+@@ -74,7 +74,24 @@
+     assertEquals("UTF-8", bean.getEncoding());
+     assertEquals("EN", bean.getLanguage());
+     assertEquals("jdbc:test", bean.getUrl());
++
++    // Serialize and deserialize the bean to exercise non‑trivial behavior
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(bean);
++    oos.flush();
++    byte[] data = baos.toByteArray();
++
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++            new java.io.ByteArrayInputStream(data));
++    DBDataBean deserialized = (DBDataBean) ois.readObject();
++
++    // Verify that the state survived the round‑trip
++    assertEquals("UTF-8", deserialized.getEncoding());
++    assertEquals("EN", deserialized.getLanguage());
++    assertEquals("jdbc:test", deserialized.getUrl());
+ }
++
+ @Test(timeout = 4000)
+ public void test08() throws Throwable {
+     DBDataBean bean = new DBDataBean();

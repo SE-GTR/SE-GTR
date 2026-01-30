@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/heal/module/metadata/SourceCollectionBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/SourceCollectionBean_ESTest.java
+@@ -77,14 +77,25 @@
+ 
+         assertEquals("http://example.com", deserialized.getLink());
+     }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        SourceCollectionBean bean = new SourceCollectionBean();
+ 
++        // Act: serialize and deserialize the bean
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(bean);
++        oos.flush();
++        byte[] data = baos.toByteArray();
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      SourceCollectionBean sourceCollectionBean0 = new SourceCollectionBean();
+-      String string0 = sourceCollectionBean0.getSourceName();
+-      assertNull(string0);
+-  }
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++                new java.io.ByteArrayInputStream(data));
++        SourceCollectionBean deserialized = (SourceCollectionBean) ois.readObject();
++
++        // Assert: the source name remains null after the round‑trip
++        assertNull(deserialized.getSourceName());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/br/com/jnfe/base/TransportKeyStoreBean_ESTest.java
++++ b/evosuite-tests/br/com/jnfe/base/TransportKeyStoreBean_ESTest.java
+@@ -57,21 +57,23 @@
+       transportKeyStoreBean0.setKeyStoreType("");
+       transportKeyStoreBean0.afterPropertiesSet();
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        TransportKeyStoreBean transportKeyStoreBean0 = new TransportKeyStoreBean();
++        // Provide minimal required configuration to avoid NullPointerException
++        transportKeyStoreBean0.setKeyStorePassword("dummyPassword");
++        transportKeyStoreBean0.setKeyStoreUri("file:/nonexistent.pfx");
++        transportKeyStoreBean0.setKeyStoreType("pkcs12");
++        try {
++            transportKeyStoreBean0.openTransportKeyManagerFactory();
++            fail("Expecting an exception due to missing keystore");
++        } catch (Exception e) {
++            // The method should now fail for a reason other than NullPointerException
++            assertNotNull(e);
++            assertFalse(e instanceof NullPointerException);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      TransportKeyStoreBean transportKeyStoreBean0 = new TransportKeyStoreBean();
+-      try { 
+-        transportKeyStoreBean0.openTransportKeyManagerFactory();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("br.com.jnfe.base.TransportKeyStoreBean", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/mygrid/web/Job_ESTest.java
++++ b/evosuite-tests/mygrid/web/Job_ESTest.java
+@@ -393,17 +393,25 @@
+       Deserializer deserializer0 = Job.getDeserializer("", class0, qName0);
+       assertFalse(deserializer0.componentsReady());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
+-      Job job0 = new Job();
++@Test(timeout = 4000)
++  public void test27() throws Throwable {
++      Job job0 = new Job();
++      // verify initial state of dependencies is null (or not set)
++      assertNull(job0.getDependencies());
++
+       ArrayOfDependency arrayOfDependency0 = new ArrayOfDependency();
+       job0.setDependencies(arrayOfDependency0);
++
++      // assert that the side‑effect of setDependencies is observable
++      assertNotNull(job0.getDependencies());
++      assertSame(arrayOfDependency0, job0.getDependencies());
++
+       Job job1 = new Job();
+       boolean boolean0 = job1.equals(job0);
+-      assertFalse(job0.equals((Object)job1));
+-      assertFalse(boolean0);
+-  }
++      assertFalse(job0.equals((Object) job1));
++      assertFalse(boolean0);
++  }
++
+ @Test(timeout = 4000)
+ public void test28() throws Throwable {
+     TypeDesc typeDesc0 = Job.getTypeDesc();

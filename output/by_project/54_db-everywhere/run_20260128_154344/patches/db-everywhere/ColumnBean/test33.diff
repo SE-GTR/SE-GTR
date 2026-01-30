@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
+@@ -275,7 +275,8 @@
+         assertEquals(5, columnBean0.getLen());
+         assertEquals(1, columnBean0.getDec());
+     }
+-public void test33() throws Throwable {
++@Test
++    public void test33() throws Throwable {
+         ColumnBean columnBean0 = new ColumnBean();
+         // Verify the default state before mutation
+         assertFalse(columnBean0.isNullable());
+@@ -283,7 +284,23 @@
+         columnBean0.setNullable(true);
+         // Verify the state after mutation
+         assertTrue(columnBean0.isNullable());
+-    }
++
++        // Serialize and deserialize to ensure the state is persisted correctly
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(columnBean0);
++        oos.flush();
++        byte[] serialized = baos.toByteArray();
++
++        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(serialized);
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++        Object deserializedObj = ois.readObject();
++        assertTrue(deserializedObj instanceof ColumnBean);
++        ColumnBean deserialized = (ColumnBean) deserializedObj;
++        // Verify that the deserialized object retains the nullable flag
++        assertTrue(deserialized.isNullable());
++    }
++
+ public void test34() throws Throwable {
+       ColumnBean columnBean0 = new ColumnBean();
+       columnBean0.setDim("");

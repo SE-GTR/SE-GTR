@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/form/DBDataForm_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/form/DBDataForm_ESTest.java
+@@ -50,10 +50,12 @@
+       assertEquals("POST", dBDataForm0.getEncoding());
+       assertEquals("FR", dBDataForm0.getLanguage());
+   }
+-
+ @Test(timeout = 4000)
+ public void test04() throws Throwable {
+     DBDataForm form = new DBDataForm();
++    // Change state to verify that serialization preserves modified values
++    form.setLanguage("EN");
++    form.setEncoding("UTF-8");
+     java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+     java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
+     oos.writeObject(form);
+@@ -61,9 +63,10 @@
+     byte[] data = baos.toByteArray();
+     java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
+     DBDataForm deserialized = (DBDataForm) ois.readObject();
+-    assertEquals(form.getLanguage(), deserialized.getLanguage());
+-    assertEquals(form.getEncoding(), deserialized.getEncoding());
++    assertEquals("EN", deserialized.getLanguage());
++    assertEquals("UTF-8", deserialized.getEncoding());
+ }
++
+ @Test(timeout = 4000)
+ public void test05() throws Throwable {
+     DBDataForm dBDataForm0 = new DBDataForm();

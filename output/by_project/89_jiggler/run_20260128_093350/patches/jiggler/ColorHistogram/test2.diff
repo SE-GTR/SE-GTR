@@ -1,0 +1,30 @@
+--- a/evosuite-tests/jigl/image/ColorHistogram_ESTest.java
++++ b/evosuite-tests/jigl/image/ColorHistogram_ESTest.java
+@@ -34,13 +34,21 @@
+       assertNotNull(description);
+       assertTrue(description.contains("ColorHistogram"));
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    InterpolatedColorImage interpolatedColorImage0 = new InterpolatedColorImage(1, 1);
++    class TestableColorHistogram extends ColorHistogram {
++        TestableColorHistogram(ColorImage image, int rbits, int gbits, int bbits) {
++            super(image, rbits, gbits, bbits);
++        }
++        int[][][] getData() {
++            return m_data;
++        }
++    }
++    TestableColorHistogram colorHistogram0 = new TestableColorHistogram(interpolatedColorImage0, -2505, 15, -2219);
++    assertNotNull("Histogram data should be initialized", colorHistogram0.getData());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      InterpolatedColorImage interpolatedColorImage0 = new InterpolatedColorImage(1, 1);
+-      ColorHistogram colorHistogram0 = new ColorHistogram(interpolatedColorImage0, (-2505), 15, (-2219));
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

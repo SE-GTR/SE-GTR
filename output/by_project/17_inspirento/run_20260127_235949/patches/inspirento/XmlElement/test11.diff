@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/allenstudio/ir/util/XmlElement_ESTest.java
++++ b/evosuite-tests/com/allenstudio/ir/util/XmlElement_ESTest.java
+@@ -105,14 +105,18 @@
+     assertNotNull(cloned);
+     assertNotSame(xmlElement0, cloned);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      XmlElement xmlElement0 = new XmlElement();
+-      xmlElement0.attributes = null;
+-      xmlElement0.clone();
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        XmlElement xmlElement0 = new XmlElement();
++        xmlElement0.attributes = null;
++        Object clonedObj = xmlElement0.clone();
++        assertNotNull("clone should not return null", clonedObj);
++        assertTrue("clone should be an instance of XmlElement", clonedObj instanceof XmlElement);
++        XmlElement cloned = (XmlElement) clonedObj;
++        assertNotSame("clone should be a different instance", xmlElement0, cloned);
++        assertNull("cloned attributes should be null", cloned.attributes);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

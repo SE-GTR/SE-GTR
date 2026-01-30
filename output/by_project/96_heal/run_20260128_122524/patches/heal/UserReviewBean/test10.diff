@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/heal/servlet/userreview/UserReviewBean_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/userreview/UserReviewBean_ESTest.java
+@@ -118,17 +118,26 @@
+     assertEquals(42, bean.getReviewId());
+     assertEquals("user@example.com", bean.getEmail());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      UserReviewBean userReviewBean0 = new UserReviewBean();
+-      Boolean boolean0 = userReviewBean0.getApproved();
+-      assertFalse(userReviewBean0.getAnonymous());
+-      assertEquals(0, userReviewBean0.getReviewId());
+-      assertEquals(0, userReviewBean0.getUserRating());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    UserReviewBean bean = new UserReviewBean();
++
++    // Minimal check of the default state
++    assertFalse(bean.getAnonymous());
++
++    // Change the bean's state using its mutators
++    bean.setAnonymous(true);
++    bean.setApproved(true);
++    bean.setReviewId(123);
++    bean.setUserRating(5);
++
++    // Verify that the changes are reflected
++    assertTrue(bean.getAnonymous());
++    assertTrue(bean.getApproved());
++    assertEquals(123, bean.getReviewId());
++    assertEquals(5, bean.getUserRating());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

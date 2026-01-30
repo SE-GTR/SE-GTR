@@ -1,0 +1,52 @@
+--- a/evosuite-tests/ghm/follow/FileFollower_ESTest.java
++++ b/evosuite-tests/ghm/follow/FileFollower_ESTest.java
+@@ -281,23 +281,32 @@
+          //
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("1FdK>}m'eWy*", "1FdK>}m'eWy*");
+-      OutputDestination[] outputDestinationArray0 = new OutputDestination[2];
+-      JTextPane jTextPane0 = new JTextPane();
+-      JTextPaneDestination jTextPaneDestination0 = new JTextPaneDestination(jTextPane0, false);
+-      outputDestinationArray0[0] = (OutputDestination) jTextPaneDestination0;
+-      SearchEngine searchEngine0 = new SearchEngine((-1618));
+-      FilteredDestination filteredDestination0 = new FilteredDestination(jTextPane0, searchEngine0, "1FdK>}m'eWy*", false);
+-      FileFollower fileFollower0 = new FileFollower(file0, outputDestinationArray0);
+-      fileFollower0.isPaused();
+-      fileFollower0.getBufferSize();
+-      fileFollower0.start();
+-      fileFollower0.setBufferSize(1);
+-      assertTrue(fileFollower0.isBeingFollowed());
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        File file0 = MockFile.createTempFile("1FdK>}m'eWy*", "1FdK>}m'eWy*");
++        OutputDestination[] outputDestinationArray0 = new OutputDestination[2];
++        JTextPane jTextPane0 = new JTextPane();
++        JTextPaneDestination jTextPaneDestination0 = new JTextPaneDestination(jTextPane0, false);
++        outputDestinationArray0[0] = jTextPaneDestination0;
++        SearchEngine searchEngine0 = new SearchEngine((-1618));
++        FilteredDestination filteredDestination0 = new FilteredDestination(jTextPane0, searchEngine0, "1FdK>}m'eWy*", false);
++        FileFollower fileFollower0 = new FileFollower(file0, outputDestinationArray0);
++
++        // Observe initial state
++        int initialBuffer = fileFollower0.getBufferSize();
++        assertTrue(initialBuffer >= 0);
++        boolean initiallyPaused = fileFollower0.isPaused();
++        assertFalse(initiallyPaused);
++
++        // Start following and verify side‑effect
++        fileFollower0.start();
++        assertTrue(fileFollower0.isBeingFollowed());
++
++        // Change buffer size and verify the effect
++        fileFollower0.setBufferSize(1);
++        assertEquals(1, fileFollower0.getBufferSize());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

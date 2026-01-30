@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
+@@ -18,14 +18,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ICMCacheEntry_ESTest extends ICMCacheEntry_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
+-      iCMCacheEntry0.setCacheurl("c%0y[W X");
+-      iCMCacheEntry0.hashCode();
+-      assertEquals(0, iCMCacheEntry0.getVersion());
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
++        String url = "c%0y[W X";
++        iCMCacheEntry0.setCacheurl(url);
++        // Verify that the cache URL was set correctly (NASE)
++        assertEquals(url, iCMCacheEntry0.getCacheurl());
++        // Verify the return value of hashCode is observed (NARV)
++        int hash = iCMCacheEntry0.hashCode();
++        assertEquals(hash, iCMCacheEntry0.hashCode());
++        // Existing assertion on version
++        assertEquals(0, iCMCacheEntry0.getVersion());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

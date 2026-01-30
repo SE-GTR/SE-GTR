@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
+@@ -463,19 +463,29 @@
+         assertTrue(boolean0);
+         assertTrue(iCMConnection1.equals((Object) iCMConnection0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      ICMConnection iCMConnection0 = new ICMConnection();
+-      ICMConnection iCMConnection1 = new ICMConnection();
+-      assertTrue(iCMConnection1.equals((Object)iCMConnection0));
+-      
+-      iCMConnection0.setConid("(()DprA7 S*N\"n4sBf");
+-      boolean boolean0 = iCMConnection0.equals(iCMConnection1);
+-      assertFalse(iCMConnection1.equals((Object)iCMConnection0));
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++  public void test26() throws Throwable {
++      ICMConnection iCMConnection0 = new ICMConnection();
++      ICMConnection iCMConnection1 = new ICMConnection();
++      assertTrue(iCMConnection1.equals((Object) iCMConnection0));
++
++      String newConid = "(()DprA7 S*N\"n4sBf";
++      // verify initial state
++      assertNull(iCMConnection0.getConid());
++      assertNull(iCMConnection1.getConid());
++
++      // act
++      iCMConnection0.setConid(newConid);
++
++      // observe side‑effect
++      assertEquals(newConid, iCMConnection0.getConid());
++      assertNull(iCMConnection1.getConid());
++
++      boolean boolean0 = iCMConnection0.equals(iCMConnection1);
++      assertFalse(iCMConnection1.equals((Object) iCMConnection0));
++      assertFalse(boolean0);
++  }
++
+ @Test(timeout = 4000)
+ public void test27() throws Throwable {
+     ICMConnection conn = new ICMConnection();

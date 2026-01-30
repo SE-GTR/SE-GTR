@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/ib/client/EReader_ESTest.java
++++ b/evosuite-tests/com/ib/client/EReader_ESTest.java
+@@ -49,23 +49,16 @@
+       double double0 = eReader0.readDoubleMax();
+       assertEquals(1.7976931348623157E308, double0, 0.01);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      byte[] byteArray0 = new byte[4];
+-      byteArray0[0] = (byte)44;
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      BufferedInputStream bufferedInputStream0 = new BufferedInputStream(byteArrayInputStream0);
+-      DataInputStream dataInputStream0 = new DataInputStream(bufferedInputStream0);
+-      EReader eReader0 = new EReader(dataInputStream0, (EWrapper) null, (byte)44);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = NumberFormatException.class)
++    public void test02() throws Throwable {
++        byte[] data = new byte[] { 'a', 'b', 'c', 0 };
++        ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(data);
++        BufferedInputStream bufferedInputStream0 = new BufferedInputStream(byteArrayInputStream0);
++        DataInputStream dataInputStream0 = new DataInputStream(bufferedInputStream0);
++        EReader eReader0 = new EReader(dataInputStream0, null, (byte) 44);
+         eReader0.readDouble();
+-        fail("Expecting exception: NumberFormatException");
+-      
+-      } catch(NumberFormatException e) {
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/jigl/image/utils/ImageOps_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/ImageOps_ESTest.java
+@@ -73,14 +73,28 @@
+       ImageOps.main(stringArray0);
+       assertEquals(4, stringArray0.length);
+   }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        String[] stringArray0 = new String[1];
++        stringArray0[0] = "-addconst";
+ 
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      String[] stringArray0 = new String[1];
+-      stringArray0[0] = "-addconst";
+-      ImageOps.main(stringArray0);
+-      assertEquals(1, stringArray0.length);
+-  }
++        // Capture standard output to observe side‑effects of ImageOps.main
++        PrintStream originalOut = System.out;
++        ByteArrayOutputStream baos = new ByteArrayOutputStream();
++        System.setOut(new PrintStream(baos));
++        try {
++            ImageOps.main(stringArray0);
++        } finally {
++            System.setOut(originalOut);
++        }
++        String output = baos.toString();
++
++        // Verify that the command‑line argument was processed (output is not empty)
++        assertTrue("Expected some output from ImageOps.main", output.length() > 0);
++        // Keep the original sanity check
++        assertEquals(1, stringArray0.length);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

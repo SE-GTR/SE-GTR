@@ -1,0 +1,34 @@
+--- a/evosuite-tests/ioproject/server/network/ClientGroup_ESTest.java
++++ b/evosuite-tests/ioproject/server/network/ClientGroup_ESTest.java
+@@ -74,18 +74,22 @@
+       assertEquals(1, clientGroup0.size());
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
+     clientGroup0 = new ClientGroup((ClientGroup) null);
+     stateMultiplexer0 = new StateMultiplexer();
+-      ClientGroup clientGroup1 = clientGroup0.createSubGroup();
+-      clientGroup1.iterator();
+-      Client client0 = new Client((IoSession) null);
+-      clientGroup1.add(client0);
+-      clientGroup0.createSubGroup();
+-      int int0 = 0;
++    ClientGroup clientGroup1 = clientGroup0.createSubGroup();
++    java.util.Iterator<Client> iterator = clientGroup1.iterator();
++    assertNotNull(iterator);
++    assertFalse(iterator.hasNext());
++    Client client0 = new Client((IoSession) null);
++    boolean added = clientGroup1.add(client0);
++    assertFalse(added);
++    ClientGroup subGroup = clientGroup0.createSubGroup();
++    assertNotNull(subGroup);
++    int int0 = 0;
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

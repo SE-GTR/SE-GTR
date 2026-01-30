@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/templateit/StaticTemplate_ESTest.java
++++ b/evosuite-tests/org/templateit/StaticTemplate_ESTest.java
+@@ -52,25 +52,16 @@
+       int int0 = staticTemplate0.getParameterIndex(-5, -66);
+       assertEquals(-1, int0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      StaticTemplate staticTemplate0 = new StaticTemplate((String) null, (HSSFSheet) null);
+-      LinkedList<Integer> linkedList0 = new LinkedList<Integer>();
+-      staticTemplate0.selectList = (List<Integer>) linkedList0;
+-      // Undeclared exception!
+-      try { 
+-        staticTemplate0.getParameterIndex((-1), (-1));
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.templateit.StaticTemplate", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        org.apache.poi.hssf.usermodel.HSSFWorkbook wb = new org.apache.poi.hssf.usermodel.HSSFWorkbook();
++        org.apache.poi.hssf.usermodel.HSSFSheet sheet = wb.createSheet("sheet1");
++        StaticTemplate staticTemplate0 = new StaticTemplate("template", sheet);
++        staticTemplate0.selectList = new LinkedList<Integer>();
++        int idx = staticTemplate0.getParameterIndex(0, 0);
++        assertEquals(-1, idx);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

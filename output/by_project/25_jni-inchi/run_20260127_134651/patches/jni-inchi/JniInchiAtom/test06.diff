@@ -1,0 +1,32 @@
+--- a/evosuite-tests/net/sf/jniinchi/JniInchiAtom_ESTest.java
++++ b/evosuite-tests/net/sf/jniinchi/JniInchiAtom_ESTest.java
+@@ -66,14 +66,21 @@
+     assertEquals(-1, jniInchiAtom0.getImplicitH());
+     assertEquals(0, jniInchiAtom0.getCharge());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      JniInchiAtom jniInchiAtom0 = new JniInchiAtom(0.0, 0.0, 1.0, "SINGLET");
+-      jniInchiAtom0.setIsotopicMassShift(0);
+-      assertEquals(10000, jniInchiAtom0.getIsotopicMass());
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        JniInchiAtom jniInchiAtom0 = new JniInchiAtom(0.0, 0.0, 1.0, "SINGLET");
++        // Verify the default isotopic mass
++        int defaultMass = jniInchiAtom0.getIsotopicMass();
++        assertEquals(10000, defaultMass);
++        // Capture the value before changing the shift
++        int beforeShift = jniInchiAtom0.getIsotopicMass();
++        // Apply a non‑zero isotopic mass shift
++        jniInchiAtom0.setIsotopicMassShift(1);
++        int afterShift = jniInchiAtom0.getIsotopicMass();
++        // The isotopic mass should reflect the shift (i.e., change)
++        assertNotEquals(beforeShift, afterShift);
++    }
++
+ @Test(timeout = 4000)
+     public void test07() throws Throwable {
+         JniInchiAtom jniInchiAtom0 = new JniInchiAtom("v");

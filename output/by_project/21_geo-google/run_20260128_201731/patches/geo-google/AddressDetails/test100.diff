@@ -1,0 +1,32 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -1013,13 +1013,22 @@
+       String string0 = addressDetails0.getAddressType();
+       assertEquals("home", string0);
+   }
+-@Test(timeout = 4000)
+-    public void test100() throws Throwable {
+-        AddressDetails addressDetails0 = new AddressDetails();
+-        AdministrativeArea adminArea = new AdministrativeArea();
+-        addressDetails0.setAdministrativeArea(adminArea);
+-        assertSame(adminArea, addressDetails0.getAdministrativeArea());
+-    }
++public void test100() throws Throwable {
++    AddressDetails addressDetails0 = new AddressDetails();
++    AdministrativeArea adminArea = new AdministrativeArea();
++    addressDetails0.setAdministrativeArea(adminArea);
++    assertSame(adminArea, addressDetails0.getAdministrativeArea());
++
++    // Exercise non‑trivial behavior: marshal to XML and verify output contains the element
++    javax.xml.bind.JAXBContext jc = javax.xml.bind.JAXBContext.newInstance(AddressDetails.class);
++    javax.xml.bind.Marshaller marshaller = jc.createMarshaller();
++    marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
++    java.io.StringWriter sw = new java.io.StringWriter();
++    marshaller.marshal(addressDetails0, sw);
++    String xml = sw.toString();
++    org.junit.Assert.assertTrue(xml.contains("AdministrativeArea"));
++}
++
+ @Test(timeout = 4000)
+     public void test101() throws Throwable {
+         AddressDetails addressDetails0 = new AddressDetails();

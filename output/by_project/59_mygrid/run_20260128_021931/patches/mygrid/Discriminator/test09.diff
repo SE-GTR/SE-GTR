@@ -1,0 +1,42 @@
+--- a/evosuite-tests/mygrid/web/Discriminator_ESTest.java
++++ b/evosuite-tests/mygrid/web/Discriminator_ESTest.java
+@@ -140,19 +140,26 @@
+       assertTrue(discriminator0.equals(discriminator1));
+       assertTrue(discriminator1.equals((Object) discriminator0));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      Discriminator discriminator0 = new Discriminator();
+-      Discriminator discriminator1 = new Discriminator();
+-      assertTrue(discriminator1.equals((Object)discriminator0));
+-      
+-      ArrayOfString arrayOfString0 = new ArrayOfString();
+-      discriminator1.setAllowedEngines(arrayOfString0);
+-      boolean boolean0 = discriminator0.equals(discriminator1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    Discriminator discriminator0 = new Discriminator();
++    Discriminator discriminator1 = new Discriminator();
++    assertTrue(discriminator1.equals((Object) discriminator0));
++
++    // Verify initial state of allowedEngines is null for both instances
++    assertNull(discriminator0.getAllowedEngines());
++    assertNull(discriminator1.getAllowedEngines());
++
++    ArrayOfString arrayOfString0 = new ArrayOfString();
++    discriminator1.setAllowedEngines(arrayOfString0);
++
++    // Observe the side‑effect of setAllowedEngines via the public getter
++    assertSame(arrayOfString0, discriminator1.getAllowedEngines());
++
++    boolean boolean0 = discriminator0.equals(discriminator1);
++    assertFalse(boolean0);
++}
++
+ @Test(timeout = 4000)
+ public void test10() throws Throwable {
+     Discriminator discriminator = new Discriminator();

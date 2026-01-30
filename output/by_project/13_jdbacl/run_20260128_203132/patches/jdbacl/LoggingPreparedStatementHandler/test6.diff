@@ -1,0 +1,53 @@
+--- a/evosuite-tests/org/databene/jdbacl/proxy/LoggingPreparedStatementHandler_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/proxy/LoggingPreparedStatementHandler_ESTest.java
+@@ -105,22 +105,35 @@
+          verifyException("org.databene.jdbacl.proxy.LoggingPreparedStatementHandler", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        java.sql.PreparedStatement ps = (java.sql.PreparedStatement) java.lang.reflect.Proxy.newProxyInstance(
++                java.sql.PreparedStatement.class.getClassLoader(),
++                new Class<?>[]{java.sql.PreparedStatement.class},
++                (proxy, method, args) -> {
++                    Class<?> ret = method.getReturnType();
++                    if (ret.equals(void.class)) {
++                        return null;
++                    }
++                    if (ret.isPrimitive()) {
++                        if (ret.equals(boolean.class)) {
++                            return false;
++                        }
++                        if (ret.equals(int.class) || ret.equals(short.class) || ret.equals(byte.class)
++                                || ret.equals(long.class) || ret.equals(float.class) || ret.equals(double.class)) {
++                            return 0;
++                        }
++                        if (ret.equals(char.class)) {
++                            return '\0';
++                        }
++                    }
++                    return null;
++                });
++        LoggingPreparedStatementHandler handler = new LoggingPreparedStatementHandler(ps, "SELECT 1");
++        // Verify that the static check does not throw an exception after proper initialization
++        LoggingPreparedStatementHandler.assertAllStatementsClosed(false);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      LoggingPreparedStatementHandler loggingPreparedStatementHandler0 = new LoggingPreparedStatementHandler((PreparedStatement) null, "u +_SNU");
+-      // Undeclared exception!
+-      try { 
+-        LoggingPreparedStatementHandler.assertAllStatementsClosed(false);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.proxy.LoggingPreparedStatementHandler", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

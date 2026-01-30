@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/heal/servlet/AddToDownloadAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/AddToDownloadAction_ESTest.java
+@@ -32,31 +32,20 @@
+     addToDownloadAction0 = new AddToDownloadAction();
+     servlet0 = new Servlet();
+   }
++@Test(expected = NullPointerException.class, timeout = 4000)
++public void test0() throws Throwable {
++    DownloadQueueBean downloadQueueBean0 = new DownloadQueueBean();
++    HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    doReturn(downloadQueueBean0).when(httpSession0).getAttribute(anyString());
++    String[] stringArray0 = new String[1];
++    stringArray0[0] = "nb~;/!~h~-$kdu";
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn("nb~;/!~h~-$kdu").when(httpServletRequest0).getParameter(anyString());
++    doReturn(stringArray0).when(httpServletRequest0).getParameterValues(anyString());
++    doReturn(httpSession0).when(httpServletRequest0).getSession();
++    addToDownloadAction0.perform(servlet0, httpServletRequest0, (HttpServletResponse) null);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      DownloadQueueBean downloadQueueBean0 = new DownloadQueueBean();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(downloadQueueBean0).when(httpSession0).getAttribute(anyString());
+-      String[] stringArray0 = new String[1];
+-      stringArray0[0] = "nb~;/!~h~-$kdu";
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("nb~;/!~h~-$kdu").when(httpServletRequest0).getParameter(anyString());
+-      doReturn(stringArray0).when(httpServletRequest0).getParameterValues(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      // Undeclared exception!
+-      try { 
+-        addToDownloadAction0.perform(servlet0, httpServletRequest0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.AddToDownloadAction", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

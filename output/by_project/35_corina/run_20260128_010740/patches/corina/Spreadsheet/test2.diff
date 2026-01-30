@@ -1,0 +1,40 @@
+--- a/evosuite-tests/corina/formats/Spreadsheet_ESTest.java
++++ b/evosuite-tests/corina/formats/Spreadsheet_ESTest.java
+@@ -69,19 +69,25 @@
+          verifyException("java.util.ArrayList", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        Spreadsheet spreadsheet0 = new Spreadsheet();
++        LinkedList<Sample> linkedList0 = new LinkedList<Sample>();
++        Sample sample0 = new Sample();
++        linkedList0.add(sample0);
++        StringWriter stringWriter0 = new StringWriter();
++        BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0, 2);
++        linkedList0.add(sample0);
++        // verify initial state before invoking the method
++        assertEquals(0, stringWriter0.getBuffer().length());
++        assertEquals(2, linkedList0.size());
++        spreadsheet0.saveSamples(linkedList0, bufferedWriter0);
++        // verify side‑effect on the writer
++        String result = stringWriter0.toString();
++        assertEquals("Year\tUntitled\tUntitled", result);
++        assertTrue(result.length() > 0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      Spreadsheet spreadsheet0 = new Spreadsheet();
+-      LinkedList<Sample> linkedList0 = new LinkedList<Sample>();
+-      Sample sample0 = new Sample();
+-      linkedList0.add(sample0);
+-      StringWriter stringWriter0 = new StringWriter();
+-      BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0, 2);
+-      linkedList0.add(sample0);
+-      spreadsheet0.saveSamples(linkedList0, bufferedWriter0);
+-      assertEquals("Year\tUntitled\tUntitled", stringWriter0.toString());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/SecureStore_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/SecureStore_ESTest.java
+@@ -88,16 +88,17 @@
+         String string0 = secureStore0.toXML("");
+         assertEquals("<secure-store>\n\t<type>JKS</type>\n\t<algorithm>SunX509</algorithm>\n\t<trust-store-info>\n\t\t<store-file>NONE</store-file>\n\t\t</store-password>\n\t</trust-store-info>\n\t<secure-store-manager>org.quickserver.security.SecureStoreManager</secure-store-manager>\n</secure-store>\n", string0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      SecureStore secureStore0 = new SecureStore();
+-      secureStore0.setTrustStoreInfo((TrustStoreInfo) null);
+-      assertEquals("JKS", secureStore0.getType());
+-      assertEquals("SunX509", secureStore0.getAlgorithm());
+-      assertEquals("org.quickserver.security.SecureStoreManager", secureStore0.getSecureStoreManager());
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        SecureStore secureStore0 = new SecureStore();
++        TrustStoreInfo trustInfo = new TrustStoreInfo();
++        secureStore0.setTrustStoreInfo(trustInfo);
++        assertSame(trustInfo, secureStore0.getTrustStoreInfo());
++        assertEquals("JKS", secureStore0.getType());
++        assertEquals("SunX509", secureStore0.getAlgorithm());
++        assertEquals("org.quickserver.security.SecureStoreManager", secureStore0.getSecureStoreManager());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

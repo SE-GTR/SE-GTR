@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/CasGappedReferenceDataStoreBuilderVisitor_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/CasGappedReferenceDataStoreBuilderVisitor_ESTest.java
+@@ -139,16 +139,21 @@
+          verifyException("org.jcvi.jillion.assembly.clc.cas.CasGappedReferenceDataStoreBuilderVisitor", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-    casGappedReferenceDataStoreBuilderVisitor0 = new CasGappedReferenceDataStoreBuilderVisitor((File) null);
+-      Vector<String> vector0 = new Vector<String>();
+-      BigInteger bigInteger0 = BigInteger.ONE;
+-      DefaultCasFileInfo defaultCasFileInfo0 = new DefaultCasFileInfo(vector0, 386L, bigInteger0);
+-      casGappedReferenceDataStoreBuilderVisitor0.visitReferenceFileInfo(defaultCasFileInfo0);
+-      assertEquals(386L, defaultCasFileInfo0.getNumberOfSequences());
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    CasGappedReferenceDataStoreBuilderVisitor visitor = new CasGappedReferenceDataStoreBuilderVisitor((File) null);
++    Vector<String> vector0 = new Vector<String>();
++    BigInteger bigInteger0 = BigInteger.ONE;
++    DefaultCasFileInfo defaultCasFileInfo0 = new DefaultCasFileInfo(vector0, 386L, bigInteger0);
++    visitor.visitReferenceFileInfo(defaultCasFileInfo0);
++    try {
++        visitor.build();
++        fail("Expected IllegalStateException");
++    } catch (IllegalStateException e) {
++        // expected side‑effect verification
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

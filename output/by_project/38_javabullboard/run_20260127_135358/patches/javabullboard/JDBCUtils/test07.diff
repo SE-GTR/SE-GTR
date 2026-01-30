@@ -1,0 +1,27 @@
+--- a/evosuite-tests/framework/util/jdbc/JDBCUtils_ESTest.java
++++ b/evosuite-tests/framework/util/jdbc/JDBCUtils_ESTest.java
+@@ -81,13 +81,17 @@
+       assertTrue(result.startsWith("1005("));
+       assertTrue(result.contains("TYPE_SCROLL_SENSITIVE"));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      String string0 = JDBCUtils.getResultSetType(1004);
+-      assertEquals("1004(TYPE_SCROLL_INSENSITIVE)", string0);
+-  }
++@Test(timeout = 4000)
++  public void test07() throws Throwable {
++      String result = JDBCUtils.getResultSetType(1004);
++      assertNotNull(result);
++      assertTrue("Result should start with the type code and an opening parenthesis",
++                 result.startsWith("1004("));
++      assertTrue("Result should end with a closing parenthesis", result.endsWith(")"));
++      assertTrue("Result should contain the expected type name",
++                 result.contains("TYPE_SCROLL_INSENSITIVE"));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

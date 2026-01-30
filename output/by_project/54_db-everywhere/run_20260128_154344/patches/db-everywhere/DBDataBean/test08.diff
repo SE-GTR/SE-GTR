@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/DBDataBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/DBDataBean_ESTest.java
+@@ -82,13 +82,25 @@
+     assertEquals("FR", bean.getLanguage());
+     assertEquals("ISO-8859-1", bean.getEncoding());
+ 
+-    // Set and verify dbName
++    // Preserve defaults for later verification
++    String defaultLanguage = bean.getLanguage();
++    String defaultEncoding = bean.getEncoding();
++
++    // Set and verify dbName (empty)
+     bean.setDbName("");
+     assertEquals("", bean.getDbName());
++    // Ensure other properties remain unchanged
++    assertEquals(defaultLanguage, bean.getLanguage());
++    assertEquals(defaultEncoding, bean.getEncoding());
+ 
++    // Set and verify dbName (non‑empty)
+     bean.setDbName("myDb");
+     assertEquals("myDb", bean.getDbName());
++    // Ensure other properties remain unchanged
++    assertEquals(defaultLanguage, bean.getLanguage());
++    assertEquals(defaultEncoding, bean.getEncoding());
+ }
++
+ 
+ @Test(timeout = 4000)
+ public void test09() throws Throwable {

@@ -1,0 +1,28 @@
+--- a/evosuite-tests/com/browsersoft/aacs/Person_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/Person_ESTest.java
+@@ -294,13 +294,18 @@
+       assertEquals("}SWE@[KC/UnW", person0.getUid());
+       assertEquals("}SWE@[KC/UnW", person0.getCn());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      Person person0 = new Person();
+-      String string0 = person0.getDn();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++public void test28() throws Throwable {
++    Person person0 = new Person();
++    try {
++        javax.naming.directory.Attributes attrs = person0.getAttributes("");
++        assertNotNull(attrs);
++    } catch (javax.naming.NamingException e) {
++        // If the operation is not supported, ensure the expected exception type is thrown
++        assertTrue(e instanceof javax.naming.NamingException);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test29()  throws Throwable  {

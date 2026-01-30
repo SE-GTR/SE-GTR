@@ -1,0 +1,52 @@
+--- a/evosuite-tests/de/progra/charting/render/BarChartRenderer_ESTest.java
++++ b/evosuite-tests/de/progra/charting/render/BarChartRenderer_ESTest.java
+@@ -47,28 +47,28 @@
+       BarChartRenderer barChartRenderer0 = new BarChartRenderer(coordSystem0, objectChartDataModel1);
+       barChartRenderer0.renderChart((Graphics2D) null);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        ObjectChartDataModel objectChartDataModel0 = new ObjectChartDataModel();
++        CoordSystem coordSystem0 = new CoordSystem(objectChartDataModel0, "", "");
++        BarChartRenderer barChartRenderer0 = new BarChartRenderer(coordSystem0, objectChartDataModel0);
++        AffineTransform affineTransform0 = new AffineTransform();
++        coordSystem0.setTransform(affineTransform0, 0);
++        DecimalFormat decimalFormat0 = new DecimalFormat();
++        barChartRenderer0.barTopFormat = decimalFormat0;
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    objectChartDataModel0 = new ObjectChartDataModel();
+-    coordSystem0 = new CoordSystem(objectChartDataModel0, "", "");
+-      BarChartRenderer barChartRenderer0 = new BarChartRenderer(coordSystem0, objectChartDataModel0);
+-      AffineTransform affineTransform0 = new AffineTransform();
+-      coordSystem0.setTransform(affineTransform0, 0);
+-      DecimalFormat decimalFormat0 = new DecimalFormat();
+-      barChartRenderer0.barTopFormat = decimalFormat0;
+-      // Undeclared exception!
+-      try { 
+-        barChartRenderer0.renderChart((Graphics2D) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.progra.charting.render.BarChartRenderer", e);
+-      }
+-  }
++        java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(100, 100,
++                java.awt.image.BufferedImage.TYPE_INT_ARGB);
++        Graphics2D g2 = img.createGraphics();
++        try {
++            barChartRenderer0.renderChart(g2);
++        } finally {
++            g2.dispose();
++        }
++
++        org.junit.Assert.assertSame(decimalFormat0, barChartRenderer0.barTopFormat);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

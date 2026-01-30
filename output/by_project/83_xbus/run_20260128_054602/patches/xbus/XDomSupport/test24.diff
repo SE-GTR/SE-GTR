@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/sf/xbus/base/xml/XDomSupport_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/xml/XDomSupport_ESTest.java
+@@ -234,14 +234,23 @@
+       List list0 = XDomSupport.getChildNodesByAttrValue(hTMLDocumentImpl0, "net.sf.xbus.base.xml.XDomSupport", "", "");
+       assertEquals(0, list0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      HTMLDocumentImpl hTMLDocumentImpl0 = new HTMLDocumentImpl();
+-      XDomSupport.deleteWhitespaceTextInElementNodes(hTMLDocumentImpl0);
+-      List list0 = XDomSupport.getChildNodesByAttrValue(hTMLDocumentImpl0, "MMX#A", "", (String) null);
+-      assertTrue(list0.isEmpty());
+-  }
++@Test(timeout = 4000)
++    public void test24() throws Throwable {
++        HTMLDocumentImpl doc = new HTMLDocumentImpl();
++        // Create an element containing a whitespace text node
++        org.w3c.dom.Element elem = doc.createElement("test");
++        org.w3c.dom.Text ws = doc.createTextNode("   ");
++        elem.appendChild(ws);
++        // Attach the element to the document
++        doc.appendChild(elem);
++        // Verify the whitespace text node is present before deletion
++        assertEquals(1, elem.getChildNodes().getLength());
++        // Exercise the method under test
++        XDomSupport.deleteWhitespaceTextInElementNodes(doc);
++        // After deletion, the element should have no child nodes
++        assertEquals(0, elem.getChildNodes().getLength());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test25()  throws Throwable  {

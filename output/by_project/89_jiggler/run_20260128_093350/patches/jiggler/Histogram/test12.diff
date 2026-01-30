@@ -1,0 +1,34 @@
+--- a/evosuite-tests/jigl/image/Histogram_ESTest.java
++++ b/evosuite-tests/jigl/image/Histogram_ESTest.java
+@@ -175,17 +175,20 @@
+     // Verify the data array size corresponds to the expected number of bins
+     assertEquals(2, histogram0.getData().length);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      Histogram histogram0 = new Histogram(244, 244, 244);
+-      float float0 = histogram0.min();
+-      assertEquals(244.0F, float0, 0.01F);
+-      assertEquals(244.0F, histogram0.inc(), 0.01F);
+-      assertEquals(1, histogram0.length());
+-      assertEquals(244.0F, histogram0.max(), 0.01F);
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        Histogram original = new Histogram(244, 244, 244);
++        // Verify a basic property derived from construction
++        assertEquals(1, original.length());
++        // Act: create a copy of the histogram
++        Histogram copy = new Histogram(original);
++        // Verify the copy is a distinct instance with identical state
++        assertNotSame(original, copy);
++        assertEquals(original.min(), copy.min(), 0.01f);
++        assertEquals(original.max(), copy.max(), 0.01f);
++        assertEquals(original.length(), copy.length());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/ContentHandlerAdapter_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/ContentHandlerAdapter_ESTest.java
+@@ -58,16 +58,31 @@
+         assertEquals(1, attributeListImpl0.getLength());
+         assertEquals("", attributeListImpl0.getValue(""));
+     }
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
++    // Use a custom handler to observe the side‑effect of startElement
++    class RecordingHandler extends DefaultHandler {
++      boolean startElementCalled = false;
+ 
++      @Override
++      public void startElement(String uri, String localName, String qName, Attributes attributes)
++          throws SAXException {
++        startElementCalled = true;
++      }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    defaultHandler0 = new DefaultHandler();
+-    contentHandlerAdapter0 = new ContentHandlerAdapter(defaultHandler0);
+-      AttributeListImpl attributeListImpl0 = new AttributeListImpl();
+-      attributeListImpl0.addAttribute("xmlns:", (String) null, ":]^VY");
+-      contentHandlerAdapter0.startElement("nu.staldal.xmlutil.ContentHandlerAdapter", attributeListImpl0);
++    RecordingHandler recordingHandler = new RecordingHandler();
++    ContentHandlerAdapter adapter = new ContentHandlerAdapter(recordingHandler);
++
++    AttributeListImpl attrs = new AttributeListImpl();
++    attrs.addAttribute("xmlns:", null, ":]^VY");
++
++    adapter.startElement("nu.staldal.xmlutil.ContentHandlerAdapter", attrs);
++
++    // Verify that the underlying ContentHandler received the startElement call
++    assertTrue(recordingHandler.startElementCalled);
+   }
++
+ @Test(timeout = 4000, expected = NullPointerException.class)
+   public void test3() throws Throwable {
+       AttributeListImpl attributeListImpl0 = new AttributeListImpl();

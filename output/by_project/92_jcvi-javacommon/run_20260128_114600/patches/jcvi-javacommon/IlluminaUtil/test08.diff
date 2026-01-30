@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/IlluminaUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/IlluminaUtil_ESTest.java
+@@ -135,21 +135,13 @@
+          verifyException("java.util.regex.Matcher", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        IlluminaUtil.getXClusterCoordinate("");
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // is not an illumina read id 
+-         //
+-         verifyException("org.jcvi.jillion.trace.fastq.IlluminaUtil", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        // Use a typical Illumina read identifier; the method should return a non‑negative coordinate.
++        int coord = IlluminaUtil.getXClusterCoordinate("HWUSI-EAS100R:6:73:941:1973#0/1");
++        assertTrue("Coordinate should be non‑negative", coord >= 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

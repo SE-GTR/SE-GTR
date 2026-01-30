@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
+@@ -858,13 +858,16 @@
+       blockingClientHandler0.getSSLEngine();
+       //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:2>", blockingClientHandler0.getName());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test77()  throws Throwable  {
+-      NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      nonBlockingClientHandler0.getLastCommunicationTime();
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:25>", nonBlockingClientHandler0.getName());
+-  }
++@Test(timeout = 4000)
++public void test77() throws Throwable {
++    NonBlockingClientHandler handler = new NonBlockingClientHandler();
++    // Verify that initially there is no recorded communication time
++    assertNull("Last communication time should be null after construction", handler.getLastCommunicationTime());
++    // Calling the getter should not modify the state
++    Date time = handler.getLastCommunicationTime();
++    assertNull("Calling getter should not change the last communication time", time);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test78()  throws Throwable  {

@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/GeneratorAdapter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/GeneratorAdapter_ESTest.java
+@@ -171,18 +171,30 @@
+         byte[] after = classWriter0.toByteArray();
+         assertTrue(after.length > before.length);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test012()  throws Throwable  {
+-      Type type0 = Type.BOOLEAN_TYPE;
+-      ClassWriter classWriter0 = new ClassWriter(10);
+-      Type[] typeArray0 = new Type[0];
+-      Method method0 = new Method("rl!0a>", type0, typeArray0);
+-      GeneratorAdapter generatorAdapter0 = new GeneratorAdapter(9, method0, "rl!0a>", typeArray0, classWriter0);
+-      generatorAdapter0.newArray(type0);
+-      assertEquals(2, Type.CHAR);
+-  }
++@Test(timeout = 4000)
++public void test012() throws Throwable {
++    Type type0 = Type.BOOLEAN_TYPE;
++    ClassWriter classWriter0 = new ClassWriter(10);
++    Type[] typeArray0 = new Type[0];
++    Method method0 = new Method("rl!0a>", type0, typeArray0);
++    GeneratorAdapter generatorAdapter0 = new GeneratorAdapter(9, method0, "rl!0a>", typeArray0, classWriter0);
++    generatorAdapter0.newArray(type0);
++    // finalize the method to emit bytecode
++    generatorAdapter0.visitInsn(org.objectweb.asm.jip.Opcodes.RETURN);
++    generatorAdapter0.visitMaxs(0, 0);
++    generatorAdapter0.visitEnd();
++    byte[] bytecode = classWriter0.toByteArray();
++    assertTrue(bytecode.length > 0);
++    boolean containsNewArray = false;
++    for (byte b : bytecode) {
++        if ((b & 0xFF) == org.objectweb.asm.jip.Opcodes.NEWARRAY) {
++            containsNewArray = true;
++            break;
++        }
++    }
++    assertTrue(containsNewArray);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test013()  throws Throwable  {

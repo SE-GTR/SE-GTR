@@ -1,0 +1,56 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache2_ESTest.java
+@@ -99,24 +99,35 @@
+     assertEquals(cachedObjectsBefore, cache.getCachedObjects());
+     assertEquals(clusterInvalidationsBefore, cache.getClusterInvalidations());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      J2EECache2 j2EECache2_0 = new J2EECache2();
+-      j2EECache2_0.setProcessname("azuSQj");
+-      j2EECache2_0.hashCode();
+-      assertEquals(0, j2EECache2_0.getEvictions());
+-      assertEquals(0, j2EECache2_0.getGets());
+-      assertEquals(0, j2EECache2_0.getHits());
+-      assertEquals(0, j2EECache2_0.getPuts());
+-      assertEquals(0, j2EECache2_0.getUsedObjects());
+-      assertEquals(0, j2EECache2_0.getRemoves());
+-      assertEquals(0, j2EECache2_0.getChanges());
+-      assertEquals(0, j2EECache2_0.getInstanceInvalidations());
+-      assertEquals(0, j2EECache2_0.getCachedObjects());
+-      assertEquals(0, j2EECache2_0.getClusterInvalidations());
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    J2EECache2 j2EECache2_0 = new J2EECache2();
++    // Verify hashCode returns a consistent value before any state change
++    int initialHash = j2EECache2_0.hashCode();
++    assertEquals(initialHash, j2EECache2_0.hashCode());
++
++    // Act: set the process name
++    j2EECache2_0.setProcessname("azuSQj");
++    // Assert side‑effect observable via getter
++    assertEquals("azuSQj", j2EECache2_0.getProcessname());
++
++    // Verify hashCode remains consistent after the state change
++    int afterHash = j2EECache2_0.hashCode();
++    assertEquals(afterHash, j2EECache2_0.hashCode());
++
++    // Existing assertions on other fields
++    assertEquals(0, j2EECache2_0.getEvictions());
++    assertEquals(0, j2EECache2_0.getGets());
++    assertEquals(0, j2EECache2_0.getHits());
++    assertEquals(0, j2EECache2_0.getPuts());
++    assertEquals(0, j2EECache2_0.getUsedObjects());
++    assertEquals(0, j2EECache2_0.getRemoves());
++    assertEquals(0, j2EECache2_0.getChanges());
++    assertEquals(0, j2EECache2_0.getInstanceInvalidations());
++    assertEquals(0, j2EECache2_0.getCachedObjects());
++    assertEquals(0, j2EECache2_0.getClusterInvalidations());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

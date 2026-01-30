@@ -1,0 +1,42 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/TableColumn_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/TableColumn_ESTest.java
+@@ -234,27 +234,18 @@
+         assertNotNull(tableColumn0);
+         verify(resultSet0, atLeastOnce()).getString(anyString());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      Integer integer0 = new Integer(161);
+-      ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
+-      doReturn(169, 169, 169).when(resultSet0).getInt(anyString());
+-      doReturn(integer0).when(resultSet0).getObject(anyString());
+-      doReturn("TMr7M%n{Il:", "TMr7M%n{Il:", "TMr7M%n{Il:", "TMr7M%n{Il:").when(resultSet0).getString(anyString());
+-      TableColumn tableColumn0 = null;
+-      try {
+-        tableColumn0 = new TableColumn((Table) null, resultSet0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.schemaspy.model.TableColumn", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        Integer integer0 = Integer.valueOf(161);
++        ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
++        doReturn(169, 169, 169).when(resultSet0).getInt(anyString());
++        doReturn(integer0).when(resultSet0).getObject(anyString());
++        doReturn("TMr7M%n{Il:", "TMr7M%n{Il:", "TMr7M%n{Il:", "TMr7M%n{Il:").when(resultSet0).getString(anyString());
++        Table mockTable = mock(Table.class);
++        TableColumn tableColumn0 = new TableColumn(mockTable, resultSet0);
++        org.junit.Assert.assertNotNull(tableColumn0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

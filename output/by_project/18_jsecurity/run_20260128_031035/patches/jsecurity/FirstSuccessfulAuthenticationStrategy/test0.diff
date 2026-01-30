@@ -1,0 +1,24 @@
+--- a/evosuite-tests/org/jsecurity/authc/pam/FirstSuccessfulAuthenticationStrategy_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/pam/FirstSuccessfulAuthenticationStrategy_ESTest.java
+@@ -26,13 +26,15 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class FirstSuccessfulAuthenticationStrategy_ESTest extends FirstSuccessfulAuthenticationStrategy_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        FirstSuccessfulAuthenticationStrategy strategy = new FirstSuccessfulAuthenticationStrategy();
++        org.jsecurity.authc.SimpleAuthenticationInfo info1 = new org.jsecurity.authc.SimpleAuthenticationInfo("user1", "pass1", "realm1");
++        org.jsecurity.authc.SimpleAuthenticationInfo info2 = new org.jsecurity.authc.SimpleAuthenticationInfo("user2", "pass2", "realm2");
++        AuthenticationInfo result = strategy.merge(info1, info2);
++        assertSame(info1, result);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      FirstSuccessfulAuthenticationStrategy firstSuccessfulAuthenticationStrategy0 = new FirstSuccessfulAuthenticationStrategy();
+-      AuthenticationInfo authenticationInfo0 = firstSuccessfulAuthenticationStrategy0.merge((AuthenticationInfo) null, (AuthenticationInfo) null);
+-      assertNull(authenticationInfo0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

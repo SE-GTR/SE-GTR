@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/quickserver/net/client/monitoring/impl/UDPMonitor_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/monitoring/impl/UDPMonitor_ESTest.java
+@@ -26,19 +26,21 @@
+     uDPMonitor0 = new UDPMonitor();
+     socketBasedHost0 = new SocketBasedHost("org.quickserver.net.client.monitoring.impl.UDPMonitor", 3);
+   }
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    // Verify that the expected response text is set correctly
++    socketBasedHost0.setResponseTextToExpect("}");
++    assertEquals("}", socketBasedHost0.getResponseTextToExpect());
+ 
++    EvoSuiteLocalAddress evoSuiteLocalAddress0 = new EvoSuiteLocalAddress("192.168.1.42", 40000);
++    EvoSuiteRemoteAddress evoSuiteRemoteAddress0 = new EvoSuiteRemoteAddress("200.42.42.0", 12345);
++    byte[] byteArray0 = new byte[8];
++    byteArray0[5] = (byte) 125;
++    NetworkHandling.sendUdpPacket(evoSuiteLocalAddress0, evoSuiteRemoteAddress0, byteArray0);
++    char char0 = uDPMonitor0.monitor(socketBasedHost0);
++    assertEquals('A', char0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      socketBasedHost0.setResponseTextToExpect("}");
+-      EvoSuiteLocalAddress evoSuiteLocalAddress0 = new EvoSuiteLocalAddress("192.168.1.42", 40000);
+-      EvoSuiteRemoteAddress evoSuiteRemoteAddress0 = new EvoSuiteRemoteAddress("200.42.42.0", 12345);
+-      byte[] byteArray0 = new byte[8];
+-      byteArray0[5] = (byte)125;
+-      NetworkHandling.sendUdpPacket(evoSuiteLocalAddress0, evoSuiteRemoteAddress0, byteArray0);
+-      char char0 = uDPMonitor0.monitor(socketBasedHost0);
+-      assertEquals('A', char0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

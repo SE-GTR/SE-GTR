@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BlockingClientHandler_ESTest.java
+@@ -203,16 +203,17 @@
+       BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
+       blockingClientHandler0.setSelectionKey((SelectionKey) null);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
+-      ClientEvent clientEvent0 = ClientEvent.MAX_CON;
+-      blockingClientHandler0.addEvent(clientEvent0);
+-      blockingClientHandler0.run();
+-      assertTrue(blockingClientHandler0.getWillClean());
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
++    ClientEvent clientEvent0 = ClientEvent.MAX_CON;
++    blockingClientHandler0.addEvent(clientEvent0);
++    boolean beforeWillClean = blockingClientHandler0.getWillClean();
++    blockingClientHandler0.run();
++    assertFalse("willClean should be false before run", beforeWillClean);
++    assertTrue("willClean should be true after run", blockingClientHandler0.getWillClean());
++}
++
+ @Test(expected = IllegalStateException.class, timeout = 4000)
+   public void test15() throws Throwable {
+       BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();

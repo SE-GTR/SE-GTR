@@ -1,0 +1,35 @@
+--- a/evosuite-tests/macaw/util/DisplayableListPanel_ESTest.java
++++ b/evosuite-tests/macaw/util/DisplayableListPanel_ESTest.java
+@@ -97,17 +97,21 @@
+       DisplayableListPanel displayableListPanel0 = new DisplayableListPanel(sessionProperties0, (DisplayableListParentForm) null, "userInterfaceFactory", true, true);
+       displayableListPanel0.setNewRecord(true);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      SessionProperties sessionProperties0 = new SessionProperties();
+-      User user0 = new User();
+-      sessionProperties0.setProperty("currentUser", user0);
+-      ArrayList<Displayable> arrayList0 = new ArrayList<Displayable>();
+-      DisplayableListPanel displayableListPanel0 = new DisplayableListPanel(sessionProperties0, (DisplayableListParentForm) null, "database", true);
+-      displayableListPanel0.setDisplayableItems(arrayList0);
+-      assertTrue(arrayList0.isEmpty());
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    SessionProperties sessionProperties0 = new SessionProperties();
++    User user0 = new User();
++    sessionProperties0.setProperty("currentUser", user0);
++    ArrayList<Displayable> arrayList0 = new ArrayList<Displayable>();
++    DisplayableListPanel displayableListPanel0 = new DisplayableListPanel(sessionProperties0, (DisplayableListParentForm) null, "database", true);
++    displayableListPanel0.setDisplayableItems(arrayList0);
++    // Verify that the panel stores the provided list as its master list
++    assertSame("The master list should be the same instance passed to setDisplayableItems",
++               arrayList0, displayableListPanel0.getMasterList());
++    // The original list is empty, confirming no unintended modifications
++    assertTrue(arrayList0.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

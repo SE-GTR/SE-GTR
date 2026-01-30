@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
+@@ -296,13 +296,19 @@
+          verifyException("com.browsersoft.aacs.User", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-    user0 = new User();
+-      user0.setCountry(")]ax5");
+-      assertFalse(user0.getPasschange());
+-  }
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        user0 = new User();
++        user0.setCountry(")]ax5");
++        // Verify that the side‑effect of setCountry is observable
++        assertEquals(")]ax5", user0.getCountry());
++        // Existing assertion on a different field
++        assertFalse(user0.getPasschange());
++        // Add a non‑trivial behavior check: two default users should be equal
++        User other = new User();
++        assertTrue(user0.equals(other));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

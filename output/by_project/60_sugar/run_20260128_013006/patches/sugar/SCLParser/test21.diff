@@ -1,0 +1,41 @@
+--- a/evosuite-tests/net/sf/sugar/scl/SCLParser_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/scl/SCLParser_ESTest.java
+@@ -297,23 +297,21 @@
+          verifyException("net.sf.sugar.scl.SCLParser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      TokenRewriteStream tokenRewriteStream0 = new TokenRewriteStream();
+-      SCLParser sCLParser0 = new SCLParser(tokenRewriteStream0);
+-      // Undeclared exception!
+-      try { 
+-        sCLParser0.addAttribute((Element) null, "default", (String) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.sugar.scl.SCLParser", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        TokenRewriteStream tokenRewriteStream0 = new TokenRewriteStream();
++        SCLParser sCLParser0 = new SCLParser(tokenRewriteStream0);
++        // Prepare a DOM element to add an attribute to
++        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
++        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
++        Document doc = dBuilder.newDocument();
++        Element element = doc.createElement("elem");
++        // Invoke the method under test with valid arguments
++        sCLParser0.addAttribute(element, "default", "value");
++        // Verify that the attribute was added correctly
++        assertEquals("value", element.getAttribute("default"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

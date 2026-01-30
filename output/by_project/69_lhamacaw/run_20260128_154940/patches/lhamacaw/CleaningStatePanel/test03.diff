@@ -1,0 +1,50 @@
+--- a/evosuite-tests/macaw/presentationLayer/CleaningStatePanel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/CleaningStatePanel_ESTest.java
+@@ -74,22 +74,31 @@
+     // verify that restore does not unintentionally change the description
+     assertEquals(beforeRestore, cleaningStatePanel0.getCleaningDescription());
+ }
+-
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      SessionProperties sessionProperties0 = new SessionProperties();
+-      String[] stringArray0 = new String[24];
+-      User user0 = new User();
+-      sessionProperties0.setProperty("currentUser", user0);
+-      DerivedVariable derivedVariable0 = new DerivedVariable();
+-      derivedVariable0.setCleaned(true);
+-      CleaningStatePanel cleaningStatePanel0 = new CleaningStatePanel(sessionProperties0, stringArray0, true);
+-      cleaningStatePanel0.initialise(derivedVariable0);
+-      cleaningStatePanel0.restore();
+-      assertEquals("Unknown", cleaningStatePanel0.getCleaningStatus());
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    System.setProperty("java.awt.headless", "true");
++    SessionProperties sessionProperties0 = new SessionProperties();
++    String[] stringArray0 = new String[24];
++    User user0 = new User();
++    sessionProperties0.setProperty("currentUser", user0);
++    DerivedVariable derivedVariable0 = new DerivedVariable();
++    derivedVariable0.setCleaned(true);
++    // Verify that setCleaned actually changed the state
++    assertTrue(derivedVariable0.isCleaned());
++
++    CleaningStatePanel cleaningStatePanel0 = new CleaningStatePanel(sessionProperties0, stringArray0, true);
++    // Capture the initial cleaning status
++    String statusBefore = cleaningStatePanel0.getCleaningStatus();
++
++    cleaningStatePanel0.initialise(derivedVariable0);
++    String statusAfterInit = cleaningStatePanel0.getCleaningStatus();
++    // Ensure initialise altered the cleaning status
++    assertNotEquals(statusBefore, statusAfterInit);
++
++    cleaningStatePanel0.restore();
++    assertEquals("Unknown", cleaningStatePanel0.getCleaningStatus());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

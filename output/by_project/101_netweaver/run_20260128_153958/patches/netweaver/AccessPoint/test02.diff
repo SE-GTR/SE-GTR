@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AccessPoint_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AccessPoint_ESTest.java
+@@ -46,15 +46,17 @@
+         // Existing assertion on default port
+         assertEquals(0, accessPoint0.getPort());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      AccessPoint accessPoint0 = new AccessPoint();
+-      accessPoint0.setProtocol(":'{zU");
+-      accessPoint0.hashCode();
+-      assertEquals(0, accessPoint0.getPort());
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        AccessPoint accessPoint0 = new AccessPoint();
++        int hashBefore = accessPoint0.hashCode();
++        accessPoint0.setProtocol(":'{zU");
++        int hashAfter = accessPoint0.hashCode();
++        assertEquals(":'{zU", accessPoint0.getProtocol());
++        assertNotEquals(hashBefore, hashAfter);
++        assertEquals(0, accessPoint0.getPort());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

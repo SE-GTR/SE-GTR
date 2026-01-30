@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -1011,11 +1011,19 @@
+          verifyException("org.antlr.runtime.Lexer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test075()  throws Throwable  {
+-      ANTLRStringStream aNTLRStringStream0 = new ANTLRStringStream("lfa!U{-CA`@h_hg");
+-  }
++@Test(timeout = 4000)
++    public void test075() throws Throwable {
++        String input = "lfa!U{-CA`@h_hg";
++        ANTLRStringStream stream = new ANTLRStringStream(input);
++        // Verify that the stream reports the correct size derived from the input
++        assertEquals(input.length(), stream.size());
++        // Verify the first character is as expected
++        assertEquals('l', (char) stream.LA(1));
++        // Consume the first character and check the next one
++        stream.consume();
++        assertEquals('f', (char) stream.LA(1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test076()  throws Throwable  {

@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/StaticInitMerger_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/StaticInitMerger_ESTest.java
+@@ -25,20 +25,30 @@
+     classWriter0 = new ClassWriter(0);
+     staticInitMerger0 = new StaticInitMerger(")i%GVQ;9F+]&x/Z+n", classWriter0);
+   }
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    String[] stringArray0 = new String[5];
++    stringArray0[0] = "1;(!k7C6Gr-US-=6Z";
++    stringArray0[1] = "mMDTh";
++    stringArray0[2] = "mMDTh";
++    stringArray0[3] = "1;(!k7C6Gr-US-=6Z";
++    stringArray0[4] = ")i%GVQ;9F+]&x/Z+n";
+ 
++    // Prepare a ClassWriter to delegate to
++    ClassWriter cw = new ClassWriter(0);
++    StaticInitMerger merger = new StaticInitMerger(cw);
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      String[] stringArray0 = new String[5];
+-      stringArray0[0] = "1;(!k7C6Gr-US-=6Z";
+-      stringArray0[1] = "mMDTh";
+-      stringArray0[2] = "mMDTh";
+-      stringArray0[3] = "1;(!k7C6Gr-US-=6Z";
+-      stringArray0[4] = ")i%GVQ;9F+]&x/Z+n";
+-      staticInitMerger0.visit(184, 1300, "", "", ")i%GVQ;9F+]&x/Z+n", stringArray0);
+-      staticInitMerger0.visitMethod(184, "<clinit>", "5", "mMDTh", stringArray0);
+-      staticInitMerger0.visitEnd();
+-  }
++    // Invoke visit to set internal state
++    merger.visit(184, 1300, "", "", ")i%GVQ;9F+]&x/Z+n", stringArray0);
++
++    // visitMethod should return a non‑null MethodVisitor (asserting side‑effect)
++    MethodVisitor mv = merger.visitMethod(184, "<clinit>", "5", "mMDTh", stringArray0);
++    assertNotNull(mv);
++
++    // Complete the class visit
++    merger.visitEnd();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

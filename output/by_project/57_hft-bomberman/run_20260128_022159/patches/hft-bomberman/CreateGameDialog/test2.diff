@@ -1,0 +1,46 @@
+--- a/evosuite-tests/client/gui/CreateGameDialog_ESTest.java
++++ b/evosuite-tests/client/gui/CreateGameDialog_ESTest.java
+@@ -64,24 +64,26 @@
+       createGameDialog0.mouseClicked(mouseEvent0);
+       assertEquals(0, mouseEvent0.getYOnScreen());
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    createGameDialog0 = new CreateGameDialog();
++    JList jList0 = createGameDialog0.jListMap;
++    // Ensure the list has at least one element and a selection to avoid null handling inside mouseClicked
++    java.util.Vector<String> data = new java.util.Vector<>();
++    data.add("dummyMap");
++    jList0.setListData(data);
++    jList0.setSelectedIndex(0);
++    // Create a realistic mouse event (click) on the list component
++    mouseEvent0 = new MouseEvent(jList0, MouseEvent.MOUSE_CLICKED,
++            System.currentTimeMillis(), 0, 5, 5, 1, false);
++    // Invoke the method under test and verify no unexpected exception is thrown
++    try {
++        createGameDialog0.mouseClicked(mouseEvent0);
++    } catch (Exception e) {
++        fail("Unexpected exception thrown: " + e);
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    createGameDialog0 = new CreateGameDialog();
+-      JList jList0 = createGameDialog0.jListMap;
+-    mouseEvent0 = new MouseEvent(jList0, (-13), (-13), (-13), (-13), (-13), (-13), true);
+-      // Undeclared exception!
+-      try { 
+-        createGameDialog0.mouseClicked(mouseEvent0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("client.gui.CreateGameDialog", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/corina/index/Index_ESTest.java
++++ b/evosuite-tests/corina/index/Index_ESTest.java
+@@ -21,17 +21,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Index_ESTest extends Index_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      Exponential exponential0 = new Exponential(sample0);
+-      exponential0.redo();
+-      exponential0.undo();
+-      boolean boolean0 = exponential0.canUndo();
+-      assertTrue(exponential0.canRedo());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    Sample sample0 = new Sample();
++    Exponential exponential0 = new Exponential(sample0);
++    exponential0.redo();
++    assertNotNull("Data should be computed after redo", exponential0.data);
++    int sizeAfterRedo = exponential0.data.size();
++    exponential0.undo();
++    assertFalse("Should not be able to undo after a single undo", exponential0.canUndo());
++    assertTrue("Redo should be possible after undo", exponential0.canRedo());
++    if (exponential0.data != null) {
++        assertTrue("Data size should not increase after undo", exponential0.data.size() <= sizeAfterRedo);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

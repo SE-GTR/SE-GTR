@@ -1,0 +1,33 @@
+--- a/evosuite-tests/visu/handball/moves/model/animation/PassLineIterator_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/animation/PassLineIterator_ESTest.java
+@@ -18,16 +18,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class PassLineIterator_ESTest extends PassLineIterator_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    Offender offender0 = new Offender(1, -1);
++    PassEvent passEvent0 = new PassEvent(offender0, -1, 1);
++    // Act: set the destination player
++    passEvent0.setDestinationPlayer(offender0, false);
++    // Verify side‑effects of setDestinationPlayer
++    assertSame(offender0, passEvent0.getDestinationPlayer());
++    // Create iterator and exercise next()
++    PassLineIterator passLineIterator0 = new PassLineIterator(passEvent0);
++    passLineIterator0.next();
++    // Verify iterator state after next()
++    assertFalse(passLineIterator0.isDone());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Offender offender0 = new Offender(1, (-1));
+-      PassEvent passEvent0 = new PassEvent(offender0, (-1), 1);
+-      passEvent0.setDestinationPlayer(offender0, false);
+-      PassLineIterator passLineIterator0 = new PassLineIterator(passEvent0);
+-      passLineIterator0.next();
+-      assertFalse(passLineIterator0.isDone());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

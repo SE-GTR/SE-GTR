@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/scf/header/pos/ShortPositionStrategy_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/scf/header/pos/ShortPositionStrategy_ESTest.java
+@@ -24,13 +24,26 @@
+       byte byte0 = shortPositionStrategy0.getSampleSize();
+       assertEquals((byte)2, byte0);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        ShortPositionStrategy strategy = new ShortPositionStrategy();
++        int max = strategy.getMaxAllowedValue();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ShortPositionStrategy shortPositionStrategy0 = new ShortPositionStrategy();
+-      int int0 = shortPositionStrategy0.getMaxAllowedValue();
+-      assertEquals(32767, int0);
+-  }
++        // Verify that a value within the allowed range can be encoded and decoded correctly
++        int sample = max - 1;
++        int encoded = strategy.encodePosition(sample);
++        int decoded = strategy.decodePosition(encoded);
++        Assert.assertEquals(sample, decoded);
++
++        // Verify that encoding a value beyond the allowed range throws an exception
++        try {
++            strategy.encodePosition(max + 1);
++            Assert.fail("Expected IllegalArgumentException for out‑of‑range value");
++        } catch (IllegalArgumentException e) {
++            // expected exception
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

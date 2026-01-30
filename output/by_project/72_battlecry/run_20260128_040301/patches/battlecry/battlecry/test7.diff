@@ -1,0 +1,35 @@
+--- a/evosuite-tests/bcry/battlecry_ESTest.java
++++ b/evosuite-tests/bcry/battlecry_ESTest.java
+@@ -137,15 +137,25 @@
+         String output = outContent.toString();
+         assertFalse("Expected some output from battlecry.main", output.isEmpty());
+     }
++@Test(timeout = 4000)
++public void test7() throws Throwable {
++    String[] args = new String[2];
++    args[0] = "--demo";
+ 
++    java.io.PrintStream originalOut = System.out;
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    System.setOut(new java.io.PrintStream(baos));
++    try {
++        battlecry.main(args);
++    } finally {
++        System.setOut(originalOut);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      String[] stringArray0 = new String[2];
+-      stringArray0[0] = "--demo";
+-      battlecry.main(stringArray0);
+-      assertEquals(2, stringArray0.length);
+-  }
++    String output = baos.toString();
++    assertFalse("Expected main to produce some output", output.isEmpty());
++    assertEquals(2, args.length);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

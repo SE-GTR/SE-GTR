@@ -1,0 +1,32 @@
+--- a/evosuite-tests/jigl/image/ops/levelOps/Threshold_ESTest.java
++++ b/evosuite-tests/jigl/image/ops/levelOps/Threshold_ESTest.java
+@@ -61,17 +61,20 @@
+          verifyException("jigl.image.ops.levelOps.Threshold", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++public void test2() throws Throwable {
+     threshold0 = new Threshold(1);
+     interpolatedGrayImage0 = new InterpolatedGrayImage(1, 1);
+-      Integer integer0 = FPXDescriptor.MAX_RESOLUTION;
+-      interpolatedGrayImage0.clear(integer0);
+-      threshold0.apply((GrayImage) interpolatedGrayImage0);
+-      assertEquals(0, interpolatedGrayImage0.absSum());
+-      assertEquals(0, interpolatedGrayImage0.addSum());
+-  }
++    Integer integer0 = FPXDescriptor.MAX_RESOLUTION;
++    GrayImage cleared = interpolatedGrayImage0.clear(integer0);
++    assertSame(interpolatedGrayImage0, cleared);
++    Image applied = threshold0.apply((GrayImage) interpolatedGrayImage0);
++    assertNotNull(applied);
++    assertTrue(applied instanceof GrayImage);
++    assertEquals(0, interpolatedGrayImage0.absSum());
++    assertEquals(0, interpolatedGrayImage0.addSum());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

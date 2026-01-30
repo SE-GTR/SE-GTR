@@ -1,0 +1,30 @@
+--- a/evosuite-tests/net/sourceforge/ext4j/taglib/tag/SimpleBreadcrumbsTag_ESTest.java
++++ b/evosuite-tests/net/sourceforge/ext4j/taglib/tag/SimpleBreadcrumbsTag_ESTest.java
+@@ -81,14 +81,20 @@
+          verifyException("net.sourceforge.ext4j.taglib.tag.SimpleBreadcrumbsTag", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    class TestableSimpleBreadcrumbsTag extends SimpleBreadcrumbsTag {
++        public javax.servlet.jsp.PageContext getPageContextPublic() {
++            return pageContext;
++        }
++    }
++    TestableSimpleBreadcrumbsTag tag = new TestableSimpleBreadcrumbsTag();
++    MockPageContext mockPageContext0 = new MockPageContext((ServletContext) null);
++    tag.setPageContext(mockPageContext0);
++    assertSame(mockPageContext0, tag.getPageContextPublic());
++    assertEquals(0, tag.doStartTag());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    simpleBreadcrumbsTag0 = new SimpleBreadcrumbsTag();
+-      MockPageContext mockPageContext0 = new MockPageContext((ServletContext) null);
+-      simpleBreadcrumbsTag0.setPageContext(mockPageContext0);
+-      assertEquals(0, simpleBreadcrumbsTag0.doStartTag());
+-  }
+ @Test(timeout = 4000)
+ public void test04() throws Throwable {
+     SimpleBreadcrumbsTag tag = new SimpleBreadcrumbsTag();

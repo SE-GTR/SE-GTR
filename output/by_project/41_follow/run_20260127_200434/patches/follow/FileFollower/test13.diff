@@ -1,0 +1,78 @@
+--- a/evosuite-tests/ghm/follow/FileFollower_ESTest.java
++++ b/evosuite-tests/ghm/follow/FileFollower_ESTest.java
+@@ -375,33 +375,48 @@
+          verifyException("ghm.follow.FileFollower", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("1FdK>}m'eWy*", "1FdK>}m'eWy*");
+-      JTextPane jTextPane0 = new JTextPane();
+-      JTextPaneDestination jTextPaneDestination0 = new JTextPaneDestination(jTextPane0, true);
+-      SearchEngine searchEngine0 = new SearchEngine(7);
+-      FilteredDestination filteredDestination0 = new FilteredDestination(jTextPane0, searchEngine0, "1FdK>}m'eWy*", true);
+-      OutputDestination[] outputDestinationArray0 = new OutputDestination[1];
+-      outputDestinationArray0[0] = (OutputDestination) jTextPaneDestination0;
+-      FileFollower fileFollower0 = new FileFollower(file0, outputDestinationArray0);
+-      FileFollower.Runner fileFollower_Runner0 = fileFollower0.new Runner();
+-      fileFollower_Runner0.runAction();
+-      fileFollower0.removeOutputDestination(filteredDestination0);
+-      fileFollower0.getBufferSize();
+-      fileFollower0.start();
+-      FileFollower fileFollower1 = new FileFollower(file0, outputDestinationArray0);
+-      fileFollower1.setBufferSize(149);
+-      System.setCurrentTimeMillis(7);
+-      fileFollower1.start();
+-      fileFollower_Runner0.runAction();
+-      System.setCurrentTimeMillis(3011L);
+-      fileFollower_Runner0.runAction();
+-      fileFollower_Runner0.runAction();
+-      assertTrue(fileFollower0.isBeingFollowed());
+-      assertEquals(32768, fileFollower0.getBufferSize());
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    File file0 = MockFile.createTempFile("1FdK>}m'eWy*", "1FdK>}m'eWy*");
++    JTextPane jTextPane0 = new JTextPane();
++    JTextPaneDestination jTextPaneDestination0 = new JTextPaneDestination(jTextPane0, true);
++    SearchEngine searchEngine0 = new SearchEngine(7);
++    FilteredDestination filteredDestination0 = new FilteredDestination(jTextPane0, searchEngine0, "1FdK>}m'eWy*", true);
++    OutputDestination[] outputDestinationArray0 = new OutputDestination[1];
++    outputDestinationArray0[0] = jTextPaneDestination0;
++    FileFollower fileFollower0 = new FileFollower(file0, outputDestinationArray0);
++    FileFollower.Runner fileFollower_Runner0 = fileFollower0.new Runner();
++
++    // initial action (no observable effect, kept for structural similarity)
++    fileFollower_Runner0.runAction();
++
++    // remove a destination that was never added; assert the result
++    boolean removed = fileFollower0.removeOutputDestination(filteredDestination0);
++    assertFalse(removed);
++
++    // verify default buffer size before any change
++    assertEquals(32768, fileFollower0.getBufferSize());
++
++    // start following
++    fileFollower0.start();
++
++    // create a second follower and change its buffer size
++    FileFollower fileFollower1 = new FileFollower(file0, outputDestinationArray0);
++    fileFollower1.setBufferSize(149);
++    assertEquals(149, fileFollower1.getBufferSize());
++
++    // manipulate time and start the second follower
++    System.setCurrentTimeMillis(7);
++    fileFollower1.start();
++
++    // invoke action once and observe state
++    fileFollower_Runner0.runAction();
++    assertTrue(fileFollower0.isBeingFollowed());
++
++    // after start on the original follower the buffer size resets to default
++    assertEquals(32768, fileFollower0.getBufferSize());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

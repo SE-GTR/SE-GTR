@@ -1,0 +1,31 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -402,12 +402,22 @@
+     assertEquals(expected, actual);
+ }
+ @Test(timeout = 4000)
+-    public void test35() throws Throwable {
+-        AdministrativeArea administrativeArea0 = new AdministrativeArea();
+-        administrativeArea0.setUsageType("test");
+-        String string0 = administrativeArea0.getUsageType();
+-        assertEquals("test", string0);
+-    }
++public void test35() throws Throwable {
++    AdministrativeArea area = new AdministrativeArea();
++    area.setUsageType("test");
++    // Verify the getter reflects the value set.
++    org.junit.Assert.assertEquals("test", area.getUsageType());
++
++    // Marshal the object to XML and ensure the usageType appears in the output.
++    javax.xml.bind.JAXBContext ctx = javax.xml.bind.JAXBContext.newInstance(AdministrativeArea.class);
++    java.io.StringWriter sw = new java.io.StringWriter();
++    javax.xml.bind.Marshaller marshaller = ctx.createMarshaller();
++    marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
++    marshaller.marshal(area, sw);
++    String xml = sw.toString();
++    org.junit.Assert.assertTrue(xml.contains("test"));
++}
++
+ @Test(timeout = 4000)
+     public void test36() throws Throwable {
+         AdministrativeArea administrativeArea0 = new AdministrativeArea();

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/corina/site/Site_ESTest.java
++++ b/evosuite-tests/corina/site/Site_ESTest.java
+@@ -261,14 +261,16 @@
+       String string0 = site0.getTypesAsString();
+       assertEquals("Ancient, Medieval", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      Site site0 = new Site();
+-      site0.setTypeString("   <site>\n      <species>java.lang.String@0000000002</species>\n   </site>\n");
+-      String string0 = site0.getTypesAsString();
+-      assertEquals("Medieval, Unknown", string0);
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        Site site0 = new Site();
++        String before = site0.getTypesAsString();
++        site0.setTypeString("   <site>\n      <species>java.lang.String@0000000002</species>\n   </site>\n");
++        String after = site0.getTypesAsString();
++        assertNotEquals("The type string should change after setTypeString()", before, after);
++        assertEquals("Medieval, Unknown", after);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

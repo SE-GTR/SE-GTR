@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BlockingClientHandler_ESTest.java
+@@ -129,17 +129,31 @@
+         // assert side‑effect of setInputStream
+         assertSame(pipedInputStream0, blockingClientHandler0.in);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
+-      DataMode dataMode0 = DataMode.BYTE;
+-      blockingClientHandler0.dataModeIN = dataMode0;
+-      PipedInputStream pipedInputStream0 = new PipedInputStream();
+-      blockingClientHandler0.setInputStream(pipedInputStream0);
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:36>", blockingClientHandler0.getName());
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
++        blockingClientHandler0.dataModeIN = DataMode.BYTE;
++        PipedInputStream pipedInputStream0 = new PipedInputStream();
++
++        // verify initial state (fields should be null before setting the stream)
++        assertNull(blockingClientHandler0.in);
++        assertNull(blockingClientHandler0.bufferedReader);
++        assertNull(blockingClientHandler0.o_in);
++        assertNull(blockingClientHandler0.b_in);
++
++        // act
++        blockingClientHandler0.setInputStream(pipedInputStream0);
++
++        // verify side‑effects of setInputStream
++        assertNotNull(blockingClientHandler0.in);
++        assertNotNull(blockingClientHandler0.bufferedReader);
++        assertNotNull(blockingClientHandler0.o_in);
++        assertNotNull(blockingClientHandler0.b_in);
++        assertSame(pipedInputStream0, blockingClientHandler0.in);
++        // ensure other state remains unchanged
++        assertEquals(DataMode.BYTE, blockingClientHandler0.dataModeIN);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/net/sourceforge/ext4j/log/Server_ESTest.java
++++ b/evosuite-tests/net/sourceforge/ext4j/log/Server_ESTest.java
+@@ -14,13 +14,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Server_ESTest extends Server_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        Server server0 = Server.getInstance();
++        // Verify singleton behavior
++        Server anotherInstance = Server.getInstance();
++        assertSame("Server.getInstance() should return the same singleton instance", server0, anotherInstance);
++        // Set a public IP and verify the side‑effect via its getter
++        String expectedIp = "127.0.0.1";
++        server0.setPublicIP(expectedIp);
++        assertEquals("Public IP should be updated by setPublicIP", expectedIp, server0.getPublicIP());
++        // Ensure current host information is available (non‑trivial state)
++        assertNotNull("Current host should not be null", server0.getCurrentHost());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Server server0 = Server.getInstance();
+-      server0.setPublicIP("");
+-      //  // Unstable assertion: assertEquals("net.sourceforge.ext4j.log.Server", server0.getCurrentHost());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

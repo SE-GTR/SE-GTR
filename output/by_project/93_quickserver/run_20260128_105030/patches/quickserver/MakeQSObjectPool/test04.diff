@@ -1,0 +1,57 @@
+--- a/evosuite-tests/org/quickserver/util/pool/MakeQSObjectPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/MakeQSObjectPool_ESTest.java
+@@ -65,22 +65,39 @@
+     Object obj = new Object();
+     pool.invalidateObject(obj);
+   }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        makeQSObjectPool0 = new MakeQSObjectPool();
++        // Properly initialize required fields
++        makeQSObjectPool0.objectPool = new org.apache.commons.pool.ObjectPool() {
++            @Override
++            public Object borrowObject() {
++                return new Object();
++            }
++            @Override
++            public void returnObject(Object obj) {}
++            @Override
++            public void invalidateObject(Object obj) {}
++            @Override
++            public void addObject() {}
++            @Override
++            public int getNumIdle() { return 0; }
++            @Override
++            public int getNumActive() { return 0; }
++            @Override
++            public void clear() {}
++            @Override
++            public void close() {}
++            @Override
++            public void setFactory(org.apache.commons.pool.PoolableObjectFactory factory) {}
++            @Override
++            public org.apache.commons.pool.PoolableObjectFactory getFactory() { return null; }
++        };
++        makeQSObjectPool0.list = new java.util.ArrayList();
++        Object obj = makeQSObjectPool0.borrowObject();
++        assertNotNull(obj);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-    makeQSObjectPool0 = new MakeQSObjectPool();
+-      try { 
+-        makeQSObjectPool0.borrowObject();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.util.pool.MakeQSObjectPool", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

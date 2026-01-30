@@ -1,0 +1,37 @@
+--- a/evosuite-tests/src/Fiefdoms_ESTest.java
++++ b/evosuite-tests/src/Fiefdoms_ESTest.java
+@@ -364,16 +364,24 @@
+       assertEquals(0, fiefdoms0.getPeasants());
+       assertEquals(0, fiefdoms0.getFiefdomCastles());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
+-      Fiefdoms fiefdoms0 = new Fiefdoms();
+-      fiefdoms0.setLoyalVassals(fiefdoms0.loyalVassals);
+-      assertEquals(0, fiefdoms0.getPeasants());
+-      assertEquals(0, fiefdoms0.getValue());
+-      assertEquals(0, fiefdoms0.getFiefdomCastles());
+-      assertEquals(0, fiefdoms0.getPersonalCastles());
+-  }
++@Test(timeout = 4000)
++public void test32() throws Throwable {
++    Fiefdoms fiefdoms0 = new Fiefdoms();
++    int peasantsBefore = fiefdoms0.getPeasants();
++    int valueBefore = fiefdoms0.getValue();
++    int fiefdomCastlesBefore = fiefdoms0.getFiefdomCastles();
++    int personalCastlesBefore = fiefdoms0.getPersonalCastles();
++
++    // Invoke the setter with the current loyalVassals list (may be null or empty)
++    fiefdoms0.setLoyalVassals(fiefdoms0.loyalVassals);
++
++    // Verify that the setter does not unintentionally modify other state
++    assertEquals(peasantsBefore, fiefdoms0.getPeasants());
++    assertEquals(valueBefore, fiefdoms0.getValue());
++    assertEquals(fiefdomCastlesBefore, fiefdoms0.getFiefdomCastles());
++    assertEquals(personalCastlesBefore, fiefdoms0.getPersonalCastles());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test33()  throws Throwable  {

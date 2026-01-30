@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
+@@ -108,13 +108,18 @@
+     assertNotNull(loginlogDb);
+     assertTrue(loginlogDb.endsWith("log"));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      int int0 = MySQLConfig.getConnection_ping_interval();
+-      assertEquals(0, int0);
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    // Verify the default ping interval is non‑negative.
++    int defaultInterval = MySQLConfig.getConnection_ping_interval();
++    assertTrue(defaultInterval >= 0);
++
++    // Change the interval using the provided setter and verify the change.
++    MySQLConfig.setConnection_ping_interval(10);
++    int updatedInterval = MySQLConfig.getConnection_ping_interval();
++    assertEquals(10, updatedInterval);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

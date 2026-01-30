@@ -1,0 +1,42 @@
+--- a/evosuite-tests/jahuwaldt/plot/PlotYAxis_ESTest.java
++++ b/evosuite-tests/jahuwaldt/plot/PlotYAxis_ESTest.java
+@@ -254,16 +254,29 @@
+          verifyException("jahuwaldt.plot.PlotYAxis", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      PlotYAxis plotYAxis0 = new PlotYAxis();
+-      PlotRunList plotRunList0 = new PlotRunList();
+-      PlotRun plotRun0 = new PlotRun(plotRunList0);
+-      plotRunList0.add((Object) plotRun0);
+-      plotYAxis0.setAxisBounds(plotRunList0);
+-      assertEquals((-1.0), plotYAxis0.getLowerBounds(), 0.01);
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        PlotYAxis plotYAxis0 = new PlotYAxis();
++        PlotRunList plotRunList0 = new PlotRunList();
++        PlotRun plotRun0 = new PlotRun(plotRunList0);
++        // Verify that the add operation reports a successful insertion
++        boolean added = plotRunList0.add((Object) plotRun0);
++        assertTrue("add should return true", added);
++        // Capture bounds before invoking setAxisBounds
++        double lowerBefore = plotYAxis0.getLowerBounds();
++        double upperBefore = plotYAxis0.getUpperBounds();
++        // Act: compute axis bounds based on the run list
++        plotYAxis0.setAxisBounds(plotRunList0);
++        // Observe the side‑effects on the bounds
++        double lowerAfter = plotYAxis0.getLowerBounds();
++        double upperAfter = plotYAxis0.getUpperBounds();
++        // The bounds should have been updated
++        assertTrue("lower bound should be updated", lowerAfter != lowerBefore);
++        assertTrue("upper bound should be updated", upperAfter != upperBefore);
++        // Logical consistency of the bounds
++        assertTrue("lower bound should not exceed upper bound", lowerAfter <= upperAfter);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

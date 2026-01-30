@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
+@@ -383,25 +383,14 @@
+         ScriptOrFnNode result = parser0.parse("var a = 1;", "test.js", 1);
+         assertNotNull(result);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test39()  throws Throwable  {
+-      DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+-      // Undeclared exception!
+-      try { 
+-        parser0.parse("with ", ";/?:@&=+$,#", (-1392));
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // -1392
+-         //
+-         verifyException("org.mozilla.javascript.RhinoException", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = IllegalArgumentException.class)
++    public void test39() throws Throwable {
++        DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
++        parser0.parse("with ", ";/?:@&=+$,#", -1392);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test40()  throws Throwable  {

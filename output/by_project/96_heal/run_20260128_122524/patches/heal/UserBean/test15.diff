@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
+@@ -203,14 +203,18 @@
+     assertEquals(userBean0.isMinor(), deserialized.isMinor());
+     assertEquals(userBean0.isAdministrator(), deserialized.isAdministrator());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-    userBean0 = new UserBean();
+-      userBean0.setUserName("yS*]u4)WR6E2jQk");
+-      assertEquals("yS*]u4)WR6E2jQk", userBean0.getUserName());
+-  }
++@Test(timeout = 4000)
++  public void test15() throws Throwable {
++    userBean0 = new UserBean();
++    // Verify initial state before mutation
++    assertEquals("", userBean0.getUserName());
++    // Mutate state
++    String newName = "yS*]u4)WR6E2jQk";
++    userBean0.setUserName(newName);
++    // Verify side‑effect via accessor
++    assertEquals(newName, userBean0.getUserName());
++  }
++
+ @Test(timeout = 4000)
+     public void test16() throws Throwable {
+         UserBean original = new UserBean();

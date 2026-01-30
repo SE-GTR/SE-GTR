@@ -1,0 +1,37 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/nutzenkriterium/NutzenkriteriumDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/nutzenkriterium/NutzenkriteriumDaoService_ESTest.java
+@@ -290,22 +290,18 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      NutzenkriteriumDaoService nutzenkriteriumDaoService0 = new NutzenkriteriumDaoService((NutzenkriteriumDao) null);
+-      // Undeclared exception!
+-      try { 
+-        nutzenkriteriumDaoService0.deleteFragebogenGewichtung((HttpServletRequest) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.service.nutzenkriterium.NutzenkriteriumDaoService", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    // Mock required collaborators
++    NutzenkriteriumDao daoMock = org.mockito.Mockito.mock(NutzenkriteriumDao.class);
++    NutzenkriteriumDaoService service = new NutzenkriteriumDaoService(daoMock);
++    HttpServletRequest requestMock = org.mockito.Mockito.mock(HttpServletRequest.class);
++    HttpSession sessionMock = org.mockito.Mockito.mock(HttpSession.class);
++    org.mockito.Mockito.when(requestMock.getSession()).thenReturn(sessionMock);
++    // Invoke the method; the test succeeds if no exception is thrown
++    service.deleteFragebogenGewichtung(requestMock);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

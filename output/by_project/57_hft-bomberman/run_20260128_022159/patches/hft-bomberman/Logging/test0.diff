@@ -1,0 +1,27 @@
+--- a/evosuite-tests/logging/Logging_ESTest.java
++++ b/evosuite-tests/logging/Logging_ESTest.java
+@@ -24,15 +24,17 @@
+     logging0 = Logging.getInstance();
+     level0 = Level.DEBUG;
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
+     logging0 = Logging.getInstance();
+     level0 = Level.TRACE;
+-      logging0.log(level0, level0, "");
+-      assertEquals(10000, Priority.DEBUG_INT);
+-  }
++    org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger("Logging");
++    org.apache.log4j.Priority levelBefore = logger.getLevel();
++    logging0.log(level0, level0, "");
++    org.apache.log4j.Priority levelAfter = logger.getLevel();
++    assertEquals(levelBefore, levelAfter);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
+@@ -297,24 +297,16 @@
+          verifyException("fi.vtt.noen.mfw.bundle.server.plugins.webui.WebUIPlugin", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-    webUIPlugin0 = new WebUIPlugin(bundleContext0);
+-      // Undeclared exception!
+-      try { 
+-        webUIPlugin0.getMFWInformation();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("fi.vtt.noen.mfw.bundle.server.plugins.webui.WebUIPlugin", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test22() throws Throwable {
++        bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++        org.osgi.framework.ServiceReference[] emptyRefs = new org.osgi.framework.ServiceReference[0];
++        doReturn(emptyRefs).when(bundleContext0).getServiceReferences(anyString(), anyString());
++        webUIPlugin0 = new WebUIPlugin(bundleContext0);
++        MFW info = webUIPlugin0.getMFWInformation();
++        assertNull(info);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

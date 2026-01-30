@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/form/DBDataForm_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/form/DBDataForm_ESTest.java
+@@ -27,15 +27,21 @@
+     assertEquals("", dBDataForm0.getUrl());
+     assertEquals("ISO-8859-1", dBDataForm0.getEncoding());
+ }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    DBDataForm dBDataForm0 = new DBDataForm();
++    // Capture the initial values of fields that are observable via getters
++    String encodingBefore = dBDataForm0.getEncoding();
++    String languageBefore = dBDataForm0.getLanguage();
+ 
++    // Perform the side‑effecting operation
++    dBDataForm0.setDbName("com.gbshape.dbe.struts.form.DBDataForm");
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      DBDataForm dBDataForm0 = new DBDataForm();
+-      dBDataForm0.setDbName("com.gbshape.dbe.struts.form.DBDataForm");
+-      assertEquals("ISO-8859-1", dBDataForm0.getEncoding());
+-      assertEquals("FR", dBDataForm0.getLanguage());
+-  }
++    // Verify that the side effect does not alter the observable state
++    assertEquals(encodingBefore, dBDataForm0.getEncoding());
++    assertEquals(languageBefore, dBDataForm0.getLanguage());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

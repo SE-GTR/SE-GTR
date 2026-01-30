@@ -1,0 +1,35 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostalRouteType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostalRouteType_ESTest.java
+@@ -171,13 +171,25 @@
+       String string0 = postalRouteType0.getType();
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      PostalRouteType postalRouteType0 = new PostalRouteType();
+-      postalRouteType0.setPostBox((PostBox) null);
+-      assertNull(postalRouteType0.getType());
+-  }
++@Test(timeout = 4000)
++public void test21() throws Throwable {
++    PostalRouteType postalRouteType = new PostalRouteType();
++    // initial state should have no PostBox
++    assertNull(postalRouteType.getPostBox());
++
++    // set PostBox to null and verify the effect
++    postalRouteType.setPostBox(null);
++    assertNull(postalRouteType.getPostBox());
++
++    // set PostBox to a concrete instance and verify it is stored
++    PostBox pb = new PostBox();
++    postalRouteType.setPostBox(pb);
++    assertSame(pb, postalRouteType.getPostBox());
++
++    // type attribute has not been set, should be null
++    assertNull(postalRouteType.getType());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

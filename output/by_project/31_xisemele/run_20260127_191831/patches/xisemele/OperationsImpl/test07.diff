@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/OperationsImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/OperationsImpl_ESTest.java
+@@ -109,16 +109,22 @@
+         boolean contains = operationsImpl0.containsChild(parentNode, "child");
+         assertTrue(contains);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      OperationsHelperImpl operationsHelperImpl0 = new OperationsHelperImpl();
+-      OperationsImpl operationsImpl0 = new OperationsImpl(operationsHelperImpl0);
+-      IIOMetadataNode iIOMetadataNode0 = new IIOMetadataNode();
+-      boolean boolean0 = operationsImpl0.containsChild(iIOMetadataNode0, "");
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        OperationsHelperImpl operationsHelperImpl0 = new OperationsHelperImpl();
++        OperationsImpl operationsImpl0 = new OperationsImpl(operationsHelperImpl0);
++        javax.xml.parsers.DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
++        javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
++        org.w3c.dom.Document doc = db.newDocument();
++        org.w3c.dom.Element parent = doc.createElement("parent");
++        org.w3c.dom.Element child = doc.createElement("child");
++        parent.appendChild(child);
++        boolean contains = operationsImpl0.containsChild(parent, "child");
++        assertTrue(contains);
++        boolean notContains = operationsImpl0.containsChild(parent, "other");
++        assertFalse(notContains);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

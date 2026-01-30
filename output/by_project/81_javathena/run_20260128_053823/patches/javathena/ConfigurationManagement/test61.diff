@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -401,12 +401,17 @@
+       int int0 = ConfigurationManagement.getChar_id_count();
+       assertEquals(0, int0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test61()  throws Throwable  {
+-      String string0 = ConfigurationManagement.getFriends_txt();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++    public void test61() throws Throwable {
++        try {
++            ConfigurationManagement.login_config_readXML();
++            fail("Expected IOException");
++        } catch (java.io.IOException e) {
++            // Expected because the configuration file is not present in the test environment.
++            assertTrue(e instanceof java.io.FileNotFoundException);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test62()  throws Throwable  {

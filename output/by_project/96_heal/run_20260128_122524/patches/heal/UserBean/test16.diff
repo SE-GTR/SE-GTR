@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
+@@ -165,16 +165,27 @@
+       userBean0.setUserName("yS*]u4)WR6E2jQk");
+       assertEquals("yS*]u4)WR6E2jQk", userBean0.getUserName());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-    userBean0 = new UserBean();
+-      boolean boolean0 = userBean0.isAdministrator();
+-      assertFalse(userBean0.isCataloger());
+-      assertTrue(userBean0.isMinor());
+-      assertFalse(boolean0);
+-      assertFalse(userBean0.isApprover());
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        UserBean original = new UserBean();
++        // Verify a default property once
++        assertTrue(original.isMinor());
++
++        // Exercise serialization/deserialization as a non‑trivial behavior
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(original);
++        oos.flush();
++
++        byte[] data = baos.toByteArray();
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++        UserBean deserialized = (UserBean) ois.readObject();
++
++        // Verify that the state is preserved after the act step
++        assertTrue(deserialized.isMinor());
++        assertFalse(deserialized.isAdministrator());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

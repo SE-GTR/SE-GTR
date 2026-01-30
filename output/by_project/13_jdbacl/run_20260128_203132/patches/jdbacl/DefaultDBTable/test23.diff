@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DefaultDBTable_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DefaultDBTable_ESTest.java
+@@ -303,24 +303,14 @@
+          verifyException("org.databene.jdbacl.DBUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable("h2.objectCacheMaxPerElementSize");
+-      System.setCurrentTimeMillis((-73L));
+-      String[] stringArray0 = new String[0];
+-      // Undeclared exception!
+-      try { 
+-        defaultDBTable0.queryRowsByCellValues(stringArray0, stringArray0, (Connection) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.model.DBRowIterator", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class, timeout = 4000)
++    public void test23() throws Throwable {
++        DefaultDBTable defaultDBTable0 = new DefaultDBTable("h2.objectCacheMaxPerElementSize");
++        System.setCurrentTimeMillis(-73L);
++        String[] stringArray0 = new String[0];
++        defaultDBTable0.queryRowsByCellValues(stringArray0, stringArray0, null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

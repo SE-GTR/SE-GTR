@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/util/AbstractFOQueue_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/util/AbstractFOQueue_ESTest.java
+@@ -25,22 +25,16 @@
+       boolean boolean0 = fIFOQueue0.addAll(fIFOQueue0);
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      LIFOQueue<Integer> lIFOQueue0 = new LIFOQueue<Integer>();
+-      // Undeclared exception!
+-      try { 
+-        lIFOQueue0.retainAll((Collection<?>) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.util.Objects", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        LIFOQueue<Integer> lIFOQueue0 = new LIFOQueue<Integer>();
++        java.util.Collection<Integer> empty = java.util.Collections.emptyList();
++        boolean changed = lIFOQueue0.retainAll(empty);
++        // The queue is initially empty, so retainAll should not modify it and return false
++        assertFalse(changed);
++        assertTrue(lIFOQueue0.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

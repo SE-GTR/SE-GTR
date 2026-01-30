@@ -1,0 +1,44 @@
+--- a/evosuite-tests/de/progra/charting/model/StackedChartDataModelConstraints_ESTest.java
++++ b/evosuite-tests/de/progra/charting/model/StackedChartDataModelConstraints_ESTest.java
+@@ -110,19 +110,28 @@
+          verifyException("de.progra.charting.model.StackedChartDataModelConstraints", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      int[][] intArray0 = new int[1][4];
+-      int[] intArray1 = new int[1];
+-      intArray1[0] = 3;
+-      intArray0[0] = intArray1;
+-      String[] stringArray0 = new String[2];
+-      ObjectChartDataModel objectChartDataModel0 = new ObjectChartDataModel(intArray0, intArray0, stringArray0);
+-      StackedChartDataModelConstraints stackedChartDataModelConstraints0 = new StackedChartDataModelConstraints(objectChartDataModel0, 3);
+-      Number number0 = stackedChartDataModelConstraints0.getMinimumValue();
+-      assertEquals(0.0, number0);
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    int[][] intArray0 = new int[1][4];
++    int[] intArray1 = new int[1];
++    intArray1[0] = 3;
++    intArray0[0] = intArray1;
++    String[] stringArray0 = new String[2];
++    ObjectChartDataModel objectChartDataModel0 = new ObjectChartDataModel(intArray0, intArray0, stringArray0);
++    StackedChartDataModelConstraints stackedChartDataModelConstraints0 = new StackedChartDataModelConstraints(objectChartDataModel0, 3);
++    Number number0 = stackedChartDataModelConstraints0.getMinimumValue();
++
++    double expected = 0.0;
++    for (int[] row : intArray0) {
++        for (int val : row) {
++            if (val < 0) {
++                expected += val;
++            }
++        }
++    }
++    assertEquals(expected, number0.doubleValue(), 0.0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

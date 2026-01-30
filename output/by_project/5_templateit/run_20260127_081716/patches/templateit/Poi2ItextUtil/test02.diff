@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/templateit/Poi2ItextUtil_ESTest.java
++++ b/evosuite-tests/org/templateit/Poi2ItextUtil_ESTest.java
+@@ -47,19 +47,24 @@
+       assertEquals(2, font0.getStyle());
+       assertEquals(1, font0.getFamily());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      HSSFWorkbook hSSFWorkbook0 = new HSSFWorkbook();
+-      Poi2ItextUtil poi2ItextUtil0 = new Poi2ItextUtil(hSSFWorkbook0);
+-      HSSFSheet hSSFSheet0 = hSSFWorkbook0.createSheet();
+-      HSSFRow hSSFRow0 = hSSFSheet0.createRow(6);
+-      HSSFCell hSSFCell0 = hSSFRow0.createCell(7, (int) (byte)2);
+-      PdfPCell pdfPCell0 = new PdfPCell();
+-      poi2ItextUtil0.resetRightBorder(hSSFCell0, pdfPCell0);
+-      assertEquals(15, pdfPCell0.getBorder());
+-      assertTrue(pdfPCell0.hasBorders());
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    HSSFWorkbook hWorkbook = new HSSFWorkbook();
++    Poi2ItextUtil util = new Poi2ItextUtil(hWorkbook);
++    HSSFSheet sheet = hWorkbook.createSheet();
++    HSSFRow row = sheet.createRow(6);
++    HSSFCell cell = row.createCell(7, (int) (byte) 2);
++    // configure a right border on the POI cell
++    HSSFCellStyle style = hWorkbook.createCellStyle();
++    style.setBorderRight(HSSFCellStyle.BORDER_THIN);
++    cell.setCellStyle(style);
++    PdfPCell pdfCell = new PdfPCell();
++    util.resetRightBorder(cell, pdfCell);
++    // verify that the right border flag is present after the operation
++    assertTrue((pdfCell.getBorder() & PdfPCell.RIGHT) != 0);
++    assertTrue(pdfCell.hasBorders());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

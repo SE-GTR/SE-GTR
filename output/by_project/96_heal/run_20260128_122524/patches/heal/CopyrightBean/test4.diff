@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/heal/module/metadata/CopyrightBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/CopyrightBean_ESTest.java
+@@ -45,23 +45,21 @@
+         bean.setCopyrightId("testId");
+         org.junit.Assert.assertEquals("testId", bean.getCopyrightId());
+     }
++@Test(timeout = 4000)
++  public void test4() throws Throwable {
++      CopyrightBean bean = new CopyrightBean();
++      // Properly initialise the bean to avoid NullPointerException in toString()
++      bean.setCopyrightId("cId");
++      bean.setMetadataId("mId");
++      // Assuming a default constructor exists for CopyrightTextBean
++      CopyrightTextBean textBean = new CopyrightTextBean();
++      bean.setCopyrightText(textBean);
+ 
++      String result = bean.toString();
++      assertNotNull("toString() should return a non‑null string after proper initialization", result);
++      assertTrue("Result should contain the copyrightId", result.contains("cId"));
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      CopyrightBean copyrightBean0 = new CopyrightBean();
+-      // Undeclared exception!
+-      try { 
+-        copyrightBean0.toString();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.module.metadata.CopyrightBean", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

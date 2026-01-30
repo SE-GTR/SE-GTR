@@ -1,0 +1,32 @@
+--- a/evosuite-tests/macaw/util/DisplayableListPanel_ESTest.java
++++ b/evosuite-tests/macaw/util/DisplayableListPanel_ESTest.java
+@@ -198,15 +198,20 @@
+       ArrayList<Displayable> arrayList0 = displayableListPanel0.getAllListItems();
+       assertTrue(arrayList0.isEmpty());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      SessionProperties sessionProperties0 = new SessionProperties();
+-      User user0 = new User("userInterfaceFactory", "log");
+-      sessionProperties0.setProperty("currentUser", user0);
+-      DisplayableListPanel displayableListPanel0 = new DisplayableListPanel(sessionProperties0, (DisplayableListParentForm) null, "userInterfaceFactory", true);
+-      displayableListPanel0.setDisplayableListItemEditor((DisplayableListItemEditor) null);
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    SessionProperties sessionProperties0 = new SessionProperties();
++    User user0 = new User("userInterfaceFactory", "log");
++    // Verify that the property is initially absent
++    assertNull(sessionProperties0.getProperty("currentUser"));
++    // Set the property and assert the side‑effect
++    sessionProperties0.setProperty("currentUser", user0);
++    assertEquals(user0, sessionProperties0.getProperty("currentUser"));
++    // Construct the panel and ensure it was created
++    DisplayableListPanel displayableListPanel0 = new DisplayableListPanel(sessionProperties0, null, "userInterfaceFactory", true);
++    assertNotNull(displayableListPanel0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

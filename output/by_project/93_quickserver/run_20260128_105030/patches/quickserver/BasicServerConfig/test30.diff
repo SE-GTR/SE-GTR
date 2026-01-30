@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
+@@ -529,12 +529,15 @@
+     assertEquals(newMsg, config.getTimeoutMsg());
+     assertNotEquals(defaultMsg, config.getTimeoutMsg());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test30() throws Throwable {
+       QSAdminServerConfig qSAdminServerConfig0 = new QSAdminServerConfig();
++      // Capture the original timeout message before invoking the setter
++      String beforeTimeoutMsg = qSAdminServerConfig0.getTimeoutMsg();
+       qSAdminServerConfig0.setTimeoutMsg((String) null);
++      // Verify that setting a null timeout message leaves the value unchanged
++      assertEquals(beforeTimeoutMsg, qSAdminServerConfig0.getTimeoutMsg());
++
+       assertEquals("INFO", qSAdminServerConfig0.getConsoleLoggingLevel());
+       assertEquals("-ERR Server Busy. Max Connection Reached", qSAdminServerConfig0.getMaxConnectionMsg());
+       assertEquals(1L, qSAdminServerConfig0.getMaxConnection());
+@@ -545,6 +548,7 @@
+       assertFalse(qSAdminServerConfig0.getCommunicationLogging());
+       assertEquals(9877, qSAdminServerConfig0.getPort());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

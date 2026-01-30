@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jsecurity/session/ProxiedSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/ProxiedSession_ESTest.java
+@@ -124,15 +124,16 @@
+       Date date0 = proxiedSession0.getLastAccessTime();
+       assertNull(date0);
+   }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++    org.mockito.stubbing.OngoingStubbing<Collection<Object>> stub = doReturn((Collection) null).when(session0).getAttributeKeys();
++    assertNotNull(stub);
++    proxiedSession0 = new ProxiedSession(session0);
++    Collection<Object> collection0 = proxiedSession0.getAttributeKeys();
++    assertNull(collection0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-    session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn((Collection) null).when(session0).getAttributeKeys();
+-    proxiedSession0 = new ProxiedSession(session0);
+-      Collection<Object> collection0 = proxiedSession0.getAttributeKeys();
+-      assertNull(collection0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

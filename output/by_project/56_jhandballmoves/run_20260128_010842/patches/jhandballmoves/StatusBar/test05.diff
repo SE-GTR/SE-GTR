@@ -1,0 +1,33 @@
+--- a/evosuite-tests/visu/handball/moves/views/StatusBar_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/views/StatusBar_ESTest.java
+@@ -117,17 +117,19 @@
+          verifyException("visu.handball.moves.views.StatusBar", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-    handballModel0 = new HandballModel();
+-    statusBar0 = new StatusBar(handballModel0);
+-      Offender offender0 = new Offender((-4), (-4));
+-      PassEvent passEvent0 = new PassEvent(offender0, 1, (-4));
+-      handballModel0.setActualMoveEvent(passEvent0);
+-      handballModel0.setDestinationPointForEvent(passEvent0, (-4), 1, false);
+-      assertEquals("", handballModel0.getMoveName());
+-  }
++@Test(timeout = 4000)
++  public void test05() throws Throwable {
++    handballModel0 = new HandballModel();
++    statusBar0 = new StatusBar(handballModel0);
++    Offender offender0 = new Offender((-4), (-4));
++    PassEvent passEvent0 = new PassEvent(offender0, 1, (-4));
++    HandballModel.State beforeState = handballModel0.getState();
++    handballModel0.setActualMoveEvent(passEvent0);
++    handballModel0.setDestinationPointForEvent(passEvent0, (-4), 1, false);
++    assertNotEquals(beforeState, handballModel0.getState());
++    assertEquals("", handballModel0.getMoveName());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

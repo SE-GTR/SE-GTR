@@ -1,0 +1,52 @@
+--- a/evosuite-tests/org/heal/servlet/ModifyRegistrationAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/ModifyRegistrationAction_ESTest.java
+@@ -56,29 +56,28 @@
+             verifyException("org.heal.servlet.ModifyRegistrationAction", e);
+         }
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(":c`{", "reset").when(httpServletRequest0).getParameter(anyString());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      Servlet servlet0 = new Servlet();
+-      ModifyRegistrationAction modifyRegistrationAction0 = new ModifyRegistrationAction();
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn(":c`{", "reset").when(httpServletRequest0).getParameter(anyString());
++    // Verify that the stubbed method returns the expected values
++    String first = httpServletRequest0.getParameter("any");
++    assertEquals(":c`{", first);
++    String second = httpServletRequest0.getParameter("any");
++    assertEquals("reset", second);
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    Servlet servlet0 = new Servlet();
++    ModifyRegistrationAction modifyRegistrationAction0 = new ModifyRegistrationAction();
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++    HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++    try {
+         modifyRegistrationAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("javax.servlet.GenericServlet", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        verifyException("javax.servlet.GenericServlet", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

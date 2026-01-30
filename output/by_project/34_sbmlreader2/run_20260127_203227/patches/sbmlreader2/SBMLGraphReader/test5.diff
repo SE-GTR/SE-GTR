@@ -1,0 +1,36 @@
+--- a/evosuite-tests/sbmlreader2/SBMLGraphReader_ESTest.java
++++ b/evosuite-tests/sbmlreader2/SBMLGraphReader_ESTest.java
+@@ -101,19 +101,20 @@
+          verifyException("sbmlreader2.SBMLGraphReader", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    // Prepare a temporary file URL so that the reader has a non‑null fileURL
++    java.io.File tempFile = java.io.File.createTempFile("sbml", ".xml");
++    tempFile.deleteOnExit();
++    java.net.URL url = tempFile.toURI().toURL();
++    sBMLGraphReader0.fileURL = url;
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
++    try {
+         sBMLGraphReader0.read();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.net.URL", e);
+-      }
+-  }
++        fail("Expecting IOException");
++    } catch (java.io.IOException e) {
++        // Expected: the temporary file does not contain a valid SBML document
++    }
+ }
++
++}

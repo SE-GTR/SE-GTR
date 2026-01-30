@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
+@@ -158,27 +158,20 @@
+          verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      completeMetadataBean0.setLocation("upload");
+-      TaxonPathBean taxonPathBean0 = new TaxonPathBean();
+-      TaxonBean taxonBean0 = new TaxonBean();
+-      taxonPathBean0.addTaxon(taxonBean0);
+-      completeMetadataBean0.addTaxonPath(taxonPathBean0);
+-      try { 
+-        HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, (OutputStream) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // javax.xml.transform.TransformerException: Result object passed to ''{0}'' is invalid.
+-         //
+-         verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        FileLocator fileLocator0 = new FileLocator();
++        CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++        completeMetadataBean0.setLocation("upload");
++        TaxonPathBean taxonPathBean0 = new TaxonPathBean();
++        TaxonBean taxonBean0 = new TaxonBean();
++        taxonPathBean0.addTaxon(taxonBean0);
++        completeMetadataBean0.addTaxonPath(taxonPathBean0);
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, baos);
++        org.junit.Assert.assertTrue("Output should not be empty", baos.size() > 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

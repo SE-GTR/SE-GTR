@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/heal/module/search/SearchResultBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/search/SearchResultBean_ESTest.java
+@@ -80,14 +80,29 @@
+       assertSame(linkedList0, searchResultBean0.getMetaIDs());
+       assertFalse(searchResultBean0.isSimple());
+   }
++@Test(timeout = 4000)
++public void test9() throws Throwable {
++    SearchResultBean bean = new SearchResultBean();
+ 
++    // Verify default state
++    assertFalse(bean.isSimple());
++    assertNull(bean.getKeywords());
++    assertNull(bean.getMetaIDs());
+ 
+-  @Test(timeout = 4000)
+-  public void test9()  throws Throwable  {
+-      SearchResultBean searchResultBean0 = new SearchResultBean();
+-      assertFalse(searchResultBean0.isSimple());
+-      
+-      searchResultBean0.setSimple(true);
+-      assertTrue(searchResultBean0.isSimple());
+-  }
++    // Change simple flag and verify
++    bean.setSimple(true);
++    assertTrue(bean.isSimple());
++
++    // Set and verify keywords
++    String kw = "health";
++    bean.setKeywords(kw);
++    assertEquals(kw, bean.getKeywords());
++
++    // Set and verify meta IDs
++    java.util.List<String> ids = new java.util.ArrayList<>();
++    ids.add("id1");
++    bean.setMetaIDs(ids);
++    assertEquals(ids, bean.getMetaIDs());
+ }
++
++}

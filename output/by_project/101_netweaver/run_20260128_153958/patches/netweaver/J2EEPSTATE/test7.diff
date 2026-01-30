@@ -1,0 +1,28 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEPSTATE_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEPSTATE_ESTest.java
+@@ -76,13 +76,19 @@
+       j2EEPSTATE0.hashCode();
+       assertEquals("SAPControl-J2EE-RUNNING", j2EEPSTATE0.toString());
+   }
++@Test(timeout = 4000)
++    public void test7() throws Throwable {
++        J2EEPSTATE original = J2EEPSTATE.value4;
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(original);
++        oos.close();
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++                new java.io.ByteArrayInputStream(baos.toByteArray()));
++        J2EEPSTATE deserialized = (J2EEPSTATE) ois.readObject();
++        assertEquals(original.getValue(), deserialized.getValue());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      J2EEPSTATE j2EEPSTATE0 = J2EEPSTATE.value4;
+-      String string0 = j2EEPSTATE0.getValue();
+-      assertEquals("SAPControl-J2EE-RUNNING", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/model/impl/SimpleCombatant_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/model/impl/SimpleCombatant_ESTest.java
+@@ -197,21 +197,25 @@
+       simpleCombatant0._setState(combatantState1);
+       assertEquals(0, simpleCombatant0._getCurrentLP());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test12() throws Throwable {
+       CharacterClass characterClass0 = CharacterClass.GREENHORN;
+       SimpleSector simpleSector0 = new SimpleSector(435, false, false, 435, 435, false, 435, characterClass0);
+       SimpleArea simpleArea0 = new SimpleArea(435, 435, simpleSector0);
+       CombatantState combatantState0 = new CombatantState(simpleArea0, 435, simpleArea0, false);
+       SimpleArea simpleArea1 = new SimpleArea(541, 2812, simpleSector0);
+       CombatantState combatantState1 = new CombatantState(simpleArea1, 435, simpleArea0, true);
+-      CombatantSide combatantSide0 = CombatantSide.DEFENDER;
+-      SimpleWeapon simpleWeapon0 = new SimpleWeapon((-1044), ">tHS\"++$``#", 541, 1335);
+-      SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState1, 1335, ">tHS\"++$``#", characterClass0, simpleWeapon0, ">tHS\"++$``#");
++      SimpleWeapon simpleWeapon0 = new SimpleWeapon(-1044, ">tHS\"++$``#", 541, 1335);
++      SimpleCombatant simpleCombatant0 = new SimpleCombatant(CombatantSide.DEFENDER, combatantState1, 1335,
++              ">tHS\"++$``#", characterClass0, simpleWeapon0, ">tHS\"++$``#");
++      // Change to offline state and verify
+       simpleCombatant0._setState(combatantState0);
+       assertFalse(simpleCombatant0.isOnline());
+-  }
++      // Change back to online state and verify
++      simpleCombatant0._setState(combatantState1);
++      assertTrue(simpleCombatant0.isOnline());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

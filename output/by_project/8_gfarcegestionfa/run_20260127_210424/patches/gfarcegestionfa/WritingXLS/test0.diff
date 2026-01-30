@@ -1,0 +1,40 @@
+--- a/evosuite-tests/fr/unice/gfarce/xls/WritingXLS_ESTest.java
++++ b/evosuite-tests/fr/unice/gfarce/xls/WritingXLS_ESTest.java
+@@ -20,18 +20,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class WritingXLS_ESTest extends WritingXLS_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    WritingXLS writingXLS0 = new WritingXLS();
++    Candidat[] candidatArray0 = new Candidat[1];
++    Identite.TypeIdentite identite_TypeIdentite0 = Identite.TypeIdentite.FORMATEUR;
++    Locale locale0 = Locale.SIMPLIFIED_CHINESE;
++    Calendar calendar0 = MockCalendar.getInstance(locale0);
++    Formation formation0 = new Formation();
++    Candidat candidat0 = new Candidat("P_D6(k@}Ch`&js", "$VALUES", "P_D6(k@}Ch`&js", "$VALUES", identite_TypeIdentite0, calendar0, "P_D6(k@}Ch`&js", "$VALUES", "", 5, 2667, formation0);
++    candidatArray0[0] = candidat0;
++    File outputFile = new File("PRENOM.xls");
++    if (outputFile.exists()) {
++        outputFile.delete();
++    }
++    writingXLS0.exportXLS(candidatArray0, "PRENOM");
++    assertTrue("Exported file should exist", outputFile.exists());
++    assertTrue("Exported file should not be empty", outputFile.length() > 0);
++    assertEquals(1, candidatArray0.length);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      WritingXLS writingXLS0 = new WritingXLS();
+-      Candidat[] candidatArray0 = new Candidat[1];
+-      Identite.TypeIdentite identite_TypeIdentite0 = Identite.TypeIdentite.FORMATEUR;
+-      Locale locale0 = Locale.SIMPLIFIED_CHINESE;
+-      Calendar calendar0 = MockCalendar.getInstance(locale0);
+-      Formation formation0 = new Formation();
+-      Candidat candidat0 = new Candidat("P_D6(k@}Ch`&js", "$VALUES", "P_D6(k@}Ch`&js", "$VALUES", identite_TypeIdentite0, calendar0, "P_D6(k@}Ch`&js", "$VALUES", "", 5, 2667, formation0);
+-      candidatArray0[0] = candidat0;
+-      writingXLS0.exportXLS(candidatArray0, "PRENOM");
+-      assertEquals(1, candidatArray0.length);
+-  }
+ }

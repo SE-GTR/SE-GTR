@@ -1,0 +1,34 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
+@@ -135,14 +135,23 @@
+       Attributes2Impl attributes2Impl0 = new Attributes2Impl();
+       contentHandlerFixer0.startElement("0", "rv6+PaoKG3vf2s!5#JU", "", attributes2Impl0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
+-      ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0, true);
+-      Attributes2Impl attributes2Impl0 = new Attributes2Impl();
+-      contentHandlerFixer0.startElement("0", "rv6+PaoKG3vf2s!5#JU", "", attributes2Impl0);
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
++        ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0, true);
++        Attributes2Impl attributes2Impl0 = new Attributes2Impl();
++
++        // Verify initial state before the call
++        boolean before = contentHandlerFixer0.isContextPushed();
++
++        // Act: invoke the method under test
++        contentHandlerFixer0.startElement("0", "rv6+PaoKG3vf2s!5#JU", "", attributes2Impl0);
++
++        // Assert: the side‑effect (context push) should be observable
++        assertFalse("Context should not be pushed before startElement", before);
++        assertTrue("Context should be pushed after startElement", contentHandlerFixer0.isContextPushed());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

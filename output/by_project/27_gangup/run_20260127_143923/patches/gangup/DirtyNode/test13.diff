@@ -1,0 +1,32 @@
+--- a/evosuite-tests/map/DirtyNode_ESTest.java
++++ b/evosuite-tests/map/DirtyNode_ESTest.java
+@@ -129,16 +129,19 @@
+     dirtyNode0 = new DirtyNode(0L);
+     assertFalse(dirtyNode0.isClosed());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-    dirtyNode0 = new DirtyNode(0L);
+-      dirtyNode0.setClosed(true);
+-      boolean boolean0 = dirtyNode0.isClosed();
+-      assertEquals(2, dirtyNode0.state);
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        dirtyNode0 = new DirtyNode(0L);
++        int initialState = dirtyNode0.state;
++        dirtyNode0.setClosed(true);
++        assertEquals(2, dirtyNode0.state);
++        assertTrue(dirtyNode0.isClosed());
++        assertNotEquals(initialState, dirtyNode0.state);
++        dirtyNode0.setClosed(false);
++        assertNotEquals(2, dirtyNode0.state);
++        assertFalse(dirtyNode0.isClosed());
++    }
++
+ @Test(timeout = 4000)
+   public void test14() throws Throwable {
+     DirtyNode dirtyNode0 = new DirtyNode(0, 5, 0);

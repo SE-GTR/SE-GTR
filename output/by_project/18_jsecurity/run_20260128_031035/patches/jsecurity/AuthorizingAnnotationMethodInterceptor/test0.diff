@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/jsecurity/authz/aop/AuthorizingAnnotationMethodInterceptor_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/aop/AuthorizingAnnotationMethodInterceptor_ESTest.java
+@@ -19,21 +19,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AuthorizingAnnotationMethodInterceptor_ESTest extends AuthorizingAnnotationMethodInterceptor_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      GuestAnnotationMethodInterceptor guestAnnotationMethodInterceptor0 = new GuestAnnotationMethodInterceptor();
+-      MethodInvocation methodInvocation0 = mock(MethodInvocation.class, new ViolatedAssumptionAnswer());
+-      doReturn((Method) null).when(methodInvocation0).getMethod();
+-      try { 
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    GuestAnnotationMethodInterceptor guestAnnotationMethodInterceptor0 = new GuestAnnotationMethodInterceptor();
++    MethodInvocation methodInvocation0 = mock(MethodInvocation.class, new ViolatedAssumptionAnswer());
++    doReturn((Method) null).when(methodInvocation0).getMethod();
++    // Verify that the stubbed getMethod() indeed returns null
++    Method stubbedMethod = methodInvocation0.getMethod();
++    assertNull(stubbedMethod);
++    try {
+         guestAnnotationMethodInterceptor0.invoke(methodInvocation0);
+         fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // org.jsecurity.aop.MethodInvocation parameter incorrectly constructed.  getMethod() returned null
+-         //
+-         verifyException("org.jsecurity.aop.AnnotationMethodInterceptor", e);
+-      }
+-  }
++    } catch (IllegalArgumentException e) {
++        //
++        // org.jsecurity.aop.MethodInvocation parameter incorrectly constructed.  getMethod() returned null
++        //
++        verifyException("org.jsecurity.aop.AnnotationMethodInterceptor", e);
++    }
+ }
++
++}

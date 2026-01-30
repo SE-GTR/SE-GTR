@@ -1,0 +1,29 @@
+--- a/evosuite-tests/corina/map/View_ESTest.java
++++ b/evosuite-tests/corina/map/View_ESTest.java
+@@ -29,11 +29,20 @@
+       assertEquals(1.0F, view1.getZoom(), 0.01F);
+       assertNotSame(view1, view0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        View view0 = new View();
++        view0.setZoom(2210.2278F);
++        assertEquals(2210.2278F, view0.getZoom(), 0.01F);
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      View view0 = new View();
+-      view0.setZoom(2210.2278F);
+-      assertEquals(2210.2278F, view0.getZoom(), 0.01F);
+-  }
++        // Verify that cloning preserves the zoom value
++        View copy = (View) view0.clone();
++        assertEquals(view0.getZoom(), copy.getZoom(), 0.01F);
++
++        // Changing the original should not affect the cloned instance
++        view0.setZoom(123.45F);
++        assertEquals(123.45F, view0.getZoom(), 0.01F);
++        assertEquals(2210.2278F, copy.getZoom(), 0.01F);
++    }
++
+ }

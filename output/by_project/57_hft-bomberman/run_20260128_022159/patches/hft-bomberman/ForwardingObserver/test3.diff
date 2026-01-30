@@ -1,0 +1,38 @@
+--- a/evosuite-tests/client/network/ForwardingObserver_ESTest.java
++++ b/evosuite-tests/client/network/ForwardingObserver_ESTest.java
+@@ -64,26 +64,16 @@
+       forwardingObserver0.update(bomberClient0, object0);
+       assertEquals(0, bomberClient0.countObservers());
+   }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test3() throws Throwable {
++        BomberClient bomberClient0 = BomberClient.getInstance();
++        ForwardingObserver forwardingObserver0 = new ForwardingObserver(bomberClient0, (ClientGameRound) null);
++        Point point0 = new Point();
++        Player player0 = new Player(point0);
++        ClientBomb clientBomb0 = new ClientBomb(point0, player0);
++        forwardingObserver0.update(player0, clientBomb0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      BomberClient bomberClient0 = BomberClient.getInstance();
+-      ForwardingObserver forwardingObserver0 = new ForwardingObserver(bomberClient0, (ClientGameRound) null);
+-      Point point0 = new Point();
+-      Player player0 = new Player(point0);
+-      ClientBomb clientBomb0 = new ClientBomb(point0, player0);
+-      // Undeclared exception!
+-      try { 
+-        forwardingObserver0.update(player0, clientBomb0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("client.network.ForwardingObserver", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

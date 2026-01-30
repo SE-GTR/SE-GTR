@@ -1,0 +1,33 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -376,12 +376,16 @@
+ public void test33() throws Throwable {
+     AdministrativeArea administrativeArea0 = new AdministrativeArea();
+ 
+-    // Verify that unrelated fields are initially null
++    // Verify initial state of unrelated fields
+     assertNull(administrativeArea0.getType());
+-
+-    // Set indicator and verify the side‑effect
++    assertNull(administrativeArea0.getIndicator());
++
++    // First setIndicator call and verify the side‑effect
+     administrativeArea0.setIndicator("oasis.names.tc.ciq.xsdschema.xal._2.AdministrativeArea");
+     assertEquals("oasis.names.tc.ciq.xsdschema.xal._2.AdministrativeArea", administrativeArea0.getIndicator());
++
++    // Ensure that setting the indicator does not affect other fields
++    assertNull(administrativeArea0.getType());
+ 
+     // Change the indicator to a different value and assert the update
+     administrativeArea0.setIndicator("different");
+@@ -391,7 +395,9 @@
+     AdministrativeArea.AdministrativeAreaName name = new AdministrativeArea.AdministrativeAreaName();
+     administrativeArea0.getAdministrativeAreaName().add(name);
+     assertTrue(administrativeArea0.getAdministrativeAreaName().contains(name));
+-}
++    assertEquals(1, administrativeArea0.getAdministrativeAreaName().size());
++}
++
+ 
+ @Test(timeout = 4000)
+ public void test34() throws Throwable {

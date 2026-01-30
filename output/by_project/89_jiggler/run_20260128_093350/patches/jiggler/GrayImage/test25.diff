@@ -1,0 +1,91 @@
+--- a/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
+@@ -813,52 +813,42 @@
+       assertNotSame(interpolatedGrayImage4, interpolatedGrayImage0);
+       assertSame(interpolatedGrayImage4, interpolatedGrayImage3);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(1, 1);
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      
+-      ROI rOI0 = new ROI();
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(0, rOI0.lx());
+-      
+-      interpolatedGrayImage0.median(1, rOI0);
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(0, interpolatedGrayImage0.addSum());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(0L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(0, interpolatedGrayImage0.absSum());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(0, rOI0.lx());
+-      
+-      InterpolatedGrayImage interpolatedGrayImage1 = (InterpolatedGrayImage)interpolatedGrayImage0.diff(interpolatedGrayImage0);
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(0, interpolatedGrayImage0.addSum());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(0L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(0, interpolatedGrayImage0.absSum());
+-      assertEquals(0, interpolatedGrayImage1.addSum());
+-      assertEquals(0L, interpolatedGrayImage1.sqrSum());
+-      assertEquals(1, interpolatedGrayImage1.Y());
+-      assertEquals(1, interpolatedGrayImage1.X());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage1.getInterpolationMethod());
+-      assertEquals(0, interpolatedGrayImage1.absSum());
+-      assertSame(interpolatedGrayImage0, interpolatedGrayImage1);
+-      assertSame(interpolatedGrayImage1, interpolatedGrayImage0);
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        InterpolatedGrayImage img = new InterpolatedGrayImage(1, 1);
++        assertEquals(1, img.Y());
++        assertEquals(1, img.X());
++        assertEquals(InterpolationMethod.NEIGHBOR, img.getInterpolationMethod());
++
++        ROI roi = new ROI();
++        assertEquals(1, roi.X());
++        assertEquals(1, roi.Y());
++
++        img.median(1, roi);
++        // Verify that median does not alter size or statistical sums for this trivial image
++        assertEquals(1, img.Y());
++        assertEquals(1, img.X());
++        assertEquals(0, img.addSum());
++        assertEquals(0L, img.sqrSum());
++        assertEquals(0, img.absSum());
++
++        // ROI should remain unchanged
++        assertEquals(1, roi.X());
++        assertEquals(1, roi.Y());
++
++        InterpolatedGrayImage diffImg = (InterpolatedGrayImage) img.diff(img);
++        // diff on identical images should yield zero‑valued image with same dimensions
++        assertEquals(1, diffImg.Y());
++        assertEquals(1, diffImg.X());
++        assertEquals(0, diffImg.addSum());
++        assertEquals(0L, diffImg.sqrSum());
++        assertEquals(0, diffImg.absSum());
++        assertEquals(InterpolationMethod.NEIGHBOR, diffImg.getInterpolationMethod());
++
++        // According to current implementation diff returns the same instance
++        assertSame(img, diffImg);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

@@ -1,0 +1,56 @@
+--- a/evosuite-tests/src/Knight_ESTest.java
++++ b/evosuite-tests/src/Knight_ESTest.java
+@@ -635,20 +635,36 @@
+     assertEquals(deadBefore, knight0.getDead());
+     assertEquals(hitsBefore, knight0.getHitsCounter());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test52()  throws Throwable  {
+-      Knight knight0 = new Knight();
+-      ArrayList<Vassals> arrayList0 = knight0.getMovingVassals();
+-      knight0.setMovingVassals(arrayList0);
+-      assertEquals(0, knight0.getRebellionCounter());
+-      assertFalse(knight0.isDead());
+-      assertEquals("Ile-De-France", knight0.getLocation());
+-      assertEquals(0, knight0.getScore());
+-      assertEquals(0, knight0.getWounds());
+-      assertEquals(0, knight0.getKills());
+-      assertEquals("knight", knight0.getRank());
+-      assertEquals(0, knight0.getHitsCounter());
+-  }
+-}
++@Test(timeout = 4000)
++    public void test52() throws Throwable {
++        Knight knight0 = new Knight();
++
++        // Capture the original moving vassals list (expected to be empty)
++        ArrayList<Vassals> originalList = knight0.getMovingVassals();
++
++        // Prepare a new list with a distinct Vassal to verify the setter effect
++        ArrayList<Vassals> newList = new ArrayList<>();
++        newList.add(new Vassals());
++
++        // Invoke the void method whose side‑effect we want to assert
++        knight0.setMovingVassals(newList);
++
++        // Assert that the side‑effect is observable via the getter
++        assertSame("The moving vassals list should be updated by setMovingVassals",
++                newList, knight0.getMovingVassals());
++
++        // Verify that the original list is no longer the current one
++        assertNotSame("The moving vassals list should have changed", originalList, knight0.getMovingVassals());
++
++        // Existing state assertions
++        assertEquals(0, knight0.getRebellionCounter());
++        assertFalse(knight0.isDead());
++        assertEquals("Ile-De-France", knight0.getLocation());
++        assertEquals(0, knight0.getScore());
++        assertEquals(0, knight0.getWounds());
++        assertEquals(0, knight0.getKills());
++        assertEquals("knight", knight0.getRank());
++        assertEquals(0, knight0.getHitsCounter());
++    }
++
++}

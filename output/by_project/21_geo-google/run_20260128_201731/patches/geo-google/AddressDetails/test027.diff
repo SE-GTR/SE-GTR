@@ -1,0 +1,30 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -317,15 +317,23 @@
+     String type1 = "typeOne";
+     String type2 = "typeTwo";
+ 
++    // Set distinct types and verify the setter/getter side‑effects
+     dir1.setType(type1);
+     dir2.setType(type2);
+-
+     assertEquals(type1, dir1.getType());
+     assertEquals(type2, dir2.getType());
+ 
+-    // Verify that the hash codes differ when the type values differ
+-    assertTrue(dir1.hashCode() != dir2.hashCode());
+-}
++    // When the type values differ, the hash codes must differ as well
++    int hash1 = dir1.hashCode();
++    int hash2 = dir2.hashCode();
++    assertTrue(hash1 != hash2);
++
++    // Change dir1 to the same type as dir2 and verify that the hash code now matches
++    dir1.setType(type2);
++    assertEquals(type2, dir1.getType());
++    assertEquals(hash2, dir1.hashCode());
++}
++
+ 
+ @Test(timeout = 4000)
+ public void test028() throws Throwable {

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/framework/util/FileUtils_ESTest.java
++++ b/evosuite-tests/framework/util/FileUtils_ESTest.java
+@@ -102,21 +102,23 @@
+   public void test10()  throws Throwable  {
+       FileUtils.mergeDirectoryFiles("org.apache.log4j.helpers.Loader", "Ignoring configuration file [", "dBf|_Mn(/Rp");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-      try { 
+-        FileUtils.createFile("dBf|_Mn(/Rp");
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Could not create file dBf|_Mn(/Rp: Could not create parent directory dBf|_Mn(
+-         //
+-         verifyException("framework.util.FileUtils", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    // Prepare a temporary file that will serve as an invalid (non‑directory) parent
++    java.io.File tempFile = java.io.File.createTempFile("temp", ".txt");
++    tempFile.deleteOnExit();
++
++    String invalidPath = tempFile.getAbsolutePath() + java.io.File.separator + "child.txt";
++
++    try {
++        FileUtils.createFile(invalidPath);
++        fail("Expected IOException due to non‑directory parent");
++    } catch (IOException e) {
++        // Expected outcome – verify that the exception message mentions the parent issue
++        assertTrue(e.getMessage().contains("parent"));
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

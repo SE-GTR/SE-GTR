@@ -1,0 +1,32 @@
+--- a/evosuite-tests/macaw/util/OKClosePanel_ESTest.java
++++ b/evosuite-tests/macaw/util/OKClosePanel_ESTest.java
+@@ -31,14 +31,22 @@
+     java.util.List<java.awt.event.ActionListener> listeners = java.util.Arrays.asList(jButton0.getActionListeners());
+     assertTrue(listeners.contains(defaultEditorKit_CutAction0));
+ }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    UserInterfaceFactory userInterfaceFactory0 = new UserInterfaceFactory();
++    StyledEditorKit.UnderlineAction styledEditorKit_UnderlineAction0 = new StyledEditorKit.UnderlineAction();
++    OKClosePanel oKClosePanel0 = new OKClosePanel(userInterfaceFactory0, styledEditorKit_UnderlineAction0);
++    assertNotNull(oKClosePanel0);
+ 
+-@Test(timeout = 4000)
+-  public void test1() throws Throwable {
+-      UserInterfaceFactory userInterfaceFactory0 = new UserInterfaceFactory();
+-      StyledEditorKit.UnderlineAction styledEditorKit_UnderlineAction0 = new StyledEditorKit.UnderlineAction();
+-      OKClosePanel oKClosePanel0 = new OKClosePanel(userInterfaceFactory0, styledEditorKit_UnderlineAction0);
+-      assertNotNull(oKClosePanel0);
+-  }
++    // Verify the default write‑access flag (expected to be false)
++    boolean defaultAllowWriteAccess = oKClosePanel0.isAllowWriteAccess();
++    assertFalse(defaultAllowWriteAccess);
++
++    // Change the flag and assert the side‑effect is observable via the getter
++    oKClosePanel0.setAllowWriteAccess(true);
++    assertTrue(oKClosePanel0.isAllowWriteAccess());
++}
++
+ @Test(timeout = 4000)
+ public void test2() throws Throwable {
+     UserInterfaceFactory userInterfaceFactory0 = new UserInterfaceFactory();

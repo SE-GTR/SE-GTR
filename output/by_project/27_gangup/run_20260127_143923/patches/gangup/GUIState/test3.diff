@@ -1,0 +1,29 @@
+--- a/evosuite-tests/gui/GUIState_ESTest.java
++++ b/evosuite-tests/gui/GUIState_ESTest.java
+@@ -54,13 +54,20 @@
+       gUIState0.update((Observable) null, object0);
+       assertEquals(0, gUIState0.countObservers());
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    GUIState gUIState0 = new GUIState();
++    // Capture the initial selected player (expected to be null)
++    Player before = gUIState0.getSelected();
++    gUIState0.setSelected((Player) null);
++    // The selected player should now be null
++    assertNull(gUIState0.getSelected());
++    // The state should report no change when setting null to null
++    assertFalse(gUIState0.hasChanged());
++    // Verify that the selected value did not change from its original state
++    assertEquals(before, gUIState0.getSelected());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      GUIState gUIState0 = new GUIState();
+-      gUIState0.setSelected((Player) null);
+-      assertFalse(gUIState0.hasChanged());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

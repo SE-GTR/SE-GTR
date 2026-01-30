@@ -1,0 +1,35 @@
+--- a/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
++++ b/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
+@@ -88,13 +88,25 @@
+       GeoUsAddress geoUsAddress0 = new GeoUsAddress();
+       String string0 = geoUsAddress0.toString();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      GeoUsAddress geoUsAddress0 = new GeoUsAddress();
+-      geoUsAddress0.setState("geo.google.datamodel.GeoUsAddress@3[\n  _accuracy=UNKNOWN_LOCATION\n  _coordinate=geo.google.datamodel.GeoCoordinate@2\n  _addressLine1=\n  _addressLine2=\n  _city=\n  _country=\n  _county=\n  _postalCode=\n  _state=\n]");
+-      assertEquals("", geoUsAddress0.getPostalCode());
+-  }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    GeoUsAddress geoUsAddress0 = new GeoUsAddress();
++    String state = "CA";
++    geoUsAddress0.setState(state);
++    // Observe the side‑effect of the setter
++    assertEquals(state, geoUsAddress0.getState());
++
++    // Verify logical behavior: two addresses with identical state are equal
++    GeoUsAddress geoUsAddress1 = new GeoUsAddress();
++    geoUsAddress1.setState(state);
++    assertEquals(geoUsAddress0, geoUsAddress1);
++    assertEquals(geoUsAddress0.hashCode(), geoUsAddress1.hashCode());
++
++    // Changing a field should break equality
++    geoUsAddress1.setState("NY");
++    assertNotEquals(geoUsAddress0, geoUsAddress1);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

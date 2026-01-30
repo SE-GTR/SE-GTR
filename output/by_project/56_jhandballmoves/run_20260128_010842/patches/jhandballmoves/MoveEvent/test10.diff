@@ -1,0 +1,43 @@
+--- a/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
+@@ -214,20 +214,26 @@
+         assertEquals(0, moveEvent0.getDelay());
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      Defender defender0 = new Defender((-228), (-228));
+-      MoveEvent moveEvent0 = new MoveEvent(defender0, (-228), (-228));
+-      MoveEvent moveEvent1 = new MoveEvent(defender0, 1);
+-      moveEvent0.setDestinationPoint(756, 1, true);
+-      moveEvent1.setDestinationPoint(756, 756, false);
+-      boolean boolean0 = moveEvent0.equals(moveEvent1);
+-      assertFalse(moveEvent0.isDestinationPointSet());
+-      assertTrue(moveEvent1.isDestinationPointSet());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        Defender defender0 = new Defender((-228), (-228));
++        MoveEvent moveEvent0 = new MoveEvent(defender0, (-228), (-228));
++        MoveEvent moveEvent1 = new MoveEvent(defender0, 1);
++        moveEvent0.setDestinationPoint(756, 1, true);
++        moveEvent1.setDestinationPoint(756, 756, false);
++        // Verify that the destination points have been stored correctly
++        assertEquals(756, moveEvent0.getDestinationPoint().getX());
++        assertEquals(1, moveEvent0.getDestinationPoint().getY());
++        assertEquals(756, moveEvent1.getDestinationPoint().getX());
++        assertEquals(756, moveEvent1.getDestinationPoint().getY());
++        // Verify the temporary flag effect via the public API
++        assertFalse(moveEvent0.isDestinationPointSet());
++        assertTrue(moveEvent1.isDestinationPointSet());
++        // Verify equality semantics remain unchanged
++        boolean boolean0 = moveEvent0.equals(moveEvent1);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

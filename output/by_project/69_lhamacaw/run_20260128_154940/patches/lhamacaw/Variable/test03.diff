@@ -1,0 +1,40 @@
+--- a/evosuite-tests/macaw/businessLayer/Variable_ESTest.java
++++ b/evosuite-tests/macaw/businessLayer/Variable_ESTest.java
+@@ -74,21 +74,22 @@
+         assertNotNull(cloned);
+         assertNotSame(rawVariable0, cloned);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      RawVariable rawVariable0 = new RawVariable();
+-      rawVariable0.setAlternativeVariable(rawVariable0);
+-      User user0 = new User();
+-      MacawChangeEvent macawChangeEvent0 = Variable.detectChangesInAlternativeVariable(user0, rawVariable0, (Variable) null);
+-      assertEquals("Changed variable \"Alternative Variable\", field \"\", from \"blank\" to \"{3}\".", macawChangeEvent0.getChangeMessage());
+-      assertNotNull(macawChangeEvent0);
+-      assertFalse(rawVariable0.isNewRecord());
+-      assertFalse(rawVariable0.isCleaned());
+-      assertEquals(0, macawChangeEvent0.getChangedObjectIdentifier());
+-      assertFalse(rawVariable0.isCoded());
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    RawVariable rawVariable0 = new RawVariable();
++    rawVariable0.setAlternativeVariable(rawVariable0);
++    // Verify that the alternative variable was set correctly
++    assertSame(rawVariable0, rawVariable0.getAlternativeVariable());
++    User user0 = new User();
++    MacawChangeEvent macawChangeEvent0 = Variable.detectChangesInAlternativeVariable(user0, rawVariable0, (Variable) null);
++    assertEquals("Changed variable \"Alternative Variable\", field \"\", from \"blank\" to \"{3}\".", macawChangeEvent0.getChangeMessage());
++    assertNotNull(macawChangeEvent0);
++    assertFalse(rawVariable0.isNewRecord());
++    assertFalse(rawVariable0.isCleaned());
++    assertEquals(0, macawChangeEvent0.getChangedObjectIdentifier());
++    assertFalse(rawVariable0.isCoded());
++}
++
+ public void test04() throws Throwable {
+     User user0 = new User();
+     RawVariable rawVariable0 = new RawVariable();

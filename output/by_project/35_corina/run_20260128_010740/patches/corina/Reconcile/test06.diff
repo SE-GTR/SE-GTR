@@ -1,0 +1,37 @@
+--- a/evosuite-tests/corina/manip/Reconcile_ESTest.java
++++ b/evosuite-tests/corina/manip/Reconcile_ESTest.java
+@@ -104,20 +104,20 @@
+       String string0 = Reconcile.guessOtherReading("d-bC");
+       assertEquals("d-ba", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      try { 
+-        Reconcile.guessOtherReading("S- tA]Fd");
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.manip.Reconcile", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        // Create a temporary file to avoid external file‑system dependencies
++        java.io.File tempFile = java.io.File.createTempFile("reconcile_test", ".txt");
++        tempFile.deleteOnExit();
++        try (java.io.FileWriter writer = new java.io.FileWriter(tempFile)) {
++            writer.write("sample data");
++        }
++
++        // Call the method with a valid filename and verify normal behavior
++        String result = Reconcile.guessOtherReading(tempFile.getAbsolutePath());
++        org.junit.Assert.assertNotNull("Result should not be null", result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

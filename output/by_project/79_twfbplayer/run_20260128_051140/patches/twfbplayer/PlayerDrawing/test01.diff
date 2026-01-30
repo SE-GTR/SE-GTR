@@ -1,0 +1,43 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/gui/battlefield/PlayerDrawing_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/gui/battlefield/PlayerDrawing_ESTest.java
+@@ -54,25 +54,21 @@
+       boolean boolean0 = playerDrawing0.combatantIsDead();
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      Point point0 = new Point();
+-      CharacterClass characterClass0 = CharacterClass.ADVENTURER;
+-      SimpleSector simpleSector0 = new SimpleSector(0, false, false, (-2137), (-2137), true, (-2137), characterClass0);
+-      SimpleArea simpleArea0 = new SimpleArea(point0, simpleSector0);
+-      CombatantState combatantState0 = new CombatantState(simpleArea0, (-2137), simpleArea0, true);
+-      CombatantSide combatantSide0 = CombatantSide.ATTACKER;
+-      SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState0, 0, "", characterClass0, (Weapon) null, "");
+-      AreaStatistic areaStatistic0 = mock(AreaStatistic.class, new ViolatedAssumptionAnswer());
+-      BattlefieldCell battlefieldCell0 = new BattlefieldCell(simpleArea0, areaStatistic0);
+-      BattlefieldDrawing battlefieldDrawing0 = mock(BattlefieldDrawing.class, new ViolatedAssumptionAnswer());
+-      doReturn(battlefieldCell0, battlefieldCell0).when(battlefieldDrawing0).getCell(any(java.awt.Point.class));
+-      PlayerDrawing playerDrawing0 = new PlayerDrawing(simpleCombatant0, battlefieldDrawing0);
+-      playerDrawing0.isAlive(simpleCombatant0);
+-      boolean boolean0 = playerDrawing0.combatantIsDead();
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    SimpleSector sector = new SimpleSector(0, false, false, 0, 0, false, 0, CharacterClass.ADVENTURER);
++    SimpleArea area = new SimpleArea(new Point(), sector);
++    CombatantState state = new CombatantState(area, 0, area, true);
++    SimpleCombatant combatant = new SimpleCombatant(CombatantSide.ATTACKER, state, 0, "", CharacterClass.ADVENTURER, null, "");
++    AreaStatistic areaStat = mock(AreaStatistic.class, new ViolatedAssumptionAnswer());
++    BattlefieldCell cell = new BattlefieldCell(area, areaStat);
++    BattlefieldDrawing drawing = mock(BattlefieldDrawing.class, new ViolatedAssumptionAnswer());
++    doReturn(cell, cell).when(drawing).getCell(any(java.awt.Point.class));
++    PlayerDrawing playerDrawing = new PlayerDrawing(combatant, drawing);
++    playerDrawing.isAlive(combatant);
++    assertFalse(playerDrawing.combatantIsDead());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

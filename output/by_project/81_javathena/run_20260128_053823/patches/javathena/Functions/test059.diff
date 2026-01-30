@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/javathena/core/utiles/Functions_ESTest.java
++++ b/evosuite-tests/org/javathena/core/utiles/Functions_ESTest.java
+@@ -435,14 +435,15 @@
+     assertArrayEquals(before, byteArray0);
+     assertEquals(1, byteArray0.length);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test059()  throws Throwable  {
+-      byte[] byteArray0 = new byte[1];
+-      Functions.stringToByteTable("\nYNYM{nS(>B)", byteArray0, 255, 127);
+-      assertArrayEquals(new byte[] {(byte)0}, byteArray0);
+-  }
++@Test(timeout = 4000)
++    public void test059() throws Throwable {
++        byte[] byteArray0 = new byte[1];
++        byte[] before = java.util.Arrays.copyOf(byteArray0, byteArray0.length);
++        Functions.stringToByteTable("\nYNYM{nS(>B)", byteArray0, 255, 127);
++        // Verify that the method does not modify the array when start > end or out of bounds
++        assertArrayEquals(before, byteArray0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test060()  throws Throwable  {

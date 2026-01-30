@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/heal/module/oai/heal/HEALOAIDCRecordAdapter_ESTest.java
++++ b/evosuite-tests/org/heal/module/oai/heal/HEALOAIDCRecordAdapter_ESTest.java
+@@ -367,24 +367,21 @@
+     hEALOAIDCRecordAdapter0.appendOAIAboutElements((Element) null, (Document) null);
+     // No explicit assertion; test passes if no exception is thrown.
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-    completeMetadataBean0 = new CompleteMetadataBean();
+-    hEALOAIDCRecordAdapter0 = new HEALOAIDCRecordAdapter(completeMetadataBean0, (HEALProviderConfig) null);
+-      // Undeclared exception!
+-      try { 
+-        hEALOAIDCRecordAdapter0.addRecordAttributes((Element) null, (Document) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.module.oai.heal.HEALOAIDCRecordAdapter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test28() throws Throwable {
++    completeMetadataBean0 = new CompleteMetadataBean();
++    hEALOAIDCRecordAdapter0 = new HEALOAIDCRecordAdapter(completeMetadataBean0, null);
++    // Prepare a minimal DOM Document and Element for a valid call
++    javax.xml.parsers.DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
++    javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
++    org.w3c.dom.Document doc = db.newDocument();
++    org.w3c.dom.Element recordElement = doc.createElement("record");
++    // Invoke the method under test with valid arguments
++    hEALOAIDCRecordAdapter0.addRecordAttributes(recordElement, doc);
++    // Verify that the call completed without throwing and the element is still non‑null
++    assertNotNull(recordElement);
++}
++
+ @Test(timeout = 4000)
+ public void test29() throws Throwable {
+     CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();

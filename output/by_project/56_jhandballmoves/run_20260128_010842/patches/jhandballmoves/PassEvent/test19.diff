@@ -1,0 +1,37 @@
+--- a/evosuite-tests/visu/handball/moves/model/PassEvent_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/PassEvent_ESTest.java
+@@ -273,18 +273,22 @@
+     PassEvent passEvent0 = new PassEvent(offender0, 1, 1);
+     assertTrue(passEvent0.equals(passEvent0));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      Defender defender0 = new Defender((-451), (-451));
+-      PassEvent passEvent0 = new PassEvent(defender0, (-451), (-451));
+-      Offender offender0 = new Offender((-451), 1);
+-      passEvent0.setDestinationPlayer(offender0, true);
+-      String string0 = passEvent0.toString();
+-      assertFalse(passEvent0.isDestinationPointSet());
+-      assertEquals("Pass zu Spieler \" Angreifer 1\"", string0);
+-  }
++@Test(timeout = 4000)
++public void test19() throws Throwable {
++    Defender defender0 = new Defender((-451), (-451));
++    PassEvent passEvent0 = new PassEvent(defender0, (-451), (-451));
++    Offender offender0 = new Offender((-451), 1);
++    // Verify initial state before setting destination player
++    assertNull(passEvent0.getDestinationPlayer());
++    // Act
++    passEvent0.setDestinationPlayer(offender0, true);
++    // Verify side effects of setDestinationPlayer
++    assertSame(offender0, passEvent0.getDestinationPlayer());
++    String string0 = passEvent0.toString();
++    assertFalse(passEvent0.isDestinationPointSet());
++    assertEquals("Pass zu Spieler \" Angreifer 1\"", string0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

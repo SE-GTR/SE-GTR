@@ -1,0 +1,37 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Thoroughfare_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Thoroughfare_ESTest.java
+@@ -589,11 +589,27 @@
+       thoroughfare_ThoroughfareNumberRange0.setSeparator("/(=~5cWqZc|)64hW4");
+       assertNull(thoroughfare_ThoroughfareNumberRange0.getCode());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test77()  throws Throwable  {
+-      Thoroughfare.ThoroughfareNumberRange thoroughfare_ThoroughfareNumberRange0 = new Thoroughfare.ThoroughfareNumberRange();
+-      thoroughfare_ThoroughfareNumberRange0.setRangeType("oasis.names.tc.ciq.xsdschema.xal._2.Thoroughfare$ThoroughfareNumberRange");
+-      assertEquals("oasis.names.tc.ciq.xsdschema.xal._2.Thoroughfare$ThoroughfareNumberRange", thoroughfare_ThoroughfareNumberRange0.getRangeType());
+-  }
++@Test(timeout = 4000)
++  public void test77() throws Throwable {
++      Thoroughfare.ThoroughfareNumberRange range = new Thoroughfare.ThoroughfareNumberRange();
++      range.setRangeType("oasis.names.tc.ciq.xsdschema.xal._2.Thoroughfare$ThoroughfareNumberRange");
++      assertEquals("oasis.names.tc.ciq.xsdschema.xal._2.Thoroughfare$ThoroughfareNumberRange", range.getRangeType());
++
++      // Verify that the state is preserved after serialization (adds non‑trivial behavior)
++      java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(bos);
++      out.writeObject(range);
++      out.flush();
++      byte[] serialized = bos.toByteArray();
++
++      java.io.ByteArrayInputStream bis = new java.io.ByteArrayInputStream(serialized);
++      java.io.ObjectInputStream in = new java.io.ObjectInputStream(bis);
++      Object deserialized = in.readObject();
++
++      assertTrue(deserialized instanceof Thoroughfare.ThoroughfareNumberRange);
++      Thoroughfare.ThoroughfareNumberRange deserializedRange = (Thoroughfare.ThoroughfareNumberRange) deserialized;
++      assertEquals("oasis.names.tc.ciq.xsdschema.xal._2.Thoroughfare$ThoroughfareNumberRange",
++              deserializedRange.getRangeType());
++  }
++
+ }

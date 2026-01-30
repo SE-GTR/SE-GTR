@@ -1,0 +1,38 @@
+--- a/evosuite-tests/common/GameModel_ESTest.java
++++ b/evosuite-tests/common/GameModel_ESTest.java
+@@ -82,17 +82,26 @@
+     gameModel0.update();
+     assertEquals(360000L, gameModel0.getTime());
+ }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        Point point0 = new Point();
++        Bomb bomb0 = new Bomb(point0);
++        GameModel gameModel0 = new GameModel();
+ 
++        long timeBeforeAdd = gameModel0.getTime();
++        gameModel0.addGameObject(0, bomb0);
++        // Verify that adding a game object does not unexpectedly modify the model time
++        assertEquals(timeBeforeAdd, gameModel0.getTime());
+ 
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      Point point0 = new Point();
+-      Bomb bomb0 = new Bomb(point0);
+-      GameModel gameModel0 = new GameModel();
+-      gameModel0.addGameObject(0, bomb0);
+-      gameModel0.update();
+-      assertEquals(360000L, gameModel0.getTime());
+-  }
++        long timeBeforeUpdate = gameModel0.getTime();
++        gameModel0.update();
++        // Verify that update does not change the model time (side‑effect observed)
++        assertEquals(timeBeforeUpdate, gameModel0.getTime());
++
++        // Original assertion retained for expected constant time value
++        assertEquals(360000L, gameModel0.getTime());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

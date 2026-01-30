@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/gbshape/dbe/derby/DerbyTableStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/derby/DerbyTableStructure_ESTest.java
+@@ -184,21 +184,26 @@
+       ArrayList arrayList0 = derbyTableStructure0.create((HttpServletRequest) null, dBDataBean0, createTableXmlBean0);
+       assertFalse(arrayList0.isEmpty());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      ColumnBean columnBean0 = new ColumnBean();
+-      columnBean0.setDec(610);
+-      columnBean0.setLen(610);
+-      columnBean0.setName("W<1b%B5F%x");
+-      CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
+-      createTableXmlBean0.addColumn(columnBean0);
+-      DerbyTableStructure derbyTableStructure0 = new DerbyTableStructure();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      ArrayList arrayList0 = derbyTableStructure0.create(httpServletRequestWrapper0, (DBDataBean) null, createTableXmlBean0);
+-      assertFalse(arrayList0.isEmpty());
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    ColumnBean columnBean0 = new ColumnBean();
++    columnBean0.setDec(610);
++    columnBean0.setLen(610);
++    columnBean0.setName("W<1b%B5F%x");
++    // Verify that the setters correctly modified the bean's state
++    assertEquals(610, columnBean0.getDec());
++    assertEquals(610, columnBean0.getLen());
++    assertEquals("W<1b%B5F%x", columnBean0.getName());
++
++    CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
++    createTableXmlBean0.addColumn(columnBean0);
++    DerbyTableStructure derbyTableStructure0 = new DerbyTableStructure();
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    ArrayList arrayList0 = derbyTableStructure0.create(httpServletRequestWrapper0, (DBDataBean) null, createTableXmlBean0);
++    assertFalse(arrayList0.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

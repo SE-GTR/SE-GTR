@@ -1,0 +1,46 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/DocumentHandlerAdapter_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/DocumentHandlerAdapter_ESTest.java
+@@ -179,15 +179,34 @@
+          verifyException("nu.staldal.xmlutil.DocumentHandlerAdapter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      HandlerBase handlerBase0 = new HandlerBase();
+-      AttributesImpl attributesImpl0 = new AttributesImpl();
+-      DocumentHandlerAdapter documentHandlerAdapter0 = new DocumentHandlerAdapter(handlerBase0);
+-      documentHandlerAdapter0.startPrefixMapping("", "z3T5}SfR-iCo");
+-      documentHandlerAdapter0.startElement("z3T5}SfR-iCo", "", "", attributesImpl0);
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    AttributesImpl attributesImpl0 = new AttributesImpl();
++    class RecordingHandler implements org.xml.sax.DocumentHandler {
++        boolean startElementCalled = false;
++        String name;
++        org.xml.sax.AttributeList attrs;
++        @Override public void startDocument() {}
++        @Override public void endDocument() {}
++        @Override public void startElement(String name, org.xml.sax.AttributeList attrs) {
++            this.startElementCalled = true;
++            this.name = name;
++            this.attrs = attrs;
++        }
++        @Override public void endElement(String name) {}
++        @Override public void characters(char[] ch, int start, int length) {}
++        @Override public void ignorableWhitespace(char[] ch, int start, int length) {}
++        @Override public void processingInstruction(String target, String data) {}
++    }
++    RecordingHandler handler = new RecordingHandler();
++    DocumentHandlerAdapter documentHandlerAdapter0 = new DocumentHandlerAdapter(handler);
++    documentHandlerAdapter0.startPrefixMapping("", "z3T5}SfR-iCo");
++    documentHandlerAdapter0.startElement("z3T5}SfR-iCo", "", "", attributesImpl0);
++    org.junit.Assert.assertTrue(handler.startElementCalled);
++    org.junit.Assert.assertEquals("z3T5}SfR-iCo", handler.name);
++    org.junit.Assert.assertSame(attributesImpl0, handler.attrs);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

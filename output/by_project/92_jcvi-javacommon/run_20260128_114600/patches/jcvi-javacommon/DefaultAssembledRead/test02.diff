@@ -1,0 +1,56 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/assembly/DefaultAssembledRead_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/assembly/DefaultAssembledRead_ESTest.java
+@@ -78,31 +78,30 @@
+          verifyException("org.jcvi.jillion.internal.assembly.DefaultAssembledRead$Builder", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      ReferenceMappedNucleotideSequence referenceMappedNucleotideSequence0 = mock(ReferenceMappedNucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(referenceMappedNucleotideSequence0).toString();
+-      doReturn(0L, 0L, 0L, 0L).when(referenceMappedNucleotideSequence0).getLength();
+-      Range range0 = Range.of((long) 7);
+-      MockDate mockDate0 = new MockDate();
+-      PhdInfo phdInfo0 = new PhdInfo("ojS", "reference can not be null", mockDate0);
+-      Direction direction0 = Direction.REVERSE;
+-      DefaultAssembledRead defaultAssembledRead0 = new DefaultAssembledRead("reference can not be null", referenceMappedNucleotideSequence0, 7, direction0, 7, range0);
+-      AceAssembledReadAdapter aceAssembledReadAdapter0 = new AceAssembledReadAdapter(defaultAssembledRead0, phdInfo0);
+-      ReferenceMappedNucleotideSequence referenceMappedNucleotideSequence1 = aceAssembledReadAdapter0.getNucleotideSequence();
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    ReferenceMappedNucleotideSequence referenceMappedNucleotideSequence0 = mock(ReferenceMappedNucleotideSequence.class, new ViolatedAssumptionAnswer());
++    doReturn((String) null).when(referenceMappedNucleotideSequence0).toString();
++    doReturn(0L, 0L, 0L, 0L).when(referenceMappedNucleotideSequence0).getLength();
++    // Assert the stubbed return values
++    assertNull(referenceMappedNucleotideSequence0.toString());
++    assertEquals(0L, referenceMappedNucleotideSequence0.getLength());
++
++    Range range0 = Range.of((long) 7);
++    MockDate mockDate0 = new MockDate();
++    PhdInfo phdInfo0 = new PhdInfo("ojS", "reference can not be null", mockDate0);
++    Direction direction0 = Direction.REVERSE;
++    DefaultAssembledRead defaultAssembledRead0 = new DefaultAssembledRead("reference can not be null", referenceMappedNucleotideSequence0, 7, direction0, 7, range0);
++    AceAssembledReadAdapter aceAssembledReadAdapter0 = new AceAssembledReadAdapter(defaultAssembledRead0, phdInfo0);
++    ReferenceMappedNucleotideSequence referenceMappedNucleotideSequence1 = aceAssembledReadAdapter0.getNucleotideSequence();
++    try {
+         DefaultAssembledRead.createBuilder((NucleotideSequence) referenceMappedNucleotideSequence1, "reference can not be null", (NucleotideSequence) referenceMappedNucleotideSequence1, 7, direction0, range0, 7);
+         fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // read reference can not be null , last offset 7 goes beyond the reference (length 0)
+-         //
+-         verifyException("org.jcvi.jillion.internal.assembly.DefaultAssembledRead$Builder", e);
+-      }
+-  }
++    } catch (IllegalArgumentException e) {
++        verifyException("org.jcvi.jillion.internal.assembly.DefaultAssembledRead$Builder", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/LargeFastqFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/LargeFastqFileDataStore_ESTest.java
+@@ -106,23 +106,20 @@
+          verifyException("org.jcvi.jillion.trace.fastq.LargeFastqFileDataStore", e);
+       }
+   }
++@Test(timeout = 4000)
++  public void test5() throws Throwable {
++    File nonExistentFile = new File("nonexistent_file_" + System.nanoTime() + ".fastq");
++    FastqQualityCodec fastqQualityCodec0 = FastqQualityCodec.SOLEXA;
++    DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
++    try {
++      LargeFastqFileDataStore.create(nonExistentFile, dataStoreFilter0, fastqQualityCodec0);
++      fail("Expecting exception: FileNotFoundException");
++    } catch (FileNotFoundException e) {
++      // Expected exception for non-existent file
++      verifyException("org.jcvi.jillion.trace.fastq.LargeFastqFileDataStore", e);
++    }
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    mockFile0 = new MockFile("could not find ");
+-    fastqQualityCodec0 = FastqQualityCodec.SOLEXA;
+-      DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
+-      try { 
+-        LargeFastqFileDataStore.create((File) mockFile0, dataStoreFilter0, fastqQualityCodec0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // could not find /PATH/TO/SF110-20130704-src/92_jcvi-javacommon/could not find 
+-         //
+-         verifyException("org.jcvi.jillion.trace.fastq.LargeFastqFileDataStore", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

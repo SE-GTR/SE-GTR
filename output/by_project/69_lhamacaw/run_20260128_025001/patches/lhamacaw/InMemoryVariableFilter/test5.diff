@@ -1,0 +1,38 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryVariableFilter_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryVariableFilter_ESTest.java
+@@ -107,19 +107,25 @@
+       ArrayList<VariableSummary> arrayList1 = inMemoryVariableFilter0.filterVariableSummaries(user0, "+<skEZ'SbF?GE", "+<skEZ'SbF?GE", "+<skEZ'SbF?GE", variableTypeFilter0);
+       assertTrue(arrayList1.isEmpty());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
++@Test(timeout = 4000)
++public void test5() throws Throwable {
+     inMemoryVariableFilter0 = new InMemoryVariableFilter();
+     user0 = new User();
+     arrayList0 = new ArrayList<Variable>();
+-      DerivedVariable derivedVariable0 = new DerivedVariable();
+-      arrayList0.add((Variable) derivedVariable0);
+-      inMemoryVariableFilter0.setVariables(arrayList0);
+-      VariableTypeFilter variableTypeFilter0 = VariableTypeFilter.RAW;
+-      ArrayList<VariableSummary> arrayList1 = inMemoryVariableFilter0.filterVariableSummaries(user0, "", "", "", variableTypeFilter0);
+-      assertTrue(arrayList1.isEmpty());
+-  }
++    DerivedVariable derivedVariable0 = new DerivedVariable();
++    arrayList0.add(derivedVariable0);
++    // Verify that before setting variables, no DERIVED summaries are returned
++    assertTrue(inMemoryVariableFilter0.filterVariableSummaries(user0, "", "", "", VariableTypeFilter.DERIVED).isEmpty());
++    // Act: set the variables
++    inMemoryVariableFilter0.setVariables(arrayList0);
++    // Verify side‑effect: DERIVED filter now returns a non‑empty list
++    ArrayList<VariableSummary> derivedSummaries = inMemoryVariableFilter0.filterVariableSummaries(user0, "", "", "", VariableTypeFilter.DERIVED);
++    assertFalse(derivedSummaries.isEmpty());
++    // Original behavior: RAW filter should still return an empty list
++    ArrayList<VariableSummary> rawSummaries = inMemoryVariableFilter0.filterVariableSummaries(user0, "", "", "", VariableTypeFilter.RAW);
++    assertTrue(rawSummaries.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

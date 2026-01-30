@@ -1,0 +1,53 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
+@@ -212,30 +212,26 @@
+          verifyException("org.quickserver.net.client.pool.BlockingClientPool", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      LoadDistributor loadDistributor0 = mock(LoadDistributor.class, new ViolatedAssumptionAnswer());
+-      PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null, (String) null).when(poolableBlockingClient0).toString();
+-      doReturn((HostMonitor) null).when(poolableBlockingClient0).getHostMonitor();
+-      doReturn(0).when(poolableBlockingClient0).getHostMonitoringIntervalInSec();
+-      doReturn(loadDistributor0).when(poolableBlockingClient0).getLoadDistributor();
+-      doReturn(0).when(poolableBlockingClient0).getMaxIntervalForBorrowInSec();
+-      doReturn((long)0).when(poolableBlockingClient0).getNoOpTimeIntervalMiliSec();
+-      BlockingClientPool blockingClientPool0 = new BlockingClientPool("Pw_}.IrNSN[n;s-m", poolableBlockingClient0);
+-      // Undeclared exception!
+-      try { 
+-        blockingClientPool0.init();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // Host Monitor is not set!
+-         //
+-         verifyException("org.quickserver.net.client.pool.BlockingClientPool", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    LoadDistributor loadDistributor0 = mock(LoadDistributor.class, new ViolatedAssumptionAnswer());
++    PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
++    HostMonitor hostMonitor0 = mock(HostMonitor.class, new ViolatedAssumptionAnswer());
++
++    doReturn("mocked").when(poolableBlockingClient0).toString();
++    doReturn(hostMonitor0).when(poolableBlockingClient0).getHostMonitor();
++    doReturn(0).when(poolableBlockingClient0).getHostMonitoringIntervalInSec();
++    doReturn(loadDistributor0).when(poolableBlockingClient0).getLoadDistributor();
++    doReturn(0).when(poolableBlockingClient0).getMaxIntervalForBorrowInSec();
++    doReturn(0L).when(poolableBlockingClient0).getNoOpTimeIntervalMiliSec();
++
++    BlockingClientPool blockingClientPool0 = new BlockingClientPool("Pw_}.IrNSN[n;s-m", poolableBlockingClient0);
++    blockingClientPool0.init();
++
++    assertSame(hostMonitor0, blockingClientPool0.getHostMonitor());
++    assertSame(loadDistributor0, blockingClientPool0.getLoadDistributor());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

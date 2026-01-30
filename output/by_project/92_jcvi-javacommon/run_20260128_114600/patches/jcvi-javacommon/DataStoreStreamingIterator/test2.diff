@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/datastore/DataStoreStreamingIterator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/datastore/DataStoreStreamingIterator_ESTest.java
+@@ -70,24 +70,29 @@
+          verifyException("java.util.LinkedList$ListItr", e);
+       }
+   }
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
++      // Verify the stubbed behavior of the mock DataStore
++      assertTrue(dataStore0.isClosed());
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+       LinkedList<Object> linkedList0 = new LinkedList<Object>();
++      Object element = new Object();
++      linkedList0.add(element);
+       Iterator<Object> iterator0 = linkedList0.iterator();
+       DataStoreStreamingIterator<Object> dataStoreStreamingIterator0 = DataStoreStreamingIterator.create((DataStore<?>) dataStore0, iterator0);
+-      // Undeclared exception!
+-      try { 
+-        dataStoreStreamingIterator0.next();
+-        fail("Expecting exception: NoSuchElementException");
+-      
+-      } catch(NoSuchElementException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.util.LinkedList$ListItr", e);
++      // First call should return the only element
++      Object result = dataStoreStreamingIterator0.next();
++      assertSame(element, result);
++      // Second call should throw NoSuchElementException
++      try {
++          dataStoreStreamingIterator0.next();
++          fail("Expecting exception: NoSuchElementException");
++      } catch (NoSuchElementException e) {
++          // no message in exception (getMessage() returned null)
++          verifyException("java.util.LinkedList$ListItr", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

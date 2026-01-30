@@ -1,0 +1,30 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/network/SimulationServerWorker_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/network/SimulationServerWorker_ESTest.java
+@@ -33,13 +33,21 @@
+   public void test0()  throws Throwable  {
+       simulationServerWorker0.run();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     pipedReader0 = new PipedReader();
+     pipedWriter0 = new PipedWriter();
+     simulationServerWorker0 = new SimulationServerWorker(pipedReader0, pipedWriter0);
+-      SimulationFrameBuffer simulationFrameBuffer0 = new SimulationFrameBuffer();
+-      simulationServerWorker0.frameAvailable(simulationFrameBuffer0);
+-  }
++    SimulationFrameBuffer simulationFrameBuffer0 = new SimulationFrameBuffer();
++
++    // Verify that no frame is set initially
++    assertNull(simulationServerWorker0.getCurrentFrame());
++
++    // Act: provide a new frame buffer
++    simulationServerWorker0.frameAvailable(simulationFrameBuffer0);
++
++    // Verify that the current frame has been updated as a side effect
++    assertNotNull(simulationServerWorker0.getCurrentFrame());
+ }
++
++}

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/quickserver/util/pool/thread/ClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/thread/ClientPool_ESTest.java
+@@ -95,23 +95,14 @@
+          verifyException("org.apache.commons.pool.impl.StackObjectPool", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      StackObjectPool stackObjectPool0 = new StackObjectPool((PoolableObjectFactory) null);
+-      MakeQSObjectPool makeQSObjectPool0 = new MakeQSObjectPool(stackObjectPool0);
+-      ClientPool clientPool0 = new ClientPool(makeQSObjectPool0, (PoolConfig) null);
+-      try { 
+-        clientPool0.addClient((Runnable) null, true);
+-        fail("Expecting exception: NoSuchElementException");
+-      
+-      } catch(NoSuchElementException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.apache.commons.pool.impl.StackObjectPool", e);
+-      }
+-  }
++@Test(expected = NoSuchElementException.class, timeout = 4000)
++    public void test07() throws Throwable {
++        StackObjectPool stackObjectPool0 = new StackObjectPool((PoolableObjectFactory) null);
++        MakeQSObjectPool makeQSObjectPool0 = new MakeQSObjectPool(stackObjectPool0);
++        ClientPool clientPool0 = new ClientPool(makeQSObjectPool0, (PoolConfig) null);
++        clientPool0.addClient(() -> {}, true);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -822,19 +822,25 @@
+       Serializer serializer0 = ICMProxyConnection.getSerializer("urI:1SA+Contol", class0, qName0);
+       assertEquals("Axis SAX Mechanism", serializer0.getMechanismType());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test50()  throws Throwable  {
+-      ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+-      iCMProxyConnection0.setFailoverStatus("iRL.{qU!pIUw}ce]{.");
+-      ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
+-      boolean boolean0 = iCMProxyConnection0.equals(iCMProxyConnection1);
+-      assertEquals(0, iCMProxyConnection1.getSocket());
+-      assertEquals(0, iCMProxyConnection1.getPeerPort());
+-      assertFalse(boolean0);
+-      assertEquals(0, iCMProxyConnection1.getLocalPort());
+-      assertEquals(0, iCMProxyConnection1.getNihdl());
+-  }
++@Test(timeout = 4000)
++public void test50() throws Throwable {
++    ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
++    // Verify initial state before setting failover status
++    assertNull(iCMProxyConnection0.getFailoverStatus());
++    String status = "iRL.{qU!pIUw}ce]{.";
++    iCMProxyConnection0.setFailoverStatus(status);
++    // Assert that the side‑effect of setFailoverStatus is observable
++    assertEquals(status, iCMProxyConnection0.getFailoverStatus());
++
++    ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
++    boolean boolean0 = iCMProxyConnection0.equals(iCMProxyConnection1);
++    assertEquals(0, iCMProxyConnection1.getSocket());
++    assertEquals(0, iCMProxyConnection1.getPeerPort());
++    assertFalse(boolean0);
++    assertEquals(0, iCMProxyConnection1.getLocalPort());
++    assertEquals(0, iCMProxyConnection1.getNihdl());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test51()  throws Throwable  {

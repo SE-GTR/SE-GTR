@@ -1,0 +1,48 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/EncodedSequence_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/EncodedSequence_ESTest.java
+@@ -65,23 +65,29 @@
+          verifyException("org.jcvi.jillion.internal.core.EncodedSequence$RangedIterator", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
++@Test(timeout = 4000, expected = NullPointerException.class)
++  public void test02() throws Throwable {
+       byte[] byteArray0 = new byte[10];
+-      EncodedSequence<Integer> encodedSequence0 = new EncodedSequence<Integer>((GlyphCodec<Integer>) null, byteArray0);
+-      // Undeclared exception!
+-      try { 
+-        encodedSequence0.iterator((Range) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.internal.core.EncodedSequence", e);
+-      }
+-  }
++      org.jcvi.jillion.core.GlyphCodec<Integer> codec = new org.jcvi.jillion.core.GlyphCodec<Integer>() {
++          @Override
++          public Integer decode(byte b) {
++              return (int) b;
++          }
++
++          @Override
++          public byte encode(Integer value) {
++              return value.byteValue();
++          }
++
++          @Override
++          public int getBitsPerGlyph() {
++              return 8;
++          }
++      };
++      EncodedSequence<Integer> encodedSequence0 = new EncodedSequence<Integer>(codec, byteArray0);
++      encodedSequence0.iterator(null);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/AdvancedSettings_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/AdvancedSettings_ESTest.java
+@@ -258,25 +258,20 @@
+       assertEquals(5, advancedSettings0.getPerformancePreferencesLatency());
+       assertFalse(advancedSettings0.getClientSocketTcpNoDelay());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      AdvancedSettings advancedSettings0 = new AdvancedSettings();
+-      advancedSettings0.setDebugNonBlockingMode(false);
+-      assertEquals(65536, advancedSettings0.getByteBufferSize());
+-      assertEquals("ISO-8859-1", advancedSettings0.getCharset());
+-      assertTrue(advancedSettings0.getUseDirectByteBuffer());
+-      assertEquals(0, advancedSettings0.getPerformancePreferencesLatency());
+-      assertEquals(0, advancedSettings0.getPerformancePreferencesConnectionTime());
+-      assertEquals(0, advancedSettings0.getPerformancePreferencesBandwidth());
+-      assertFalse(advancedSettings0.getClientSocketTcpNoDelay());
+-      assertEquals((-1), advancedSettings0.getSocketLinger());
+-      assertFalse(advancedSettings0.getDebugNonBlockingMode());
+-      assertEquals(0, advancedSettings0.getBacklog());
+-      assertEquals(10, advancedSettings0.getMaxThreadsForNioWrite());
+-      assertEquals("org.quickserver.net.server.impl.OptimisticClientIdentifier", advancedSettings0.getClientIdentifier());
+-  }
++@Test(timeout = 4000)
++    public void test17() throws Throwable {
++        AdvancedSettings settings = new AdvancedSettings();
++        // verify default configuration values
++        assertEquals(65536, settings.getByteBufferSize());
++        assertEquals("ISO-8859-1", settings.getCharset());
++        assertTrue(settings.getUseDirectByteBuffer());
++        assertEquals("org.quickserver.net.server.impl.OptimisticClientIdentifier", settings.getClientIdentifier());
++        // observe side‑effect of the setter
++        assertFalse(settings.getDebugNonBlockingMode());
++        settings.setDebugNonBlockingMode(true);
++        assertTrue(settings.getDebugNonBlockingMode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

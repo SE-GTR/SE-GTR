@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/heal/util/VCardBean_ESTest.java
++++ b/evosuite-tests/org/heal/util/VCardBean_ESTest.java
+@@ -299,12 +299,16 @@
+       String string0 = vCardBean0.toString();
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      VCardBean vCardBean0 = new VCardBean();
+-      vCardBean0.setVCard("BEGIN:VCARD\nFN:5Sk` pfTm%r}9;\"\"g 5Sk` pfTm%r}9;\"\"g\nN:5Sk` pfTm%r}9;\"\"g;;5Sk` pfTm%r}9;\"\"g;\nORG:5Sk` pfTm%r}9;\"\"g\nEMAIL;TYPE=INTERNET:5Sk` pfTm%r}9;\"\"g\nTEL;TYPE=VOICE:5Sk` pfTm%r}9;\"\"g\nTEL;TYPE=FAX:BEGIN:VCARDBEGIN:VCARD\nFN:UBS9*7NHTP {~B\nN:{~B;;UBS9*7NHTP;\nTITLE:5SK` PFTM%R9,;\"\"G\nORG:5SK` PFTM%R9,;\"\"G\nEMAIL;TYPE=INTERNET:5SK` PFTM%R9,;\"\"G\nTEL;TYPE=VOICE:5SK` PFTM%R9,;\"\"G\nTEL;TYPE=FAX:5SK` PFTM%R9,;\"\"G\nEND:VCARD\nEND:VCARD");
+-      assertEquals("5SK` PFTM%R9,;\"\"G", vCardBean0.getOrganization());
+-      assertEquals("5SK` PFTM%R9,;\"\"G", vCardBean0.getPhone());
+-  }
+-}
++@Test(timeout = 4000)
++public void test20() throws Throwable {
++    VCardBean vCardBean0 = new VCardBean();
++    String vcard = "BEGIN:VCARD\nFN:5Sk` pfTm%r}9;\"\"g 5Sk` pfTm%r}9;\"\"g\nN:5Sk` pfTm%r}9;\"\"g;;5Sk` pfTm%r}9;\"\"g;\nORG:5SK` PFTM%R9,;\"\"G\nEMAIL;TYPE=INTERNET:5SK` PFTM%R9,;\"\"G\nTEL;TYPE=VOICE:5SK` PFTM%R9,;\"\"G\nTEL;TYPE=FAX:5SK` PFTM%R9,;\"\"G\nEND:VCARD\nEND:VCARD";
++    vCardBean0.setVCard(vcard);
++    assertEquals("5SK` PFTM%R9,;\"\"G", vCardBean0.getOrganization());
++    assertEquals("5SK` PFTM%R9,;\"\"G", vCardBean0.getPhone());
++    // Additional assertions to verify side‑effects of setVCard
++    assertNotNull(vCardBean0.getVCard());
++    assertTrue(vCardBean0.getVCard().startsWith("BEGIN:VCARD"));
++}
++
++}

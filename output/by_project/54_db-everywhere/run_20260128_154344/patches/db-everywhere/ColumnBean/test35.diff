@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
+@@ -292,13 +292,24 @@
+       assertEquals(0, columnBean0.getDec());
+   }
+ @Test(timeout = 4000)
+-    public void test35() throws Throwable {
+-        ColumnBean columnBean0 = new ColumnBean();
+-        columnBean0.setTableName("myTable");
+-        assertEquals("myTable", columnBean0.getTableName());
+-        assertEquals(0, columnBean0.getDec());
+-        assertEquals(0, columnBean0.getLen());
+-    }
++public void test35() throws Throwable {
++    ColumnBean bean = new ColumnBean();
++    // Verify initial state
++    assertEquals("", bean.getTableName());
++    assertEquals(0, bean.getDec());
++    assertEquals(0, bean.getLen());
++
++    // Change state
++    bean.setTableName("myTable");
++    // Verify side effect
++    assertEquals("myTable", bean.getTableName());
++    assertNotEquals("", bean.getTableName());
++
++    // Ensure other fields remain unchanged
++    assertEquals(0, bean.getDec());
++    assertEquals(0, bean.getLen());
++}
++
+ 
+ public void test36() throws Throwable {
+     ColumnBean columnBean0 = new ColumnBean();

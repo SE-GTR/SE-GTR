@@ -1,0 +1,42 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -882,25 +882,20 @@
+         assertEquals(handballModel_State0, handballModel0.getState());
+         assertEquals(0, handballModel0.getAcutalSequenceNr());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test70()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Defender defender0 = new Defender((-3445), (-3445));
+-      handballModel0.addPlayerRemovedListener((PlayerRemovedListener) null);
+-      // Undeclared exception!
+-      try { 
+-        handballModel0.removePlayer(defender0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("visu.handball.moves.model.HandballModel", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test70() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        Defender defender0 = new Defender((-3445), (-3445));
++        boolean listenerAdded = handballModel0.addPlayerRemovedListener((PlayerRemovedListener) null);
++        assertFalse(listenerAdded);
++        try {
++            handballModel0.removePlayer(defender0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            verifyException("visu.handball.moves.model.HandballModel", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test71()  throws Throwable  {

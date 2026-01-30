@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/view/HtmlTablePage_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/view/HtmlTablePage_ESTest.java
+@@ -104,21 +104,16 @@
+         HtmlTablePage htmlTablePage0 = HtmlTablePage.getInstance();
+         htmlTablePage0.write(null, null, null, null, null);
+     }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        htmlTablePage0 = HtmlTablePage.getInstance();
++        java.io.StringWriter stringWriter = new java.io.StringWriter();
++        net.sourceforge.schemaspy.util.LineWriter lineWriter = new net.sourceforge.schemaspy.util.LineWriter(stringWriter);
++        htmlTablePage0.writeTableOfContents(lineWriter);
++        String output = stringWriter.toString();
++        assertNotNull("The output should not be null", output);
++        // Basic sanity check: the table of contents should contain at least one list element
++        assertTrue("The output should contain a list element", output.contains("<ul") || output.contains("<li"));
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    htmlTablePage0 = HtmlTablePage.getInstance();
+-      // Undeclared exception!
+-      try { 
+-        htmlTablePage0.writeTableOfContents((LineWriter) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.schemaspy.view.HtmlFormatter", e);
+-      }
+-  }
+ }

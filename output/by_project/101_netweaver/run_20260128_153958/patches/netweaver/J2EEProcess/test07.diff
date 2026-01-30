@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
+@@ -150,18 +150,26 @@
+         assertTrue(j2EEProcess1.equals((Object) j2EEProcess0));
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      J2EEProcess j2EEProcess0 = new J2EEProcess();
+-      J2EEProcess j2EEProcess1 = new J2EEProcess();
+-      assertTrue(j2EEProcess1.equals((Object)j2EEProcess0));
+-      
+-      j2EEProcess1.setElapsedTime("_V@dVod:{lZ");
+-      boolean boolean0 = j2EEProcess0.equals(j2EEProcess1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        J2EEProcess j2EEProcess0 = new J2EEProcess();
++        J2EEProcess j2EEProcess1 = new J2EEProcess();
++        assertTrue(j2EEProcess1.equals((Object) j2EEProcess0));
++
++        // Verify initial state of elapsedTime
++        assertNull(j2EEProcess1.getElapsedTime());
++
++        // Act: change elapsedTime
++        j2EEProcess1.setElapsedTime("_V@dVod:{lZ");
++
++        // Assert side‑effect observed via getter
++        assertEquals("_V@dVod:{lZ", j2EEProcess1.getElapsedTime());
++
++        // Equality should now reflect the changed state
++        boolean boolean0 = j2EEProcess0.equals(j2EEProcess1);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

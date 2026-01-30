@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
+@@ -238,12 +238,21 @@
+     org.junit.Assert.assertNotNull(userid);
+     org.junit.Assert.assertFalse(userid.isEmpty());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      MySQLConfig.setLogin_db_account_id("wQO}a[X5b8G");
+-  }
++@Test(timeout = 4000)
++public void test29() throws Throwable {
++    // Preserve the original value to avoid affecting other tests
++    String original = MySQLConfig.getLogin_db_account_id();
++
++    String newValue = "wQO}a[X5b8G";
++    MySQLConfig.setLogin_db_account_id(newValue);
++
++    // Verify that the setter correctly updated the internal state
++    assertEquals(newValue, MySQLConfig.getLogin_db_account_id());
++
++    // Restore original state
++    MySQLConfig.setLogin_db_account_id(original);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

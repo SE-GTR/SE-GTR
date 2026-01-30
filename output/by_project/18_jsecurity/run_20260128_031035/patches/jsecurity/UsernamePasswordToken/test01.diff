@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jsecurity/authc/UsernamePasswordToken_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/UsernamePasswordToken_ESTest.java
+@@ -24,16 +24,25 @@
+       String string0 = usernamePasswordToken0.toString();
+       assertEquals("org.jsecurity.authc.UsernamePasswordToken - YWTls8?, rememberMe=false (YWTls8?/200.42.42.0)", string0);
+   }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    InetAddress inetAddress0 = MockInetAddress.getLocalHost();
++    UsernamePasswordToken usernamePasswordToken0 = new UsernamePasswordToken("V@:NK3j", "V@:NK3j", inetAddress0);
++    // verify initial state before clear
++    assertEquals("V@:NK3j", usernamePasswordToken0.getUsername());
++    assertNotNull(usernamePasswordToken0.getPassword());
++    assertEquals(inetAddress0, usernamePasswordToken0.getInetAddress());
++    // act
++    usernamePasswordToken0.clear();
++    // verify side effects of clear()
++    assertNull(usernamePasswordToken0.getUsername());
++    assertNull(usernamePasswordToken0.getPassword());
++    assertNull(usernamePasswordToken0.getInetAddress());
++    assertFalse(usernamePasswordToken0.isRememberMe());
++    String string0 = usernamePasswordToken0.toString();
++    assertEquals("org.jsecurity.authc.UsernamePasswordToken - null, rememberMe=false", string0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      InetAddress inetAddress0 = MockInetAddress.getLocalHost();
+-      UsernamePasswordToken usernamePasswordToken0 = new UsernamePasswordToken("V@:NK3j", "V@:NK3j", inetAddress0);
+-      usernamePasswordToken0.clear();
+-      String string0 = usernamePasswordToken0.toString();
+-      assertEquals("org.jsecurity.authc.UsernamePasswordToken - null, rememberMe=false", string0);
+-      assertFalse(usernamePasswordToken0.isRememberMe());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

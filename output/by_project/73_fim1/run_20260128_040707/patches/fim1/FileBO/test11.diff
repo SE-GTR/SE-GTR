@@ -1,0 +1,35 @@
+--- a/evosuite-tests/osa/ora/server/bo/FileBO_ESTest.java
++++ b/evosuite-tests/osa/ora/server/bo/FileBO_ESTest.java
+@@ -117,22 +117,16 @@
+          verifyException("osa.ora.server.bo.FileBO", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      FileBO fileBO0 = new FileBO("user", (ModernChatServer) null);
+-      // Undeclared exception!
+-      try { 
+-        fileBO0.createUser((User) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("osa.ora.server.bo.FileBO", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        ModernChatServer server = new ModernChatServer();
++        FileBO fileBO0 = new FileBO("user", server);
++        User user = new User();
++        // Verify that creating a user with valid arguments does not throw an exception
++        User created = fileBO0.createUser(user);
++        assertNotNull(created);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

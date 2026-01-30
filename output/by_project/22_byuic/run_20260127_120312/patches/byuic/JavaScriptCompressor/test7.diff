@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/yahoo/platform/yui/compressor/JavaScriptCompressor_ESTest.java
++++ b/evosuite-tests/com/yahoo/platform/yui/compressor/JavaScriptCompressor_ESTest.java
+@@ -96,17 +96,19 @@
+         // Verify that the compression produced the expected output length
+         assertEquals(5, stringWriter0.toString().length());
+     }
++@Test(timeout = 4000)
++    public void test7() throws Throwable {
++        ToolErrorReporter toolErrorReporter0 = new ToolErrorReporter(false);
++        StringReader stringReader0 = new StringReader("eval");
++        StringWriter stringWriter0 = new StringWriter();
++        JavaScriptCompressor javaScriptCompressor0 = new JavaScriptCompressor(stringReader0, toolErrorReporter0);
++        javaScriptCompressor0.compress(stringWriter0, 639, false, false, false, false);
++        String result = stringWriter0.toString();
++        assertEquals("eval;", result);
++        // Verify that the large linebreak value does not introduce line breaks in the output
++        assertFalse(result.contains("\n"));
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      ToolErrorReporter toolErrorReporter0 = new ToolErrorReporter(false);
+-      StringReader stringReader0 = new StringReader("eval");
+-      StringWriter stringWriter0 = new StringWriter();
+-      JavaScriptCompressor javaScriptCompressor0 = new JavaScriptCompressor(stringReader0, toolErrorReporter0);
+-      javaScriptCompressor0.compress(stringWriter0, 639, false, false, false, false);
+-      assertEquals("eval;", stringWriter0.toString());
+-  }
+ @Test(timeout = 4000)
+     public void test8() throws Throwable {
+         StringReader stringReader0 = new StringReader("var a = 1;");

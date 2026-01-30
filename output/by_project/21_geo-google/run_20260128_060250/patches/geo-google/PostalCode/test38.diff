@@ -1,0 +1,34 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostalCode_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostalCode_ESTest.java
+@@ -292,13 +292,24 @@
+       PostalCode.PostTown postalCode_PostTown0 = postalCode0.getPostTown();
+       assertNull(postalCode_PostTown0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test38()  throws Throwable  {
+-      PostalCode postalCode0 = new PostalCode();
+-      postalCode0.setType("R5H/jE'^3,;-");
+-      assertEquals("R5H/jE'^3,;-", postalCode0.getType());
+-  }
++@Test(timeout = 4000)
++    public void test38() throws Throwable {
++        PostalCode postalCode0 = new PostalCode();
++        // Capture initial state of collections that are not affected by setType
++        int initialAddressLineSize = postalCode0.getAddressLine().size();
++        int initialPostalCodeNumberSize = postalCode0.getPostalCodeNumber().size();
++
++        String typeValue = "R5H/jE'^3,;-";
++        postalCode0.setType(typeValue);
++
++        // Verify the side‑effect of setType
++        assertEquals(typeValue, postalCode0.getType());
++
++        // Verify that unrelated state remains unchanged
++        assertEquals(initialAddressLineSize, postalCode0.getAddressLine().size());
++        assertEquals(initialPostalCodeNumberSize, postalCode0.getPostalCodeNumber().size());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test39()  throws Throwable  {

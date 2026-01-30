@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/assembly/DefaultAssembledRead_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/assembly/DefaultAssembledRead_ESTest.java
+@@ -103,26 +103,23 @@
+          verifyException("org.jcvi.jillion.internal.assembly.DefaultAssembledRead$Builder", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      ReferenceMappedNucleotideSequence referenceMappedNucleotideSequence0 = mock(ReferenceMappedNucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(0L).when(referenceMappedNucleotideSequence0).getLength();
+-      Direction direction0 = Direction.FORWARD;
+-      Range range0 = Range.of((long) 2986);
+-      DefaultAssembledRead defaultAssembledRead0 = new DefaultAssembledRead("pZVZnSaw#y)ym.2)D", referenceMappedNucleotideSequence0, 2986, direction0, 2986, range0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    ReferenceMappedNucleotideSequence referenceMappedNucleotideSequence0 = mock(ReferenceMappedNucleotideSequence.class, new ViolatedAssumptionAnswer());
++    doReturn(0L).when(referenceMappedNucleotideSequence0).getLength();
++    long length = referenceMappedNucleotideSequence0.getLength();
++    assertEquals(0L, length);
++    Direction direction0 = Direction.FORWARD;
++    Range range0 = Range.of((long) 2986);
++    DefaultAssembledRead defaultAssembledRead0 = new DefaultAssembledRead("pZVZnSaw#y)ym.2)D", referenceMappedNucleotideSequence0, 2986, direction0, 2986, range0);
++    try {
+         defaultAssembledRead0.toGappedValidRangeOffset(2986);
+         fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // reference index refers to index after valid range
+-         //
+-         verifyException("org.jcvi.jillion.internal.assembly.DefaultAssembledRead", e);
+-      }
+-  }
++    } catch (IllegalArgumentException e) {
++        verifyException("org.jcvi.jillion.internal.assembly.DefaultAssembledRead", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

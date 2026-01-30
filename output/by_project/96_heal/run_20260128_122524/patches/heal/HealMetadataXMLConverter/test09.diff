@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
+@@ -148,23 +148,17 @@
+          verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      completeMetadataBean0.setContextURLs((ArrayList) null);
+-      try { 
+-        HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, (OutputStream) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // java.lang.NullPointerException
+-         //
+-         verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        CompleteMetadataBean bean = new CompleteMetadataBean();
++        bean.setContextURLs(new ArrayList());
++        ByteArrayOutputStream out = new ByteArrayOutputStream();
++        // Use a null FileLocator; the converter should handle an empty metadata bean without external resources.
++        HealMetadataXMLConverter.metadataToIMSXML(bean, null, out);
++        // Verify that some XML content was produced.
++        assertTrue("Output should not be empty", out.size() > 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

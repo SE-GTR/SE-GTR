@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
+@@ -345,22 +345,18 @@
+       assertFalse(jDBCDBImporter0.isImportingPackages());
+       assertTrue(jDBCDBImporter0.isImportingIndexes());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
+-      JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter("org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact");
+-      DBCatalog dBCatalog0 = new DBCatalog("org.apache.derby.iapi.store.access.GlobalXact");
+-      DBSchema dBSchema0 = new DBSchema((String) null, dBCatalog0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test32() throws Throwable {
++        JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter(
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact");
++        DBCatalog dBCatalog0 = new DBCatalog("org.apache.derby.iapi.store.access.GlobalXact");
++        DBSchema dBSchema0 = new DBSchema((String) null, dBCatalog0);
+         jDBCDBImporter0.importTable(dBCatalog0, dBSchema0, (String) null, (String) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.model.jdbc.JDBCDBImporter", e);
+-      }
+-  }
++    }
++
+ }

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/gbshape/dbe/sapdb/SapdbTableStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/sapdb/SapdbTableStructure_ESTest.java
+@@ -689,15 +689,23 @@
+          verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test48()  throws Throwable  {
+-      DBDataBean dBDataBean0 = new DBDataBean();
+-      dBDataBean0.setDriver("org.apache.oro.text.MalformedCachePatternException");
+-      SapdbTableStructure sapdbTableStructure0 = new SapdbTableStructure();
+-      TableStructureBean tableStructureBean0 = sapdbTableStructure0.getStructure(dBDataBean0, "org.apache.oro.text.MalformedCachePatternException");
+-      assertEquals("org.apache.oro.text.MalformedCachePatternException", tableStructureBean0.getTableName());
+-  }
++@Test(timeout = 4000)
++public void test48() throws Throwable {
++    DBDataBean dBDataBean0 = new DBDataBean();
++    // Verify that the driver field is initially unset (null or empty)
++    String initialDriver = dBDataBean0.getDriver();
++    assertTrue(initialDriver == null || initialDriver.isEmpty());
++
++    String driverValue = "org.apache.oro.text.MalformedCachePatternException";
++    dBDataBean0.setDriver(driverValue);
++    // Assert that the side‑effect of setDriver is observable via the getter
++    assertEquals(driverValue, dBDataBean0.getDriver());
++
++    SapdbTableStructure sapdbTableStructure0 = new SapdbTableStructure();
++    TableStructureBean tableStructureBean0 = sapdbTableStructure0.getStructure(dBDataBean0, driverValue);
++    assertEquals(driverValue, tableStructureBean0.getTableName());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test49()  throws Throwable  {

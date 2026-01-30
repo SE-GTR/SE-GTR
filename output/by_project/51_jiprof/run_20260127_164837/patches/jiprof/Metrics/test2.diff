@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/runtime/Metrics_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/runtime/Metrics_ESTest.java
+@@ -28,16 +28,20 @@
+     metrics0.adjust(0L);
+     assertEquals(0L, metrics0.getTotalTime());
+ }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        Metrics metrics0 = new Metrics();
++        metrics0.inc(2068L);
++        metrics0.inc(1L);
++        // Verify that two increments affect count and total time
++        assertEquals(2L, metrics0.getCount());
++        assertEquals(2069L, metrics0.getTotalTime());
++        // Adjust should modify total time but leave count unchanged
++        metrics0.adjust(2068L);
++        assertEquals(2L, metrics0.getCount());
++        assertEquals(1L, metrics0.getTotalTime());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      Metrics metrics0 = new Metrics();
+-      metrics0.inc(2068L);
+-      metrics0.inc(1L);
+-      metrics0.adjust(2068L);
+-      assertEquals(2L, metrics0.getCount());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

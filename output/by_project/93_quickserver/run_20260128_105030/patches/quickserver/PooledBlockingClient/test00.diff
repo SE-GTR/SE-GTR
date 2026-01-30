@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/PooledBlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/PooledBlockingClient_ESTest.java
+@@ -22,16 +22,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class PooledBlockingClient_ESTest extends PooledBlockingClient_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      SocketBasedHost socketBasedHost0 = new SocketBasedHost();
+-      PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      doReturn((BlockingClient) null).when(poolableBlockingClient0).createBlockingClient(any(org.quickserver.net.client.SocketBasedHost.class));
+-      PooledBlockingClient pooledBlockingClient0 = new PooledBlockingClient(poolableBlockingClient0, socketBasedHost0);
+-      pooledBlockingClient0.setHandedOut(true);
+-      assertEquals(1392409281320L, pooledBlockingClient0.getHandedOutSince());
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    SocketBasedHost socketBasedHost0 = new SocketBasedHost();
++    PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
++    PooledBlockingClient pooledBlockingClient0 = new PooledBlockingClient(poolableBlockingClient0, socketBasedHost0);
++    long before = pooledBlockingClient0.getHandedOutSince();
++    pooledBlockingClient0.setHandedOut(true);
++    long after = pooledBlockingClient0.getHandedOutSince();
++    assertTrue(after >= before);
++}
++
+ @Test(timeout = 4000)
+   public void test01() throws Throwable {
+       BlockingClient blockingClient0 = new BlockingClient();

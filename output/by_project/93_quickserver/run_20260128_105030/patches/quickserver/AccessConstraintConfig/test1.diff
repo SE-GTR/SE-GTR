@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/AccessConstraintConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/AccessConstraintConfig_ESTest.java
+@@ -47,16 +47,21 @@
+          verifyException("org.evosuite.runtime.mock.java.net.MockInetAddress", e);
+       }
+   }
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
++    accessConstraintConfig0 = new AccessConstraintConfig();
++    // Verify initial state before setting IP filter config
++    assertNull(accessConstraintConfig0.getIpFilterConfig());
++    mockSocket0 = new MockSocket();
++    IpFilterConfig ipFilterConfig0 = new IpFilterConfig();
++    accessConstraintConfig0.setIpFilterConfig(ipFilterConfig0);
++    // Assert that the side‑effect of setIpFilterConfig is observable
++    assertSame(ipFilterConfig0, accessConstraintConfig0.getIpFilterConfig());
++    accessConstraintConfig0.checkAccept(mockSocket0);
++    // Verify the observable effect of checkAccept on the socket
++    assertFalse(mockSocket0.isBound());
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    accessConstraintConfig0 = new AccessConstraintConfig();
+-    mockSocket0 = new MockSocket();
+-      IpFilterConfig ipFilterConfig0 = new IpFilterConfig();
+-      accessConstraintConfig0.setIpFilterConfig(ipFilterConfig0);
+-      accessConstraintConfig0.checkAccept(mockSocket0);
+-      assertFalse(mockSocket0.isBound());
+-  }
+ @Test(timeout = 4000)
+     public void test2() throws Throwable {
+         // Ensure the socket starts unbound

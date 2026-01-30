@@ -1,0 +1,29 @@
+--- a/evosuite-tests/macaw/persistenceLayer/production/SQLConnectionManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/production/SQLConnectionManager_ESTest.java
+@@ -59,14 +59,19 @@
+     SQLConnectionManager sQLConnectionManager0 = new SQLConnectionManager(sessionProperties0);
+     assertEquals(0, sQLConnectionManager0.getNumberOfConnections());
+ }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    SessionProperties sessionProperties0 = new SessionProperties();
++    // Provide a valid driver class name to avoid NoClassDefFoundError during initialization
++    sessionProperties0.databaseDriverClassName = "org.h2.Driver";
++    sessionProperties0.databaseURL = "jdbc:h2:mem:test";
++    sessionProperties0.dbUser = "sa";
++    sessionProperties0.dbPassword = "";
++    SQLConnectionManager sQLConnectionManager0 = new SQLConnectionManager(sessionProperties0);
++    // Verify that no connections are available initially
++    assertEquals(0, sQLConnectionManager0.getNumberOfConnections());
++}
+ 
+-@Test(timeout = 4000)
+-    public void test3() throws Throwable {
+-        SessionProperties sessionProperties0 = new SessionProperties();
+-        SQLConnectionManager sQLConnectionManager0 = new SQLConnectionManager(sessionProperties0);
+-        // Verify that no connections are available initially
+-        assertEquals(0, sQLConnectionManager0.getNumberOfConnections());
+-    }
+ @Test(timeout = 4000)
+ public void test4() throws Throwable {
+     assertNotNull(sQLConnectionManager0);

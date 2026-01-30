@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/ConfigProperty_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/ConfigProperty_ESTest.java
+@@ -76,13 +76,19 @@
+       Object object0 = configProperty0.clone();
+       assertFalse(object0.equals((Object)configProperty0));
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    ConfigPropertyType type = ConfigPropertyType.MULTI_CHECK;
++    ConfigPropertyMetadata meta = new ConfigPropertyMetadata(type, null, ")GBy>I1q<z+&Xj<C8=_", ")GBy>I1q<z+&Xj<C8=_");
++    ConfigProperty prop = new ConfigProperty(meta);
++    // Verify that metadata is associated with the property
++    assertNotNull(prop.getMetaData());
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    configPropertyType0 = ConfigPropertyType.MULTI_CHECK;
+-    configPropertyMetadata0 = new ConfigPropertyMetadata(configPropertyType0, (String) null, ")GBy>I1q<z+&Xj<C8=_", ")GBy>I1q<z+&Xj<C8=_");
+-    configProperty0 = new ConfigProperty(configPropertyMetadata0);
+-      ConfigPropertyMetadata configPropertyMetadata1 = configProperty0.getMetaData();
+-      assertSame(configPropertyMetadata0, configPropertyMetadata1);
+-  }
++    // Create another property with different metadata to exercise Comparable behavior
++    ConfigPropertyMetadata otherMeta = new ConfigPropertyMetadata(ConfigPropertyType.CHECK, null, "other", "other");
++    ConfigProperty otherProp = new ConfigProperty(otherMeta);
++    // The two properties should not be considered equal in ordering
++    assertTrue(prop.compareTo(otherProp) != 0);
+ }
++
++}

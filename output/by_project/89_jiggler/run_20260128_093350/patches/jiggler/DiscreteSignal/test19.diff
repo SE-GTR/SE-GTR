@@ -1,0 +1,30 @@
+--- a/evosuite-tests/jigl/signal/DiscreteSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/DiscreteSignal_ESTest.java
+@@ -197,14 +197,19 @@
+     // Verify that the internal data length remains unchanged after median operation
+     assertEquals(3, discreteSignal0.getData().length);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      DiscreteSignal discreteSignal0 = new DiscreteSignal(3061);
+-      // Undeclared exception!
+-      discreteSignal0.median((int) (short)151);
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        DiscreteSignal discreteSignal0 = new DiscreteSignal(3061);
++        // Capture observable state before invoking median
++        int lengthBefore = discreteSignal0.getData().length;
++        // Act
++        discreteSignal0.median((int) (short) 151);
++        // Verify that the median operation does not alter the signal length
++        assertEquals(lengthBefore, discreteSignal0.getData().length);
++        // Verify that the internal data array is still present
++        assertNotNull(discreteSignal0.getData());
++    }
++
+ @Test(timeout = 4000)
+ public void test20() throws Throwable {
+     ROI rOI0 = new ROI();

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/tigr/contig/TigrContigFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/tigr/contig/TigrContigFileParser_ESTest.java
+@@ -98,20 +98,22 @@
+          verifyException("org.jcvi.jillion.assembly.tigr.contig.TigrContigFileParser$InputStreamBasedTigrContigParser", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        java.nio.file.Path temp = java.nio.file.Files.createTempFile("tigr", ".txt");
++        java.nio.file.Files.write(temp, new byte[0]);
++        File file = temp.toFile();
++        file.deleteOnExit();
++        TigrContigFileParser parser = TigrContigFileParser.create(file);
++        assertNotNull(parser);
++        try {
++            parser.accept((TigrContigFileVisitor) null);
++            fail("Expecting NullPointerException");
++        } catch (NullPointerException e) {
++            // expected
++        } catch (IOException e) {
++            fail("Unexpected IOException: " + e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("y", "y");
+-      TigrContigFileParser tigrContigFileParser0 = TigrContigFileParser.create((File) mockFile0);
+-      try { 
+-        tigrContigFileParser0.accept((TigrContigFileVisitor) null);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
+ }

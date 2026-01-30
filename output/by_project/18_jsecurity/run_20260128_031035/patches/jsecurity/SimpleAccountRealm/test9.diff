@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jsecurity/realm/SimpleAccountRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/SimpleAccountRealm_ESTest.java
+@@ -110,14 +110,18 @@
+          verifyException("java.util.Collections$EmptyIterator", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test9() throws Throwable {
++        hashtableCache0 = new HashtableCache("Th8 cre&entiaWs for &cco [");
++        simpleAccountRealm0 = new SimpleAccountRealm();
++        // Verify that the authorization cache is initially null
++        assertNull(simpleAccountRealm0.getAuthorizationCache());
++        // Set the cache and assert the side‑effect
++        simpleAccountRealm0.setAuthorizationCache(hashtableCache0);
++        assertSame(hashtableCache0, simpleAccountRealm0.getAuthorizationCache());
++        // Add an account and verify it exists
++        simpleAccountRealm0.addAccount("Th8 cre&entiaWs for &cco [", "Th8 cre&entiaWs for &cco [");
++        assertTrue(simpleAccountRealm0.accountExists("Th8 cre&entiaWs for &cco ["));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test9()  throws Throwable  {
+-    hashtableCache0 = new HashtableCache("Th8 cre&entiaWs for &cco [");
+-    simpleAccountRealm0 = new SimpleAccountRealm();
+-      simpleAccountRealm0.setAuthorizationCache(hashtableCache0);
+-      simpleAccountRealm0.addAccount("Th8 cre&entiaWs for &cco [", "Th8 cre&entiaWs for &cco [");
+-      boolean boolean0 = simpleAccountRealm0.accountExists("Th8 cre&entiaWs for &cco [");
+-      assertTrue(boolean0);
+-  }
+ }

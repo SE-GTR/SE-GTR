@@ -1,0 +1,31 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Premise_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Premise_ESTest.java
+@@ -131,14 +131,20 @@
+       List<PremiseNumberSuffix> list1 = premise0.getPremiseNumberSuffix();
+       assertSame(list1, list0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-    premise0 = new Premise();
+-    list0 = premise0.getPremiseNumberPrefix();
+-      List<PremiseNumberPrefix> list1 = premise0.getPremiseNumberPrefix();
+-      assertSame(list1, list0);
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        Premise premise0 = new Premise();
++        List<PremiseNumberPrefix> list = premise0.getPremiseNumberPrefix();
++        // Verify the list is initially empty
++        assertTrue(list.isEmpty());
++        // Exercise mutability by adding an element
++        PremiseNumberPrefix prefix = new PremiseNumberPrefix();
++        list.add(prefix);
++        // Assert the effect of the operation
++        assertEquals(1, list.size());
++        assertSame(prefix, list.get(0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

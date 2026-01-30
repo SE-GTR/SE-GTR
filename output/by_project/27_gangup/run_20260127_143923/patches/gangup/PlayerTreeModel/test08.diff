@@ -1,0 +1,32 @@
+--- a/evosuite-tests/gui/PlayerTreeModel_ESTest.java
++++ b/evosuite-tests/gui/PlayerTreeModel_ESTest.java
+@@ -106,16 +106,19 @@
+     int int0 = playerTreeModel0.getIndexOfChild(rootBefore, (Object) null);
+     assertEquals(-1, int0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      PlayerTreeModel playerTreeModel0 = new PlayerTreeModel();
+-      GameState gameState0 = new GameState();
+-      playerTreeModel0.setState(gameState0);
+-      int int0 = playerTreeModel0.getIndexOfChild((Object) null, (Object) null);
+-      assertEquals((-1), int0);
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        PlayerTreeModel playerTreeModel0 = new PlayerTreeModel();
++        GameState gameState0 = new GameState();
++        // Verify that setState correctly updates the model's internal state
++        playerTreeModel0.setState(gameState0);
++        assertSame("The state should be set to the provided GameState instance", gameState0,
++                playerTreeModel0.getState());
++        // Additional behavior check after state is set
++        int int0 = playerTreeModel0.getIndexOfChild((Object) null, (Object) null);
++        assertEquals(-1, int0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
+@@ -110,14 +110,18 @@
+          verifyException("org.jsecurity.web.config.IniWebConfiguration", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
+-      HashMap<String, Object> hashMap0 = new HashMap<String, Object>();
+-      iniWebConfiguration0.assertFilters(hashMap0);
+-      assertNull(iniWebConfiguration0.getConfig());
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
++    Map<String, Object> map = new HashMap<>();
++    // Provide a dummy filter definition to exercise assertFilters logic
++    map.put("dummy", "org.jsecurity.web.filter.authc.AnonymousFilter");
++    iniWebConfiguration0.assertFilters(map);
++    // Verify that the map remains unchanged after validation
++    assertEquals(1, map.size());
++    assertTrue(map.containsKey("dummy"));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

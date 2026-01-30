@@ -1,0 +1,45 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryVariableFilter_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryVariableFilter_ESTest.java
+@@ -66,22 +66,26 @@
+       ArrayList<VariableSummary> arrayList1 = inMemoryVariableFilter0.filterVariableSummaries(user0, ".", ".", ".", variableTypeFilter0);
+       assertTrue(arrayList1.isEmpty());
+   }
+-@Test(timeout = 4000)
+-    public void test2() throws Throwable {
+-        inMemoryVariableFilter0 = new InMemoryVariableFilter();
+-        user0 = new User();
+-        arrayList0 = new ArrayList<Variable>();
+-        RawVariable rawVariable0 = new RawVariable();
+-        arrayList0.add(rawVariable0);
+-        inMemoryVariableFilter0.setVariables(arrayList0);
+-        VariableTypeFilter variableTypeFilter0 = VariableTypeFilter.RAW_AND_DERIVED;
+-        // Verify that the variables were stored by checking the filter result without additional constraints
+-        ArrayList<VariableSummary> allSummaries = inMemoryVariableFilter0.filterVariableSummaries(user0, "", "", "", variableTypeFilter0);
+-        assertEquals(1, allSummaries.size());
+-        // Original assertion with specific filter parameters
+-        ArrayList<VariableSummary> arrayList1 = inMemoryVariableFilter0.filterVariableSummaries(user0, "ogGc", "ogGc", "ogGc", variableTypeFilter0);
+-        assertEquals(0, arrayList1.size());
+-    }
++public void test2() throws Throwable {
++    inMemoryVariableFilter0 = new InMemoryVariableFilter();
++    user0 = new User();
++    arrayList0 = new ArrayList<Variable>();
++    RawVariable rawVariable0 = new RawVariable();
++    arrayList0.add(rawVariable0);
++    VariableTypeFilter variableTypeFilter0 = VariableTypeFilter.RAW_AND_DERIVED;
++    // Verify state before setting variables
++    int beforeCount = inMemoryVariableFilter0.filterVariableSummaries(user0, "", "", "", variableTypeFilter0).size();
++    assertEquals(0, beforeCount);
++    // Set variables (void method with side effect)
++    inMemoryVariableFilter0.setVariables(arrayList0);
++    // Verify state after setting variables
++    int afterCount = inMemoryVariableFilter0.filterVariableSummaries(user0, "", "", "", variableTypeFilter0).size();
++    assertEquals(1, afterCount);
++    // Original assertion with specific filter parameters
++    ArrayList<VariableSummary> arrayList1 = inMemoryVariableFilter0.filterVariableSummaries(user0, "ogGc", "ogGc", "ogGc", variableTypeFilter0);
++    assertEquals(0, arrayList1.size());
++}
++
+ @Test(timeout = 4000)
+   public void test3() throws Throwable {
+     inMemoryVariableFilter0 = new InMemoryVariableFilter();

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
+@@ -171,18 +171,27 @@
+     assertTrue(oSProcess1.equals((Object) oSProcess0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      OSProcess oSProcess0 = new OSProcess();
+-      OSProcess oSProcess1 = new OSProcess();
+-      assertTrue(oSProcess1.equals((Object)oSProcess0));
+-      
+-      oSProcess1.setStarttime("DF`Zq%gCEWb)w");
+-      boolean boolean0 = oSProcess1.equals(oSProcess0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    OSProcess oSProcess0 = new OSProcess();
++    OSProcess oSProcess1 = new OSProcess();
++    assertTrue(oSProcess1.equals((Object) oSProcess0));
++
++    // Verify initial state before mutation
++    assertNull(oSProcess0.getStarttime());
++    assertNull(oSProcess1.getStarttime());
++
++    // Act: set start time
++    oSProcess1.setStarttime("DF`Zq%gCEWb)w");
++
++    // Assert side‑effect of setStarttime
++    assertEquals("DF`Zq%gCEWb)w", oSProcess1.getStarttime());
++
++    // Ensure objects are now different after mutation
++    boolean boolean0 = oSProcess1.equals(oSProcess0);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

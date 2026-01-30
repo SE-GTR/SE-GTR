@@ -1,0 +1,42 @@
+--- a/evosuite-tests/module/BasicMessageRules_ESTest.java
++++ b/evosuite-tests/module/BasicMessageRules_ESTest.java
+@@ -78,18 +78,28 @@
+       boolean boolean0 = basicMessageRules0.checkRules(textMessage0, gameState0);
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    GameState gameState0 = new GameState();
++    Player player0 = new Player(0, ",GOZPln>WV#Q&]m", 0);
++    // verify that the player is initially alive, then set dead and check
++    assertFalse(player0.isDead());
++    player0.setDead();
++    assertTrue(player0.isDead());
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      GameState gameState0 = new GameState();
+-      Player player0 = new Player(0, ",GOZPln>WV#Q&]m", 0);
+-      player0.setDead();
+-      gameState0.addPlayer(player0);
+-      BasicMessageRules basicMessageRules0 = new BasicMessageRules();
+-      TextMessage textMessage0 = new TextMessage(0, 1, 2, ",GOZPln>WV#Q&]m");
+-      boolean boolean0 = basicMessageRules0.checkRules(textMessage0, gameState0);
+-      assertFalse(boolean0);
+-  }
++    // capture player count before adding
++    int beforeCount = gameState0.getPlayers().size();
++    gameState0.addPlayer(player0);
++    // verify that the player was added
++    assertEquals(beforeCount + 1, gameState0.getPlayers().size());
++    assertTrue(gameState0.getPlayers().contains(player0));
++
++    BasicMessageRules basicMessageRules0 = new BasicMessageRules();
++    TextMessage textMessage0 = new TextMessage(0, 1, 2, ",GOZPln>WV#Q&]m");
++    boolean boolean0 = basicMessageRules0.checkRules(textMessage0, gameState0);
++    assertFalse(boolean0);
++}
++
+ @Test(timeout = 4000)
+ public void test6() throws Throwable {
+     BasicMessageRules basicMessageRules0 = new BasicMessageRules();

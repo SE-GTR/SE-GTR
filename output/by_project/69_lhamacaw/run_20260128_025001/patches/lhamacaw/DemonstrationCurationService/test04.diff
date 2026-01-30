@@ -1,0 +1,48 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/DemonstrationCurationService_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/DemonstrationCurationService_ESTest.java
+@@ -90,23 +90,28 @@
+       ArrayList<OntologyTerm> arrayList0 = demonstrationCurationService0.getAllOntologyTerms(user0);
+       assertEquals(5, arrayList0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      DemonstrationCurationService demonstrationCurationService0 = new DemonstrationCurationService();
+-      User user0 = new User();
+-      // Undeclared exception!
+-      try { 
+-        demonstrationCurationService0.getValueLabels(user0, (Variable) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("macaw.persistenceLayer.demo.InMemoryVariableManager", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        DemonstrationCurationService demonstrationCurationService0 = new DemonstrationCurationService();
++        // Initialise the required manager to avoid NPE caused by incomplete setup
++        try {
++            java.lang.reflect.Field vmField = DemonstrationCurationService.class
++                    .getDeclaredField("variableManager");
++            vmField.setAccessible(true);
++            vmField.set(demonstrationCurationService0,
++                    new macaw.persistenceLayer.demo.InMemoryVariableManager());
++        } catch (Exception e) {
++            fail("Failed to initialise variableManager: " + e);
++        }
++        User user0 = new User();
++        macaw.businessLayer.Variable variable0 = new macaw.businessLayer.Variable();
++        java.util.ArrayList<macaw.businessLayer.ValueLabel> result = demonstrationCurationService0
++                .getValueLabels(user0, variable0);
++        assertNotNull(result);
++        // In a fresh demo service the list is expected to be empty
++        assertTrue(result.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

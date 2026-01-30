@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/werken/saxpath/XPathLexer_ESTest.java
++++ b/evosuite-tests/com/werken/saxpath/XPathLexer_ESTest.java
+@@ -848,18 +848,25 @@
+         Token second = lexer.identifierOrOperatorName();
+         assertEquals(15, second.getTokenType());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test110()  throws Throwable  {
+-      XPathLexer xPathLexer0 = new XPathLexer();
+-      Token token0 = xPathLexer0.notEquals();
+-      xPathLexer0.setPreviousToken(token0);
+-      assertEquals(22, token0.getTokenType());
+-      
+-      Token token1 = xPathLexer0.identifierOrOperatorName();
+-      assertEquals(15, token1.getTokenType());
+-  }
++@Test(timeout = 4000)
++    public void test110() throws Throwable {
++        XPathLexer xPathLexer0 = new XPathLexer();
++        Token token0 = xPathLexer0.notEquals();
++        assertEquals(22, token0.getTokenType());
++
++        // verify initial state before setting previous token
++        assertNull(xPathLexer0.getPreviousToken());
++
++        // act
++        xPathLexer0.setPreviousToken(token0);
++
++        // assert side‑effect of setPreviousToken
++        assertSame(token0, xPathLexer0.getPreviousToken());
++
++        Token token1 = xPathLexer0.identifierOrOperatorName();
++        assertEquals(15, token1.getTokenType());
++    }
++
+ @Test(timeout = 4000)
+ public void test111() throws Throwable {
+     XPathLexer lexer = new XPathLexer("(/d!U/c");

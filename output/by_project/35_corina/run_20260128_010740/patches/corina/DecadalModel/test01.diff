@@ -1,0 +1,37 @@
+--- a/evosuite-tests/corina/editor/DecadalModel_ESTest.java
++++ b/evosuite-tests/corina/editor/DecadalModel_ESTest.java
+@@ -36,16 +36,24 @@
+     // Existing behavior check
+     assertEquals(12, decadalModel0.getColumnCount());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      DecadalModel decadalModel0 = new DecadalModel(sample0);
+-      decadalModel0.setValueAt(sample0, 0, 2);
+-      decadalModel0.setValueAt(sample0, 0, 2);
+-      assertFalse(sample0.wasMetadataChanged());
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        Sample sample0 = new Sample();
++        DecadalModel decadalModel0 = new DecadalModel(sample0);
++        // capture the original value at the target cell (may be null)
++        Object original = decadalModel0.getValueAt(0, 2);
++        // first update
++        decadalModel0.setValueAt(sample0, 0, 2);
++        assertSame("Value should be updated to the provided sample after first setValueAt",
++                sample0, decadalModel0.getValueAt(0, 2));
++        // second update with the same arguments – state should remain consistent
++        decadalModel0.setValueAt(sample0, 0, 2);
++        assertSame("Value should remain the same after second identical setValueAt",
++                sample0, decadalModel0.getValueAt(0, 2));
++        // ensure the sample's metadata flag is unchanged
++        assertFalse(sample0.wasMetadataChanged());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

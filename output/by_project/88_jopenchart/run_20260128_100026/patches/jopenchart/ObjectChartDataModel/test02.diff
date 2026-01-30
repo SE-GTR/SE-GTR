@@ -1,0 +1,31 @@
+--- a/evosuite-tests/de/progra/charting/model/ObjectChartDataModel_ESTest.java
++++ b/evosuite-tests/de/progra/charting/model/ObjectChartDataModel_ESTest.java
+@@ -47,14 +47,20 @@
+       objectChartDataModel0.setChartDataModelConstraints(0, defaultChartDataModelConstraints0);
+       assertFalse(objectChartDataModel0.isAutoScale());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-    objectChartDataModel0 = new ObjectChartDataModel();
+-      DefaultChartDataModelConstraints defaultChartDataModelConstraints0 = new DefaultChartDataModelConstraints(objectChartDataModel0, 1);
+-      objectChartDataModel0.setChartDataModelConstraints(1319, defaultChartDataModelConstraints0);
+-      assertEquals(0, objectChartDataModel0.getDataSetNumber());
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        objectChartDataModel0 = new ObjectChartDataModel();
++        DefaultChartDataModelConstraints defaultChartDataModelConstraints0 = new DefaultChartDataModelConstraints(objectChartDataModel0, 1);
++        // Verify that no constraints are present for the given axis before setting
++        assertNull(objectChartDataModel0.getChartDataModelConstraints(1319));
++        // Apply constraints
++        objectChartDataModel0.setChartDataModelConstraints(1319, defaultChartDataModelConstraints0);
++        // Verify that the constraints have been stored correctly
++        assertEquals(defaultChartDataModelConstraints0, objectChartDataModel0.getChartDataModelConstraints(1319));
++        // Existing behavior check
++        assertEquals(0, objectChartDataModel0.getDataSetNumber());
++    }
++
+ @Test(timeout = 4000)
+     public void test03() throws Throwable {
+         objectChartDataModel0 = new ObjectChartDataModel();

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/mindbright/gui/ProgressBar_ESTest.java
++++ b/evosuite-tests/mindbright/gui/ProgressBar_ESTest.java
+@@ -20,24 +20,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ProgressBar_ESTest extends ProgressBar_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    ProgressBar progressBar0 = new ProgressBar(2, 2, 2);
++    // initialize required fields to avoid NPE in paint
++    progressBar0.barColor = java.awt.Color.BLUE;
++    BufferedImage bufferedImage0 = new BufferedImage(2, 2, 2);
++    Graphics2D graphics2D0 = bufferedImage0.createGraphics();
++    // invoke paint; should not throw
++    progressBar0.paint(graphics2D0);
++    // verify that internal resources were created
++    assertNotNull("Image should be initialized after paint", progressBar0.img);
++    assertNotNull("Memory graphics should be initialized after paint", progressBar0.memG);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ProgressBar progressBar0 = new ProgressBar(2, 2, 2);
+-      BufferedImage bufferedImage0 = new BufferedImage(2, 2, 2);
+-      Graphics2D graphics2D0 = bufferedImage0.createGraphics();
+-      // Undeclared exception!
+-      try { 
+-        progressBar0.paint(graphics2D0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("mindbright.gui.ProgressBar", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

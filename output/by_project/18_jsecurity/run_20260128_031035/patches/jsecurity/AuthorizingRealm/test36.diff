@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -446,19 +446,25 @@
+          verifyException("org.jsecurity.authz.permission.WildcardPermission", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test36()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test36() throws Throwable {
+       SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm("MD2");
++      // Verify initial state of authorization cache is null
++      assertNull(simpleAccountRealm0.getAuthorizationCache());
+       SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection("MD2", "MD2");
+       HashtableCache hashtableCache0 = new HashtableCache("MD2");
+       simpleAccountRealm0.setAuthorizationCache(hashtableCache0);
++      // Verify that the authorization cache was set correctly
++      assertSame(hashtableCache0, simpleAccountRealm0.getAuthorizationCache());
+       simpleAccountRealm0.addAccount("MD2", "MD2");
++      // Verify that the account was added
++      assertNotNull(simpleAccountRealm0.getAccount("MD2"));
+       WildcardPermissionResolver wildcardPermissionResolver0 = new WildcardPermissionResolver();
+       Permission permission0 = wildcardPermissionResolver0.resolvePermission("MD2");
+       boolean boolean0 = simpleAccountRealm0.isPermitted((PrincipalCollection) simplePrincipalCollection0, permission0);
+       assertFalse(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test37()  throws Throwable  {

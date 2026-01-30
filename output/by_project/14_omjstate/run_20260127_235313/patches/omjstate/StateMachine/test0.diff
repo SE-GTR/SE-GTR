@@ -1,0 +1,29 @@
+--- a/evosuite-tests/uk/me/jockmacmad/jstate/state/StateMachine_ESTest.java
++++ b/evosuite-tests/uk/me/jockmacmad/jstate/state/StateMachine_ESTest.java
+@@ -21,19 +21,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class StateMachine_ESTest extends StateMachine_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       Vector<Transition> vector0 = new Vector<Transition>();
+       Event event0 = new Event((String) null, vector0, vector0);
+       StartState startState0 = StartState.getSingleton();
+       Transition transition0 = new Transition((String) null, event0, startState0, startState0);
+-      vector0.add(transition0);
++      int beforeSize = vector0.size();
++      boolean added = vector0.add(transition0);
++      assertTrue(added);
++      assertEquals(beforeSize + 1, vector0.size());
+       StateMachine stateMachine0 = new StateMachine(vector0);
+       Observable observable0 = new Observable();
+       stateMachine0.update(observable0, event0);
+       assertFalse(observable0.hasChanged());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

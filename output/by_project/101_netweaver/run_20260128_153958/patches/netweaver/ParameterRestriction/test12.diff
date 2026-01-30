@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ParameterRestriction_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ParameterRestriction_ESTest.java
+@@ -192,19 +192,27 @@
+     boolean boolean0 = parameterRestriction0.equals(parameterRestriction1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      ParameterRestriction parameterRestriction0 = new ParameterRestriction();
+-      Long long0 = new Long(727L);
+-      ParameterRestriction parameterRestriction1 = new ParameterRestriction();
+-      assertTrue(parameterRestriction1.equals((Object)parameterRestriction0));
+-      
+-      parameterRestriction1.setIntMax(long0);
+-      boolean boolean0 = parameterRestriction1.equals(parameterRestriction0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    ParameterRestriction parameterRestriction0 = new ParameterRestriction();
++    Long long0 = Long.valueOf(727L);
++    ParameterRestriction parameterRestriction1 = new ParameterRestriction();
++    assertTrue(parameterRestriction1.equals((Object) parameterRestriction0));
++
++    // Verify initial state before mutation
++    assertNull(parameterRestriction1.getIntMax());
++
++    // Act: set the maximum integer value
++    parameterRestriction1.setIntMax(long0);
++
++    // Assert side‑effect observable via getter
++    assertEquals(long0, parameterRestriction1.getIntMax());
++
++    // Equality should now differ after mutation
++    boolean boolean0 = parameterRestriction1.equals(parameterRestriction0);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

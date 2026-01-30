@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/H2Util_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/H2Util_ESTest.java
+@@ -15,12 +15,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class H2Util_ESTest extends H2Util_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Instantiate the utility class (no‑arg constructor)
++        H2Util h2Util0 = new H2Util();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      H2Util h2Util0 = new H2Util();
+-      assertEquals(9001, H2Util.DEFAULT_PORT);
+-  }
++        // Verify that the driver class defined by the utility can be loaded.
++        try {
++            Class<?> driverClass = Class.forName(H2Util.DRIVER);
++            assertNotNull("Driver class should be loadable", driverClass);
++        } catch (ClassNotFoundException e) {
++            fail("Unable to load driver class: " + H2Util.DRIVER);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

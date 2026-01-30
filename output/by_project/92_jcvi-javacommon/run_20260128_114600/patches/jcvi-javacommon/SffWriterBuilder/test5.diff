@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/SffWriterBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/SffWriterBuilder_ESTest.java
+@@ -98,25 +98,16 @@
+       SffWriterBuilder sffWriterBuilder1 = sffWriterBuilder0.includeIndex(false);
+       assertSame(sffWriterBuilder0, sffWriterBuilder1);
+   }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test5() throws Throwable {
++        BigInteger bigInteger0 = BigInteger.ONE;
++        NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++        doReturn(0, 0).when(nucleotideSequence0).getNumberOfGaps();
++        assertEquals(0, nucleotideSequence0.getNumberOfGaps());
++        DefaultSffCommonHeader defaultSffCommonHeader0 = new DefaultSffCommonHeader(bigInteger0, -1L, -1L, 0, nucleotideSequence0, nucleotideSequence0);
++        new SffWriterBuilder((File) null, defaultSffCommonHeader0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      BigInteger bigInteger0 = BigInteger.ONE;
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(0, 0).when(nucleotideSequence0).getNumberOfGaps();
+-      DefaultSffCommonHeader defaultSffCommonHeader0 = new DefaultSffCommonHeader(bigInteger0, (-1L), (-1L), 0, nucleotideSequence0, nucleotideSequence0);
+-      SffWriterBuilder sffWriterBuilder0 = null;
+-      try {
+-        sffWriterBuilder0 = new SffWriterBuilder((File) null, defaultSffCommonHeader0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // outputFile can not be null
+-         //
+-         verifyException("org.jcvi.jillion.trace.sff.SffWriterBuilder", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

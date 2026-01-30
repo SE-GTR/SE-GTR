@@ -1,0 +1,36 @@
+--- a/evosuite-tests/map/DefaultPath_ESTest.java
++++ b/evosuite-tests/map/DefaultPath_ESTest.java
+@@ -27,18 +27,23 @@
+     defaultNode0 = new DefaultNode(dirtyNode0);
+       defaultNode0.setParent(dirtyNode0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
+     dirtyNode0 = new DirtyNode(0);
+     defaultNode0 = new DefaultNode(dirtyNode0);
+-      defaultNode0.setParent(dirtyNode0);
+-      DefaultPath defaultPath0 = new DefaultPath(dirtyNode0.children);
+-      defaultPath0.construct(defaultNode0);
+-      defaultPath0.toString();
+-      assertEquals(1, defaultPath0.length());
+-  }
++    defaultNode0.setParent(dirtyNode0);
++    // Verify that setParent correctly updates the parent reference
++    assertEquals(dirtyNode0, defaultNode0.getParent());
++
++    DefaultPath defaultPath0 = new DefaultPath(dirtyNode0.children);
++    defaultPath0.construct(defaultNode0);
++    String pathString = defaultPath0.toString();
++    assertNotNull(pathString);
++    assertFalse(pathString.isEmpty());
++
++    assertEquals(1, defaultPath0.length());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

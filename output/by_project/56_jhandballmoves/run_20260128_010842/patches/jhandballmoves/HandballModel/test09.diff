@@ -1,0 +1,34 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -125,19 +125,18 @@
+       handballModel0.removeEventsAfter();
+       assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Defender defender0 = new Defender(2993, 2993);
+-      PassEvent passEvent0 = new PassEvent(defender0, 2993, 1);
+-      handballModel0.addMoveEvent(passEvent0);
+-      assertEquals(1, Defender.counter);
+-      
+-      List<MoveEvent> list0 = handballModel0.getMoveEvents(2146984465);
+-      assertEquals(0, list0.size());
+-      assertEquals(0, handballModel0.getAcutalSequenceNr());
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        Defender defender0 = new Defender(2993, 2993);
++        PassEvent passEvent0 = new PassEvent(defender0, 2993, 1);
++        handballModel0.addMoveEvent(passEvent0);
++        // Verify that the move event was added for its sequence number
++        List<MoveEvent> list0 = handballModel0.getMoveEvents(2993);
++        assertEquals(1, list0.size());
++        assertTrue(list0.contains(passEvent0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

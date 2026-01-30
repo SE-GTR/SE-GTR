@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/heal/servlet/ControllerServlet_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/ControllerServlet_ESTest.java
+@@ -60,26 +60,19 @@
+     // verify that the action mapping remains intact
+     assertSame(downloadAction0, controllerServlet0.actions.get("rbf"));
+ }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        controllerServlet0 = new ControllerServlet();
++        httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("").when(httpServletRequest0).getPathInfo();
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        // Execute method under test with valid arguments
++        controllerServlet0.doPost(httpServletRequestWrapper0, httpServletResponse0);
++        // Verify expected interaction
++        verify(httpServletRequest0).getPathInfo();
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    controllerServlet0 = new ControllerServlet();
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("").when(httpServletRequest0).getPathInfo();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      // Undeclared exception!
+-      try { 
+-        controllerServlet0.doPost(httpServletRequestWrapper0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.ControllerServlet", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

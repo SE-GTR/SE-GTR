@@ -1,0 +1,27 @@
+--- a/evosuite-tests/net/sf/xbus/technical/http/HTTPParameterSender_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/technical/http/HTTPParameterSender_ESTest.java
+@@ -45,11 +45,18 @@
+          verifyException("org.evosuite.runtime.System", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        HTTPParameterSender sender = new HTTPParameterSender((XBUSSystem) null);
++        // Verify the type reported by the sender (initial state)
++        assertEquals("Object", sender.getType());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      HTTPParameterSender hTTPParameterSender0 = new HTTPParameterSender((XBUSSystem) null);
+-      String string0 = hTTPParameterSender0.getType();
+-      assertEquals("Object", string0);
+-  }
++        // Exercise a non‑trivial behavior: sending an empty parameter set should complete without exception
++        try {
++            sender.send(new java.util.Hashtable<String, String>());
++        } catch (Exception e) {
++            org.junit.Assert.fail("Unexpected exception during send: " + e);
++        }
++    }
++
+ }

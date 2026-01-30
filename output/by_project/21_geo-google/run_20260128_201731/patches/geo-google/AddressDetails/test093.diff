@@ -1,0 +1,20 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -943,7 +943,16 @@
+     AdministrativeArea admin = new AdministrativeArea();
+     addressDetails_Country0.setAdministrativeArea(admin);
+     assertSame(admin, addressDetails_Country0.getAdministrativeArea());
+-}
++
++    // Marshal the object to XML and verify that the AdministrativeArea element appears
++    javax.xml.bind.JAXBContext jaxbContext = javax.xml.bind.JAXBContext.newInstance(AddressDetails.Country.class);
++    javax.xml.bind.Marshaller marshaller = jaxbContext.createMarshaller();
++    java.io.StringWriter writer = new java.io.StringWriter();
++    marshaller.marshal(addressDetails_Country0, writer);
++    String xml = writer.toString();
++    org.junit.Assert.assertTrue("XML should contain AdministrativeArea element", xml.contains("AdministrativeArea"));
++}
++
+ @Test(timeout = 4000)
+ public void test094() throws Throwable {
+     AddressDetails.Country addressDetails_Country0 = new AddressDetails.Country();

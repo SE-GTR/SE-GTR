@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/heal/module/metadata/CopyrightHolderBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/CopyrightHolderBean_ESTest.java
+@@ -29,13 +29,20 @@
+       copyrightHolderBean0.setEmail("OOR'JnW");
+       assertNull(copyrightHolderBean0.getFirstName());
+   }
++@Test(timeout = 4000)
++  public void test02() throws Throwable {
++      CopyrightHolderBean bean = new CopyrightHolderBean();
++      bean.setOrganization("HealOrg");
++      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++      oos.writeObject(bean);
++      oos.flush();
++      byte[] data = baos.toByteArray();
++      java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++      CopyrightHolderBean deserialized = (CopyrightHolderBean) ois.readObject();
++      assertEquals("HealOrg", deserialized.getOrganization());
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      CopyrightHolderBean copyrightHolderBean0 = new CopyrightHolderBean();
+-      String string0 = copyrightHolderBean0.getOrganization();
+-      assertNull(string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

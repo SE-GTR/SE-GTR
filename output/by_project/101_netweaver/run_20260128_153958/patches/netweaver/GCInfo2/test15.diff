@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
+@@ -248,18 +248,28 @@
+     boolean boolean0 = gCInfo2_1.equals(gCInfo2_0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      GCInfo2 gCInfo2_0 = new GCInfo2();
+-      GCInfo2 gCInfo2_1 = new GCInfo2();
+-      assertTrue(gCInfo2_1.equals((Object)gCInfo2_0));
+-      
++@Test(timeout = 4000)
++  public void test15() throws Throwable {
++      GCInfo2 gCInfo2_0 = new GCInfo2();
++      GCInfo2 gCInfo2_1 = new GCInfo2();
++      assertTrue(gCInfo2_1.equals((Object) gCInfo2_0));
++
++      // Verify initial state of the 'reason' field
++      assertNull(gCInfo2_0.getReason());
++      assertNull(gCInfo2_1.getReason());
++
++      // Act: change the reason on one instance
+       gCInfo2_1.setReason("goto");
+-      boolean boolean0 = gCInfo2_1.equals(gCInfo2_0);
+-      assertFalse(boolean0);
+-  }
++
++      // Observe the side‑effect of setReason
++      assertEquals("goto", gCInfo2_1.getReason());
++      assertNull(gCInfo2_0.getReason());
++
++      // The two objects should now be different
++      boolean boolean0 = gCInfo2_1.equals(gCInfo2_0);
++      assertFalse(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

@@ -1,0 +1,81 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/Table_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/Table_ESTest.java
+@@ -28,43 +28,43 @@
+     table_ByColumnIdComparator0 = new Table.ByColumnIdComparator();
+     tableColumnMeta0 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
+   }
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    // Prepare first column metadata with non‑null id
++    TableColumnMeta meta0 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
++    doReturn("c0").when(meta0).getComments();
++    doReturn("d0").when(meta0).getDefaultValue();
++    doReturn((-5656)).when(meta0).getDigits();
++    doReturn("1").when(meta0).getId();
++    doReturn("col0").when(meta0).getName();
++    doReturn((-5656)).when(meta0).getSize();
++    doReturn("type0").when(meta0).getType();
++    doReturn(true).when(meta0).isAutoUpdated();
++    doReturn(true).when(meta0).isNullable();
+ 
++    // Prepare second column metadata with a different non‑null id
++    TableColumnMeta meta1 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
++    doReturn(null).when(meta1).getComments();
++    doReturn(null).when(meta1).getDefaultValue();
++    doReturn(0).when(meta1).getDigits();
++    doReturn("2").when(meta1).getId();
++    doReturn("col1").when(meta1).getName();
++    doReturn(0).when(meta1).getSize();
++    doReturn(null).when(meta1).getType();
++    doReturn(false).when(meta1).isAutoUpdated();
++    doReturn(false).when(meta1).isNullable();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      doReturn("null.null").when(tableColumnMeta0).getComments();
+-      doReturn("null.null").when(tableColumnMeta0).getDefaultValue();
+-      doReturn((-5656)).when(tableColumnMeta0).getDigits();
+-      doReturn("null.null").when(tableColumnMeta0).getId();
+-      doReturn((String) null).when(tableColumnMeta0).getName();
+-      doReturn((-5656)).when(tableColumnMeta0).getSize();
+-      doReturn((String) null).when(tableColumnMeta0).getType();
+-      doReturn(true).when(tableColumnMeta0).isAutoUpdated();
+-      doReturn(true).when(tableColumnMeta0).isNullable();
+-      TableColumn tableColumn0 = new TableColumn((Table) null, tableColumnMeta0);
+-      TableColumnMeta tableColumnMeta1 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(tableColumnMeta1).getComments();
+-      doReturn((String) null).when(tableColumnMeta1).getDefaultValue();
+-      doReturn(0).when(tableColumnMeta1).getDigits();
+-      doReturn((String) null).when(tableColumnMeta1).getId();
+-      doReturn((String) null).when(tableColumnMeta1).getName();
+-      doReturn(0).when(tableColumnMeta1).getSize();
+-      doReturn((String) null).when(tableColumnMeta1).getType();
+-      doReturn(false).when(tableColumnMeta1).isAutoUpdated();
+-      doReturn(false).when(tableColumnMeta1).isNullable();
+-      TableColumn tableColumn1 = new TableColumn((Table) null, tableColumnMeta1);
+-      // Undeclared exception!
+-      try { 
+-        table_ByColumnIdComparator0.compare(tableColumn0, tableColumn1);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.schemaspy.model.Table$ByColumnIdComparator", e);
+-      }
+-  }
++    // Use a mock Table instead of null
++    Table mockTable = mock(Table.class, new ViolatedAssumptionAnswer());
++
++    TableColumn column0 = new TableColumn(mockTable, meta0);
++    TableColumn column1 = new TableColumn(mockTable, meta1);
++
++    // Verify that the comparator orders columns by their ids without throwing NPE
++    int cmp = table_ByColumnIdComparator0.compare(column0, column1);
++    assertTrue("Comparator should order column with id \"1\" before column with id \"2\"", cmp < 0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

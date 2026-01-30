@@ -1,0 +1,24 @@
+--- a/evosuite-tests/org/jsecurity/session/InvalidSessionException_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/InvalidSessionException_ESTest.java
+@@ -22,14 +22,17 @@
+       InvalidSessionException invalidSessionException1 = new InvalidSessionException("V", (Throwable) invalidSessionException0);
+       assertFalse(invalidSessionException1.equals((Object)invalidSessionException0));
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
+       InvalidSessionException invalidSessionException0 = new InvalidSessionException("szl");
+       Throwable throwable0 = invalidSessionException0.initCause(invalidSessionException0);
+       InvalidSessionException invalidSessionException1 = new InvalidSessionException(throwable0);
+-      assertFalse(invalidSessionException1.equals((Object)invalidSessionException0));
++      // Verify that initCause correctly sets the cause of the exception
++      assertSame(invalidSessionException0, invalidSessionException0.getCause());
++      // Verify that the second exception's cause is the throwable passed to its constructor
++      assertSame(throwable0, invalidSessionException1.getCause());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

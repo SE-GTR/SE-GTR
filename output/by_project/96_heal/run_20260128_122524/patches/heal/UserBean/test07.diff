@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
+@@ -99,14 +99,26 @@
+     userBean0.setZipCode("{PywAB4L,#ge=vi9k");
+     assertEquals("{PywAB4L,#ge=vi9k", userBean0.getZipCode());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-    userBean0 = new UserBean();
+-      userBean0.setState("<{lGe/{]41");
+-      assertEquals("<{lGe/{]41", userBean0.getState());
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    UserBean userBean0 = new UserBean();
++    String state = "<{lGe/{]41";
++    userBean0.setState(state);
++
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(userBean0);
++    oos.flush();
++    oos.close();
++
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++            new java.io.ByteArrayInputStream(baos.toByteArray()));
++    UserBean deserialized = (UserBean) ois.readObject();
++    ois.close();
++
++    assertEquals(state, deserialized.getState());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

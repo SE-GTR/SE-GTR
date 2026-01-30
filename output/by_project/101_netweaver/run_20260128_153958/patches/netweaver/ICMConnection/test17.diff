@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
+@@ -285,16 +285,22 @@
+ 
+     assertFalse(iCMConnection0.equals(iCMConnection1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      ICMConnection iCMConnection0 = new ICMConnection();
+-      iCMConnection0.setPeerAddress("{sR^k*='$7Z29");
+-      ICMConnection iCMConnection1 = new ICMConnection();
+-      boolean boolean0 = iCMConnection0.equals(iCMConnection1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++  public void test17() throws Throwable {
++      ICMConnection iCMConnection0 = new ICMConnection();
++      String address = "{sR^k*='$7Z29";
++      iCMConnection0.setPeerAddress(address);
++
++      // Verify that the peer address was set by comparing with another instance having the same address
++      ICMConnection iCMConnection1 = new ICMConnection();
++      iCMConnection1.setPeerAddress(address);
++      assertTrue(iCMConnection0.equals(iCMConnection1));
++
++      // Changing the address on the second instance should break equality
++      iCMConnection1.setPeerAddress("different");
++      assertFalse(iCMConnection0.equals(iCMConnection1));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

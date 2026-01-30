@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
+@@ -185,13 +185,26 @@
+          verifyException("java.util.StringTokenizer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-    user0 = new User();
+-      user0.setDN((String) null);
+-      assertFalse(user0.getPasschange());
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    user0 = new User();
++    // Record initial state
++    String beforeCountry = user0.getCountry();
++    String beforeOrganization = user0.getOrganization();
++    String beforeUserName = user0.getUserName();
++
++    // Act
++    user0.setDN((String) null);
++
++    // Assert that setting a null DN does not alter the DN‑derived fields
++    assertEquals("", user0.getCountry());
++    assertEquals("", user0.getOrganization());
++    assertEquals("", user0.getUserName());
++
++    // Existing assertion retained
++    assertFalse(user0.getPasschange());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

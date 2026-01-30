@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/DelegatingSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/DelegatingSession_ESTest.java
+@@ -24,26 +24,26 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DelegatingSession_ESTest extends DelegatingSession_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      DefaultSessionManager defaultSessionManager0 = new DefaultSessionManager();
+-      DelegatingSession delegatingSession0 = new DelegatingSession(defaultSessionManager0, 1800000L);
+-      delegatingSession0.getSessionManager();
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
++      DefaultSessionManager defaultSessionManager0 = new DefaultSessionManager();
++      DelegatingSession delegatingSession0 = new DelegatingSession(defaultSessionManager0, 1800000L);
++      org.jsecurity.session.mgt.SessionManager sessionManager0 = delegatingSession0.getSessionManager();
++      assertSame(defaultSessionManager0, sessionManager0);
+       SessionDAO sessionDAO0 = defaultSessionManager0.getSessionDAO();
+       defaultSessionManager0.sessionDAO = sessionDAO0;
+       Object object0 = new Object();
+-      try { 
+-        delegatingSession0.getAttribute(object0);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // There is no session with id [1800000]
+-         //
+-         verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+-      }
+-  }
++      try {
++          delegatingSession0.getAttribute(object0);
++          fail("Expecting exception: RuntimeException");
++      } catch (RuntimeException e) {
++          //
++          // There is no session with id [1800000]
++          //
++          verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
++      }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

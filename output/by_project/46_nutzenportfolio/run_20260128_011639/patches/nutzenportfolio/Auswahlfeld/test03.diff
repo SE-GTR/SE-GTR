@@ -1,0 +1,31 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/tos/Auswahlfeld_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/tos/Auswahlfeld_ESTest.java
+@@ -46,14 +46,20 @@
+     assertEquals(boolean0, auswahlfeld0.getGewichtung());
+     assertNull(auswahlfeld0.getEintrittswahrscheinlichkeit());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    auswahlfeld0 = new Auswahlfeld();
+-      auswahlfeld0.setProjektId((Integer) null);
+-      assertNull(auswahlfeld0.getNutzenkriteriumId());
+-  }
++@Test(timeout = 4000)
++  public void test03() throws Throwable {
++    auswahlfeld0 = new Auswahlfeld();
++    // Verify that setting a null projektId results in a null getter
++    auswahlfeld0.setProjektId(null);
++    assertNull(auswahlfeld0.getProjektId());
++    // Verify that setting a non‑null projektId is reflected by the getter
++    Integer expectedId = Integer.valueOf(42);
++    auswahlfeld0.setProjektId(expectedId);
++    assertEquals(expectedId, auswahlfeld0.getProjektId());
++    // Existing check for another field remains unchanged
++    assertNull(auswahlfeld0.getNutzenkriteriumId());
++  }
++
+ @Test(timeout = 4000)
+ public void test04() throws Throwable {
+     Auswahlfeld auswahlfeld0 = new Auswahlfeld();

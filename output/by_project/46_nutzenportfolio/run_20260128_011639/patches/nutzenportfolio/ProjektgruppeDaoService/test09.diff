@@ -1,0 +1,54 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/projektgruppe/ProjektgruppeDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/projektgruppe/ProjektgruppeDaoService_ESTest.java
+@@ -196,9 +196,8 @@
+          verifyException("ch.bfh.egov.nutzenportfolio.service.projektgruppe.ProjektgruppeDaoService", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test09() throws Throwable {
+       ProjektgruppeIbatisDao projektgruppeIbatisDao0 = new ProjektgruppeIbatisDao();
+       ProjektgruppeDaoService projektgruppeDaoService0 = new ProjektgruppeDaoService(projektgruppeIbatisDao0);
+       HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+@@ -206,18 +205,27 @@
+       HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+       doReturn("j|51h)khmKG&F").when(httpServletRequest0).getParameter(anyString());
+       doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      // Undeclared exception!
+-      try { 
+-        projektgruppeDaoService0.delete(httpServletRequest0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++
++      // Assert the stubbed return values
++      String param = httpServletRequest0.getParameter("anyKey");
++      assertEquals("j|51h)khmKG&F", param);
++      HttpSession session = httpServletRequest0.getSession();
++      assertSame(httpSession0, session);
++      Object attr = httpSession0.getAttribute("anyKey");
++      assertNull(attr);
++
++      // Undeclared exception!
++      try {
++          projektgruppeDaoService0.delete(httpServletRequest0);
++          fail("Expecting exception: IllegalArgumentException");
++      } catch (IllegalArgumentException e) {
++          //
++          // No SqlMapClient specified
++          //
++          verifyException("org.springframework.util.Assert", e);
++      }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

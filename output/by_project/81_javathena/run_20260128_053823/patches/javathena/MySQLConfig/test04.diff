@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
+@@ -48,12 +48,22 @@
+ public void test03() throws Throwable {
+     assertTrue(MySQLConfig.isLogin_gm_read());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      MySQLConfig.setGm_db("\u001B[1;29m");
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        // Preserve original configuration to avoid affecting other tests
++        String original = MySQLConfig.getGm_db();
++        String newValue = "\u001B[1;29m";
++
++        // Act: change the gm_db configuration
++        MySQLConfig.setGm_db(newValue);
++
++        // Assert: the change is observable via the corresponding getter
++        assertEquals(newValue, MySQLConfig.getGm_db());
++
++        // Cleanup: restore original value
++        MySQLConfig.setGm_db(original);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

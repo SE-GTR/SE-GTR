@@ -1,0 +1,24 @@
+--- a/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
+@@ -252,12 +252,15 @@
+     // Restore original state
+     MySQLConfig.setLogin_db_account_id(original);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      MySQLConfig.setLogin_server_port((-745));
+-  }
++@Test(timeout = 4000)
++    public void test30() throws Throwable {
++        int originalPort = MySQLConfig.getLogin_server_port();
++        MySQLConfig.setLogin_server_port(-745);
++        assertEquals(-745, MySQLConfig.getLogin_server_port());
++        // restore original state to avoid side effects on other tests
++        MySQLConfig.setLogin_server_port(originalPort);
++    }
++
+ @Test(timeout = 4000)
+ public void test31() throws Throwable {
+     int useMd5 = MySQLConfig.getUse_md5_passwds();

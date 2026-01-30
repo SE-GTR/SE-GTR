@@ -1,0 +1,60 @@
+--- a/evosuite-tests/org/jsecurity/spring/security/interceptor/AopAllianceAnnotationsAuthorizingMethodInterceptor_ESTest.java
++++ b/evosuite-tests/org/jsecurity/spring/security/interceptor/AopAllianceAnnotationsAuthorizingMethodInterceptor_ESTest.java
+@@ -34,22 +34,42 @@
+          verifyException("org.jsecurity.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        AopAllianceAnnotationsAuthorizingMethodInterceptor interceptor = new AopAllianceAnnotationsAuthorizingMethodInterceptor();
++        interceptor.setMethodInterceptors(java.util.Collections.<org.jsecurity.authz.aop.AuthorizingAnnotationMethodInterceptor>emptyList());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      AopAllianceAnnotationsAuthorizingMethodInterceptor aopAllianceAnnotationsAuthorizingMethodInterceptor0 = new AopAllianceAnnotationsAuthorizingMethodInterceptor();
+-      aopAllianceAnnotationsAuthorizingMethodInterceptor0.setMethodInterceptors((Collection<AuthorizingAnnotationMethodInterceptor>) null);
+-      try { 
+-        aopAllianceAnnotationsAuthorizingMethodInterceptor0.invoke((MethodInvocation) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor$1", e);
+-      }
+-  }
++        MethodInvocation invocation = new MethodInvocation() {
++            @Override
++            public java.lang.reflect.Method getMethod() {
++                return null;
++            }
++
++            @Override
++            public Object[] getArguments() {
++                return new Object[0];
++            }
++
++            @Override
++            public Object proceed() throws Throwable {
++                return null;
++            }
++
++            @Override
++            public Object getThis() {
++                return null;
++            }
++
++            @Override
++            public java.lang.reflect.AccessibleObject getStaticPart() {
++                return null;
++            }
++        };
++
++        Object result = interceptor.invoke(invocation);
++        org.junit.Assert.assertNull(result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

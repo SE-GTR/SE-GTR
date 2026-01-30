@@ -1,0 +1,51 @@
+--- a/evosuite-tests/com/gbshape/dbe/utils/ValueListHandler_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/utils/ValueListHandler_ESTest.java
+@@ -53,26 +53,33 @@
+          verifyException("com.gbshape.dbe.utils.ValueListHandler", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    ValueListHandler valueListHandler0 = new ValueListHandler();
++    LinkedList<Integer> linkedList0 = new LinkedList<Integer>();
++    Integer integer0 = Integer.valueOf(-3291);
++    // NARV: assert the return value of add
++    boolean added = linkedList0.add(integer0);
++    assertTrue("LinkedList.add should return true", added);
++    assertEquals(1, linkedList0.size());
++    // NASE: verify side‑effect of setList via observable behavior
++    valueListHandler0.setList(linkedList0);
++    List next = valueListHandler0.getNextElements(1);
++    assertEquals(1, next.size());
++    assertEquals(integer0, next.get(0));
++    List prev = valueListHandler0.getPreviousElements(-3291);
++    // Distinguish the two results (TSVM: meaningful assertion for this test)
++    assertFalse(prev.equals((Object) next));
++}
++
++
++  @Test(timeout = 4000)
++  public void test04()  throws Throwable  {
+       ValueListHandler valueListHandler0 = new ValueListHandler();
+       LinkedList<Integer> linkedList0 = new LinkedList<Integer>();
+       Integer integer0 = new Integer((-3291));
+       linkedList0.add(integer0);
+       valueListHandler0.setList(linkedList0);
+-      List list0 = valueListHandler0.getNextElements(1);
+-      List list1 = valueListHandler0.getPreviousElements((-3291));
+-      assertFalse(list1.equals((Object)list0));
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      ValueListHandler valueListHandler0 = new ValueListHandler();
+-      LinkedList<Integer> linkedList0 = new LinkedList<Integer>();
+-      Integer integer0 = new Integer((-3291));
+-      linkedList0.add(integer0);
+-      valueListHandler0.setList(linkedList0);
+       valueListHandler0.getNextElements(1);
+       List list0 = valueListHandler0.getPreviousElements(1);
+       assertEquals(1, list0.size());

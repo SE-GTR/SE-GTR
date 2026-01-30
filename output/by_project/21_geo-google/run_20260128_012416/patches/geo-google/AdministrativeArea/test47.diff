@@ -1,0 +1,32 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -527,12 +527,20 @@
+       String actualType = administrativeArea0.getType();
+       assertEquals(expectedType, actualType);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test47()  throws Throwable  {
+-      AdministrativeArea administrativeArea0 = new AdministrativeArea();
+-      administrativeArea0.setLocality((Locality) null);
+-      assertNull(administrativeArea0.getType());
+-  }
+-}
++@Test(timeout = 4000)
++    public void test47() throws Throwable {
++        AdministrativeArea administrativeArea0 = new AdministrativeArea();
++        // initial state should have no locality
++        assertNull(administrativeArea0.getLocality());
++        // setting null should leave locality as null
++        administrativeArea0.setLocality((Locality) null);
++        assertNull(administrativeArea0.getLocality());
++        // setting a concrete Locality should be reflected by the getter
++        Locality loc = new Locality();
++        administrativeArea0.setLocality(loc);
++        assertSame(loc, administrativeArea0.getLocality());
++        // existing check for type remains
++        assertNull(administrativeArea0.getType());
++    }
++
++}

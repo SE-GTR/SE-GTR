@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/databene/jdbacl/proxy/LoggingResultSetHandler_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/proxy/LoggingResultSetHandler_ESTest.java
+@@ -35,19 +35,24 @@
+       int int0 = LoggingResultSetHandler.getOpenResultSetCount();
+       assertEquals(0, int0);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        // Properly initialize static fields required by assertAllResultSetsClosed
++        java.lang.reflect.Field countField = LoggingResultSetHandler.class
++                .getDeclaredField("openResultSetCount");
++        countField.setAccessible(true);
++        countField.set(null, new java.util.concurrent.atomic.AtomicInteger(0));
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        LoggingResultSetHandler.assertAllResultSetsClosed(true);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.proxy.LoggingResultSetHandler", e);
+-      }
+-  }
++        java.lang.reflect.Field monitorField = LoggingResultSetHandler.class
++                .getDeclaredField("openResultSetMonitor");
++        monitorField.setAccessible(true);
++        org.databene.commons.debug.ResourceMonitor monitor = new org.databene.commons.debug.ResourceMonitor(
++                "testMonitor");
++        monitorField.set(null, monitor);
++
++        // Invoke the method under test and verify its behavior
++        boolean allClosed = LoggingResultSetHandler.assertAllResultSetsClosed(true);
++        org.junit.Assert.assertTrue("All result sets should be reported as closed", allClosed);
++    }
++
+ }

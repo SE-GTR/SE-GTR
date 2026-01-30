@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -500,18 +500,22 @@
+     byte[] after = classWriter0.toByteArray();
+     assertTrue("Bytecode length should not decrease after visitTypeInsn", after.length >= before.length);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test35()  throws Throwable  {
+-      ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
+-      ClassWriter classWriter0 = new ClassWriter(classReader0, 4603);
+-      classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 128);
+-      MethodWriter methodWriter0 = classWriter0.firstMethod;
+-      Label label0 = new Label();
+-      methodWriter0.visitTryCatchBlock(label0, label0, label0, "org.yasl.jars.JarFileFilter");
+-      methodWriter0.visitVarInsn(102, 25165824);
+-  }
++@Test(timeout = 4000)
++public void test35() throws Throwable {
++    ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
++    ClassWriter classWriter0 = new ClassWriter(classReader0, 4603);
++    classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 128);
++    byte[] before = classWriter0.toByteArray();
++    MethodWriter methodWriter0 = classWriter0.firstMethod;
++    org.junit.Assert.assertNotNull(methodWriter0);
++    Label label0 = new Label();
++    methodWriter0.visitTryCatchBlock(label0, label0, label0, "org.yasl.jars.JarFileFilter");
++    methodWriter0.visitVarInsn(102, 25165824);
++    byte[] after = classWriter0.toByteArray();
++    org.junit.Assert.assertTrue(after.length >= before.length);
++    org.junit.Assert.assertFalse(java.util.Arrays.equals(before, after));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test36()  throws Throwable  {

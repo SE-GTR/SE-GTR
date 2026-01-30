@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/petsoar/security/DefaultUserAccessor_ESTest.java
++++ b/evosuite-tests/org/petsoar/security/DefaultUserAccessor_ESTest.java
+@@ -17,22 +17,25 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DefaultUserAccessor_ESTest extends DefaultUserAccessor_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        DefaultUserAccessor accessor = new DefaultUserAccessor();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      DefaultUserAccessor defaultUserAccessor0 = new DefaultUserAccessor();
+-      // Undeclared exception!
+-      try { 
+-        defaultUserAccessor0.getUser("FIXED(3,0)");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.petsoar.security.DefaultUserAccessor", e);
+-      }
+-  }
++        // Initialise the required PersistenceManager dependency with a harmless proxy
++        java.lang.reflect.Field pmField = DefaultUserAccessor.class.getDeclaredField("pm");
++        pmField.setAccessible(true);
++        java.lang.Object pmProxy = java.lang.reflect.Proxy.newProxyInstance(
++                PersistenceManager.class.getClassLoader(),
++                new Class<?>[]{PersistenceManager.class},
++                (proxy, method, args) -> null);
++        pmField.set(accessor, pmProxy);
++
++        // Invoke the method under test with a regular argument
++        User user = accessor.getUser("anyUser");
++        // With the stubbed PersistenceManager, the expected result is null
++        assertNull(user);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

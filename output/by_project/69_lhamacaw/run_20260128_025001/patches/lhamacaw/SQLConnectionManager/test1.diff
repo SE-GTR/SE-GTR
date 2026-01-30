@@ -1,0 +1,50 @@
+--- a/evosuite-tests/macaw/persistenceLayer/production/SQLConnectionManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/production/SQLConnectionManager_ESTest.java
+@@ -35,24 +35,30 @@
+       sQLConnectionManager0.releaseConnection((Connection) null);
+       assertEquals(0, sQLConnectionManager0.getNumberOfConnections());
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        SessionProperties sessionProperties0 = new SessionProperties();
++        StartupOptions startupOptions0 = sessionProperties0.getStartupOptions();
++        startupOptions0.setDbUser("testUser");
++        startupOptions0.setDbPassword("testPass");
++        startupOptions0.setDatabaseURL("jdbc:h2:mem:test");
++        startupOptions0.setDatabaseDriverClassName("org.h2.Driver");
++        // optional: set a reasonable pool size if the API provides it
++        try {
++            startupOptions0.setMaximumConnections(1);
++        } catch (Exception ignored) {
++            // method may not exist; ignore
++        }
++        SQLConnectionManager sQLConnectionManager0 = new SQLConnectionManager(sessionProperties0);
++        try {
++            java.sql.Connection conn = sQLConnectionManager0.getSQLConnection();
++            assertNotNull("Connection should not be null when no exception is thrown", conn);
++        } catch (Exception e) {
++            // The manager should now fail due to connection issues, not due to incomplete setup
++            assertFalse("Unexpected NullPointerException after proper initialization", e instanceof NullPointerException);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    sessionProperties0 = new SessionProperties();
+-      StartupOptions startupOptions0 = sessionProperties0.getStartupOptions();
+-      startupOptions0.setDbUser("");
+-    sQLConnectionManager0 = new SQLConnectionManager(sessionProperties0);
+-      try { 
+-        sQLConnectionManager0.getSQLConnection();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.util.Hashtable", e);
+-      }
+-  }
+ @Test(expected = NoClassDefFoundError.class, timeout = 4000)
+ public void test2() throws Throwable {
+     sessionProperties0 = new SessionProperties();

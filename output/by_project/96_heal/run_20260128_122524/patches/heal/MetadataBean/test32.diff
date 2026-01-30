@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/heal/module/metadata/MetadataBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/MetadataBean_ESTest.java
+@@ -265,14 +265,19 @@
+         metadataBean0.setCreationDate(now);
+         assertEquals(now, metadataBean0.getCreationDate());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
+-    metadataBean0 = new MetadataBean();
+-      metadataBean0.setDuration("");
+-      assertNull(metadataBean0.getSourceCollectionId());
+-  }
++@Test(timeout = 4000)
++public void test32() throws Throwable {
++    metadataBean0 = new MetadataBean();
++    // initial state verification
++    assertNull(metadataBean0.getSourceCollectionId());
++    // exercise a mutating setter and verify the effect
++    metadataBean0.setDuration("");
++    assertEquals("", metadataBean0.getDuration());
++    // invoke a non‑trivial boolean query that depends on internal state
++    // (archived defaults to null, which should be interpreted as false)
++    assertFalse(metadataBean0.isArchived());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test33()  throws Throwable  {

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/corina/util/SimpleLog_ESTest.java
++++ b/evosuite-tests/corina/util/SimpleLog_ESTest.java
+@@ -56,15 +56,22 @@
+       simpleLog0.error(object0, (Throwable) mockThrowable0);
+       assertFalse(simpleLog0.isErrorEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      SimpleLog simpleLog0 = new SimpleLog("39FiV_1qCyc@S");
+-      simpleLog0.error((Object) "39FiV_1qCyc@S");
+-      assertTrue(simpleLog0.isInfoEnabled());
+-      assertTrue(simpleLog0.isFatalEnabled());
+-      assertFalse(simpleLog0.isDebugEnabled());
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        SimpleLog simpleLog0 = new SimpleLog("39FiV_1qCyc@S");
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.PrintStream originalErr = System.err;
++        System.setErr(new java.io.PrintStream(baos));
++        try {
++            simpleLog0.error((Object) "39FiV_1qCyc@S");
++        } finally {
++            System.setErr(originalErr);
++        }
++        String output = baos.toString();
++        assertTrue(output.contains("39FiV_1qCyc@S"));
++        assertTrue(simpleLog0.isErrorEnabled());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -211,20 +211,21 @@
+     assertFalse(boolean0);
+     assertEquals(0, handballModel0.getAcutalSequenceNr());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Offender offender0 = new Offender(529, 6);
+-      PassEvent passEvent0 = new PassEvent(offender0, 6, 2146905779);
+-      handballModel0.addMoveEvent(passEvent0);
+-      assertEquals(1, Offender.counter);
+-      
+-      boolean boolean0 = handballModel0.isGoalPassSet();
+-      assertFalse(boolean0);
+-      assertEquals(0, handballModel0.getAcutalSequenceNr());
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    HandballModel handballModel0 = new HandballModel();
++    Offender offender0 = new Offender(529, 6);
++    PassEvent passEvent0 = new PassEvent(offender0, 6, 2146905779);
++    int seqBefore = handballModel0.getAcutalSequenceNr();
++    handballModel0.addMoveEvent(passEvent0);
++    int seqAfter = handballModel0.getAcutalSequenceNr();
++    // Verify that adding a move event does not unexpectedly change the sequence number
++    assertEquals(seqBefore, seqAfter);
++    boolean boolean0 = handballModel0.isGoalPassSet();
++    assertFalse(boolean0);
++    assertEquals(0, handballModel0.getAcutalSequenceNr());
++}
++
+ @Test(timeout = 4000)
+     public void test15() throws Throwable {
+         HandballModel handballModel0 = new HandballModel();

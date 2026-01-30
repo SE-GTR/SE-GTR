@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/heal/module/metadata/MetadataDAO_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/MetadataDAO_ESTest.java
+@@ -397,24 +397,13 @@
+     // Additional sanity check
+     assertNotNull(dao);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test41()  throws Throwable  {
++@Test(timeout = 4000, expected = NullPointerException.class)
++  public void test41() throws Throwable {
+       MetadataDAO metadataDAO0 = new MetadataDAO();
+       MetadataBean metadataBean0 = new MetadataBean();
+-      // Undeclared exception!
+-      try { 
+-        metadataDAO0.saveMetadata(metadataBean0, (Connection) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.ora.jsp.sql.SQLCommandBean", e);
+-      }
+-  }
++      metadataDAO0.saveMetadata(metadataBean0, null);
++  }
++
+ @Test(expected = NullPointerException.class, timeout = 4000)
+ public void test42() throws Throwable {
+     MetadataDAO metadataDAO0 = new MetadataDAO();

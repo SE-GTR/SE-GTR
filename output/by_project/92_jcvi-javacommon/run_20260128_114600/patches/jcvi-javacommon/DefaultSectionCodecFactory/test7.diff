@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/scf/section/DefaultSectionCodecFactory_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/scf/section/DefaultSectionCodecFactory_ESTest.java
+@@ -114,13 +114,16 @@
+          verifyException("org.jcvi.jillion.internal.trace.chromat.scf.section.DefaultSectionCodecFactory", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test7() throws Throwable {
++        DefaultSectionCodecFactory factory = DefaultSectionCodecFactory.INSTANCE;
++        Section comments = Section.COMMENTS;
++        Section privateData = Section.PRIVATE_DATA;
++        DefaultSCFHeader header = new DefaultSCFHeader();
++        SectionDecoder decoderComments = factory.getSectionParserFor(comments, header);
++        SectionDecoder decoderPrivate = factory.getSectionParserFor(privateData, header);
++        assertNotNull(decoderComments);
++        assertNotSame(decoderComments, decoderPrivate);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      DefaultSectionCodecFactory defaultSectionCodecFactory0 = DefaultSectionCodecFactory.INSTANCE;
+-      Section section0 = Section.COMMENTS;
+-      DefaultSCFHeader defaultSCFHeader0 = new DefaultSCFHeader();
+-      SectionDecoder sectionDecoder0 = defaultSectionCodecFactory0.getSectionParserFor(section0, defaultSCFHeader0);
+-      assertNotNull(sectionDecoder0);
+-  }
+ }

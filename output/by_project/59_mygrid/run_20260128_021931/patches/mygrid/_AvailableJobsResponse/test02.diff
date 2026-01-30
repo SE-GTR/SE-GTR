@@ -1,0 +1,47 @@
+--- a/evosuite-tests/mygrid/web/_AvailableJobsResponse_ESTest.java
++++ b/evosuite-tests/mygrid/web/_AvailableJobsResponse_ESTest.java
+@@ -37,22 +37,30 @@
+     int secondHash = response.hashCode();
+     assertEquals(firstHash, secondHash);
+ }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    _AvailableJobsResponse response0 = new _AvailableJobsResponse();
++    _AvailableJobsResponse response1 = new _AvailableJobsResponse();
++    ArrayOfJob array = new ArrayOfJob();
+ 
++    // First side‑effect: setAvailableJobsResult on response0
++    response0.setAvailableJobsResult(array);
++    // Verify that the state was set by comparing with another instance having the same array
++    _AvailableJobsResponse copy = new _AvailableJobsResponse();
++    copy.setAvailableJobsResult(array);
++    assertTrue(response0.equals(copy));
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      _AvailableJobsResponse _AvailableJobsResponse0 = new _AvailableJobsResponse();
+-      _AvailableJobsResponse _AvailableJobsResponse1 = new _AvailableJobsResponse();
+-      ArrayOfJob arrayOfJob0 = new ArrayOfJob();
+-      _AvailableJobsResponse0.setAvailableJobsResult(arrayOfJob0);
+-      assertFalse(_AvailableJobsResponse0.equals((Object)_AvailableJobsResponse1));
+-      
+-      _AvailableJobsResponse1.setAvailableJobsResult(arrayOfJob0);
+-      boolean boolean0 = _AvailableJobsResponse1.equals(_AvailableJobsResponse0);
+-      assertTrue(_AvailableJobsResponse1.equals((Object)_AvailableJobsResponse0));
+-      assertTrue(_AvailableJobsResponse0.equals((Object)_AvailableJobsResponse1));
+-      assertTrue(boolean0);
+-  }
++    // At this point response1 still has a null result, so they should not be equal
++    assertFalse(response0.equals((Object) response1));
++
++    // Second side‑effect: setAvailableJobsResult on response1
++    response1.setAvailableJobsResult(array);
++    boolean eq = response1.equals(response0);
++    assertTrue(eq);
++    assertTrue(response1.equals((Object) response0));
++    assertTrue(response0.equals((Object) response1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jsecurity/authc/SimpleAuthenticationInfo_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/SimpleAuthenticationInfo_ESTest.java
+@@ -115,22 +115,17 @@
+     simpleAuthenticationInfo0 = new SimpleAuthenticationInfo();
+       simpleAuthenticationInfo0.merge((AuthenticationInfo) null);
+   }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        // Properly initialize the SimpleAuthenticationInfo with principals and credentials
++        SimplePrincipalCollection principals = new SimplePrincipalCollection("user", "myRealm");
++        simpleAuthenticationInfo0 = new SimpleAuthenticationInfo(principals, "secret");
++        String result = simpleAuthenticationInfo0.toString();
++        assertNotNull(result);
++        assertTrue(result.contains("user"));
++        assertTrue(result.contains("secret"));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-    simpleAuthenticationInfo0 = new SimpleAuthenticationInfo();
+-      // Undeclared exception!
+-      try { 
+-        simpleAuthenticationInfo0.toString();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.System", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

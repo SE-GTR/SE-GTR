@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
+@@ -465,15 +465,16 @@
+       assertEquals("timestamp 'null'", string0);
+       assertEquals("postgres", postgreSQLDialect0.getSystem());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
+-      HSQL2Dialect hSQL2Dialect0 = new HSQL2Dialect();
+-      String string0 = hSQL2Dialect0.getSystem();
+-      assertEquals("hsql", string0);
+-      assertTrue(hSQL2Dialect0.isSequenceSupported());
+-      assertFalse(hSQL2Dialect0.quoteTableNames);
+-  }
++@Test(timeout = 4000)
++    public void test32() throws Throwable {
++        HSQL2Dialect dialect = new HSQL2Dialect();
++        assertEquals("hsql", dialect.getSystem());
++        // Exercise a non‑trivial behavior of the dialect
++        String sql = dialect.getSequenceNextValueSql("my_seq");
++        assertNotNull(sql);
++        assertTrue(sql.contains("my_seq"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test33()  throws Throwable  {

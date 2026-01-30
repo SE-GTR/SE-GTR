@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
+@@ -200,14 +200,19 @@
+       simpleNode0.jjtAddChild(simpleNode0, 80);
+       assertEquals(81, simpleNode0.jjtGetNumChildren());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      SimpleNode simpleNode0 = new SimpleNode(0);
+-      simpleNode0.jjtAddChild(simpleNode0, 0);
+-      simpleNode0.jjtAddChild((Node) null, 0);
+-      assertEquals(1, simpleNode0.jjtGetNumChildren());
+-  }
++@Test(timeout = 4000)
++public void test20() throws Throwable {
++    SimpleNode simpleNode0 = new SimpleNode(0);
++    simpleNode0.jjtAddChild(simpleNode0, 0);
++    // Verify that adding a child updates the children count and stores the child correctly
++    assertEquals(1, simpleNode0.jjtGetNumChildren());
++    assertSame(simpleNode0, simpleNode0.jjtGetChild(0));
++
++    // Adding a null child should not change the children count
++    simpleNode0.jjtAddChild((Node) null, 0);
++    assertEquals(1, simpleNode0.jjtGetNumChildren());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

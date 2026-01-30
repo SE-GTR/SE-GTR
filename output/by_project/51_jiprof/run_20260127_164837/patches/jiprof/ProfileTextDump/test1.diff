@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/output/ProfileTextDump_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/output/ProfileTextDump_ESTest.java
+@@ -31,13 +31,21 @@
+         int afterSize = ProfileTextDump._clumpedFrameMap.size();
+         assertTrue("The clumped frame map size should not decrease after dump()", afterSize >= beforeSize);
+     }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        // Arrange
++        Controller._threadDepth = -356271747;
++        int beforeSize = (ProfileTextDump._clumpedFrameMap == null) ? 0 : ProfileTextDump._clumpedFrameMap.size();
+ 
++        // Act
++        ProfileTextDump.dump();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Controller._threadDepth = (-356271747);
+-      ProfileTextDump.dump();
+-  }
++        // Assert
++        int afterSize = (ProfileTextDump._clumpedFrameMap == null) ? 0 : ProfileTextDump._clumpedFrameMap.size();
++        assertTrue("The clumped frame map should not shrink after dump", afterSize >= beforeSize);
++        assertNotNull("The clumped frame map should be initialized after dump", ProfileTextDump._clumpedFrameMap);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

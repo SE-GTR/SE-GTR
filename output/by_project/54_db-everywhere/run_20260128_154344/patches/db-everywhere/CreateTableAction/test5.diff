@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/action/CreateTableAction_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/action/CreateTableAction_ESTest.java
+@@ -135,26 +135,29 @@
+   }
+ @Test(timeout = 4000)
+ public void test5() throws Throwable {
+-    HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-    doReturn(null).when(httpSession0).getAttribute(anyString());
+-
+-    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-    doReturn("10").when(httpServletRequest0).getParameter(anyString());
+-    doReturn(httpSession0).when(httpServletRequest0).getSession();
+-
+-    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-
+-    ActionMapping actionMapping0 = mock(ActionMapping.class, new ViolatedAssumptionAnswer());
+-    doReturn(new org.apache.struts.action.ActionForward("success")).when(actionMapping0).findForward(anyString());
++    HttpSession httpSession0 = mock(HttpSession.class);
++    when(httpSession0.getAttribute(anyString())).thenReturn(null);
++
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class);
++    when(httpServletRequest0.getParameter(anyString())).thenReturn("10");
++    when(httpServletRequest0.getSession()).thenReturn(httpSession0);
++
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class);
++
++    ActionMapping actionMapping0 = mock(ActionMapping.class);
++    when(actionMapping0.findForward(anyString())).thenReturn(new ActionForward("success"));
+ 
+     CreateTableAction createTableAction0 = new CreateTableAction();
+     DynaActionForm dynaActionForm0 = new DynaActionForm();
+ 
+-    org.apache.struts.action.ActionForward forward = createTableAction0.execute(actionMapping0, dynaActionForm0, httpServletRequest0, httpServletResponse0);
++    ActionForward forward = createTableAction0.execute(actionMapping0, dynaActionForm0,
++            httpServletRequest0, httpServletResponse0);
+     assertNotNull("ActionForward should not be null", forward);
++    assertEquals("success", forward.getName());
+ }
+ 
+ 
++
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {
+       DynaActionForm dynaActionForm0 = new DynaActionForm();

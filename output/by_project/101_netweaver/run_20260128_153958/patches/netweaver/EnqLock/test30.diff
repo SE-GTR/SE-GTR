@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -485,20 +485,32 @@
+       boolean boolean0 = enqLock1.equals(enqLock0);
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
+-      EnqLock enqLock1 = new EnqLock();
++@Test(timeout = 4000)
++  public void test30() throws Throwable {
++      EnqLock enqLock0 = new EnqLock();
++      EnqLock enqLock1 = new EnqLock();
++
++      // Verify initial state
++      assertNull(enqLock0.getLockName());
++      assertNull(enqLock1.getLockName());
++
++      // Set lock name and assert side‑effect
+       enqLock0.setLockName("(");
+-      assertFalse(enqLock0.equals((Object)enqLock1));
+-      
++      assertEquals("(", enqLock0.getLockName());
++
++      // Objects with different lock names are not equal
++      assertFalse(enqLock0.equals((Object) enqLock1));
++
++      // Set same lock name on second object and assert side‑effect
+       enqLock1.setLockName("(");
+-      boolean boolean0 = enqLock0.equals(enqLock1);
+-      assertTrue(enqLock0.equals((Object)enqLock1));
++      assertEquals("(", enqLock1.getLockName());
++
++      // Now they should be equal
++      boolean boolean0 = enqLock0.equals(enqLock1);
++      assertTrue(enqLock0.equals((Object) enqLock1));
+       assertTrue(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

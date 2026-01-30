@@ -1,0 +1,27 @@
+--- a/evosuite-tests/jahuwaldt/plot/BoxLRSymbol_ESTest.java
++++ b/evosuite-tests/jahuwaldt/plot/BoxLRSymbol_ESTest.java
+@@ -14,12 +14,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class BoxLRSymbol_ESTest extends BoxLRSymbol_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        BoxLRSymbol boxLRSymbol0 = new BoxLRSymbol();
++        int sizeBefore = boxLRSymbol0.getSize();
++        boxLRSymbol0.generatePoints(122, 122);
++        int sizeAfterFirst = boxLRSymbol0.getSize();
++        assertTrue("Size should increase after first generatePoints call", sizeAfterFirst > sizeBefore);
++        boxLRSymbol0.generatePoints(122, 122);
++        int sizeAfterSecond = boxLRSymbol0.getSize();
++        assertTrue("Size should increase after second generatePoints call", sizeAfterSecond > sizeAfterFirst);
++        assertEquals(8, sizeAfterSecond);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      BoxLRSymbol boxLRSymbol0 = new BoxLRSymbol();
+-      boxLRSymbol0.generatePoints(122, 122);
+-      boxLRSymbol0.generatePoints(122, 122);
+-      assertEquals(8, boxLRSymbol0.getSize());
+-  }
+ }

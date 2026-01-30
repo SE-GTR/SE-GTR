@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
+@@ -132,16 +132,23 @@
+         boolean boolean0 = item0.isEqualTo(item1);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      Item item0 = new Item(4);
+-      Item item1 = new Item(4, item0);
+-      item1.set(4);
+-      boolean boolean0 = item1.isEqualTo(item0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    Item item0 = new Item(4);
++    Item item1 = new Item(4, item0);
++    int oldHash = item1.hashCode;
++    int oldIntVal = item1.intVal;
++    int oldType = item1.type;
++    item1.set(4);
++    // Verify side effects of set
++    assertEquals(4, item1.type);
++    assertNotEquals(oldHash, item1.hashCode);
++    assertTrue(oldHash != item1.hashCode || oldIntVal != item1.intVal);
++    // Original behavior check
++    boolean boolean0 = item1.isEqualTo(item0);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

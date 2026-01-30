@@ -1,0 +1,31 @@
+--- a/evosuite-tests/jigl/signal/RealSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/RealSignal_ESTest.java
+@@ -44,14 +44,20 @@
+          verifyException("jigl.signal.RealSignal", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      RealSignal realSignal0 = new RealSignal(689);
+-      ROI rOI0 = new ROI();
+-      // Undeclared exception!
+-      realSignal0.median(689, rOI0);
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        RealSignal realSignal0 = new RealSignal(689);
++        ROI rOI0 = new ROI();
++        // Capture observable state before invoking median
++        float[] dataBefore = realSignal0.getData();
++        int lengthBefore = dataBefore.length;
++        // Act
++        realSignal0.median(689, rOI0);
++        // Verify that median does not alter the signal's structural state
++        assertEquals(lengthBefore, realSignal0.getData().length);
++        assertSame(dataBefore, realSignal0.getData());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

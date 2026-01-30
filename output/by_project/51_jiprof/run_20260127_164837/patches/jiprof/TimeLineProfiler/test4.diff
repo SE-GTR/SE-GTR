@@ -1,0 +1,36 @@
+--- a/evosuite-tests/net/sourceforge/jiprof/timeline/TimeLineProfiler_ESTest.java
++++ b/evosuite-tests/net/sourceforge/jiprof/timeline/TimeLineProfiler_ESTest.java
+@@ -68,21 +68,19 @@
+          verifyException("net.sourceforge.jiprof.timeline.TimeLineProfiler", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        // Properly initialise the profiler state before invoking endWait
++        TimeLineProfiler._timeLine = new TimeLine();
++        TimeLineProfiler._startTime = System.currentTimeMillis();
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        TimeLineProfiler.endWait("both", "both");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.jiprof.timeline.TimeLineProfiler", e);
+-      }
+-  }
++        // Invoke the method with distinct, valid arguments
++        TimeLineProfiler.endWait("ClassA", "methodB");
++
++        // Verify that the profiler remains correctly initialised after the call
++        assertNotNull(TimeLineProfiler._timeLine);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

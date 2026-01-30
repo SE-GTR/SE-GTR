@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/javathena/core/data/SubNetConf_ESTest.java
++++ b/evosuite-tests/org/javathena/core/data/SubNetConf_ESTest.java
+@@ -66,14 +66,29 @@
+         // Ensure the value was actually changed from the initial state
+         assertNotEquals(initial, subNetConf0.getSubnet());
+     }
++@Test(timeout = 4000)
++public void test6() throws Throwable {
++    SubNetConf subNetConf0 = new SubNetConf();
++    // Verify initial state (default mask)
++    long defaultMask = subNetConf0.getMask();
+ 
++    // First mutation and verification
++    subNetConf0.setMask(-1L);
++    assertEquals(-1L, subNetConf0.getMask());
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      SubNetConf subNetConf0 = new SubNetConf();
+-      subNetConf0.setMask((-1L));
+-      assertEquals((-1L), subNetConf0.getMask());
+-  }
++    // Second mutation and verification to ensure the side‑effect is observable
++    subNetConf0.setMask(0L);
++    assertEquals(0L, subNetConf0.getMask());
++
++    // Confirm that the mask value actually changed from the previous state
++    assertNotEquals(-1L, subNetConf0.getMask());
++
++    // Ensure the mask differs from the default (if the default was not 0L)
++    if (defaultMask != 0L) {
++        assertNotEquals(defaultMask, subNetConf0.getMask());
++    }
++}
++
+ @Test(timeout = 4000)
+     public void test7() throws Throwable {
+         SubNetConf subNetConf0 = new SubNetConf();

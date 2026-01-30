@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/jcvi/jillion/fasta/aa/AminoAcidFastaRecordBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/fasta/aa/AminoAcidFastaRecordBuilder_ESTest.java
+@@ -25,13 +25,14 @@
+       AminoAcidFastaRecord aminoAcidFastaRecord0 = aminoAcidFastaRecordBuilder0.build();
+       assertNull(aminoAcidFastaRecord0.getComment());
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    AminoAcidFastaRecordBuilder builder = new AminoAcidFastaRecordBuilder("5", "Arg");
++    AminoAcidSequence seq = mock(AminoAcidSequence.class, new ViolatedAssumptionAnswer());
++    doReturn(0L, 0L).when(seq).getLength();
++    AminoAcidFastaRecord record = builder.createNewInstance("Arg", seq, "Arg");
++    assertSame(seq, record.getSequence());
++    assertEquals("Arg", record.getComment());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      AminoAcidFastaRecordBuilder aminoAcidFastaRecordBuilder0 = new AminoAcidFastaRecordBuilder("5", "Arg");
+-      AminoAcidSequence aminoAcidSequence0 = mock(AminoAcidSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(0L, 0L).when(aminoAcidSequence0).getLength();
+-      AminoAcidFastaRecord aminoAcidFastaRecord0 = aminoAcidFastaRecordBuilder0.createNewInstance("Arg", aminoAcidSequence0, "Arg");
+-      assertEquals("Arg", aminoAcidFastaRecord0.getId());
+-  }
+ }

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -200,18 +200,23 @@
+     iCMProxyConnection1.setObjectid("HK");
+     assertTrue(iCMProxyConnection1.equals(iCMProxyConnection0));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+-      ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
+-      assertTrue(iCMProxyConnection1.equals((Object)iCMProxyConnection0));
+-      
+-      iCMProxyConnection1.setObjectid("UBS]+==A");
+-      boolean boolean0 = iCMProxyConnection1.equals(iCMProxyConnection0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
++    ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
++    assertTrue(iCMProxyConnection1.equals((Object) iCMProxyConnection0));
++
++    // Verify initial state before setting objectid
++    assertNull(iCMProxyConnection1.getObjectid());
++
++    iCMProxyConnection1.setObjectid("UBS]+==A");
++    // Assert that the side‑effect of setObjectid is observable
++    assertEquals("UBS]+==A", iCMProxyConnection1.getObjectid());
++
++    boolean boolean0 = iCMProxyConnection1.equals(iCMProxyConnection0);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

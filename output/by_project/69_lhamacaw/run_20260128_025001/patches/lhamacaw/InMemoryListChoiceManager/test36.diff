@@ -1,0 +1,51 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryListChoiceManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryListChoiceManager_ESTest.java
+@@ -592,22 +592,32 @@
+       inMemoryListChoiceManager0.deleteCleaningStates(user0, arrayList0, arrayList1);
+       assertTrue(arrayList0.isEmpty());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test36()  throws Throwable  {
+-      InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+-      User user0 = new User();
+-      InMemoryListChoiceManager inMemoryListChoiceManager0 = new InMemoryListChoiceManager(inMemoryChangeEventManager0);
+-      Category category0 = new Category(121, "edy/`_f");
+-      inMemoryListChoiceManager0.addCategory(user0, category0);
+-      ArrayList<Variable> arrayList0 = new ArrayList<Variable>();
+-      DerivedVariable derivedVariable0 = new DerivedVariable();
+-      derivedVariable0.setCategory("edy/`_f");
+-      arrayList0.add((Variable) derivedVariable0);
+-      ArrayList<Category> arrayList1 = inMemoryListChoiceManager0.getCategories(user0);
+-      inMemoryListChoiceManager0.deleteCategories(user0, arrayList1, arrayList0);
+-      assertEquals("", user0.getAffiliation());
+-  }
++@Test(timeout = 4000)
++public void test36() throws Throwable {
++    InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
++    User user0 = new User();
++    InMemoryListChoiceManager inMemoryListChoiceManager0 = new InMemoryListChoiceManager(inMemoryChangeEventManager0);
++    Category category0 = new Category(121, "edy/`_f");
++    // add category and verify it was stored
++    inMemoryListChoiceManager0.addCategory(user0, category0);
++    ArrayList<Category> categoriesAfterAdd = inMemoryListChoiceManager0.getCategories(user0);
++    assertEquals(1, categoriesAfterAdd.size());
++    assertTrue(categoriesAfterAdd.contains(category0));
++    // prepare variable list
++    ArrayList<Variable> variableList = new ArrayList<>();
++    DerivedVariable derivedVariable0 = new DerivedVariable();
++    derivedVariable0.setCategory("edy/`_f");
++    // verify side‑effect of setCategory
++    assertEquals("edy/`_f", derivedVariable0.getCategory());
++    variableList.add(derivedVariable0);
++    // delete categories and verify removal
++    inMemoryListChoiceManager0.deleteCategories(user0, categoriesAfterAdd, variableList);
++    ArrayList<Category> categoriesAfterDelete = inMemoryListChoiceManager0.getCategories(user0);
++    assertTrue(categoriesAfterDelete.isEmpty());
++    // original check retained
++    assertEquals("", user0.getAffiliation());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test37()  throws Throwable  {

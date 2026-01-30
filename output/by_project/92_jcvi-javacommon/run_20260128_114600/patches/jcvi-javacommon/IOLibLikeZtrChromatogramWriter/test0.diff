@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/ztr/IOLibLikeZtrChromatogramWriter_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/ztr/IOLibLikeZtrChromatogramWriter_ESTest.java
+@@ -19,22 +19,14 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class IOLibLikeZtrChromatogramWriter_ESTest extends IOLibLikeZtrChromatogramWriter_ESTest_scaffolding {
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test0() throws Throwable {
++        IOLibLikeZtrChromatogramWriter writer = IOLibLikeZtrChromatogramWriter.INSTANCE;
++        java.io.File tempFile = java.io.File.createTempFile("test", ".tmp");
++        tempFile.deleteOnExit();
++        MockFile mockFile = new MockFile(tempFile, "can not start before reference: ");
++        MockFileOutputStream mockFileOutputStream = new MockFileOutputStream(mockFile);
++        writer.write(null, mockFileOutputStream);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      IOLibLikeZtrChromatogramWriter iOLibLikeZtrChromatogramWriter0 = IOLibLikeZtrChromatogramWriter.INSTANCE;
+-      MockFile mockFile0 = new MockFile((File) null, "can not start before reference: ");
+-      MockFileOutputStream mockFileOutputStream0 = new MockFileOutputStream(mockFile0);
+-      // Undeclared exception!
+-      try { 
+-        iOLibLikeZtrChromatogramWriter0.write((Chromatogram) null, mockFileOutputStream0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // chromatogram can not be null
+-         //
+-         verifyException("org.jcvi.jillion.internal.trace.chromat.ztr.DefaultZTRChromatogramWriterBuilder$DefaultZTRChromatogramWriter", e);
+-      }
+-  }
+ }

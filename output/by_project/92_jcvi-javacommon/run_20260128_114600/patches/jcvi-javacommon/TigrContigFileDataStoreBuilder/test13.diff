@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/tigr/contig/TigrContigFileDataStoreBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/tigr/contig/TigrContigFileDataStoreBuilder_ESTest.java
+@@ -221,22 +221,12 @@
+       TigrContigDataStore tigrContigDataStore0 = tigrContigFileDataStoreBuilder0.build();
+       assertFalse(tigrContigDataStore0.isClosed());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("", "");
+-      NucleotideFastaDataStore nucleotideFastaDataStore0 = mock(NucleotideFastaDataStore.class, new ViolatedAssumptionAnswer());
+-      TigrContigFileDataStoreBuilder tigrContigFileDataStoreBuilder0 = new TigrContigFileDataStoreBuilder(mockFile0, nucleotideFastaDataStore0);
+-      // Undeclared exception!
+-      try { 
+-        tigrContigFileDataStoreBuilder0.filter((DataStoreFilter) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // filter can not be null
+-         //
+-         verifyException("org.jcvi.jillion.assembly.tigr.contig.TigrContigFileDataStoreBuilder", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class, timeout = 4000)
++    public void test13() throws Throwable {
++        MockFile mockFile0 = new MockFile("", "");
++        NucleotideFastaDataStore nucleotideFastaDataStore0 = mock(NucleotideFastaDataStore.class, new ViolatedAssumptionAnswer());
++        TigrContigFileDataStoreBuilder tigrContigFileDataStoreBuilder0 = new TigrContigFileDataStoreBuilder(mockFile0, nucleotideFastaDataStore0);
++        tigrContigFileDataStoreBuilder0.filter(null);
++    }
++
+ }

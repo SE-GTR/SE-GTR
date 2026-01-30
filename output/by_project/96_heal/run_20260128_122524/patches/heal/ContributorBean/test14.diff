@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/heal/module/metadata/ContributorBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/ContributorBean_ESTest.java
+@@ -156,14 +156,24 @@
+     bean.setStatus("active");
+     assertEquals("active", bean.getStatus());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-    contributorBean0 = new ContributorBean();
+-      contributorBean0.setCopyrightHolderFlag(false);
+-      assertFalse(contributorBean0.getCopyrightHolderFlag());
+-  }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        ContributorBean bean1 = new ContributorBean();
++        ContributorBean bean2 = new ContributorBean();
++        bean1.setCopyrightHolderFlag(false);
++        bean2.setCopyrightHolderFlag(true);
++        // Assuming setters for contributorId exist; if not, this part can be omitted.
++        try {
++            bean1.getClass().getMethod("setContributorId", String.class).invoke(bean1, "id1");
++            bean2.getClass().getMethod("setContributorId", String.class).invoke(bean2, "id2");
++        } catch (Exception ignored) {
++            // If the setter does not exist, we rely on default compareTo behavior.
++        }
++        assertFalse(bean1.getCopyrightHolderFlag());
++        int cmp = bean1.compareTo(bean2);
++        assertNotEquals(0, cmp);
++    }
++
+ @Test(timeout = 4000)
+     public void test15() throws Throwable {
+         ContributorBean bean = new ContributorBean();

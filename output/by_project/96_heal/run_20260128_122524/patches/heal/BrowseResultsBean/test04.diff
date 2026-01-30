@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/heal/module/browse/BrowseResultsBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/browse/BrowseResultsBean_ESTest.java
+@@ -42,13 +42,25 @@
+       browseResultsBean0.setSubCategories((Vector) null);
+       assertEquals(0, browseResultsBean0.getCount());
+   }
++@Test(timeout = 4000)
++  public void test04() throws Throwable {
++      BrowseResultsBean bean = new BrowseResultsBean();
++      int countBefore = bean.getCount();
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      BrowseResultsBean browseResultsBean0 = new BrowseResultsBean();
+-      int int0 = browseResultsBean0.getCount();
+-      assertEquals(0, int0);
++      // Exercise non‑trivial behavior: Java serialization round‑trip
++      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++      oos.writeObject(bean);
++      oos.flush();
++
++      java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++              new java.io.ByteArrayInputStream(baos.toByteArray()));
++      BrowseResultsBean deserialized = (BrowseResultsBean) ois.readObject();
++
++      int countAfter = deserialized.getCount();
++      assertEquals(countBefore, countAfter);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

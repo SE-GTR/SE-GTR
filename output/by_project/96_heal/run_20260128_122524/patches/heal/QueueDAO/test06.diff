@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/heal/module/catalog/QueueDAO_ESTest.java
++++ b/evosuite-tests/org/heal/module/catalog/QueueDAO_ESTest.java
+@@ -95,22 +95,12 @@
+       boolean boolean0 = queueDAO0.markRecordApproved("approval");
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      QueueDAO queueDAO0 = new QueueDAO();
+-      // Undeclared exception!
+-      try { 
+-        queueDAO0.dequeue("catalog", (Connection) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.module.catalog.QueueDAO", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test06() throws Throwable {
++        QueueDAO queueDAO0 = new QueueDAO();
++        queueDAO0.dequeue("catalog", null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

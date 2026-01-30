@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/DirEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/DirEntry_ESTest.java
+@@ -44,18 +44,26 @@
+     int hashAgain = dirEntry0.hashCode();
+     assertEquals(hash, hashAgain);
+   }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        dirEntry0 = new DirEntry();
++        dirEntry1 = new DirEntry();
++        assertTrue(dirEntry1.equals((Object) dirEntry0));
+ 
++        // Verify initial state before modification
++        assertNull(dirEntry1.getModtime());
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-    dirEntry0 = new DirEntry();
+-    dirEntry1 = new DirEntry();
+-      assertTrue(dirEntry1.equals((Object)dirEntry0));
+-      
+-      dirEntry1.setModtime("&Y,.&wScoR");
+-      boolean boolean0 = dirEntry1.equals(dirEntry0);
+-      assertFalse(boolean0);
+-  }
++        // Act: change the modification time
++        dirEntry1.setModtime("&Y,.&wScoR");
++
++        // Assert: the side‑effect is observable via the getter
++        assertEquals("&Y,.&wScoR", dirEntry1.getModtime());
++
++        // Equality should now differ because the internal state changed
++        boolean boolean0 = dirEntry1.equals(dirEntry0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

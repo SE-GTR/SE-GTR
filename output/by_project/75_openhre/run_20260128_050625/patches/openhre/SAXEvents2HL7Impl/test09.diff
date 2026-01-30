@@ -1,0 +1,52 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/SAXEvents2HL7Impl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/SAXEvents2HL7Impl_ESTest.java
+@@ -138,25 +138,30 @@
+          //
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      SAXEvents2HL7Impl sAXEvents2HL7Impl0 = new SAXEvents2HL7Impl();
+-      StringWriter stringWriter0 = new StringWriter();
+-      sAXEvents2HL7Impl0.setWriter(stringWriter0);
+-      sAXEvents2HL7Impl0.processStartTag("MSH");
+-      sAXEvents2HL7Impl0.processStartTag("MSH");
+-      sAXEvents2HL7Impl0.processStartTag("MvS.1");
+-      sAXEvents2HL7Impl0.processStartTag("MvS.1");
+-      sAXEvents2HL7Impl0.processStartTag("MvS.1");
+-      sAXEvents2HL7Impl0.processStartTag("MSH");
+-      assertEquals('\\', sAXEvents2HL7Impl0.getEscapeCharacter());
+-      assertEquals('&', sAXEvents2HL7Impl0.getSubComponentSeparator());
+-      assertEquals('^', sAXEvents2HL7Impl0.getComponentSeparator());
+-      assertEquals("\n", sAXEvents2HL7Impl0.getSegmentSeparator());
+-      assertEquals('~', sAXEvents2HL7Impl0.getRepeatableSeparator());
+-      assertEquals('|', sAXEvents2HL7Impl0.getFieldSeparator());
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        SAXEvents2HL7Impl sAXEvents2HL7Impl0 = new SAXEvents2HL7Impl();
++        StringWriter stringWriter0 = new StringWriter();
++        // Capture initial writer content (should be empty)
++        String beforeWrite = stringWriter0.toString();
++        sAXEvents2HL7Impl0.setWriter(stringWriter0);
++        sAXEvents2HL7Impl0.processStartTag("MSH");
++        sAXEvents2HL7Impl0.processStartTag("MSH");
++        sAXEvents2HL7Impl0.processStartTag("MvS.1");
++        sAXEvents2HL7Impl0.processStartTag("MvS.1");
++        sAXEvents2HL7Impl0.processStartTag("MvS.1");
++        sAXEvents2HL7Impl0.processStartTag("MSH");
++        // Verify that the writer received some output as a result of processing tags
++        String afterWrite = stringWriter0.toString();
++        assertTrue("Writer should have received output after processing tags", afterWrite.length() > beforeWrite.length());
++        assertEquals('\\', sAXEvents2HL7Impl0.getEscapeCharacter());
++        assertEquals('&', sAXEvents2HL7Impl0.getSubComponentSeparator());
++        assertEquals('^', sAXEvents2HL7Impl0.getComponentSeparator());
++        assertEquals("\n", sAXEvents2HL7Impl0.getSegmentSeparator());
++        assertEquals('~', sAXEvents2HL7Impl0.getRepeatableSeparator());
++        assertEquals('|', sAXEvents2HL7Impl0.getFieldSeparator());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

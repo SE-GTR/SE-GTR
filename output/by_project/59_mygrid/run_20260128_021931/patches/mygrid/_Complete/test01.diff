@@ -1,0 +1,47 @@
+--- a/evosuite-tests/mygrid/web/_Complete_ESTest.java
++++ b/evosuite-tests/mygrid/web/_Complete_ESTest.java
+@@ -34,21 +34,32 @@
+     int hash2 = _Complete0.hashCode();
+     assertEquals(hash1, hash2);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test01() throws Throwable {
+     _Complete0 = new _Complete();
+     _Complete1 = new _Complete();
+-      Job job0 = new Job();
+-      _Complete0.setJob(job0);
+-      assertFalse(_Complete0.equals((Object)_Complete1));
+-      
+-      _Complete1.setJob(job0);
+-      boolean boolean0 = _Complete0.equals(_Complete1);
+-      assertTrue(_Complete1.equals((Object)_Complete0));
+-      assertTrue(boolean0);
++    Job job0 = new Job();
++
++    // Verify initial state before setting the job
++    assertNull(_Complete0.getJob());
++    assertNull(_Complete1.getJob());
++
++    // Set job on the first instance and assert the side‑effect
++    _Complete0.setJob(job0);
++    assertSame(job0, _Complete0.getJob());
++
++    // The two instances should not be equal yet (different internal state)
++    assertFalse(_Complete0.equals((Object) _Complete1));
++
++    // Set the same job on the second instance and assert the side‑effect
++    _Complete1.setJob(job0);
++    assertSame(job0, _Complete1.getJob());
++
++    // Now both instances should be equal
++    assertTrue(_Complete0.equals(_Complete1));
++    assertTrue(_Complete1.equals((Object) _Complete0));
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

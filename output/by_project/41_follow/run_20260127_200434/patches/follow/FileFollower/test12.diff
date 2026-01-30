@@ -1,0 +1,47 @@
+--- a/evosuite-tests/ghm/follow/FileFollower_ESTest.java
++++ b/evosuite-tests/ghm/follow/FileFollower_ESTest.java
+@@ -317,31 +317,19 @@
+     assertFalse(fileFollower0.isPaused());
+     assertEquals(32768, fileFollower0.getBufferSize());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("&2");
+-      OutputDestination[] outputDestinationArray0 = new OutputDestination[1];
+-      mockFile0.createNewFile();
+-      JTextPane jTextPane0 = new JTextPane();
+-      JTextPaneDestination jTextPaneDestination0 = new JTextPaneDestination(jTextPane0, false);
+-      outputDestinationArray0[0] = (OutputDestination) jTextPaneDestination0;
+-      FileFollower fileFollower0 = new FileFollower(mockFile0, 8, 0, outputDestinationArray0);
+-      fileFollower0.getLatency();
+-      fileFollower0.isPaused();
+-      // Undeclared exception!
+-      try { 
+-        fileFollower0.stopAndWait();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ghm.follow.FileFollower", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    MockFile mockFile0 = new MockFile("&2");
++    mockFile0.createNewFile();
++    OutputDestination[] outputDestinationArray0 = new OutputDestination[1];
++    JTextPane jTextPane0 = new JTextPane();
++    JTextPaneDestination jTextPaneDestination0 = new JTextPaneDestination(jTextPane0, false);
++    outputDestinationArray0[0] = jTextPaneDestination0;
++    FileFollower fileFollower0 = new FileFollower(mockFile0, 8, 0, outputDestinationArray0);
++    assertEquals(0, fileFollower0.getLatency());
++    assertFalse(fileFollower0.isPaused());
++}
++
+ @Test(timeout = 4000)
+ public void test13() throws Throwable {
+     File file0 = MockFile.createTempFile("1FdK>}m'eWy*", "1FdK>}m'eWy*");

@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -111,20 +111,26 @@
+     methodWriter0.put(byteVector0);
+     org.junit.Assert.assertTrue("ByteVector length should increase after put", byteVector0.length > beforeLength);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
+-      ClassWriter classWriter0 = new ClassWriter(1);
+-      classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 259);
+-      MethodWriter methodWriter0 = classWriter0.firstMethod;
+-      MethodWriter methodWriter1 = methodWriter0.next;
+-      methodWriter1.visitParameterAnnotation(1, ":^BP>5NRD28iOaj]", false);
+-      ByteVector byteVector0 = classWriter0.pool;
+-      methodWriter1.put(byteVector0);
+-      assertFalse(methodWriter0.equals((Object)methodWriter1));
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
++    ClassWriter classWriter0 = new ClassWriter(1);
++    classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 259);
++    assertNotNull(classReader0.getClassName());
++
++    MethodWriter methodWriter0 = classWriter0.firstMethod;
++    MethodWriter methodWriter1 = methodWriter0.next;
++    AnnotationVisitor av = methodWriter1.visitParameterAnnotation(1, ":^BP>5NRD28iOaj]", false);
++    assertNotNull(av);
++
++    ByteVector byteVector0 = classWriter0.pool;
++    int lenBefore = byteVector0.length;
++    methodWriter1.put(byteVector0);
++    assertTrue(byteVector0.length > lenBefore);
++
++    assertFalse(methodWriter0.equals((Object) methodWriter1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

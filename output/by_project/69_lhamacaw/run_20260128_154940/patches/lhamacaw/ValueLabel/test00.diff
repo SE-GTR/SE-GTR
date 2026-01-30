@@ -1,0 +1,41 @@
+--- a/evosuite-tests/macaw/businessLayer/ValueLabel_ESTest.java
++++ b/evosuite-tests/macaw/businessLayer/ValueLabel_ESTest.java
+@@ -19,19 +19,26 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ValueLabel_ESTest extends ValueLabel_ESTest_scaffolding {
++public void test00() throws Throwable {
++    ValueLabel valueLabel0 = new ValueLabel();
++    User user0 = new User();
++    // capture initial state
++    boolean beforeMissing = valueLabel0.isMissingValue();
++    valueLabel0.setMissingValue(true);
++    // verify side‑effect
++    assertTrue(valueLabel0.isMissingValue());
++    assertFalse(beforeMissing);
++    RawVariable rawVariable0 = new RawVariable();
++    ValueLabel valueLabel1 = new ValueLabel();
++    java.util.ArrayList<macaw.system.MacawChangeEvent> changes =
++        ValueLabel.detectFieldChanges(user0, rawVariable0, valueLabel0, valueLabel1);
++    // assert return value observed
++    assertNotNull(changes);
++    assertTrue(valueLabel0.isMissingValue());
++    assertFalse(valueLabel1.isMissingValue());
++    assertEquals(0, valueLabel0.getIdentifier());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      ValueLabel valueLabel0 = new ValueLabel();
+-      User user0 = new User();
+-      valueLabel0.setMissingValue(true);
+-      RawVariable rawVariable0 = new RawVariable();
+-      ValueLabel valueLabel1 = new ValueLabel();
+-      ValueLabel.detectFieldChanges(user0, rawVariable0, valueLabel0, valueLabel1);
+-      assertTrue(valueLabel0.isMissingValue());
+-      assertFalse(valueLabel1.isMissingValue());
+-      assertEquals(0, valueLabel0.getIdentifier());
+-  }
+ public void test01() throws Throwable {
+     ValueLabel valueLabel0 = new ValueLabel();
+     valueLabel0.setLabel("user.firstName.saveChanges");

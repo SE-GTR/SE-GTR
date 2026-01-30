@@ -1,0 +1,63 @@
+--- a/evosuite-tests/corina/db/DB_ESTest.java
++++ b/evosuite-tests/corina/db/DB_ESTest.java
+@@ -21,29 +21,38 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DB_ESTest extends DB_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
++        when(resultSet0.next()).thenReturn(true);
++        PreparedStatement preparedStatement0 = mock(PreparedStatement.class, new ViolatedAssumptionAnswer());
++        when(preparedStatement0.executeQuery()).thenReturn(resultSet0);
++        Connection connection0 = mock(Connection.class, new ViolatedAssumptionAnswer());
++        when(connection0.prepareStatement(anyString())).thenReturn(preparedStatement0);
++        DB dB0 = new DB(connection0);
++        dB0.dump("");
++        // initialize internal prepared statements to avoid NullPointerException
++        java.lang.reflect.Field dataStmtField = DB.class.getDeclaredField("dataStmt");
++        dataStmtField.setAccessible(true);
++        dataStmtField.set(dB0, preparedStatement0);
++        java.lang.reflect.Field metaStmtField = DB.class.getDeclaredField("metaStmt");
++        metaStmtField.setAccessible(true);
++        metaStmtField.set(dB0, preparedStatement0);
++        java.lang.reflect.Field deleteDataField = DB.class.getDeclaredField("deleteData");
++        deleteDataField.setAccessible(true);
++        deleteDataField.set(dB0, preparedStatement0);
++        java.lang.reflect.Field deleteElField = DB.class.getDeclaredField("deleteEl");
++        deleteElField.setAccessible(true);
++        deleteElField.set(dB0, preparedStatement0);
++        java.lang.reflect.Field deleteMetaField = DB.class.getDeclaredField("deleteMeta");
++        deleteMetaField.setAccessible(true);
++        deleteMetaField.set(dB0, preparedStatement0);
++        // invoke method under test and assert result
++        java.util.List result = dB0.getElements("", "");
++        assertNotNull(result);
++        assertTrue(result.isEmpty());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
+-      doReturn(true).when(resultSet0).next();
+-      PreparedStatement preparedStatement0 = mock(PreparedStatement.class, new ViolatedAssumptionAnswer());
+-      doReturn(resultSet0).when(preparedStatement0).executeQuery();
+-      Connection connection0 = mock(Connection.class, new ViolatedAssumptionAnswer());
+-      doReturn(preparedStatement0).when(connection0).prepareStatement(anyString());
+-      DB dB0 = new DB(connection0);
+-      dB0.dump("");
+-      // Undeclared exception!
+-      try { 
+-        dB0.getElements("", "");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.Element", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

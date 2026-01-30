@@ -1,0 +1,34 @@
+--- a/evosuite-tests/map/DirtyNode_ESTest.java
++++ b/evosuite-tests/map/DirtyNode_ESTest.java
+@@ -325,16 +325,21 @@
+     assertEquals(5.0F, dirtyNode0.getY(), 0.01F);
+     assertNotEquals(previous, dirtyNode0.getY());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test31()  throws Throwable  {
+-    dirtyNode0 = new DirtyNode(0L);
+-      dirtyNode0.setCost(0L);
+-      assertEquals(0.0F, dirtyNode0.x, 0.01F);
+-      assertEquals(0.0F, dirtyNode0.y, 0.01F);
+-      assertEquals(0.0F, dirtyNode0.cost, 0.01F);
+-  }
++@Test(timeout = 4000)
++    public void test31() throws Throwable {
++        dirtyNode0 = new DirtyNode(0L);
++        // initial state
++        assertEquals(0.0f, dirtyNode0.cost, 0.01f);
++        assertEquals(0.0f, dirtyNode0.x, 0.01f);
++        assertEquals(0.0f, dirtyNode0.y, 0.01f);
++        // change cost and verify the side‑effect
++        dirtyNode0.setCost(5.5f);
++        assertEquals(5.5f, dirtyNode0.cost, 0.01f);
++        // another change to ensure the setter really updates the field
++        dirtyNode0.setCost(2.0f);
++        assertEquals(2.0f, dirtyNode0.cost, 0.01f);
++    }
++
+ @Test(timeout = 4000)
+ public void test32() throws Throwable {
+     DirtyNode parentNode = new DirtyNode(5L);

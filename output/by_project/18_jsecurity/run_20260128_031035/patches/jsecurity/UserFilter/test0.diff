@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jsecurity/web/filter/authc/UserFilter_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/filter/authc/UserFilter_ESTest.java
+@@ -17,19 +17,10 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class UserFilter_ESTest extends UserFilter_ESTest_scaffolding {
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test0() throws Throwable {
++        UserFilter userFilter0 = new UserFilter();
++        userFilter0.onAccessDenied(null, null);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      UserFilter userFilter0 = new UserFilter();
+-      try { 
+-        userFilter0.onAccessDenied((ServletRequest) null, (ServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.WebUtils", e);
+-      }
+-  }
+ }

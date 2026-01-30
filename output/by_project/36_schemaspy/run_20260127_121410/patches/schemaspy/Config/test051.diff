@@ -1,0 +1,44 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -775,24 +775,23 @@
+       assertFalse(config0.hasRoutines());
+       assertFalse(config0.hasOrphans());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test051()  throws Throwable  {
+-      Config config0 = new Config();
+-      config0.setSingleSignOn(true);
+-      config0.getConnectionProperties();
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-o' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test051() throws Throwable {
++        Config config0 = new Config();
++        config0.setSingleSignOn(true);
++        java.util.Properties props = config0.getConnectionProperties();
++        assertNotNull("Connection properties should not be null", props);
++        assertTrue("Connection properties should be empty by default", props.isEmpty());
++        try {
++            config0.asList();
++            fail("Expecting exception: RuntimeException");
++        } catch (RuntimeException e) {
++            assertTrue("Exception message should mention missing '-o' parameter",
++                    e.getMessage().contains("Required parameter '-o' was not specified"));
++            verifyException("net.sourceforge.schemaspy.Config", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test052()  throws Throwable  {

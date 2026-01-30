@@ -1,0 +1,37 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -672,18 +672,22 @@
+         assertNull(result);
+         assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test53()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Offender offender0 = new Offender(2145115970, 2145115970);
+-      PassEvent passEvent0 = new PassEvent(offender0, 1, 1);
+-      passEvent0.setDestinationPoint(2145115970, 1, false);
+-      handballModel0.setActualMoveEvent(passEvent0);
+-      handballModel0.getNearestHighlightableItem((-527), 2145115970);
+-      assertEquals(HandballModel.State.EDIT, handballModel0.getState());
+-  }
++@Test(timeout = 4000)
++public void test53() throws Throwable {
++    HandballModel handballModel0 = new HandballModel();
++    Offender offender0 = new Offender(2145115970, 2145115970);
++    PassEvent passEvent0 = new PassEvent(offender0, 1, 1);
++    passEvent0.setDestinationPoint(2145115970, 1, false);
++    java.awt.geom.Point2D dest = passEvent0.getDestinationPoint();
++    assertNotNull(dest);
++    assertEquals(2145115970, (int) dest.getX());
++    assertEquals(1, (int) dest.getY());
++    handballModel0.setActualMoveEvent(passEvent0);
++    HighlightableItem item = handballModel0.getNearestHighlightableItem(-527, 2145115970);
++    assertNull(item);
++    assertEquals(HandballModel.State.EDIT, handballModel0.getState());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test54()  throws Throwable  {

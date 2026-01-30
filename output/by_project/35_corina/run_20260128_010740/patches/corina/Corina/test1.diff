@@ -1,0 +1,43 @@
+--- a/evosuite-tests/corina/formats/Corina_ESTest.java
++++ b/evosuite-tests/corina/formats/Corina_ESTest.java
+@@ -53,25 +53,22 @@
+             // Expected exception, test passes
+         }
+     }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        corina0 = new Corina();
++        stringReader0 = new StringReader(")");
++        bufferedReader0 = new BufferedReader(stringReader0);
++        String line = bufferedReader0.readLine();
++        assertEquals(")", line);
++        try {
++            corina0.load(bufferedReader0);
++            fail("Expecting exception: IOException");
++        } catch (IOException e) {
++            // no message in exception (getMessage() returned null)
++            verifyException("corina.formats.Corina", e);
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    corina0 = new Corina();
+-    stringReader0 = new StringReader(")");
+-    bufferedReader0 = new BufferedReader(stringReader0);
+-      bufferedReader0.readLine();
+-      try { 
+-        corina0.load(bufferedReader0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.formats.Corina", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

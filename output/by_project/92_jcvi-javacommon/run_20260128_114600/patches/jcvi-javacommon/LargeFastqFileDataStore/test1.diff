@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/LargeFastqFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/LargeFastqFileDataStore_ESTest.java
+@@ -45,23 +45,13 @@
+       FastqRecord fastqRecord0 = ((LargeFastqFileDataStore) fastqDataStore0).get("`!-9oP");
+       assertNull(fastqRecord0);
+   }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test1() throws Throwable {
++        mockFile0 = new MockFile("");
++        fastqQualityCodec0 = FastqQualityCodec.SOLEXA;
++        LargeFastqFileDataStore.create((File) mockFile0, (DataStoreFilter) null, fastqQualityCodec0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    mockFile0 = new MockFile("");
+-    fastqQualityCodec0 = FastqQualityCodec.SOLEXA;
+-      // Undeclared exception!
+-      try { 
+-        LargeFastqFileDataStore.create((File) mockFile0, (DataStoreFilter) null, fastqQualityCodec0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // filter can not be null
+-         //
+-         verifyException("org.jcvi.jillion.trace.fastq.LargeFastqFileDataStore", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

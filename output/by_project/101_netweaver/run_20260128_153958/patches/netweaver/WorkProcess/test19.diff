@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -314,18 +314,24 @@
+         assertTrue(boolean0);
+         assertTrue(workProcess0.equals((Object) workProcess1));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
+-      workProcess0.setSem("");
+-      WorkProcess workProcess1 = new WorkProcess();
+-      boolean boolean0 = workProcess1.equals(workProcess0);
+-      assertEquals(0, workProcess1.getPid());
+-      assertEquals(0, workProcess1.getNo());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test19() throws Throwable {
++    WorkProcess workProcess0 = new WorkProcess();
++    // initial state of sem should be null
++    assertNull(workProcess0.getSem());
++    workProcess0.setSem("");
++    // verify that setSem correctly updates the field
++    assertEquals("", workProcess0.getSem());
++
++    WorkProcess workProcess1 = new WorkProcess();
++    boolean boolean0 = workProcess1.equals(workProcess0);
++    assertEquals(0, workProcess1.getPid());
++    assertEquals(0, workProcess1.getNo());
++    assertFalse(boolean0);
++    // ensure the second instance remains unaffected
++    assertNull(workProcess1.getSem());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

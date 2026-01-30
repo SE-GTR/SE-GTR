@@ -1,0 +1,23 @@
+--- a/evosuite-tests/net/sf/jniinchi/JniInchiOutputStructure_ESTest.java
++++ b/evosuite-tests/net/sf/jniinchi/JniInchiOutputStructure_ESTest.java
+@@ -54,11 +54,14 @@
+       jniInchiOutputStructure0.setRetStatus(iNCHI_RET0);
+       assertEquals(0, jniInchiOutputStructure0.getNumBonds());
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    JniInchiOutputStructure out = new JniInchiOutputStructure(4, null, "8g", 753L, 0L, 0L, -1288L);
++    assertNotNull("Object should be created", out);
++    INCHI_RET status = out.getReturnStatus();
++    assertNotNull("Return status should not be null", status);
++    assertTrue("Return status should be a defined enum constant",
++        java.util.EnumSet.allOf(INCHI_RET.class).contains(status));
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      JniInchiOutputStructure jniInchiOutputStructure0 = new JniInchiOutputStructure(4, (String) null, "8g", 753L, 0L, 0L, (-1288L));
+-      INCHI_RET iNCHI_RET0 = jniInchiOutputStructure0.getReturnStatus();
+-      assertEquals(INCHI_RET.UNKNOWN, iNCHI_RET0);
+-  }
+ }

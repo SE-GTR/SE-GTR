@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/SequenceStructureBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/SequenceStructureBean_ESTest.java
+@@ -60,16 +60,31 @@
+       sequenceStructureBean0.setMaxValue("pCk|");
+       assertEquals(0, sequenceStructureBean0.getLastNumber());
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        SequenceStructureBean bean = new SequenceStructureBean();
++        // basic sanity check of default state
++        assertEquals("0", bean.getMaxValue());
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      SequenceStructureBean sequenceStructureBean0 = new SequenceStructureBean();
+-      int int0 = sequenceStructureBean0.getMinValue();
+-      assertEquals("0", sequenceStructureBean0.getMaxValue());
+-      assertEquals(0, sequenceStructureBean0.getIncrementBy());
+-      assertEquals(0, sequenceStructureBean0.getLastNumber());
+-      assertEquals(0, int0);
+-  }
++        // Act: serialize and deserialize the bean
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(bean);
++        oos.flush();
++        byte[] data = baos.toByteArray();
++
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++        Object deserialized = ois.readObject();
++        assertTrue(deserialized instanceof SequenceStructureBean);
++        SequenceStructureBean bean2 = (SequenceStructureBean) deserialized;
++
++        // Verify that the state survived the round‑trip
++        assertEquals(bean.getMaxValue(), bean2.getMaxValue());
++        assertEquals(bean.getIncrementBy(), bean2.getIncrementBy());
++        assertEquals(bean.getLastNumber(), bean2.getLastNumber());
++        assertEquals(bean.getMinValue(), bean2.getMinValue());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

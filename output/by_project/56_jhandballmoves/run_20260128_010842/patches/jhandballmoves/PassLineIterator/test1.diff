@@ -1,0 +1,43 @@
+--- a/evosuite-tests/visu/handball/moves/model/animation/PassLineIterator_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/animation/PassLineIterator_ESTest.java
+@@ -32,20 +32,28 @@
+     // Verify iterator state after next()
+     assertFalse(passLineIterator0.isDone());
+ }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    Offender offender0 = new Offender(1, -1);
++    PassEvent passEvent0 = new PassEvent(offender0, -1, -1582);
++    passEvent0.setDestinationPlayer(offender0, false);
++    // verify side‑effect of setDestinationPlayer
++    assertSame(offender0, passEvent0.getDestinationPlayer());
++    // optional additional check if a getter for the temporary point exists
++    // assertNotNull(passEvent0.getDestinationPointTemporary());
+ 
++    PassLineIterator passLineIterator0 = new PassLineIterator(passEvent0);
++    assertFalse(passLineIterator0.isDone());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Offender offender0 = new Offender(1, (-1));
+-      PassEvent passEvent0 = new PassEvent(offender0, (-1), (-1582));
+-      passEvent0.setDestinationPlayer(offender0, false);
+-      PassLineIterator passLineIterator0 = new PassLineIterator(passEvent0);
+-      assertFalse(passLineIterator0.isDone());
+-      
+-      passLineIterator0.next();
+-      boolean boolean0 = passLineIterator0.isDone();
+-      assertTrue(boolean0);
+-  }
++    // capture state before invoking next()
++    boolean before = passLineIterator0.isDone();
++    assertFalse(before);
++
++    passLineIterator0.next();
++    boolean after = passLineIterator0.isDone();
++    assertTrue(after);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

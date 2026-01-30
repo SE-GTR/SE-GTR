@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/TrustStoreInfo_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/TrustStoreInfo_ESTest.java
+@@ -77,15 +77,20 @@
+       assertNull(trustStoreInfo0.getType());
+       assertEquals("NONE", trustStoreInfo0.getStoreFile());
+   }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        TrustStoreInfo trustStoreInfo0 = new TrustStoreInfo();
++        String password = "rRWe Q|i+&%Cr9oK";
++        trustStoreInfo0.setStorePassword(password);
++        // Verify that the password was stored correctly
++        assertEquals(password, trustStoreInfo0.getStorePassword());
++        String string0 = trustStoreInfo0.toXML(password);
++        assertEquals("rRWe Q|i+&%Cr9oK<trust-store-info>\n" +
++                     "rRWe Q|i+&%Cr9oK\t<store-file>NONE</store-file>\n" +
++                     "rRWe Q|i+&%Cr9oK\t<store-password>rRWe Q|i+&%Cr9oK</store-password>\n" +
++                     "rRWe Q|i+&%Cr9oK</trust-store-info>\n", string0);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      TrustStoreInfo trustStoreInfo0 = new TrustStoreInfo();
+-      trustStoreInfo0.setStorePassword("rRWe Q|i+&%Cr9oK");
+-      String string0 = trustStoreInfo0.toXML("rRWe Q|i+&%Cr9oK");
+-      assertEquals("rRWe Q|i+&%Cr9oK<trust-store-info>\nrRWe Q|i+&%Cr9oK\t<store-file>NONE</store-file>\nrRWe Q|i+&%Cr9oK\t<store-password>rRWe Q|i+&%Cr9oK</store-password>\nrRWe Q|i+&%Cr9oK</trust-store-info>\n", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

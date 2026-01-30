@@ -1,0 +1,35 @@
+--- a/evosuite-tests/corina/site/Site_ESTest.java
++++ b/evosuite-tests/corina/site/Site_ESTest.java
+@@ -50,17 +50,21 @@
+       Object object0 = site0.clone();
+       assertTrue(object0.equals((Object)site0));
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      Site site0 = new Site();
+-      Site site1 = new Site();
+-      assertTrue(site1.equals((Object)site0));
+-      
+-      site1.setAltitude((Integer) site1.TYPE_MEDIEVAL);
+-      boolean boolean0 = site0.equals(site1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        Site site0 = new Site();
++        Site site1 = new Site();
++        assertTrue(site1.equals((Object) site0));
++
++        // Verify that setting altitude updates the internal state
++        int expectedAltitude = site1.TYPE_MEDIEVAL;
++        site1.setAltitude(expectedAltitude);
++        assertEquals(expectedAltitude, site1.getAltitude());
++
++        // Equality should now reflect the changed altitude
++        assertFalse(site0.equals(site1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/ClassWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/ClassWriter_ESTest.java
+@@ -46,23 +46,16 @@
+     String string0 = classWriter0.getCommonSuperClass("java/lang/String", "org.objectweb.asm.jip.ClassAdapter");
+     assertNotNull(string0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      ClassWriter classWriter0 = new ClassWriter((-462));
+-      // Undeclared exception!
+-      try { 
+-        classWriter0.getMergedType(2, (-462));
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.ClassWriter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        // Use the COMPUTE_FRAMES flag to ensure internal type tables are initialized.
++        ClassWriter classWriter0 = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
++        // Invoke the method under test with simple, valid type indices.
++        int merged = classWriter0.getMergedType(0, 0);
++        // The method should return a non‑negative type index without throwing an exception.
++        assertTrue(merged >= 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

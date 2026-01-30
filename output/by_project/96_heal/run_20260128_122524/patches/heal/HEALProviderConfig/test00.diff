@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/heal/module/oai/heal/HEALProviderConfig_ESTest.java
++++ b/evosuite-tests/org/heal/module/oai/heal/HEALProviderConfig_ESTest.java
+@@ -20,19 +20,27 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class HEALProviderConfig_ESTest extends HEALProviderConfig_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      NSDL_DCMetadataFormat nSDL_DCMetadataFormat0 = new NSDL_DCMetadataFormat();
+-      OAIMetadataFormat[] oAIMetadataFormatArray0 = new OAIMetadataFormat[4];
+-      oAIMetadataFormatArray0[0] = (OAIMetadataFormat) nSDL_DCMetadataFormat0;
+-      oAIMetadataFormatArray0[1] = (OAIMetadataFormat) nSDL_DCMetadataFormat0;
+-      oAIMetadataFormatArray0[2] = (OAIMetadataFormat) nSDL_DCMetadataFormat0;
+-      oAIMetadataFormatArray0[3] = (OAIMetadataFormat) nSDL_DCMetadataFormat0;
+-      HEALProviderConfig hEALProviderConfig0 = new HEALProviderConfig("", (-291), "aTU)_N!", "'", (String) null, (String[]) null, (String[]) null, "}", (String[]) null, (String) null, (String) null, oAIMetadataFormatArray0, "Rtf");
+-      assertEquals("Health Education Assets Library", hEALProviderConfig0.getRepositoryName());
+-      assertEquals("http://www.healcentral.org/heal/oaiprovider", hEALProviderConfig0.getBaseURL());
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        NSDL_DCMetadataFormat nSDL_DCMetadataFormat0 = new NSDL_DCMetadataFormat();
++        OAIMetadataFormat[] oAIMetadataFormatArray0 = new OAIMetadataFormat[4];
++        oAIMetadataFormatArray0[0] = nSDL_DCMetadataFormat0;
++        oAIMetadataFormatArray0[1] = nSDL_DCMetadataFormat0;
++        oAIMetadataFormatArray0[2] = nSDL_DCMetadataFormat0;
++        oAIMetadataFormatArray0[3] = nSDL_DCMetadataFormat0;
++        HEALProviderConfig hEALProviderConfig0 = new HEALProviderConfig("", (-291), "aTU)_N!", "'", (String) null,
++                (String[]) null, (String[]) null, "}", (String[]) null, (String) null, (String) null,
++                oAIMetadataFormatArray0, "Rtf");
++        // Verify default repository name (initialization check)
++        assertEquals("Health Education Assets Library", hEALProviderConfig0.getRepositoryName());
++        // Verify that the metadata formats supplied to the constructor are stored correctly
++        OAIMetadataFormat[] storedFormats = hEALProviderConfig0.getMetadataFormats();
++        assertEquals(4, storedFormats.length);
++        for (OAIMetadataFormat fmt : storedFormats) {
++            assertTrue(fmt instanceof NSDL_DCMetadataFormat);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

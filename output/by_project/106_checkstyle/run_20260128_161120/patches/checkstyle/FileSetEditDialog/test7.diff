@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/properties/FileSetEditDialog_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/properties/FileSetEditDialog_ESTest.java
+@@ -109,24 +109,26 @@
+          verifyException("org.eclipse.swt.widgets.Display", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test7() throws Throwable {
++        org.eclipse.swt.widgets.Display display = new org.eclipse.swt.widgets.Display();
++        org.eclipse.swt.widgets.Shell shell = new org.eclipse.swt.widgets.Shell(display);
++        fileSet0 = new FileSet();
++        checkstylePropertyPage0 = new CheckstylePropertyPage();
++        try {
++            fileSetEditDialog0 = new FileSetEditDialog(shell, fileSet0, null, checkstylePropertyPage0);
++        } catch (Throwable t) {
++            fail("Constructor threw an unexpected exception: " + t);
++        } finally {
++            if (!shell.isDisposed()) {
++                shell.dispose();
++            }
++            if (!display.isDisposed()) {
++                display.dispose();
++            }
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-    fileSet0 = new FileSet();
+-    checkstylePropertyPage0 = new CheckstylePropertyPage();
+-    fileSetEditDialog0 = new FileSetEditDialog((Shell) null, fileSet0, (IProject) null, checkstylePropertyPage0);
+-      // Undeclared exception!
+-      try { 
+-        fileSetEditDialog0.configureShell((Shell) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.eclipse.jface.window.Window", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

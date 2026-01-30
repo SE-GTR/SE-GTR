@@ -1,0 +1,40 @@
+--- a/evosuite-tests/de/paragon/explorer/util/PropertyManager_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/util/PropertyManager_ESTest.java
+@@ -56,15 +56,29 @@
+       boolean boolean0 = propertyManager0.getHideUnexploredAttribut();
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    PropertyManager propertyManager0 = PropertyManager.getInstance();
++    // Capture the state before invoking the method
++    boolean beforeNull = propertyManager0.getHideNullAttribut();
++    boolean beforeStatic = propertyManager0.getHideStaticAttribut();
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      PropertyManager propertyManager0 = PropertyManager.getInstance();
+-      propertyManager0.setHideAttributes(false, false, false);
+-      boolean boolean0 = propertyManager0.getHideNullAttribut();
+-      assertTrue(propertyManager0.getHideStaticAttribut());
+-      assertFalse(boolean0);
+-  }
++    // Act: change the hide attributes
++    propertyManager0.setHideAttributes(false, false, false);
++
++    // Verify that the side‑effects are observable via the public getters
++    assertFalse("Hide null attribute should be false after setHideAttributes(false, …)", propertyManager0.getHideNullAttribut());
++    assertFalse("Hide static attribute should be false after setHideAttributes(…, false, …)", propertyManager0.getHideStaticAttribut());
++
++    // Optional sanity check: the values have actually changed if they were true before
++    if (beforeNull) {
++        assertFalse(propertyManager0.getHideNullAttribut());
++    }
++    if (beforeStatic) {
++        assertFalse(propertyManager0.getHideStaticAttribut());
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

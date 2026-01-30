@@ -1,0 +1,41 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/persistence/strategischeziele/StrategischeZieleIbatisDao_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/persistence/strategischeziele/StrategischeZieleIbatisDao_ESTest.java
+@@ -26,21 +26,23 @@
+     strategischesZiel0 = new StrategischesZiel();
+       // Undeclared exception!
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      try { 
+-        strategischeZieleIbatisDao0.update(strategischesZiel0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    // Prepare a DAO with a mocked SqlMapClient to avoid setup‑related IllegalArgumentException
++    ch.bfh.egov.nutzenportfolio.persistence.strategischeziele.StrategischeZieleIbatisDao dao = new ch.bfh.egov.nutzenportfolio.persistence.strategischeziele.StrategischeZieleIbatisDao();
++    com.ibatis.sqlmap.client.SqlMapClient mockClient = org.mockito.Mockito.mock(com.ibatis.sqlmap.client.SqlMapClient.class);
++    dao.setSqlMapClient(mockClient);
++
++    // Use a mock StrategischesZiel as the argument for update
++    ch.bfh.egov.nutzenportfolio.tos.StrategischesZiel ziel = org.mockito.Mockito.mock(ch.bfh.egov.nutzenportfolio.tos.StrategischesZiel.class);
++
++    // Invoke the method under test; it should not throw IllegalArgumentException now
++    dao.update(ziel);
++
++    // Verify that the DAO delegated the update call to the SqlMapClient
++    org.mockito.Mockito.verify(mockClient).update(org.mockito.Matchers.anyString(), org.mockito.Matchers.eq(ziel));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo_ESTest.java
+@@ -55,17 +55,24 @@
+         assertEquals(0, gCInfo0.getCpuTime());
+         assertEquals(0, gCInfo0.getUnloadedClasses());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-    gCInfo0 = new GCInfo();
+-      gCInfo0.setType("1hJ#|Aml20NSIGt1");
+-      gCInfo0.hashCode();
+-      assertEquals(0, gCInfo0.getCpuTime());
+-      assertEquals(0, gCInfo0.getUnloadedClasses());
+-      assertEquals(0, gCInfo0.getDuration());
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        gCInfo0 = new GCInfo();
++        // Verify initial state before setting type
++        assertNull(gCInfo0.getType());
++        // Act: set the type and observe side‑effect
++        gCInfo0.setType("1hJ#|Aml20NSIGt1");
++        assertEquals("1hJ#|Aml20NSIGt1", gCInfo0.getType());
++        // Observe return value of hashCode
++        int hc1 = gCInfo0.hashCode();
++        int hc2 = gCInfo0.hashCode();
++        assertEquals(hc1, hc2);
++        // Existing assertions on other fields
++        assertEquals(0, gCInfo0.getCpuTime());
++        assertEquals(0, gCInfo0.getUnloadedClasses());
++        assertEquals(0, gCInfo0.getDuration());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

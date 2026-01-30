@@ -1,0 +1,43 @@
+--- a/evosuite-tests/gui/PlayerTreeModel_ESTest.java
++++ b/evosuite-tests/gui/PlayerTreeModel_ESTest.java
+@@ -188,19 +188,27 @@
+         int int0 = playerTreeModel0.getChildCount(player0);
+         assertEquals(0, int0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      PlayerTreeModel playerTreeModel0 = new PlayerTreeModel();
+-      Object object0 = playerTreeModel0.getRoot();
+-      GameState gameState0 = new GameState();
+-      playerTreeModel0.setState(gameState0);
+-      Player player0 = new Player(4, "|=ZzC_emLS>_", "|=ZzC_emLS>_", 128, 128);
+-      gameState0.addPlayer(player0);
+-      Object object1 = playerTreeModel0.getChild(object0, 1);
+-      assertNull(object1);
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        PlayerTreeModel model = new PlayerTreeModel();
++        Object root = model.getRoot();
++        // Initially there should be no children
++        assertNull(model.getChild(root, 0));
++
++        GameState state = new GameState();
++        model.setState(state);
++        // After setting the state but before adding a player, still no children
++        assertNull(model.getChild(root, 0));
++
++        Player player = new Player(4, "|=ZzC_emLS>_", "|=ZzC_emLS>_", 128, 128);
++        state.addPlayer(player);
++        // Adding a player should create the first child
++        Object firstChild = model.getChild(root, 0);
++        assertNotNull(firstChild);
++        // There is only one player, so index 1 should be null
++        assertNull(model.getChild(root, 1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

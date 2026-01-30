@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/json/SnapshotToJson_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/json/SnapshotToJson_ESTest.java
+@@ -61,18 +61,21 @@
+       snapshotToJson0.acceptScan(scanSnapshot0);
+       assertEquals(44, scanSnapshot0.getAccuracy());
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    SnapshotToJson snapshotToJson0 = new SnapshotToJson();
++    AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees(1914);
++    Vector vector0 = absoluteAngle0.toUnitVector();
++    UnknownSnapshot unknownSnapshot0 = new UnknownSnapshot("S");
++    unknownSnapshot0.setPositionVector(vector0);
++    unknownSnapshot0.setDead(true);
++    // Verify side effects of the setters
++    assertEquals(vector0, unknownSnapshot0.getPositionVector());
++    assertTrue(unknownSnapshot0.isDead());
++    JSONObject jSONObject0 = snapshotToJson0.getBasicJson((ArenaObjectSnapshot) unknownSnapshot0, "S", false);
++    assertEquals(4, jSONObject0.length());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      SnapshotToJson snapshotToJson0 = new SnapshotToJson();
+-      AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees(1914);
+-      Vector vector0 = absoluteAngle0.toUnitVector();
+-      UnknownSnapshot unknownSnapshot0 = new UnknownSnapshot("S");
+-      unknownSnapshot0.setPositionVector(vector0);
+-      unknownSnapshot0.setDead(true);
+-      JSONObject jSONObject0 = snapshotToJson0.getBasicJson((ArenaObjectSnapshot) unknownSnapshot0, "S", false);
+-      assertEquals(4, jSONObject0.length());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

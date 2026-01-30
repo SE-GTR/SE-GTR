@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jsecurity/realm/jdbc/JdbcRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/jdbc/JdbcRealm_ESTest.java
+@@ -152,13 +152,25 @@
+       jdbcRealm0.setPermissionsQuery(";2$H__8,yB_");
+       assertEquals("org.jsecurity.realm.jdbc.JdbcRealm_0", jdbcRealm0.getName());
+   }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    jdbcRealm0 = new JdbcRealm();
++    jdbcRealm0.setDataSource((DataSource) null);
++    assertEquals("org.jsecurity.realm.jdbc.JdbcRealm_0", jdbcRealm0.getName());
+ 
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-    jdbcRealm0 = new JdbcRealm();
+-      jdbcRealm0.setDataSource((DataSource) null);
+-      assertEquals("org.jsecurity.realm.jdbc.JdbcRealm_0", jdbcRealm0.getName());
+-  }
++    // Verify that the data source was set to null (observed side‑effect)
++    assertNull(jdbcRealm0.getDataSource());
++
++    // Attempting authentication without a DataSource should raise an exception
++    UsernamePasswordToken token = new UsernamePasswordToken("user", "pass");
++    try {
++        jdbcRealm0.getAuthenticationInfo(token);
++        fail("Expected IllegalStateException due to null DataSource");
++    } catch (IllegalStateException expected) {
++        // expected exception
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

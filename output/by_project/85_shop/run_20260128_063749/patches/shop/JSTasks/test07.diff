@@ -1,0 +1,40 @@
+--- a/evosuite-tests/umd/cs/shop/JSTasks_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSTasks_ESTest.java
+@@ -97,23 +97,22 @@
+       boolean boolean0 = jSPlan0.contains(jSTaskAtom0);
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      JSPlan jSPlan0 = new JSPlan();
+-      jSPlan0.add((Object) jSPlan0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    JSPlan jSPlan0 = new JSPlan();
++    boolean added = jSPlan0.add((Object) jSPlan0);
++    assertTrue(added);
++    assertEquals(1, jSPlan0.size());
++
++    try {
+         jSPlan0.applySubstitutionTasks((JSSubstitution) null);
+         fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // umd.cs.shop.JSPlan cannot be cast to umd.cs.shop.JSTaskAtom
+-         //
+-         verifyException("umd.cs.shop.JSTasks", e);
+-      }
+-  }
++    } catch (ClassCastException e) {
++        // umd.cs.shop.JSPlan cannot be cast to umd.cs.shop.JSTaskAtom
++        verifyException("umd.cs.shop.JSTasks", e);
++    }
++}
++
+ @Test(timeout = 4000)
+ public void test08() throws Throwable {
+     JSTasks jSTasks0 = new JSTasks();

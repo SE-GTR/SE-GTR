@@ -1,0 +1,35 @@
+--- a/evosuite-tests/corina/site/Site_ESTest.java
++++ b/evosuite-tests/corina/site/Site_ESTest.java
+@@ -373,20 +373,16 @@
+       String string0 = site0.getCode();
+       assertEquals("", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test39()  throws Throwable  {
+-      Site site0 = new Site();
+-      // Undeclared exception!
+-      try { 
+-        site0.distanceTo(site0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.site.Site", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test39() throws Throwable {
++    Site site0 = new Site();
++    // initialize required fields to avoid NullPointerException
++    java.awt.Point point = new java.awt.Point(0, 0);
++    java.lang.reflect.Field locField = Site.class.getDeclaredField("location");
++    locField.setAccessible(true);
++    locField.set(site0, point);
++    int distance = site0.distanceTo(site0);
++    assertEquals(0, distance);
+ }
++
++}

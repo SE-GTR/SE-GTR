@@ -1,0 +1,24 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/util/CustomLibrariesClassLoader_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/util/CustomLibrariesClassLoader_ESTest.java
+@@ -27,10 +27,16 @@
+         // Assert
+         org.junit.Assert.assertSame("The returned class loader should be the injected dummy loader", dummy, result);
+     }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        // Capture the current class loader (may be null if not yet initialized)
++        ClassLoader before = CustomLibrariesClassLoader.getClassLoader();
++        // Invalidate the cached class loader
++        CustomLibrariesClassLoader.invalidate();
++        // Retrieve the class loader again; a new instance should be created
++        ClassLoader after = CustomLibrariesClassLoader.getClassLoader();
++        // Verify that the side‑effect of invalidate is observable
++        assertNotSame("ClassLoader should be recreated after invalidate", before, after);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      CustomLibrariesClassLoader.invalidate();
+-  }
+ }

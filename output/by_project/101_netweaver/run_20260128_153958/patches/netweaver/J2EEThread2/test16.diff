@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
+@@ -243,20 +243,29 @@
+     boolean boolean0 = j2EEThread2_0.equals(j2EEThread2_1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      J2EEThread2 j2EEThread2_0 = new J2EEThread2();
+-      j2EEThread2_0.setPool("qoJCJ2FIq");
+-      J2EEThread2 j2EEThread2_1 = new J2EEThread2();
+-      assertFalse(j2EEThread2_1.equals((Object)j2EEThread2_0));
+-      
+-      j2EEThread2_1.setPool("qoJCJ2FIq");
+-      boolean boolean0 = j2EEThread2_0.equals(j2EEThread2_1);
+-      assertTrue(j2EEThread2_1.equals((Object)j2EEThread2_0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    J2EEThread2 j2EEThread2_0 = new J2EEThread2();
++    // Verify initial state before setting the pool
++    assertNull(j2EEThread2_0.getPool());
++    j2EEThread2_0.setPool("qoJCJ2FIq");
++    // Assert side‑effect of setPool
++    assertEquals("qoJCJ2FIq", j2EEThread2_0.getPool());
++
++    J2EEThread2 j2EEThread2_1 = new J2EEThread2();
++    // Objects with different pool values should not be equal
++    assertFalse(j2EEThread2_1.equals((Object) j2EEThread2_0));
++    assertNull(j2EEThread2_1.getPool());
++
++    j2EEThread2_1.setPool("qoJCJ2FIq");
++    // Assert side‑effect for the second instance
++    assertEquals("qoJCJ2FIq", j2EEThread2_1.getPool());
++
++    // After setting the same pool, the objects should be equal
++    assertTrue(j2EEThread2_0.equals(j2EEThread2_1));
++    assertTrue(j2EEThread2_1.equals((Object) j2EEThread2_0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

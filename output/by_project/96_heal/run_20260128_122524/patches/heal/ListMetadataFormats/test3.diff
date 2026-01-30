@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/heal/module/oai/provider/verb/ListMetadataFormats_ESTest.java
++++ b/evosuite-tests/org/heal/module/oai/provider/verb/ListMetadataFormats_ESTest.java
+@@ -66,19 +66,26 @@
+       listMetadataFormats0.validateInput(validatedInput0, hashMap0);
+       assertFalse(hashMap0.isEmpty());
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    ListMetadataFormats listMetadataFormats0 = (ListMetadataFormats) OAIVerb.LIST_METADATA_FORMATS;
++    StringWriter stringWriter0 = new StringWriter();
++    MockPrintWriter mockPrintWriter0 = new MockPrintWriter(stringWriter0);
++    ValidatedInput validatedInput0 = new ValidatedInput();
++    String[] stringArray0 = new String[1];
++    OAIMetadataFormat[] oAIMetadataFormatArray0 = new OAIMetadataFormat[0];
++    HEALProviderConfig hEALProviderConfig0 = new HEALProviderConfig((String) null, 2147483645, (String) null,
++            (String) null, (String) null, (String[]) null, stringArray0, (String) null, (String[]) null,
++            (String) null, (String) null, oAIMetadataFormatArray0, (String) null);
++    int beforeLength = stringWriter0.getBuffer().length();
++    listMetadataFormats0.execute(validatedInput0, hEALProviderConfig0, (DataAccessor) null, mockPrintWriter0);
++    int afterLength = stringWriter0.getBuffer().length();
++    assertTrue("Writer should have received output", afterLength > beforeLength);
++    assertEquals(
++            "<error code=\"noMetadataFormats\">This provider is not configured to provide metadata in any format.  This is a configuration error, please contact the administrator.</error>\n",
++            stringWriter0.toString());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      ListMetadataFormats listMetadataFormats0 = (ListMetadataFormats)OAIVerb.LIST_METADATA_FORMATS;
+-      StringWriter stringWriter0 = new StringWriter();
+-      MockPrintWriter mockPrintWriter0 = new MockPrintWriter(stringWriter0);
+-      ValidatedInput validatedInput0 = new ValidatedInput();
+-      String[] stringArray0 = new String[1];
+-      OAIMetadataFormat[] oAIMetadataFormatArray0 = new OAIMetadataFormat[0];
+-      HEALProviderConfig hEALProviderConfig0 = new HEALProviderConfig((String) null, 2147483645, (String) null, (String) null, (String) null, (String[]) null, stringArray0, (String) null, (String[]) null, (String) null, (String) null, oAIMetadataFormatArray0, (String) null);
+-      listMetadataFormats0.execute(validatedInput0, hEALProviderConfig0, (DataAccessor) null, mockPrintWriter0);
+-      assertEquals("<error code=\"noMetadataFormats\">This provider is not configured to provide metadata in any format.  This is a configuration error, please contact the administrator.</error>\n", stringWriter0.toString());
+-  }
+ @Test(timeout = 4000)
+ public void test4() throws Throwable {
+     ListMetadataFormats listMetadataFormats0 = (ListMetadataFormats) OAIVerb.LIST_METADATA_FORMATS;

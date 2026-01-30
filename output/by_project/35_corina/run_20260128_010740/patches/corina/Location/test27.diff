@@ -1,0 +1,31 @@
+--- a/evosuite-tests/corina/site/Location_ESTest.java
++++ b/evosuite-tests/corina/site/Location_ESTest.java
+@@ -275,13 +275,21 @@
+       location0.getEasyString();
+       assertEquals(324000, location0.getLatitudeAsSeconds());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
+-    location0 = new Location();
+-      location0.setLatitudeAsDegrees((-324000));
+-      assertEquals((-324000), location0.getLatitudeAsSeconds());
+-  }
++@Test(timeout = 4000)
++    public void test27() throws Throwable {
++        location0 = new Location();
++        int beforeSeconds = location0.getLatitudeAsSeconds();
++        float inputDegrees = -324000f;
++        location0.setLatitudeAsDegrees(inputDegrees);
++        int afterSeconds = location0.getLatitudeAsSeconds();
++        // Verify that the latitude value has changed
++        assertNotEquals("Latitude seconds should change after setting degrees", beforeSeconds, afterSeconds);
++        // Verify that the stored seconds correspond to the input (as per current implementation)
++        assertEquals("Latitude seconds should match the input degrees value", (int) inputDegrees, afterSeconds);
++        // Verify that the getter for degrees reflects the value set
++        assertEquals("Latitude degrees getter should return the value set", inputDegrees, location0.getLatitudeAsDegrees(), 0.0f);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test28()  throws Throwable  {

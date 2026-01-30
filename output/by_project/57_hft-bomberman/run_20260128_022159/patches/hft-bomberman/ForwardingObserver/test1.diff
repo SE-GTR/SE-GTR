@@ -1,0 +1,39 @@
+--- a/evosuite-tests/client/network/ForwardingObserver_ESTest.java
++++ b/evosuite-tests/client/network/ForwardingObserver_ESTest.java
+@@ -42,19 +42,24 @@
+          verifyException("client.BomberClient", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    BomberClient bomberClient0 = BomberClient.getInstance();
++    Object object0 = new Object();
++    ForwardingObserver forwardingObserver0 = new ForwardingObserver(bomberClient0, (ClientGameRound) null);
++    Point point0 = new Point();
++    Bomb bomb0 = new Bomb(point0);
++    ClientBomb clientBomb0 = new ClientBomb(point0, bomb0);
++    // verify initial remote flag is false
++    assertFalse(clientBomb0.isRemote());
++    clientBomb0.setRemote(true);
++    // verify side effect of setRemote
++    assertTrue(clientBomb0.isRemote());
++    forwardingObserver0.update(clientBomb0, object0);
++    // existing assertion
++    assertEquals(0, clientBomb0.getId());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      BomberClient bomberClient0 = BomberClient.getInstance();
+-      Object object0 = new Object();
+-      ForwardingObserver forwardingObserver0 = new ForwardingObserver(bomberClient0, (ClientGameRound) null);
+-      Point point0 = new Point();
+-      Bomb bomb0 = new Bomb(point0);
+-      ClientBomb clientBomb0 = new ClientBomb(point0, bomb0);
+-      clientBomb0.setRemote(true);
+-      forwardingObserver0.update(clientBomb0, object0);
+-      assertEquals(0, clientBomb0.getId());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

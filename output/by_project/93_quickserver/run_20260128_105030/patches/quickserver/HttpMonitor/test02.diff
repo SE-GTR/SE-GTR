@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/quickserver/net/client/monitoring/impl/HttpMonitor_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/monitoring/impl/HttpMonitor_ESTest.java
+@@ -41,17 +41,20 @@
+       char char0 = httpMonitor0.monitor(httpHost0);
+       assertEquals('D', char0);
+   }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    EvoSuiteURL evoSuiteURL0 = new EvoSuiteURL("http://127.0.0.1:80");
++    Object remoteFile = NetworkHandling.createRemoteTextFile(evoSuiteURL0, "");
++    assertNotNull(remoteFile);
++    HttpMonitor httpMonitor0 = new HttpMonitor();
++    HttpHost httpHost0 = new HttpHost("http://");
++    String before = httpHost0.getTextToExpect();
++    httpHost0.setTextToExpect("");
++    assertEquals("", httpHost0.getTextToExpect());
++    char char0 = httpMonitor0.monitor(httpHost0);
++    assertEquals('E', char0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      EvoSuiteURL evoSuiteURL0 = new EvoSuiteURL("http://127.0.0.1:80");
+-      NetworkHandling.createRemoteTextFile(evoSuiteURL0, "");
+-      HttpMonitor httpMonitor0 = new HttpMonitor();
+-      HttpHost httpHost0 = new HttpHost("http://");
+-      httpHost0.setTextToExpect("");
+-      char char0 = httpMonitor0.monitor(httpHost0);
+-      assertEquals('E', char0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

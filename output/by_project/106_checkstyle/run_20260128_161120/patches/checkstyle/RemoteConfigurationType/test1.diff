@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/configtypes/RemoteConfigurationType_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/configtypes/RemoteConfigurationType_ESTest.java
+@@ -33,22 +33,27 @@
+       byte[] byteArray0 = remoteConfigurationType0.getAdditionPropertiesBundleBytes(uRL0);
+       assertNull(byteArray0);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        RemoteConfigurationType remoteConfigurationType0 = new RemoteConfigurationType();
++        java.net.URL url = new java.net.URL("http://example.com");
++        java.net.URLConnection connection = new java.net.URLConnection(url) {
++            @Override
++            public void connect() throws java.io.IOException {
++                // no-op
++            }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      RemoteConfigurationType remoteConfigurationType0 = new RemoteConfigurationType();
+-      // Undeclared exception!
+-      try { 
+-        remoteConfigurationType0.getBytesFromURLConnection((URLConnection) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.atlassw.tools.eclipse.checkstyle.config.configtypes.RemoteConfigurationType", e);
+-      }
+-  }
++            @Override
++            public java.io.InputStream getInputStream() throws java.io.IOException {
++                return new java.io.ByteArrayInputStream(
++                        "test".getBytes(java.nio.charset.StandardCharsets.UTF_8));
++            }
++        };
++        byte[] result = remoteConfigurationType0.getBytesFromURLConnection(connection);
++        org.junit.Assert.assertArrayEquals(
++                "test".getBytes(java.nio.charset.StandardCharsets.UTF_8), result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

@@ -1,0 +1,50 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
+@@ -202,20 +202,33 @@
+     // Changing expiration time should affect equality
+     assertFalse(entry0.equals(entry1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
+-      ICMCacheEntry iCMCacheEntry1 = new ICMCacheEntry();
+-      iCMCacheEntry0.setLastAccessTime("c%0y[W X");
+-      assertFalse(iCMCacheEntry0.equals((Object)iCMCacheEntry1));
+-      
+-      iCMCacheEntry1.setLastAccessTime("c%0y[W X");
+-      boolean boolean0 = iCMCacheEntry0.equals(iCMCacheEntry1);
+-      assertTrue(iCMCacheEntry0.equals((Object)iCMCacheEntry1));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
++        ICMCacheEntry iCMCacheEntry1 = new ICMCacheEntry();
++
++        // initial state should have no last access time
++        assertNull(iCMCacheEntry0.getLastAccessTime());
++        assertNull(iCMCacheEntry1.getLastAccessTime());
++
++        String time = "c%0y[W X";
++
++        // set and verify side effect on first entry
++        iCMCacheEntry0.setLastAccessTime(time);
++        assertEquals(time, iCMCacheEntry0.getLastAccessTime());
++
++        // entries differ because only one has the time set
++        assertFalse(iCMCacheEntry0.equals(iCMCacheEntry1));
++
++        // set and verify side effect on second entry
++        iCMCacheEntry1.setLastAccessTime(time);
++        assertEquals(time, iCMCacheEntry1.getLastAccessTime());
++
++        // now both entries should be equal
++        assertTrue(iCMCacheEntry0.equals(iCMCacheEntry1));
++        assertTrue(iCMCacheEntry0.equals((Object) iCMCacheEntry1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

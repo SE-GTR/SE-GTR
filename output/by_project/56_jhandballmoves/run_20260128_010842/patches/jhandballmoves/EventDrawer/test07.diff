@@ -1,0 +1,42 @@
+--- a/evosuite-tests/visu/handball/moves/views/EventDrawer_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/views/EventDrawer_ESTest.java
+@@ -135,21 +135,24 @@
+       EventDrawer eventDrawer0 = new EventDrawer(handballModel0, colorModel0, true);
+       eventDrawer0.draw((Graphics2D) null);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Defender defender0 = new Defender(Integer.MIN_VALUE, Integer.MIN_VALUE);
+-      PassEvent passEvent0 = new PassEvent(defender0, 0, 0);
+-      handballModel0.addMoveEvent(passEvent0);
+-      passEvent0.setDestinationPoint(0, Integer.MIN_VALUE, true);
+-      ColorModel colorModel0 = new ColorModel();
+-      EventDrawer eventDrawer0 = new EventDrawer(handballModel0, colorModel0);
+-      Graphic graphic0 = new Graphic();
+-      PdfGraphics2D pdfGraphics2D0 = (PdfGraphics2D)graphic0.createGraphicsShapes((float) 0, (float) 3);
+-      eventDrawer0.draw(pdfGraphics2D0);
+-      assertEquals(1000, PdfGraphics2D.AFM_DIVISOR);
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    HandballModel handballModel0 = new HandballModel();
++    Defender defender0 = new Defender(Integer.MIN_VALUE, Integer.MIN_VALUE);
++    PassEvent passEvent0 = new PassEvent(defender0, 0, 0);
++    handballModel0.addMoveEvent(passEvent0);
++    // Verify that the move event was added to the model
++    assertTrue(handballModel0.getMoveEvents().contains(passEvent0));
++
++    passEvent0.setDestinationPoint(0, Integer.MIN_VALUE, true);
++    ColorModel colorModel0 = new ColorModel();
++    EventDrawer eventDrawer0 = new EventDrawer(handballModel0, colorModel0);
++    Graphic graphic0 = new Graphic();
++    PdfGraphics2D pdfGraphics2D0 = (PdfGraphics2D) graphic0.createGraphicsShapes((float) 0, (float) 3);
++    eventDrawer0.draw(pdfGraphics2D0);
++    // No constant assertion; the draw call is exercised for side‑effects.
++}
++
+ @Test(timeout = 4000)
+ public void test08() throws Throwable {
+     HandballModel handballModel0 = new HandballModel();

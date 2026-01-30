@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
+@@ -133,15 +133,23 @@
+          verifyException("org.quickserver.net.server.impl.BasicClientHandler", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
+-      MockSocket mockSocket0 = new MockSocket();
+-      blockingClientHandler0.setSocket(mockSocket0);
+-      blockingClientHandler0.forceClose();
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:14>", blockingClientHandler0.getName());
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
++    MockSocket mockSocket0 = new MockSocket();
++
++    // initially no socket is associated
++    assertNull(blockingClientHandler0.getSocket());
++
++    // set the socket and verify the side‑effect
++    blockingClientHandler0.setSocket(mockSocket0);
++    assertSame(mockSocket0, blockingClientHandler0.getSocket());
++
++    // force close should close the underlying socket
++    blockingClientHandler0.forceClose();
++    assertTrue(mockSocket0.isClosed());
++}
++
+ @Test(timeout = 4000, expected = NullPointerException.class)
+ public void test11() throws Throwable {
+     NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();

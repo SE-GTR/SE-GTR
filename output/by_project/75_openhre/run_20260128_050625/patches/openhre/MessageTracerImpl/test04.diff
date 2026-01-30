@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/regular/MessageTracerImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/regular/MessageTracerImpl_ESTest.java
+@@ -83,19 +83,27 @@
+         messageTracerImpl0.processGroup(expressionImpl0, hL7MessageGroupImpl0);
+         assertEquals(4, expressionImpl0.size());
+     }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        MessageTracerImpl messageTracerImpl0 = new MessageTracerImpl();
++        ExpressionImpl expressionImpl0 = new ExpressionImpl();
++        HL7MessageGroupImpl hL7MessageGroupImpl0 = new HL7MessageGroupImpl();
+ 
++        String additional = "org.apache.axis.utils.NSStack";
++        hL7MessageGroupImpl0.setAdditional(additional);
++        assertEquals(additional, hL7MessageGroupImpl0.getAdditional());
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      MessageTracerImpl messageTracerImpl0 = new MessageTracerImpl();
+-      ExpressionImpl expressionImpl0 = new ExpressionImpl();
+-      HL7MessageGroupImpl hL7MessageGroupImpl0 = new HL7MessageGroupImpl();
+-      hL7MessageGroupImpl0.setAdditional("org.apache.axis.utils.NSStack");
+-      ExpressionElementMapperImpl expressionElementMapperImpl0 = new ExpressionElementMapperImpl();
+-      messageTracerImpl0.setMapper(expressionElementMapperImpl0);
+-      messageTracerImpl0.processGroup(expressionImpl0, hL7MessageGroupImpl0);
+-      assertEquals(4, expressionImpl0.size());
+-  }
++        ExpressionElementMapperImpl expressionElementMapperImpl0 = new ExpressionElementMapperImpl();
++        messageTracerImpl0.setMapper(expressionElementMapperImpl0);
++        assertSame(expressionElementMapperImpl0, messageTracerImpl0.getMapper());
++
++        int beforeSize = expressionImpl0.size();
++        assertEquals(0, beforeSize);
++
++        messageTracerImpl0.processGroup(expressionImpl0, hL7MessageGroupImpl0);
++        assertEquals(beforeSize + 4, expressionImpl0.size());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

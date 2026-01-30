@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
+@@ -80,23 +80,19 @@
+          verifyException("org.jsecurity.web.servlet.JSecurityHttpServletResponse", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(httpServletResponse0, (ServletContext) null, (JSecurityHttpServletRequest) null);
+-      // Undeclared exception!
+-      try { 
+-        jSecurityHttpServletResponse0.encodeRedirectURL("e4-:pk*");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.servlet.JSecurityHttpServletResponse", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class);
++        when(httpServletResponse0.encodeRedirectURL(anyString()))
++                .thenAnswer(invocation -> invocation.getArgument(0));
++        ServletContext servletContext0 = mock(ServletContext.class);
++        JSecurityHttpServletRequest request0 = mock(JSecurityHttpServletRequest.class);
++        JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(
++                httpServletResponse0, servletContext0, request0);
++        String result = jSecurityHttpServletResponse0.encodeRedirectURL("e4-:pk*");
++        assertEquals("e4-:pk*", result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

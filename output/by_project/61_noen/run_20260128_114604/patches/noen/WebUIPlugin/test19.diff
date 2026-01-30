@@ -1,0 +1,27 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
+@@ -263,14 +263,16 @@
+     webUIPlugin0 = new WebUIPlugin(bundleContext0);
+       webUIPlugin0.terminate();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-    webUIPlugin0 = new WebUIPlugin(bundleContext0);
+-      webUIPlugin0.setServer((ServerPlugin) null);
+-  }
++@Test(timeout = 4000)
++public void test19() throws Throwable {
++    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++    doReturn((Object) null, (Object) null, (Object) null)
++        .when(bundleContext0).getServiceReferences(anyString(), anyString());
++    org.osgi.framework.ServiceReference[] refs = bundleContext0.getServiceReferences("foo", "bar");
++    assertNull(refs);
++    webUIPlugin0 = new WebUIPlugin(bundleContext0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

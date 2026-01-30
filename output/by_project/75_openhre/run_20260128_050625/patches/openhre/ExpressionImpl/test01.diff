@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/regular/ExpressionImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/regular/ExpressionImpl_ESTest.java
+@@ -34,15 +34,30 @@
+       expressionImpl0.toString();
+       assertEquals(1, expressionImpl0.size());
+   }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    // Capture initial size for later verification
++    int initialSize = expressionImpl0.size();
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      ExpressionPart expressionPart0 = expressionImpl0.getItem(0);
+-      expressionPart0.setType((-1797));
+-      ExpressionElementMapperImpl expressionElementMapperImpl0 = new ExpressionElementMapperImpl();
+-      expressionImpl0.toString((ExpressionElementMapper) expressionElementMapperImpl0);
+-      assertEquals(5, expressionImpl0.size());
+-  }
++    // Modify the type of the first expression part
++    ExpressionPart expressionPart0 = expressionImpl0.getItem(0);
++    expressionPart0.setType(-1797);
++    // Verify that the side‑effect of setType is observable
++    assertEquals(-1797, expressionImpl0.getItem(0).getType());
++
++    // Invoke the overloaded toString method and capture its result
++    ExpressionElementMapperImpl mapper = new ExpressionElementMapperImpl();
++    String stringResult = expressionImpl0.toString((ExpressionElementMapper) mapper);
++    // Assert that the method produced a non‑null string representation
++    assertNotNull(stringResult);
++
++    // Ensure that invoking toString did not alter the collection size
++    assertEquals(initialSize, expressionImpl0.size());
++
++    // Original size assertion retained for test intent
++    assertEquals(5, expressionImpl0.size());
++}
++
+ @Test(timeout = 4000, expected = NullPointerException.class)
+   public void test02() throws Throwable {
+     expressionImpl0 = new ExpressionImpl();

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/jchapman/jipsnapman/models/NumbersOnlyDocument_ESTest.java
++++ b/evosuite-tests/com/jchapman/jipsnapman/models/NumbersOnlyDocument_ESTest.java
+@@ -63,18 +63,23 @@
+       assertEquals("Document content should remain unchanged", "", numbersOnlyDocument0.getText(0, lengthAfter));
+     }
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        numbersOnlyDocument0 = new NumbersOnlyDocument();
++        styleContext0 = new StyleContext();
++        gapContent0 = new GapContent();
++        defaultStyledDocument0 = new DefaultStyledDocument(gapContent0, styleContext0);
++        jTextPane0 = new JTextPane(defaultStyledDocument0);
++        style0 = jTextPane0.getLogicalStyle();
+ 
++        int lengthBefore = numbersOnlyDocument0.getLength();
++        numbersOnlyDocument0.insertString(-206, "'q+EK", style0);
++        int lengthAfter = numbersOnlyDocument0.getLength();
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    numbersOnlyDocument0 = new NumbersOnlyDocument();
+-    styleContext0 = new StyleContext();
+-    gapContent0 = new GapContent();
+-    defaultStyledDocument0 = new DefaultStyledDocument(gapContent0, styleContext0);
+-    jTextPane0 = new JTextPane(defaultStyledDocument0);
+-    style0 = jTextPane0.getLogicalStyle();
+-      numbersOnlyDocument0.insertString((-206), "'q+EK", style0);
+-  }
++        // The document should not accept non‑numeric characters, so its length remains unchanged.
++        assertEquals(lengthBefore, lengthAfter);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

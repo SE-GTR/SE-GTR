@@ -1,0 +1,50 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/robot/RobotScanner_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/robot/RobotScanner_ESTest.java
+@@ -106,24 +106,30 @@
+       robotScanner0.visit(robot0);
+       assertFalse(robot0.isOverburn());
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        Robot robot0 = new Robot("net.virtualinfinity.atrobots.rbot.RobotScanner", -778, (RobotScore) null);
++        Robot robot1 = new Robot("net.virtualinfinity.atrobots.rbot.RobotScanner", -778, (RobotScore) null);
++        Position position0 = robot1.getPosition();
++        AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees(1835);
++        AbsoluteAngle absoluteAngle1 = AbsoluteAngle.fromBygrees(16);
++        RelativeAngle relativeAngle0 = RelativeAngle.HALF_CIRCLE;
++        Vector vector0 = absoluteAngle1.toUnitVector();
++        Position position1 = new Position(vector0);
++        // Verify copyFrom side‑effect
++        position0.copyFrom(position1);
++        assertEquals(position1.getVector(), position0.getVector());
++        AngleBracket angleBracket0 = AngleBracket.clockwiseFrom(absoluteAngle0, relativeAngle0);
++        // Verify move side‑effect
++        Vector beforeMove = position1.getVector();
++        position1.move(vector0);
++        assertNotEquals(beforeMove, position1.getVector());
++        RobotScanner robotScanner0 = new RobotScanner(robot0, position1, angleBracket0, -778, false);
++        robotScanner0.visit(robot1);
++        // Verify visit side‑effect (no kills should be recorded)
++        assertEquals(0, robot1.getRoundKills());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      Robot robot0 = new Robot("net.virtualinfinity.atrobots.rbot.RobotScanner", (-778), (RobotScore) null);
+-      Robot robot1 = new Robot("net.virtualinfinity.atrobots.rbot.RobotScanner", (-778), (RobotScore) null);
+-      Position position0 = robot1.getPosition();
+-      AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees(1835);
+-      AbsoluteAngle absoluteAngle1 = AbsoluteAngle.fromBygrees(16);
+-      RelativeAngle relativeAngle0 = RelativeAngle.HALF_CIRCLE;
+-      Vector vector0 = absoluteAngle1.toUnitVector();
+-      Position position1 = new Position(vector0);
+-      position0.copyFrom(position1);
+-      AngleBracket angleBracket0 = AngleBracket.clockwiseFrom(absoluteAngle0, relativeAngle0);
+-      position1.move(vector0);
+-      RobotScanner robotScanner0 = new RobotScanner(robot0, position1, angleBracket0, (-778), false);
+-      robotScanner0.visit(robot1);
+-      assertEquals(0, robot1.getRoundKills());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

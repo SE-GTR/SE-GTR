@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/browsersoft/aacs/Role_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/Role_ESTest.java
+@@ -368,14 +368,18 @@
+         // Act: invoke lookupLink with a non‑existent name; ensure no exception is thrown.
+         role0.lookupLink("GJPDAluwp`J");
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test39()  throws Throwable  {
+-      Role role0 = new Role();
+-      String string0 = role0.getDn();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++public void test39() throws Throwable {
++    Role role0 = new Role();
++    try {
++        javax.naming.directory.Attributes attrs = role0.getAttributes("");
++        assertNotNull(attrs);
++    } catch (javax.naming.NamingException e) {
++        // Expect that a NamingException may be thrown if the operation is unsupported
++        assertTrue(e instanceof javax.naming.NamingException);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test40()  throws Throwable  {

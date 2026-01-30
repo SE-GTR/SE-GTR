@@ -1,0 +1,48 @@
+--- a/evosuite-tests/bcry/bcModule_ESTest.java
++++ b/evosuite-tests/bcry/bcModule_ESTest.java
+@@ -124,23 +124,28 @@
+       assertFalse(bcModule1.isInitialized());
+       assertEquals(0, bcModule1.getSyllableTolerance());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      boolean[] booleanArray0 = new boolean[3];
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("data/bcDemoModule.template");
+-      FileSystemHandling.appendStringToFile(evoSuiteFile0, "T+uU~9t");
+-      bcVoice bcVoice0 = new bcVoice(booleanArray0, (battlecryGUI) null);
+-      bcModule bcModule0 = new bcModule("T+uU~9t", "T+uU~9t", bcVoice0);
+-      bcModule0.toDemoClass("T+uU~9t");
+-      assertFalse(bcModule0.isInitialized());
+-      
+-      bcModule bcModule1 = new bcModule("/mnt", "T+uU~9t", bcVoice0);
+-      assertFalse(bcModule1.isInitialized());
+-      assertEquals(1, bcModule1.getMetricTolerance());
+-      assertEquals(0, bcModule1.getSyllableTolerance());
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        boolean[] booleanArray0 = new boolean[3];
++        FileSystemHandling.shouldAllThrowIOExceptions();
++        EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("data/bcDemoModule.template");
++        FileSystemHandling.appendStringToFile(evoSuiteFile0, "T+uU~9t");
++        bcVoice bcVoice0 = new bcVoice(booleanArray0, (battlecryGUI) null);
++        bcModule bcModule0 = new bcModule("T+uU~9t", "T+uU~9t", bcVoice0);
++        // Capture state before invoking the void method
++        int metricBefore = bcModule0.getMetricTolerance();
++        int sylBefore = bcModule0.getSyllableTolerance();
++        bcModule0.toDemoClass("T+uU~9t");
++        // Verify that the call did not unexpectedly modify observable state
++        assertEquals(metricBefore, bcModule0.getMetricTolerance());
++        assertEquals(sylBefore, bcModule0.getSyllableTolerance());
++
++        bcModule bcModule1 = new bcModule("/mnt", "T+uU~9t", bcVoice0);
++        assertFalse(bcModule1.isInitialized());
++        assertEquals(1, bcModule1.getMetricTolerance());
++        assertEquals(0, bcModule1.getSyllableTolerance());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

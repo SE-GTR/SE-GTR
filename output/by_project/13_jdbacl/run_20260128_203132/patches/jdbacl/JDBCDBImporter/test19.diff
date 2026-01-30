@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
+@@ -230,14 +230,28 @@
+       assertFalse(jDBCDBImporter0.isImportingPackages());
+       assertTrue(jDBCDBImporter0.isImportingIndexes());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter("org.apache.derby.fapi.store.access.GlobalXact", "org.apache.derby.fapi.store.access.GlobalXact", "org.apache.derby.fapi.store.access.GlobalXact", "org.apache.derby.fapi.store.access.GlobalXact", "org.apache.derby.fapi.store.access.GlobalXact", "org.apache.derby.fapi.store.access.GlobalXact");
+-      jDBCDBImporter0.setImportingIndexes(true);
+-      assertTrue(jDBCDBImporter0.isImportingIndexes());
+-      assertFalse(jDBCDBImporter0.isImportingPackages());
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter(
++                "org.apache.derby.fapi.store.access.GlobalXact",
++                "org.apache.derby.fapi.store.access.GlobalXact",
++                "org.apache.derby.fapi.store.access.GlobalXact",
++                "org.apache.derby.fapi.store.access.GlobalXact",
++                "org.apache.derby.fapi.store.access.GlobalXact",
++                "org.apache.derby.fapi.store.access.GlobalXact");
++        jDBCDBImporter0.setImportingIndexes(true);
++        assertTrue(jDBCDBImporter0.isImportingIndexes());
++        assertFalse(jDBCDBImporter0.isImportingPackages());
++
++        // invoke a non‑trivial operation and verify its behaviour (expected failure due to missing connection)
++        try {
++            jDBCDBImporter0.importDatabase();
++            fail("Expected an exception when importing without a configured connection");
++        } catch (RuntimeException e) {
++            // Expected path – the importer cannot operate without a valid JDBC connection
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/nu/staldal/xtree/TreeBuilder_ESTest.java
++++ b/evosuite-tests/nu/staldal/xtree/TreeBuilder_ESTest.java
+@@ -164,17 +164,27 @@
+       treeBuilder0.startElement("", "", "", attributes2Impl0);
+       assertFalse(TreeBuilder.DEBUG);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      AttributesImpl attributesImpl0 = new AttributesImpl();
+-      TreeBuilder treeBuilder0 = new TreeBuilder();
+-      treeBuilder0.startElement("&3@JS&Yf'$y\"q&/", "*D]z", "Element expected", attributesImpl0);
++@Test(timeout = 4000)
++  public void test13() throws Throwable {
++      AttributesImpl attributesImpl0 = new AttributesImpl();
++      TreeBuilder treeBuilder0 = new TreeBuilder();
++
++      // Before any element is started, getTree should fail
++      try {
++          treeBuilder0.getTree();
++          fail("Expected IllegalStateException before startElement");
++      } catch (IllegalStateException e) {
++          // expected
++      }
++
++      treeBuilder0.startElement("&3@JS@Yf'$y\"q&/", "*D]z", "Element expected", attributesImpl0);
+       treeBuilder0.endElement("%k@1/@1-~`DC_VE", "%k@1/@1-~\"DC_VE", "A");
+       Element element0 = treeBuilder0.getTree();
+-      assertEquals("&3@JS&Yf'$y\"q&/", element0.getNamespaceURI());
++
++      assertEquals("&3@JS@Yf'$y\"q&/", element0.getNamespaceURI());
+       assertEquals("*D]z", element0.getLocalName());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

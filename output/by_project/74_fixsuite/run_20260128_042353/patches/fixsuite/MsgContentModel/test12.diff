@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/fixsuite/message/parsers/fpl/MsgContentModel_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/parsers/fpl/MsgContentModel_ESTest.java
+@@ -118,12 +118,26 @@
+         int int0 = msgContentModel0.compareTo(msgContentModel0);
+         assertEquals(0, int0);
+     }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    MsgContentModel model1 = new MsgContentModel();
++    MsgContentModel model2 = new MsgContentModel();
+ 
++    // modify state via setters
++    model1.setIndent(1);
++    model2.setIndent(2);
+ 
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      MsgContentModel msgContentModel0 = new MsgContentModel();
+-      msgContentModel0.setIndent(1);
+-      assertEquals(1, msgContentModel0.getIndent());
+-  }
++    // verify the setters affected the observable state
++    assertEquals(1, model1.getIndent());
++    assertEquals(2, model2.getIndent());
++
++    // invoke non‑trivial behavior and assert its effect
++    int cmp = model1.compareTo(model2);
++    int rev = model2.compareTo(model1);
++    // the comparison should be antisymmetric
++    assertEquals(-cmp, rev);
++    // with different indent values the result should not be zero
++    assertNotEquals(0, cmp);
+ }
++
++}

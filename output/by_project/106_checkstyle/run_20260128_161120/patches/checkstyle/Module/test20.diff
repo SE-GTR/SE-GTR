@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/Module_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/Module_ESTest.java
+@@ -204,15 +204,20 @@
+       module0.setId("P|Z4KKl#Y");
+       assertNull(module0.getCustomMessage());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      SeverityLevel severityLevel0 = SeverityLevel.WARNING;
+-      RuleMetadata ruleMetadata0 = new RuleMetadata("5", "e8Y[\t9", "e8Y[\t9", severityLevel0, true, true, false, false, (RuleGroupMetadata) null);
+-      Module module0 = new Module(ruleMetadata0, false);
+-      SeverityLevel severityLevel1 = module0.getLastEnabledSeverity();
+-      assertNull(severityLevel1);
+-  }
++@Test(timeout = 4000)
++    public void test20() throws Throwable {
++        SeverityLevel severityLevel0 = SeverityLevel.WARNING;
++        RuleMetadata ruleMetadata0 = new RuleMetadata("5", "e8Y[\t9", "e8Y[\t9", severityLevel0,
++                true, true, false, false, (RuleGroupMetadata) null);
++        Module module0 = new Module(ruleMetadata0, false);
++        // Verify initial state
++        assertNull(module0.getLastEnabledSeverity());
++        // Exercise a non‑trivial behavior (cloning) and verify it preserves the state
++        Module cloned = (Module) module0.clone();
++        assertNotNull(cloned);
++        assertNull(cloned.getLastEnabledSeverity());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

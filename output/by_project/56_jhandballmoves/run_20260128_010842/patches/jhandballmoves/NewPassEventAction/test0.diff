@@ -1,0 +1,42 @@
+--- a/evosuite-tests/visu/handball/moves/actions/NewPassEventAction_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/actions/NewPassEventAction_ESTest.java
+@@ -26,22 +26,25 @@
+     handballModel0 = new HandballModel();
+     newPassEventAction0 = new NewPassEventAction(handballModel0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
+     handballModel0 = new HandballModel();
+     newPassEventAction0 = new NewPassEventAction(handballModel0);
+-      Defender defender0 = new Defender(520, 520);
+-      defender0.setHasBall(true);
+-      MoveEvent moveEvent0 = new MoveEvent(defender0, 1, 520);
+-      handballModel0.setActualMoveEvent(moveEvent0);
+-      HandballModel.State handballModel_State0 = HandballModel.State.EDIT;
+-      handballModel0.setState(handballModel_State0);
+-      newPassEventAction0.actionPerformed((ActionEvent) null);
+-      assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
+-      assertEquals(2, handballModel0.getAcutalSequenceNr());
+-  }
++    Defender defender0 = new Defender(520, 520);
++    defender0.setHasBall(true);
++    // verify side effect of setHasBall
++    assertTrue(defender0.hasBall());
++    MoveEvent moveEvent0 = new MoveEvent(defender0, 1, 520);
++    handballModel0.setActualMoveEvent(moveEvent0);
++    // verify side effect of setActualMoveEvent
++    assertSame(moveEvent0, handballModel0.getActualMoveEvent());
++    HandballModel.State handballModel_State0 = HandballModel.State.EDIT;
++    handballModel0.setState(handballModel_State0);
++    newPassEventAction0.actionPerformed((ActionEvent) null);
++    assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
++    assertEquals(2, handballModel0.getAcutalSequenceNr());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

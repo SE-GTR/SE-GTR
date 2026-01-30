@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sf/xbus/protocol/CloneTransformer_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/protocol/CloneTransformer_ESTest.java
+@@ -16,13 +16,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class CloneTransformer_ESTest extends CloneTransformer_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    CloneTransformer cloneTransformer0 = new CloneTransformer();
++    Object object0 = new Object();
++    Message message0 = new Message((XBUSSystem) null);
++    // Verify identity behavior for a generic object
++    Object result0 = cloneTransformer0.transform(object0, null, null, message0);
++    assertSame(object0, result0);
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      CloneTransformer cloneTransformer0 = new CloneTransformer();
+-      Object object0 = new Object();
+-      Message message0 = new Message((XBUSSystem) null);
+-      Object object1 = cloneTransformer0.transform(object0, (XBUSSystem) null, (XBUSSystem) null, message0);
+-      assertSame(object1, object0);
+-  }
++    // Verify identity behavior for a different type of object
++    String object1 = "test";
++    Object result1 = cloneTransformer0.transform(object1, null, null, message0);
++    assertSame(object1, result1);
++    assertNotSame(result0, result1);
++
++    // Verify that a null input yields a null output
++    Object resultNull = cloneTransformer0.transform(null, null, null, message0);
++    assertNull(resultNull);
+ }
++
++}

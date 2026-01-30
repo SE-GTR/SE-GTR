@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/heal/module/browse/BrowseResultsBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/browse/BrowseResultsBean_ESTest.java
+@@ -54,13 +54,22 @@
+       browseResultsBean0.setResultsId((Vector) null);
+       assertEquals(0, browseResultsBean0.getCount());
+   }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    BrowseResultsBean browseResultsBean0 = new BrowseResultsBean();
++    // Set subCategories to null and verify the effect
++    browseResultsBean0.setSubCategories(null);
++    assertNull(browseResultsBean0.getSubCategories());
++    assertEquals(0, browseResultsBean0.getCount());
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      BrowseResultsBean browseResultsBean0 = new BrowseResultsBean();
+-      browseResultsBean0.setSubCategories((Vector) null);
+-      assertEquals(0, browseResultsBean0.getCount());
+-  }
++    // Set subCategories to a non‑empty vector and verify it is stored correctly
++    Vector<String> vec = new Vector<>();
++    vec.add("item1");
++    vec.add("item2");
++    browseResultsBean0.setSubCategories(vec);
++    assertSame(vec, browseResultsBean0.getSubCategories());
++}
++
+ @Test(timeout = 4000)
+   public void test04() throws Throwable {
+       BrowseResultsBean bean = new BrowseResultsBean();

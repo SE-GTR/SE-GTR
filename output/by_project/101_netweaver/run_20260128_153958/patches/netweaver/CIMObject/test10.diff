@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/CIMObject_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/CIMObject_ESTest.java
+@@ -119,18 +119,26 @@
+         TypeDesc typeDesc0 = CIMObject.getTypeDesc();
+         assertNotNull(typeDesc0);
+     }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        CIMObject cIMObject0 = new CIMObject();
++        // Verify initial state before setting members
++        assertNull("Initial members should be null", cIMObject0.getMMembers());
+ 
++        CIMObject[] cIMObjectArray0 = new CIMObject[0];
++        cIMObject0.setMMembers(cIMObjectArray0);
+ 
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      CIMObject cIMObject0 = new CIMObject();
+-      CIMObject[] cIMObjectArray0 = new CIMObject[0];
+-      cIMObject0.setMMembers(cIMObjectArray0);
+-      CIMObject cIMObject1 = new CIMObject();
+-      boolean boolean0 = cIMObject1.equals(cIMObject0);
+-      assertFalse(cIMObject0.equals((Object)cIMObject1));
+-      assertFalse(boolean0);
+-  }
++        // Assert the side‑effect of setMMembers
++        assertNotNull("Members should not be null after setMMembers", cIMObject0.getMMembers());
++        assertEquals("Members array should be empty after setting an empty array", 0,
++                cIMObject0.getMMembers().length);
++
++        CIMObject cIMObject1 = new CIMObject();
++        boolean boolean0 = cIMObject1.equals(cIMObject0);
++        assertFalse(cIMObject0.equals((Object) cIMObject1));
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

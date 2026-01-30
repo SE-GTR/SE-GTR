@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
+@@ -43,15 +43,22 @@
+       simpleSession0.getAttribute(simpleSession0);
+       assertEquals(1800000L, simpleSession0.getTimeout());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      SimpleSession simpleSession0 = new SimpleSession();
+-      HashMap<Object, Object> hashMap0 = new HashMap<Object, Object>();
+-      simpleSession0.setAttributes(hashMap0);
+-      simpleSession0.getAttribute(hashMap0);
+-      assertEquals(1800000L, simpleSession0.getTimeout());
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        SimpleSession simpleSession0 = new SimpleSession();
++        HashMap<Object, Object> hashMap0 = new HashMap<Object, Object>();
++        String key = "testKey";
++        String value = "testValue";
++        hashMap0.put(key, value);
++        simpleSession0.setAttributes(hashMap0);
++        // Verify that the attribute was stored correctly
++        assertEquals(value, simpleSession0.getAttribute(key));
++        // Verify that a non‑existent key returns null
++        assertNull(simpleSession0.getAttribute("nonExistent"));
++        // Verify default timeout remains unchanged
++        assertEquals(1800000L, simpleSession0.getTimeout());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

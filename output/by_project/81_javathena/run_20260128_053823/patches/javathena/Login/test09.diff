@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/javathena/login/Login_ESTest.java
++++ b/evosuite-tests/org/javathena/login/Login_ESTest.java
+@@ -116,15 +116,25 @@
+     login0.do_initTXT();
+     assertEquals(0, login0.getAuth_max());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      Login login0 = new Login();
+-      ConfigurationManagement.setAccess_denynum(2);
+-      login0.save_config_in_log();
+-      assertEquals(0, login0.getAuth_max());
+-  }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    Login login0 = new Login();
++
++    // Verify that setting the deny number updates the configuration as expected
++    int beforeDenynum = ConfigurationManagement.getAccess_denynum();
++    ConfigurationManagement.setAccess_denynum(2);
++    int afterDenynum = ConfigurationManagement.getAccess_denynum();
++    assertEquals(2, afterDenynum);
++    assertNotEquals(beforeDenynum, afterDenynum);
++
++    // Observe the effect (or lack thereof) of saving the config in the log
++    int authBefore = login0.getAuth_max();
++    assertEquals(0, authBefore); // original expectation
++    login0.save_config_in_log();
++    int authAfter = login0.getAuth_max();
++    assertEquals(authBefore, authAfter);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

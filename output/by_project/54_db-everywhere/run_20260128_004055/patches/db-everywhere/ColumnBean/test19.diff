@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
+@@ -150,14 +150,30 @@
+         assertEquals(0, columnBean0.getLen());
+         assertEquals(0, columnBean0.getDec());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      ColumnBean columnBean0 = new ColumnBean();
+-      columnBean0.setIndex(true);
+-      assertTrue(columnBean0.isIndex());
+-  }
++public void test19() throws Throwable {
++    ColumnBean columnBean0 = new ColumnBean();
++    // Verify default state
++    assertFalse(columnBean0.isIndex());
++
++    // Change state and verify
++    columnBean0.setIndex(true);
++    assertTrue(columnBean0.isIndex());
++
++    // Serialize and deserialize to ensure the state persists
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(columnBean0);
++    oos.flush();
++    oos.close();
++
++    java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++    ColumnBean deserialized = (ColumnBean) ois.readObject();
++    ois.close();
++
++    assertTrue(deserialized.isIndex());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

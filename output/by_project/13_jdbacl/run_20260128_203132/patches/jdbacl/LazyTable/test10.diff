@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/jdbc/LazyTable_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/jdbc/LazyTable_ESTest.java
+@@ -182,25 +182,17 @@
+          verifyException("org.databene.jdbacl.model.jdbc.JDBCDBImporter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter("xW^qgDN", "xW^qgDN", "xW^qgDN", "xW^qgDN", "xW^qgDN", "xW^qgDN");
+-      DBSchema dBSchema0 = new DBSchema("xW^qgDN");
+-      LazyTable lazyTable0 = new LazyTable(jDBCDBImporter0, dBSchema0, "xW^qgDN", "xW^qgDN");
+-      String[] stringArray0 = new String[1];
+-      DBForeignKeyConstraint dBForeignKeyConstraint0 = null;
+-      try {
+-        dBForeignKeyConstraint0 = new DBForeignKeyConstraint("xW^qgDN", true, lazyTable0, stringArray0, lazyTable0, stringArray0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.model.jdbc.JDBCDBImporter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        JDBCDBImporter importer = new JDBCDBImporter("xW^qgDN", "xW^qgDN", "xW^qgDN", "xW^qgDN", "xW^qgDN", "xW^qgDN");
++        DBSchema schema = new DBSchema("xW^qgDN");
++        LazyTable table = new LazyTable(importer, schema, "xW^qgDN", "xW^qgDN");
++        String[] columnNames = new String[] { "col1" };
++        DBForeignKeyConstraint fk = new DBForeignKeyConstraint("fkName", true, table, columnNames, table, columnNames);
++        assertNotNull(fk);
++        assertEquals("fkName", fk.getName());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

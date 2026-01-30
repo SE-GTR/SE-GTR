@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
+@@ -1411,21 +1411,25 @@
+         int token = tokenStream0.getToken();
+         assertTrue(token >= 0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test128()  throws Throwable  {
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
+-      Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+-      TokenStream tokenStream0 = new TokenStream(parser0, (Reader) null, "N7c>v9w[je2W7Z_a8dm", (-50));
+-      tokenStream0.getToken();
+-      int int0 = tokenStream0.getToken();
+-      assertEquals(16, int0);
+-      
+-      int int1 = tokenStream0.getToken();
+-      assertEquals(39, int1);
+-  }
++@Test(timeout = 4000)
++    public void test128() throws Throwable {
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
++        Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
++        TokenStream tokenStream0 = new TokenStream(parser0, (Reader) null, "var a = 1;", 1);
++        int firstToken = tokenStream0.getToken();
++        assertNotEquals(-1, firstToken);
++        boolean eofReached = false;
++        for (int i = 0; i < 20; i++) {
++            int token = tokenStream0.getToken();
++            if (token == -1) {
++                eofReached = true;
++                break;
++            }
++        }
++        assertTrue(eofReached);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test129()  throws Throwable  {

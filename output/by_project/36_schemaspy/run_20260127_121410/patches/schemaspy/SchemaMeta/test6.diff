@@ -1,0 +1,29 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/xml/SchemaMeta_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/xml/SchemaMeta_ESTest.java
+@@ -114,14 +114,18 @@
+       File file0 = schemaMeta0.getFile();
+       assertNull(file0);
+   }
++public void test6() throws Throwable {
++    config0 = mock(Config.class, new ViolatedAssumptionAnswer());
++    doReturn(true).when(config0).isOneOfMultipleSchemas();
++    Config.setInstance(config0);
++    // Verify that the static instance was correctly set
++    assertSame(config0, Config.getInstance());
++    // Verify the stubbed behavior of the mock
++    assertTrue(config0.isOneOfMultipleSchemas());
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-    config0 = mock(Config.class, new ViolatedAssumptionAnswer());
+-      doReturn(true).when(config0).isOneOfMultipleSchemas();
+-      Config.setInstance(config0);
+     schemaMeta0 = new SchemaMeta("", "", "");
+-      String string0 = schemaMeta0.getComments();
+-      assertNull(string0);
+-  }
++    String string0 = schemaMeta0.getComments();
++    assertNull(string0);
+ }
++
++}

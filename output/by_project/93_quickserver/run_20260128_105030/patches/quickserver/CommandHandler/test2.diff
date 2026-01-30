@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/qsadmin/CommandHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/qsadmin/CommandHandler_ESTest.java
+@@ -58,22 +58,13 @@
+          verifyException("org.quickserver.net.qsadmin.CommandHandler", e);
+       }
+   }
++@Test(expected = SocketException.class, timeout = 4000)
++    public void test2() throws Throwable {
++        nonBlockingClientHandler0 = new NonBlockingClientHandler();
++        commandHandler0 = new CommandHandler();
++        commandHandler0.handleCommand(nonBlockingClientHandler0, null);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-    commandHandler0 = new CommandHandler();
+-      try { 
+-        commandHandler0.handleCommand(nonBlockingClientHandler0, (String) null);
+-        fail("Expecting exception: SocketException");
+-      
+-      } catch(SocketException e) {
+-         //
+-         // Connection is no more open!
+-         //
+-         verifyException("org.quickserver.net.server.impl.BasicClientHandler", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

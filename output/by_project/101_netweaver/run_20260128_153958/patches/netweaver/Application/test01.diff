@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
+@@ -32,18 +32,22 @@
+     int hash = application0.hashCode();
+     assertEquals(hash, application0.hashCode());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-    application0 = new Application();
+-    application1 = new Application();
+-      assertTrue(application1.equals((Object)application0));
+-      
+-      application1.setVersion("b4l5Pa(");
+-      boolean boolean0 = application1.equals(application0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        application0 = new Application();
++        application1 = new Application();
++        assertTrue(application1.equals((Object) application0));
++
++        // Verify initial version is null and that setting it changes the state
++        assertNull(application1.getVersion());
++
++        application1.setVersion("b4l5Pa(");
++        assertEquals("b4l5Pa(", application1.getVersion());
++
++        boolean boolean0 = application1.equals(application0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

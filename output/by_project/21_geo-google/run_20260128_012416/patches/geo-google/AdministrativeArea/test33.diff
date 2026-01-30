@@ -1,0 +1,38 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -372,14 +372,27 @@
+       subAdministrativeArea.setPostalCode(postalCode);
+       assertSame(postalCode, subAdministrativeArea.getPostalCode());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test33()  throws Throwable  {
+-      AdministrativeArea administrativeArea0 = new AdministrativeArea();
+-      administrativeArea0.setIndicator("oasis.names.tc.ciq.xsdschema.xal._2.AdministrativeArea");
+-      assertEquals("oasis.names.tc.ciq.xsdschema.xal._2.AdministrativeArea", administrativeArea0.getIndicator());
+-  }
++@Test(timeout = 4000)
++public void test33() throws Throwable {
++    AdministrativeArea administrativeArea0 = new AdministrativeArea();
++
++    // Verify that unrelated fields are initially null
++    assertNull(administrativeArea0.getType());
++
++    // Set indicator and verify the side‑effect
++    administrativeArea0.setIndicator("oasis.names.tc.ciq.xsdschema.xal._2.AdministrativeArea");
++    assertEquals("oasis.names.tc.ciq.xsdschema.xal._2.AdministrativeArea", administrativeArea0.getIndicator());
++
++    // Change the indicator to a different value and assert the update
++    administrativeArea0.setIndicator("different");
++    assertEquals("different", administrativeArea0.getIndicator());
++
++    // Exercise a non‑trivial collection property to avoid accessor‑only testing
++    AdministrativeArea.AdministrativeAreaName name = new AdministrativeArea.AdministrativeAreaName();
++    administrativeArea0.getAdministrativeAreaName().add(name);
++    assertTrue(administrativeArea0.getAdministrativeAreaName().contains(name));
++}
++
+ @Test(timeout = 4000)
+ public void test34() throws Throwable {
+     AdministrativeArea administrativeArea0 = new AdministrativeArea();

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -49,13 +49,19 @@
+         stream.consume();
+         assertEquals((int) input.charAt(1), stream.LA(1));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test003()  throws Throwable  {
+-      StringReader stringReader0 = new StringReader("\n");
+-      ANTLRReaderStream aNTLRReaderStream0 = new ANTLRReaderStream(stringReader0);
+-  }
++@Test(timeout = 4000)
++    public void test003() throws Throwable {
++        StringReader stringReader0 = new StringReader("\n");
++        ANTLRReaderStream aNTLRReaderStream0 = new ANTLRReaderStream(stringReader0);
++        // Act: look at the first character
++        int firstChar = aNTLRReaderStream0.LA(1);
++        assertEquals(10, firstChar); // newline character
++        // Consume the character and verify end of stream
++        aNTLRReaderStream0.consume();
++        int afterConsume = aNTLRReaderStream0.LA(1);
++        assertEquals(-1, afterConsume); // EOF
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test004()  throws Throwable  {

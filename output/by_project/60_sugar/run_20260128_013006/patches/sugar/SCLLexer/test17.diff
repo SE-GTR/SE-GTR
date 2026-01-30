@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sf/sugar/scl/SCLLexer_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/scl/SCLLexer_ESTest.java
+@@ -226,22 +226,17 @@
+          verifyException("net.sf.sugar.scl.SCLLexer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      ANTLRReaderStream aNTLRReaderStream0 = new ANTLRReaderStream();
+-      SCLLexer sCLLexer0 = new SCLLexer(aNTLRReaderStream0);
+-      try { 
++@Test(timeout = 4000)
++    public void test17() throws Throwable {
++        java.io.Reader reader = new java.io.StringReader("as");
++        ANTLRReaderStream aNTLRReaderStream0 = new ANTLRReaderStream(reader);
++        SCLLexer sCLLexer0 = new SCLLexer(aNTLRReaderStream0);
+         sCLLexer0.mAS_KEYWORD();
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.sugar.scl.SCLLexer", e);
+-      }
+-  }
++        org.antlr.runtime.Token token = sCLLexer0.getToken();
++        org.junit.Assert.assertNotNull(token);
++        org.junit.Assert.assertEquals(SCLLexer.AS_KEYWORD, token.getType());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/visu/handball/moves/xml/HandballModelWriter_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/xml/HandballModelWriter_ESTest.java
+@@ -124,13 +124,18 @@
+          verifyException("visu.handball.moves.model.MoveEvent", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test6() throws Throwable {
++    MockFile mockFile0 = new MockFile("tmp", "test6.xml");
++    // Verify that the file does not exist before writing
++    org.junit.Assert.assertFalse(mockFile0.exists());
++    HandballModelWriter handballModelWriter0 = HandballModelWriter.getInstance(mockFile0, (HandballModel) null);
++    handballModelWriter0.writeToXml();
++    // After writeToXml, the file should exist and contain data
++    org.junit.Assert.assertTrue(mockFile0.exists());
++    org.junit.Assert.assertTrue(mockFile0.length() > 0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("", "");
+-      HandballModelWriter handballModelWriter0 = HandballModelWriter.getInstance(mockFile0, (HandballModel) null);
+-      handballModelWriter0.writeToXml();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

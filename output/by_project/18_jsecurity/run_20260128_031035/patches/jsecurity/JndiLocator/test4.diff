@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jsecurity/jndi/JndiLocator_ESTest.java
++++ b/evosuite-tests/org/jsecurity/jndi/JndiLocator_ESTest.java
+@@ -80,13 +80,22 @@
+       jndiLocator0.setJndiTemplate(jndiTemplate0);
+       assertFalse(jndiLocator0.isResourceRef());
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        JndiLocator locator = new JndiLocator();
++        // Verify initial state
++        assertFalse(locator.isResourceRef());
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    jndiLocator0 = new JndiLocator();
+-      jndiLocator0.setJndiTemplate((JndiTemplate) null);
+-      assertFalse(jndiLocator0.isResourceRef());
+-  }
++        // Invoke the setter that was previously unasserted
++        locator.setJndiTemplate(null);
++        // State should remain unchanged after setting a null template
++        assertFalse(locator.isResourceRef());
++
++        // Add a non‑trivial interaction with the CUT
++        locator.setResourceRef(true);
++        assertTrue(locator.isResourceRef());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

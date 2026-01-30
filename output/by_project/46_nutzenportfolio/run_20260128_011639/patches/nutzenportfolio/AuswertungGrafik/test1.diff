@@ -1,0 +1,57 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/common/AuswertungGrafik_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/common/AuswertungGrafik_ESTest.java
+@@ -53,29 +53,32 @@
+         verifyException("javax.imageio.ImageIO", e);
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
+     auswertungGrafik0 = new AuswertungGrafik();
+     httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(auswertungGrafik0).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      doReturn((ServletOutputStream) null).when(httpServletResponse0).getOutputStream();
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      // Undeclared exception!
+-      try { 
+-        auswertungGrafik0.doGet(httpServletRequestWrapper0, httpServletResponseWrapper0);
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // ch.bfh.egov.nutzenportfolio.common.AuswertungGrafik cannot be cast to java.util.List
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.common.AuswertungGrafik", e);
+-      }
++    doReturn(auswertungGrafik0).when(httpSession0).getAttribute(anyString());
++    // Verify that the stubbed getAttribute returns the expected object
++    Object attr = httpSession0.getAttribute("anyKey");
++    assertSame(auswertungGrafik0, attr);
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn(httpSession0).when(httpServletRequest0).getSession();
++    // Verify that the stubbed getSession returns the mocked session
++    HttpSession sess = httpServletRequest0.getSession();
++    assertSame(httpSession0, sess);
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++    doReturn((ServletOutputStream) null).when(httpServletResponse0).getOutputStream();
++    // Verify that the stubbed getOutputStream returns null
++    ServletOutputStream out = httpServletResponse0.getOutputStream();
++    assertNull(out);
++    HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++    try {
++      auswertungGrafik0.doGet(httpServletRequestWrapper0, httpServletResponseWrapper0);
++      fail("Expecting exception: ClassCastException");
++    } catch (ClassCastException e) {
++      verifyException("ch.bfh.egov.nutzenportfolio.common.AuswertungGrafik", e);
++    }
+   }
++
+ }

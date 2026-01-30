@@ -1,0 +1,24 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressLine_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressLine_ESTest.java
+@@ -41,10 +41,21 @@
+ @Test(timeout = 4000)
+ public void test3() throws Throwable {
+     AddressLine addressLine0 = new AddressLine();
++    // Verify setter/getter for the 'type' attribute
+     addressLine0.setType("home");
+     String string0 = addressLine0.getType();
+     assertEquals("home", string0);
++
++    // Exercise a non‑trivial behavior: the map of any attributes
++    java.util.Map<javax.xml.namespace.QName, String> attrs = addressLine0.getOtherAttributes();
++    assertTrue(attrs.isEmpty());
++
++    javax.xml.namespace.QName qName = new javax.xml.namespace.QName("http://example.com", "attr");
++    attrs.put(qName, "value");
++    assertEquals(1, attrs.size());
++    assertEquals("value", attrs.get(qName));
+ }
++
+ @Test(timeout = 4000)
+     public void test4() throws Throwable {
+         AddressLine addressLine0 = new AddressLine();

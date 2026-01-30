@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/quickserver/util/io/ByteBufferOutputStream_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/io/ByteBufferOutputStream_ESTest.java
+@@ -104,25 +104,18 @@
+       byteBufferOutputStream0.writeAllByteBuffer();
+       //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:63>", nonBlockingClientHandler0.getName());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      ServerHooks serverHooks0 = new ServerHooks();
+-      serverHooks0.add((Object) null);
+-      ByteBufferOutputStream byteBufferOutputStream0 = new ByteBufferOutputStream(serverHooks0, nonBlockingClientHandler0);
+-      // Undeclared exception!
+-      try { 
+-        byteBufferOutputStream0.writeAllByteBuffer();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.util.io.ByteBufferOutputStream", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
++        ServerHooks serverHooks0 = new ServerHooks();
++        java.nio.ByteBuffer buffer = java.nio.ByteBuffer.allocate(10);
++        boolean added = serverHooks0.add(buffer);
++        assertTrue(added);
++        ByteBufferOutputStream byteBufferOutputStream0 = new ByteBufferOutputStream(serverHooks0, nonBlockingClientHandler0);
++        boolean result = byteBufferOutputStream0.writeAllByteBuffer();
++        assertTrue(result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

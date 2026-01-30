@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
+@@ -161,19 +161,26 @@
+       assertTrue(alertNode0.equals((Object) alertNode1));
+       assertTrue(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test09() throws Throwable {
+       AlertNode alertNode0 = new AlertNode();
+       STATECOLOR sTATECOLOR0 = STATECOLOR.value4;
+       AlertNode alertNode1 = new AlertNode();
+-      assertTrue(alertNode1.equals((Object)alertNode0));
+-      
++      assertTrue(alertNode1.equals((Object) alertNode0));
++
++      // Verify initial state of highAlertValue (should be null)
++      assertNull(alertNode1.getHighAlertValue());
++
++      // Exercise the method under test
+       alertNode1.setHighAlertValue(sTATECOLOR0);
+-      boolean boolean0 = alertNode1.equals(alertNode0);
+-      assertFalse(boolean0);
+-  }
++
++      // Assert the side‑effect of setHighAlertValue
++      assertEquals(sTATECOLOR0, alertNode1.getHighAlertValue());
++
++      // Ensure the change influences equality as expected
++      assertFalse(alertNode1.equals(alertNode0));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

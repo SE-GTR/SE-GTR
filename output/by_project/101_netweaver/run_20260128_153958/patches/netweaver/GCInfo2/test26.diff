@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
+@@ -397,19 +397,23 @@
+       assertEquals(65535L, gCInfo2_0.getObjBytesFreed());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      GCInfo2 gCInfo2_0 = new GCInfo2();
+-      STATECOLOR sTATECOLOR0 = STATECOLOR.value4;
+-      gCInfo2_0.setDispstatus(sTATECOLOR0);
+-      GCInfo2 gCInfo2_1 = new GCInfo2();
+-      boolean boolean0 = gCInfo2_0.equals(gCInfo2_1);
+-      assertEquals(0, gCInfo2_1.getUnloadedClasses());
+-      assertFalse(boolean0);
+-      assertEquals(0, gCInfo2_1.getCpuTime());
+-      assertEquals(0, gCInfo2_1.getDuration());
+-  }
++@Test(timeout = 4000)
++public void test26() throws Throwable {
++    GCInfo2 gCInfo2_0 = new GCInfo2();
++    STATECOLOR sTATECOLOR0 = STATECOLOR.value4;
++    gCInfo2_0.setDispstatus(sTATECOLOR0);
++    GCInfo2 gCInfo2_1 = new GCInfo2();
++    // Verify that objects differ when only one has dispstatus set
++    assertFalse(gCInfo2_0.equals(gCInfo2_1));
++    // Set same dispstatus on the second object and verify equality
++    gCInfo2_1.setDispstatus(sTATECOLOR0);
++    assertTrue(gCInfo2_0.equals(gCInfo2_1));
++    // Existing assertions on default fields
++    assertEquals(0, gCInfo2_1.getUnloadedClasses());
++    assertEquals(0, gCInfo2_1.getCpuTime());
++    assertEquals(0, gCInfo2_1.getDuration());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

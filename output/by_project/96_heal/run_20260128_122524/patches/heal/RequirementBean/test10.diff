@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/heal/module/metadata/RequirementBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/RequirementBean_ESTest.java
+@@ -101,14 +101,21 @@
+       String actual = requirementBean0.getRequirementType();
+       assertEquals(expected, actual);
+   }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        RequirementBean bean = new RequirementBean();
++        String expectedId = "REQ-001";
++        bean.setRequirementId(expectedId);
++        java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(bos);
++        out.writeObject(bean);
++        out.flush();
++        byte[] serialized = bos.toByteArray();
++        java.io.ObjectInputStream in = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(serialized));
++        RequirementBean deserialized = (RequirementBean) in.readObject();
++        assertEquals(expectedId, deserialized.getRequirementId());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      RequirementBean requirementBean0 = new RequirementBean();
+-      String string0 = requirementBean0.getRequirementId();
+-      assertNull(string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

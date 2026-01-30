@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/util/GrowableLongArray_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/util/GrowableLongArray_ESTest.java
+@@ -16,16 +16,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class GrowableLongArray_ESTest extends GrowableLongArray_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      GrowableLongArray growableLongArray0 = new GrowableLongArray(2);
+-      long[] longArray0 = new long[9];
+-      GrowableLongArray growableLongArray1 = new GrowableLongArray(longArray0);
+-      growableLongArray0.append(growableLongArray1);
+-      growableLongArray0.remove(2);
+-      assertEquals(8, growableLongArray0.getCurrentLength());
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        GrowableLongArray growableLongArray0 = new GrowableLongArray(2);
++        long[] longArray0 = new long[9];
++        GrowableLongArray growableLongArray1 = new GrowableLongArray(longArray0);
++        int lengthBeforeAppend = growableLongArray0.getCurrentLength();
++        growableLongArray0.append(growableLongArray1);
++        int lengthAfterAppend = growableLongArray0.getCurrentLength();
++        assertEquals(0, lengthBeforeAppend);
++        assertEquals(9, lengthAfterAppend);
++        long removedValue = growableLongArray0.remove(2);
++        int lengthAfterRemove = growableLongArray0.getCurrentLength();
++        assertEquals(0L, removedValue);
++        assertEquals(8, lengthAfterRemove);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

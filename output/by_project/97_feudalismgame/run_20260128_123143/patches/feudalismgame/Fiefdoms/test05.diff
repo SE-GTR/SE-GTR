@@ -1,0 +1,51 @@
+--- a/evosuite-tests/src/Fiefdoms_ESTest.java
++++ b/evosuite-tests/src/Fiefdoms_ESTest.java
+@@ -67,19 +67,39 @@
+       assertEquals(0, fiefdoms0.getValue());
+       assertEquals(0, fiefdoms0.getFiefdomCastles());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test05() throws Throwable {
+       Fiefdoms fiefdoms0 = new Fiefdoms();
+       Vassals vassals0 = new Vassals("jfa*{b4jqk:#l^/;nn#", "You cannot buy more than a total of ");
+-      fiefdoms0.loyalVassals.add(vassals0);
++      // Verify that adding a vassal to the loyal list succeeds (NARV)
++      boolean added = fiefdoms0.loyalVassals.add(vassals0);
++      assertTrue(added);
++      // Capture state before invoking the first void method
++      int peasantsBefore = fiefdoms0.getPeasants();
++      int valueBefore = fiefdoms0.getValue();
++      int personalCastlesBefore = fiefdoms0.getPersonalCastles();
++      int fiefdomCastlesBefore = fiefdoms0.getFiefdomCastles();
++      // Invoke the void method that mutates internal state (NASE)
+       fiefdoms0.setRebelliousVassals(fiefdoms0.loyalVassals);
++      // Verify that the expected fields remain unchanged after the call
++      assertEquals(peasantsBefore, fiefdoms0.getPeasants());
++      assertEquals(valueBefore, fiefdoms0.getValue());
++      assertEquals(personalCastlesBefore, fiefdoms0.getPersonalCastles());
++      assertEquals(fiefdomCastlesBefore, fiefdoms0.getFiefdomCastles());
++      // Capture state before the second void call
++      peasantsBefore = fiefdoms0.getPeasants();
++      valueBefore = fiefdoms0.getValue();
++      personalCastlesBefore = fiefdoms0.getPersonalCastles();
++      fiefdomCastlesBefore = fiefdoms0.getFiefdomCastles();
++      // Second void method invocation
+       fiefdoms0.setRebelliousVassals(936, false);
+-      assertEquals(0, fiefdoms0.getPeasants());
+-      assertEquals(0, fiefdoms0.getValue());
+-      assertEquals(0, fiefdoms0.getPersonalCastles());
+-      assertEquals(0, fiefdoms0.getFiefdomCastles());
+-  }
++      // Verify that the second call also leaves the observable state unchanged
++      assertEquals(peasantsBefore, fiefdoms0.getPeasants());
++      assertEquals(valueBefore, fiefdoms0.getValue());
++      assertEquals(personalCastlesBefore, fiefdoms0.getPersonalCastles());
++      assertEquals(fiefdomCastlesBefore, fiefdoms0.getFiefdomCastles());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

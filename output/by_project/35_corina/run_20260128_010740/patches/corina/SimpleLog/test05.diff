@@ -1,0 +1,35 @@
+--- a/evosuite-tests/corina/util/SimpleLog_ESTest.java
++++ b/evosuite-tests/corina/util/SimpleLog_ESTest.java
+@@ -65,14 +65,24 @@
+       assertTrue(simpleLog0.isFatalEnabled());
+       assertFalse(simpleLog0.isDebugEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      SimpleLog simpleLog0 = new SimpleLog("");
+-      simpleLog0.setLevel(35);
+-      simpleLog0.error((Object) "");
+-      assertEquals(35, simpleLog0.getLevel());
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    SimpleLog simpleLog0 = new SimpleLog("");
++    simpleLog0.setLevel(35);
++    assertEquals(35, simpleLog0.getLevel());
++
++    java.io.PrintStream originalErr = System.err;
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    System.setErr(new java.io.PrintStream(baos));
++    try {
++        simpleLog0.error((Object) "");
++    } finally {
++        System.setErr(originalErr);
++    }
++    String output = baos.toString();
++    assertTrue(output.isEmpty() || output.trim().isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

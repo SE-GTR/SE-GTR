@@ -1,0 +1,28 @@
+--- a/evosuite-tests/macaw/presentationLayer/OntologyTermSearchTableModel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/OntologyTermSearchTableModel_ESTest.java
+@@ -87,17 +87,21 @@
+       int int0 = ontologyTermSearchTableModel0.getRowCount();
+       assertEquals(0, int0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test6() throws Throwable {
+       DemonstrationCurationService demonstrationCurationService0 = new DemonstrationCurationService();
+       OntologyTermSearchTableModel ontologyTermSearchTableModel0 = new OntologyTermSearchTableModel(demonstrationCurationService0);
+-      User user0 = new User("*>sD\"F$Ju3y.J", "*>sD\"F$Ju3y.J");
++      User user0 = new User("*>sD\"F$Ju3y.\u007fJ", "*>sD\"F$Ju3y.\u007fJ");
+       ArrayList<OntologyTerm> arrayList0 = demonstrationCurationService0.getAllOntologyTerms(user0);
++      int rowCountBefore = ontologyTermSearchTableModel0.getRowCount();
+       ontologyTermSearchTableModel0.setData(arrayList0);
++      int rowCountAfter = ontologyTermSearchTableModel0.getRowCount();
++      assertEquals(arrayList0.size(), rowCountAfter);
++      assertTrue(rowCountBefore == 0 || rowCountBefore != rowCountAfter);
+       Object object0 = ontologyTermSearchTableModel0.getValueAt(1, 1);
+       assertEquals("a vertical measurement", object0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

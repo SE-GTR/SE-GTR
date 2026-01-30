@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/OptimisticClientIdentifier_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/OptimisticClientIdentifier_ESTest.java
+@@ -63,16 +63,22 @@
+       Iterator iterator0 = optimisticClientIdentifier0.findAllClientById("ib8Yw");
+       assertNotNull(iterator0);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        optimisticClientIdentifier0 = new OptimisticClientIdentifier();
++        clientHandlerObjectFactory0 = new ClientHandlerObjectFactory(true);
++        genericObjectPool0 = new GenericObjectPool(clientHandlerObjectFactory0, 2033);
++        makeQSObjectPool0 = new MakeQSObjectPool(genericObjectPool0);
++        // Verify initial state before setting the pool
++        assertNull(optimisticClientIdentifier0.getClientHandlerPool());
++        // Use the pool once to ensure it is functional
++        makeQSObjectPool0.borrowObject();
++        // Set the client handler pool and assert the side‑effect
++        optimisticClientIdentifier0.setClientHandlerPool(makeQSObjectPool0);
++        assertSame(makeQSObjectPool0, optimisticClientIdentifier0.getClientHandlerPool());
++        // Behavioural check: searching for a non‑existent client should return null
++        ClientHandler clientHandler0 = optimisticClientIdentifier0.findFirstClientById("g F`dlMS");
++        assertNull(clientHandler0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    optimisticClientIdentifier0 = new OptimisticClientIdentifier();
+-    clientHandlerObjectFactory0 = new ClientHandlerObjectFactory(true);
+-    genericObjectPool0 = new GenericObjectPool(clientHandlerObjectFactory0, 2033);
+-    makeQSObjectPool0 = new MakeQSObjectPool(genericObjectPool0);
+-      makeQSObjectPool0.borrowObject();
+-      optimisticClientIdentifier0.setClientHandlerPool(makeQSObjectPool0);
+-      ClientHandler clientHandler0 = optimisticClientIdentifier0.findFirstClientById("g F`dlMS");
+-      assertNull(clientHandler0);
+-  }
+ }

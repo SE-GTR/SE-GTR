@@ -1,0 +1,55 @@
+--- a/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
+@@ -32,30 +32,28 @@
+       interpolatedGrayImage0.median(14, rOI0);
+       interpolatedGrayImage0.clip((-2281), (-2281), rOI0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      Integer integer0 = JLayeredPane.DRAG_LAYER;
+-      assertEquals(400, (int)integer0);
+-      
+-      InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(15, 561);
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(561, interpolatedGrayImage0.Y());
+-      assertEquals(15, interpolatedGrayImage0.X());
+-      
+-      Image<Integer> image0 = interpolatedGrayImage0.clear(integer0);
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(1346400000L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(561, interpolatedGrayImage0.Y());
+-      assertEquals(3366000, interpolatedGrayImage0.absSum());
+-      assertEquals(15, interpolatedGrayImage0.X());
+-      assertEquals(15, image0.X());
+-      assertEquals(561, image0.Y());
+-      assertSame(interpolatedGrayImage0, image0);
+-      
+-      ROI rOI0 = new ROI();
+-      interpolatedGrayImage0.clip(1703, 3129, rOI0);
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        Integer integer0 = JLayeredPane.DRAG_LAYER;
++        InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(15, 561);
++        assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
++        assertEquals(15, interpolatedGrayImage0.X());
++        assertEquals(561, interpolatedGrayImage0.Y());
++
++        Image<Integer> image0 = interpolatedGrayImage0.clear(integer0);
++        assertEquals(1346400000L, interpolatedGrayImage0.sqrSum());
++        assertEquals(3366000, interpolatedGrayImage0.absSum());
++        assertEquals(15, image0.X());
++        assertEquals(561, image0.Y());
++        assertSame(interpolatedGrayImage0, image0);
++
++        long sqrSumBeforeClip = interpolatedGrayImage0.sqrSum();
++        ROI rOI0 = new ROI();
++        interpolatedGrayImage0.clip(1703, 3129, rOI0);
++        // The clip operation should not increase the squared sum of pixel values.
++        assertTrue(interpolatedGrayImage0.sqrSum() <= sqrSumBeforeClip);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

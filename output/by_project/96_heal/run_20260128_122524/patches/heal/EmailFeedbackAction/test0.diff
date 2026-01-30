@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/heal/servlet/EmailFeedbackAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/EmailFeedbackAction_ESTest.java
+@@ -40,25 +40,20 @@
+     httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+     httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("DTh&Tz<#;!1;(");
+-      FileSystemHandling.appendStringToFile(evoSuiteFile0, "info@healcentral.org");
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("DTh&Tz<#;!1;(");
++    // The original call to FileSystemHandling.appendStringToFile returned a boolean that was never asserted.
++    // It has been removed to eliminate the NARV smell.
++    HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++    try {
+         emailFeedbackAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.EmailFeedbackAction", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        verifyException("org.heal.servlet.EmailFeedbackAction", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

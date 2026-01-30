@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
+@@ -227,18 +227,28 @@
+     boolean boolean0 = gCInfo2_1.equals(gCInfo2_0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      GCInfo2 gCInfo2_0 = new GCInfo2();
+-      GCInfo2 gCInfo2_1 = new GCInfo2();
+-      assertTrue(gCInfo2_1.equals((Object)gCInfo2_0));
+-      
+-      gCInfo2_0.setReason("SAPControl-GREEN");
+-      boolean boolean0 = gCInfo2_1.equals(gCInfo2_0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    GCInfo2 gCInfo2_0 = new GCInfo2();
++    GCInfo2 gCInfo2_1 = new GCInfo2();
++    assertTrue(gCInfo2_1.equals((Object) gCInfo2_0));
++
++    // Verify initial state before mutation
++    assertNull(gCInfo2_0.getReason());
++    assertNull(gCInfo2_1.getReason());
++
++    // Mutate state
++    gCInfo2_0.setReason("SAPControl-GREEN");
++
++    // Observe side‑effect of setReason
++    assertEquals("SAPControl-GREEN", gCInfo2_0.getReason());
++    assertNull(gCInfo2_1.getReason());
++
++    // Equality should now differ
++    boolean boolean0 = gCInfo2_1.equals(gCInfo2_0);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

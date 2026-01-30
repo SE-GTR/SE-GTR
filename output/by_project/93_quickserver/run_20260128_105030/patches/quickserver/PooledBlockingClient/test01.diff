@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/PooledBlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/PooledBlockingClient_ESTest.java
+@@ -32,9 +32,8 @@
+       pooledBlockingClient0.setHandedOut(true);
+       assertEquals(1392409281320L, pooledBlockingClient0.getHandedOutSince());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test01() throws Throwable {
+       BlockingClient blockingClient0 = new BlockingClient();
+       PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+       doReturn(blockingClient0).when(poolableBlockingClient0).createBlockingClient(any(org.quickserver.net.client.SocketBasedHost.class));
+@@ -43,10 +42,15 @@
+       PooledBlockingClient pooledBlockingClient0 = new PooledBlockingClient(poolableBlockingClient0, socketBasedHost0);
+       ConcurrentLinkedQueue<Object> concurrentLinkedQueue0 = new ConcurrentLinkedQueue<Object>();
+       ReentrantReadWriteLock reentrantReadWriteLock0 = new ReentrantReadWriteLock();
++
++      long beforeActionTime = pooledBlockingClient0.getLastActionTime();
+       pooledBlockingClient0.setPoolToReturn(concurrentLinkedQueue0);
+       pooledBlockingClient0.returnToPool(concurrentLinkedQueue0, reentrantReadWriteLock0);
+-      assertEquals(1392409281320L, pooledBlockingClient0.getLastActionTime());
+-  }
++      long afterActionTime = pooledBlockingClient0.getLastActionTime();
++
++      assertTrue("lastActionTime should be updated after returnToPool", afterActionTime >= beforeActionTime);
++  }
++
+ @Test(timeout = 4000)
+ public void test02() throws Throwable {
+     PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());

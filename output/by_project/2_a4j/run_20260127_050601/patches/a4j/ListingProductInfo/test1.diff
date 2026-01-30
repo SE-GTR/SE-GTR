@@ -1,0 +1,30 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ListingProductInfo_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ListingProductInfo_ESTest.java
+@@ -25,13 +25,21 @@
+       listingProductInfo0.setListingProductDetails(listingProductDetailsArray0);
+       assertEquals(2, listingProductDetailsArray0.length);
+   }
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
++      ListingProductInfo original = new ListingProductInfo();
++      // Act: serialize and deserialize the object
++      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++      oos.writeObject(original);
++      oos.flush();
++      java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++      java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++      ListingProductInfo deserialized = (ListingProductInfo) ois.readObject();
++      // Assert that the deserialized instance still has a null product list
++      assertNull(deserialized.getListingProductDetailsArray());
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ListingProductInfo listingProductInfo0 = new ListingProductInfo();
+-      ArrayList arrayList0 = listingProductInfo0.getListingProductDetailsArray();
+-      assertNull(arrayList0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

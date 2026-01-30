@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jsecurity/authc/credential/HashedCredentialsMatcher_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/credential/HashedCredentialsMatcher_ESTest.java
+@@ -18,20 +18,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class HashedCredentialsMatcher_ESTest extends HashedCredentialsMatcher_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    Sha512CredentialsMatcher sha512CredentialsMatcher0 = new Sha512CredentialsMatcher();
++    assertTrue(sha512CredentialsMatcher0.isStoredCredentialsHexEncoded());
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Sha512CredentialsMatcher sha512CredentialsMatcher0 = new Sha512CredentialsMatcher();
+-      assertTrue(sha512CredentialsMatcher0.isStoredCredentialsHexEncoded());
+-      
+-      SimpleAuthenticationInfo simpleAuthenticationInfo0 = new SimpleAuthenticationInfo();
+-      sha512CredentialsMatcher0.setStoredCredentialsHexEncoded(false);
+-      assertFalse(sha512CredentialsMatcher0.isStoredCredentialsHexEncoded());
+-      
+-      simpleAuthenticationInfo0.setCredentials("UTF-8");
+-      sha512CredentialsMatcher0.getCredentials(simpleAuthenticationInfo0);
+-      assertEquals(1, sha512CredentialsMatcher0.getHashIterations());
+-  }
++    SimpleAuthenticationInfo simpleAuthenticationInfo0 = new SimpleAuthenticationInfo();
++    sha512CredentialsMatcher0.setStoredCredentialsHexEncoded(false);
++    assertFalse(sha512CredentialsMatcher0.isStoredCredentialsHexEncoded());
++
++    simpleAuthenticationInfo0.setCredentials("UTF-8");
++    assertEquals("UTF-8", simpleAuthenticationInfo0.getCredentials());
++
++    Object retrieved = sha512CredentialsMatcher0.getCredentials(simpleAuthenticationInfo0);
++    assertEquals(simpleAuthenticationInfo0.getCredentials(), retrieved);
++
++    assertEquals(1, sha512CredentialsMatcher0.getHashIterations());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

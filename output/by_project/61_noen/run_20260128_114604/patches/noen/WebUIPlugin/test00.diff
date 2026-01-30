@@ -1,0 +1,57 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
+@@ -39,25 +39,36 @@
+       doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+     webUIPlugin0 = new WebUIPlugin(bundleContext0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-    webUIPlugin0 = new WebUIPlugin(bundleContext0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++        doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString(), anyString());
++        webUIPlugin0 = new WebUIPlugin(bundleContext0);
++        // Properly initialise the internal collaborators to avoid NullPointerException
++        MFWClient mfwClientMock = mock(MFWClient.class);
++        java.lang.reflect.Field fMfw = WebUIPlugin.class.getDeclaredField("mfwClient");
++        fMfw.setAccessible(true);
++        fMfw.set(webUIPlugin0, mfwClientMock);
++        BMResultsStorage bmResultsMock = mock(BMResultsStorage.class);
++        java.lang.reflect.Field fResults = WebUIPlugin.class.getDeclaredField("bmresults");
++        fResults.setAccessible(true);
++        fResults.set(webUIPlugin0, bmResultsMock);
++        BMReportsStorage bmReportsMock = mock(BMReportsStorage.class);
++        java.lang.reflect.Field fReports = WebUIPlugin.class.getDeclaredField("bmreports");
++        fReports.setAccessible(true);
++        fReports.set(webUIPlugin0, bmReportsMock);
++        ServerPlugin serverMock = mock(ServerPlugin.class);
++        java.lang.reflect.Field fServer = WebUIPlugin.class.getDeclaredField("server");
++        fServer.setAccessible(true);
++        fServer.set(webUIPlugin0, serverMock);
++        DMMonitorPlugin dmMonitorMock = mock(DMMonitorPlugin.class);
++        java.lang.reflect.Field fDm = WebUIPlugin.class.getDeclaredField("dmMonitor");
++        fDm.setAccessible(true);
++        fDm.set(webUIPlugin0, dmMonitorMock);
++        // Execute the method under test – no exception should be thrown now
+         webUIPlugin0.subscribeToBM(1903L, 1903L, 1903L);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("fi.vtt.noen.mfw.bundle.server.plugins.webui.WebUIPlugin", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

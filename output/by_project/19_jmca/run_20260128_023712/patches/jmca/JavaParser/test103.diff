@@ -1,0 +1,50 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
+@@ -1145,27 +1145,26 @@
+     JavaParser javaParser0 = new JavaParser((JavaParserTokenManager) null);
+     javaParser0.TypeBound();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test103()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("IN_SINGLE_LINE_COMMENT");
+-      FileSystemHandling.appendLineToFile(evoSuiteFile0, "R\"X7\"#0#Alb3K9@jNt");
+-      JavaParser javaParser0 = new JavaParser("IN_SINGLE_LINE_COMMENT");
+-      javaParser0.MemberValue();
+-      JavaParser javaParser1 = new JavaParser(javaParser0.token_source);
+-      // Undeclared exception!
+-      try { 
+-        javaParser1.TypeParameter();
+-        fail("Expecting exception: Error");
+-      
+-      } catch(Error e) {
+-         //
+-         // Lexical error at line 1, column 6.  Encountered: \"#\" (35), after : \"\"
+-         //
+-         verifyException("com.soops.CEN4010.JMCA.JParser.JavaParserTokenManager", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test103() throws Throwable {
++        EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("IN_SINGLE_LINE_COMMENT");
++        boolean appended = FileSystemHandling.appendLineToFile(evoSuiteFile0,
++                "R\"X7\"#0#Alb3K9@jNt");
++        assertTrue("Line should be appended successfully", appended);
++        JavaParser javaParser0 = new JavaParser("IN_SINGLE_LINE_COMMENT");
++        javaParser0.MemberValue();
++        JavaParser javaParser1 = new JavaParser(javaParser0.token_source);
++        try {
++            javaParser1.TypeParameter();
++            fail("Expecting exception: Error");
++        } catch (Error e) {
++            assertEquals(
++                "Lexical error at line 1, column 6.  Encountered: \"#\" (35), after : \"\"",
++                e.getMessage());
++            verifyException("com.soops.CEN4010.JMCA.JParser.JavaParserTokenManager", e);
++        }
++    }
++
+ @Test(timeout = 4000)
+     public void test104() throws Throwable {
+         // Provide a non‑null Reader to avoid NullPointerException during setup

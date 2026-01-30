@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/allenstudio/ir/ui/NoteList_ESTest.java
++++ b/evosuite-tests/com/allenstudio/ir/ui/NoteList_ESTest.java
+@@ -154,17 +154,19 @@
+          verifyException("java.awt.Container", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      NoteList noteList0 = new NoteList();
+-      NoteListEventListener noteListEventListener0 = mock(NoteListEventListener.class, new ViolatedAssumptionAnswer());
+-      noteList0.addNoteListEventListener(noteListEventListener0);
+-      NoteListEventListener noteListEventListener1 = mock(NoteListEventListener.class, new ViolatedAssumptionAnswer());
+-      noteList0.addNoteListEventListener(noteListEventListener1);
+-      assertEquals(0, noteList0.getSelectedIndex());
+-      assertEquals(5, noteList0.getCellCount());
+-  }
++public void test11() throws Throwable {
++    NoteList noteList0 = new NoteList();
++    NoteListEventListener noteListEventListener0 = mock(NoteListEventListener.class, new ViolatedAssumptionAnswer());
++    noteList0.addNoteListEventListener(noteListEventListener0);
++    NoteListEventListener noteListEventListener1 = mock(NoteListEventListener.class, new ViolatedAssumptionAnswer());
++    noteList0.addNoteListEventListener(noteListEventListener1);
++    // Verify that the listeners were added
++    NoteListEventListener[] listeners = noteList0.getListeners(NoteListEventListener.class);
++    assertEquals(2, listeners.length);
++    assertEquals(0, noteList0.getSelectedIndex());
++    assertEquals(5, noteList0.getCellCount());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ConsedUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ConsedUtil_ESTest.java
+@@ -120,13 +120,24 @@
+       File file0 = ConsedUtil.getLatestAceFile(mockFile0, "");
+       assertNull(file0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("</C0t&q1Wxraup&(6", "</C0t&q1Wxraup&(6");
+-      File file0 = ConsedUtil.getLatestAceFile(mockFile0, "</C0t&q1Wxraup&(6");
+-      assertNull(file0);
+-  }
++@Test(timeout = 4000)
++  public void test09() throws Throwable {
++      java.nio.file.Path tempDirPath = java.nio.file.Files.createTempDirectory("consedutil_test");
++      java.io.File tempDir = tempDirPath.toFile();
++      tempDir.deleteOnExit();
++
++      java.io.File file1 = new java.io.File(tempDir, "prefix_1.ace");
++      file1.createNewFile();
++      file1.setLastModified(System.currentTimeMillis() - 1000);
++
++      java.io.File file2 = new java.io.File(tempDir, "prefix_2.ace");
++      file2.createNewFile();
++      file2.setLastModified(System.currentTimeMillis());
++
++      java.io.File latest = ConsedUtil.getLatestAceFile(tempDir, "prefix");
++      org.junit.Assert.assertEquals(file2, latest);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

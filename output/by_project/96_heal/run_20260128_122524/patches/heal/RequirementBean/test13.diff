@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/module/metadata/RequirementBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/RequirementBean_ESTest.java
+@@ -130,13 +130,27 @@
+       String string0 = requirementBean0.toString();
+       assertEquals("Requirement: ID:null metadataId:null requirementType:null requirementName:null", string0);
+   }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        RequirementBean requirementBean0 = new RequirementBean();
++        // Set a non‑default value and verify the getter reflects it
++        String expected = "TestPlatform";
++        requirementBean0.setOtherPlatform(expected);
++        assertEquals(expected, requirementBean0.getOtherPlatform());
+ 
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      RequirementBean requirementBean0 = new RequirementBean();
+-      String string0 = requirementBean0.getOtherPlatform();
+-      assertNull(string0);
+-  }
++        // Serialize and deserialize the bean to exercise non‑trivial behavior
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        try (java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos)) {
++            oos.writeObject(requirementBean0);
++        }
++        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++        RequirementBean deserialized;
++        try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais)) {
++            deserialized = (RequirementBean) ois.readObject();
++        }
++        assertEquals(expected, deserialized.getOtherPlatform());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/corina/graph/Graph_ESTest.java
++++ b/evosuite-tests/corina/graph/Graph_ESTest.java
+@@ -105,16 +105,25 @@
+       assertEquals(0, graph0.yoffset);
+       assertEquals(0, graph0.xoffset);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      Graph graph0 = new Graph(sample0);
+-      SystemColor systemColor0 = SystemColor.windowText;
+-      graph0.setColor((Color) systemColor0, false);
+-      assertEquals(0, graph0.xoffset);
+-      assertEquals(0, graph0.yoffset);
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        Sample sample0 = new Sample();
++        Graph graph0 = new Graph(sample0);
++        SystemColor systemColor0 = SystemColor.windowText;
++        // Capture the original main color (may be null or a default)
++        Color originalMainColor = graph0.mainColor;
++        // Act: set the main color (printing flag false)
++        graph0.setColor((Color) systemColor0, false);
++        // Verify that the main color was updated accordingly
++        assertEquals(systemColor0, graph0.mainColor);
++        // Ensure other unrelated fields remain unchanged
++        assertEquals(0, graph0.xoffset);
++        assertEquals(0, graph0.yoffset);
++        // Optionally verify that the printer color was not altered when isPrinting is false
++        // (assuming printerColor is public; if not, this line can be omitted)
++        // assertEquals(graph0.printerColor, graph0.printerColor);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSChecksummer_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSChecksummer_ESTest.java
+@@ -92,14 +92,24 @@
+         assertTrue(before != after);
+         assertEquals(3413039612L, after);
+     }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    HaSChecksummer checksummer = new HaSChecksummer();
++    // Verify initial CRC value (pre‑condition)
++    assertEquals(0L, checksummer.getLongCRC32());
+ 
++    // Act
++    checksummer.update(122);
+ 
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      HaSChecksummer haSChecksummer0 = new HaSChecksummer();
+-      haSChecksummer0.update(122);
+-      assertEquals(1657960367L, haSChecksummer0.getLongCRC32());
+-  }
++    // Compute expected CRC using the standard CRC32 implementation
++    java.util.zip.CRC32 crc = new java.util.zip.CRC32();
++    crc.update(122);
++    long expected = crc.getValue();
++
++    // Assert that the side‑effect of update is as expected
++    assertEquals(expected, checksummer.getLongCRC32());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

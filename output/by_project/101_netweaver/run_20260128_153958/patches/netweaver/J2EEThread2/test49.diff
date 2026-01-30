@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
+@@ -755,15 +755,26 @@
+     assertNotNull("Serializer should not be null", serializer0);
+     assertTrue("Serializer should be an instance of Serializer", serializer0 instanceof Serializer);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test49()  throws Throwable  {
+-      J2EEThread2 j2EEThread2_0 = new J2EEThread2();
+-      j2EEThread2_0.setState("~5$2");
+-      j2EEThread2_0.hashCode();
+-      assertEquals(0, j2EEThread2_0.getIndex());
+-  }
++@Test(timeout = 4000)
++    public void test49() throws Throwable {
++        J2EEThread2 j2EEThread2_0 = new J2EEThread2();
++
++        // Verify that setState correctly updates the observable state
++        String initialState = j2EEThread2_0.getState();
++        assertNull(initialState); // default should be null
++
++        j2EEThread2_0.setState("~5$2");
++        assertEquals("~5$2", j2EEThread2_0.getState());
++
++        // Verify hashCode is deterministic
++        int firstHash = j2EEThread2_0.hashCode();
++        int secondHash = j2EEThread2_0.hashCode();
++        assertEquals(firstHash, secondHash);
++
++        // Existing assertion retained
++        assertEquals(0, j2EEThread2_0.getIndex());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test50()  throws Throwable  {

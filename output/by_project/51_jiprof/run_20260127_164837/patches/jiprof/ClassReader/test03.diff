@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/ClassReader_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/ClassReader_ESTest.java
+@@ -62,14 +62,16 @@
+       classReader0.accept((ClassVisitor) classWriter0, 4);
+       assertEquals(2, ClassReader.SKIP_DEBUG);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      ClassReader classReader0 = new ClassReader("org.objectweb.asm.jip.FieldWriter");
+-      ClassWriter classWriter0 = new ClassWriter(2096);
+-      classReader0.accept((ClassVisitor) classWriter0, 2);
+-      assertEquals(1, ClassReader.SKIP_CODE);
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    ClassReader classReader0 = new ClassReader("org.objectweb.asm.jip.FieldWriter");
++    ClassWriter classWriter0 = new ClassWriter(2096);
++    classReader0.accept((ClassVisitor) classWriter0, 2);
++    byte[] bytecode = classWriter0.toByteArray();
++    assertNotNull(bytecode);
++    assertTrue(bytecode.length > 0);
++}
++
+ @Test(timeout = 4000)
+ public void test04() throws Throwable {
+     ClassReader classReader0 = new ClassReader("org.objectweb.asm.jip.ClassReader");

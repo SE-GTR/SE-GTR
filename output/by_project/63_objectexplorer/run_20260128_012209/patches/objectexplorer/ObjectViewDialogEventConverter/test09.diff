@@ -1,0 +1,34 @@
+--- a/evosuite-tests/de/paragon/explorer/event/ObjectViewDialogEventConverter_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/event/ObjectViewDialogEventConverter_ESTest.java
+@@ -163,23 +163,14 @@
+          verifyException("java.awt.GraphicsEnvironment", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    explorerFigure0 = new ExplorerFigure();
+-    objectViewDialogEventConverter0 = new ObjectViewDialogEventConverter(explorerFigure0);
+-      // Undeclared exception!
+-      try { 
+-        objectViewDialogEventConverter0.windowClosing((WindowEvent) null);
+-        fail("Expecting exception: HeadlessException");
+-      
+-      } catch(HeadlessException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.awt.GraphicsEnvironment", e);
+-      }
+-  }
++@Test(expected = HeadlessException.class)
++    public void test09() throws Throwable {
++        explorerFigure0 = new ExplorerFigure();
++        objectViewDialogEventConverter0 = new ObjectViewDialogEventConverter(explorerFigure0);
++        WindowEvent event = new WindowEvent(new java.awt.Frame(), WindowEvent.WINDOW_CLOSING);
++        objectViewDialogEventConverter0.windowClosing(event);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

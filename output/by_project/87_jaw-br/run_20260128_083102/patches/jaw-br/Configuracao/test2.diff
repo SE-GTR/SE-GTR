@@ -1,0 +1,29 @@
+--- a/evosuite-tests/jaw/configuracoes/Configuracao_ESTest.java
++++ b/evosuite-tests/jaw/configuracoes/Configuracao_ESTest.java
+@@ -49,14 +49,19 @@
+       configuracao0.salvar();
+       assertEquals(4, configuracao0.size());
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    configuracao0 = new Configuracao();
++    // Verify that the model path is initially unset
++    assertNull(configuracao0.getProperty("caminhoDosModelos"));
++    configuracao0.setCaminhoDosModelos("/");
++    // Assert that the setter correctly updated the internal state
++    assertEquals("/", configuracao0.getProperty("caminhoDosModelos"));
++    configuracao0.salvar();
++    // Verify that after saving the configuration is no longer empty
++    assertFalse(configuracao0.isEmpty());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    configuracao0 = new Configuracao();
+-      configuracao0.setCaminhoDosModelos("/");
+-      configuracao0.salvar();
+-      assertFalse(configuracao0.isEmpty());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

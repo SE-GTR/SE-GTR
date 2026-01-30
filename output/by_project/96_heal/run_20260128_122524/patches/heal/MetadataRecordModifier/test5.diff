@@ -1,0 +1,53 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/MetadataRecordModifier_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/MetadataRecordModifier_ESTest.java
+@@ -109,24 +109,35 @@
+          verifyException("org.heal.servlet.cataloger.MetadataRecordModifier", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test5() throws Throwable {
+     metadataRecordModifier0 = new MetadataRecordModifier();
+     completeMetadataBean0 = new CompleteMetadataBean();
+-      String[] stringArray0 = new String[1];
+-      stringArray0[0] = "hc565>";
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("n?!2{IS'O@>r", "T*v5@ACa2b", "hc565>", "T*v5@ACa2b", "'~@105").when(httpServletRequest0).getParameter(anyString());
+-      doReturn((Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0).when(httpServletRequest0).getParameterValues(anyString());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      TaxonPathBean taxonPathBean0 = new TaxonPathBean();
+-      TaxonBean taxonBean0 = new TaxonBean();
+-      taxonPathBean0.addTaxon(taxonBean0);
+-      completeMetadataBean0.addTaxonPath(taxonPathBean0);
+-      metadataRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
+-      assertEquals("'~@105", completeMetadataBean0.getSourceCollectionId());
++    String[] stringArray0 = new String[1];
++    stringArray0[0] = "hc565>";
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn("n?!2{IS'O@>r", "T*v5@ACa2b", "hc565>", "T*v5@ACa2b", "'~@105")
++        .when(httpServletRequest0)
++        .getParameter(anyString());
++    doReturn((Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0)
++        .when(httpServletRequest0)
++        .getParameterValues(anyString());
++
++    // Verify that the stubbing returns the expected values
++    String param = httpServletRequest0.getParameter("any");
++    assertEquals("n?!2{IS'O@>r", param);
++    String[] values = httpServletRequest0.getParameterValues("any");
++    assertArrayEquals(stringArray0, values);
++
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    TaxonPathBean taxonPathBean0 = new TaxonPathBean();
++    TaxonBean taxonBean0 = new TaxonBean();
++    taxonPathBean0.addTaxon(taxonBean0);
++    completeMetadataBean0.addTaxonPath(taxonPathBean0);
++    metadataRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
++    assertEquals("'~@105", completeMetadataBean0.getSourceCollectionId());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

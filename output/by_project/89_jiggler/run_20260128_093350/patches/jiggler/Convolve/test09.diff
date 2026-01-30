@@ -1,0 +1,113 @@
+--- a/evosuite-tests/jigl/image/ops/Convolve_ESTest.java
++++ b/evosuite-tests/jigl/image/ops/Convolve_ESTest.java
+@@ -250,66 +250,50 @@
+         assertEquals((-1.0F), imageKernel0.min(), 0.01F);
+         assertEquals(4.0, imageKernel0.sqrSum(), 0.01);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      KernelType kernelType0 = KernelType.D_XY;
+-      ImageKernel imageKernel0 = new ImageKernel(kernelType0);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals((-1.0F), imageKernel0.min(), 0.01F);
+-      assertEquals(1.0F, imageKernel0.max(), 0.01F);
+-      assertEquals(3, imageKernel0.Y());
+-      assertEquals(4.0, imageKernel0.sqrSum(), 0.01);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(4.0F, imageKernel0.absSum(), 0.01F);
+-      
+-      Convolve convolve0 = new Convolve(imageKernel0);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals((-1.0F), imageKernel0.min(), 0.01F);
+-      assertEquals(1.0F, imageKernel0.max(), 0.01F);
+-      assertEquals(3, imageKernel0.Y());
+-      assertEquals(4.0, imageKernel0.sqrSum(), 0.01);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(4.0F, imageKernel0.absSum(), 0.01F);
+-      
+-      ROI rOI0 = new ROI();
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.uy());
+-      
+-      InterpolatedRealColorImage interpolatedRealColorImage0 = new InterpolatedRealColorImage(1637, 3);
+-      assertEquals(ColorModel.RGB, interpolatedRealColorImage0.getColorModel());
+-      assertEquals(3, interpolatedRealColorImage0.Y());
+-      assertEquals(1637, interpolatedRealColorImage0.X());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedRealColorImage0.getInterpolationMethod());
+-      
+-      RealColorImage realColorImage0 = convolve0.apply((RealColorImage) interpolatedRealColorImage0, rOI0);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals((-1.0F), imageKernel0.min(), 0.01F);
+-      assertEquals(1.0F, imageKernel0.max(), 0.01F);
+-      assertEquals(3, imageKernel0.Y());
+-      assertEquals(4.0, imageKernel0.sqrSum(), 0.01);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(4.0F, imageKernel0.absSum(), 0.01F);
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(ColorModel.RGB, interpolatedRealColorImage0.getColorModel());
+-      assertEquals(3, interpolatedRealColorImage0.Y());
+-      assertEquals(1637, interpolatedRealColorImage0.X());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedRealColorImage0.getInterpolationMethod());
+-      assertEquals(3, realColorImage0.Y());
+-      assertEquals(1637, realColorImage0.X());
+-      assertEquals(ColorModel.RGB, realColorImage0.getColorModel());
+-      assertNotNull(realColorImage0);
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        KernelType kernelType0 = KernelType.D_XY;
++        ImageKernel imageKernel0 = new ImageKernel(kernelType0);
++        // Verify kernel initialization
++        assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
++        assertEquals(-1.0F, imageKernel0.min(), 0.01F);
++        assertEquals(1.0F, imageKernel0.max(), 0.01F);
++        assertEquals(3, imageKernel0.Y());
++        assertEquals(4.0, imageKernel0.sqrSum(), 0.01);
++        assertEquals(3, imageKernel0.X());
++        assertEquals(4.0F, imageKernel0.absSum(), 0.01F);
++
++        Convolve convolve0 = new Convolve(imageKernel0);
++
++        ROI rOI0 = new ROI();
++        // Verify ROI defaults
++        assertEquals(1, rOI0.Y());
++        assertEquals(1, rOI0.X());
++        assertEquals(0, rOI0.ly());
++        assertEquals(0, rOI0.lx());
++        assertEquals(0, rOI0.ux());
++        assertEquals(0, rOI0.uy());
++
++        InterpolatedRealColorImage interpolatedRealColorImage0 = new InterpolatedRealColorImage(1637, 3);
++        // Verify image defaults
++        assertEquals(ColorModel.RGB, interpolatedRealColorImage0.getColorModel());
++        assertEquals(3, interpolatedRealColorImage0.Y());
++        assertEquals(1637, interpolatedRealColorImage0.X());
++        assertEquals(InterpolationMethod.NEIGHBOR, interpolatedRealColorImage0.getInterpolationMethod());
++
++        RealColorImage realColorImage0 = convolve0.apply((RealColorImage) interpolatedRealColorImage0, rOI0);
++        // Verify result of convolution
++        assertNotNull(realColorImage0);
++        assertEquals(3, realColorImage0.Y());
++        assertEquals(1637, realColorImage0.X());
++        assertEquals(ColorModel.RGB, realColorImage0.getColorModel());
++
++        // Ensure kernel state remains unchanged after operation
++        assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
++        assertEquals(-1.0F, imageKernel0.min(), 0.01F);
++        assertEquals(1.0F, imageKernel0.max(), 0.01F);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

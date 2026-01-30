@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/TasmFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/TasmFileParser_ESTest.java
+@@ -134,16 +134,22 @@
+          verifyException("org.jcvi.jillion.assembly.tigr.tasm.TasmFileParser$ContigState", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test6() throws Throwable {
++    byte[] byteArray0 = new byte[8];
++    ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
++    TasmFileParser tasmFileParser0 = TasmFileParser.create((InputStream) byteArrayInputStream0);
++    TextLineParser textLineParser0 = new TextLineParser(byteArrayInputStream0, 364L);
++    TasmFileVisitor tasmFileVisitor0 = mock(TasmFileVisitor.class, new ViolatedAssumptionAnswer());
++    doReturn((TasmContigVisitor) null).when(tasmFileVisitor0)
++        .visitContig(any(org.jcvi.jillion.assembly.tigr.tasm.TasmFileVisitor.TasmContigVisitorCallback.class), anyString());
++    long beforePos = textLineParser0.getPosition();
++    tasmFileParser0.parseTasm(textLineParser0, tasmFileVisitor0, 364L);
++    long afterPos = textLineParser0.getPosition();
++    assertTrue(afterPos >= beforePos);
++    assertEquals(372L, afterPos);
++    org.mockito.Mockito.verify(tasmFileVisitor0).visitContig(
++        any(org.jcvi.jillion.assembly.tigr.tasm.TasmFileVisitor.TasmContigVisitorCallback.class), anyString());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      byte[] byteArray0 = new byte[8];
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      TasmFileParser tasmFileParser0 = TasmFileParser.create((InputStream) byteArrayInputStream0);
+-      TextLineParser textLineParser0 = new TextLineParser(byteArrayInputStream0, 364L);
+-      TasmFileVisitor tasmFileVisitor0 = mock(TasmFileVisitor.class, new ViolatedAssumptionAnswer());
+-      doReturn((TasmContigVisitor) null).when(tasmFileVisitor0).visitContig(any(org.jcvi.jillion.assembly.tigr.tasm.TasmFileVisitor.TasmContigVisitorCallback.class) , anyString());
+-      tasmFileParser0.parseTasm(textLineParser0, tasmFileVisitor0, 364L);
+-      assertEquals(372L, textLineParser0.getPosition());
+-  }
+ }

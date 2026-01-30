@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
+@@ -20,15 +20,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SimpleSession_ESTest extends SimpleSession_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      SimpleSession simpleSession0 = new SimpleSession();
+-      HashMap<Object, Object> hashMap0 = new HashMap<Object, Object>();
+-      simpleSession0.setAttributes(hashMap0);
+-      simpleSession0.setAttribute(simpleSession0, (Object) null);
+-      assertEquals(1800000L, simpleSession0.getTimeout());
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    SimpleSession simpleSession0 = new SimpleSession();
++    HashMap<Object, Object> hashMap0 = new HashMap<Object, Object>();
++    // initial state: no attributes
++    assertNull(simpleSession0.getAttributes());
++    // set the attributes map
++    simpleSession0.setAttributes(hashMap0);
++    assertSame(hashMap0, simpleSession0.getAttributes());
++    // add a single attribute with a null value
++    simpleSession0.setAttribute(simpleSession0, null);
++    assertTrue(simpleSession0.getAttributes().containsKey(simpleSession0));
++    assertNull(simpleSession0.getAttribute(simpleSession0));
++    // verify timeout remains the default
++    assertEquals(1800000L, simpleSession0.getTimeout());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

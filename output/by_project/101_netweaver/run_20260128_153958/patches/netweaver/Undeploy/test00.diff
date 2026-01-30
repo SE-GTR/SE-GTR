@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Undeploy_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Undeploy_ESTest.java
+@@ -21,16 +21,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Undeploy_ESTest extends Undeploy_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Undeploy undeploy0 = new Undeploy();
+-      Option option0 = new Option();
+-      Option[] optionArray0 = new Option[1];
+-      optionArray0[0] = option0;
+-      undeploy0.setOptions(optionArray0);
+-      undeploy0.hashCode();
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    Undeploy undeploy0 = new Undeploy();
++    Option option0 = new Option();
++    Option[] optionArray0 = new Option[1];
++    optionArray0[0] = option0;
++
++    int hashBefore = undeploy0.hashCode();
++
++    undeploy0.setOptions(optionArray0);
++
++    assertArrayEquals("options should be stored", optionArray0, undeploy0.getOptions());
++
++    int hashAfter = undeploy0.hashCode();
++    assertNotEquals("hashCode should change after setting options", hashBefore, hashAfter);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

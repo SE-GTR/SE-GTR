@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/heal/module/download/DownloadQueueBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/download/DownloadQueueBean_ESTest.java
+@@ -21,20 +21,33 @@
+     downloadQueueBean0 = new DownloadQueueBean();
+       downloadQueueBean0.setPackageFileLocation("pd|Y*.W<pU");
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-    downloadQueueBean0 = new DownloadQueueBean();
+-      downloadQueueBean0.packageURL = "";
+-      downloadQueueBean0.packageFileLocation = "";
+-      assertTrue(downloadQueueBean0.isPackageModified());
+-      
+-      downloadQueueBean0.setPackageFileCreated();
+-      boolean boolean0 = downloadQueueBean0.isPackageFileUpToDate((-1));
+-      assertFalse(downloadQueueBean0.isPackageModified());
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
++    downloadQueueBean0 = new DownloadQueueBean();
++    downloadQueueBean0.packageURL = "";
++    downloadQueueBean0.packageFileLocation = "";
++    // capture initial state
++    boolean modifiedBefore = downloadQueueBean0.isPackageModified();
++    String urlBefore = downloadQueueBean0.packageURL;
++    String locationBefore = downloadQueueBean0.packageFileLocation;
++    int formatBefore = downloadQueueBean0.packageFormat;
++    assertTrue(modifiedBefore);
++    assertEquals("", urlBefore);
++    assertEquals("", locationBefore);
++    assertEquals(-1, formatBefore);
++    // act
++    downloadQueueBean0.setPackageFileCreated();
++    // verify side effects
++    assertFalse(downloadQueueBean0.isPackageModified());
++    // ensure unrelated fields remain unchanged
++    assertEquals(urlBefore, downloadQueueBean0.packageURL);
++    assertEquals(locationBefore, downloadQueueBean0.packageFileLocation);
++    assertEquals(formatBefore, downloadQueueBean0.packageFormat);
++    // additional behavior check
++    boolean boolean0 = downloadQueueBean0.isPackageFileUpToDate(-1);
++    assertTrue(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

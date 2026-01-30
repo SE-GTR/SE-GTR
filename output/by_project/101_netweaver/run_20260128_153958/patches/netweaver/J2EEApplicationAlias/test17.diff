@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEApplicationAlias_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEApplicationAlias_ESTest.java
+@@ -253,16 +253,22 @@
+       assertEquals(2537, j2EEApplicationAlias0.getTotalRequests());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-    j2EEApplicationAlias0 = new J2EEApplicationAlias();
+-      j2EEApplicationAlias0.setIgnoreCookie("JQ/HSaXC:F");
+-    j2EEApplicationAlias1 = new J2EEApplicationAlias();
+-      boolean boolean0 = j2EEApplicationAlias1.equals(j2EEApplicationAlias0);
+-      assertEquals(0, j2EEApplicationAlias1.getTotalRequests());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test17() throws Throwable {
++    j2EEApplicationAlias0 = new J2EEApplicationAlias();
++    // Verify the initial state before setting the ignore cookie
++    assertNull(j2EEApplicationAlias0.getIgnoreCookie());
++    String cookie = "JQ/HSaXC:F";
++    j2EEApplicationAlias0.setIgnoreCookie(cookie);
++    // Assert that the side‑effect of setIgnoreCookie is observable
++    assertEquals(cookie, j2EEApplicationAlias0.getIgnoreCookie());
++
++    j2EEApplicationAlias1 = new J2EEApplicationAlias();
++    boolean boolean0 = j2EEApplicationAlias1.equals(j2EEApplicationAlias0);
++    assertEquals(0, j2EEApplicationAlias1.getTotalRequests());
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

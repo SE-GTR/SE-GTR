@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -989,23 +989,15 @@
+             // Expected exception when the input does not contain the token pattern
+         }
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test089()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mT__75();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test089() throws Exception {
++        CharStream cs = new ANTLRStringStream("BETWEEN");
++        SQLLexer lexer = new SQLLexer(cs);
++        Token token = lexer.nextToken();
++        assertNotNull(token);
++        assertEquals("BETWEEN", token.getText());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test090()  throws Throwable  {

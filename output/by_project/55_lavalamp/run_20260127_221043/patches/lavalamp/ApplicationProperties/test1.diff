@@ -1,0 +1,36 @@
+--- a/evosuite-tests/net/sf/lavalamp/application/ApplicationProperties_ESTest.java
++++ b/evosuite-tests/net/sf/lavalamp/application/ApplicationProperties_ESTest.java
+@@ -34,15 +34,25 @@
+          verifyException("net.sf.lavalamp.application.ApplicationProperties", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    ApplicationProperties applicationProperties0 = new ApplicationProperties();
++    assertFalse(applicationProperties0.isDebug());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ApplicationProperties applicationProperties0 = new ApplicationProperties();
+-      assertFalse(applicationProperties0.isDebug());
+-      
+-      applicationProperties0.setDebug(true);
+-      assertTrue(applicationProperties0.isDebug());
+-  }
++    // Verify default state of other properties (if available)
++    assertEquals(30000, applicationProperties0.getRunInterval());
++    assertEquals(0, applicationProperties0.getPort());
++    assertNull(applicationProperties0.getDeviceProperties());
++
++    applicationProperties0.setDebug(true);
++    assertTrue(applicationProperties0.isDebug());
++
++    // Ensure setting debug does not alter other fields
++    assertEquals(30000, applicationProperties0.getRunInterval());
++    assertEquals(0, applicationProperties0.getPort());
++    assertNull(applicationProperties0.getDeviceProperties());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

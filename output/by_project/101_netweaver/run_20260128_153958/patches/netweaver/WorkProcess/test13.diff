@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -209,20 +209,26 @@
+     assertTrue(workProcess1.equals(workProcess0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
+-      workProcess0.setProgram("aCDD");
+-      workProcess0.setErr("no");
+-      WorkProcess workProcess1 = new WorkProcess();
+-      workProcess1.setErr("no");
+-      boolean boolean0 = workProcess1.equals(workProcess0);
+-      assertFalse(boolean0);
+-      assertEquals(0, workProcess1.getPid());
+-      assertEquals(0, workProcess1.getNo());
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    WorkProcess workProcess0 = new WorkProcess();
++    workProcess0.setProgram("aCDD");
++    workProcess0.setErr("no");
++    // verify that the setters correctly updated the state
++    assertEquals("aCDD", workProcess0.getProgram());
++    assertEquals("no", workProcess0.getErr());
++
++    WorkProcess workProcess1 = new WorkProcess();
++    workProcess1.setErr("no");
++    assertEquals("no", workProcess1.getErr());
++    assertNull(workProcess1.getProgram());
++
++    boolean boolean0 = workProcess1.equals(workProcess0);
++    assertFalse(boolean0);
++    assertEquals(0, workProcess1.getPid());
++    assertEquals(0, workProcess1.getNo());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

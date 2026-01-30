@@ -1,0 +1,23 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -349,11 +349,15 @@
+          verifyException("org.antlr.runtime.Lexer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test025()  throws Throwable  {
+-      ANTLRStringStream aNTLRStringStream0 = new ANTLRStringStream("+eu2\"=mm#NaT");
+-  }
++@Test(timeout = 4000)
++    public void test025() throws Throwable {
++        ANTLRStringStream aNTLRStringStream0 = new ANTLRStringStream("+eu2\"=mm#NaT");
++        // Verify that the lexer correctly reads the first character of the input
++        assertEquals('+', aNTLRStringStream0.LA(1));
++        // Verify that the stream size matches the length of the provided string
++        assertEquals(12, aNTLRStringStream0.size());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test026()  throws Throwable  {

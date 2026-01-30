@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/PhdBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/PhdBuilder_ESTest.java
+@@ -84,13 +84,16 @@
+          verifyException("org.jcvi.jillion.assembly.consed.phd.PhdBuilder", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test03()  throws Throwable  {
+       NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+       doReturn(0L, 0L).when(nucleotideSequence0).getLength();
++      long length0 = nucleotideSequence0.getLength();
++      assertEquals(0L, length0);
+       QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+       doReturn(0L, 0L).when(qualitySequence0).getLength();
++      long qLength0 = qualitySequence0.getLength();
++      assertEquals(0L, qLength0);
+       PhdBuilder phdBuilder0 = new PhdBuilder("cb45|AMUm", nucleotideSequence0, qualitySequence0);
+       PhdBuilder phdBuilder1 = phdBuilder0.fakePeaks();
+       Map<String, String> map0 = ZoneId.SHORT_IDS;
+@@ -98,6 +101,8 @@
+       List<PhdWholeReadItem> list0 = phd0.getWholeReadItems();
+       NucleotideSequence nucleotideSequence1 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+       doReturn((long)583).when(nucleotideSequence1).getLength();
++      long length1 = nucleotideSequence1.getLength();
++      assertEquals(583L, length1);
+       QualitySequence qualitySequence1 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+       ArtificialPhd artificialPhd0 = ArtificialPhd.createNewbler454Phd("", nucleotideSequence1, qualitySequence1, map0, list0);
+       PositionSequence positionSequence0 = artificialPhd0.getPositionSequence();
+@@ -105,7 +110,7 @@
+       try { 
+         phdBuilder1.peaks(positionSequence0);
+         fail("Expecting exception: IllegalArgumentException");
+-      
++
+       } catch(IllegalArgumentException e) {
+          //
+          // peaks and qualities have unequal lengths
+@@ -113,6 +118,7 @@
+          verifyException("org.jcvi.jillion.assembly.consed.phd.PhdBuilder", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

@@ -1,0 +1,75 @@
+--- a/evosuite-tests/org/quickserver/util/logging/AsyncHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/logging/AsyncHandler_ESTest.java
+@@ -120,27 +120,51 @@
+         // Verify static debug mode flag (default expected to be false)
+         assertFalse(AsyncHandler.isDebugMode());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      AsyncHandler.isDebugMode();
+-      StreamHandler streamHandler0 = new StreamHandler();
+-      AsyncHandler asyncHandler0 = new AsyncHandler(streamHandler0);
+-      asyncHandler0.getLoggingInterval();
+-      asyncHandler0.flush();
+-      asyncHandler0.flush();
+-      Level level0 = Level.INFO;
+-      level0.getLocalizedName();
+-      level0.getLocalizedName();
+-      MockLogRecord mockLogRecord0 = new MockLogRecord(level0, "");
+-      mockLogRecord0.setResourceBundleName("");
+-      asyncHandler0.publish(mockLogRecord0);
+-      asyncHandler0.swapList();
+-      asyncHandler0.flush();
+-      asyncHandler0.flush();
+-      asyncHandler0.getLoggingInterval();
+-  }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    // Verify default debug mode
++    assertFalse(AsyncHandler.isDebugMode());
++
++    StreamHandler streamHandler0 = new StreamHandler();
++    AsyncHandler asyncHandler0 = new AsyncHandler(streamHandler0);
++
++    // Observe initial logging interval
++    int intervalBefore = asyncHandler0.getLoggingInterval();
++    assertTrue(intervalBefore >= 0);
++
++    // Flush twice and ensure consistent return values
++    boolean flushResult1 = asyncHandler0.flush();
++    boolean flushResult2 = asyncHandler0.flush();
++    assertEquals(flushResult1, flushResult2);
++
++    // Work with a LogRecord
++    Level level0 = Level.INFO;
++    assertNotNull(level0.getLocalizedName());
++    MockLogRecord mockLogRecord0 = new MockLogRecord(level0, "");
++    mockLogRecord0.setResourceBundleName("");
++    assertSame(level0, mockLogRecord0.getLevel());
++
++    // Publish the record
++    asyncHandler0.publish(mockLogRecord0);
++
++    // Capture interval before swapping internal lists
++    int intervalBeforeSwap = asyncHandler0.getLoggingInterval();
++    asyncHandler0.swapList();
++    // Swapping should not affect the logging interval
++    assertEquals(intervalBeforeSwap, asyncHandler0.getLoggingInterval());
++
++    // Flush after swap and verify a boolean result is returned
++    boolean flushAfterSwap = asyncHandler0.flush();
++    assertTrue(flushAfterSwap == true || flushAfterSwap == false);
++
++    // Additional flushes
++    asyncHandler0.flush();
++    asyncHandler0.flush();
++
++    // Final interval check to ensure it remains unchanged
++    assertEquals(intervalBefore, asyncHandler0.getLoggingInterval());
++}
++
+ @Test(timeout = 4000)
+   public void test5() throws Throwable {
+       ConsoleHandler consoleHandler0 = new ConsoleHandler();

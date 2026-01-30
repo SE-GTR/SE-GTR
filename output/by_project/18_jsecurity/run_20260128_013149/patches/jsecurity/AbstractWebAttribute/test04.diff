@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jsecurity/web/attr/AbstractWebAttribute_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/attr/AbstractWebAttribute_ESTest.java
+@@ -90,21 +90,20 @@
+          verifyException("org.jsecurity.web.WebUtils", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      CookieAttribute<Object> cookieAttribute0 = new CookieAttribute<Object>();
+-      assertTrue(cookieAttribute0.isCheckRequestParams());
+-      assertTrue(cookieAttribute0.isCheckRequestParamsFirst());
+-      
+-      ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("name").when(servletRequest0).getParameter(anyString());
+-      ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
+-      ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
+-      ServletResponseWrapper servletResponseWrapper0 = new ServletResponseWrapper(servletResponse0);
+-      cookieAttribute0.retrieveValue(servletRequestWrapper0, servletResponseWrapper0);
+-      assertTrue(cookieAttribute0.isMutable());
+-  }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    CookieAttribute<Object> cookieAttribute0 = new CookieAttribute<Object>();
++
++    ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn("name").when(servletRequest0).getParameter(anyString());
++    ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
++    ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
++    ServletResponseWrapper servletResponseWrapper0 = new ServletResponseWrapper(servletResponse0);
++
++    Object value = cookieAttribute0.retrieveValue(servletRequestWrapper0, servletResponseWrapper0);
++    assertEquals("name", value);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

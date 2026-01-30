@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/util/ResourceWriter_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/util/ResourceWriter_ESTest.java
+@@ -20,22 +20,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ResourceWriter_ESTest extends ResourceWriter_ESTest_scaffolding {
++public void test0() throws Throwable {
++    ResourceWriter resourceWriter0 = ResourceWriter.getInstance();
++    File file0 = File.createTempFile("resourceWriterTest", ".tmp");
++    file0.deleteOnExit();
++    // Use a known resource that exists in the classpath
++    String existingResource = "net/sourceforge/schemaspy/util/ResourceWriter.class";
++    resourceWriter0.writeResource(existingResource, file0);
++    assertTrue("File should exist after writing resource", file0.exists());
++    assertTrue("File should have non-zero length", file0.length() > 0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ResourceWriter resourceWriter0 = ResourceWriter.getInstance();
+-      File file0 = MockFile.createTempFile("v6a!e/", "");
+-      try { 
+-        resourceWriter0.writeResource("v6a!e/", file0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Resource \"v6a!e/\" not found
+-         //
+-         verifyException("net.sourceforge.schemaspy.util.ResourceWriter", e);
+-      }
+-  }
+ public void test1() throws Throwable {
+     ResourceWriter resourceWriter0 = new ResourceWriter();
+     assertNotNull(resourceWriter0);

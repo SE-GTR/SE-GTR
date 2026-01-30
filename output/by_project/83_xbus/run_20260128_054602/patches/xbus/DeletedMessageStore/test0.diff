@@ -1,0 +1,29 @@
+--- a/evosuite-tests/net/sf/xbus/base/deletedMessageStore/DeletedMessageStore_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/deletedMessageStore/DeletedMessageStore_ESTest.java
+@@ -17,12 +17,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DeletedMessageStore_ESTest extends DeletedMessageStore_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        DeletedMessageStore deletedMessageStore0 = DeletedMessageStore.getInstance();
++        // Ensure the store initially has no message (or capture current state)
++        Object previous = deletedMessageStore0.getMessage();
++        // Set the message to the store itself
++        deletedMessageStore0.setMessage(deletedMessageStore0);
++        // Verify that the side‑effect is observable via the public getter
++        assertSame(deletedMessageStore0, deletedMessageStore0.getMessage());
++        // Optionally, ensure the state changed if it was previously different
++        if (previous != deletedMessageStore0) {
++            assertNotSame(previous, deletedMessageStore0.getMessage());
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      DeletedMessageStore deletedMessageStore0 = DeletedMessageStore.getInstance();
+-      deletedMessageStore0.setMessage(deletedMessageStore0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

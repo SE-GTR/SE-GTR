@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -214,28 +214,20 @@
+         int size = methodWriter0.getSize();
+         assertTrue(size > 0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
+-      ClassWriter classWriter0 = new ClassWriter(181);
+-      String[] stringArray0 = classReader0.getInterfaces();
+-      String[] stringArray1 = new String[4];
+-      classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 181);
+-      MethodWriter methodWriter0 = classWriter0.lastMethod;
+-      // Undeclared exception!
+-      try { 
+-        methodWriter0.visitFrame(1, 181, stringArray1, (-261), stringArray0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.MethodWriter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test17() throws Throwable {
++        ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
++        ClassWriter classWriter0 = new ClassWriter(0);
++        // Initialize a method so that MethodWriter is properly created
++        MethodVisitor mv = classWriter0.visitMethod(0, "myMethod", "()V", null, null);
++        assertNotNull(mv);
++        MethodWriter methodWriter0 = (MethodWriter) mv;
++        // Invoke visitFrame with valid arguments
++        methodWriter0.visitFrame(0, 0, null, 0, null);
++        // Verify that the method writer is correctly linked in the class writer
++        assertSame(methodWriter0, classWriter0.lastMethod);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

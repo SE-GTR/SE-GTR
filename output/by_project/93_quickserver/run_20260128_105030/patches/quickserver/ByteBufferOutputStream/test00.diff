@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/quickserver/util/io/ByteBufferOutputStream_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/io/ByteBufferOutputStream_ESTest.java
+@@ -24,26 +24,27 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ByteBufferOutputStream_ESTest extends ByteBufferOutputStream_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      InitServerHooks initServerHooks0 = new InitServerHooks();
+-      NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      initServerHooks0.add((Object) nonBlockingClientHandler0);
+-      ByteBufferOutputStream byteBufferOutputStream0 = new ByteBufferOutputStream(initServerHooks0, nonBlockingClientHandler0);
+-      byteBufferOutputStream0.isDataAvailableForWrite(initServerHooks0);
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
++      InitServerHooks initServerHooks0 = new InitServerHooks();
++      NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
++      boolean added = initServerHooks0.add((Object) nonBlockingClientHandler0);
++      assertTrue("Handler should be added successfully", added);
++      ByteBufferOutputStream byteBufferOutputStream0 = new ByteBufferOutputStream(initServerHooks0, nonBlockingClientHandler0);
++      boolean dataAvailable = byteBufferOutputStream0.isDataAvailableForWrite(initServerHooks0);
++      assertFalse("No data should be available for write initially", dataAvailable);
+       // Undeclared exception!
+-      try { 
+-        byteBufferOutputStream0.isDataAvailableForWrite(nonBlockingClientHandler0);
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // toNotify object was already set!
+-         //
+-         verifyException("org.quickserver.util.io.ByteBufferOutputStream", e);
+-      }
+-  }
++      try {
++          byteBufferOutputStream0.isDataAvailableForWrite(nonBlockingClientHandler0);
++          fail("Expecting exception: IllegalStateException");
++      } catch (IllegalStateException e) {
++          //
++          // toNotify object was already set!
++          //
++          verifyException("org.quickserver.util.io.ByteBufferOutputStream", e);
++      }
++  }
++
+ @Test(timeout = 4000)
+ public void test01() throws Throwable {
+     InitServerHooks initServerHooks0 = new InitServerHooks();

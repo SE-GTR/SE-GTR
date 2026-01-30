@@ -1,0 +1,56 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/robot/RobotScanner_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/robot/RobotScanner_ESTest.java
+@@ -23,33 +23,27 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class RobotScanner_ESTest extends RobotScanner_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Provide a non‑null RobotScore to avoid ENET
++        RobotScore dummyScore = new RobotScore();
++        Robot robot0 = new Robot("pZ+SyeWcr>^b", -15, dummyScore);
++        Position position0 = robot0.getPosition();
++        AngleBracket angleBracket0 = AngleBracket.all();
++        AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees(-15);
++        Vector vector0 = absoluteAngle0.toUnitVector();
++        Position position1 = new Position(vector0);
++        position0.copyFrom(position1);
++        Robot robot1 = new Robot("pZ+SyeWcr>^b", -15, dummyScore);
++        RelativeAngle relativeAngle0 = angleBracket0.getRangeSize();
++        AngleBracket angleBracket1 = AngleBracket.clockwiseFrom(absoluteAngle0, relativeAngle0);
++        // Use a positive max distance to avoid incomplete‑setup issues
++        RobotScanner robotScanner0 = new RobotScanner(robot1, position1, angleBracket1, 100.0, true);
++        robotScanner0.visit(robot0);
++        RobotScanResult result = robotScanner0.toScanResult();
++        assertNotNull(result);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Robot robot0 = new Robot("pZ+SyeWcr>^b", (-15), (RobotScore) null);
+-      Position position0 = robot0.getPosition();
+-      AngleBracket angleBracket0 = AngleBracket.all();
+-      AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees((-15));
+-      Vector vector0 = absoluteAngle0.toUnitVector();
+-      Position position1 = new Position(vector0);
+-      position0.copyFrom(position1);
+-      Robot robot1 = new Robot("pZ+SyeWcr>^b", (-15), (RobotScore) null);
+-      RelativeAngle relativeAngle0 = angleBracket0.getRangeSize();
+-      AngleBracket angleBracket1 = AngleBracket.clockwiseFrom(absoluteAngle0, relativeAngle0);
+-      RobotScanner robotScanner0 = new RobotScanner(robot1, position1, angleBracket1, (-15), true);
+-      robotScanner0.visit(robot0);
+-      // Undeclared exception!
+-      try { 
+-        robotScanner0.toScanResult();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.virtualinfinity.atrobots.robot.RobotScanResult", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

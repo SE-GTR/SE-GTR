@@ -1,0 +1,29 @@
+--- a/evosuite-tests/httpanalyzer/FileUtils_ESTest.java
++++ b/evosuite-tests/httpanalyzer/FileUtils_ESTest.java
+@@ -18,15 +18,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class FileUtils_ESTest extends FileUtils_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        byte[] byteArray0 = new byte[8];
++        ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
++        InputStreamEntity inputStreamEntity0 = new InputStreamEntity(byteArrayInputStream0, 8215L);
++        java.io.File tempFile = java.io.File.createTempFile("entity", ".tmp");
++        tempFile.deleteOnExit();
++        FileUtils.saveEntity(inputStreamEntity0, tempFile.getAbsolutePath());
++        assertTrue("File should exist after saveEntity", tempFile.exists());
++        assertEquals(8215L, inputStreamEntity0.getContentLength());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      byte[] byteArray0 = new byte[8];
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      InputStreamEntity inputStreamEntity0 = new InputStreamEntity(byteArrayInputStream0, 8215L);
+-      FileUtils.saveEntity(inputStreamEntity0, "");
+-      assertEquals(8215L, inputStreamEntity0.getContentLength());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/net/sf/sugar/fspath/FSPathResultListImpl_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/fspath/FSPathResultListImpl_ESTest.java
+@@ -51,24 +51,21 @@
+     assertFalse(fSPathResultModificationList0.hasFailures());
+     assertEquals(1, fSPathResultModificationList0.size());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test02() throws Throwable {
+     fSPathResultListImpl0 = new FSPathResultListImpl();
+     fSPathResult0 = new FSPathResult("");
+-      fSPathResultListImpl0.add(fSPathResult0);
+-      try { 
+-        fSPathResultListImpl0.move("");
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // move is only permitted on FSPathResult objects containing a java.io.File object
+-         //
+-         verifyException("net.sf.sugar.fspath.FSPathResultListImpl", e);
+-      }
++    boolean added = fSPathResultListImpl0.add(fSPathResult0);
++    assertTrue("Element should be added to the list", added);
++    try {
++      fSPathResultListImpl0.move("");
++      fail("Expecting exception: Exception");
++    } catch (Exception e) {
++      // move is only permitted on FSPathResult objects containing a java.io.File object
++      verifyException("net.sf.sugar.fspath.FSPathResultListImpl", e);
++    }
+   }
++
+ @Test(timeout = 4000)
+ public void test03() throws Throwable {
+     fSPathResultListImpl0 = new FSPathResultListImpl();

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostBox_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostBox_ESTest.java
+@@ -317,12 +317,22 @@
+       Map<QName, String> map0 = postBox0.getOtherAttributes();
+       assertTrue(map0.isEmpty());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test42()  throws Throwable  {
+-      PostBox.PostBoxNumberSuffix postBox_PostBoxNumberSuffix0 = new PostBox.PostBoxNumberSuffix();
+-      PostBox postBox0 = new PostBox();
+-      postBox0.setPostBoxNumberSuffix(postBox_PostBoxNumberSuffix0);
+-      assertNull(postBox_PostBoxNumberSuffix0.getNumberSuffixSeparator());
+-  }
++@Test(timeout = 4000)
++public void test42() throws Throwable {
++    PostBox.PostBoxNumberSuffix suffix = new PostBox.PostBoxNumberSuffix();
++    PostBox postBox = new PostBox();
++
++    // Verify initial state of the suffix
++    assertNull(suffix.getNumberSuffixSeparator());
++
++    // Mutate the suffix and verify the change
++    String separator = "-";
++    suffix.setNumberSuffixSeparator(separator);
++    assertEquals(separator, suffix.getNumberSuffixSeparator());
++
++    // Set the suffix into the PostBox and verify the side‑effect
++    postBox.setPostBoxNumberSuffix(suffix);
++    assertSame(suffix, postBox.getPostBoxNumberSuffix());
+ }
++
++}

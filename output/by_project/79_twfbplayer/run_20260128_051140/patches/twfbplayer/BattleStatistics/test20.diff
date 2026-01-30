@@ -1,0 +1,47 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/statistics/BattleStatistics_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/statistics/BattleStatistics_ESTest.java
+@@ -264,22 +264,28 @@
+     battleStatistics0.aimsAt(simpleCombatant0, simpleCombatant0);
+     assertEquals("null(1)", battleStatistics0.targetNoOne(null));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      BattleStatistics battleStatistics0 = new BattleStatistics(0, 0);
+-      CharacterClass characterClass0 = CharacterClass.GREENHORN;
+-      SimpleSector simpleSector0 = new SimpleSector(0, false, true, 0, 0, false, 50, characterClass0);
+-      SimpleArea simpleArea0 = new SimpleArea(0, 0, simpleSector0);
+-      CombatantState combatantState0 = new CombatantState(simpleArea0, 50, simpleArea0, false);
+-      SimpleWeapon simpleWeapon0 = new SimpleWeapon(1, "Z", 0, 0);
+-      CombatantSide combatantSide0 = CombatantSide.DEFENDER;
+-      SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState0, 3, "X#Z*[;xI*=Y", characterClass0, simpleWeapon0, "pn&I1X|e");
+-      battleStatistics0.isOnline(simpleCombatant0, false);
+-      int int0 = battleStatistics0.numberOfOffliners(combatantSide0);
+-      assertEquals(1, int0);
+-  }
++@Test(timeout = 4000)
++public void test20() throws Throwable {
++    BattleStatistics battleStatistics0 = new BattleStatistics(0, 0);
++    SimpleCombatant simpleCombatant0 = new SimpleCombatant(
++        CombatantSide.DEFENDER,
++        new CombatantState(
++            new SimpleArea(0, 0,
++                new SimpleSector(0, false, true, 0, 0, false, 50, CharacterClass.GREENHORN)),
++            50,
++            new SimpleArea(0, 0,
++                new SimpleSector(0, false, true, 0, 0, false, 50, CharacterClass.GREENHORN)),
++            false),
++        3,
++        "X#Z*[;xI*=Y",
++        CharacterClass.GREENHORN,
++        new SimpleWeapon(1, "Z", 0, 0),
++        "pn&I1X|e");
++    battleStatistics0.isOnline(simpleCombatant0, false);
++    int int0 = battleStatistics0.numberOfOffliners(CombatantSide.DEFENDER);
++    assertEquals(1, int0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

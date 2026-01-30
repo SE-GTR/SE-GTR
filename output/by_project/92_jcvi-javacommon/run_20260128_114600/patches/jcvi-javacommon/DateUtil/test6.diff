@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/DateUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/DateUtil_ESTest.java
+@@ -61,14 +61,27 @@
+          verifyException("org.jcvi.jillion.core.util.DateUtil", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        // Capture the original current date
++        Date originalDate = DateUtil.getCurrentDate();
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      Date date0 = DateUtil.getCurrentDate();
+-      DateUtil.setCurrentDate(date0);
+-      Date date1 = DateUtil.getCurrentDate();
+-      assertTrue(date1.equals((Object)date0));
+-  }
++        // Choose a distinct date to set as the current date
++        Date newDate = new Date(0L); // epoch start, unlikely to be the original date
++
++        // Ensure the new date is different from the original to make the test meaningful
++        assertNotEquals(originalDate, newDate);
++
++        // Set the new current date
++        DateUtil.setCurrentDate(newDate);
++
++        // Retrieve the current date after setting it
++        Date afterSetDate = DateUtil.getCurrentDate();
++
++        // Verify that the side effect took place
++        assertEquals(newDate, afterSetDate);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

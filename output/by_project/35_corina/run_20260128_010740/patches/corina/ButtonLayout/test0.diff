@@ -1,0 +1,32 @@
+--- a/evosuite-tests/corina/gui/layouts/ButtonLayout_ESTest.java
++++ b/evosuite-tests/corina/gui/layouts/ButtonLayout_ESTest.java
+@@ -31,17 +31,20 @@
+     jComboBox0 = new JComboBox<Object>();
+     buttonLayout0 = new ButtonLayout();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
+     buttonLayout0 = new ButtonLayout();
+     jComboBox0 = new JComboBox<Object>();
+-      JToggleButton jToggleButton0 = new JToggleButton();
+-      jComboBox0.add((Component) jToggleButton0);
+-      buttonLayout0.layoutContainer(jComboBox0);
+-      assertFalse(jComboBox0.isFocusTraversalPolicySet());
+-  }
++    JToggleButton jToggleButton0 = new JToggleButton();
++    Component added = jComboBox0.add(jToggleButton0);
++    assertSame(jToggleButton0, added);
++    java.awt.Rectangle before = jToggleButton0.getBounds();
++    buttonLayout0.layoutContainer(jComboBox0);
++    java.awt.Rectangle after = jToggleButton0.getBounds();
++    assertTrue(after.width > 0 && after.height > 0);
++    assertFalse(jComboBox0.isFocusTraversalPolicySet());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostOffice_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostOffice_ESTest.java
+@@ -94,13 +94,22 @@
+       String string0 = postOffice_PostOfficeNumber0.getIndicator();
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      PostOffice.PostOfficeNumber postOffice_PostOfficeNumber0 = new PostOffice.PostOfficeNumber();
+-      postOffice_PostOfficeNumber0.setCode("=CVPM4");
+-      assertEquals("=CVPM4", postOffice_PostOfficeNumber0.getCode());
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        PostOffice.PostOfficeNumber postOfficeNumber = new PostOffice.PostOfficeNumber();
++        // Verify initial state before any mutation
++        assertNull(postOfficeNumber.getCode());
++        // First mutation and verification
++        postOfficeNumber.setCode("=CVPM4");
++        assertEquals("=CVPM4", postOfficeNumber.getCode());
++        // Change the value again to ensure the setter really updates the field
++        postOfficeNumber.setCode("XYZ");
++        assertEquals("XYZ", postOfficeNumber.getCode());
++        // Additional sanity check: other related fields should remain untouched (default null)
++        assertNull(postOfficeNumber.getType());
++        assertNull(postOfficeNumber.getIndicator());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

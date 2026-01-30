@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/AbstractSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/AbstractSessionManager_ESTest.java
+@@ -33,26 +33,24 @@
+     defaultSessionManager0 = new DefaultSessionManager();
+     inetAddress0 = MockInetAddress.anyLocalAddress();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Session session0 = defaultSessionManager0.createSession(inetAddress0);
+-      defaultSessionManager0.notifyStart(session0);
+-      defaultSessionManager0.createSession(inetAddress0);
+-      SessionDAO sessionDAO0 = defaultSessionManager0.getSessionDAO();
+-      defaultSessionManager0.setSessionDAO(sessionDAO0);
+-      try { 
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    Session session0 = defaultSessionManager0.createSession(inetAddress0);
++    assertNotNull(session0);
++    defaultSessionManager0.notifyStart(session0);
++    SessionDAO sessionDAO0 = defaultSessionManager0.getSessionDAO();
++    defaultSessionManager0.setSessionDAO(sessionDAO0);
++    try {
+         defaultSessionManager0.retrieveSession(inetAddress0);
+         fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // There is no session with id [/192.168.1.42]
+-         //
+-         verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+-      }
+-  }
++    } catch (RuntimeException e) {
++        //
++        // There is no session with id [/192.168.1.42]
++        //
++        verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

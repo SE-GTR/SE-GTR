@@ -1,0 +1,50 @@
+--- a/evosuite-tests/ioproject/server/network/ClientGroup_ESTest.java
++++ b/evosuite-tests/ioproject/server/network/ClientGroup_ESTest.java
+@@ -55,25 +55,29 @@
+       boolean boolean0 = clientGroup0.remove((Client) null);
+       assertTrue(boolean0);
+   }
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
++    clientGroup0 = new ClientGroup((ClientGroup) null);
++    ClientGroup clientGroup1 = new ClientGroup(clientGroup0);
++    VmPipeAcceptor vmPipeAcceptor0 = new VmPipeAcceptor();
++    SocketConnectorConfig socketConnectorConfig0 = new SocketConnectorConfig();
++    IoServiceListenerSupport ioServiceListenerSupport0 = new IoServiceListenerSupport();
++    VmPipeAddress vmPipeAddress0 = new VmPipeAddress(0);
++    IoHandlerAdapter ioHandlerAdapter0 = new IoHandlerAdapter();
++    VmPipe vmPipe0 = new VmPipe(vmPipeAcceptor0, vmPipeAddress0, ioHandlerAdapter0, socketConnectorConfig0,
++        ioServiceListenerSupport0);
++    VmPipeSessionImpl vmPipeSessionImpl0 = new VmPipeSessionImpl(vmPipeAcceptor0, socketConnectorConfig0,
++        ioServiceListenerSupport0, vmPipeAddress0, ioHandlerAdapter0, vmPipe0);
++    Client client0 = new Client(vmPipeSessionImpl0);
++    boolean addedToGroup0 = clientGroup0.add(client0);
++    assertTrue(addedToGroup0);
++    boolean notified = clientGroup0.notifyMessageReceived(client0, vmPipe0);
++    assertTrue(notified);
++    boolean boolean0 = clientGroup1.add(client0);
++    assertEquals(1, clientGroup0.size());
++    assertTrue(boolean0);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    clientGroup0 = new ClientGroup((ClientGroup) null);
+-      ClientGroup clientGroup1 = new ClientGroup(clientGroup0);
+-      VmPipeAcceptor vmPipeAcceptor0 = new VmPipeAcceptor();
+-      SocketConnectorConfig socketConnectorConfig0 = new SocketConnectorConfig();
+-      IoServiceListenerSupport ioServiceListenerSupport0 = new IoServiceListenerSupport();
+-      VmPipeAddress vmPipeAddress0 = new VmPipeAddress(0);
+-      IoHandlerAdapter ioHandlerAdapter0 = new IoHandlerAdapter();
+-      VmPipe vmPipe0 = new VmPipe(vmPipeAcceptor0, vmPipeAddress0, ioHandlerAdapter0, socketConnectorConfig0, ioServiceListenerSupport0);
+-      VmPipeSessionImpl vmPipeSessionImpl0 = new VmPipeSessionImpl(vmPipeAcceptor0, socketConnectorConfig0, ioServiceListenerSupport0, vmPipeAddress0, ioHandlerAdapter0, vmPipe0);
+-      Client client0 = new Client(vmPipeSessionImpl0);
+-      clientGroup0.add(client0);
+-      clientGroup0.notifyMessageReceived(client0, vmPipe0);
+-      boolean boolean0 = clientGroup1.add(client0);
+-      assertEquals(1, clientGroup0.size());
+-      assertTrue(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

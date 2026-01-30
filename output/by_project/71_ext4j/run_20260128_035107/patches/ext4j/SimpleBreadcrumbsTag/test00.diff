@@ -1,0 +1,63 @@
+--- a/evosuite-tests/net/sourceforge/ext4j/taglib/tag/SimpleBreadcrumbsTag_ESTest.java
++++ b/evosuite-tests/net/sourceforge/ext4j/taglib/tag/SimpleBreadcrumbsTag_ESTest.java
+@@ -32,24 +32,43 @@
+     breadcrumb0 = new Breadcrumb("qa,");
+       linkedList0.offer(breadcrumb0);
+   }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    linkedList0.offer(breadcrumb0);
++    simpleBreadcrumbsTag0.setBreadcrumbs(linkedList0);
++    final StringWriter sw = new StringWriter();
++    JspWriter writer = new JspWriter(0, true) {
++        @Override public void clear() {}
++        @Override public void clearBuffer() {}
++        @Override public void close() {}
++        @Override public void flush() {}
++        @Override public int getRemaining() { return 0; }
++        @Override public void newLine() throws IOException { sw.write(System.lineSeparator()); }
++        @Override public void print(boolean b) throws IOException { sw.write(String.valueOf(b)); }
++        @Override public void print(char c) throws IOException { sw.write(c); }
++        @Override public void print(int i) throws IOException { sw.write(String.valueOf(i)); }
++        @Override public void print(long l) throws IOException { sw.write(String.valueOf(l)); }
++        @Override public void print(float f) throws IOException { sw.write(String.valueOf(f)); }
++        @Override public void print(double d) throws IOException { sw.write(String.valueOf(d)); }
++        @Override public void print(char[] s) throws IOException { sw.write(s); }
++        @Override public void print(String s) throws IOException { sw.write(s); }
++        @Override public void println() throws IOException { sw.write(System.lineSeparator()); }
++        @Override public void println(boolean b) throws IOException { print(b); newLine(); }
++        @Override public void println(char c) throws IOException { print(c); newLine(); }
++        @Override public void println(int i) throws IOException { print(i); newLine(); }
++        @Override public void println(long l) throws IOException { print(l); newLine(); }
++        @Override public void println(float f) throws IOException { print(f); newLine(); }
++        @Override public void println(double d) throws IOException { print(d); newLine(); }
++        @Override public void println(char[] s) throws IOException { print(s); newLine(); }
++        @Override public void println(String s) throws IOException { print(s); newLine(); }
++        @Override public void write(char[] cbuf, int off, int len) throws IOException { sw.write(cbuf, off, len); }
++        @Override public void write(int c) throws IOException { sw.write(c); }
++        @Override public void write(String s, int off, int len) throws IOException { sw.write(s, off, len); }
++    };
++    simpleBreadcrumbsTag0.renderTag(writer);
++    assertFalse(sw.toString().isEmpty());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      linkedList0.offer(breadcrumb0);
+-      simpleBreadcrumbsTag0.setBreadcrumbs(linkedList0);
+-      // Undeclared exception!
+-      try { 
+-        simpleBreadcrumbsTag0.renderTag((JspWriter) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.ext4j.taglib.tag.SimpleBreadcrumbsTag", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+ public void test01() throws Throwable {
+     simpleBreadcrumbsTag0 = new SimpleBreadcrumbsTag();

@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/heal/util/ResultsPager_ESTest.java
++++ b/evosuite-tests/org/heal/util/ResultsPager_ESTest.java
+@@ -36,17 +36,39 @@
+     // Verify core paging calculation
+     assertEquals(1, resultsPager0.getPagingStart());
+ }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    int totalResults = 533;
++    int resultsPerPage = 1;
++    int currentPage = 1;
++    ResultsPager rp = new ResultsPager(totalResults, resultsPerPage, currentPage);
+ 
++    int expectedTotalPages = (int) Math.ceil((double) totalResults / resultsPerPage);
++    assertEquals(expectedTotalPages, rp.getTotalPages());
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      ResultsPager resultsPager0 = new ResultsPager(533, 1, 1);
+-      assertEquals(1, resultsPager0.getPagingStart());
+-      assertFalse(resultsPager0.getStartEllipsisNeeded());
+-      assertTrue(resultsPager0.getStopEllipsisNeeded());
+-      assertEquals(533, resultsPager0.getTotalPages());
+-      assertEquals(7, resultsPager0.getPagingStop());
+-  }
++    final int MAX_PAGES = 7;
++    final int MIDPOINT = MAX_PAGES / 2; // 3
++
++    int expectedStart;
++    if (expectedTotalPages <= MAX_PAGES) {
++        expectedStart = 1;
++    } else if (currentPage <= MIDPOINT) {
++        expectedStart = 1;
++    } else {
++        expectedStart = currentPage - MIDPOINT + 1;
++    }
++    assertEquals(expectedStart, rp.getPagingStart());
++
++    int expectedStop = Math.min(MAX_PAGES, expectedTotalPages);
++    assertEquals(expectedStop, rp.getPagingStop());
++
++    boolean expectedStartEllipsis = expectedTotalPages > MAX_PAGES && currentPage > MIDPOINT;
++    boolean expectedStopEllipsis = expectedTotalPages > MAX_PAGES && currentPage + MIDPOINT < expectedTotalPages;
++
++    assertEquals(expectedStartEllipsis, rp.getStartEllipsisNeeded());
++    assertEquals(expectedStopEllipsis, rp.getStopEllipsisNeeded());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/client/gui/LoginDialog_ESTest.java
++++ b/evosuite-tests/client/gui/LoginDialog_ESTest.java
+@@ -51,17 +51,18 @@
+       loginDialog0.keyPressed(keyEvent0);
+       assertFalse(keyEvent0.isConsumed());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-    loginDialog0 = LoginDialog.init();
++@Test(timeout = 4000)
++  public void test02() throws Throwable {
++      boolean shouldThrow = FileSystemHandling.shouldAllThrowIOExceptions();
++      assertFalse(shouldThrow);
++      loginDialog0 = LoginDialog.init();
+       UndoManager undoManager0 = new UndoManager();
+       ActionEvent actionEvent0 = new ActionEvent(undoManager0, 54, "", 90);
+       loginDialog0.actionPerformed(actionEvent0);
++      assertNotNull(loginDialog0.clientProperties);
+       assertFalse(loginDialog0.isFocusTraversalPolicySet());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/ch/bluepenguin/email/client/Folder_ESTest.java
++++ b/evosuite-tests/ch/bluepenguin/email/client/Folder_ESTest.java
+@@ -51,14 +51,27 @@
+     // Verify idempotence of the getter
+     assertSame(parent, folder0.getParent());
+ }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        Folder folder0 = new Folder();
++        folder0.setName("test");
+ 
++        // Serialize the object
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(folder0);
++        oos.flush();
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      Folder folder0 = new Folder();
+-      folder0.setName("");
+-      assertEquals("", folder0.getName());
+-  }
++        // Deserialize the object
++        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++        Folder deserialized = (Folder) ois.readObject();
++
++        // Verify that the state is preserved after serialization round‑trip
++        assertEquals("test", deserialized.getName());
++        assertNotSame(folder0, deserialized);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jsecurity/io/IniResource_ESTest.java
++++ b/evosuite-tests/org/jsecurity/io/IniResource_ESTest.java
+@@ -111,14 +111,23 @@
+       IniResource iniResource0 = new IniResource(scanner0);
+       assertNull(iniResource0.getCharsetName());
+   }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    char[] charArray0 = new char[8];
++    CharArrayReader charArrayReader0 = new CharArrayReader(charArray0);
++    IniResource iniResource0 = new IniResource(charArrayReader0);
++    // Verify initial sections map is not null (default state)
++    assertNotNull(iniResource0.getSections());
++    // Prepare a new sections map with sample data
++    java.util.Map<String, java.util.Map<String, String>> newMap = new java.util.HashMap<>();
++    java.util.Map<String, String> innerMap = new java.util.HashMap<>();
++    innerMap.put("key", "value");
++    newMap.put("section", innerMap);
++    // Apply the new sections and assert the side‑effect is observable
++    iniResource0.setSections(newMap);
++    assertEquals(newMap, iniResource0.getSections());
++    // Charset name should remain null in this configuration
++    assertNull(iniResource0.getCharsetName());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      char[] charArray0 = new char[8];
+-      CharArrayReader charArrayReader0 = new CharArrayReader(charArray0);
+-      IniResource iniResource0 = new IniResource(charArrayReader0);
+-      Map<String, Map<String, String>> map0 = iniResource0.getSections();
+-      iniResource0.setSections(map0);
+-      assertNull(iniResource0.getCharsetName());
+-  }
+ }

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Hub2BagitPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Hub2BagitPackager_ESTest.java
+@@ -36,24 +36,19 @@
+     metsDivType_MptrArray0 = new MetsDivType.Mptr[0];
+     metsMetsDocument_Mets0 = mock(MetsMetsDocument.Mets.class, new ViolatedAssumptionAnswer());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("/PATH/TO/SF110-20130704-src/70_echodep");
+-      FileSystemHandling.setPermissions(evoSuiteFile0, false, false, false);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("/PATH/TO/SF110-20130704-src/70_echodep");
++    boolean permissionsSet = FileSystemHandling.setPermissions(evoSuiteFile0, false, false, false);
++    assertTrue(permissionsSet);
++    try {
+         Hub2BagitPackager.createMasterBag("");
+         fail("Expecting exception: System.SystemExitException");
+-      
+-      } catch(System.SystemExitException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.System", e);
+-      }
+-  }
++    } catch (System.SystemExitException e) {
++        verifyException("org.evosuite.runtime.System", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

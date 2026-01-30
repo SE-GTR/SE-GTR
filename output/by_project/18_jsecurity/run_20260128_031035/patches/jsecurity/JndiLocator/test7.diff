@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jsecurity/jndi/JndiLocator_ESTest.java
++++ b/evosuite-tests/org/jsecurity/jndi/JndiLocator_ESTest.java
+@@ -110,14 +110,23 @@
+          verifyException("javax.naming.spi.NamingManager", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test7() throws Throwable {
++    jndiLocator0 = new JndiLocator();
++    Properties props = new Properties();
++    props.setProperty("foo", "bar");
++    jndiLocator0.setJndiEnvironment(props);
++    assertEquals(props, jndiLocator0.getJndiEnvironment());
++    assertFalse(jndiLocator0.isResourceRef());
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-    jndiLocator0 = new JndiLocator();
+-      Properties properties0 = new Properties();
+-      jndiLocator0.setJndiEnvironment(properties0);
+-      assertFalse(jndiLocator0.isResourceRef());
+-  }
++    try {
++        jndiLocator0.lookup("java:comp/env/nonexistent");
++        fail("Expected NamingException");
++    } catch (javax.naming.NamingException e) {
++        // expected
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

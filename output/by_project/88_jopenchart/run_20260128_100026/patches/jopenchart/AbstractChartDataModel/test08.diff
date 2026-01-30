@@ -1,0 +1,31 @@
+--- a/evosuite-tests/de/progra/charting/model/AbstractChartDataModel_ESTest.java
++++ b/evosuite-tests/de/progra/charting/model/AbstractChartDataModel_ESTest.java
+@@ -108,13 +108,21 @@
+       assertFalse(defaultChartDataModel0.isManualScale());
+       assertFalse(defaultChartDataModel0.isAutoScale());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-    objectChartDataModel0 = new ObjectChartDataModel();
+-      objectChartDataModel0.setMaximumColumnValue((-305.6562));
+-      assertEquals((-305.6562), objectChartDataModel0.getManualMaximumColumnValue(), 0.01);
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        ObjectChartDataModel model = new ObjectChartDataModel();
++        final boolean[] notified = { false };
++        model.addChartDataModelListener(new ChartDataModelListener() {
++            @Override
++            public void chartDataModelChanged(ChartDataModelEvent e) {
++                notified[0] = true;
++            }
++        });
++        model.setMaximumColumnValue(-305.6562);
++        assertTrue("Listener should be notified of the change", notified[0]);
++        assertEquals(-305.6562, model.getManualMaximumColumnValue(), 0.01);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

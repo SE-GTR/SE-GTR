@@ -1,0 +1,27 @@
+--- a/evosuite-tests/jigl/signal/SignalKernel_ESTest.java
++++ b/evosuite-tests/jigl/signal/SignalKernel_ESTest.java
+@@ -45,13 +45,18 @@
+       assertEquals(1.0F, signalKernel0.max(), 0.01F);
+       assertEquals((-1.0F), signalKernel0.min(), 0.01F);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        SignalKernel signalKernel0 = new SignalKernel(SignalKernel.UNIFORM);
++        float before = signalKernel0.max();
++        signalKernel0.normalize();
++        float after = signalKernel0.max();
++        // Verify that normalization changes the internal state
++        assertNotEquals("normalize should modify the max value", before, after, 0.0001f);
++        // Verify the expected normalized max for a uniform kernel
++        assertEquals(0.5f, after, 0.01f);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      SignalKernel signalKernel0 = new SignalKernel(0);
+-      signalKernel0.normalize();
+-      assertEquals(0.5F, signalKernel0.max(), 0.01F);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

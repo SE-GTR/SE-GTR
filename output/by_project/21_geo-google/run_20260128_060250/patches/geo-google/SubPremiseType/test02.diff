@@ -1,0 +1,31 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/SubPremiseType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/SubPremiseType_ESTest.java
+@@ -38,14 +38,20 @@
+       List<BuildingNameType> list1 = subPremiseType0.getBuildingName();
+       assertSame(list1, list0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      SubPremiseType subPremiseType0 = new SubPremiseType();
+-      List<SubPremiseType.SubPremiseNumberSuffix> list0 = subPremiseType0.getSubPremiseNumberSuffix();
+-      List<SubPremiseType.SubPremiseNumberSuffix> list1 = subPremiseType0.getSubPremiseNumberSuffix();
+-      assertSame(list1, list0);
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        SubPremiseType subPremise = new SubPremiseType();
++        List<SubPremiseType.SubPremiseNumberSuffix> listA = subPremise.getSubPremiseNumberSuffix();
++        // Act: modify the list returned by the getter
++        SubPremiseType.SubPremiseNumberSuffix suffix = new SubPremiseType.SubPremiseNumberSuffix();
++        listA.add(suffix);
++        // Retrieve the list again
++        List<SubPremiseType.SubPremiseNumberSuffix> listB = subPremise.getSubPremiseNumberSuffix();
++        // Verify that both references point to the same list and reflect the modification
++        assertSame(listA, listB);
++        assertTrue(listB.contains(suffix));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

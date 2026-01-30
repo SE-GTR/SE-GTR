@@ -1,0 +1,48 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
+@@ -281,25 +281,27 @@
+         blockingClient0.setClientAuthKeystorePassword(password);
+         assertArrayEquals(password, blockingClient0.getClientAuthKeystorePassword());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      BlockingClient.setDebug(true);
+-      BlockingClient blockingClient0 = new BlockingClient();
+-      byte[] byteArray0 = new byte[7];
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        BlockingClient.setDebug(true);
++        BlockingClient blockingClient0 = new BlockingClient();
++
++        // Prepare a buffered output stream backed by a byte array to capture sent bytes
++        java.io.ByteArrayOutputStream byteArrayOutputStream = new java.io.ByteArrayOutputStream();
++        java.io.BufferedOutputStream bufferedOutputStream = new java.io.BufferedOutputStream(byteArrayOutputStream);
++        java.lang.reflect.Field outField = BlockingClient.class.getDeclaredField("b_out");
++        outField.setAccessible(true);
++        outField.set(blockingClient0, bufferedOutputStream);
++
++        byte[] byteArray0 = new byte[] {1, 2, 3, 4, 5, 6, 7};
+         blockingClient0.sendBytes(byteArray0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.io.BufferedOutputStream", e);
+-      }
+-  }
++        // Ensure all data is flushed to the underlying byte array
++        bufferedOutputStream.flush();
++
++        org.junit.Assert.assertArrayEquals("Sent bytes should match the input array",
++                byteArray0, byteArrayOutputStream.toByteArray());
++    }
++
+ @Test(expected = IOException.class, timeout = 4000)
+ public void test27() throws Throwable {
+     BlockingClient blockingClient0 = new BlockingClient();

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/state/GameState_ESTest.java
++++ b/evosuite-tests/state/GameState_ESTest.java
+@@ -255,17 +255,24 @@
+     // Verify that the default game state remains unchanged after the act
+     assertEquals(1, gameState0.getGameState());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      GameState gameState0 = new GameState();
+-      Player player0 = new Player(105, "glTexCoord3hNV(", 317);
+-      player0.setConnected(false);
+-      gameState0.addPlayer(player0);
+-      gameState0.reset(false);
+-      assertEquals(1, gameState0.getNumOfPlayers());
+-  }
++@Test(timeout = 4000)
++    public void test20() throws Throwable {
++        GameState gameState0 = new GameState();
++        Player player0 = new Player(105, "glTexCoord3hNV(", 317);
++        // Verify that setting the connection flag updates the player's state
++        player0.setConnected(false);
++        assertFalse(player0.isConnected());
++
++        // Adding a player should increase the player count by one
++        int beforeAdd = gameState0.getNumOfPlayers();
++        gameState0.addPlayer(player0);
++        assertEquals(beforeAdd + 1, gameState0.getNumOfPlayers());
++
++        // Reset with 'false' should keep the current players unchanged
++        gameState0.reset(false);
++        assertEquals(beforeAdd + 1, gameState0.getNumOfPlayers());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

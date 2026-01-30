@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/javathena/core/utiles/Functions_ESTest.java
++++ b/evosuite-tests/org/javathena/core/utiles/Functions_ESTest.java
+@@ -616,13 +616,30 @@
+       String string0 = Functions.getMd5String();
+       assertEquals("2345678910111213", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test082()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("EuOZD3CO!)&De-`J:5#");
+-      FileSystemHandling.appendLineToFile(evoSuiteFile0, "T(EPL$/n");
+-      Functions.copyfile("EuOZD3CO!)&De-`J:5#", "T(EPL$/n");
+-  }
++@Test(timeout = 4000)
++public void test082() throws Throwable {
++    // Create a source temporary file with known content
++    java.io.File src = java.io.File.createTempFile("srcFile", ".txt");
++    src.deleteOnExit();
++    String content = "TestContent";
++    try (java.io.FileWriter writer = new java.io.FileWriter(src)) {
++        writer.write(content);
++    }
++
++    // Prepare a destination file path (ensure it does not exist before copying)
++    java.io.File dst = java.io.File.createTempFile("dstFile", ".txt");
++    dst.delete(); // remove the empty file so copyfile can create it
++    dst.deleteOnExit();
++
++    // Act: copy the source file to the destination
++    Functions.copyfile(src.getAbsolutePath(), dst.getAbsolutePath());
++
++    // Assert: the destination file now exists and its content matches the source
++    org.junit.Assert.assertTrue("Destination file should exist after copy", dst.exists());
++    String copiedContent = new String(java.nio.file.Files.readAllBytes(dst.toPath()));
++    org.junit.Assert.assertEquals(content, copiedContent);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test083()  throws Throwable  {

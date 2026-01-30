@@ -1,0 +1,34 @@
+--- a/evosuite-tests/br/com/jnfe/base/service/DOMNFeFileReader_ESTest.java
++++ b/evosuite-tests/br/com/jnfe/base/service/DOMNFeFileReader_ESTest.java
+@@ -39,20 +39,16 @@
+     DocumentBuilderFactory documentBuilderFactory0 = DocumentBuilderFactory.newInstance();
+     assertFalse(documentBuilderFactory0.isXIncludeAware());
+ }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        DOMNFeFileReader reader = new DOMNFeFileReader();
++        try {
++            reader.loadAndSign("true", "true");
++            fail("Expected FileNotFoundException");
++        } catch (FileNotFoundException e) {
++            // Expected exception for a non‑existent classpath resource
++            assertTrue(e.getMessage().contains("true"));
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      DOMNFeFileReader dOMNFeFileReader0 = new DOMNFeFileReader();
+-      try { 
+-        dOMNFeFileReader0.loadAndSign("true", "true");
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // class path resource [true] cannot be opened because it does not exist
+-         //
+-         verifyException("org.springframework.core.io.ClassPathResource", e);
+-      }
+-  }
+ }

@@ -1,0 +1,79 @@
+--- a/evosuite-tests/osa/ora/server/client/ChatClientApp_ESTest.java
++++ b/evosuite-tests/osa/ora/server/client/ChatClientApp_ESTest.java
+@@ -20,60 +20,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ChatClientApp_ESTest extends ChatClientApp_ESTest_scaffolding {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
++    Future<?> future = executor.submit(new Runnable() {
++      @Override
++      public void run() {
++        try {
++          ChatClientApp.main((String[]) null);
++          fail("Expecting exception: SecurityException");
++        } catch (SecurityException e) {
++          verifyException("org.evosuite.runtime.sandbox.MSecurityManager", e);
++        }
++      }
++    });
++    Object result = future.get(4000, TimeUnit.MILLISECONDS);
++    assertNull(result);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    Future<?> future = executor.submit(new Runnable(){ 
+-            @Override public void run() { 
+-          // Undeclared exception!
+-          try { 
+-            ChatClientApp.main((String[]) null);
+-            fail("Expecting exception: SecurityException");
+-          
+-          } catch(SecurityException e) {
+-             //
+-             // Security manager blocks (\"java.net.SocketPermission\" \"localhost:0\" \"listen,resolve\")
+-             // java.lang.Thread.getStackTrace(Thread.java:1564)
+-             // org.evosuite.runtime.sandbox.MSecurityManager.checkPermission(MSecurityManager.java:424)
+-             // java.lang.SecurityManager.checkListen(SecurityManager.java:1131)
+-             // java.net.ServerSocket.bind(ServerSocket.java:389)
+-             // java.net.ServerSocket.<init>(ServerSocket.java:252)
+-             // java.net.ServerSocket.<init>(ServerSocket.java:143)
+-             // sun.rmi.transport.proxy.RMIDirectSocketFactory.createServerSocket(RMIDirectSocketFactory.java:45)
+-             // sun.rmi.transport.proxy.RMIMasterSocketFactory.createServerSocket(RMIMasterSocketFactory.java:345)
+-             // sun.rmi.transport.tcp.TCPEndpoint.newServerSocket(TCPEndpoint.java:670)
+-             // sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:335)
+-             // sun.rmi.transport.tcp.TCPTransport.exportObject(TCPTransport.java:254)
+-             // sun.rmi.transport.tcp.TCPEndpoint.exportObject(TCPEndpoint.java:412)
+-             // sun.rmi.transport.LiveRef.exportObject(LiveRef.java:147)
+-             // sun.rmi.server.UnicastServerRef.exportObject(UnicastServerRef.java:237)
+-             // java.rmi.server.UnicastRemoteObject.exportObject(UnicastRemoteObject.java:383)
+-             // java.rmi.server.UnicastRemoteObject.exportObject(UnicastRemoteObject.java:320)
+-             // java.rmi.server.UnicastRemoteObject.<init>(UnicastRemoteObject.java:198)
+-             // java.rmi.server.UnicastRemoteObject.<init>(UnicastRemoteObject.java:180)
+-             // osa.ora.server.client.ChatClientApp.<init>(ChatClientApp.java:117)
+-             // osa.ora.server.client.ChatClientApp.main(ChatClientApp.java:547)
+-             // sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+-             // sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+-             // sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+-             // java.lang.reflect.Method.invoke(Method.java:498)
+-             // org.evosuite.testcase.statements.MethodStatement$1.execute(MethodStatement.java:256)
+-             // org.evosuite.testcase.statements.AbstractStatement.exceptionHandler(AbstractStatement.java:165)
+-             // org.evosuite.testcase.statements.MethodStatement.execute(MethodStatement.java:219)
+-             // org.evosuite.testcase.execution.TestRunnable.executeStatements(TestRunnable.java:286)
+-             // org.evosuite.testcase.execution.TestRunnable.call(TestRunnable.java:192)
+-             // org.evosuite.testcase.execution.TestRunnable.call(TestRunnable.java:49)
+-             // java.util.concurrent.FutureTask.run(FutureTask.java:266)
+-             // java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+-             // java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+-             // java.lang.Thread.run(Thread.java:750)
+-             //
+-             verifyException("org.evosuite.runtime.sandbox.MSecurityManager", e);
+-          }
+-      } 
+-    });
+-    future.get(4000, TimeUnit.MILLISECONDS);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/ghm/follow/search/LineResult_ESTest.java
++++ b/evosuite-tests/ghm/follow/search/LineResult_ESTest.java
+@@ -60,16 +60,20 @@
+     assertEquals(Integer.MAX_VALUE, lineResult0.getFirstWordPosition());
+     assertEquals(-4981, lineResult0.lineNumber);
+ }
++@Test(timeout = 4000)
++  public void test4() throws Throwable {
++    lineResult0 = new LineResult(-1490, -1490, 3275);
++    wordResult0 = new WordResult(-1490, 3275, "uMBDZlm5`I_O0mj", -2545);
++    // Act: add the word to the line result
++    lineResult0.addWord(wordResult0);
++    // Assert that the side‑effects of addWord are observable
++    assertSame("Parent reference should be set to the line result", lineResult0, wordResult0.parent);
++    WordResult retrieved = lineResult0.getWordResult(0);
++    assertSame("The added word should be retrievable from the line result", wordResult0, retrieved);
++    // Preserve the original check on termEndLine for completeness
++    assertEquals(0, retrieved.termEndLine);
++  }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    lineResult0 = new LineResult((-1490), (-1490), 3275);
+-    wordResult0 = new WordResult((-1490), 3275, "uMBDZlm5`I_O0mj", (-2545));
+-      lineResult0.addWord(wordResult0);
+-      WordResult wordResult1 = wordResult0.parent.getWordResult(0);
+-      assertEquals(0, wordResult1.termEndLine);
+-  }
+ public void test5() throws Throwable {
+     lineResult0 = new LineResult((-1490), (-1490), 3275);
+     wordResult0 = new WordResult((-1490), 3275, "uMBDZlm5`I_O0mj", (-2545));

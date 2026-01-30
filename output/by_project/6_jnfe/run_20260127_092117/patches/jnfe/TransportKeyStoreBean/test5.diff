@@ -1,0 +1,36 @@
+--- a/evosuite-tests/br/com/jnfe/base/TransportKeyStoreBean_ESTest.java
++++ b/evosuite-tests/br/com/jnfe/base/TransportKeyStoreBean_ESTest.java
+@@ -50,13 +50,27 @@
+       transportKeyStoreBean0.setKeyStoreUri("");
+       transportKeyStoreBean0.afterPropertiesSet();
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        TransportKeyStoreBean transportKeyStoreBean0 = new TransportKeyStoreBean();
++        // Capture the initial state (may be null or a default value)
++        String initialKeyStoreType = transportKeyStoreBean0.getKeyStoreType();
++        // Verify that setting an empty string updates the field
++        transportKeyStoreBean0.setKeyStoreType("");
++        assertEquals("", transportKeyStoreBean0.getKeyStoreType());
++        // Invoke afterPropertiesSet and ensure the keyStoreType remains observable
++        transportKeyStoreBean0.afterPropertiesSet();
++        String afterKeyStoreType = transportKeyStoreBean0.getKeyStoreType();
++        assertNotNull(afterKeyStoreType);
++        // The value after initialization should be either the empty string we set
++        // or a non‑null default; both satisfy the contract.
++        // Additionally, ensure that the method call did not revert to the original value
++        // unless it was already null.
++        if (initialKeyStoreType != null) {
++            assertNotEquals(initialKeyStoreType, afterKeyStoreType);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      TransportKeyStoreBean transportKeyStoreBean0 = new TransportKeyStoreBean();
+-      transportKeyStoreBean0.setKeyStoreType("");
+-      transportKeyStoreBean0.afterPropertiesSet();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

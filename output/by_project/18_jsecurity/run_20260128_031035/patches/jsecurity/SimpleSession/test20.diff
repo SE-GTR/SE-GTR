@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
+@@ -197,17 +197,25 @@
+       simpleSession0.validate();
+       assertEquals(1800000L, simpleSession0.getTimeout());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      SimpleSession simpleSession0 = new SimpleSession();
+-      HashMap<Object, Object> hashMap0 = new HashMap<Object, Object>();
+-      simpleSession0.setAttributes(hashMap0);
+-      Object object0 = new Object();
+-      simpleSession0.setAttribute(object0, object0);
+-      assertTrue(simpleSession0.isValid());
+-      assertEquals(1800000L, simpleSession0.getTimeout());
+-  }
++@Test(timeout = 4000)
++    public void test20() throws Throwable {
++        SimpleSession simpleSession0 = new SimpleSession();
++        HashMap<Object, Object> hashMap0 = new HashMap<Object, Object>();
++        // Verify that setting an empty attribute map results in an empty attributes collection
++        simpleSession0.setAttributes(hashMap0);
++        assertNotNull(simpleSession0.getAttributes());
++        assertTrue(simpleSession0.getAttributes().isEmpty());
++
++        Object object0 = new Object();
++        simpleSession0.setAttribute(object0, object0);
++        // Verify that the attribute was stored correctly
++        assertEquals(object0, simpleSession0.getAttribute(object0));
++        assertEquals(1, simpleSession0.getAttributes().size());
++
++        assertTrue(simpleSession0.isValid());
++        assertEquals(1800000L, simpleSession0.getTimeout());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
+@@ -31,25 +31,25 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class IniWebConfiguration_ESTest extends IniWebConfiguration_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
+-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
+-      hashMap0.put("filters", "filters");
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
++      IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
++      HashMap<String, String> hashMap0 = new HashMap<String, String>();
++      String previousValue = hashMap0.put("filters", "filters");
++      assertNull(previousValue);
+       Map<String, Filter> map0 = iniWebConfiguration0.createDefaultFilters();
+       // Undeclared exception!
+-      try { 
+-        iniWebConfiguration0.createChains(hashMap0, map0);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Path [filters] specified a filter named 'filters', but that filter has not been specified in the [filters] section.
+-         //
+-         verifyException("org.jsecurity.web.config.IniWebConfiguration", e);
+-      }
+-  }
++      try {
++          iniWebConfiguration0.createChains(hashMap0, map0);
++          fail("Expecting exception: RuntimeException");
++      } catch (RuntimeException e) {
++          //
++          // Path [filters] specified a filter named 'filters', but that filter has not been specified in the [filters] section.
++          //
++          verifyException("org.jsecurity.web.config.IniWebConfiguration", e);
++      }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

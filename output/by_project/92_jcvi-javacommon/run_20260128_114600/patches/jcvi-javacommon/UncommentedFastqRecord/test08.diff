@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/UncommentedFastqRecord_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/UncommentedFastqRecord_ESTest.java
+@@ -132,26 +132,18 @@
+          verifyException("org.jcvi.jillion.trace.fastq.UncommentedFastqRecord", e);
+       }
+   }
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test08() throws Throwable {
++    NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++    doReturn((String) null).when(nucleotideSequence0).toString();
++    QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
++    CommentedFastqRecord commentedFastqRecord0 = new CommentedFastqRecord(
++            "c@SA7>c!$2j8~Uh'G", nucleotideSequence0, qualitySequence0, "c@SA7>c!$2j8~Uh'G");
++    NucleotideSequence nucleotideSequence1 = commentedFastqRecord0.getNucleotideSequence();
++    // This should throw NullPointerException because the id argument is null
++    new UncommentedFastqRecord((String) null, nucleotideSequence1, (QualitySequence) null);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(nucleotideSequence0).toString();
+-      QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+-      CommentedFastqRecord commentedFastqRecord0 = new CommentedFastqRecord("c@SA7>c!$2j8~Uh'G", nucleotideSequence0, qualitySequence0, "c@SA7>c!$2j8~Uh'G");
+-      NucleotideSequence nucleotideSequence1 = commentedFastqRecord0.getNucleotideSequence();
+-      UncommentedFastqRecord uncommentedFastqRecord0 = null;
+-      try {
+-        uncommentedFastqRecord0 = new UncommentedFastqRecord((String) null, nucleotideSequence1, (QualitySequence) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // id can not be null
+-         //
+-         verifyException("org.jcvi.jillion.trace.fastq.UncommentedFastqRecord", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

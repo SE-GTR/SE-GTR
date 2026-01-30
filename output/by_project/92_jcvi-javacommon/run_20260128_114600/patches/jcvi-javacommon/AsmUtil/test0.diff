@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/ca/asm/AsmUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/ca/asm/AsmUtil_ESTest.java
+@@ -19,19 +19,19 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AsmUtil_ESTest extends AsmUtil_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test0()  throws Throwable  {
+       Nucleotide nucleotide0 = Nucleotide.Purine;
+       NucleotideSequenceBuilder nucleotideSequenceBuilder0 = new NucleotideSequenceBuilder(nucleotide0);
+       Stack<Integer> stack0 = new Stack<Integer>();
+       Integer integer0 = new Integer(31);
+-      stack0.add(integer0);
++      boolean added = stack0.add(integer0);
++      assertTrue(added);
+       // Undeclared exception!
+       try { 
+         AsmUtil.computeGappedSequence(nucleotideSequenceBuilder0, stack0);
+         fail("Expecting exception: IllegalArgumentException");
+-      
++
+       } catch(IllegalArgumentException e) {
+          //
+          // offset can not start beyond current length (1) : 31
+@@ -39,6 +39,7 @@
+          verifyException("org.jcvi.jillion.core.residue.nt.NucleotideSequenceBuilder", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -1328,14 +1328,21 @@
+       assertFalse(config0.hasOrphans());
+       assertFalse(config0.hasRoutines());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test091()  throws Throwable  {
+-      Config config0 = new Config();
+-      config0.setHasOrphans(false);
+-      assertFalse(config0.hasRoutines());
+-      assertFalse(config0.hasOrphans());
+-  }
++public void test091() throws Throwable {
++    Config config0 = new Config();
++
++    // Capture the initial state
++    boolean initialOrphans = config0.hasOrphans();
++    boolean initialRoutines = config0.hasRoutines();
++
++    // Change the orphan flag and verify the side‑effect
++    config0.setHasOrphans(!initialOrphans);
++    assertEquals(!initialOrphans, config0.hasOrphans());
++
++    // Verify that the routines flag remains unchanged
++    assertEquals(initialRoutines, config0.hasRoutines());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test092()  throws Throwable  {

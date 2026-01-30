@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/IlluminaUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/IlluminaUtil_ESTest.java
+@@ -30,21 +30,15 @@
+          verifyException("org.jcvi.jillion.trace.fastq.IlluminaUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        IlluminaUtil.getPairNumber((String) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.trace.fastq.IlluminaUtil", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        // Provide a valid Illumina read identifier that contains a pair number.
++        String readId = "read/1";
++        int pairNumber = IlluminaUtil.getPairNumber(readId);
++        // The utility should correctly extract the pair number (1 in this case).
++        assertEquals(1, pairNumber);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

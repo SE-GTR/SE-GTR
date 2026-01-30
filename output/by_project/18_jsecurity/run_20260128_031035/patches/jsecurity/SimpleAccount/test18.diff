@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jsecurity/authc/SimpleAccount_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/SimpleAccount_ESTest.java
+@@ -202,14 +202,27 @@
+          verifyException("org.jsecurity.authc.SimpleAccount", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-    simpleAccount0 = new SimpleAccount("principals agument cannot  an empty collection.", "principals agument cannot  an empty collection.", "principals agument cannot  an empty collection.");
+-      simpleAccount0.setLocked(true);
+-      simpleAccount0.merge(simpleAccount0);
+-      assertTrue(simpleAccount0.isLocked());
+-  }
++@Test(timeout = 4000)
++public void test18() throws Throwable {
++    simpleAccount0 = new SimpleAccount(
++            "principals agument cannot  an empty collection.",
++            "principals agument cannot  an empty collection.",
++            "principals agument cannot  an empty collection.");
++    // verify initial lock state
++    assertFalse(simpleAccount0.isLocked());
++    // set locked and verify
++    simpleAccount0.setLocked(true);
++    assertTrue(simpleAccount0.isLocked());
++    // capture state before merge
++    int principalsBefore = simpleAccount0.getPrincipals().asList().size();
++    // merge with itself
++    simpleAccount0.merge(simpleAccount0);
++    // after merge, state should be unchanged
++    assertEquals(principalsBefore, simpleAccount0.getPrincipals().asList().size());
++    // locked state should remain true
++    assertTrue(simpleAccount0.isLocked());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

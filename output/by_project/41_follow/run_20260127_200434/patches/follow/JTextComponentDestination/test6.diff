@@ -1,0 +1,28 @@
+--- a/evosuite-tests/ghm/follow/io/JTextComponentDestination_ESTest.java
++++ b/evosuite-tests/ghm/follow/io/JTextComponentDestination_ESTest.java
+@@ -72,14 +72,19 @@
+       jTextComponentDestination0.addFilteredView();
+       assertFalse(jTextComponentDestination0.autoPositionCaret());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
++@Test(timeout = 4000)
++public void test6() throws Throwable {
+     jTextField0 = new JTextField((String) null);
+     jTextComponentDestination0 = new JTextComponentDestination(jTextField0, false);
+-      jTextComponentDestination0.setJTextComponent(jTextField0);
+-      assertFalse(jTextComponentDestination0.autoPositionCaret());
+-  }
++    jTextComponentDestination0.setJTextComponent(jTextField0);
++    // Verify that writing to the destination updates the underlying text component
++    String message = "testMessage";
++    jTextComponentDestination0.write(message);
++    assertTrue(jTextField0.getText().contains(message));
++    // Verify the auto‑position caret flag remains false
++    assertFalse(jTextComponentDestination0.autoPositionCaret());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

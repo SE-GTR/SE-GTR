@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -194,20 +194,26 @@
+       boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      j2EEEJBSession0.setApplication("K65Nr;");
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      assertFalse(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      
+-      j2EEEJBSession1.setApplication("K65Nr;");
+-      boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
+-      assertTrue(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        J2EEEJBSession session0 = new J2EEEJBSession();
++        session0.setApplication("K65Nr;");
++        assertEquals("K65Nr;", session0.getApplication());
++
++        J2EEEJBSession session1 = new J2EEEJBSession();
++        assertFalse(session1.equals((Object) session0));
++
++        session1.setApplication("K65Nr;");
++        assertEquals("K65Nr;", session1.getApplication());
++
++        assertTrue(session0.equals(session1));
++        assertTrue(session1.equals((Object) session0));
++
++        // Verify that changing the application breaks equality
++        session1.setApplication("OtherApp");
++        assertFalse(session0.equals(session1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

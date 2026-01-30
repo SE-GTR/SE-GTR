@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -477,15 +477,19 @@
+       assertEquals("QuickServer", quickServer0.getName());
+       assertFalse(quickServer0.isRunningSecure());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test037()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer();
+-      Level level0 = Level.CONFIG;
+-      quickServer0.setLoggingLevel(level0);
+-      assertEquals("CONFIG", quickServer0.getConsoleLoggingLevel());
+-  }
++@Test(timeout = 4000)
++public void test037() throws Throwable {
++    QuickServer quickServer0 = new QuickServer();
++    Level level0 = Level.CONFIG;
++    Level before = quickServer0.getLoggingLevel();
++    quickServer0.setLoggingLevel(level0);
++    assertEquals(level0, quickServer0.getLoggingLevel());
++    assertEquals("CONFIG", quickServer0.getConsoleLoggingLevel());
++    if (before != null) {
++        assertNotEquals(before, quickServer0.getLoggingLevel());
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test038()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/net/qsadmin/gui/Propertie_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/qsadmin/gui/Propertie_ESTest.java
+@@ -43,16 +43,18 @@
+     String string0 = propertie0.toXML();
+     assertEquals("<propertie>\n\t<name>null</name>\n\t<command>null</command>\n\t<get>no</get>\n\t<set>no</set>\n\t<type>edit</type>\n\t<version>1.3</version>\n\t<target-needed>no</target-needed>\n</propertie>\n", string0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      Propertie propertie0 = new Propertie();
++@Test(timeout = 4000)
++  public void test02() throws Throwable {
++      Propertie propertie0 = new Propertie();
++      String xmlBefore = propertie0.toXML();
+       propertie0.setDesc("Error ");
+-      String string0 = propertie0.toXML();
+-      assertEquals("server", propertie0.getTarget());
+-      assertEquals("<propertie>\n\t<name>null</name>\n\t<command>null</command>\n\t<get>no</get>\n\t<set>no</set>\n\t<type>edit</type>\n\t<desc>Error </desc>\n\t<version>1.3</version>\n\t<target-needed>yes</target-needed>\n</propertie>\n", string0);
+-  }
++      String xmlAfter = propertie0.toXML();
++      assertEquals("server", propertie0.getTarget());
++      assertFalse(xmlBefore.contains("Error "));
++      assertTrue(xmlAfter.contains("<desc>Error </desc>"));
++      assertEquals("<propertie>\n\t<name>null</name>\n\t<command>null</command>\n\t<get>no</get>\n\t<set>no</set>\n\t<type>edit</type>\n\t<desc>Error </desc>\n\t<version>1.3</version>\n\t<target-needed>yes</target-needed>\n</propertie>\n", xmlAfter);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

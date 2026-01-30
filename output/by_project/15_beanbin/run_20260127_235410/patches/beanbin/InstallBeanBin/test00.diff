@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sourceforge/beanbin/ant/InstallBeanBin_ESTest.java
++++ b/evosuite-tests/net/sourceforge/beanbin/ant/InstallBeanBin_ESTest.java
+@@ -19,24 +19,15 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class InstallBeanBin_ESTest extends InstallBeanBin_ESTest_scaffolding {
++@Test(expected = BuildException.class)
++    public void test00() throws Throwable {
++        Project project0 = new Project();
++        project0.setInheritedProperty("jboss.home", "");
++        InstallBeanBin installBeanBin0 = new InstallBeanBin();
++        installBeanBin0.setProject(project0);
++        installBeanBin0.execute();
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Project project0 = new Project();
+-      project0.setInheritedProperty("jboss.home", "");
+-      InstallBeanBin installBeanBin0 = new InstallBeanBin();
+-      installBeanBin0.setProject(project0);
+-      try { 
+-        installBeanBin0.execute();
+-        fail("Expecting exception: BuildException");
+-      
+-      } catch(BuildException e) {
+-         //
+-         // SetJBossVariablesTask: null
+-         //
+-         verifyException("net.sourceforge.beanbin.ant.InstallBeanBin", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

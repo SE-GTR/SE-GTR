@@ -1,0 +1,33 @@
+--- a/evosuite-tests/corina/site/Site_ESTest.java
++++ b/evosuite-tests/corina/site/Site_ESTest.java
+@@ -33,15 +33,21 @@
+       Object object0 = site0.clone();
+       assertTrue(object0.equals((Object)site0));
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      Site site0 = new Site();
+-      Location location0 = new Location();
+-      site0.setLocation(location0);
+-      Object object0 = site0.clone();
+-      assertTrue(object0.equals((Object)site0));
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        Site site0 = new Site();
++        // Verify initial state before setting location
++        assertNull("Location should initially be null", site0.getLocation());
++
++        Location location0 = new Location();
++        site0.setLocation(location0);
++        // Assert that setLocation correctly updates the internal state
++        assertSame("Location should be updated to the provided instance", location0, site0.getLocation());
++
++        Object object0 = site0.clone();
++        assertTrue("Cloned object should be equal to the original", object0.equals((Object) site0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

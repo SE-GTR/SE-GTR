@@ -1,0 +1,33 @@
+--- a/evosuite-tests/map/DefaultPath_ESTest.java
++++ b/evosuite-tests/map/DefaultPath_ESTest.java
+@@ -58,17 +58,21 @@
+     assertEquals(3, lengthAfter);
+     assertTrue(lengthAfter >= lengthBefore);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++public void test2() throws Throwable {
+     dirtyNode0 = new DirtyNode(1932L);
+     defaultNode0 = new DefaultNode(dirtyNode0);
+-      defaultNode0.setParent(dirtyNode0);
+-      DefaultPath defaultPath0 = new DefaultPath(defaultNode0);
+-      DefaultPath defaultPath1 = new DefaultPath(defaultPath0);
+-      assertEquals(1, defaultPath1.length());
+-  }
++    // Verify initial parent state before mutation
++    assertNull(defaultNode0.getParent());
++    // Exercise the void method and assert its side‑effect
++    defaultNode0.setParent(dirtyNode0);
++    assertEquals(dirtyNode0, defaultNode0.getParent());
++    // Continue with existing behavior checks
++    DefaultPath defaultPath0 = new DefaultPath(defaultNode0);
++    DefaultPath defaultPath1 = new DefaultPath(defaultPath0);
++    assertEquals(1, defaultPath1.length());
++}
++
+ @Test(timeout = 4000)
+   public void test3() throws Throwable {
+     defaultNode0 = new DefaultNode((Node) null, 18L, 0, 230);

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/de/paragon/explorer/util/ExplorerColorManager_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/util/ExplorerColorManager_ESTest.java
+@@ -62,17 +62,24 @@
+       assertEquals((-6710785), color0.getRGB());
+       assertNotNull(color0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
++@Test(timeout = 4000)
++public void test4() throws Throwable {
+     explorerColorManager0 = new ExplorerColorManager();
+     textBoxFigure0 = new TextBoxFigure();
+-      ConnectionModel connectionModel0 = new ConnectionModel();
+-      textBoxFigure0.setModel(connectionModel0);
+-      explorerColorManager0.getForeground(textBoxFigure0);
+-      Color color0 = explorerColorManager0.getForeground(textBoxFigure0);
+-      assertEquals(0, color0.getRed());
+-  }
++    ConnectionModel connectionModel0 = new ConnectionModel();
++
++    // Verify that the figure initially has no model associated.
++    assertNull(textBoxFigure0.getModel());
++
++    // Set the model and assert that the side‑effect is observable.
++    textBoxFigure0.setModel(connectionModel0);
++    assertSame(connectionModel0, textBoxFigure0.getModel());
++
++    // The foreground color should be determined based on the newly set model.
++    Color color0 = explorerColorManager0.getForeground(textBoxFigure0);
++    assertEquals(0, color0.getRed());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

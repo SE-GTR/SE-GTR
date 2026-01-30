@@ -1,0 +1,47 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
+@@ -166,20 +166,32 @@
+     boolean boolean0 = j2EESession1.equals(j2EESession0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      J2EESession j2EESession0 = new J2EESession();
+-      J2EESession j2EESession1 = new J2EESession();
+-      j2EESession0.setSticky("`7-J@&|=");
+-      assertFalse(j2EESession0.equals((Object)j2EESession1));
+-      
+-      j2EESession1.setSticky("`7-J@&|=");
+-      boolean boolean0 = j2EESession0.equals(j2EESession1);
+-      assertTrue(j2EESession0.equals((Object)j2EESession1));
++@Test(timeout = 4000)
++  public void test09() throws Throwable {
++      J2EESession j2EESession0 = new J2EESession();
++      J2EESession j2EESession1 = new J2EESession();
++
++      // Verify initial sticky values are null (or default)
++      assertNull(j2EESession0.getSticky());
++      assertNull(j2EESession1.getSticky());
++
++      String stickyValue = "`7-J@&|=";
++      j2EESession0.setSticky(stickyValue);
++      // Assert side‑effect of setSticky on j2EESession0
++      assertEquals(stickyValue, j2EESession0.getSticky());
++
++      // Equality should be false before both have the same sticky value
++      assertFalse(j2EESession0.equals((Object) j2EESession1));
++
++      j2EESession1.setSticky(stickyValue);
++      // Assert side‑effect of setSticky on j2EESession1
++      assertEquals(stickyValue, j2EESession1.getSticky());
++
++      boolean boolean0 = j2EESession0.equals(j2EESession1);
++      assertTrue(j2EESession0.equals((Object) j2EESession1));
+       assertTrue(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/client/gui/LoginDialog_ESTest.java
++++ b/evosuite-tests/client/gui/LoginDialog_ESTest.java
+@@ -149,23 +149,14 @@
+       loginDialog0.mouseEntered(mouseEvent0);
+       assertTrue(loginDialog0.getFocusTraversalKeysEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-    loginDialog0 = LoginDialog.init();
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = HeadlessException.class)
++    public void test11() throws Throwable {
++        boolean shouldThrow = FileSystemHandling.shouldAllThrowIOExceptions();
++        assertFalse("FileSystemHandling should not be configured to throw IOExceptions by default", shouldThrow);
++        loginDialog0 = LoginDialog.init();
+         loginDialog0.loginDialog.loginWrongPassword();
+-        fail("Expecting exception: HeadlessException");
+-      
+-      } catch(HeadlessException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.awt.GraphicsEnvironment", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

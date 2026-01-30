@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/quickserver/util/logging/AsyncHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/logging/AsyncHandler_ESTest.java
+@@ -94,20 +94,33 @@
+       // Ensure the buffer size actually changed
+       assertNotEquals("Buffer size should differ from the original after setBufferSize", originalBufferSize, updatedBufferSize);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      StreamHandler streamHandler0 = new StreamHandler();
+-      AsyncHandler asyncHandler0 = new AsyncHandler(streamHandler0);
+-      Level level0 = asyncHandler0.getLevel();
+-      streamHandler0.setLevel(level0);
+-      AsyncHandler asyncHandler1 = new AsyncHandler(streamHandler0, 0, (-1));
+-      asyncHandler1.getErrorManager();
+-      asyncHandler1.close();
+-      asyncHandler1.setLoggingInterval((-1018));
+-      AsyncHandler.isDebugMode();
+-  }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        StreamHandler streamHandler0 = new StreamHandler();
++        AsyncHandler asyncHandler0 = new AsyncHandler(streamHandler0);
++        Level level0 = asyncHandler0.getLevel();
++        streamHandler0.setLevel(level0);
++        AsyncHandler asyncHandler1 = new AsyncHandler(streamHandler0, 0, -1);
++
++        // Verify that getErrorManager returns a non‑null manager
++        assertNotNull(asyncHandler1.getErrorManager());
++
++        // Capture state before close and verify it remains consistent after close
++        Level levelBeforeClose = asyncHandler1.getLevel();
++        asyncHandler1.close();
++        Level levelAfterClose = asyncHandler1.getLevel();
++        assertEquals(levelBeforeClose, levelAfterClose);
++
++        // Set a logging interval and ensure it does not affect unrelated state
++        Level levelBeforeInterval = asyncHandler1.getLevel();
++        asyncHandler1.setLoggingInterval(-1018);
++        Level levelAfterInterval = asyncHandler1.getLevel();
++        assertEquals(levelBeforeInterval, levelAfterInterval);
++
++        // Verify static debug mode flag (default expected to be false)
++        assertFalse(AsyncHandler.isDebugMode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

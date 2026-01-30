@@ -1,0 +1,38 @@
+--- a/evosuite-tests/corina/site/SiteDB_ESTest.java
++++ b/evosuite-tests/corina/site/SiteDB_ESTest.java
+@@ -84,25 +84,16 @@
+       List list0 = siteDB0.getCountriesInOrder();
+       assertEquals(0, list0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-    siteDB0 = new SiteDB();
+-    linkedList0 = new LinkedList<Object>();
+-      siteDB0.sites = (List) linkedList0;
+-      linkedList0.add((Object) siteDB0.sites);
+-      // Undeclared exception!
+-      try { 
+-        siteDB0.getSitesAt((Location) null);
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.util.LinkedList cannot be cast to corina.site.Site
+-         //
+-         verifyException("corina.site.SiteDB", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = ClassCastException.class)
++public void test04() throws Throwable {
++    siteDB0 = new SiteDB();
++    linkedList0 = new LinkedList<Object>();
++    siteDB0.sites = (List) linkedList0;
++    boolean added = linkedList0.add((Object) siteDB0.sites);
++    assertTrue(added);
++    siteDB0.getSitesAt((Location) null);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

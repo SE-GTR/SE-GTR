@@ -1,0 +1,39 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/gui/renderers/ScanRenderer_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/gui/renderers/ScanRenderer_ESTest.java
+@@ -102,21 +102,27 @@
+     assertEquals(beforeSize, linkedHashSet0.size());
+     assertTrue(scanRenderer0.isFillArcs());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
+     scanRenderer0 = new ScanRenderer();
+     absoluteAngle0 = AbsoluteAngle.fromRadians(3576.699027229266);
+     angleBracket0 = AngleBracket.all();
+     vector0 = Vector.createPolar(absoluteAngle0, 0);
+-      ScanSnapshot scanSnapshot0 = new ScanSnapshot(angleBracket0, 0.0, true, vector0, false, (-1));
+-      scanSnapshot0.setPositionVector(vector0);
+-      LinkedHashSet<Integer> linkedHashSet0 = new LinkedHashSet<Integer>();
++    ScanSnapshot scanSnapshot0 = new ScanSnapshot(angleBracket0, 0.0, true, vector0, false, (-1));
++    // Verify that setPositionVector actually updates the snapshot's position vector
++    Vector beforeVector = scanSnapshot0.getPositionVector();
++    scanSnapshot0.setPositionVector(vector0);
++    assertEquals(vector0, scanSnapshot0.getPositionVector());
++    // The previous value should be different (or null) unless the constructor already set it
++    if (beforeVector != null) {
++      assertNotEquals(beforeVector, scanSnapshot0.getPositionVector());
++    }
++    LinkedHashSet<Integer> linkedHashSet0 = new LinkedHashSet<Integer>();
+     graphics2D0 = mock(Graphics2D.class, new ViolatedAssumptionAnswer());
+-      scanRenderer0.render(graphics2D0, scanSnapshot0, (Set<Integer>) linkedHashSet0);
+-      assertFalse(scanRenderer0.isFillArcs());
++    scanRenderer0.render(graphics2D0, scanSnapshot0, (Set<Integer>) linkedHashSet0);
++    assertFalse(scanRenderer0.isFillArcs());
+   }
++
+ @Test(timeout = 4000)
+   public void test4() throws Throwable {
+     ScanRenderer scanRenderer0 = new ScanRenderer();

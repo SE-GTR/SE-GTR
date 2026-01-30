@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/MapValueComparator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/MapValueComparator_ESTest.java
+@@ -42,28 +42,23 @@
+          verifyException("org.jcvi.jillion.core.util.MapValueComparator", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
++        Integer key1 = Integer.valueOf(924);
++        map.put(key1, key1);
++        Integer key2 = Integer.valueOf(911);
++        map.put(key2, key2);
++        // Obtain a sorted map using the default ascending sort
++        SortedMap<Integer, Integer> sortedMap = MapValueComparator.sortAscending((Map<Integer, Integer>) map);
++        // Sort again using an explicit non‑null comparator
++        Comparator<Integer> comparator = Comparator.naturalOrder();
++        SortedMap<Integer, Integer> result = MapValueComparator.sortAscending((Map<Integer, Integer>) sortedMap, comparator);
++        // Verify that the result is correctly sorted by value (ascending)
++        assertEquals(Integer.valueOf(911), result.firstKey());
++        assertEquals(2, result.size());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      HashMap<Integer, Integer> hashMap0 = new HashMap<Integer, Integer>();
+-      Integer integer0 = new Integer(924);
+-      hashMap0.put(integer0, integer0);
+-      Integer integer1 = new Integer(911);
+-      hashMap0.putIfAbsent(integer1, integer1);
+-      SortedMap<Integer, Integer> sortedMap0 = MapValueComparator.sortAscending((Map<Integer, Integer>) hashMap0);
+-      hashMap0.remove((Object) integer1);
+-      // Undeclared exception!
+-      try { 
+-        MapValueComparator.sortAscending((Map<Integer, Integer>) sortedMap0, (Comparator<Integer>) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.core.util.MapValueComparator", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/gbshape/dbe/xml/CreateTableXmlBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/xml/CreateTableXmlBean_ESTest.java
+@@ -35,13 +35,26 @@
+       createTableXmlBean0.addColumn(columnBean0);
+       assertEquals("", columnBean0.getName());
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    CreateTableXmlBean bean = new CreateTableXmlBean();
++    // Verify initial default name
++    assertEquals("", bean.getName());
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
+-      createTableXmlBean0.setColumns((ArrayList) null);
+-      assertEquals("", createTableXmlBean0.getName());
+-  }
++    // Capture state before invoking side‑effect method
++    String nameBefore = bean.getName();
++
++    // Side‑effect call
++    bean.setColumns(null);
++
++    // Observe that the name remains unchanged after the side effect
++    assertEquals(nameBefore, bean.getName());
++
++    // Non‑trivial behavior: toString should contain the name field representation
++    String description = bean.toString();
++    assertTrue(description.contains("name="));
++}
++
+ @Test(timeout = 4000)
+   public void test3() throws Throwable {
+       CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/output/FrameDump_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/output/FrameDump_ESTest.java
+@@ -105,15 +105,21 @@
+         // Verify the static flag remains set
+         assertTrue(Controller._compactThreadDepth);
+     }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    doReturn(linkedList0).when(frame0).childIterator();
++    doReturn(true).when(frame0).hasChildren();
++    int beforeSize = linkedList0.size();
++    FrameDump.dump((PrintWriter) null, frame0, -1);
++    // Verify that dump interacted with the frame as expected
++    verify(frame0).childIterator();
++    verify(frame0).hasChildren();
++    // Ensure the iterator list was not altered by the dump operation
++    assertEquals(beforeSize, linkedList0.size());
++    // Preserve the original check
++    assertFalse(linkedList0.contains(frame0));
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      doReturn(linkedList0).when(frame0).childIterator();
+-      doReturn(true).when(frame0).hasChildren();
+-      FrameDump.dump((PrintWriter) null, frame0, (-1));
+-      assertFalse(linkedList0.contains(frame0));
+-  }
+ @Test(timeout = 4000)
+   public void test5() throws Throwable {
+       FrameDump frameDump0 = new FrameDump();

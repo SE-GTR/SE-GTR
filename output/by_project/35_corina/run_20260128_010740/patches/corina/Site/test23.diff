@@ -1,0 +1,35 @@
+--- a/evosuite-tests/corina/site/Site_ESTest.java
++++ b/evosuite-tests/corina/site/Site_ESTest.java
+@@ -243,16 +243,22 @@
+          verifyException("corina.site.Site", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      Site site0 = new Site();
+-      boolean[] booleanArray0 = new boolean[4];
+-      booleanArray0[0] = true;
+-      site0.setTypes(booleanArray0);
+-      site0.getSiteColor();
+-      assertEquals("3", site0.getTypeString());
+-  }
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        Site site0 = new Site();
++        // capture initial type string before modification
++        String before = site0.getTypeString();
++        boolean[] booleanArray0 = new boolean[4];
++        booleanArray0[0] = true;
++        site0.setTypes(booleanArray0);
++        // verify that setTypes affected the observable state
++        assertEquals("3", site0.getTypeString());
++        assertNotEquals(before, site0.getTypeString());
++        // observe and assert the return value of getSiteColor
++        java.awt.Color color = site0.getSiteColor();
++        assertEquals(color, site0.getSiteColor());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

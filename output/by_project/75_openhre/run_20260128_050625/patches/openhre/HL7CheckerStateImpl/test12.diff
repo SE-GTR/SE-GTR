@@ -1,0 +1,64 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerStateImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerStateImpl_ESTest.java
+@@ -175,31 +175,36 @@
+         // Verify that the repeatable index is reset (or remains) at 0 after beginning a field
+         assertEquals(0, state.getActualFieldRepeatableIndex());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
+-      HL7DataTypePartListImpl hL7DataTypePartListImpl0 = new HL7DataTypePartListImpl();
+-      HL7DataTypePartPrimitiveImpl hL7DataTypePartPrimitiveImpl0 = new HL7DataTypePartPrimitiveImpl();
+-      hL7DataTypePartListImpl0.addItem(hL7DataTypePartPrimitiveImpl0);
+-      hL7DataTypePartListImpl0.addItem(hL7DataTypePartPrimitiveImpl0);
+-      HL7DataTypeImpl hL7DataTypeImpl0 = new HL7DataTypeImpl();
+-      hL7DataTypeImpl0.setParts(hL7DataTypePartListImpl0);
+-      hL7DataTypeImpl0.setID(" SYSTEM \"");
+-      hL7CheckerStateImpl0.setActualDataType(hL7DataTypeImpl0);
+-      // Undeclared exception!
+-      try { 
+-        hL7CheckerStateImpl0.eventBeginComponent();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.browsersoft.openhre.hl7.impl.parser.HL7CheckerStateImpl", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
++
++        // Provide a minimal HL7Configuration implementation via dynamic proxy
++        HL7Configuration config = (HL7Configuration) java.lang.reflect.Proxy.newProxyInstance(
++                HL7Configuration.class.getClassLoader(),
++                new Class<?>[]{HL7Configuration.class},
++                (proxy, method, args) -> null);
++        java.lang.reflect.Field cfgField = HL7CheckerStateImpl.class.getDeclaredField("configuration");
++        cfgField.setAccessible(true);
++        cfgField.set(hL7CheckerStateImpl0, config);
++
++        HL7DataTypePartListImpl hL7DataTypePartListImpl0 = new HL7DataTypePartListImpl();
++        HL7DataTypePartPrimitiveImpl hL7DataTypePartPrimitiveImpl0 = new HL7DataTypePartPrimitiveImpl();
++        hL7DataTypePartListImpl0.addItem(hL7DataTypePartPrimitiveImpl0);
++        hL7DataTypePartListImpl0.addItem(hL7DataTypePartPrimitiveImpl0);
++        HL7DataTypeImpl hL7DataTypeImpl0 = new HL7DataTypeImpl();
++        hL7DataTypeImpl0.setParts(hL7DataTypePartListImpl0);
++        hL7DataTypeImpl0.setID(" SYSTEM \"");
++        hL7CheckerStateImpl0.setActualDataType(hL7DataTypeImpl0);
++
++        // Verify that eventBeginComponent executes without throwing an exception
++        try {
++            hL7CheckerStateImpl0.eventBeginComponent();
++        } catch (Throwable e) {
++            fail("Unexpected exception: " + e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

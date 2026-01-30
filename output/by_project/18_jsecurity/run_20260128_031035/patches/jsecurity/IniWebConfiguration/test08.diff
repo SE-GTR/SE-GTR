@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
+@@ -125,24 +125,20 @@
+       iniWebConfiguration0.assertFilters((Map<String, ?>) null);
+       assertNull(iniWebConfiguration0.getConfig());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
+-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
+-      hashMap0.put("filters", "filters");
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
++    HashMap<String, String> hashMap0 = new HashMap<String, String>();
++    String previous = hashMap0.put("filters", "filters");
++    assertNull(previous);
++    try {
+         iniWebConfiguration0.getFilters(hashMap0);
+         fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Unable to instantiate class [filters] for object named 'filters'.  Please ensure you've specified the fully qualified class name correctly.
+-         //
+-         verifyException("org.jsecurity.config.ReflectionBuilder", e);
+-      }
+-  }
++    } catch (RuntimeException e) {
++        verifyException("org.jsecurity.config.ReflectionBuilder", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

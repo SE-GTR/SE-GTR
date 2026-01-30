@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/quickserver/util/pool/MakeQSObjectPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/MakeQSObjectPool_ESTest.java
+@@ -132,22 +132,21 @@
+          verifyException("org.quickserver.util.pool.MakeQSObjectPool", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        MakeQSObjectPool cut = new MakeQSObjectPool();
++        org.apache.commons.pool.ObjectPool pool = new org.apache.commons.pool.impl.GenericObjectPool(
++                new org.apache.commons.pool.BasePoolableObjectFactory() {
++                    @Override
++                    public Object makeObject() {
++                        return new Object();
++                    }
++                });
++        cut.objectPool = pool;
++        int numActive = cut.getNumActive();
++        assertEquals(0, numActive);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    makeQSObjectPool0 = new MakeQSObjectPool();
+-      // Undeclared exception!
+-      try { 
+-        makeQSObjectPool0.getNumActive();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.util.pool.MakeQSObjectPool", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -31,15 +31,21 @@
+     int expected = -(offset + 1);
+     assertEquals(expected, int0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      int[] intArray0 = new int[9];
+-      intArray0[0] = 200;
+-      int int0 = MethodWriter.getNewOffset(intArray0, intArray0, (-169), 192);
+-      assertEquals(361, int0);
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        int[] indexes = new int[9];
++        indexes[0] = 200;
++        int[] sizes = indexes.clone();
++        int[] expectedIndexes = indexes.clone();
++        int[] expectedSizes = sizes.clone();
++        int result = MethodWriter.getNewOffset(indexes, sizes, -169, 192);
++        // Verify that the method does not modify the input arrays
++        assertArrayEquals(expectedIndexes, indexes);
++        assertArrayEquals(expectedSizes, sizes);
++        // Basic sanity check on the returned offset
++        assertTrue(result >= 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

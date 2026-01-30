@@ -1,0 +1,34 @@
+--- a/evosuite-tests/nu/staldal/xtree/Node_ESTest.java
++++ b/evosuite-tests/nu/staldal/xtree/Node_ESTest.java
+@@ -90,18 +90,21 @@
+     String ns = text0.lookupNamespaceURI("");
+     assertNull(ns);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
++@Test(timeout = 4000)
++public void test09() throws Throwable {
+     text0 = new Text("");
+     element0 = new Element("", "http://www.w3.org/XML/1998/namespace");
+-      text0.setParent(element0);
+-      String string0 = text0.lookupNamespaceURI("");
+-      assertEquals((-1), text0.getColumnNumber());
+-      assertNotNull(string0);
+-      assertEquals((-1), text0.getLineNumber());
+-  }
++    text0.setParent(element0);
++    // Verify that the parent was correctly set
++    assertSame(element0, text0.getParent());
++    String string0 = text0.lookupNamespaceURI("");
++    assertEquals((-1), text0.getColumnNumber());
++    assertNotNull(string0);
++    // Verify that the namespace lookup reflects the element's namespace
++    assertEquals(element0.getNamespaceURI(), string0);
++    assertEquals((-1), text0.getLineNumber());
++}
++
+ @Test(timeout = 4000)
+   public void test10() throws Throwable {
+     text0 = new Text("k;L5knzx+pjFNo");

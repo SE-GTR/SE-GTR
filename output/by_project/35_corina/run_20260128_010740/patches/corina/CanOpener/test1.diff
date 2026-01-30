@@ -1,0 +1,33 @@
+--- a/evosuite-tests/corina/gui/CanOpener_ESTest.java
++++ b/evosuite-tests/corina/gui/CanOpener_ESTest.java
+@@ -21,18 +21,17 @@
+   public void test0()  throws Throwable  {
+       CanOpener canOpener0 = new CanOpener();
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        java.io.File temp = java.io.File.createTempFile("test", ".tmp");
++        String path = temp.getAbsolutePath();
++        assertTrue(temp.delete()); // ensure the file does not exist
++        try {
++            CanOpener.open(path);
++            fail("Expecting exception: FileNotFoundException");
++        } catch (FileNotFoundException e) {
++            // expected exception
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      try { 
+-        CanOpener.open("<?XzYHnL[`Dj");
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // File doesn't exist.
+-         //
+-         verifyException("corina.io.Files", e);
+-      }
+-  }
+ }

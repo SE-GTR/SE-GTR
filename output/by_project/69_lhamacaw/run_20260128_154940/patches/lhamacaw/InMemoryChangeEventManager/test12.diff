@@ -1,0 +1,37 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryChangeEventManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryChangeEventManager_ESTest.java
+@@ -197,20 +197,20 @@
+     assertNotNull(history);
+     assertEquals(0, history.size());
+ }
+-
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+-      User user0 = new User();
+-      DerivedVariable derivedVariable0 = new DerivedVariable();
+-      MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent();
+-      macawChangeEvent0.setVariableOwnerID(1);
+-      inMemoryChangeEventManager0.registerChangeEvent(macawChangeEvent0);
+-      ArrayList<MacawChangeEvent> arrayList0 = inMemoryChangeEventManager0.getChangeHistoryForVariable(user0, derivedVariable0);
+-      assertFalse(arrayList0.contains(macawChangeEvent0));
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
++        User user0 = new User();
++        DerivedVariable derivedVariable0 = new DerivedVariable();
++        MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent();
++        macawChangeEvent0.setVariableOwnerID(1);
++        // Verify that the side‑effect of setVariableOwnerID is observable
++        assertEquals(1, macawChangeEvent0.getVariableOwnerID());
++        inMemoryChangeEventManager0.registerChangeEvent(macawChangeEvent0);
++        ArrayList<MacawChangeEvent> arrayList0 = inMemoryChangeEventManager0.getChangeHistoryForVariable(user0, derivedVariable0);
++        assertFalse(arrayList0.contains(macawChangeEvent0));
++    }
++
+ @Test(timeout = 4000)
+ public void test13() throws Throwable {
+     InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();

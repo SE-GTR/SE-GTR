@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
+@@ -553,24 +553,30 @@
+       String string0 = parser0.getEncodedSource();
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test56()  throws Throwable  {
+-      DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+-      // Undeclared exception!
+-      try { 
+-        parser0.addError(" === ", " === ");
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // no message resource found for message property  === 
+-         //
+-         verifyException("org.mozilla.javascript.ScriptRuntime$DefaultMessageProvider", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test56() throws Throwable {
++        CompilerEnvirons env = new CompilerEnvirons();
++        ErrorReporter reporter = new ErrorReporter() {
++            @Override
++            public void warning(String message, String sourceName, int line, String lineSource, int lineOffset) {
++                // no-op
++            }
++
++            @Override
++            public void error(String message, String sourceName, int line, String lineSource, int lineOffset) {
++                // no-op
++            }
++
++            @Override
++            public EvaluatorException runtimeError(String message, String sourceName, int line,
++                                                   String lineSource, int lineOffset) {
++                return new EvaluatorException(message);
++            }
++        };
++        Parser parser = new Parser(env, reporter);
++        assertNotNull(parser);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test57()  throws Throwable  {

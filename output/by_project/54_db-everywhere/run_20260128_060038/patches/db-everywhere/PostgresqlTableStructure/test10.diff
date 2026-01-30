@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/gbshape/dbe/postgresql/PostgresqlTableStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/postgresql/PostgresqlTableStructure_ESTest.java
+@@ -186,21 +186,24 @@
+       ArrayList arrayList0 = postgresqlTableStructure0.create(httpServletRequestWrapper0, dBDataBean0, createTableXmlBean0);
+       assertEquals(1, arrayList0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      PostgresqlTableStructure postgresqlTableStructure0 = new PostgresqlTableStructure();
+-      ColumnBean columnBean0 = new ColumnBean();
+-      columnBean0.setName("org.apache.struts.config.datasourceconfig");
+-      columnBean0.setNullable(true);
+-      CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
+-      createTableXmlBean0.addColumn(columnBean0);
+-      DBDataBean dBDataBean0 = new DBDataBean();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      ArrayList arrayList0 = postgresqlTableStructure0.create(httpServletRequestWrapper0, dBDataBean0, createTableXmlBean0);
+-      assertFalse(arrayList0.isEmpty());
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    PostgresqlTableStructure postgresqlTableStructure0 = new PostgresqlTableStructure();
++    ColumnBean columnBean0 = new ColumnBean();
++    String expectedName = "org.apache.struts.config.datasourceconfig";
++    columnBean0.setName(expectedName);
++    assertEquals(expectedName, columnBean0.getName());
++    columnBean0.setNullable(true);
++    CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
++    createTableXmlBean0.addColumn(columnBean0);
++    assertTrue(createTableXmlBean0.getColumns().contains(columnBean0));
++    DBDataBean dBDataBean0 = new DBDataBean();
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    ArrayList arrayList0 = postgresqlTableStructure0.create(httpServletRequestWrapper0, dBDataBean0, createTableXmlBean0);
++    assertFalse(arrayList0.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

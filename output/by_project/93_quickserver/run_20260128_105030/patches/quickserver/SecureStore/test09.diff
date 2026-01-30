@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/SecureStore_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/SecureStore_ESTest.java
+@@ -137,16 +137,20 @@
+         assertEquals("JKS", secureStore0.getType());
+         assertEquals("org.quickserver.security.SecureStoreManager", secureStore0.getSecureStoreManager());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      SecureStore secureStore0 = new SecureStore();
+-      secureStore0.setProvider("");
+-      assertEquals("JKS", secureStore0.getType());
+-      assertEquals("SunX509", secureStore0.getAlgorithm());
+-      assertEquals("org.quickserver.security.SecureStoreManager", secureStore0.getSecureStoreManager());
+-  }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    SecureStore secureStore0 = new SecureStore();
++    // Verify initial provider state (should be null)
++    assertNull(secureStore0.getProvider());
++    // Set a concrete provider and assert the side‑effect
++    secureStore0.setProvider("SUN");
++    assertEquals("SUN", secureStore0.getProvider());
++    // Existing assertions for other properties
++    assertEquals("JKS", secureStore0.getType());
++    assertEquals("SunX509", secureStore0.getAlgorithm());
++    assertEquals("org.quickserver.security.SecureStoreManager", secureStore0.getSecureStoreManager());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

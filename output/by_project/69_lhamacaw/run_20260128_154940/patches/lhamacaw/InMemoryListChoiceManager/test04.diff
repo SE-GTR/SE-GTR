@@ -1,0 +1,51 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryListChoiceManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryListChoiceManager_ESTest.java
+@@ -95,26 +95,28 @@
+       }
+   }
+ @Test(timeout = 4000)
+-  public void test04() throws Throwable {
+-      InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+-      InMemoryListChoiceManager inMemoryListChoiceManager0 = new InMemoryListChoiceManager(inMemoryChangeEventManager0);
+-      AvailabilityState availabilityState0 = new AvailabilityState();
+-      User user0 = new User();
+-      ArrayList<AvailabilityState> arrayList0 = inMemoryListChoiceManager0.getAvailabilityStates(user0);
+-      boolean added = arrayList0.add(availabilityState0);
+-      assertTrue("Element should be added to the list", added);
+-      DerivedVariable derivedVariable0 = new DerivedVariable();
+-      ArrayList<Variable> arrayList1 = derivedVariable0.getSourceVariables();
+-      try {
+-          inMemoryListChoiceManager0.deleteAvailabilityStates(user0, arrayList0, arrayList1);
+-          fail("Expecting exception: Exception");
+-      } catch (Exception e) {
+-          //
+-          // "" does not exist.
+-          //
+-          verifyException("macaw.persistenceLayer.demo.InMemoryListChoiceManager", e);
+-      }
+-  }
++public void test04() throws Throwable {
++    InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
++    InMemoryListChoiceManager inMemoryListChoiceManager0 = new InMemoryListChoiceManager(inMemoryChangeEventManager0);
++    AvailabilityState availabilityState0 = new AvailabilityState();
++    User user0 = new User();
++    ArrayList<AvailabilityState> arrayList0 = inMemoryListChoiceManager0.getAvailabilityStates(user0);
++    boolean added = arrayList0.add(availabilityState0);
++    assertTrue("add() should return true", added);
++    assertTrue("List should contain the added element", arrayList0.contains(availabilityState0));
++    DerivedVariable derivedVariable0 = new DerivedVariable();
++    ArrayList<Variable> arrayList1 = derivedVariable0.getSourceVariables();
++    try {
++        inMemoryListChoiceManager0.deleteAvailabilityStates(user0, arrayList0, arrayList1);
++        fail("Expecting exception: Exception");
++    } catch (Exception e) {
++        //
++        // "" does not exist.
++        //
++        verifyException("macaw.persistenceLayer.demo.InMemoryListChoiceManager", e);
++    }
++}
++
+ 
+ 
+   @Test(timeout = 4000)

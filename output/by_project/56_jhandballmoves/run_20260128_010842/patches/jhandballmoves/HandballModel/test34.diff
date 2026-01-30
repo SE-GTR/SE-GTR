@@ -1,0 +1,34 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -454,16 +454,21 @@
+       handballModel0.setBallOwnerSilent((Offender) null);
+       assertEquals("", handballModel0.getMoveName());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Offender offender0 = new Offender(1200, 1200);
+-      handballModel0.setFirstBallOwner(offender0);
+-      handballModel0.setBallOwnerSilent(offender0);
+-      assertTrue(offender0.hasBall());
+-      assertEquals(1, offender0.getPlayerNumber());
+-  }
++@Test(timeout = 4000)
++    public void test34() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        Offender offender0 = new Offender(1200, 1200);
++        handballModel0.setFirstBallOwner(offender0);
++        handballModel0.setBallOwnerSilent(offender0);
++        // Verify that the offender now owns the ball
++        assertTrue(offender0.hasBall());
++        // Verify that the model recorded the owners correctly
++        assertSame(offender0, handballModel0.getFirstBallOwner());
++        assertSame(offender0, handballModel0.getBallOwner());
++        // Additional sanity checks on the offender
++        assertEquals(1, offender0.getPlayerNumber());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test35()  throws Throwable  {

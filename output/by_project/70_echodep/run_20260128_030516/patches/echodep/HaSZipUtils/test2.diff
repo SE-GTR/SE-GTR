@@ -1,0 +1,51 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSZipUtils_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSZipUtils_ESTest.java
+@@ -65,22 +65,33 @@
+          verifyException("edu.uiuc.ndiipp.hubandspoke.utils.HaSZipUtils", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    // Create a temporary zip file containing a single entry
++    java.io.File zipFile = java.io.File.createTempFile("test", ".zip");
++    zipFile.deleteOnExit();
++    try (java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(new java.io.FileOutputStream(zipFile))) {
++        java.util.zip.ZipEntry entry = new java.util.zip.ZipEntry("test.txt");
++        zos.putNextEntry(entry);
++        byte[] data = "content".getBytes();
++        zos.write(data, 0, data.length);
++        zos.closeEntry();
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      Boolean boolean0 = Boolean.valueOf(true);
+-      // Undeclared exception!
+-      try { 
+-        HaSZipUtils.unzip((ZipFile) null, "/", boolean0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("edu.uiuc.ndiipp.hubandspoke.utils.HaSZipUtils", e);
+-      }
+-  }
++    // Destination directory for extraction
++    java.io.File destDir = java.nio.file.Files.createTempDirectory("unzipDest").toFile();
++    destDir.deleteOnExit();
++
++    // Perform unzip with a valid ZipFile instance
++    java.io.File result = HaSZipUtils.unzip(new java.util.zip.ZipFile(zipFile), destDir.getAbsolutePath(), Boolean.TRUE);
++
++    // Verify normal behavior
++    org.junit.Assert.assertNotNull(result);
++    org.junit.Assert.assertTrue(result.isDirectory());
++    java.io.File extracted = new java.io.File(result, "test.txt");
++    org.junit.Assert.assertTrue("Extracted file should exist", extracted.isFile());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/projectconfig/FileMatchPattern_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/projectconfig/FileMatchPattern_ESTest.java
+@@ -63,13 +63,18 @@
+          verifyException("com.atlassw.tools.eclipse.checkstyle.projectconfig.FileMatchPattern", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        FileMatchPattern pattern = new FileMatchPattern("test.*");
++        pattern.setIsIncludePattern(true);
++        assertTrue(pattern.isIncludePattern());
+ 
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      FileMatchPattern fileMatchPattern0 = new FileMatchPattern("com.atlassw.tools.eclipse.checkstyle.projectconfig.FileMatchPattern");
+-      fileMatchPattern0.setIsIncludePattern(true);
+-      assertTrue(fileMatchPattern0.isIncludePattern());
+-  }
++        // Verify that cloning preserves the state but yields a distinct instance
++        FileMatchPattern clone = (FileMatchPattern) pattern.clone();
++        assertNotSame(pattern, clone);
++        assertEquals(pattern, clone);
++    }
++
+ @Test(timeout = 4000)
+ public void test07() throws Throwable {
+     String pattern = "com.atlassw.tools.eclipse.checkstyle.projectconfig.FileMatchPattern";

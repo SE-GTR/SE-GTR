@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
+@@ -282,18 +282,24 @@
+         assertFalse(j2EESession0.equals(j2EESession1));
+         assertFalse(j2EESession1.equals(j2EESession0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      J2EESession j2EESession0 = new J2EESession();
+-      J2EESession j2EESession1 = new J2EESession();
+-      assertTrue(j2EESession1.equals((Object)j2EESession0));
+-      
+-      j2EESession1.setStartTime("kRj:A");
+-      boolean boolean0 = j2EESession0.equals(j2EESession1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    J2EESession sessionA = new J2EESession();
++    J2EESession sessionB = new J2EESession();
++    assertTrue(sessionA.equals(sessionB));
++
++    // initial state: startTime should be null for both sessions
++    assertNull(sessionA.getStartTime());
++    assertNull(sessionB.getStartTime());
++
++    String expectedStartTime = "kRj:A";
++    sessionB.setStartTime(expectedStartTime);
++    assertEquals(expectedStartTime, sessionB.getStartTime());
++
++    // after setting startTime, the sessions are no longer equal
++    assertFalse(sessionA.equals(sessionB));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

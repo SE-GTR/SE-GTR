@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/HeapInfo_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/HeapInfo_ESTest.java
+@@ -37,21 +37,25 @@
+     assertEquals("-TL", heapInfo0.getProcessname());
+     assertNotEquals(hashBefore, hashAfter);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      HeapInfo heapInfo0 = new HeapInfo();
+-      HeapInfo heapInfo1 = new HeapInfo();
+-      STATECOLOR sTATECOLOR0 = STATECOLOR.value4;
+-      heapInfo1.setDispstatus(sTATECOLOR0);
+-      assertFalse(heapInfo1.equals((Object)heapInfo0));
+-      
+-      heapInfo0.setDispstatus(sTATECOLOR0);
+-      boolean boolean0 = heapInfo0.equals(heapInfo1);
+-      assertTrue(heapInfo1.equals((Object)heapInfo0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        HeapInfo heapInfo0 = new HeapInfo();
++        HeapInfo heapInfo1 = new HeapInfo();
++        STATECOLOR sTATECOLOR0 = STATECOLOR.value4;
++
++        // Verify that setting dispstatus updates the observable state
++        heapInfo1.setDispstatus(sTATECOLOR0);
++        assertEquals(sTATECOLOR0, heapInfo1.getDispstatus());
++        assertFalse(heapInfo1.equals((Object) heapInfo0));
++
++        heapInfo0.setDispstatus(sTATECOLOR0);
++        assertEquals(sTATECOLOR0, heapInfo0.getDispstatus());
++
++        boolean boolean0 = heapInfo0.equals(heapInfo1);
++        assertTrue(heapInfo1.equals((Object) heapInfo0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

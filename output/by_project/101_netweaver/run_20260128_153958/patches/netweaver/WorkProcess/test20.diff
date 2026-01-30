@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -331,18 +331,22 @@
+     // ensure the second instance remains unaffected
+     assertNull(workProcess1.getSem());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
+-      WorkProcess workProcess1 = new WorkProcess();
+-      assertTrue(workProcess1.equals((Object)workProcess0));
+-      
+-      workProcess0.setSem("$XYodwY");
+-      boolean boolean0 = workProcess0.equals(workProcess1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test20() throws Throwable {
++    WorkProcess workProcess0 = new WorkProcess();
++    WorkProcess workProcess1 = new WorkProcess();
++    assertTrue(workProcess1.equals((Object) workProcess0));
++
++    workProcess0.setSem("$XYodwY");
++    // After setting sem, the two processes should no longer be equal
++    assertFalse(workProcess0.equals(workProcess1));
++
++    // Verify that the sem value was stored by comparing with another instance set to the same value
++    WorkProcess workProcess2 = new WorkProcess();
++    workProcess2.setSem("$XYodwY");
++    assertTrue(workProcess0.equals(workProcess2));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

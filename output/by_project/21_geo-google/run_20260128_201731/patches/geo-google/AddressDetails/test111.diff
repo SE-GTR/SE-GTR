@@ -1,0 +1,29 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -1115,12 +1115,20 @@
+     assertNull(addressDetails0.getUsage());
+ }
+ @Test(timeout = 4000)
+-    public void test111() throws Throwable {
+-        AddressDetails addressDetails0 = new AddressDetails();
+-        addressDetails0.setCountry((AddressDetails.Country) null);
+-        assertNull(addressDetails0.getCountry());
+-        assertNull(addressDetails0.getCode());
+-    }
++public void test111() throws Throwable {
++    AddressDetails addressDetails0 = new AddressDetails();
++    addressDetails0.setCountry((AddressDetails.Country) null);
++    assertNull(addressDetails0.getCountry());
++    assertNull(addressDetails0.getCode());
++
++    // Verify that modifications to the live list returned by getAny() are reflected
++    int beforeSize = addressDetails0.getAny().size();
++    Object element = new Object();
++    addressDetails0.getAny().add(element);
++    assertEquals(beforeSize + 1, addressDetails0.getAny().size());
++    assertTrue(addressDetails0.getAny().contains(element));
++}
++
+ 
+ @Test(timeout = 4000)
+   public void test112() throws Throwable {

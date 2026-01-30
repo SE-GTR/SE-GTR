@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo_ESTest.java
+@@ -105,17 +105,24 @@
+       assertEquals(1048576L, gCInfo1.getObjBytesAfter());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-    gCInfo0 = new GCInfo();
+-    gCInfo1 = new GCInfo();
+-      assertTrue(gCInfo1.equals((Object)gCInfo0));
+-      
+-      gCInfo1.setStartTime("clsBytesBefore");
+-      boolean boolean0 = gCInfo1.equals(gCInfo0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++  public void test06() throws Throwable {
++    gCInfo0 = new GCInfo();
++    gCInfo1 = new GCInfo();
++    assertTrue(gCInfo1.equals((Object) gCInfo0));
++
++    // Verify initial state of startTime (should be null)
++    assertNull(gCInfo1.getStartTime());
++
++    // Exercise the void method and assert its side‑effect
++    gCInfo1.setStartTime("clsBytesBefore");
++    assertEquals("clsBytesBefore", gCInfo1.getStartTime());
++
++    // Ensure the equality logic reflects the changed state
++    boolean boolean0 = gCInfo1.equals(gCInfo0);
++    assertFalse(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

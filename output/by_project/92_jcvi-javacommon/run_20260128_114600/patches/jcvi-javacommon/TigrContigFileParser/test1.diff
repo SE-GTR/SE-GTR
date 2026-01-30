@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/tigr/contig/TigrContigFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/tigr/contig/TigrContigFileParser_ESTest.java
+@@ -44,22 +44,18 @@
+          verifyException("org.jcvi.jillion.assembly.tigr.contig.TigrContigFileParser$FileBasedTigrContigParser", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    InputStream emptyStream = new ByteArrayInputStream(new byte[0]);
++    TigrContigFileParser parser = TigrContigFileParser.create(emptyStream);
++    try {
++        parser.accept((TigrContigFileVisitor) null);
++        fail("Expecting exception: IOException");
++    } catch (IOException e) {
++        assertNotNull(e);
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      PipedInputStream pipedInputStream0 = new PipedInputStream();
+-      TigrContigFileParser tigrContigFileParser0 = TigrContigFileParser.create((InputStream) pipedInputStream0);
+-      try { 
+-        tigrContigFileParser0.accept((TigrContigFileVisitor) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // inputstream is closed
+-         //
+-         verifyException("org.jcvi.jillion.assembly.tigr.contig.TigrContigFileParser$InputStreamBasedTigrContigParser", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/nu/staldal/lagoon/filestorage/LocalFileStorage_ESTest.java
++++ b/evosuite-tests/nu/staldal/lagoon/filestorage/LocalFileStorage_ESTest.java
+@@ -142,14 +142,21 @@
+         // Verify that the method returns a valid timestamp (non‑negative) rather than asserting a specific default value.
+         assertTrue("Expected a non‑negative last‑modified value", lastModified >= 0L);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      LocalFileStorage localFileStorage0 = new LocalFileStorage();
+-      localFileStorage0.open("/c!", (LagoonContext) null, "");
+-      assertTrue(localFileStorage0.isReentrant());
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        LocalFileStorage storage = new LocalFileStorage();
++        storage.open("/c!", (LagoonContext) null, "");
++        // Verify that the storage can be opened again without error (reentrancy)
++        boolean secondOpenSucceeded = false;
++        try {
++            storage.open("/c!", (LagoonContext) null, "");
++            secondOpenSucceeded = true;
++        } catch (Throwable t) {
++            secondOpenSucceeded = false;
++        }
++        assertTrue(secondOpenSucceeded);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

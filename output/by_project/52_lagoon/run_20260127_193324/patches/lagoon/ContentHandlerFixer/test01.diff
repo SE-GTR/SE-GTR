@@ -1,0 +1,46 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
+@@ -31,14 +31,35 @@
+       contentHandlerFixer0.startPrefixMapping("", "");
+       contentHandlerFixer0.startPrefixMapping("", "");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
+-      ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0);
+-      contentHandlerFixer0.startPrefixMapping("", "~");
+-      contentHandlerFixer0.endElement("~", "~", "");
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    class RecordingHandler implements ContentHandler {
++        boolean startPrefixMappingCalled = false;
++        boolean endElementCalled = false;
++        @Override public void setDocumentLocator(Locator locator) {}
++        @Override public void startDocument() throws SAXException {}
++        @Override public void endDocument() throws SAXException {}
++        @Override public void startPrefixMapping(String prefix, String uri) throws SAXException {
++            startPrefixMappingCalled = true;
++        }
++        @Override public void endPrefixMapping(String prefix) throws SAXException {}
++        @Override public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {}
++        @Override public void endElement(String uri, String localName, String qName) throws SAXException {
++            endElementCalled = true;
++        }
++        @Override public void characters(char[] ch, int start, int length) throws SAXException {}
++        @Override public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {}
++        @Override public void processingInstruction(String target, String data) throws SAXException {}
++        @Override public void skippedEntity(String name) throws SAXException {}
++    }
++    RecordingHandler recordingHandler = new RecordingHandler();
++    ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(recordingHandler);
++    contentHandlerFixer0.startPrefixMapping("", "~");
++    contentHandlerFixer0.endElement("~", "~", "");
++    org.junit.Assert.assertTrue(recordingHandler.startPrefixMappingCalled);
++    org.junit.Assert.assertTrue(recordingHandler.endElementCalled);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/bible/util/Util_ESTest.java
++++ b/evosuite-tests/bible/util/Util_ESTest.java
+@@ -188,22 +188,19 @@
+       } catch(NullPointerException e) {
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
++@Test(timeout = 4000)
++public void test18() throws Throwable {
+     vector0 = new Vector<Object>();
+-      vector0.add((Object) vector0);
+-      // Undeclared exception!
+-      try { 
++    boolean added = vector0.add((Object) vector0);
++    assertTrue(added);
++    try {
+         Util.ToString(vector0);
+         fail("Expecting exception: StackOverflowError");
+-      
+-      } catch(StackOverflowError e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
++    } catch (StackOverflowError e) {
++        // expected
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

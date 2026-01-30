@@ -1,0 +1,43 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -62,25 +62,21 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test002()  throws Throwable  {
+-      Config config0 = new Config();
+-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
+-      hashMap0.putIfAbsent("UTF-8", "UTF-8");
+-      config0.setDbSpecificOptions(hashMap0);
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-u' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++public void test002() throws Throwable {
++    Config config0 = new Config();
++    HashMap<String, String> hashMap0 = new HashMap<String, String>();
++    String previous = hashMap0.putIfAbsent("UTF-8", "UTF-8");
++    assertNull(previous);
++    assertEquals("UTF-8", hashMap0.get("UTF-8"));
++    config0.setDbSpecificOptions(hashMap0);
++    try {
++        config0.asList();
++        fail("Expecting exception: RuntimeException");
++    } catch (RuntimeException e) {
++        verifyException("net.sourceforge.schemaspy.Config", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test003()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/petsoar/actions/cart/ListCart_ESTest.java
++++ b/evosuite-tests/org/petsoar/actions/cart/ListCart_ESTest.java
+@@ -30,13 +30,19 @@
+       Set set0 = listCart0.getPets();
+       assertNull(set0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        ListCart listCart0 = new ListCart();
++        // Observe behavior before the side‑effect
++        String before = listCart0.execute();
++        SimpleShoppingCart simpleShoppingCart0 = new SimpleShoppingCart();
++        // Side‑effect: sets the internal shopping cart
++        listCart0.setShoppingCart(simpleShoppingCart0);
++        // Observe behavior after the side‑effect
++        String after = listCart0.execute();
++        assertEquals("success", after);
++        // Verify that the side‑effect actually changed the observable state
++        assertNotEquals(before, after);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      ListCart listCart0 = new ListCart();
+-      SimpleShoppingCart simpleShoppingCart0 = new SimpleShoppingCart();
+-      listCart0.setShoppingCart(simpleShoppingCart0);
+-      String string0 = listCart0.execute();
+-      assertEquals("success", string0);
+-  }
+ }

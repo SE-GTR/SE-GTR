@@ -1,0 +1,33 @@
+--- a/evosuite-tests/jaw/template/TemplateJaw_ESTest.java
++++ b/evosuite-tests/jaw/template/TemplateJaw_ESTest.java
+@@ -32,14 +32,23 @@
+     int int0 = templateJaw0.compareTo(object0);
+     assertEquals(-1, int0);
+ }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    TemplateJaw templateJaw0 = new TemplateJaw();
++    // Ensure fields used by compareTo are non‑null
++    templateJaw0.setNome("b");
++    templateJaw0.setDescricao(null);
++    // Verify the side‑effect of setDescricao
++    assertNull(templateJaw0.getDescricao());
++    // Compare with another instance to exercise non‑trivial logic
++    TemplateJaw other = new TemplateJaw();
++    other.setNome("a");
++    int cmp = templateJaw0.compareTo(other);
++    assertTrue("Expected templateJaw0 to be greater than other based on nome", cmp > 0);
++    // Verify the default tipo value
++    assertEquals(TemplateJaw.INDIVIDUAL, templateJaw0.getTipo());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-    templateJaw0 = new TemplateJaw();
+-      templateJaw0.setDescricao((String) null);
+-      assertEquals(0, templateJaw0.getTipo());
+-  }
+ @Test(timeout = 4000)
+     public void test02() throws Throwable {
+         TemplateJaw jaw1 = new TemplateJaw();

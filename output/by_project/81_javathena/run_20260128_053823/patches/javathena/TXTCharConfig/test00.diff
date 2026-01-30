@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/character/data/config/TXTCharConfig_ESTest.java
++++ b/evosuite-tests/org/character/data/config/TXTCharConfig_ESTest.java
+@@ -18,24 +18,15 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class TXTCharConfig_ESTest extends TXTCharConfig_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("conf/char_athena.conf");
+-      FileSystemHandling.appendStringToFile(evoSuiteFile0, "guild_exp_rate");
+-      TXTCharConfig tXTCharConfig0 = new TXTCharConfig();
+-      // Undeclared exception!
+-      try { 
+-        tXTCharConfig0.load();
+-        fail("Expecting exception: NumberFormatException");
+-      
+-      } catch(NumberFormatException e) {
+-         //
+-         // For input string: \"guild_exp_rate\"
+-         //
+-         verifyException("java.lang.NumberFormatException", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NumberFormatException.class)
++public void test00() throws Throwable {
++    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("conf/char_athena.conf");
++    boolean appended = FileSystemHandling.appendStringToFile(evoSuiteFile0, "guild_exp_rate");
++    assertTrue(appended);
++    TXTCharConfig tXTCharConfig0 = new TXTCharConfig();
++    tXTCharConfig0.load();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

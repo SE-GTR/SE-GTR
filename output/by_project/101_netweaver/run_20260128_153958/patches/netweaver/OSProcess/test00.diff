@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
+@@ -19,14 +19,29 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class OSProcess_ESTest extends OSProcess_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      OSProcess oSProcess0 = new OSProcess();
+-      oSProcess0.setElapsedtime("%S~^#geDE4|2N");
+-      oSProcess0.hashCode();
+-      assertEquals(0, oSProcess0.getPid());
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    OSProcess oSProcess0 = new OSProcess();
++
++    // Verify initial state of elapsedtime (expected to be null)
++    assertNull(oSProcess0.getElapsedtime());
++
++    // Act: set a specific elapsed time value
++    String expectedElapsed = "%S~^#geDE4|2N";
++    oSProcess0.setElapsedtime(expectedElapsed);
++
++    // Assert side‑effect of setElapsedtime
++    assertEquals(expectedElapsed, oSProcess0.getElapsedtime());
++
++    // Capture and assert the return value of hashCode (deterministic)
++    int hash1 = oSProcess0.hashCode();
++    int hash2 = oSProcess0.hashCode();
++    assertEquals(hash1, hash2);
++
++    // Existing behavior check
++    assertEquals(0, oSProcess0.getPid());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

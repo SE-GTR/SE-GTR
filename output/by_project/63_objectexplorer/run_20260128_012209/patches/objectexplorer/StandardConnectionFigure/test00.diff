@@ -1,0 +1,38 @@
+--- a/evosuite-tests/de/paragon/explorer/figure/StandardConnectionFigure_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/figure/StandardConnectionFigure_ESTest.java
+@@ -19,16 +19,26 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class StandardConnectionFigure_ESTest extends StandardConnectionFigure_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    StandardConnectionFigure standardConnectionFigure0 = new StandardConnectionFigure();
++    TextBoxFigure textBoxFigure0 = new TextBoxFigure();
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      StandardConnectionFigure standardConnectionFigure0 = new StandardConnectionFigure();
+-      TextBoxFigure textBoxFigure0 = new TextBoxFigure();
+-      textBoxFigure0.setVisible();
+-      standardConnectionFigure0.setStartFigure(textBoxFigure0);
+-      DebugGraphics debugGraphics0 = new DebugGraphics();
+-      standardConnectionFigure0.draw(debugGraphics0);
+-  }
++    // Verify visibility changes
++    assertFalse(textBoxFigure0.isVisible());
++    textBoxFigure0.setVisible();
++    assertTrue(textBoxFigure0.isVisible());
++
++    // Set start figure and verify the association
++    standardConnectionFigure0.setStartFigure(textBoxFigure0);
++    assertSame(textBoxFigure0, standardConnectionFigure0.getStartFigure());
++
++    // Draw the figure and ensure the graphics object recorded drawing activity
++    DebugGraphics debugGraphics0 = new DebugGraphics();
++    standardConnectionFigure0.draw(debugGraphics0);
++    assertTrue(debugGraphics0.getGraphicsCalls() > 0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

@@ -1,0 +1,76 @@
+--- a/evosuite-tests/org/jsecurity/web/session/DefaultWebSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/session/DefaultWebSessionManager_ESTest.java
+@@ -148,43 +148,36 @@
+          verifyException("org.jsecurity.web.WebUtils", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      DefaultWebSessionManager defaultWebSessionManager0 = new DefaultWebSessionManager();
+-      assertEquals(1800000L, AbstractValidatingSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT);
+-      assertEquals(3600000L, AbstractValidatingSessionManager.DEFAULT_SESSION_VALIDATION_INTERVAL);
+-      assertFalse(defaultWebSessionManager0.isValidateRequestOrigin());
+-      assertEquals(1800000L, defaultWebSessionManager0.getGlobalSessionTimeout());
+-      assertEquals(3600000L, defaultWebSessionManager0.getSessionValidationInterval());
+-      assertTrue(defaultWebSessionManager0.isSessionValidationSchedulerEnabled());
+-      
+-      InetAddress inetAddress0 = MockInetAddress.getLoopbackAddress();
+-      assertEquals("127.0.0.1", inetAddress0.getHostAddress());
+-      assertFalse(inetAddress0.isMCSiteLocal());
+-      assertFalse(inetAddress0.isMCNodeLocal());
+-      assertFalse(inetAddress0.isMulticastAddress());
+-      assertFalse(inetAddress0.isLinkLocalAddress());
+-      assertFalse(inetAddress0.isMCOrgLocal());
+-      assertTrue(inetAddress0.isLoopbackAddress());
+-      assertEquals("/127.0.0.1", inetAddress0.toString());
+-      assertFalse(inetAddress0.isSiteLocalAddress());
+-      assertFalse(inetAddress0.isMCGlobal());
+-      assertFalse(inetAddress0.isMCLinkLocal());
+-      assertFalse(inetAddress0.isAnyLocalAddress());
+-      
+-      // Undeclared exception!
+-      try { 
+-        defaultWebSessionManager0.start(inetAddress0);
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // No ServletRequest found in ThreadContext. Make sure WebUtils.bind() is being called. (typically called by JSecurityFilter)  This could also happen when running integration tests that don't properly call WebUtils.bind().
+-         //
+-         verifyException("org.jsecurity.web.WebUtils", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        DefaultWebSessionManager defaultWebSessionManager0 = new DefaultWebSessionManager();
++        assertFalse(defaultWebSessionManager0.isValidateRequestOrigin());
++        assertEquals(1800000L, defaultWebSessionManager0.getGlobalSessionTimeout());
++        assertEquals(3600000L, defaultWebSessionManager0.getSessionValidationInterval());
++        assertTrue(defaultWebSessionManager0.isSessionValidationSchedulerEnabled());
++
++        InetAddress inetAddress0 = MockInetAddress.getLoopbackAddress();
++        assertEquals("127.0.0.1", inetAddress0.getHostAddress());
++        assertFalse(inetAddress0.isMCSiteLocal());
++        assertFalse(inetAddress0.isMCNodeLocal());
++        assertFalse(inetAddress0.isMulticastAddress());
++        assertFalse(inetAddress0.isLinkLocalAddress());
++        assertFalse(inetAddress0.isMCOrgLocal());
++        assertTrue(inetAddress0.isLoopbackAddress());
++        assertEquals("/127.0.0.1", inetAddress0.toString());
++        assertFalse(inetAddress0.isSiteLocalAddress());
++        assertFalse(inetAddress0.isMCGlobal());
++        assertFalse(inetAddress0.isMCLinkLocal());
++        assertFalse(inetAddress0.isAnyLocalAddress());
++
++        try {
++            defaultWebSessionManager0.start(inetAddress0);
++            fail("Expecting exception: IllegalStateException");
++        } catch (IllegalStateException e) {
++            verifyException("org.jsecurity.web.WebUtils", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

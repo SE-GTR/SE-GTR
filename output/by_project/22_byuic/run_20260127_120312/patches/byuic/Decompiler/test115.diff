@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/mozilla/javascript/Decompiler_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/Decompiler_ESTest.java
+@@ -845,13 +845,16 @@
+          verifyException("org.mozilla.javascript.Kit", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test115()  throws Throwable  {
+-      Decompiler decompiler0 = new Decompiler();
+-      decompiler0.addNumber(0.289529654602168);
+-      assertEquals(2, Decompiler.INDENT_GAP_PROP);
+-  }
++@Test(timeout = 4000)
++    public void test115() throws Throwable {
++        Decompiler decompiler0 = new Decompiler();
++        String before = decompiler0.toString();
++        decompiler0.addNumber(0.289529654602168);
++        String after = decompiler0.toString();
++        assertNotEquals("Adding a number should modify the decompiler state.", before, after);
++        assertTrue("Decompiled output should contain the added number.", after.contains("0.289529654602168"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test116()  throws Throwable  {

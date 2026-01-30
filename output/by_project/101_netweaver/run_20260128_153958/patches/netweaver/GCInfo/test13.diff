@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo_ESTest.java
+@@ -213,17 +213,22 @@
+     // Objects should no longer be equal after the change
+     assertFalse(gCInfo0.equals(gCInfo1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-    gCInfo0 = new GCInfo();
+-      gCInfo0.setProcessname("yl/}dF%YL");
+-    gCInfo1 = new GCInfo();
+-      boolean boolean0 = gCInfo0.equals(gCInfo1);
+-      assertFalse(boolean0);
+-      assertFalse(gCInfo1.equals((Object)gCInfo0));
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        gCInfo0 = new GCInfo();
++        gCInfo0.setProcessname("yl/}dF%YL");
++        gCInfo1 = new GCInfo();
++        // Verify that objects are not equal when only one has a process name
++        assertFalse(gCInfo0.equals(gCInfo1));
++        assertFalse(gCInfo1.equals(gCInfo0));
++        // Assert the side‑effect of setProcessname
++        assertEquals("yl/}dF%YL", gCInfo0.getProcessname());
++        // Make the second object have the same process name and verify equality
++        gCInfo1.setProcessname("yl/}dF%YL");
++        assertTrue(gCInfo0.equals(gCInfo1));
++        assertTrue(gCInfo1.equals(gCInfo0));
++    }
++
+ @Test(timeout = 4000)
+   public void test14() throws Throwable {
+     GCInfo gCInfo0 = new GCInfo();

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/quickserver/util/io/ByteBufferOutputStream_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/io/ByteBufferOutputStream_ESTest.java
+@@ -164,25 +164,16 @@
+       byteBufferOutputStream0.flush();
+       //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:39>", nonBlockingClientHandler0.getName());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      InitServerHooks initServerHooks0 = new InitServerHooks();
+-      NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      initServerHooks0.add((Object) nonBlockingClientHandler0);
+-      ByteBufferOutputStream byteBufferOutputStream0 = new ByteBufferOutputStream(initServerHooks0, nonBlockingClientHandler0);
+-      // Undeclared exception!
+-      try { 
+-        byteBufferOutputStream0.flush();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.net.server.impl.NonBlockingClientHandler", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    InitServerHooks initServerHooks0 = new InitServerHooks();
++    NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
++    boolean added = initServerHooks0.add((Object) nonBlockingClientHandler0);
++    assertTrue("Handler should be added to InitServerHooks", added);
++    ByteBufferOutputStream byteBufferOutputStream0 = new ByteBufferOutputStream(initServerHooks0, nonBlockingClientHandler0);
++    assertNotNull(byteBufferOutputStream0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/visu/handball/moves/model/animation/CurveIterator_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/animation/CurveIterator_ESTest.java
+@@ -29,13 +29,24 @@
+       moveEvent0.setControlPoint(2, 2, true);
+     curveIterator0 = new CurveIterator(moveEvent0);
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        double[] before = new double[6];
++        curveIterator0.currentSegment(before);
++        curveIterator0.next();
++        assertFalse(curveIterator0.isDone());
++        double[] after = new double[6];
++        curveIterator0.currentSegment(after);
++        boolean changed = false;
++        for (int i = 0; i < before.length; i++) {
++            if (before[i] != after[i]) {
++                changed = true;
++                break;
++            }
++        }
++        assertTrue("Iterator should advance to different coordinates", changed);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      curveIterator0.next();
+-      assertFalse(curveIterator0.isDone());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

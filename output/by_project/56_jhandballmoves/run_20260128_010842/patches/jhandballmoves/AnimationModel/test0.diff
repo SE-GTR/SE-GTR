@@ -1,0 +1,41 @@
+--- a/evosuite-tests/visu/handball/moves/model/animation/AnimationModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/animation/AnimationModel_ESTest.java
+@@ -20,22 +20,33 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AnimationModel_ESTest extends AnimationModel_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       Offender offender0 = new Offender(1172, (-2781));
+       PassEvent passEvent0 = new PassEvent(offender0, (-2781), (-2781));
+       HandballModel handballModel0 = new HandballModel();
++
++      // Verify that adding a move event changes the model's internal state
++      int stateBeforeAdd = handballModel0.getState();
+       handballModel0.addMoveEvent(passEvent0);
++      int stateAfterAdd = handballModel0.getState();
++      assertNotEquals(stateBeforeAdd, stateAfterAdd);
++
+       PassEvent passEvent1 = new PassEvent(offender0, 1172, (-1124));
+       handballModel0.addMoveEvent(passEvent1);
++
++      // Verify that setting the destination player is reflected in the event
+       passEvent0.setDestinationPlayer(offender0, false);
++      assertEquals(offender0, passEvent0.getDestinationPlayer());
++
+       AnimationModel animationModel0 = new AnimationModel(passEvent0, handballModel0, false);
+-      animationModel0.nextStep();
+-      animationModel0.nextStep();
++      assertTrue(animationModel0.nextStep());
++      assertTrue(animationModel0.nextStep());
++
+       assertTrue(handballModel0.isBallSet());
+       assertTrue(offender0.hasBall());
+   }
++
+ @Test(timeout = 4000)
+   public void test1() throws Throwable {
+       Defender defender0 = new Defender(4499, 4499);

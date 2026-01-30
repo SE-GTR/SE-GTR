@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -127,17 +127,21 @@
+     assertEquals(0, enqLock0.getUseCountOwnerVb());
+     assertEquals(0, enqLock0.getUseCountOwner());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
+-      EnqLock enqLock1 = new EnqLock();
++@Test(timeout = 4000)
++  public void test09() throws Throwable {
++      EnqLock enqLock0 = new EnqLock();
++      EnqLock enqLock1 = new EnqLock();
++      // initial state: backup should be false for both instances
++      assertFalse(enqLock0.isBackup());
++      assertFalse(enqLock1.isBackup());
++      // invoke the void method under test
+       enqLock1.setBackup(true);
+-      boolean boolean0 = enqLock0.equals(enqLock1);
++      // verify the side‑effect via the public getter
+       assertTrue(enqLock1.isBackup());
+-      assertFalse(boolean0);
+-  }
++      // objects differ because their backup flags differ
++      assertFalse(enqLock0.equals(enqLock1));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

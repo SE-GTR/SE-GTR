@@ -1,0 +1,26 @@
+--- a/evosuite-tests/net/sf/xbus/technical/ReceiverThreadManager_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/technical/ReceiverThreadManager_ESTest.java
+@@ -17,13 +17,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ReceiverThreadManager_ESTest extends ReceiverThreadManager_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        ReceiverThreadManager manager = ReceiverThreadManager.getInstance();
++        // Verify that getInstance returns the same singleton instance
++        ReceiverThreadManager manager2 = ReceiverThreadManager.getInstance();
++        assertSame(manager, manager2);
++        // Check default receiver state for an unknown system identifier
++        boolean stopped = manager.isHTTPReceiverStopped("99");
++        assertFalse(stopped);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ReceiverThreadManager receiverThreadManager0 = ReceiverThreadManager.getInstance();
+-      boolean boolean0 = receiverThreadManager0.isHTTPReceiverStopped("99");
+-      assertFalse(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

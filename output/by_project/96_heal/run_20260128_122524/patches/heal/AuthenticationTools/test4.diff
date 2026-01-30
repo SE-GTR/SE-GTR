@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/heal/util/AuthenticationTools_ESTest.java
++++ b/evosuite-tests/org/heal/util/AuthenticationTools_ESTest.java
+@@ -75,23 +75,22 @@
+     boolean result = AuthenticationTools.isApprover(httpServletRequest0);
+     assertFalse(result);
+ }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        userBean0 = new UserBean();
++        httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++        doReturn(userBean0).when(httpSession0).getAttribute(anyString());
++        HttpSession httpSession1 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++        doReturn((Object) null).when(httpSession1).getAttribute(anyString());
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn(httpSession0, httpSession1).when(httpServletRequest0).getSession();
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        boolean boolean0 = AuthenticationTools.isAdministrator(httpServletRequestWrapper0);
++        boolean boolean1 = AuthenticationTools.isApprover(httpServletRequestWrapper0);
++        assertFalse(boolean0);
++        assertFalse(boolean1);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    userBean0 = new UserBean();
+-    httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(userBean0).when(httpSession0).getAttribute(anyString());
+-      HttpSession httpSession1 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession1).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0, httpSession1).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      boolean boolean0 = AuthenticationTools.isAdministrator(httpServletRequestWrapper0);
+-      boolean boolean1 = AuthenticationTools.isApprover(httpServletRequestWrapper0);
+-      assertTrue(boolean1 == boolean0);
+-      assertFalse(boolean1);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

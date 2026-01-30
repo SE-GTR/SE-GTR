@@ -1,0 +1,22 @@
+--- a/evosuite-tests/com/sap/netweaver/porta/ide/eclipse/server/control/SapNWLaunchConfigurationTabGroup_ESTest.java
++++ b/evosuite-tests/com/sap/netweaver/porta/ide/eclipse/server/control/SapNWLaunchConfigurationTabGroup_ESTest.java
+@@ -15,10 +15,14 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SapNWLaunchConfigurationTabGroup_ESTest extends SapNWLaunchConfigurationTabGroup_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        SapNWLaunchConfigurationTabGroup group = new SapNWLaunchConfigurationTabGroup();
++        // Act: create tabs (may modify internal state)
++        group.createTabs((org.eclipse.debug.ui.ILaunchConfigurationDialog) null, (String) null);
++        // Assert: the internal tabs array should now be non‑null, indicating the side effect occurred
++        org.eclipse.debug.ui.ILaunchConfigurationTab[] tabs = group.getTabs();
++        org.junit.Assert.assertNotNull("Tabs should be initialized after createTabs()", tabs);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      SapNWLaunchConfigurationTabGroup sapNWLaunchConfigurationTabGroup0 = new SapNWLaunchConfigurationTabGroup();
+-      sapNWLaunchConfigurationTabGroup0.createTabs((ILaunchConfigurationDialog) null, (String) null);
+-  }
+ }

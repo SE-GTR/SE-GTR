@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/quickserver/net/qsadmin/gui/Propertie_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/qsadmin/gui/Propertie_ESTest.java
+@@ -325,21 +325,26 @@
+       assertFalse(propertie0.isSet());
+       assertFalse(propertie0.isGet());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      Propertie propertie0 = new Propertie();
+-      assertEquals("yes", propertie0.getTargetNeeded());
+-      
+-      propertie0.setTargetNeeded("java.lang.String@0000000329");
+-      String string0 = propertie0.getSetCommand((String) null);
+-      assertFalse(propertie0.isGet());
+-      assertEquals("1.3", propertie0.getVersion());
+-      assertEquals("server", propertie0.getTarget());
+-      assertEquals("set null null", string0);
+-      assertEquals("edit", propertie0.getType());
+-      assertFalse(propertie0.isSet());
+-  }
++@Test(timeout = 4000)
++    public void test24() throws Throwable {
++        Propertie propertie0 = new Propertie();
++        assertEquals("yes", propertie0.getTargetNeeded());
++
++        String before = propertie0.getTargetNeeded();
++        propertie0.setTargetNeeded("java.lang.String@0000000329");
++        String after = propertie0.getTargetNeeded();
++        assertNotEquals(before, after);
++        assertTrue(after.equalsIgnoreCase("java.lang.String@0000000329"));
++
++        String string0 = propertie0.getSetCommand((String) null);
++        assertFalse(propertie0.isGet());
++        assertEquals("1.3", propertie0.getVersion());
++        assertEquals("server", propertie0.getTarget());
++        assertEquals("set null null", string0);
++        assertEquals("edit", propertie0.getType());
++        assertFalse(propertie0.isSet());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test25()  throws Throwable  {

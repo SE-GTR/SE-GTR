@@ -1,0 +1,39 @@
+--- a/evosuite-tests/corina/site/SiteDB_ESTest.java
++++ b/evosuite-tests/corina/site/SiteDB_ESTest.java
+@@ -29,26 +29,16 @@
+     siteDB0 = new SiteDB();
+     linkedList0 = new LinkedList<Object>();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-    siteDB0 = new SiteDB();
+-    linkedList0 = new LinkedList<Object>();
+-      siteDB0.sites = (List) linkedList0;
+-      linkedList0.add((Object) siteDB0.sites);
+-      // Undeclared exception!
+-      try { 
+-        siteDB0.getSiteNames();
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.util.LinkedList cannot be cast to corina.site.Site
+-         //
+-         verifyException("corina.site.SiteDB", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        siteDB0 = new SiteDB();
++        linkedList0 = new LinkedList<Object>();
++        siteDB0.sites = (List) linkedList0;
++        boolean added = linkedList0.add((Object) siteDB0.sites);
++        assertTrue("Adding the sites list to itself should return true", added);
++        assertSame("The list should contain itself as its first element", siteDB0.sites, linkedList0.get(0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

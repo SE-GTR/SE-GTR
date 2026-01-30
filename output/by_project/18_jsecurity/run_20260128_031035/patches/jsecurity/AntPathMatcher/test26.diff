@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jsecurity/util/AntPathMatcher_ESTest.java
++++ b/evosuite-tests/org/jsecurity/util/AntPathMatcher_ESTest.java
+@@ -188,15 +188,19 @@
+     public void test25() throws Throwable {
+         assertFalse(new AntPathMatcher().matchStart("/ ", "/"));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-    antPathMatcher0 = new AntPathMatcher();
+-      antPathMatcher0.setPathSeparator("");
+-      boolean boolean0 = antPathMatcher0.match("/*", "/");
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        antPathMatcher0 = new AntPathMatcher();
++        // Verify that the default separator is the expected default before change (optional)
++        // Change the path separator to an empty string
++        antPathMatcher0.setPathSeparator("");
++        // Observe the side‑effect of setPathSeparator via its public accessor
++        assertEquals("", antPathMatcher0.getPathSeparator());
++        // The matcher should now consider the pattern and path as matching
++        boolean boolean0 = antPathMatcher0.match("/*", "/");
++        assertTrue(boolean0);
++    }
++
+ @Test(timeout = 4000)
+   public void test27() throws Throwable {
+     AntPathMatcher antPathMatcher0 = new AntPathMatcher();

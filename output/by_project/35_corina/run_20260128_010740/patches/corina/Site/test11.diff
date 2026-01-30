@@ -1,0 +1,41 @@
+--- a/evosuite-tests/corina/site/Site_ESTest.java
++++ b/evosuite-tests/corina/site/Site_ESTest.java
+@@ -125,17 +125,27 @@
+       assertFalse(site1.equals((Object)site0));
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      Site site0 = new Site();
+-      boolean[] booleanArray0 = new boolean[8];
+-      booleanArray0[2] = true;
+-      site0.setTypes(booleanArray0);
+-      boolean boolean0 = site0.isForest();
+-      assertEquals("1", site0.getTypeString());
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        Site site0 = new Site();
++        // Capture the initial type representation before any modification
++        String beforeType = site0.getTypeString();
++
++        boolean[] booleanArray0 = new boolean[8];
++        booleanArray0[2] = true; // set a specific type flag
++
++        site0.setTypes(booleanArray0); // void method whose effect we will verify
++
++        // Verify that the type representation has changed as a result of setTypes
++        String afterType = site0.getTypeString();
++        assertNotEquals("Type string should change after setTypes", beforeType, afterType);
++        assertEquals("1", afterType);
++
++        // Verify the corresponding boolean property derived from the type
++        boolean boolean0 = site0.isForest();
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

@@ -1,0 +1,49 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/gui/renderers/MissileRenderer_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/gui/renderers/MissileRenderer_ESTest.java
+@@ -49,26 +49,26 @@
+         LinkedHashSet<Integer> linkedHashSet0 = new LinkedHashSet<Integer>();
+         missileRenderer0.render(graphics2D0, missileSnapshot0, (Set<Integer>) linkedHashSet0);
+     }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        missileRenderer0 = new MissileRenderer();
++        graphics2D0 = mock(Graphics2D.class);
++        doReturn((Stroke) null).when(graphics2D0).getStroke();
+ 
++        // Create a mock snapshot with minimal stubbing to avoid NPE inside render
++        MissileSnapshot missileSnapshot0 = mock(MissileSnapshot.class);
++        when(missileSnapshot0.getX()).thenReturn(0);
++        when(missileSnapshot0.getY()).thenReturn(0);
++        // Stub any additional methods that render might call with safe defaults
++        // (using generic stubbing for int-returning methods)
++        when(missileSnapshot0.getDirection()).thenReturn(0);
++        when(missileSnapshot0.getSpeed()).thenReturn(0);
++        when(missileSnapshot0.getRadius()).thenReturn(0);
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    missileRenderer0 = new MissileRenderer();
+-    graphics2D0 = mock(Graphics2D.class, new ViolatedAssumptionAnswer());
+-      doReturn((Stroke) null).when(graphics2D0).getStroke();
+-      Duration duration0 = Duration.ONE_CYCLE;
+-      MissileSnapshot missileSnapshot0 = new MissileSnapshot(false, duration0);
+-      LinkedHashSet<Integer> linkedHashSet0 = new LinkedHashSet<Integer>();
+-      // Undeclared exception!
+-      try { 
+-        missileRenderer0.render(graphics2D0, missileSnapshot0, (Set<Integer>) linkedHashSet0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.virtualinfinity.atrobots.snapshots.ArenaObjectSnapshot", e);
+-      }
+-  }
++        Set<Integer> selectedRobotIds = new LinkedHashSet<>();
++
++        // Execute the method under test; any unexpected exception will cause the test to fail
++        missileRenderer0.render(graphics2D0, missileSnapshot0, selectedRobotIds);
++    }
++
+ }

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/runtime/Frame_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/runtime/Frame_ESTest.java
+@@ -17,18 +17,27 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Frame_ESTest extends Frame_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Method method0 = new Method("profiler", "profiler");
+-      Frame frame0 = new Frame((Frame) null, method0, (-291L));
+-      Frame frame1 = new Frame(frame0, method0, (-291L));
+-      frame1.setBeginTime((-291L));
+-      frame1.setEndTime(2140052908);
+-      Controller._compactThreadDepth = true;
+-      frame0.toString();
+-      assertTrue(frame0.hasChildren());
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    Method method0 = new Method("profiler", "profiler");
++    Frame frame0 = new Frame((Frame) null, method0, -291L);
++    Frame frame1 = new Frame(frame0, method0, -291L);
++    // Capture state before invoking the mutating methods
++    String before = frame1.toString();
++    frame1.setBeginTime(-291L);
++    frame1.setEndTime(2140052908L);
++    String after = frame1.toString();
++    // Verify that the side‑effects are observable via toString()
++    assertNotNull(before);
++    assertNotNull(after);
++    assertNotEquals(before, after);
++    // Additional assertions for other observed behavior
++    Controller._compactThreadDepth = true;
++    String frame0Str = frame0.toString();
++    assertNotNull(frame0Str);
++    assertTrue(frame0.hasChildren());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

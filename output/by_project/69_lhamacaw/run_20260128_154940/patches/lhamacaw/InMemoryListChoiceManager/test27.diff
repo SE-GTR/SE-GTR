@@ -1,0 +1,70 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryListChoiceManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryListChoiceManager_ESTest.java
+@@ -450,35 +450,38 @@
+     ArrayList<AvailabilityState> afterDeletion = listChoiceManager.getAvailabilityStates(user);
+     assertTrue(afterDeletion.isEmpty());
+ }
+-
+-@Test(timeout = 4000)
+-  public void test27() throws Throwable {
+-      InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+-      User user0 = new User();
+-      CleaningState cleaningState0 = new CleaningState(-1624555116, "edy/`_f");
+-      InMemoryListChoiceManager inMemoryListChoiceManager0 = new InMemoryListChoiceManager(inMemoryChangeEventManager0);
+-
+-      // add a cleaning state and verify it was stored
+-      inMemoryListChoiceManager0.addCleaningState(user0, cleaningState0);
+-      ArrayList<CleaningState> beforeList = inMemoryListChoiceManager0.getCleaningStates(user0);
+-      assertEquals(1, beforeList.size());
+-
+-      // prepare a variable whose cleaning status matches the cleaning state
+-      ArrayList<Variable> variableList = new ArrayList<>();
+-      DerivedVariable derivedVariable0 = new DerivedVariable();
+-      String status = "edy/`_f";
+-      derivedVariable0.setCleaningStatus(status);
+-      assertEquals(status, derivedVariable0.getCleaningStatus());
+-      variableList.add(derivedVariable0);
+-
+-      // delete the cleaning state using the variable and verify removal
+-      inMemoryListChoiceManager0.deleteCleaningStates(user0, beforeList, variableList);
+-      ArrayList<CleaningState> afterList = inMemoryListChoiceManager0.getCleaningStates(user0);
+-      assertEquals(0, afterList.size());
+-
+-      // original assertion retained for completeness
+-      assertEquals("", user0.getAffiliation());
+-  }
++@Test(timeout = 4000)
++public void test27() throws Throwable {
++    InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
++    User user0 = new User();
++    CleaningState cleaningState0 = new CleaningState(-1624555116, "edy/`_f");
++    InMemoryListChoiceManager inMemoryListChoiceManager0 = new InMemoryListChoiceManager(inMemoryChangeEventManager0);
++
++    // add a cleaning state and verify it was stored
++    inMemoryListChoiceManager0.addCleaningState(user0, cleaningState0);
++    ArrayList<CleaningState> beforeList = inMemoryListChoiceManager0.getCleaningStates(user0);
++    assertEquals(1, beforeList.size());
++
++    // prepare a variable whose cleaning status matches the cleaning state
++    ArrayList<Variable> variableList = new ArrayList<>();
++    DerivedVariable derivedVariable0 = new DerivedVariable();
++    String status = "edy/`_f";
++    derivedVariable0.setCleaningStatus(status);
++    assertEquals(status, derivedVariable0.getCleaningStatus());
++    variableList.add(derivedVariable0);
++    // verify that the variable was added to the list
++    assertEquals(1, variableList.size());
++    assertSame(derivedVariable0, variableList.get(0));
++
++    // delete the cleaning state using the variable and verify removal
++    inMemoryListChoiceManager0.deleteCleaningStates(user0, beforeList, variableList);
++    ArrayList<CleaningState> afterList = inMemoryListChoiceManager0.getCleaningStates(user0);
++    assertEquals(0, afterList.size());
++
++    // original assertion retained for completeness
++    assertEquals("", user0.getAffiliation());
++}
++
+ @Test(timeout = 4000)
+ public void test28() throws Throwable {
+     InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();

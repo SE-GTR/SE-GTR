@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/qual/trim/BwaQualityTrimmer_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/qual/trim/BwaQualityTrimmer_ESTest.java
+@@ -46,18 +46,17 @@
+       Range range0 = bwaQualityTrimmer0.trim(qualitySequence0);
+       assertTrue(range0.isEmpty());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
+       PhredQuality phredQuality0 = PhredQuality.valueOf(6);
+       BwaQualityTrimmer bwaQualityTrimmer0 = new BwaQualityTrimmer(phredQuality0);
+-      Iterator<PhredQuality> iterator0 = (Iterator<PhredQuality>) mock(Iterator.class, new ViolatedAssumptionAnswer());
++      Iterator<PhredQuality> iterator0 = mock(Iterator.class, new ViolatedAssumptionAnswer());
+       doReturn(false).when(iterator0).hasNext();
+       QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+       doReturn(iterator0).when(qualitySequence0).iterator();
+-      doReturn((long)(byte)127, (long)(byte)127).when(qualitySequence0).getLength();
++      doReturn((long) (byte) 127, (long) (byte) 127).when(qualitySequence0).getLength();
+       Range range0 = bwaQualityTrimmer0.trim(qualitySequence0);
+-      assertTrue(range0.isEmpty());
++      assertEquals(0, range0.getLength());
+   }
++
+ }

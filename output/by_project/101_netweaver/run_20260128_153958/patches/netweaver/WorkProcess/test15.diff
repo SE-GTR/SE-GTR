@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -245,18 +245,25 @@
+     boolean boolean0 = workProcess0.equals(workProcess1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
+-      WorkProcess workProcess1 = new WorkProcess();
+-      assertTrue(workProcess1.equals((Object)workProcess0));
+-      
+-      workProcess1.setTime("1'qPb(h TU-4i{:r");
+-      boolean boolean0 = workProcess1.equals(workProcess0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        WorkProcess workProcess0 = new WorkProcess();
++        WorkProcess workProcess1 = new WorkProcess();
++        assertTrue(workProcess1.equals((Object) workProcess0));
++
++        // Verify initial state of the time field
++        assertNull(workProcess1.getTime());
++
++        String newTime = "1'qPb(h TU-4i{:r";
++        workProcess1.setTime(newTime);
++
++        // Observe the side‑effect of setTime
++        assertEquals(newTime, workProcess1.getTime());
++
++        boolean boolean0 = workProcess1.equals(workProcess0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

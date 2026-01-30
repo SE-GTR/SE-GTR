@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jsecurity/subject/AbstractRememberMeManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/subject/AbstractRememberMeManager_ESTest.java
+@@ -23,22 +23,12 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AbstractRememberMeManager_ESTest extends AbstractRememberMeManager_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      WebRememberMeManager webRememberMeManager0 = new WebRememberMeManager();
+-      // Undeclared exception!
+-      try { 
+-        webRememberMeManager0.getRememberedPrincipals();
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // No ServletRequest found in ThreadContext. Make sure WebUtils.bind() is being called. (typically called by JSecurityFilter)  This could also happen when running integration tests that don't properly call WebUtils.bind().
+-         //
+-         verifyException("org.jsecurity.web.WebUtils", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = IllegalStateException.class)
++public void test00() throws Throwable {
++    WebRememberMeManager webRememberMeManager0 = new WebRememberMeManager();
++    webRememberMeManager0.getRememberedPrincipals();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

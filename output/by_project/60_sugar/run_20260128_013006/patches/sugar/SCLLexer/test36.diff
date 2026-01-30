@@ -1,0 +1,36 @@
+--- a/evosuite-tests/net/sf/sugar/scl/SCLLexer_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/scl/SCLLexer_ESTest.java
+@@ -467,23 +467,16 @@
+         int after = sCLLexer0.getCharPositionInLine();
+         assertTrue(after > before);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test36()  throws Throwable  {
+-      SCLLexer sCLLexer0 = new SCLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sCLLexer0.mSTART_UNPARSED_INCLUDE();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test36() throws Throwable {
++    org.antlr.runtime.ANTLRStringStream input = new org.antlr.runtime.ANTLRStringStream("dummy");
++    SCLLexer lexer = new SCLLexer(input);
++    lexer.mSTART_UNPARSED_INCLUDE();
++    org.antlr.runtime.Token token = lexer.getToken();
++    org.junit.Assert.assertNotNull(token);
++    org.junit.Assert.assertEquals(SCLLexer.START_UNPARSED_INCLUDE, token.getType());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test37()  throws Throwable  {

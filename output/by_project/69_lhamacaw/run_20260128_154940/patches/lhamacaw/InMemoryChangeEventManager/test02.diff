@@ -1,0 +1,31 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryChangeEventManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryChangeEventManager_ESTest.java
+@@ -58,18 +58,25 @@
+     ArrayList<MacawChangeEvent> history = manager.getChangeHistoryByUser(user);
+     assertEquals(2, history.size());
+ }
+-
+ @Test(timeout = 4000)
+ public void test02() throws Throwable {
+     InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
++    // Capture the initial size of the list‑choice history (should be zero)
++    int initialSize = inMemoryChangeEventManager0.getChangeHistoryForListChoices().size();
++
+     MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent();
+     ChangeEventType changeEventType0 = ChangeEventType.LIST_CHOICE;
+     macawChangeEvent0.setChangeType(changeEventType0);
+     assertEquals(changeEventType0, macawChangeEvent0.getChangeType());
+-    inMemoryChangeEventManager0.registerChangeEvent(macawChangeEvent0);
++
++    inMemoryChangeEventManager0.registerChangeEvent(macawChangeEvent0);
++
+     ArrayList<MacawChangeEvent> arrayList0 = inMemoryChangeEventManager0.getChangeHistoryForListChoices();
++    // Verify that the event was added and that the size increased by one
+     assertTrue(arrayList0.contains(macawChangeEvent0));
+-}
++    assertEquals(initialSize + 1, arrayList0.size());
++}
++
+ 
+ @Test(timeout = 4000)
+ public void test03() throws Throwable {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/module/upload/UploadServicesBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/upload/UploadServicesBean_ESTest.java
+@@ -40,26 +40,14 @@
+             // Expected exception because FileLocator was not set
+         }
+     }
++@Test(expected = NullPointerException.class, timeout = 4000)
++    public void test03() throws Throwable {
++        FileLocator fileLocator0 = new FileLocator();
++        UploadServicesBean uploadServicesBean0 = new UploadServicesBean();
++        uploadServicesBean0.setFileLocator(fileLocator0);
++        uploadServicesBean0.generateThumbnail("thumbnails", "content", null);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-      FileLocator fileLocator0 = new FileLocator();
+-      UploadServicesBean uploadServicesBean0 = new UploadServicesBean();
+-      uploadServicesBean0.setFileLocator(fileLocator0);
+-      // Undeclared exception!
+-      try { 
+-        uploadServicesBean0.generateThumbnail("thumbnails", "content", (PlanarImage) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.module.upload.UploadServicesBean", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

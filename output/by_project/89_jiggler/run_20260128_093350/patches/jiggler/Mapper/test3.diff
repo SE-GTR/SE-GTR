@@ -1,0 +1,34 @@
+--- a/evosuite-tests/jigl/image/warp/Mapper_ESTest.java
++++ b/evosuite-tests/jigl/image/warp/Mapper_ESTest.java
+@@ -60,17 +60,21 @@
+         Image result = mapper0.apply((RealGrayImage) imageKernel0);
+         assertNotNull(result);
+     }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        IdentityTransform identityTransform0 = new IdentityTransform();
++        interpolationMethod0 = InterpolationMethod.NEIGHBOR;
++        mapper0 = new Mapper(identityTransform0, interpolationMethod0);
++        float[] floatArray0 = new float[2];
++        // Verify that the default color is initially unset
++        assertNull(mapper0.getDefaultColor());
++        // Act: set the default color
++        mapper0.setDefaultColor(floatArray0);
++        // Assert: the mapper now holds the provided array as its default color
++        assertSame(floatArray0, mapper0.getDefaultColor());
++        assertEquals(2, mapper0.getDefaultColor().length);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      IdentityTransform identityTransform0 = new IdentityTransform();
+-    interpolationMethod0 = InterpolationMethod.NEIGHBOR;
+-    mapper0 = new Mapper(identityTransform0, interpolationMethod0);
+-      float[] floatArray0 = new float[2];
+-      mapper0.setDefaultColor(floatArray0);
+-      assertEquals(2, floatArray0.length);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

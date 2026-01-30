@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/SffUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/SffUtil_ESTest.java
+@@ -22,15 +22,16 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SffUtil_ESTest extends SffUtil_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    Range range0 = Range.of(3L, 3L);
++    DefaultSffReadHeader header = new DefaultSffReadHeader(3, range0, range0, "");
++    Range trimRange = SffUtil.computeTrimRangeFor(header);
++    assertEquals(3L, trimRange.getBegin());
++    assertEquals(3L, trimRange.getEnd());
++    assertFalse(trimRange.isEmpty());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Range range0 = Range.of((long) 3, (long) 3);
+-      DefaultSffReadHeader defaultSffReadHeader0 = new DefaultSffReadHeader(3, range0, range0, "");
+-      Range range1 = SffUtil.computeTrimRangeFor((SffReadHeader) defaultSffReadHeader0);
+-      assertSame(range1, range0);
+-      assertFalse(range1.isEmpty());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

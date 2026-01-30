@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
+@@ -162,27 +162,27 @@
+       assertFalse(h2Dialect0.quoteTableNames);
+       assertTrue(h2Dialect0.isSequenceSupported());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      String[] stringArray0 = new String[9];
+-      DBSchema dBSchema0 = new DBSchema("");
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable("", dBSchema0);
+-      ConstraintDescriptorList constraintDescriptorList0 = new ConstraintDescriptorList();
+-      constraintDescriptorList0.add((Object) defaultDBTable0);
+-      // Undeclared exception!
+-      try { 
+-        oracleDialect0.update(defaultDBTable0, stringArray0, constraintDescriptorList0);
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // org.databene.jdbacl.model.DefaultDBTable cannot be cast to org.databene.jdbacl.ColumnInfo
+-         //
+-         verifyException("org.databene.jdbacl.DatabaseDialect", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        String[] stringArray0 = new String[9];
++        DBSchema dBSchema0 = new DBSchema("");
++        DefaultDBTable defaultDBTable0 = new DefaultDBTable("", dBSchema0);
++        ConstraintDescriptorList constraintDescriptorList0 = new ConstraintDescriptorList();
++        boolean added = constraintDescriptorList0.add((Object) defaultDBTable0);
++        assertTrue("Element should be added to the list", added);
++        // Undeclared exception!
++        try {
++            oracleDialect0.update(defaultDBTable0, stringArray0, constraintDescriptorList0);
++            fail("Expecting exception: ClassCastException");
++        } catch (ClassCastException e) {
++            //
++            // org.databene.jdbacl.model.DefaultDBTable cannot be cast to org.databene.jdbacl.ColumnInfo
++            //
++            verifyException("org.databene.jdbacl.DatabaseDialect", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

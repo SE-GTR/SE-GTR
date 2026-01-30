@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/ib/client/EClientSocket_ESTest.java
++++ b/evosuite-tests/com/ib/client/EClientSocket_ESTest.java
+@@ -195,21 +195,13 @@
+          verifyException("com.ib.client.EClientSocket", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-    eClientSocket0 = new EClientSocket();
+-      try { 
+-        eClientSocket0.reqScannerParameters();
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // Not connected [id = -1, errorCode = 504]
+-         //
+-         verifyException("com.ib.client.EClientSocket", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = Exception.class)
++public void test28() throws Throwable {
++    eClientSocket0 = new EClientSocket();
++    assertFalse(eClientSocket0.isConnected());
++    eClientSocket0.reqScannerParameters();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test29()  throws Throwable  {

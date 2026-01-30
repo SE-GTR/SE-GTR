@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/quickserver/util/io/ByteBufferOutputStream_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/io/ByteBufferOutputStream_ESTest.java
+@@ -82,29 +82,26 @@
+     boolean canWriteAfter = byteBufferOutputStream0.isDataAvailableForWrite(object0);
+     assertTrue(canWriteAfter);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      InitServerHooks initServerHooks0 = new InitServerHooks();
+-      NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      nonBlockingClientHandler0.setSecure(true);
+-      ByteBufferOutputStream byteBufferOutputStream0 = new ByteBufferOutputStream(initServerHooks0, nonBlockingClientHandler0);
+-      byte[] byteArray0 = new byte[5];
+-      ByteBuffer byteBuffer0 = ByteBuffer.wrap(byteArray0);
+-      byteBuffer0.get();
+-      byteBufferOutputStream0.addEncryptedByteBuffer(byteBuffer0);
+-      try { 
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    InitServerHooks initServerHooks0 = new InitServerHooks();
++    NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
++    nonBlockingClientHandler0.setSecure(true);
++    ByteBufferOutputStream byteBufferOutputStream0 = new ByteBufferOutputStream(initServerHooks0, nonBlockingClientHandler0);
++    byte[] byteArray0 = new byte[5];
++    ByteBuffer byteBuffer0 = ByteBuffer.wrap(byteArray0);
++    byte b = byteBuffer0.get();
++    assertEquals((byte) 0, b);
++    byteBufferOutputStream0.addEncryptedByteBuffer(byteBuffer0);
++    try {
+         byteBufferOutputStream0.writeAllByteBuffer();
+         fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // SocketChannel was closed.
+-         //
+-         verifyException("org.quickserver.util.io.ByteBufferOutputStream", e);
+-      }
+-  }
++    } catch (IOException e) {
++        assertNotNull(e.getMessage());
++        verifyException("org.quickserver.util.io.ByteBufferOutputStream", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

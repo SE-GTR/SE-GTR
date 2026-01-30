@@ -1,0 +1,27 @@
+--- a/evosuite-tests/module/MessageDeliveryException_ESTest.java
++++ b/evosuite-tests/module/MessageDeliveryException_ESTest.java
+@@ -37,13 +37,18 @@
+     assertEquals("glMultiModeDrawArraysIBM", ex.getMessage());
+     assertSame(cause, ex.getCause());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
+       Message message0 = new Message();
+       SQLClientInfoException sQLClientInfoException0 = new SQLClientInfoException();
+-      SQLIntegrityConstraintViolationException sQLIntegrityConstraintViolationException0 = new SQLIntegrityConstraintViolationException("M2vaa=oddQ:", sQLClientInfoException0);
+-      MessageDeliveryException messageDeliveryException0 = new MessageDeliveryException((Module) null, message0, sQLIntegrityConstraintViolationException0);
++      SQLIntegrityConstraintViolationException sQLIntegrityConstraintViolationException0 =
++          new SQLIntegrityConstraintViolationException("M2vaa=oddQ:", sQLClientInfoException0);
++      MessageDeliveryException messageDeliveryException0 =
++          new MessageDeliveryException((Module) null, message0, sQLIntegrityConstraintViolationException0);
++      // Verify that the cause is correctly set
++      assertSame(sQLIntegrityConstraintViolationException0, messageDeliveryException0.getCause());
++      // Verify that the exception has a non‑null message
++      assertNotNull(messageDeliveryException0.getMessage());
+   }
++
+ }

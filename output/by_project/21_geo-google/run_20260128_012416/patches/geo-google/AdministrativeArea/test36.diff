@@ -1,0 +1,38 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -408,14 +408,27 @@
+         String string0 = administrativeArea0.getUsageType();
+         assertEquals("test", string0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test36()  throws Throwable  {
+-      AdministrativeArea administrativeArea0 = new AdministrativeArea();
+-      administrativeArea0.setPostOffice((PostOffice) null);
+-      assertNull(administrativeArea0.getType());
+-  }
++@Test(timeout = 4000)
++    public void test36() throws Throwable {
++        AdministrativeArea administrativeArea0 = new AdministrativeArea();
++
++        // Verify initial state
++        assertNull(administrativeArea0.getPostOffice());
++        assertNull(administrativeArea0.getType());
++
++        // Set post office to null and verify the side‑effect
++        administrativeArea0.setPostOffice((PostOffice) null);
++        assertNull(administrativeArea0.getPostOffice());
++
++        // Set a real PostOffice instance and verify it is stored correctly
++        PostOffice po = new PostOffice();
++        administrativeArea0.setPostOffice(po);
++        assertSame(po, administrativeArea0.getPostOffice());
++
++        // Ensure that setting a new value does not affect the unrelated 'type' property
++        assertNull(administrativeArea0.getType());
++    }
++
+ @Test(timeout = 4000)
+   public void test37() throws Throwable {
+       AdministrativeArea administrativeArea0 = new AdministrativeArea();

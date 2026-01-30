@@ -1,0 +1,46 @@
+--- a/evosuite-tests/net/sourceforge/ext4j/taglib/bo/Request_ESTest.java
++++ b/evosuite-tests/net/sourceforge/ext4j/taglib/bo/Request_ESTest.java
+@@ -320,25 +320,24 @@
+     IRequest iRequest0 = request0.cleanEmptyParams();
+     assertFalse(iRequest0.isWebRequest());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test37()  throws Throwable  {
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((StringBuffer) null).when(httpServletRequest0).getRequestURL();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-    request0 = null;
+-      try {
+-        request0 = new Request(httpServletRequestWrapper0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.ext4j.taglib.bo.Request", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test37() throws Throwable {
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn((StringBuffer) null).when(httpServletRequest0).getRequestURL();
++        assertNull(httpServletRequest0.getRequestURL());
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        request0 = null;
++        try {
++            request0 = new Request(httpServletRequestWrapper0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            //
++            // no message in exception (getMessage() returned null)
++            //
++            verifyException("net.sourceforge.ext4j.taglib.bo.Request", e);
++        }
++    }
++
+ @Test(timeout = 4000)
+ public void test38() throws Throwable {
+     request0 = new Request("http://example.com", false);

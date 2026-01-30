@@ -1,0 +1,37 @@
+--- a/evosuite-tests/macaw/presentationLayer/ChangeHistoryTableModel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/ChangeHistoryTableModel_ESTest.java
+@@ -37,17 +37,24 @@
+     // Assert
+     assertEquals("", changeHistoryTableModel0.getValueAt(0, 2));
+ }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    ChangeHistoryTableModel model = new ChangeHistoryTableModel();
++    // Verify initial state before mutation
++    assertEquals(0, model.getRowCount());
+ 
+-@Test(timeout = 4000)
+-    public void test1() throws Throwable {
+-        ChangeHistoryTableModel model = new ChangeHistoryTableModel();
+-        ArrayList<MacawChangeEvent> events = new ArrayList<>();
+-        MacawChangeEvent event = new MacawChangeEvent(ChangeEventType.LIST_CHOICE, "", "");
+-        events.add(event);
+-        model.setChangeEvents(events);
+-        assertEquals(1, model.getRowCount());
+-        assertEquals("", model.getValueAt(0, 1));
+-    }
++    ArrayList<MacawChangeEvent> events = new ArrayList<>();
++    MacawChangeEvent event = new MacawChangeEvent(ChangeEventType.LIST_CHOICE, "", "");
++    events.add(event);
++
++    model.setChangeEvents(events);
++
++    // Verify side effects of setChangeEvents
++    assertEquals(1, model.getRowCount());
++    assertEquals("", model.getValueAt(0, 1));
++    assertNotNull(model.getValueAt(0, 0));
++}
++
+ @Test(timeout = 4000)
+   public void test2() throws Throwable {
+     changeHistoryTableModel0 = new ChangeHistoryTableModel();

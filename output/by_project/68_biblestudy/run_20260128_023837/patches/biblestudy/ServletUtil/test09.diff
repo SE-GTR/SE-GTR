@@ -1,0 +1,30 @@
+--- a/evosuite-tests/bible/servlet/ServletUtil_ESTest.java
++++ b/evosuite-tests/bible/servlet/ServletUtil_ESTest.java
+@@ -122,16 +122,18 @@
+     int int0 = ServletUtil.GetIntParameter((HttpServletRequest) httpServletRequestWrapper0, "");
+     assertEquals(ServletUtil.UNKNOWN, int0);
+ }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn((String[]) null).when(httpServletRequest0).getParameterValues(anyString());
++    // Verify that the stub returns null as configured
++    String[] stubResult = httpServletRequest0.getParameterValues("any");
++    assertNull(stubResult);
++    httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    int[] intArray0 = ServletUtil.GetIntParameters((HttpServletRequest) httpServletRequestWrapper0, "");
++    assertEquals(0, intArray0.length);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String[]) null).when(httpServletRequest0).getParameterValues(anyString());
+-    httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      int[] intArray0 = ServletUtil.GetIntParameters((HttpServletRequest) httpServletRequestWrapper0, "");
+-      assertEquals(0, intArray0.length);
+-  }
+ @Test(timeout = 4000)
+ public void test10() throws Throwable {
+     httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/corina/site/SiteDB_ESTest.java
++++ b/evosuite-tests/corina/site/SiteDB_ESTest.java
+@@ -247,22 +247,17 @@
+     siteDB0 = new SiteDB();
+       siteDB0.toHTML("\" options.");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-    siteDB0 = new SiteDB();
+-      // Undeclared exception!
+-      try { 
+-        siteDB0.print();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.site.SiteDB", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        siteDB0 = new SiteDB();
++        // Properly initialize the required internal state
++        siteDB0.sites = new java.util.ArrayList<>();
++        // Invoke the method under test
++        java.awt.print.Printable printable = siteDB0.print();
++        // Verify normal behavior
++        assertNotNull(printable);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/javathena/login/Login_ESTest.java
++++ b/evosuite-tests/org/javathena/login/Login_ESTest.java
+@@ -134,15 +134,17 @@
+     int authAfter = login0.getAuth_max();
+     assertEquals(authBefore, authAfter);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      Login login0 = new Login();
+-      ConfigurationManagement.setAccess_denynum(1);
+-      login0.do_initTXT();
+-      assertEquals(2, login0.getPASSWORDENC());
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    Login login0 = new Login();
++    int originalAccessDenyNum = ConfigurationManagement.getAccess_denynum();
++    ConfigurationManagement.setAccess_denynum(1);
++    assertEquals(1, ConfigurationManagement.getAccess_denynum());
++    login0.do_initTXT();
++    assertEquals(2, login0.getPASSWORDENC());
++    ConfigurationManagement.setAccess_denynum(originalAccessDenyNum);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

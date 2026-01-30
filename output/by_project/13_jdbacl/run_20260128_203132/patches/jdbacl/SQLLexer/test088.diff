@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -977,23 +977,19 @@
+         SQLLexer sQLLexer0 = new SQLLexer(input);
+         sQLLexer0.mT__81();
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test088()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mT__128();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test088() throws Throwable {
++        // Properly initialize the lexer with a non‑null CharStream to avoid NPE
++        org.antlr.runtime.ANTLRStringStream input = new org.antlr.runtime.ANTLRStringStream("");
++        SQLLexer lexer = new SQLLexer(input);
++        try {
++            lexer.mT__128();
++            fail("Expecting RecognitionException");
++        } catch (org.antlr.runtime.RecognitionException e) {
++            // Expected exception when the input does not contain the token pattern
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test089()  throws Throwable  {

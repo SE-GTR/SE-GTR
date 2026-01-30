@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -626,24 +626,13 @@
+     simpleAccountRealm0.checkPermissions((PrincipalCollection) null, (Collection<Permission>) linkedList0);
+     org.junit.Assert.assertTrue(linkedList0.isEmpty());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test53()  throws Throwable  {
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      // Undeclared exception!
+-      try { 
+-        simpleAccountRealm0.checkPermission((PrincipalCollection) simplePrincipalCollection0, "SK2=$pN~kY6YiR4+bg");
+-        fail("Expecting exception: NoSuchElementException");
+-      
+-      } catch(NoSuchElementException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.util.Collections$EmptyIterator", e);
+-      }
+-  }
++@Test(expected = NoSuchElementException.class, timeout = 4000)
++public void test53() throws Throwable {
++    SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
++    SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
++    simpleAccountRealm0.checkPermission(simplePrincipalCollection0, "SK2=$pN~kY6YiR4+bg");
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test54()  throws Throwable  {

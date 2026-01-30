@@ -1,0 +1,57 @@
+--- a/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
+@@ -227,22 +227,38 @@
+       realGrayImage4.addSum();
+       realGrayImage2.sqrSum();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
+-      ROI rOI0 = new ROI(0, 0, 0, 0);
+-      RealGrayImage realGrayImage1 = realGrayImage0.addbuffer(1355, 1, 1355, (-217), (float) 1);
+-      realGrayImage0.getJavaImage();
+-      realGrayImage0.getJavaImage();
+-      realGrayImage1.clip(1, 1414);
+-      RealGrayImage realGrayImage2 = realGrayImage1.subtract(1.7861406F, rOI0);
+-      realGrayImage2.toString();
+-      ROI rOI1 = new ROI();
+-      realGrayImage0.absSum();
+-      realGrayImage0.byteSize();
+-      realGrayImage2.sqrSum();
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
++    ROI rOI0 = new ROI(0, 0, 0, 0);
++    RealGrayImage realGrayImage1 = realGrayImage0.addbuffer(1355, 1, 1355, -217, 1.0f);
++    assertNotNull(realGrayImage1);
++
++    // getJavaImage should return a non‑null producer
++    assertNotNull(realGrayImage0.getJavaImage());
++    assertNotNull(realGrayImage0.getJavaImage());
++
++    // clip is a void method; verify it does not corrupt the image by checking the producer again
++    realGrayImage1.clip(1, 1414);
++    assertNotNull(realGrayImage1.getJavaImage());
++
++    RealGrayImage realGrayImage2 = realGrayImage1.subtract(1.7861406F, rOI0);
++    assertNotNull(realGrayImage2);
++
++    String str = realGrayImage2.toString();
++    assertNotNull(str);
++
++    ROI rOI1 = new ROI();
++    float absSum = realGrayImage0.absSum();
++    assertFalse(Float.isNaN(absSum));
++
++    // byteSize is void; ensure it executes without exception
++    realGrayImage0.byteSize();
++
++    double sqrSum = realGrayImage2.sqrSum();
++    assertFalse(Double.isNaN(sqrSum));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

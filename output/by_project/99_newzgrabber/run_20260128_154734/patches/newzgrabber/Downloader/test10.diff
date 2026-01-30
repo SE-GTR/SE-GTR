@@ -1,0 +1,29 @@
+--- a/evosuite-tests/Newzgrabber/Downloader_ESTest.java
++++ b/evosuite-tests/Newzgrabber/Downloader_ESTest.java
+@@ -118,15 +118,17 @@
+          verifyException("Newzgrabber.Downloader", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-    downloader0 = new Downloader();
+-      assertEquals((-1), downloader0.getTimeout());
+-      
+-      downloader0.setTimeout(1);
+-      assertEquals(1, downloader0.getTimeout());
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    downloader0 = new Downloader();
++    int initialTimeout = downloader0.getTimeout();
++    assertEquals(-1, initialTimeout);
++
++    downloader0.setTimeout(1);
++    assertEquals(1, downloader0.getTimeout());
++    assertNotEquals(initialTimeout, downloader0.getTimeout());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

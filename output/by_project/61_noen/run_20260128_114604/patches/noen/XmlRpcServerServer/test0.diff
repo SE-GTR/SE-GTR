@@ -1,0 +1,25 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/xmlrpc/XmlRpcServerServer_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/xmlrpc/XmlRpcServerServer_ESTest.java
+@@ -16,12 +16,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class XmlRpcServerServer_ESTest extends XmlRpcServerServer_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        XmlRpcServerServer xmlRpcServerServer0 = new XmlRpcServerServer(3, (ServerAgent) null);
++        // Verify that the web server is not initialized before start
++        assertNull(xmlRpcServerServer0.getWebServer());
++        // Act: start the XML-RPC server
++        xmlRpcServerServer0.start();
++        // Verify that the web server has been initialized as a result of start()
++        assertNotNull(xmlRpcServerServer0.getWebServer());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      XmlRpcServerServer xmlRpcServerServer0 = new XmlRpcServerServer(3, (ServerAgent) null);
+-      xmlRpcServerServer0.start();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

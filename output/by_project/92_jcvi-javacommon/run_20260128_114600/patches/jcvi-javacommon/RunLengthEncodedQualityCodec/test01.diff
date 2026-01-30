@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/qual/RunLengthEncodedQualityCodec_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/qual/RunLengthEncodedQualityCodec_ESTest.java
+@@ -34,17 +34,17 @@
+       assertArrayEquals(new byte[] {(byte)0, (byte)0, (byte)0, (byte)5, (byte) (-118), (byte)1, (byte) (-118), (byte)4, (byte)0}, byteArray2);
+       assertArrayEquals(new byte[] {(byte)0, (byte)0, (byte)0, (byte)4, (byte) (-118), (byte)1, (byte) (-118), (byte)4, (byte)0}, byteArray1);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      RunLengthEncodedQualityCodec runLengthEncodedQualityCodec0 = new RunLengthEncodedQualityCodec((byte)0);
+-      byte[] byteArray0 = new byte[5];
+-      byte[] byteArray1 = runLengthEncodedQualityCodec0.encode(byteArray0);
+-      RunLengthEncodedQualitySequence runLengthEncodedQualitySequence0 = new RunLengthEncodedQualitySequence(byteArray1);
+-      byte[] byteArray2 = PhredQuality.toArray(runLengthEncodedQualitySequence0);
+-      assertEquals(5, byteArray2.length);
+-      assertEquals(16, byteArray1.length);
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        RunLengthEncodedQualityCodec codec = new RunLengthEncodedQualityCodec((byte) 0);
++        byte[] input = new byte[5];
++        byte[] encoded = codec.encode(input);
++        RunLengthEncodedQualitySequence seq = new RunLengthEncodedQualitySequence(encoded);
++        byte[] output = PhredQuality.toArray(seq);
++        assertEquals(16, encoded.length);
++        assertArrayEquals(input, output);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

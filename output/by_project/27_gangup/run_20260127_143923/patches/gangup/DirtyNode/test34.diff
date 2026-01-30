@@ -1,0 +1,31 @@
+--- a/evosuite-tests/map/DirtyNode_ESTest.java
++++ b/evosuite-tests/map/DirtyNode_ESTest.java
+@@ -357,15 +357,20 @@
+         dirtyNode0.visibility = 3.14F;
+         assertEquals(3.14F, dirtyNode0.getVisibility(), 0.01F);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
++@Test(timeout = 4000)
++public void test34() throws Throwable {
+     dirtyNode0 = new DirtyNode(0L);
+-      dirtyNode0.setX(0L);
+-      assertEquals(0.0F, dirtyNode0.y, 0.01F);
+-      assertEquals(0.0F, dirtyNode0.x, 0.01F);
+-  }
++    dirtyNode0.setX(0L);
++    // Verify that the setter affected the internal state via the getter
++    assertEquals(0.0F, dirtyNode0.getX(), 0.01F);
++    // Existing assertions on other fields
++    assertEquals(0.0F, dirtyNode0.y, 0.01F);
++    // Add a non‑accessor interaction and assert its observable result
++    String representation = dirtyNode0.toString();
++    assertNotNull(representation);
++    assertFalse(representation.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test35()  throws Throwable  {

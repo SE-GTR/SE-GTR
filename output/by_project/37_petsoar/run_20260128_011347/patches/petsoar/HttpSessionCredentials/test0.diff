@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/petsoar/security/HttpSessionCredentials_ESTest.java
++++ b/evosuite-tests/org/petsoar/security/HttpSessionCredentials_ESTest.java
+@@ -16,22 +16,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class HttpSessionCredentials_ESTest extends HttpSessionCredentials_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    HttpSessionCredentials httpSessionCredentials0 = new HttpSessionCredentials();
++    // Provide a minimal UserAccessor implementation to avoid NullPointerException
++    httpSessionCredentials0.setUserAccessor(new UserAccessor() {
++        @Override
++        public User getUser(HttpServletRequest request) {
++            // No user is associated with the request in this test scenario
++            return null;
++        }
++    });
++    // The method should now execute without throwing an exception
++    User currentUser = httpSessionCredentials0.getCurrentUser();
++    assertNull(currentUser);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      HttpSessionCredentials httpSessionCredentials0 = new HttpSessionCredentials();
+-      // Undeclared exception!
+-      try { 
+-        httpSessionCredentials0.getCurrentUser();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.petsoar.security.HttpSessionCredentials", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

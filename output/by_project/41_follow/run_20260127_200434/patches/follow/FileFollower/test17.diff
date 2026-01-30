@@ -1,0 +1,39 @@
+--- a/evosuite-tests/ghm/follow/FileFollower_ESTest.java
++++ b/evosuite-tests/ghm/follow/FileFollower_ESTest.java
+@@ -407,19 +407,23 @@
+       fileFollower_Runner0.run();
+       assertNotNull(fileFollower_Runner0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      OutputDestination[] outputDestinationArray0 = new OutputDestination[5];
+-      MockFile mockFile0 = new MockFile("ms [allDataRead:");
+-      JTextPane jTextPane0 = new JTextPane();
+-      MockFile mockFile1 = new MockFile("ms [allDataRead:");
+-      FileFollower fileFollower0 = new FileFollower(mockFile1, 5, (-1403), outputDestinationArray0);
+-      fileFollower0.start();
+-      fileFollower0.restart();
+-      assertTrue(fileFollower0.isBeingFollowed());
+-  }
++@Test(timeout = 4000)
++    public void test17() throws Throwable {
++        OutputDestination[] outputDestinationArray0 = new OutputDestination[5];
++        MockFile mockFile0 = new MockFile("ms [allDataRead:");
++        JTextPane jTextPane0 = new JTextPane();
++        MockFile mockFile1 = new MockFile("ms [allDataRead:");
++        FileFollower fileFollower0 = new FileFollower(mockFile1, 5, -1403, outputDestinationArray0);
++        // Verify initial state before any action
++        assertFalse(fileFollower0.isBeingFollowed());
++        // Start the follower and check that it begins following
++        fileFollower0.start();
++        assertTrue(fileFollower0.isBeingFollowed());
++        // Restart should keep the follower in the following state
++        fileFollower0.restart();
++        assertTrue(fileFollower0.isBeingFollowed());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

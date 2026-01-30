@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/heal/module/metadata/SourceCollectionBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/SourceCollectionBean_ESTest.java
+@@ -59,14 +59,25 @@
+     // Assert: the location field remains its default (null) after the round‑trip
+     assertNull(deserialized.getLocation());
+ }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        SourceCollectionBean sourceCollectionBean0 = new SourceCollectionBean();
++        // Exercise non‑trivial behavior: set a value, serialize and deserialize the bean
++        sourceCollectionBean0.setLink("http://example.com");
++        assertEquals("http://example.com", sourceCollectionBean0.getLink());
+ 
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(sourceCollectionBean0);
++        oos.flush();
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      SourceCollectionBean sourceCollectionBean0 = new SourceCollectionBean();
+-      String string0 = sourceCollectionBean0.getLink();
+-      assertNull(string0);
+-  }
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++                new java.io.ByteArrayInputStream(baos.toByteArray()));
++        SourceCollectionBean deserialized = (SourceCollectionBean) ois.readObject();
++
++        assertEquals("http://example.com", deserialized.getLink());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

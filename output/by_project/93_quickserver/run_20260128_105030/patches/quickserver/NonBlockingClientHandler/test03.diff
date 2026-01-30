@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
+@@ -63,13 +63,15 @@
+          verifyException("org.quickserver.net.server.impl.NonBlockingClientHandler", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      nonBlockingClientHandler0.returnClientHandler();
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:343>", nonBlockingClientHandler0.getName());
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    nonBlockingClientHandler0 = new NonBlockingClientHandler();
++    int before = nonBlockingClientHandler0.getThreadAccessCount();
++    nonBlockingClientHandler0.returnClientHandler();
++    int after = nonBlockingClientHandler0.getThreadAccessCount();
++    assertTrue("threadAccessCount should increase after returnClientHandler", after > before);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

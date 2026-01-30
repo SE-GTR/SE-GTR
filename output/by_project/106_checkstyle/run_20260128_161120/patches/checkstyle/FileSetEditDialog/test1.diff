@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/properties/FileSetEditDialog_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/properties/FileSetEditDialog_ESTest.java
+@@ -42,17 +42,25 @@
+       String string0 = fileSetEditDialog_FileMatchPatternLabelProvider0.getColumnText(fileMatchPattern0, 10);
+       assertNotNull(string0);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        // Set up a minimal SWT environment required by the dialog constructor
++        org.eclipse.swt.widgets.Display display = new org.eclipse.swt.widgets.Display();
++        org.eclipse.swt.widgets.Shell shell = new org.eclipse.swt.widgets.Shell(display);
++        try {
++            fileSet0 = new FileSet();
++            checkstylePropertyPage0 = new CheckstylePropertyPage();
++            fileSetEditDialog0 = new FileSetEditDialog(shell, fileSet0, null, checkstylePropertyPage0);
++            FileSetEditDialog.FileMatchPatternLabelProvider provider = fileSetEditDialog0.new FileMatchPatternLabelProvider();
++            FileMatchPattern pattern = new FileMatchPattern("dialog_help_image");
++            String columnText = provider.getColumnText(pattern, 1);
++            assertEquals("dialog_help_image", columnText);
++        } finally {
++            shell.dispose();
++            display.dispose();
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    fileSet0 = new FileSet();
+-    checkstylePropertyPage0 = new CheckstylePropertyPage();
+-    fileSetEditDialog0 = new FileSetEditDialog((Shell) null, fileSet0, (IProject) null, checkstylePropertyPage0);
+-      FileSetEditDialog.FileMatchPatternLabelProvider fileSetEditDialog_FileMatchPatternLabelProvider0 = fileSetEditDialog0.new FileMatchPatternLabelProvider();
+-      FileMatchPattern fileMatchPattern0 = new FileMatchPattern("dialog_help_image");
+-      String string0 = fileSetEditDialog_FileMatchPatternLabelProvider0.getColumnText(fileMatchPattern0, 1);
+-      assertEquals("dialog_help_image", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

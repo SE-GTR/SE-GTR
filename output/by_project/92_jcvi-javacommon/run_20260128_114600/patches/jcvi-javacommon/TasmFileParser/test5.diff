@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/TasmFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/TasmFileParser_ESTest.java
+@@ -113,27 +113,17 @@
+          verifyException("org.jcvi.jillion.assembly.tigr.tasm.TasmContigAttribute", e);
+       }
+   }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test5() throws Throwable {
++        byte[] byteArray0 = new byte[1];
++        ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
++        File file0 = MockFile.createTempFile("d}.IH1n", "d}.IH1n");
++        TasmFileParser tasmFileParser0 = TasmFileParser.create(file0);
++        PushbackInputStream pushbackInputStream0 = new PushbackInputStream(byteArrayInputStream0, 447);
++        TextLineParser textLineParser0 = new TextLineParser(pushbackInputStream0, (byte) 127);
++        tasmFileParser0.parseTasm(textLineParser0, null, 4593L);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      byte[] byteArray0 = new byte[1];
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      File file0 = MockFile.createTempFile("d}.IH1n", "d}.IH1n");
+-      TasmFileParser tasmFileParser0 = TasmFileParser.create(file0);
+-      PushbackInputStream pushbackInputStream0 = new PushbackInputStream(byteArrayInputStream0, 447);
+-      TextLineParser textLineParser0 = new TextLineParser(pushbackInputStream0, (byte)127);
+-      // Undeclared exception!
+-      try { 
+-        tasmFileParser0.parseTasm(textLineParser0, (TasmFileVisitor) null, 4593L);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.assembly.tigr.tasm.TasmFileParser$ContigState", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

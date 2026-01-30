@@ -1,0 +1,53 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/PhdBallWriter_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/PhdBallWriter_ESTest.java
+@@ -40,9 +40,8 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class PhdBallWriter_ESTest extends PhdBallWriter_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
+       MockFile mockFile0 = new MockFile("5>jr&=");
+       PhdBallWriter phdBallWriter0 = new PhdBallWriter(mockFile0, "5>jr&=");
+       NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+@@ -52,18 +51,26 @@
+       doReturn((Iterator) null).when(qualitySequence0).iterator();
+       Map<String, String> map0 = ZoneId.SHORT_IDS;
+       LinkedList<PhdWholeReadItem> linkedList0 = new LinkedList<PhdWholeReadItem>();
+-      ArtificialPhd artificialPhd0 = ArtificialPhd.createNewbler454Phd("5>jr&=", nucleotideSequence0, qualitySequence0, map0, (List<PhdWholeReadItem>) linkedList0);
+-      try { 
+-        phdBallWriter0.write((Phd) artificialPhd0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // error writing phd record for 5>jr&=
+-         //
+-         verifyException("org.jcvi.jillion.assembly.consed.phd.PhdBallWriter", e);
+-      }
+-  }
++      ArtificialPhd artificialPhd0 = ArtificialPhd.createNewbler454Phd("5>jr&=", nucleotideSequence0, qualitySequence0, map0,
++              (List<PhdWholeReadItem>) linkedList0);
++      // Assert the mocked return values
++      Iterator<?> itSeq = nucleotideSequence0.iterator();
++      assertNull(itSeq);
++      long length = nucleotideSequence0.getLength();
++      assertEquals(0L, length);
++      Iterator<?> itQual = qualitySequence0.iterator();
++      assertNull(itQual);
++      try {
++          phdBallWriter0.write((Phd) artificialPhd0);
++          fail("Expecting exception: IOException");
++      } catch (IOException e) {
++          //
++          // error writing phd record for 5>jr&=
++          //
++          verifyException("org.jcvi.jillion.assembly.consed.phd.PhdBallWriter", e);
++      }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

@@ -1,0 +1,47 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
+@@ -291,21 +291,29 @@
+         boolean boolean0 = profileParameter0.equals(profileParameter1);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      ProfileParameter profileParameter0 = new ProfileParameter();
+-      ParameterRestriction parameterRestriction0 = new ParameterRestriction();
+-      profileParameter0.setRestriction(parameterRestriction0);
+-      ProfileParameter profileParameter1 = new ProfileParameter();
+-      assertFalse(profileParameter1.equals((Object)profileParameter0));
+-      
+-      profileParameter1.setRestriction(parameterRestriction0);
+-      boolean boolean0 = profileParameter0.equals(profileParameter1);
+-      assertTrue(profileParameter1.equals((Object)profileParameter0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        ProfileParameter profileParameter0 = new ProfileParameter();
++        ParameterRestriction parameterRestriction0 = new ParameterRestriction();
++        // Verify initial state before setting restriction
++        assertNull(profileParameter0.getRestriction());
++        // Apply side‑effect
++        profileParameter0.setRestriction(parameterRestriction0);
++        // Assert that the restriction was correctly stored
++        assertSame(parameterRestriction0, profileParameter0.getRestriction());
++
++        ProfileParameter profileParameter1 = new ProfileParameter();
++        assertFalse(profileParameter1.equals((Object) profileParameter0));
++
++        profileParameter1.setRestriction(parameterRestriction0);
++        // Verify the second instance also holds the same restriction
++        assertSame(parameterRestriction0, profileParameter1.getRestriction());
++
++        boolean boolean0 = profileParameter0.equals(profileParameter1);
++        assertTrue(profileParameter1.equals((Object) profileParameter0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
+@@ -122,16 +122,20 @@
+          verifyException("fi.vtt.noen.mfw.bundle.server.shared.datamodel.Value", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-    webUIPlugin0 = new WebUIPlugin(bundleContext0);
+-      BMReport bMReport0 = new BMReport("", "wicket started", (-1629L), (-1629L), true, "");
+-      webUIPlugin0.process(bMReport0);
+-      assertTrue(bMReport0.isMatchReference());
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++        doReturn((Object) null, (Object) null, (Object) null)
++                .when(bundleContext0).getServiceReferences(anyString(), anyString());
++        // Capture and assert the stubbed return value
++        ServiceReference[] refs = bundleContext0.getServiceReferences("dummy", "dummy");
++        assertNull(refs);
++        webUIPlugin0 = new WebUIPlugin(bundleContext0);
++        BMReport bMReport0 = new BMReport("", "wicket started", (-1629L), (-1629L), true, "");
++        webUIPlugin0.process(bMReport0);
++        assertTrue(bMReport0.isMatchReference());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

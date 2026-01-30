@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
+@@ -19,18 +19,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Label_ESTest extends Label_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Label label0 = new Label();
+-      Label label1 = new Label();
+-      Edge edge0 = new Edge();
+-      label1.successors = edge0;
+-      edge0.successor = label0;
+-      edge0.next = label1.successors;
+-      // Undeclared exception!
+-      label1.visitSubroutine(label0, (-2538), (-2538));
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        Label label0 = new Label();
++        Label label1 = new Label();
++        Edge edge0 = new Edge();
++        label1.successors = edge0;
++        edge0.successor = label0;
++        edge0.next = label1.successors;
++        // Act
++        label1.visitSubroutine(label0, -2538L, -2538);
++        // Assert side effects and state consistency
++        assertSame(edge0, label1.successors);
++        assertSame(label0, edge0.successor);
++        assertTrue((label1.status & Label.SUBROUTINE) != 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

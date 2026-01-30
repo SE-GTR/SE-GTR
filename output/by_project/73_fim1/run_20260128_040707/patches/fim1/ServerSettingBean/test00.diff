@@ -1,0 +1,28 @@
+--- a/evosuite-tests/osa/ora/server/beans/ServerSettingBean_ESTest.java
++++ b/evosuite-tests/osa/ora/server/beans/ServerSettingBean_ESTest.java
+@@ -15,14 +15,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ServerSettingBean_ESTest extends ServerSettingBean_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    boolean fsResult = FileSystemHandling.shouldAllThrowIOExceptions();
++    assertTrue(fsResult);
++    ServerSettingBean serverSettingBean0 = new ServerSettingBean(";OFS^E]");
++    String beforePort = serverSettingBean0.getServerPort();
++    assertNull(beforePort);
++    serverSettingBean0.updateSettings();
++    String afterPort = serverSettingBean0.getServerPort();
++    assertNull(afterPort);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-      ServerSettingBean serverSettingBean0 = new ServerSettingBean(";OFS^E]");
+-      serverSettingBean0.updateSettings();
+-      assertNull(serverSettingBean0.getServerPort());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

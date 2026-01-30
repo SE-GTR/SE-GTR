@@ -1,0 +1,56 @@
+--- a/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
+@@ -1032,36 +1032,23 @@
+         assertEquals(1151, img.Y());
+         assertEquals(InterpolationMethod.NEIGHBOR, img.getInterpolationMethod());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      short[] shortArray0 = new short[5];
+-      GrayImage grayImage0 = new GrayImage((short)0, (short)0, shortArray0);
+-      assertArrayEquals(new short[] {(short)0, (short)0, (short)0, (short)0, (short)0}, shortArray0);
+-      assertEquals(5, shortArray0.length);
+-      assertEquals(0, grayImage0.absSum());
+-      assertEquals(0, grayImage0.addSum());
+-      assertEquals(0, grayImage0.Y());
+-      assertEquals(0L, grayImage0.sqrSum());
+-      assertEquals(0, grayImage0.X());
+-      
+-      GrayImage grayImage1 = grayImage0.multiply(2839);
+-      assertArrayEquals(new short[] {(short)0, (short)0, (short)0, (short)0, (short)0}, shortArray0);
+-      assertEquals(5, shortArray0.length);
+-      assertEquals(0, grayImage0.absSum());
+-      assertEquals(0, grayImage0.addSum());
+-      assertEquals(0, grayImage0.Y());
+-      assertEquals(0L, grayImage0.sqrSum());
+-      assertEquals(0, grayImage0.X());
+-      assertEquals(0L, grayImage1.sqrSum());
+-      assertEquals(0, grayImage1.absSum());
+-      assertEquals(0, grayImage1.Y());
+-      assertEquals(0, grayImage1.X());
+-      assertEquals(0, grayImage1.addSum());
+-      assertSame(grayImage0, grayImage1);
+-      assertSame(grayImage1, grayImage0);
+-  }
++@Test(timeout = 4000)
++public void test34() throws Throwable {
++    short[] data = new short[5];
++    GrayImage img = new GrayImage((short) 0, (short) 0, data);
++    // initial state checks
++    assertArrayEquals(new short[5], data);
++    assertEquals(0, img.absSum());
++    // act
++    GrayImage result = img.multiply(2839);
++    // behavior checks
++    assertSame(img, result);
++    assertEquals(0, result.absSum());
++    assertEquals(0L, result.sqrSum());
++    // ensure underlying array unchanged
++    assertArrayEquals(new short[5], data);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test35()  throws Throwable  {

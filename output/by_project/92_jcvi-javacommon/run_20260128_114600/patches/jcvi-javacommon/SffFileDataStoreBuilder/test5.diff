@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/SffFileDataStoreBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/SffFileDataStoreBuilder_ESTest.java
+@@ -100,23 +100,24 @@
+       SffFileDataStoreBuilder sffFileDataStoreBuilder1 = sffFileDataStoreBuilder0.filter(dataStoreFilter0);
+       assertSame(sffFileDataStoreBuilder0, sffFileDataStoreBuilder1);
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        MockFile mockFile0 = new MockFile("");
++        boolean setResult = mockFile0.setReadable(false);
++        assertTrue(setResult);
++        assertFalse(mockFile0.canRead());
++        SffFileDataStoreBuilder sffFileDataStoreBuilder0 = null;
++        try {
++            sffFileDataStoreBuilder0 = new SffFileDataStoreBuilder(mockFile0);
++            fail("Expecting exception: IOException");
++        } catch (Throwable e) {
++            //
++            // sff file is not readable
++            //
++            verifyException("org.jcvi.jillion.trace.sff.SffFileDataStoreBuilder", e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("");
+-      mockFile0.setReadable(false);
+-      SffFileDataStoreBuilder sffFileDataStoreBuilder0 = null;
+-      try {
+-        sffFileDataStoreBuilder0 = new SffFileDataStoreBuilder(mockFile0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(Throwable e) {
+-         //
+-         // sff file is not readable
+-         //
+-         verifyException("org.jcvi.jillion.trace.sff.SffFileDataStoreBuilder", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

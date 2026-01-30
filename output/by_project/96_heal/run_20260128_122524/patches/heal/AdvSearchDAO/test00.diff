@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/heal/module/search/AdvSearchDAO_ESTest.java
++++ b/evosuite-tests/org/heal/module/search/AdvSearchDAO_ESTest.java
+@@ -18,19 +18,36 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AdvSearchDAO_ESTest extends AdvSearchDAO_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      AdvSearchDAO advSearchDAO0 = new AdvSearchDAO();
+-      ParameterBean parameterBean0 = new ParameterBean(" AND Metadata.MetadataID NOT IN (select MetadataID from TargetUserGroups where (TargetUserGroup = 'Consumer Halth/Patient Education' or TargetUserGroup = 'K-k2') AND etadataID NOT IN (select MetadataID from Target|serGroups where TargetUserGroup e 'Higher Education' or TargetUVerGroup ='Health Profession Education'))");
+-      ParameterNode parameterNode0 = new ParameterNode(" AND Metadata.MetadataID NOT IN (select MetadataID from TargetUserGroups where (TargetUserGroup = 'Consumer Halth/Patient Education' or TargetUserGroup = 'K-k2') AND etadataID NOT IN (select MetadataID from Target|serGroups where TargetUserGroup e 'Higher Education' or TargetUVerGroup ='Health Profession Education'))", " AND Metadata.MetadataID NOT IN (select MetadataID from TargetUserGroups where (TargetUserGroup = 'Consumer Halth/Patient Education' or TargetUserGroup = 'K-k2') AND etadataID NOT IN (select MetadataID from Target|serGroups where TargetUserGroup e 'Higher Education' or TargetUVerGroup ='Health Profession Education'))");
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
++      AdvSearchDAO advSearchDAO0 = new AdvSearchDAO();
++      ParameterBean parameterBean0 = new ParameterBean(
++          " AND Metadata.MetadataID NOT IN (select MetadataID from TargetUserGroups where (TargetUserGroup = 'Consumer Halth/Patient Education' or TargetUserGroup = 'K-k2') AND etadataID NOT IN (select MetadataID from Target|serGroups where TargetUserGroup e 'Higher Education' or TargetUVerGroup ='Health Profession Education'))");
++      ParameterNode parameterNode0 = new ParameterNode(
++          " AND Metadata.MetadataID NOT IN (select MetadataID from TargetUserGroups where (TargetUserGroup = 'Consumer Halth/Patient Education' or TargetUserGroup = 'K-k2') AND etadataID NOT IN (select MetadataID from Target|serGroups where TargetUserGroup e 'Higher Education' or TargetUVerGroup ='Health Profession Education'))",
++          " AND Metadata.MetadataID NOT IN (select MetadataID from TargetUserGroups where (TargetUserGroup = 'Consumer Halth/Patient Education' or TargetUserGroup = 'K-k2') AND etadataID NOT IN (select MetadataID from Target|serGroups where TargetUserGroup e 'Higher Education' or TargetUVerGroup ='Health Profession Education'))");
+       parameterBean0.addParameters(parameterNode0);
+       String[] stringArray0 = new String[1];
+       stringArray0[0] = " AND Metadata.MetadataID NOT IN (select MetadataID from TargetUserGroups where (TargetUserGroup = 'Consumer Halth/Patient Education' or TargetUserGroup = 'K-k2') AND etadataID NOT IN (select MetadataID from Target|serGroups where TargetUserGroup e 'Higher Education' or TargetUVerGroup ='Health Profession Education'))";
++
++      // Capture the state before setting the primary array
++      String[] beforeArray = parameterBean0.getPrimaryArray();
++
++      // Act: set the primary array
+       parameterBean0.setPrimaryArray(stringArray0);
++
++      // Verify that the primary array was updated correctly
++      assertArrayEquals(stringArray0, parameterBean0.getPrimaryArray());
++
++      // Optional sanity check that the array changed from its previous state
++      if (beforeArray != null) {
++          assertNotEquals(beforeArray.length, parameterBean0.getPrimaryArray().length);
++      }
++
+       String string0 = advSearchDAO0.makeQuery(parameterBean0);
+       assertNotNull(string0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

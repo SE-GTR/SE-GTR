@@ -1,0 +1,42 @@
+--- a/evosuite-tests/macaw/presentationLayer/VariableLabelTableModel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/VariableLabelTableModel_ESTest.java
+@@ -106,20 +106,25 @@
+          verifyException("macaw.presentationLayer.VariableLabelTableModel", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      SessionProperties sessionProperties0 = new SessionProperties();
+-      DemonstrationRetrievalService demonstrationRetrievalService0 = new DemonstrationRetrievalService(sessionProperties0);
+-      VariableLabelTableModel variableLabelTableModel0 = new VariableLabelTableModel(demonstrationRetrievalService0, true);
+-      RawVariable rawVariable0 = new RawVariable();
+-      rawVariable0.setIdentifier(1);
+-      variableLabelTableModel0.setData((User) null, rawVariable0);
+-      ValueLabel valueLabel0 = new ValueLabel();
+-      variableLabelTableModel0.addValueLabel(2, valueLabel0);
+-      variableLabelTableModel0.setValueAt((Object) null, 2, 0);
+-      assertEquals(5, variableLabelTableModel0.getRowCount());
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        SessionProperties sessionProperties0 = new SessionProperties();
++        DemonstrationRetrievalService demonstrationRetrievalService0 = new DemonstrationRetrievalService(sessionProperties0);
++        VariableLabelTableModel variableLabelTableModel0 = new VariableLabelTableModel(demonstrationRetrievalService0, true);
++        RawVariable rawVariable0 = new RawVariable();
++        rawVariable0.setIdentifier(1);
++        assertEquals(1, rawVariable0.getIdentifier());
++        variableLabelTableModel0.setData((User) null, rawVariable0);
++        int rowCountBeforeAdd = variableLabelTableModel0.getRowCount();
++        ValueLabel valueLabel0 = new ValueLabel();
++        variableLabelTableModel0.addValueLabel(2, valueLabel0);
++        int rowCountAfterAdd = variableLabelTableModel0.getRowCount();
++        assertEquals(rowCountBeforeAdd + 1, rowCountAfterAdd);
++        variableLabelTableModel0.setValueAt(null, 2, VariableLabelTableModel.VALUE_COLUMN);
++        assertNull(variableLabelTableModel0.getValueAt(2, VariableLabelTableModel.VALUE_COLUMN));
++        assertEquals(5, variableLabelTableModel0.getRowCount());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

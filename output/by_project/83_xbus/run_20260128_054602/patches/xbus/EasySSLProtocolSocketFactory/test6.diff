@@ -1,0 +1,83 @@
+--- a/evosuite-tests/net/sf/xbus/technical/http/EasySSLProtocolSocketFactory_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/technical/http/EasySSLProtocolSocketFactory_ESTest.java
+@@ -98,57 +98,30 @@
+     Object result = future.get(4000, TimeUnit.MILLISECONDS);
+     assertNull(result);
+ }
++@Test(timeout = 4000)
++public void test6() throws Throwable {
++    Future<?> future = executor.submit(new Runnable() {
++        @Override
++        public void run() {
++            try {
++                EasySSLProtocolSocketFactory easySSLProtocolSocketFactory0 = new EasySSLProtocolSocketFactory();
++                try {
++                    easySSLProtocolSocketFactory0.createSocket("EEE dd-MMM-yyyy HH-mm-ss z", 0);
++                    fail("Expecting exception: SecurityException");
++                } catch (SecurityException e) {
++                    // expected
++                    verifyException("org.evosuite.runtime.sandbox.MSecurityManager", e);
++                }
++            } catch (Throwable t) {
++                // ignore declared exceptions
++            }
++        }
++    });
++    Object result = future.get(4000, TimeUnit.MILLISECONDS);
++    assertNull(result);
++    assertTrue(future.isDone());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-    Future<?> future = executor.submit(new Runnable(){ 
+-            @Override public void run() { 
+-        try {
+-          EasySSLProtocolSocketFactory easySSLProtocolSocketFactory0 = new EasySSLProtocolSocketFactory();
+-          // Undeclared exception!
+-          try { 
+-            easySSLProtocolSocketFactory0.createSocket("EEE dd-MMM-yyyy HH-mm-ss z", 0);
+-            fail("Expecting exception: SecurityException");
+-          
+-          } catch(SecurityException e) {
+-             //
+-             // Security manager blocks (\"java.net.SocketPermission\" \"EEE dd-MMM-yyyy HH-mm-ss z\" \"resolve\")
+-             // java.lang.Thread.getStackTrace(Thread.java:1564)
+-             // org.evosuite.runtime.sandbox.MSecurityManager.checkPermission(MSecurityManager.java:424)
+-             // java.lang.SecurityManager.checkConnect(SecurityManager.java:1048)
+-             // java.net.InetAddress.getAllByName0(InetAddress.java:1239)
+-             // java.net.InetAddress.getAllByName(InetAddress.java:1144)
+-             // java.net.InetAddress.getAllByName(InetAddress.java:1065)
+-             // java.net.InetAddress.getByName(InetAddress.java:1015)
+-             // java.net.InetSocketAddress.<init>(InetSocketAddress.java:220)
+-             // sun.security.ssl.SSLSocketImpl.<init>(SSLSocketImpl.java:149)
+-             // sun.security.ssl.SSLSocketFactoryImpl.createSocket(SSLSocketFactoryImpl.java:88)
+-             // net.sf.xbus.technical.http.EasySSLProtocolSocketFactory.createSocket(EasySSLProtocolSocketFactory.java:214)
+-             // sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+-             // sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+-             // sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+-             // java.lang.reflect.Method.invoke(Method.java:498)
+-             // org.evosuite.testcase.statements.MethodStatement$1.execute(MethodStatement.java:256)
+-             // org.evosuite.testcase.statements.AbstractStatement.exceptionHandler(AbstractStatement.java:165)
+-             // org.evosuite.testcase.statements.MethodStatement.execute(MethodStatement.java:219)
+-             // org.evosuite.testcase.execution.TestRunnable.executeStatements(TestRunnable.java:286)
+-             // org.evosuite.testcase.execution.TestRunnable.call(TestRunnable.java:192)
+-             // org.evosuite.testcase.execution.TestRunnable.call(TestRunnable.java:49)
+-             // java.util.concurrent.FutureTask.run(FutureTask.java:266)
+-             // java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+-             // java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+-             // java.lang.Thread.run(Thread.java:750)
+-             //
+-             verifyException("org.evosuite.runtime.sandbox.MSecurityManager", e);
+-          }
+-        } catch(Throwable t) {
+-            // Need to catch declared exceptions
+-        }
+-      } 
+-    });
+-    future.get(4000, TimeUnit.MILLISECONDS);
+-  }
+ @Test(timeout = 4000)
+ public void test7() throws Throwable {
+     EasySSLProtocolSocketFactory factory = new EasySSLProtocolSocketFactory();

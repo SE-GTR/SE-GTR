@@ -1,0 +1,49 @@
+--- a/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
+@@ -19,22 +19,30 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class MoveEvent_ESTest extends MoveEvent_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Offender offender0 = new Offender(0, 0);
+-      MoveEvent moveEvent0 = new MoveEvent(offender0, 0);
+-      moveEvent0.sequenceNr = 938;
+-      MoveEvent moveEvent1 = new MoveEvent(offender0, 0, 0);
+-      moveEvent0.setDestinationPoint(756, 0, false);
+-      MovePoint movePoint0 = moveEvent0.destinationPoint;
+-      moveEvent1.destinationPoint = movePoint0;
+-      moveEvent0.setControlPoint(0, 0, false);
+-      moveEvent1.setControlPoint(0, 0, false);
+-      boolean boolean0 = moveEvent1.equals(moveEvent0);
+-      assertEquals(938, moveEvent0.getSequenceNr());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    Offender offender0 = new Offender(0, 0);
++    MoveEvent moveEvent0 = new MoveEvent(offender0, 0);
++    moveEvent0.sequenceNr = 938;
++    MoveEvent moveEvent1 = new MoveEvent(offender0, 0, 0);
++    moveEvent0.setDestinationPoint(756, 0, false);
++    // verify side‑effects of setDestinationPoint
++    assertFalse(moveEvent0.destinationPointTemporary);
++    assertNotNull(moveEvent0.destinationPoint);
++    MovePoint movePoint0 = moveEvent0.destinationPoint;
++    moveEvent1.destinationPoint = movePoint0;
++    moveEvent0.setControlPoint(0, 0, false);
++    // verify side‑effects of setControlPoint
++    assertFalse(moveEvent0.controlPointTemporary);
++    assertNotNull(moveEvent0.controlPoint);
++    moveEvent1.setControlPoint(0, 0, false);
++    boolean boolean0 = moveEvent1.equals(moveEvent0);
++    assertEquals(938, moveEvent0.getSequenceNr());
++    assertSame(movePoint0, moveEvent0.destinationPoint);
++    assertSame(movePoint0, moveEvent1.destinationPoint);
++    assertFalse(boolean0);
++}
++
+ @Test(timeout = 4000)
+ public void test01() throws Throwable {
+     Offender offender0 = new Offender(0, 0);

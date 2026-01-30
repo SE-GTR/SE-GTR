@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -793,21 +793,17 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test052()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      try { 
+-        config0.setConnectionPropertiesFile("-dbthreads");
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
++public void test052() throws Throwable {
++        Config config0 = Config.getInstance();
++        java.io.File tempFile = java.io.File.createTempFile("test052", ".properties");
++        tempFile.deleteOnExit();
++        java.io.FileWriter writer = new java.io.FileWriter(tempFile);
++        writer.write("sampleKey=sampleValue");
++        writer.close();
++        // The method should load the existing file without throwing an exception
++        config0.setConnectionPropertiesFile(tempFile.getAbsolutePath());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test053()  throws Throwable  {

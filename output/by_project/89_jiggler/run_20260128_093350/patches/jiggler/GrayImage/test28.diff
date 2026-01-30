@@ -1,0 +1,65 @@
+--- a/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
+@@ -894,39 +894,29 @@
+     assertEquals(1, img.Y());
+     assertEquals(1, img.X());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(1, 1);
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      
+-      Integer integer0 = new Integer((-3077));
+-      assertEquals((-3077), (int)integer0);
+-      
+-      Image<Integer> image0 = interpolatedGrayImage0.clear(integer0);
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(3077, interpolatedGrayImage0.absSum());
+-      assertEquals(9467929L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals((-3077), interpolatedGrayImage0.addSum());
+-      assertEquals(1, image0.X());
+-      assertEquals(1, image0.Y());
+-      assertSame(interpolatedGrayImage0, image0);
+-      
+-      int int0 = interpolatedGrayImage0.absSum();
+-      assertEquals(3077, int0);
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(3077, interpolatedGrayImage0.absSum());
+-      assertEquals(9467929L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals((-3077), interpolatedGrayImage0.addSum());
+-      assertSame(interpolatedGrayImage0, image0);
+-  }
++@Test(timeout = 4000)
++public void test28() throws Throwable {
++    InterpolatedGrayImage img = new InterpolatedGrayImage(1, 1);
++    // Verify constructor initialization
++    assertEquals(1, img.X());
++    assertEquals(1, img.Y());
++    assertEquals(InterpolationMethod.NEIGHBOR, img.getInterpolationMethod());
++
++    Integer clearVal = Integer.valueOf(-3077);
++    Image<Integer> cleared = img.clear(clearVal);
++
++    // Verify clear operation effects
++    assertSame(img, cleared);
++    assertEquals(1, img.X());
++    assertEquals(1, img.Y());
++    assertEquals(3077, img.absSum());
++    assertEquals(9467929L, img.sqrSum());
++    assertEquals(-3077, img.addSum());
++
++    // Re‑invoke a method to ensure state remains consistent
++    assertEquals(3077, img.absSum());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test29()  throws Throwable  {

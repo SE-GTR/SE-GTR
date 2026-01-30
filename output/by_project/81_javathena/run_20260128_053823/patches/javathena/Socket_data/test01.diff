@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/javathena/core/data/Socket_data_ESTest.java
++++ b/evosuite-tests/org/javathena/core/data/Socket_data_ESTest.java
+@@ -37,14 +37,19 @@
+     // Existing check retained
+     assertNull(socket_data0.getMd5key());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      Socket_data socket_data0 = new Socket_data((Socket) null);
+-      socket_data0.setClient_addr((Socket) null);
+-      assertNull(socket_data0.getType());
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    Socket_data socket_data0 = new Socket_data((Socket) null);
++    // Verify initial client address is null
++    assertNull(socket_data0.getClient_addr());
++    // Act: set client address to null
++    socket_data0.setClient_addr((Socket) null);
++    // Assert that the client address remains null after the call
++    assertNull(socket_data0.getClient_addr());
++    // Existing behavior check
++    assertNull(socket_data0.getType());
++}
++
+ @Test(timeout = 4000, expected = NullPointerException.class)
+ public void test02() throws Throwable {
+     MockSocket mockSocket0 = new MockSocket();

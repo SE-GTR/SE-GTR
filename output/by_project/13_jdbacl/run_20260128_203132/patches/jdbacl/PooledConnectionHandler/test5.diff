@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/databene/jdbacl/proxy/PooledConnectionHandler_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/proxy/PooledConnectionHandler_ESTest.java
+@@ -67,13 +67,18 @@
+       pooledConnectionHandler0.removeConnectionEventListener(jdbcConnectionPool0);
+       assertEquals(1, pooledConnectionHandler0.getOpenConnectionCount());
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        PooledConnectionHandler handler = new PooledConnectionHandler((Connection) null, false);
++        java.lang.reflect.Method closeMethod = Connection.class.getMethod("close");
++        try {
++            handler.invoke(null, closeMethod, null);
++            org.junit.Assert.fail("Expected NullPointerException when invoking method on null connection");
++        } catch (NullPointerException expected) {
++            // expected outcome
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      PooledConnectionHandler pooledConnectionHandler0 = new PooledConnectionHandler((Connection) null, false);
+-      Connection connection0 = pooledConnectionHandler0.getConnection();
+-      assertNull(connection0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

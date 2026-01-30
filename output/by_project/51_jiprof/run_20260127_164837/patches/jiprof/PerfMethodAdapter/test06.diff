@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/instrument/PerfMethodAdapter_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/instrument/PerfMethodAdapter_ESTest.java
+@@ -62,15 +62,19 @@
+       PerfMethodAdapter perfMethodAdapter0 = new PerfMethodAdapter(methodVisitor0, "<Xnits;0r\"@{S#o6SxTpKF", "<Xnits;0r\"@{S#o6SxTpKF");
+       perfMethodAdapter0.visitMethodInsn(182, "java/lang/Object", "wait", "<Xnits;0r\"@{S#o6SxTpKF");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      MethodVisitor methodVisitor0 = mock(MethodVisitor.class, new ViolatedAssumptionAnswer());
+-      Label label0 = new Label();
+-      PerfMethodAdapter perfMethodAdapter0 = new PerfMethodAdapter(methodVisitor0, "<init>s;0r\"@{S#o6SxTpKF", "<init>s;0r\"@{S#o6SxTpKF");
+-      perfMethodAdapter0.visitTryCatchBlock(label0, label0, label0, "java/lang/Thread");
+-      perfMethodAdapter0.visitLabel(label0);
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    MethodVisitor methodVisitor0 = mock(MethodVisitor.class, new ViolatedAssumptionAnswer());
++    Label label0 = new Label();
++    PerfMethodAdapter perfMethodAdapter0 = new PerfMethodAdapter(methodVisitor0,
++            "<init>s;0r\"@{S#o6SxTpKF", "<init>s;0r\"@{S#o6SxTpKF");
++    perfMethodAdapter0.visitTryCatchBlock(label0, label0, label0, "java/lang/Thread");
++    perfMethodAdapter0.visitLabel(label0);
++    // Verify that the underlying MethodVisitor received the delegated calls
++    verify(methodVisitor0).visitTryCatchBlock(label0, label0, label0, "java/lang/Thread");
++    verify(methodVisitor0).visitLabel(label0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/macaw/businessLayer/OntologyTerm_ESTest.java
++++ b/evosuite-tests/macaw/businessLayer/OntologyTerm_ESTest.java
+@@ -56,19 +56,28 @@
+       assertEquals(1, arrayList0.size());
+       assertTrue(ontologyTerm1.isNewRecord());
+   }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        OntologyTerm ontologyTerm0 = new OntologyTerm();
++        // Verify initial state (namespace should be empty or default)
++        String initialNamespace = ontologyTerm0.getNameSpace();
+ 
++        // Act: set term and observe its effect on related fields
++        ontologyTerm0.setTerm("GVn");
++        assertEquals("lha.mrc.ac.uk:LHA", ontologyTerm0.getNameSpace());
++        assertEquals("LHA", ontologyTerm0.getOntologyName());
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      OntologyTerm ontologyTerm0 = new OntologyTerm();
+-      ontologyTerm0.setTerm("GVn");
+-      assertEquals("lha.mrc.ac.uk:LHA", ontologyTerm0.getNameSpace());
+-      assertEquals("LHA", ontologyTerm0.getOntologyName());
+-      
+-      OntologyTerm.validateFields(ontologyTerm0);
+-      assertTrue(ontologyTerm0.isNewRecord());
+-      assertEquals(0, ontologyTerm0.getIdentifier());
+-  }
++        // Additional check: changing the term should modify the namespace again
++        String namespaceAfterFirstSet = ontologyTerm0.getNameSpace();
++        ontologyTerm0.setTerm("AnotherTerm");
++        assertNotEquals(namespaceAfterFirstSet, ontologyTerm0.getNameSpace());
++
++        // Validate fields and other invariants
++        OntologyTerm.validateFields(ontologyTerm0);
++        assertTrue(ontologyTerm0.isNewRecord());
++        assertEquals(0, ontologyTerm0.getIdentifier());
++    }
++
+ @Test(expected = macaw.system.MacawException.class, timeout = 4000)
+ public void test04() throws Throwable {
+     OntologyTerm ontologyTerm0 = new OntologyTerm();

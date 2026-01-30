@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -560,13 +560,15 @@
+       simpleAccountRealm0.setPermissionResolver(wildcardPermissionResolver0);
+       assertNull(simpleAccountRealm0.getAuthorizationCacheName());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test48()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      boolean boolean0 = simpleAccountRealm0.hasRole((PrincipalCollection) null, "fyZ]C)C8=q_@");
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test48() throws Throwable {
++    SimpleAccountRealm realm = new SimpleAccountRealm();
++    realm.addAccount("alice", "secret", "admin");
++    PrincipalCollection principals = new org.jsecurity.subject.SimplePrincipalCollection("alice", realm.getName());
++    boolean result = realm.hasRole(principals, "user");
++    assertFalse(result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test49()  throws Throwable  {

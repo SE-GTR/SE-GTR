@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/gbshape/dbe/sapdb/SapdbViewStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/sapdb/SapdbViewStructure_ESTest.java
+@@ -69,15 +69,19 @@
+          verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    DBDataBean dBDataBean0 = new DBDataBean();
++    // capture initial state (optional)
++    String beforeDriver = dBDataBean0.getDriver();
++    dBDataBean0.setDriver("org.apache.log4j.Priority");
++    // verify the side‑effect of setDriver
++    assertEquals("org.apache.log4j.Priority", dBDataBean0.getDriver());
++    SapdbViewStructure sapdbViewStructure0 = new SapdbViewStructure();
++    ViewStructureBean viewStructureBean0 = sapdbViewStructure0.getStructure(dBDataBean0, "org.apache.log4j.Priority");
++    assertEquals("", viewStructureBean0.getDefinition());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      DBDataBean dBDataBean0 = new DBDataBean();
+-      dBDataBean0.setDriver("org.apache.log4j.Priority");
+-      SapdbViewStructure sapdbViewStructure0 = new SapdbViewStructure();
+-      ViewStructureBean viewStructureBean0 = sapdbViewStructure0.getStructure(dBDataBean0, "org.apache.log4j.Priority");
+-      assertEquals("", viewStructureBean0.getDefinition());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

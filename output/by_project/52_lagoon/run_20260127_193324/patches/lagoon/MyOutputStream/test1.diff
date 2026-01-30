@@ -1,0 +1,34 @@
+--- a/evosuite-tests/nu/staldal/lagoon/producer/MyOutputStream_ESTest.java
++++ b/evosuite-tests/nu/staldal/lagoon/producer/MyOutputStream_ESTest.java
+@@ -37,24 +37,14 @@
+       // Closing an already closed stream should not throw an exception
+       myOutputStream0.close();
+   }
++@Test(timeout = 4000, expected = IOException.class)
++    public void test1() throws Throwable {
++        myInputStream0 = new MyInputStream();
++        myOutputStream0 = new MyOutputStream(myInputStream0);
++        myOutputStream0.close();
++        myOutputStream0.write(564);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    myInputStream0 = new MyInputStream();
+-    myOutputStream0 = new MyOutputStream(myInputStream0);
+-      myOutputStream0.close();
+-      try { 
+-        myOutputStream0.write(564);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Attempt to write to closed stream
+-         //
+-         verifyException("nu.staldal.lagoon.producer.MyOutputStream", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

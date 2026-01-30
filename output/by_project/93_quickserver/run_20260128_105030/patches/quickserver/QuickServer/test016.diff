@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -232,22 +232,12 @@
+       assertEquals(60000, quickServer0.getTimeout());
+       assertEquals((-1L), quickServer0.getMaxConnection());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test016()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer();
+-      // Undeclared exception!
+-      try { 
+-        quickServer0.getClientHandlerPool();
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // No ClientHandler Pool available yet!
+-         //
+-         verifyException("org.quickserver.net.server.QuickServer", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = IllegalStateException.class)
++public void test016() throws Throwable {
++    QuickServer quickServer0 = new QuickServer();
++    quickServer0.getClientHandlerPool();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test017()  throws Throwable  {

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/ztr/data/DataFactory_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/ztr/data/DataFactory_ESTest.java
+@@ -56,18 +56,15 @@
+          verifyException("org.jcvi.jillion.internal.trace.chromat.ztr.data.DataFactory", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        try {
++            DataFactory.getDataImplementation((byte[]) null);
++            fail("Expecting exception: TraceDecoderException");
++        } catch (TraceDecoderException e) {
++            // The factory should reject null input; verify that the cause is an IOException
++            assertTrue(e.getCause() instanceof IOException);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      try { 
+-        DataFactory.getDataImplementation((byte[]) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // can not parse data format
+-         //
+-         verifyException("org.jcvi.jillion.internal.trace.chromat.ztr.data.DataFactory", e);
+-      }
+-  }
+ }

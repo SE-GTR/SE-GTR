@@ -1,0 +1,42 @@
+--- a/evosuite-tests/umd/cs/shop/JSJshopNode_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSJshopNode_ESTest.java
+@@ -36,26 +36,21 @@
+         JSJshopNode jSJshopNode0 = new JSJshopNode(jSTaskAtom0, jSState0);
+         jSJshopNode0.print2();
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     jSTaskAtom0 = new JSTaskAtom();
+     jSState0 = new JSState();
+-      jSState0.add((Object) jSTaskAtom0);
+-      JSJshopNode jSJshopNode0 = new JSJshopNode(jSTaskAtom0, jSState0);
+-      // Undeclared exception!
+-      try { 
+-        jSJshopNode0.print();
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // umd.cs.shop.JSTaskAtom cannot be cast to umd.cs.shop.JSJshopNode
+-         //
+-         verifyException("umd.cs.shop.JSJshopNode", e);
+-      }
+-  }
++    // Add a proper child node to avoid ClassCastException during print
++    JSTaskAtom childAtom = new JSTaskAtom();
++    JSState childState = new JSState();
++    JSJshopNode childNode = new JSJshopNode(childAtom, childState);
++    boolean added = jSState0.add((Object) childNode);
++    assertTrue("Child node should be added to state", added);
++    JSJshopNode jSJshopNode0 = new JSJshopNode(jSTaskAtom0, jSState0);
++    // print should execute without throwing
++    jSJshopNode0.print();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

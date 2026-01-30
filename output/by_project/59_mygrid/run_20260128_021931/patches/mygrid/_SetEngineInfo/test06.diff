@@ -1,0 +1,38 @@
+--- a/evosuite-tests/mygrid/web/_SetEngineInfo_ESTest.java
++++ b/evosuite-tests/mygrid/web/_SetEngineInfo_ESTest.java
+@@ -111,16 +111,25 @@
+     assertTrue(boolean0);
+     assertTrue(_SetEngineInfo1.equals((Object) _SetEngineInfo0));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      assertTrue(_SetEngineInfo1.equals((Object)_SetEngineInfo0));
+-      
+-      _SetEngineInfo1.setName("UAY$O?'bI");
+-      boolean boolean0 = _SetEngineInfo0.equals(_SetEngineInfo1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    // initially the two objects are equal
++    assertTrue(_SetEngineInfo1.equals((Object) _SetEngineInfo0));
++
++    // capture the original name (expected to be null)
++    String originalName = _SetEngineInfo1.getName();
++
++    // exercise the void method
++    _SetEngineInfo1.setName("UAY$O?'bI");
++
++    // verify that the side‑effect took place
++    assertEquals("UAY$O?'bI", _SetEngineInfo1.getName());
++    assertNotEquals(originalName, _SetEngineInfo1.getName());
++
++    // after the change the objects are no longer equal
++    assertFalse(_SetEngineInfo0.equals(_SetEngineInfo1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

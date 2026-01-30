@@ -1,0 +1,31 @@
+--- a/evosuite-tests/net/sf/xbus/admin/html/JournalBean_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/admin/html/JournalBean_ESTest.java
+@@ -175,13 +175,21 @@
+         assertTrue(second.contains("bgcolor=#E7E9E6"));
+         assertNotEquals(first, second);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      JournalBean journalBean0 = new JournalBean();
+-      journalBean0.setRequestTimeMax("nRun=|1h");
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        JournalBean journalBean0 = new JournalBean();
++        // Capture the initial value (may be null or a default)
++        String before = journalBean0.getRequestTimeMax();
++        // Act: set a new request time max
++        journalBean0.setRequestTimeMax("nRun=|1h");
++        // Assert that the setter correctly updated the observable state
++        assertEquals("nRun=|1h", journalBean0.getRequestTimeMax());
++        // If there was a previous value, ensure it has changed
++        if (before != null) {
++            assertNotEquals(before, journalBean0.getRequestTimeMax());
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

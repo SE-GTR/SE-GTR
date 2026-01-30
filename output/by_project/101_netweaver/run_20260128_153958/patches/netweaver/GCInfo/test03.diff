@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo_ESTest.java
+@@ -72,17 +72,19 @@
+         assertEquals(0, gCInfo0.getUnloadedClasses());
+         assertEquals(0, gCInfo0.getDuration());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    gCInfo0 = new GCInfo();
+-      gCInfo0.setProcessname("l-wS");
+-      gCInfo0.hashCode();
+-      assertEquals(0, gCInfo0.getCpuTime());
+-      assertEquals(0, gCInfo0.getUnloadedClasses());
+-      assertEquals(0, gCInfo0.getDuration());
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    gCInfo0 = new GCInfo();
++    int hashBefore = gCInfo0.hashCode();
++    gCInfo0.setProcessname("l-wS");
++    int hashAfter = gCInfo0.hashCode();
++    assertNotEquals(hashBefore, hashAfter);
++    assertEquals("l-wS", gCInfo0.getProcessname());
++    assertEquals(0, gCInfo0.getCpuTime());
++    assertEquals(0, gCInfo0.getUnloadedClasses());
++    assertEquals(0, gCInfo0.getDuration());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

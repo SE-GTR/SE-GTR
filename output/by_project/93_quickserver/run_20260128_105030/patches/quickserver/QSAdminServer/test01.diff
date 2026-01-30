@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/quickserver/net/qsadmin/QSAdminServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/qsadmin/QSAdminServer_ESTest.java
+@@ -33,14 +33,24 @@
+       qSAdminServer0.setPromptName("");
+       assertFalse(qSAdminServer0.isShellEnable());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test01() throws Throwable {
+     quickServer0 = new QuickServer();
+     qSAdminServer0 = quickServer0.getQSAdminServer();
+-      qSAdminServer0.setPromptName("qu?");
+-      assertEquals("qu?", qSAdminServer0.getPromptName());
++
++    // Capture the initial prompt name (may be null or default)
++    String initialPrompt = qSAdminServer0.getPromptName();
++
++    // First change
++    qSAdminServer0.setPromptName("qu?");
++    assertEquals("qu?", qSAdminServer0.getPromptName());
++    assertNotEquals(initialPrompt, qSAdminServer0.getPromptName());
++
++    // Second change to differentiate this test from others
++    qSAdminServer0.setPromptName("admin>");
++    assertEquals("admin>", qSAdminServer0.getPromptName());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

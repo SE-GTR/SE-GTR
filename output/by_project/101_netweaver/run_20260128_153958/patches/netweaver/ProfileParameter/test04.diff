@@ -1,0 +1,48 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
+@@ -84,21 +84,30 @@
+     assertEquals("Q-27r", profileParameter0.getValue());
+     assertEquals("H-", profileParameter0.getUnit());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      ProfileParameter profileParameter0 = new ProfileParameter();
+-      ProfileParameter profileParameter1 = new ProfileParameter();
+-      String[] stringArray0 = new String[7];
+-      profileParameter0.setDynamicValues(stringArray0);
+-      assertFalse(profileParameter0.equals((Object)profileParameter1));
+-      
+-      profileParameter1.setDynamicValues(stringArray0);
+-      boolean boolean0 = profileParameter1.equals(profileParameter0);
+-      assertTrue(profileParameter1.equals((Object)profileParameter0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        ProfileParameter profileParameter0 = new ProfileParameter();
++        ProfileParameter profileParameter1 = new ProfileParameter();
++        String[] stringArray0 = new String[7];
++
++        // First object gets dynamic values
++        profileParameter0.setDynamicValues(stringArray0);
++        // Verify that the side‑effect is observable via the getter
++        assertSame(stringArray0, profileParameter0.getDynamicValues());
++
++        // Objects differ because only one has dynamic values set
++        assertFalse(profileParameter0.equals((Object) profileParameter1));
++
++        // Second object gets the same dynamic values
++        profileParameter1.setDynamicValues(stringArray0);
++        assertSame(stringArray0, profileParameter1.getDynamicValues());
++
++        // Now both objects should be equal
++        boolean boolean0 = profileParameter1.equals(profileParameter0);
++        assertTrue(profileParameter1.equals((Object) profileParameter0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

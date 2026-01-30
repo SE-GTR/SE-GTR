@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ListingProductDetails_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ListingProductDetails_ESTest.java
+@@ -148,14 +148,24 @@
+     // Exercise the getter to ensure it can be invoked without error
+     listingProductDetails0.getExchangeStatus();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      ListingProductDetails listingProductDetails0 = new ListingProductDetails();
+-      String string0 = listingProductDetails0.getExchangeAsin();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++public void test18() throws Throwable {
++    ListingProductDetails details = new ListingProductDetails();
++
++    // Act: serialize and then deserialize the object
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(details);
++    oos.flush();
++
++    java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++    ListingProductDetails deserialized = (ListingProductDetails) ois.readObject();
++
++    // Assert: the exchange ASIN remains null after the round‑trip
++    assertNull(deserialized.getExchangeAsin());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

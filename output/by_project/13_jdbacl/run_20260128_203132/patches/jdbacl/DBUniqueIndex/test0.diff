@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DBUniqueIndex_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DBUniqueIndex_ESTest.java
+@@ -20,19 +20,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DBUniqueIndex_ESTest extends DBUniqueIndex_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        DefaultDBTable defaultDBTable = new DefaultDBTable("");
++        String[] columns = new String[6];
++        DBUniqueConstraint constraintA = new DBUniqueConstraint(defaultDBTable, "", true, columns);
++        DBUniqueIndex indexA = new DBUniqueIndex(".DAT", true, constraintA);
++        DBUniqueConstraint constraintB = new DBUniqueConstraint(defaultDBTable, "different", true, columns);
++        DBUniqueIndex indexB = new DBUniqueIndex(".DAT", true, constraintB);
++        assertFalse(indexA.isIdentical(indexB));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable("");
+-      String[] stringArray0 = new String[6];
+-      DBUniqueConstraint dBUniqueConstraint0 = new DBUniqueConstraint(defaultDBTable0, "", true, stringArray0);
+-      DBUniqueIndex dBUniqueIndex0 = new DBUniqueIndex(".DAT", true, dBUniqueConstraint0);
+-      DefaultDBTable defaultDBTable1 = new DefaultDBTable();
+-      DBPrimaryKeyConstraint dBPrimaryKeyConstraint0 = new DBPrimaryKeyConstraint(defaultDBTable1, "", true, stringArray0);
+-      DBUniqueIndex dBUniqueIndex1 = new DBUniqueIndex(".DAT", true, dBPrimaryKeyConstraint0);
+-      boolean boolean0 = dBUniqueIndex0.isIdentical(dBUniqueIndex1);
+-      assertFalse(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

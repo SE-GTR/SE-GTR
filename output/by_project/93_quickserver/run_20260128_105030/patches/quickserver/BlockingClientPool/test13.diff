@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
+@@ -236,28 +236,22 @@
+          verifyException("org.quickserver.net.client.pool.BlockingClientPool", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(poolableBlockingClient0).toString();
+-      doReturn(0).when(poolableBlockingClient0).getHostMonitoringIntervalInSec();
+-      doReturn((LoadDistributor) null).when(poolableBlockingClient0).getLoadDistributor();
+-      doReturn(0).when(poolableBlockingClient0).getMaxIntervalForBorrowInSec();
+-      doReturn(0L).when(poolableBlockingClient0).getNoOpTimeIntervalMiliSec();
+-      BlockingClientPool blockingClientPool0 = new BlockingClientPool("Pw_}.IrNSN[n;s-m", poolableBlockingClient0);
+-      // Undeclared exception!
+-      try { 
+-        blockingClientPool0.init();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // Load Distributor is not set!
+-         //
+-         verifyException("org.quickserver.net.client.pool.BlockingClientPool", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
++    doReturn("PoolableClient").when(poolableBlockingClient0).toString();
++    doReturn(0).when(poolableBlockingClient0).getHostMonitoringIntervalInSec();
++    LoadDistributor loadDistributorMock = mock(LoadDistributor.class);
++    doReturn(loadDistributorMock).when(poolableBlockingClient0).getLoadDistributor();
++    doReturn(0).when(poolableBlockingClient0).getMaxIntervalForBorrowInSec();
++    doReturn(0L).when(poolableBlockingClient0).getNoOpTimeIntervalMiliSec();
++
++    BlockingClientPool blockingClientPool0 = new BlockingClientPool("Pw_}.IrNSN[n;s-m", poolableBlockingClient0);
++    blockingClientPool0.init();
++
++    assertSame(loadDistributorMock, blockingClientPool0.getLoadDistributor());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

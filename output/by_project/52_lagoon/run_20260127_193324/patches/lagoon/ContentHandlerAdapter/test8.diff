@@ -1,0 +1,44 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/ContentHandlerAdapter_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/ContentHandlerAdapter_ESTest.java
+@@ -105,22 +105,26 @@
+     contentHandlerAdapter0 = new ContentHandlerAdapter(defaultHandler0);
+       contentHandlerAdapter0.characters((char[]) null, 0, 2);
+   }
++@Test(timeout = 4000)
++public void test8() throws Throwable {
++    class RecordingContentHandler implements ContentHandler {
++        boolean startDocumentCalled = false;
++        public void setDocumentLocator(Locator locator) {}
++        public void startDocument() { startDocumentCalled = true; }
++        public void endDocument() {}
++        public void startElement(String uri, String localName, String qName, Attributes atts) {}
++        public void endElement(String uri, String localName, String qName) {}
++        public void characters(char[] ch, int start, int length) {}
++        public void ignorableWhitespace(char[] ch, int start, int length) {}
++        public void processingInstruction(String target, String data) {}
++        public void skippedEntity(String name) {}
++    }
++    RecordingContentHandler handler = new RecordingContentHandler();
++    contentHandlerAdapter0 = new ContentHandlerAdapter(handler);
++    contentHandlerAdapter0.startDocument();
++    assertTrue(handler.startDocumentCalled);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-    contentHandlerAdapter0 = new ContentHandlerAdapter((ContentHandler) null);
+-      // Undeclared exception!
+-      try { 
+-        contentHandlerAdapter0.startDocument();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("nu.staldal.xmlutil.ContentHandlerAdapter", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test9()  throws Throwable  {

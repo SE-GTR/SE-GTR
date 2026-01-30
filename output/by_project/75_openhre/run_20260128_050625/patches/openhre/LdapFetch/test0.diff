@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/browsersoft/aacs/LdapFetch_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/LdapFetch_ESTest.java
+@@ -38,23 +38,23 @@
+     ldapFetch0 = new LdapFetch(subject0, user0);
+     namingEnumeration0 = (NamingEnumeration<AACSPrincipal>) mock(NamingEnumeration.class, new ViolatedAssumptionAnswer());
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        boolean hasMoreStubResult = doReturn(true).when(namingEnumeration0).hasMore();
++        Object nextStubResult = doReturn((Object) null).when(namingEnumeration0).next();
++        assertFalse(hasMoreStubResult);
++        assertNull(nextStubResult);
++        try {
++            ldapFetch0.setUserAttributes(namingEnumeration0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            //
++            // no message in exception (getMessage() returned null)
++            //
++            verifyException("com.browsersoft.aacs.LdapFetch", e);
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      doReturn(true).when(namingEnumeration0).hasMore();
+-      doReturn((Object) null).when(namingEnumeration0).next();
+-      try { 
+-        ldapFetch0.setUserAttributes(namingEnumeration0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.browsersoft.aacs.LdapFetch", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

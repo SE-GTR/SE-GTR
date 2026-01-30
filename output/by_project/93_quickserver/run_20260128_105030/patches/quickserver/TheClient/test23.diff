@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/server/TheClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/TheClient_ESTest.java
+@@ -209,15 +209,19 @@
+     client.setTrusted(true);
+     assertTrue(client.getTrusted());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      TheClient theClient0 = new TheClient();
+-      theClient0.getClientBinaryHandler();
+-      assertFalse(theClient0.getTrusted());
+-      assertTrue(theClient0.getCommunicationLogging());
+-  }
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        TheClient theClient0 = new TheClient();
++        // Verify default communication logging state
++        assertTrue(theClient0.getCommunicationLogging());
++        // Change state using a setter and verify the effect
++        theClient0.setCommunicationLogging(false);
++        assertFalse(theClient0.getCommunicationLogging());
++        // Assert the return value of a non‑void method
++        ClientBinaryHandler handler = theClient0.getClientBinaryHandler();
++        assertNull(handler);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

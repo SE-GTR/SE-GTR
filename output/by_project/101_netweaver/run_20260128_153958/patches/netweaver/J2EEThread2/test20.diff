@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
+@@ -320,16 +320,22 @@
+     boolean boolean0 = j2EEThread2_1.equals(j2EEThread2_0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      J2EEThread2 j2EEThread2_0 = new J2EEThread2();
+-      j2EEThread2_0.setUser("org.apache.axis.i18n.ProjectResourceBundle");
+-      J2EEThread2 j2EEThread2_1 = new J2EEThread2();
+-      boolean boolean0 = j2EEThread2_0.equals(j2EEThread2_1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test20() throws Throwable {
++    J2EEThread2 j2EEThread2_0 = new J2EEThread2();
++    // Verify initial state before setting user
++    assertNull(j2EEThread2_0.getUser());
++
++    String expectedUser = "org.apache.axis.i18n.ProjectResourceBundle";
++    j2EEThread2_0.setUser(expectedUser);
++    // Assert that the side‑effect of setUser is observable
++    assertEquals(expectedUser, j2EEThread2_0.getUser());
++
++    J2EEThread2 j2EEThread2_1 = new J2EEThread2();
++    boolean boolean0 = j2EEThread2_0.equals(j2EEThread2_1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

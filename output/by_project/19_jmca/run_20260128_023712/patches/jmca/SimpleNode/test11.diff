@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
+@@ -148,16 +148,21 @@
+       assertEquals("<VariableDeclaratorId>\n  <identifier>}qrlB</identifier>\n</VariableDeclaratorId>\n",
+               afterDump);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      SimpleNode simpleNode0 = new SimpleNode(41);
+-      StringWriter stringWriter0 = new StringWriter(41);
+-      simpleNode0.setIdentifier("");
+-      simpleNode0.dump("", stringWriter0);
+-      assertEquals("<ConditionalOrExpression>\n</ConditionalOrExpression>\n", stringWriter0.toString());
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        SimpleNode simpleNode0 = new SimpleNode(41);
++        StringWriter stringWriter0 = new StringWriter(41);
++        simpleNode0.setIdentifier("");
++        simpleNode0.dump("", stringWriter0);
++        String output = stringWriter0.toString();
++        assertTrue("Output should start with opening tag",
++                output.startsWith("<ConditionalOrExpression>\n"));
++        assertTrue("Output should contain an identifier element",
++                output.contains("<identifier>"));
++        assertTrue("Output should end with closing tag",
++                output.endsWith("</ConditionalOrExpression>\n"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/gui/PlayerTreeRenderer_ESTest.java
++++ b/evosuite-tests/gui/PlayerTreeRenderer_ESTest.java
+@@ -32,17 +32,23 @@
+       Component component0 = playerTreeRenderer0.getTreeCellRendererComponent(jTree0, player0, false, false, true, 34511, true);
+       assertSame(playerTreeRenderer0, component0);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        PlayerTreeRenderer playerTreeRenderer0 = new PlayerTreeRenderer();
++        GameState gameState0 = new GameState();
++        // Verify initial state is null (if getter exists)
++        // This also serves as an observation of the side‑effect field.
++        // If getState() is not present, this line can be omitted without breaking the test.
++        // assertNull(playerTreeRenderer0.getState());
++        playerTreeRenderer0.setState(gameState0);
++        // Observe the effect of setState via the public getter.
++        assertSame(gameState0, playerTreeRenderer0.getState());
++        JTree jTree0 = new JTree();
++        Player player0 = new Player();
++        Component component0 = playerTreeRenderer0.getTreeCellRendererComponent(jTree0, player0, false, false, false, 2, false);
++        assertFalse(component0.getIgnoreRepaint());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      PlayerTreeRenderer playerTreeRenderer0 = new PlayerTreeRenderer();
+-      GameState gameState0 = new GameState();
+-      JTree jTree0 = new JTree();
+-      Player player0 = new Player();
+-      playerTreeRenderer0.setState(gameState0);
+-      Component component0 = playerTreeRenderer0.getTreeCellRendererComponent(jTree0, player0, false, false, false, 2, false);
+-      assertFalse(component0.getIgnoreRepaint());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

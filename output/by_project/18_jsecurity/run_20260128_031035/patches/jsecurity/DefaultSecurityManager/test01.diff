@@ -1,0 +1,62 @@
+--- a/evosuite-tests/org/jsecurity/mgt/DefaultSecurityManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/mgt/DefaultSecurityManager_ESTest.java
+@@ -52,24 +52,41 @@
+          verifyException("org.jsecurity.mgt.DefaultSecurityManager", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager();
+-      AllPermission allPermission0 = new AllPermission();
+-      BlowfishCipher blowfishCipher0 = new BlowfishCipher();
+-      WebRememberMeManager webRememberMeManager0 = new WebRememberMeManager();
+-      webRememberMeManager0.setCipher(blowfishCipher0);
+-      defaultSecurityManager0.setRememberMeManager(webRememberMeManager0);
+-      WebRememberMeManager webRememberMeManager1 = new WebRememberMeManager();
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
+-      defaultSecurityManager0.logout(simplePrincipalCollection0);
+-      WebRememberMeManager webRememberMeManager2 = new WebRememberMeManager();
+-      webRememberMeManager0.setCipher(blowfishCipher0);
+-      defaultSecurityManager0.setRememberMeManager(webRememberMeManager0);
+-      PrincipalCollection principalCollection0 = defaultSecurityManager0.getRememberedIdentity();
+-      assertNull(principalCollection0);
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager();
++    AllPermission allPermission0 = new AllPermission();
++    BlowfishCipher blowfishCipher0 = new BlowfishCipher();
++    WebRememberMeManager webRememberMeManager0 = new WebRememberMeManager();
++
++    // Verify initial state before setting cipher
++    assertNull(webRememberMeManager0.getCipher());
++
++    // Set cipher and assert side‑effect
++    webRememberMeManager0.setCipher(blowfishCipher0);
++    assertSame(blowfishCipher0, webRememberMeManager0.getCipher());
++
++    // Set RememberMeManager and assert side‑effect
++    defaultSecurityManager0.setRememberMeManager(webRememberMeManager0);
++    assertSame(webRememberMeManager0, defaultSecurityManager0.getRememberMeManager());
++
++    WebRememberMeManager webRememberMeManager1 = new WebRememberMeManager();
++    SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
++    defaultSecurityManager0.logout(simplePrincipalCollection0);
++
++    WebRememberMeManager webRememberMeManager2 = new WebRememberMeManager();
++
++    // Repeat setting to cover the same void calls with assertions
++    webRememberMeManager0.setCipher(blowfishCipher0);
++    assertSame(blowfishCipher0, webRememberMeManager0.getCipher());
++
++    defaultSecurityManager0.setRememberMeManager(webRememberMeManager0);
++    assertSame(webRememberMeManager0, defaultSecurityManager0.getRememberMeManager());
++
++    PrincipalCollection principalCollection0 = defaultSecurityManager0.getRememberedIdentity();
++    assertNull(principalCollection0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

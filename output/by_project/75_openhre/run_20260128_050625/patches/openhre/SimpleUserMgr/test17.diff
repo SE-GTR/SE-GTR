@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/browsersoft/aacs/SimpleUserMgr_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/SimpleUserMgr_ESTest.java
+@@ -158,13 +158,17 @@
+         SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
+         simpleUserMgr0.addUser((User) null);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
+-      simpleUserMgr0.parseLine("");
+-  }
++@Test(timeout = 4000)
++    public void test17() throws Throwable {
++        SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
++        // Verify that no user exists for an empty identifier before parsing
++        assertNull(simpleUserMgr0.getUser(""));
++        // Act: parse an empty line
++        simpleUserMgr0.parseLine("");
++        // Verify that parsing an empty line does not create a user
++        assertNull(simpleUserMgr0.getUser(""));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

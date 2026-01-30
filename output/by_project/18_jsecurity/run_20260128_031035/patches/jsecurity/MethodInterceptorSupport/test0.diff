@@ -1,0 +1,20 @@
+--- a/evosuite-tests/org/jsecurity/aop/MethodInterceptorSupport_ESTest.java
++++ b/evosuite-tests/org/jsecurity/aop/MethodInterceptorSupport_ESTest.java
+@@ -14,9 +14,13 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class MethodInterceptorSupport_ESTest extends MethodInterceptorSupport_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        UserAnnotationMethodInterceptor interceptor = new UserAnnotationMethodInterceptor();
++        // Act: change the annotation class that the interceptor handles
++        interceptor.setAnnotationClass(Deprecated.class);
++        // Assert: the getter reflects the change
++        assertEquals(Deprecated.class, interceptor.getAnnotationClass());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      UserAnnotationMethodInterceptor userAnnotationMethodInterceptor0 = new UserAnnotationMethodInterceptor();
+-  }
+ }

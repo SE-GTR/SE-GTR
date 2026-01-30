@@ -1,0 +1,73 @@
+--- a/evosuite-tests/org/heal/servlet/WSSearchResultsAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/WSSearchResultsAction_ESTest.java
+@@ -62,35 +62,41 @@
+         verifyException("java.util.HashMap", e);
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    wSSearchResultsAction0 = new WSSearchResultsAction();
+-    servlet0 = new Servlet("D'7C PC^3i'x]pW");
+-      SearchResultBean searchResultBean0 = new SearchResultBean();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(searchResultBean0).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("D'7C PC^3i'x]pW", "5").when(httpServletRequest0).getParameter(anyString());
+-      doReturn((Map<Object, SearchResultBean>) null).when(httpServletRequest0).getParameterMap();
+-      doReturn("D'7C PC^3i'x]pW").when(httpServletRequest0).getQueryString();
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      // Undeclared exception!
+-      try { 
+-        wSSearchResultsAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.util.HashMap", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        wSSearchResultsAction0 = new WSSearchResultsAction();
++        servlet0 = new Servlet("D'7C PC^3i'x]pW");
++        SearchResultBean searchResultBean0 = new SearchResultBean();
++        HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++        doReturn(searchResultBean0).when(httpSession0).getAttribute(anyString());
++        // assert that the stub works
++        assertSame(searchResultBean0, httpSession0.getAttribute("anyKey"));
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("D'7C PC^3i'x]pW", "5").when(httpServletRequest0).getParameter(anyString());
++        // assert first stubbed value
++        assertEquals("D'7C PC^3i'x]pW", httpServletRequest0.getParameter("anyKey"));
++        doReturn((Map<Object, SearchResultBean>) null).when(httpServletRequest0).getParameterMap();
++        // assert that null is returned
++        assertNull(httpServletRequest0.getParameterMap());
++        doReturn("D'7C PC^3i'x]pW").when(httpServletRequest0).getQueryString();
++        // assert query string stub
++        assertEquals("D'7C PC^3i'x]pW", httpServletRequest0.getQueryString());
++        doReturn(httpSession0).when(httpServletRequest0).getSession();
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++        // Undeclared exception!
++        try {
++            wSSearchResultsAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            //
++            // no message in exception (getMessage() returned null)
++            //
++            verifyException("java.util.HashMap", e);
++        }
++    }
++
+ @Test(timeout = 4000)
+     public void test2() throws Throwable {
+         wSSearchResultsAction0 = new WSSearchResultsAction();

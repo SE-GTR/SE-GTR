@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
+@@ -52,18 +52,26 @@
+       assertEquals(0, j2EEProcess1.getPid());
+       assertEquals(0, j2EEProcess1.getTelnetPort());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      J2EEProcess j2EEProcess0 = new J2EEProcess();
+-      J2EEProcess j2EEProcess1 = new J2EEProcess();
+-      assertTrue(j2EEProcess1.equals((Object)j2EEProcess0));
+-      
++@Test(timeout = 4000)
++  public void test02() throws Throwable {
++      J2EEProcess j2EEProcess0 = new J2EEProcess();
++      J2EEProcess j2EEProcess1 = new J2EEProcess();
++      assertTrue(j2EEProcess1.equals((Object) j2EEProcess0));
++
++      // verify initial state before setting debug
++      assertNull(j2EEProcess1.getDebug());
++
++      // act: change debug value
+       j2EEProcess1.setDebug("telnetPort");
+-      boolean boolean0 = j2EEProcess1.equals(j2EEProcess0);
+-      assertFalse(boolean0);
+-  }
++
++      // assert side‑effect is observable via getter
++      assertEquals("telnetPort", j2EEProcess1.getDebug());
++
++      // the change should affect equality
++      boolean boolean0 = j2EEProcess1.equals(j2EEProcess0);
++      assertFalse(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

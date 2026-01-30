@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jsecurity/subject/SimplePrincipalCollection_ESTest.java
++++ b/evosuite-tests/org/jsecurity/subject/SimplePrincipalCollection_ESTest.java
+@@ -240,14 +240,19 @@
+       Collection collection0 = simplePrincipalCollection0.getPrincipalsLazy("5;^Dc.hr/cSH$LfK");
+       assertNotNull(collection0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection("PlDJg^CPhndqQZLg", "PlDJg^CPhndqQZLg");
+-      simplePrincipalCollection0.getPrincipalsLazy("");
+-      SimplePrincipalCollection simplePrincipalCollection1 = new SimplePrincipalCollection(simplePrincipalCollection0);
+-      assertFalse(simplePrincipalCollection1.isEmpty());
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        SimplePrincipalCollection original = new SimplePrincipalCollection("PlDJg^CPhndqQZLg", "PlDJg^CPhndqQZLg");
++        java.util.Collection<?> principals = original.getPrincipalsLazy("");
++        assertNotNull(principals);
++        assertFalse(principals.isEmpty());
++
++        SimplePrincipalCollection copy = new SimplePrincipalCollection(original);
++        java.util.Collection<?> copyPrincipals = copy.getPrincipalsLazy("");
++        assertEquals(principals.size(), copyPrincipals.size());
++        assertFalse(copyPrincipals.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

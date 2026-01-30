@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
+@@ -186,12 +186,21 @@
+     assertNotNull(regDb);
+     assertFalse(regDb.isEmpty());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      MySQLConfig.setDynamic_account_ban_class(8192);
+-  }
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        // Capture the current value (if any) before modification
++        int originalValue = MySQLConfig.getDynamic_account_ban_class();
++        // Apply the side‑effect we want to test
++        MySQLConfig.setDynamic_account_ban_class(8192);
++        // Verify that the setter actually changed the internal state
++        int updatedValue = MySQLConfig.getDynamic_account_ban_class();
++        assertEquals(8192, updatedValue);
++        // Optional sanity check: the value should differ from the original unless it was already 8192
++        if (originalValue != 8192) {
++            assertNotEquals(originalValue, updatedValue);
++        }
++    }
++
+ @Test(timeout = 4000)
+   public void test24() throws Throwable {
+       String gmDb = MySQLConfig.getGm_db();

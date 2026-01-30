@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/ImmutableProxiedSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/ImmutableProxiedSession_ESTest.java
+@@ -78,23 +78,14 @@
+          verifyException("org.jsecurity.session.mgt.ImmutableProxiedSession", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000, expected = org.jsecurity.session.InvalidSessionException.class)
++public void test3() throws Throwable {
+     session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+     proxiedSession0 = new ProxiedSession(session0);
+     immutableProxiedSession0 = new ImmutableProxiedSession(proxiedSession0);
+-      try { 
+-        immutableProxiedSession0.touch();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // This session is immutable and read-only - it cannot be altered.  This is usually because the session has been stopped or expired already.
+-         //
+-         verifyException("org.jsecurity.session.mgt.ImmutableProxiedSession", e);
+-      }
+-  }
++    immutableProxiedSession0.touch();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

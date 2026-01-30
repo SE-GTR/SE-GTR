@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Undeploy_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Undeploy_ESTest.java
+@@ -61,15 +61,19 @@
+     int afterHash = undeploy0.hashCode();
+     org.junit.Assert.assertNotEquals("Hash code should change after setting apps", beforeHash, afterHash);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      Undeploy undeploy0 = new Undeploy();
+-      Application[] applicationArray0 = new Application[1];
+-      undeploy0.setApps(applicationArray0);
+-      undeploy0.hashCode();
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    Undeploy undeploy0 = new Undeploy();
++    Application[] applicationArray0 = new Application[1];
++    undeploy0.setApps(applicationArray0);
++    // Verify that the apps array was stored correctly
++    assertArrayEquals(applicationArray0, undeploy0.getApps());
++    // Verify that hashCode returns a consistent value
++    int hash1 = undeploy0.hashCode();
++    int hash2 = undeploy0.hashCode();
++    assertEquals(hash1, hash2);
++}
++
+ @Test(timeout = 4000)
+ public void test04() throws Throwable {
+     Option[] optionArray0 = new Option[1];

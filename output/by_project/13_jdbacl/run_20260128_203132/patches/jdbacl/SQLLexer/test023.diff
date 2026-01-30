@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -271,22 +271,18 @@
+          verifyException("org.antlr.runtime.Lexer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test023()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mT__62();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test023() throws Throwable {
++        // Provide a minimal input that allows the lexer to be properly initialized.
++        org.antlr.runtime.ANTLRStringStream input = new org.antlr.runtime.ANTLRStringStream("FROM");
++        SQLLexer lexer = new SQLLexer(input);
++        // Invoke the lexer rule directly; it should succeed without throwing NPE.
++        lexer.mT__62();
++        org.antlr.runtime.Token token = lexer.getToken();
++        assertNotNull("Token should not be null after rule execution", token);
++        assertEquals("Token type should correspond to T__62", SQLLexer.T__62, token.getType());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test024()  throws Throwable  {

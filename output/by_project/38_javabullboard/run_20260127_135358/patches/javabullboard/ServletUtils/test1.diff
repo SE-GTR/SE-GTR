@@ -1,0 +1,46 @@
+--- a/evosuite-tests/framework/util/ServletUtils_ESTest.java
++++ b/evosuite-tests/framework/util/ServletUtils_ESTest.java
+@@ -39,28 +39,23 @@
+       String string0 = ServletUtils.showRequestParameters(httpServletRequest0);
+       assertEquals("\n<!---------------- REQUEST PARAMETERS ---------------->\n<!-- \n\n<!---------------- TILE ATTRIBUTES ---------------->=action (java.lang.String) -->\n<!-- \n\n<!---------------- TILE ATTRIBUTES ---------------->=null -->\n<!-- \n\n<!---------------- TILE ATTRIBUTES ---------------->=null -->\n<!-- \n\n<!---------------- TILE ATTRIBUTES ---------------->=null -->\n<!-- \n\n<!---------------- TILE ATTRIBUTES ---------------->=null -->\n<!-- \n\n<!---------------- TILE ATTRIBUTES ---------------->=null -->\n<!-- \n\n<!---------------- TILE ATTRIBUTES ---------------->=null -->\n<!-- \n\n<!---------------- TILE ATTRIBUTES ---------------->=null -->\n<!-- \n\n<!---------------- TILE ATTRIBUTES ---------------->=null -->", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      HashMap<Object, ComponentContext> hashMap0 = new HashMap<Object, ComponentContext>();
+-      Object object0 = new Object();
+-      ComponentContext componentContext0 = new ComponentContext();
+-      hashMap0.putIfAbsent(object0, componentContext0);
+-      ComponentContext componentContext1 = new ComponentContext(hashMap0);
+-      PageContext pageContext0 = mock(PageContext.class, new ViolatedAssumptionAnswer());
+-      doReturn(componentContext1).when(pageContext0).getAttribute(anyString() , anyInt());
+-      // Undeclared exception!
+-      try { 
++public void test1() throws Throwable {
++    HashMap<Object, ComponentContext> hashMap0 = new HashMap<Object, ComponentContext>();
++    Object object0 = new Object();
++    ComponentContext componentContext0 = new ComponentContext();
++    ComponentContext previous = hashMap0.putIfAbsent(object0, componentContext0);
++    assertNull(previous);
++    ComponentContext componentContext1 = new ComponentContext(hashMap0);
++    PageContext pageContext0 = mock(PageContext.class, new ViolatedAssumptionAnswer());
++    doReturn(componentContext1).when(pageContext0).getAttribute(anyString(), anyInt());
++    try {
+         ServletUtils.showTilesScope(pageContext0);
+         fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.lang.Object cannot be cast to java.lang.String
+-         //
+-         verifyException("framework.util.ServletUtils", e);
+-      }
+-  }
++    } catch (ClassCastException e) {
++        verifyException("framework.util.ServletUtils", e);
++    }
++}
++
+ public void test2() throws Throwable {
+     ComponentDefinition componentDefinition0 = new ComponentDefinition();
+     ComponentContext componentContext0 = new ComponentContext(componentDefinition0);

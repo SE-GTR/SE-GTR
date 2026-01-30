@@ -1,0 +1,33 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSFileUtils_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSFileUtils_ESTest.java
+@@ -91,18 +91,19 @@
+       File file0 = HaSFileUtils.saveStreamToTempFile((InputStream) sequenceInputStream0, "@@zL,5:A$)");
+       assertEquals("@@zL,5:A$)", file0.getName());
+   }
++@Test(timeout = 4000)
++public void test6() throws Throwable {
++    byte[] byteArray0 = new byte[7];
++    ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
++    File file0 = HaSFileUtils.saveStreamToTempFile((InputStream) byteArrayInputStream0);
++    assertEquals(7L, file0.length());
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      byte[] byteArray0 = new byte[7];
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      File file0 = HaSFileUtils.saveStreamToTempFile((InputStream) byteArrayInputStream0);
+-      assertEquals(7L, file0.length());
+-      
+-      HaSFileUtils.getBase64MD5(file0);
+-      assertEquals("/tmp/hubandspoke0.tmp", file0.toString());
+-      assertEquals("hubandspoke0.tmp", file0.getName());
+-  }
++    String md5Base64 = HaSFileUtils.getBase64MD5(file0);
++    assertNotNull(md5Base64);
++    assertEquals("/tmp/hubandspoke0.tmp", file0.toString());
++    assertEquals("hubandspoke0.tmp", file0.getName());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

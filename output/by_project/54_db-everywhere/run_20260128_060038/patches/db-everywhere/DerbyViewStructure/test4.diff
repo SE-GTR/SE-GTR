@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/gbshape/dbe/derby/DerbyViewStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/derby/DerbyViewStructure_ESTest.java
+@@ -75,15 +75,20 @@
+          verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
++@Test(timeout = 4000)
++public void test4() throws Throwable {
+     derbyViewStructure0 = new DerbyViewStructure();
+     dBDataBean0 = new DBDataBean();
+-      dBDataBean0.setDriver("com.gbshape.dbe.derby.DerbyViewStructure");
+-      ViewStructureBean viewStructureBean0 = derbyViewStructure0.getStructure(dBDataBean0, "com.gbshape.dbe.derby.DerbyViewStructure");
+-      assertEquals("", viewStructureBean0.getDefinition());
+-  }
++    // Verify that the driver is initially unset
++    assertNull(dBDataBean0.getDriver());
++    // Set the driver and assert the side‑effect
++    dBDataBean0.setDriver("com.gbshape.dbe.derby.DerbyViewStructure");
++    assertEquals("com.gbshape.dbe.derby.DerbyViewStructure", dBDataBean0.getDriver());
++    ViewStructureBean viewStructureBean0 = derbyViewStructure0.getStructure(dBDataBean0,
++            "com.gbshape.dbe.derby.DerbyViewStructure");
++    assertEquals("", viewStructureBean0.getDefinition());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

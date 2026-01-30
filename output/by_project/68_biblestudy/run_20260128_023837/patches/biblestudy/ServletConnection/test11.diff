@@ -1,0 +1,42 @@
+--- a/evosuite-tests/bible/servlet/ServletConnection_ESTest.java
++++ b/evosuite-tests/bible/servlet/ServletConnection_ESTest.java
+@@ -181,20 +181,25 @@
+     assertFalse(servletConnection0.isRedirected());
+     assertTrue(servletConnection0.getStartTime() > 0L);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(httpServletRequest0).getRemoteHost();
+-      doReturn((String) null).when(httpServletRequest0).getRemoteUser();
+-      doReturn((String) null).when(httpServletRequest0).getRequestURI();
+-      ServletConnection servletConnection0 = new ServletConnection(httpServletRequest0, (HttpServletResponse) null);
+-      assertFalse(servletConnection0.isRedirected());
+-      
+-      servletConnection0.setRedirected();
+-      assertTrue(servletConnection0.isRedirected());
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn((String) null).when(httpServletRequest0).getRemoteHost();
++    doReturn((String) null).when(httpServletRequest0).getRemoteUser();
++    doReturn((String) null).when(httpServletRequest0).getRequestURI();
++
++    // Verify the stubbed return values
++    assertNull(httpServletRequest0.getRemoteHost());
++    assertNull(httpServletRequest0.getRemoteUser());
++    assertNull(httpServletRequest0.getRequestURI());
++
++    ServletConnection servletConnection0 = new ServletConnection(httpServletRequest0, (HttpServletResponse) null);
++    assertFalse(servletConnection0.isRedirected());
++
++    servletConnection0.setRedirected();
++    assertTrue(servletConnection0.isRedirected());
++}
++
+ @Test(timeout = 4000)
+ public void test12() throws Throwable {
+     HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/petsoar/security/LoginFilter_ESTest.java
++++ b/evosuite-tests/org/petsoar/security/LoginFilter_ESTest.java
+@@ -29,21 +29,19 @@
+       doReturn("loggedIn", "loggedIn", "loggedIn").when(filterConfig0).getInitParameter(anyString());
+       loginFilter0.init(filterConfig0);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        LoginFilter loginFilter0 = new LoginFilter();
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class);
++        doReturn("loggedIn").when(httpServletRequest0).getServletPath();
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class);
++        FilterChain filterChain0 = mock(FilterChain.class);
++        // Execute the filter with a fully initialized request, response and chain
++        loginFilter0.doFilter(httpServletRequest0, httpServletResponse0, filterChain0);
++        // Verify that the filter forwards the request/response to the next element in the chain
++        verify(filterChain0).doFilter(httpServletRequest0, httpServletResponse0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      LoginFilter loginFilter0 = new LoginFilter();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("loggedIn").when(httpServletRequest0).getServletPath();
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      // Undeclared exception!
+-      try { 
+-        loginFilter0.doFilter(httpServletRequest0, httpServletResponse0, (FilterChain) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

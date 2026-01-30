@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/LogFile_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/LogFile_ESTest.java
+@@ -47,18 +47,28 @@
+         assertTrue(logFile1.equals((Object) logFile0));
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      LogFile logFile0 = new LogFile();
+-      LogFile logFile1 = new LogFile();
+-      assertTrue(logFile1.equals((Object)logFile0));
+-      
+-      logFile1.setFormat("Y3zKi-\"*Ie)$");
+-      boolean boolean0 = logFile0.equals(logFile1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    LogFile logFile0 = new LogFile();
++    LogFile logFile1 = new LogFile();
++    assertTrue(logFile1.equals((Object) logFile0));
++
++    // Observe initial state
++    String formatBefore = logFile0.getFormat(); // expected to be null
++
++    // Act: change format on logFile1
++    String newFormat = "Y3zKi-\"*Ie)$";
++    logFile1.setFormat(newFormat);
++
++    // Verify side‑effects of setFormat
++    assertEquals(newFormat, logFile1.getFormat());
++    assertEquals(formatBefore, logFile0.getFormat());
++
++    // Ensure objects are now unequal after the change
++    boolean boolean0 = logFile0.equals(logFile1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

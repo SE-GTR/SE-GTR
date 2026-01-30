@@ -1,0 +1,22 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemorySupportingDocumentFilter_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemorySupportingDocumentFilter_ESTest.java
+@@ -84,11 +84,19 @@
+     supportingDocument0 = new SupportingDocument();
+     arrayList0.add(supportingDocument0);
+     arrayList0.add(supportingDocument0);
++    // Verify that before setting any documents the filter returns an empty list
++    User emptyUser = new User();
++    ArrayList<SupportingDocument> beforeList = inMemorySupportingDocumentFilter0.filterSupportingDocuments(emptyUser, "", "");
++    assertTrue(beforeList.isEmpty());
++    // Set the supporting documents
+     inMemorySupportingDocumentFilter0.setSupportingDocuments(arrayList0);
++    // Verify that the side‑effect is observable via the filter result
+     User user0 = new User();
+     ArrayList<SupportingDocument> arrayList1 = inMemorySupportingDocumentFilter0.filterSupportingDocuments(user0, "<?", "<?");
+     assertEquals(2, arrayList1.size());
++    assertTrue(arrayList1.contains(supportingDocument0));
+ }
++
+ 
+ 
+   @Test(timeout = 4000)

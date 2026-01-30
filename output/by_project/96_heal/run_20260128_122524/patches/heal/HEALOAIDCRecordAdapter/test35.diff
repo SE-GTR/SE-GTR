@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/heal/module/oai/heal/HEALOAIDCRecordAdapter_ESTest.java
++++ b/evosuite-tests/org/heal/module/oai/heal/HEALOAIDCRecordAdapter_ESTest.java
+@@ -441,22 +441,17 @@
+     boolean after = hEALOAIDCRecordAdapter0.hasCustomAbout();
+     assertEquals(before, after);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test35()  throws Throwable  {
+-    completeMetadataBean0 = new CompleteMetadataBean();
+-    hEALOAIDCRecordAdapter0 = new HEALOAIDCRecordAdapter(completeMetadataBean0, (HEALProviderConfig) null);
+-      // Undeclared exception!
+-      try { 
+-        hEALOAIDCRecordAdapter0.addCustomAbout((Document) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.module.oai.heal.HEALXMLHelper", e);
+-      }
+-  }
+-}
++@Test(timeout = 4000)
++    public void test35() throws Throwable {
++        completeMetadataBean0 = new CompleteMetadataBean();
++        hEALOAIDCRecordAdapter0 = new HEALOAIDCRecordAdapter(completeMetadataBean0, (HEALProviderConfig) null);
++        // Create a minimal, non‑null Document to exercise normal behavior
++        Document doc = javax.xml.parsers.DocumentBuilderFactory.newInstance()
++                .newDocumentBuilder()
++                .newDocument();
++        hEALOAIDCRecordAdapter0.addCustomAbout(doc);
++        // Verify that the custom about section was added successfully
++        org.junit.Assert.assertTrue(hEALOAIDCRecordAdapter0.hasCustomAbout());
++    }
++
++}

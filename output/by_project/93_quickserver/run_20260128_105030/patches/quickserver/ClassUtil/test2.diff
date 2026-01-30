@@ -1,0 +1,23 @@
+--- a/evosuite-tests/org/quickserver/util/ClassUtil_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/ClassUtil_ESTest.java
+@@ -30,13 +30,16 @@
+     ClassLoader classLoader0 = ClassUtil.getClassLoader("Getting ClassLoader for ");
+     assertNull(classLoader0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
+       ClassLoader classLoader0 = ClassUtil.getClassLoader("");
+       assertNotNull(classLoader0);
++      // Verify that the returned ClassLoader can actually load a known class
++      Class<?> stringClass = classLoader0.loadClass("java.lang.String");
++      assertNotNull(stringClass);
++      assertEquals("java.lang.String", stringClass.getName());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

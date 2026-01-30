@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/gbshape/dbe/utils/DBEUtils_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/utils/DBEUtils_ESTest.java
+@@ -56,18 +56,22 @@
+       HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+       DBEUtils.dumpRequestAttribute(httpServletRequestWrapper0);
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    enumeration0 = (Enumeration<String>) mock(Enumeration.class, new ViolatedAssumptionAnswer());
++    doReturn(true, false).when(enumeration0).hasMoreElements();
++    doReturn((Object) null).when(enumeration0).nextElement();
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn((String) null).when(httpServletRequest0).getParameter(anyString());
++    doReturn(enumeration0).when(httpServletRequest0).getParameterNames();
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    DBEUtils.dumpRequest(httpServletRequestWrapper0);
++    // Assert that the stubbed methods return the expected values
++    assertSame(enumeration0, httpServletRequestWrapper0.getParameterNames());
++    assertNull(httpServletRequestWrapper0.getParameter("any"));
++    assertNull(enumeration0.nextElement());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    enumeration0 = (Enumeration<String>) mock(Enumeration.class, new ViolatedAssumptionAnswer());
+-      doReturn(true, false).when(enumeration0).hasMoreElements();
+-      doReturn((Object) null).when(enumeration0).nextElement();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(httpServletRequest0).getParameter(anyString());
+-      doReturn(enumeration0).when(httpServletRequest0).getParameterNames();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      DBEUtils.dumpRequest(httpServletRequestWrapper0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

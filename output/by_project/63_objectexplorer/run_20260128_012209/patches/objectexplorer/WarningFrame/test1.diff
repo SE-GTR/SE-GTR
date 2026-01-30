@@ -1,0 +1,39 @@
+--- a/evosuite-tests/de/paragon/explorer/gui/WarningFrame_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/gui/WarningFrame_ESTest.java
+@@ -31,21 +31,22 @@
+          verifyException("java.awt.GraphicsEnvironment", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        String title = "UFFhu7tuE?:,,uD";
++        if (java.awt.GraphicsEnvironment.isHeadless()) {
++            try {
++                new WarningFrame(title);
++                fail("Expecting exception: HeadlessException");
++            } catch (java.awt.HeadlessException e) {
++                // expected in headless environment
++            }
++        } else {
++            WarningFrame wf = new WarningFrame(title);
++            assertEquals(title, wf.getTitle());
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      WarningFrame warningFrame0 = null;
+-      try {
+-        warningFrame0 = new WarningFrame("UFFhu7tuE?:,,uD");
+-        fail("Expecting exception: HeadlessException");
+-      
+-      } catch(HeadlessException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.awt.GraphicsEnvironment", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

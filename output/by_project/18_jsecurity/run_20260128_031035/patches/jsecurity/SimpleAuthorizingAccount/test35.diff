@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
+@@ -375,18 +375,24 @@
+       simpleAuthorizingAccount1.merge((Account) simpleAuthorizingAccount0);
+       assertFalse(simpleAuthorizingAccount1.isCredentialsExpired());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test35()  throws Throwable  {
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
+-      Object object0 = new Object();
+-      LinkedHashSet<Permission> linkedHashSet0 = new LinkedHashSet<Permission>();
+-      SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount((PrincipalCollection) simplePrincipalCollection0, object0, "org.jsecurity.authz.SimpleAuthorizingAccount_PRIVATE_ROLE_org.jsecurity.subject.PrincipalCollection", (Set<String>) null, (Set<Permission>) linkedHashSet0);
++@Test(timeout = 4000)
++  public void test35() throws Throwable {
++      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
++      Object object0 = new Object();
++      LinkedHashSet<Permission> linkedHashSet0 = new LinkedHashSet<Permission>();
++      SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount(
++              (PrincipalCollection) simplePrincipalCollection0,
++              object0,
++              "org.jsecurity.authz.SimpleAuthorizingAccount_PRIVATE_ROLE_org.jsecurity.subject.PrincipalCollection",
++              (Set<String>) null,
++              (Set<Permission>) linkedHashSet0);
+       LinkedHashSet<SimpleRole> linkedHashSet1 = new LinkedHashSet<SimpleRole>();
+       simpleAuthorizingAccount0.simpleRoles = (Set<SimpleRole>) linkedHashSet1;
+       simpleAuthorizingAccount0.merge((Account) simpleAuthorizingAccount0);
+-      assertFalse(simpleAuthorizingAccount0.isCredentialsExpired());
+-  }
++      // Verify that merge does not introduce any roles into the account
++      assertTrue(simpleAuthorizingAccount0.simpleRoles.isEmpty());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test36()  throws Throwable  {

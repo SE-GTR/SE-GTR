@@ -1,0 +1,35 @@
+--- a/evosuite-tests/map/DefaultNode_ESTest.java
++++ b/evosuite-tests/map/DefaultNode_ESTest.java
+@@ -275,16 +275,22 @@
+       assertEquals((-1.0F), defaultNode0.getCost(), 0.01F);
+       assertEquals(0.0F, defaultNode0.getScore(), 0.01F);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      DefaultNode defaultNode0 = new DefaultNode();
+-      defaultNode0.setScore((-757.90234F));
+-      DefaultNode defaultNode1 = new DefaultNode();
+-      int int0 = defaultNode1.compareTo(defaultNode0);
+-      assertEquals((-757.90234F), defaultNode0.getScore(), 0.01F);
+-      assertEquals(1, int0);
+-  }
++@Test(timeout = 4000)
++public void test26() throws Throwable {
++    DefaultNode defaultNode0 = new DefaultNode();
++    float beforeScore = defaultNode0.getScore();
++    defaultNode0.setScore(-757.90234F);
++    // Verify that the score was actually changed
++    assertNotEquals(beforeScore, defaultNode0.getScore(), 0.0f);
++    // Verify the exact score value
++    assertEquals(-757.90234F, defaultNode0.getScore(), 0.01F);
++    // Verify that unrelated fields remain unchanged
++    assertEquals(0L, defaultNode0.bits);
++    DefaultNode defaultNode1 = new DefaultNode();
++    int int0 = defaultNode1.compareTo(defaultNode0);
++    assertEquals(1, int0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

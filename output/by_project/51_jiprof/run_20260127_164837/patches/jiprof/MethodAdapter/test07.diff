@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodAdapter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodAdapter_ESTest.java
+@@ -93,23 +93,31 @@
+     // Verify that providing a non‑null labels array does not cause a NullPointerException
+     methodAdapter0.visitTableSwitchInsn(2, 0, label0, labels);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      MethodAdapter methodAdapter0 = new MethodAdapter((MethodVisitor) null);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        MethodVisitor dummy = (MethodVisitor) java.lang.reflect.Proxy.newProxyInstance(
++                MethodVisitor.class.getClassLoader(),
++                new Class<?>[]{MethodVisitor.class},
++                (proxy, method, args) -> {
++                    Class<?> ret = method.getReturnType();
++                    if (ret.equals(void.class)) {
++                        return null;
++                    }
++                    if (ret.isPrimitive()) {
++                        if (ret.equals(boolean.class)) return false;
++                        if (ret.equals(byte.class) || ret.equals(short.class) || ret.equals(int.class) || ret.equals(long.class))
++                            return 0;
++                        if (ret.equals(float.class)) return 0f;
++                        if (ret.equals(double.class)) return 0d;
++                        if (ret.equals(char.class)) return '\0';
++                    }
++                    return null;
++                });
++        MethodAdapter methodAdapter0 = new MethodAdapter(dummy);
+         methodAdapter0.visitInsn(14);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.MethodAdapter", e);
+-      }
+-  }
++        // No exception expected; test passes if execution reaches this point.
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

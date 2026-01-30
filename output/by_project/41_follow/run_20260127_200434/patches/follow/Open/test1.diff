@@ -1,0 +1,43 @@
+--- a/evosuite-tests/ghm/follow/gui/Open_ESTest.java
++++ b/evosuite-tests/ghm/follow/gui/Open_ESTest.java
+@@ -24,21 +24,24 @@
+     Open open0 = new Open((FollowApp) null, mockFile0);
+     assertNotNull(open0);
+ }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    Open open0 = new Open((FollowApp) null);
++    // Prepare a temporary recent file to avoid NullPointerException during actionPerformed
++    java.io.File tempFile = java.io.File.createTempFile("open_test", ".tmp");
++    tempFile.deleteOnExit();
++    java.lang.reflect.Field recentFileField = Open.class.getDeclaredField("recentFile");
++    recentFileField.setAccessible(true);
++    recentFileField.set(open0, tempFile);
++    // Create a dummy ActionEvent
++    java.awt.event.ActionEvent event = new java.awt.event.ActionEvent(open0,
++            java.awt.event.ActionEvent.ACTION_PERFORMED, "open");
++    // Invoke actionPerformed and verify no exception is thrown
++    try {
++        open0.actionPerformed(event);
++    } catch (Exception e) {
++        fail("Unexpected exception: " + e);
++    }
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Open open0 = new Open((FollowApp) null);
+-      // Undeclared exception!
+-      try { 
+-        open0.actionPerformed((ActionEvent) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ghm.follow.gui.Open", e);
+-      }
+-  }
+ }

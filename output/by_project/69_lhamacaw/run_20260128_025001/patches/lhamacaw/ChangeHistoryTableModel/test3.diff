@@ -1,0 +1,34 @@
+--- a/evosuite-tests/macaw/presentationLayer/ChangeHistoryTableModel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/ChangeHistoryTableModel_ESTest.java
+@@ -64,19 +64,22 @@
+     Object object0 = changeHistoryTableModel0.getValueAt(0, 0);
+     assertEquals("14-Feb-2014 08:21:21", object0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
+     changeHistoryTableModel0 = new ChangeHistoryTableModel();
+     arrayList0 = new ArrayList<MacawChangeEvent>();
+     changeEventType0 = ChangeEventType.LIST_CHOICE;
+-      MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent(changeEventType0, "x", "x");
+-      arrayList0.add(macawChangeEvent0);
+-      changeHistoryTableModel0.setChangeEvents(arrayList0);
+-      Object object0 = changeHistoryTableModel0.getValueAt(0, (-3717));
+-      assertNull(object0);
++    MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent(changeEventType0, "x", "x");
++    int rowsBefore = changeHistoryTableModel0.getRowCount();
++    boolean added = arrayList0.add(macawChangeEvent0);
++    assertTrue(added);
++    changeHistoryTableModel0.setChangeEvents(arrayList0);
++    int rowsAfter = changeHistoryTableModel0.getRowCount();
++    assertEquals(rowsBefore + 1, rowsAfter);
++    Object object0 = changeHistoryTableModel0.getValueAt(0, -3717);
++    assertNull(object0);
+   }
++
+ @Test(timeout = 4000)
+     public void test4() throws Throwable {
+         ChangeHistoryTableModel model = new ChangeHistoryTableModel();

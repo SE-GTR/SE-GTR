@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -359,16 +359,18 @@
+     }
+     assertTrue("Bytecode should contain MULTIANEWARRAY opcode", containsMultiANewArray);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
+-      ClassWriter classWriter0 = new ClassWriter(classReader0, 191);
+-      classReader0.accept((ClassVisitor) classWriter0, 101);
+-      MethodWriter methodWriter0 = classWriter0.lastMethod;
+-      methodWriter0.visitMultiANewArrayInsn("org.yasl.jars.JarFileFilter", 191);
+-  }
++@Test(timeout = 4000)
++public void test25() throws Throwable {
++    ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
++    ClassWriter classWriter0 = new ClassWriter(classReader0, 191);
++    classReader0.accept((ClassVisitor) classWriter0, 101);
++    MethodWriter methodWriter0 = classWriter0.lastMethod;
++    byte[] before = classWriter0.toByteArray();
++    methodWriter0.visitMultiANewArrayInsn("org.yasl.jars.JarFileFilter", 191);
++    byte[] after = classWriter0.toByteArray();
++    assertTrue("Class bytecode should grow after visitMultiANewArrayInsn", after.length > before.length);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

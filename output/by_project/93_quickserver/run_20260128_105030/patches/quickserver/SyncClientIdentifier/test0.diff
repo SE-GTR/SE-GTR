@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/SyncClientIdentifier_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/SyncClientIdentifier_ESTest.java
+@@ -22,27 +22,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SyncClientIdentifier_ESTest extends SyncClientIdentifier_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        SyncClientIdentifier syncClientIdentifier0 = new SyncClientIdentifier();
++        ByteBufferObjectFactory byteBufferObjectFactory0 = new ByteBufferObjectFactory(383, true);
++        SoftReferenceObjectPool softReferenceObjectPool0 = new SoftReferenceObjectPool(byteBufferObjectFactory0);
++        MakeQSObjectPool makeQSObjectPool0 = new MakeQSObjectPool(softReferenceObjectPool0);
++        Object borrowed = makeQSObjectPool0.borrowObject();
++        assertNotNull(borrowed);
++        syncClientIdentifier0.clientHandlerPool = (QSObjectPool) makeQSObjectPool0;
++        try {
++            syncClientIdentifier0.findAllClientByKey("");
++            fail("Expecting exception: ClassCastException");
++        } catch (ClassCastException e) {
++            verifyException("org.quickserver.net.server.impl.SyncClientIdentifier", e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      SyncClientIdentifier syncClientIdentifier0 = new SyncClientIdentifier();
+-      ByteBufferObjectFactory byteBufferObjectFactory0 = new ByteBufferObjectFactory(383, true);
+-      SoftReferenceObjectPool softReferenceObjectPool0 = new SoftReferenceObjectPool(byteBufferObjectFactory0);
+-      MakeQSObjectPool makeQSObjectPool0 = new MakeQSObjectPool(softReferenceObjectPool0);
+-      makeQSObjectPool0.borrowObject();
+-      syncClientIdentifier0.clientHandlerPool = (QSObjectPool) makeQSObjectPool0;
+-      // Undeclared exception!
+-      try { 
+-        syncClientIdentifier0.findAllClientByKey("");
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.nio.DirectByteBuffer cannot be cast to org.quickserver.net.server.ClientHandler
+-         //
+-         verifyException("org.quickserver.net.server.impl.SyncClientIdentifier", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

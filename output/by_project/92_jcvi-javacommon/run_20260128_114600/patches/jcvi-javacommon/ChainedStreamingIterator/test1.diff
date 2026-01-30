@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/iter/ChainedStreamingIterator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/iter/ChainedStreamingIterator_ESTest.java
+@@ -41,23 +41,14 @@
+   public void test0()  throws Throwable  {
+       chainedStreamingIterator0.close();
+   }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test1() throws Throwable {
++        linkedList0 = new LinkedList<StreamingIterator<Integer>>();
++        boolean added = linkedList0.add((StreamingIterator<Integer>) null);
++        assertTrue(added);
++        chainedStreamingIterator0 = new ChainedStreamingIterator<Integer>(linkedList0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    linkedList0 = new LinkedList<StreamingIterator<Integer>>();
+-      linkedList0.add((StreamingIterator<Integer>) null);
+-    chainedStreamingIterator0 = null;
+-      try {
+-        chainedStreamingIterator0 = new ChainedStreamingIterator<Integer>(linkedList0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // can not contain null iterator
+-         //
+-         verifyException("org.jcvi.jillion.core.util.iter.ChainedStreamingIterator", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

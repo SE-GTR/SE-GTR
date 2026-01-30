@@ -1,0 +1,31 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSZipUtils_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSZipUtils_ESTest.java
+@@ -112,15 +112,20 @@
+          verifyException("edu.uiuc.ndiipp.hubandspoke.utils.HaSZipUtils", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    MockFileInputStream mockFileInputStream0 = new MockFileInputStream(file0);
++    Charset charset0 = Charset.defaultCharset();
++    ZipInputStream zipInputStream0 = new ZipInputStream(mockFileInputStream0, charset0);
++    long beforeLength = file0.length();
++    File extracted = HaSZipUtils.unzip(zipInputStream0, "");
++    assertNotNull("unzip should return a File", extracted);
++    assertTrue("Extracted file should exist", extracted.exists());
++    long afterLength = file0.length();
++    assertEquals("Original file length should remain unchanged", beforeLength, afterLength);
++    assertEquals(150L, afterLength);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      MockFileInputStream mockFileInputStream0 = new MockFileInputStream(file0);
+-      Charset charset0 = Charset.defaultCharset();
+-      ZipInputStream zipInputStream0 = new ZipInputStream(mockFileInputStream0, charset0);
+-      HaSZipUtils.unzip(zipInputStream0, "");
+-      assertEquals(150L, file0.length());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

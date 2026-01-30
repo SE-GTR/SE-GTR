@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
+@@ -290,13 +290,17 @@
+         // Verify that a non‑space character is not mistakenly identified as space
+         assertFalse(TokenStream.isJSSpace('A'));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test018()  throws Throwable  {
+-      boolean boolean0 = TokenStream.isJSSpace(11);
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test018() throws Throwable {
++        // Verify that known whitespace characters are recognized
++        assertTrue(TokenStream.isJSSpace(11)); // vertical tab
++        assertTrue(TokenStream.isJSSpace(' ')); // space
++
++        // Verify that non‑whitespace characters are not mistakenly identified
++        assertFalse(TokenStream.isJSSpace('A'));
++        assertFalse(TokenStream.isJSSpace(0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test019()  throws Throwable  {

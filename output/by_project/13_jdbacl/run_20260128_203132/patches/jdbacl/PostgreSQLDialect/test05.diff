@@ -1,0 +1,48 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/PostgreSQLDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/PostgreSQLDialect_ESTest.java
+@@ -58,28 +58,24 @@
+       boolean boolean0 = postgreSQLDialect0.isDefaultCatalog("", "");
+       assertTrue(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        PostgreSQLDialect postgreSQLDialect0 = new PostgreSQLDialect();
++        Result result0 = new Result(2927);
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++        Object[] objectArray0 = new Object[6];
++        result0.setParameterData(objectArray0);
++        try {
++            postgreSQLDialect0.querySequences(jdbcConnection0);
++            fail("Expecting exception: ArrayIndexOutOfBoundsException");
++        } catch (ArrayIndexOutOfBoundsException e) {
++            verifyException("org.databene.jdbacl.dialect.PostgreSQLDialect", e);
++            assertSame("Result parameter data should remain unchanged", objectArray0, result0.getParameterData());
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      PostgreSQLDialect postgreSQLDialect0 = new PostgreSQLDialect();
+-      Result result0 = new Result(2927);
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      Object[] objectArray0 = new Object[6];
+-      result0.setParameterData(objectArray0);
+-      // Undeclared exception!
+-      try { 
+-        postgreSQLDialect0.querySequences(jdbcConnection0);
+-        fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // 0
+-         //
+-         verifyException("org.databene.jdbacl.dialect.PostgreSQLDialect", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

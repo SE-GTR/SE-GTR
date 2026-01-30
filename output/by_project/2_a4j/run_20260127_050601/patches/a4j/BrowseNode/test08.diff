@@ -1,0 +1,32 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/BrowseNode_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/BrowseNode_ESTest.java
+@@ -103,16 +103,20 @@
+       BrowseNode after = browseNode0.getSubNode("");
+       assertNull(after);
+   }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        BrowseNode parent = new BrowseNode();
++        BrowseNode child = new BrowseNode();
++        String id = "w|*_cg$ky";
++        child.setBrowseId(id);
++        parent.addSubNode(child);
++        // Verify that the child can be retrieved by its browseId (observes setBrowseId and addSubNode effects)
++        BrowseNode found = parent.getSubNode(id);
++        assertSame(child, found);
++        // Verify that a non‑existent browseId returns null
++        assertNull(parent.getSubNode("nonexistent"));
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      BrowseNode browseNode0 = new BrowseNode();
+-      browseNode0.setBrowseId("w|*_cg$ky");
+-      browseNode0.addSubNode(browseNode0);
+-      BrowseNode browseNode1 = browseNode0.getSubNode("w(_b);tryzx=bgvk");
+-      assertNull(browseNode1);
+-  }
+ @Test(timeout = 4000)
+   public void test09() throws Throwable {
+       BrowseNode browseNode0 = new BrowseNode();

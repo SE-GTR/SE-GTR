@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
+@@ -118,14 +118,20 @@
+         int secondHash = thread.hashCode();
+         assertEquals(firstHash, secondHash);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      J2EEThread j2EEThread0 = new J2EEThread();
+-      j2EEThread0.setSubtaskupdateTime("9pAvN3q%;");
+-      j2EEThread0.hashCode();
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        J2EEThread j2EEThread0 = new J2EEThread();
++        int hashBefore = j2EEThread0.hashCode();
++        String newTime = "9pAvN3q%;";
++        j2EEThread0.setSubtaskupdateTime(newTime);
++        assertEquals(newTime, j2EEThread0.getSubtaskupdateTime());
++        int hashAfter = j2EEThread0.hashCode();
++        // Verify hashCode is deterministic after the state change
++        assertEquals(hashAfter, j2EEThread0.hashCode());
++        // Optionally ensure the hash code reflects the state change
++        // assertNotEquals(hashBefore, hashAfter);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

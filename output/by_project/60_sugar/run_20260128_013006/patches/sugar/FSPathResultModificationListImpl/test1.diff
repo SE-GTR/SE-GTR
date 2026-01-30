@@ -1,0 +1,29 @@
+--- a/evosuite-tests/net/sf/sugar/fspath/FSPathResultModificationListImpl_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/fspath/FSPathResultModificationListImpl_ESTest.java
+@@ -32,15 +32,18 @@
+       fSPathResultModificationListImpl0.addFailure(fSPathResult0);
+       assertTrue(fSPathResultModificationListImpl0.hasFailures());
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    FSPathResultModificationListImpl list = new FSPathResultModificationListImpl();
++    FSPathResult result = new FSPathResult("}!%mbMa/eA[@F=^|H");
++    list.addSuccess(result);
++    list.addSuccess(result);
++    // Verify that the side‑effects of addSuccess are observable
++    assertEquals(2, list.size());
++    assertSame(result, list.get(0));
++    assertSame(result, list.get(1));
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      FSPathResultModificationListImpl fSPathResultModificationListImpl0 = new FSPathResultModificationListImpl();
+-      FSPathResult fSPathResult0 = new FSPathResult("}!%mbMa/eA[@F=^|H");
+-      fSPathResultModificationListImpl0.addSuccess(fSPathResult0);
+-      fSPathResultModificationListImpl0.addSuccess(fSPathResult0);
+-      assertEquals("}!%mbMa/eA[@F=^|H", fSPathResult0.getString());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

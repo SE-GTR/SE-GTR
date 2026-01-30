@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/gbshape/dbe/xml/CreateTableXmlBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/xml/CreateTableXmlBean_ESTest.java
+@@ -38,22 +38,21 @@
+ @Test(timeout = 4000)
+ public void test2() throws Throwable {
+     CreateTableXmlBean bean = new CreateTableXmlBean();
+-    // Verify initial default name
+     assertEquals("", bean.getName());
+ 
+-    // Capture state before invoking side‑effect method
+-    String nameBefore = bean.getName();
++    // Side‑effect with null columns
++    bean.setColumns(null);
++    String descNull = bean.toString();
++    assertTrue(descNull.contains("columns=null"));
+ 
+-    // Side‑effect call
+-    bean.setColumns(null);
++    // Side‑effect with a non‑empty columns list
++    java.util.ArrayList<com.gbshape.dbe.struts.bean.ColumnBean> cols = new java.util.ArrayList<>();
++    cols.add(new com.gbshape.dbe.struts.bean.ColumnBean());
++    bean.setColumns(cols);
++    String descList = bean.toString();
++    assertTrue(descList.contains("columns=["));
++}
+ 
+-    // Observe that the name remains unchanged after the side effect
+-    assertEquals(nameBefore, bean.getName());
+-
+-    // Non‑trivial behavior: toString should contain the name field representation
+-    String description = bean.toString();
+-    assertTrue(description.contains("name="));
+-}
+ 
+ @Test(timeout = 4000)
+   public void test3() throws Throwable {

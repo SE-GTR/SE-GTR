@@ -1,0 +1,26 @@
+--- a/evosuite-tests/net/sf/sugar/fspath/DefaultFSPath_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/fspath/DefaultFSPath_ESTest.java
+@@ -70,13 +70,17 @@
+          verifyException("net.sf.sugar.fspath.DefaultFSPath", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        java.io.File tempDir = java.nio.file.Files.createTempDirectory("defaultfsptest").toFile();
++        defaultFSPath0 = new DefaultFSPath(tempDir);
++        java.io.File root = defaultFSPath0.getRootDirectory();
++        assertNotNull(root);
++        assertEquals(tempDir.getAbsolutePath(), root.getAbsolutePath());
++        // Cleanup the temporary directory
++        tempDir.delete();
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    defaultFSPath0 = new DefaultFSPath();
+-      File file0 = defaultFSPath0.getRootDirectory();
+-      assertNull(file0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/edu/mscd/cs/jclo/JCLO_ESTest.java
++++ b/evosuite-tests/edu/mscd/cs/jclo/JCLO_ESTest.java
+@@ -47,15 +47,26 @@
+       JCLO.main(stringArray0);
+       assertEquals(4, stringArray0.length);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    object0 = new Object();
+-    jCLO0 = new JCLO(object0);
+-      String[] stringArray0 = new String[0];
+-      jCLO0.parse(stringArray0);
+-      assertEquals(0, stringArray0.length);
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        object0 = new Object();
++        jCLO0 = new JCLO(object0);
++        String[] stringArray0 = new String[0];
++        // Capture state before parsing (both flags should be false by default)
++        boolean beforeDoubleDashes = jCLO0.isDoubleDashes();
++        boolean beforeHasEquals = jCLO0.isHasEquals();
++        // Act
++        jCLO0.parse(stringArray0);
++        // Verify that parsing an empty argument list does not modify the flags
++        assertFalse("doubleDashes should remain false after parsing empty args", jCLO0.isDoubleDashes());
++        assertFalse("hasEquals should remain false after parsing empty args", jCLO0.isHasEquals());
++        // Ensure the original array is unchanged
++        assertEquals(0, stringArray0.length);
++        // Additionally, confirm that the flags were unchanged from their initial values
++        assertEquals(beforeDoubleDashes, jCLO0.isDoubleDashes());
++        assertEquals(beforeHasEquals, jCLO0.isHasEquals());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

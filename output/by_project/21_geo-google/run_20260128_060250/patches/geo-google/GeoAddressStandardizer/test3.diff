@@ -1,0 +1,45 @@
+--- a/evosuite-tests/geo/google/GeoAddressStandardizer_ESTest.java
++++ b/evosuite-tests/geo/google/GeoAddressStandardizer_ESTest.java
+@@ -83,25 +83,23 @@
+       UserAgent userAgent0 = mock(UserAgent.class, new ViolatedAssumptionAnswer());
+       geoAddressStandardizer0.setUserAgent(userAgent0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      GeoAddressStandardizer geoAddressStandardizer0 = new GeoAddressStandardizer("O!)&De-");
+-      UserAgent userAgent0 = mock(UserAgent.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(userAgent0).getUrlAsString(anyString());
+-      geoAddressStandardizer0.setUserAgent(userAgent0);
+-      // Undeclared exception!
+-      try { 
+-        geoAddressStandardizer0.standardizeToGeoAddress("http.socket.receivebuffer");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.io.StringReader", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        GeoAddressStandardizer geoAddressStandardizer0 = new GeoAddressStandardizer("O!)&De-");
++        UserAgent userAgent0 = mock(UserAgent.class, new ViolatedAssumptionAnswer());
++        doReturn((String) null).when(userAgent0).getUrlAsString(anyString());
++        // Verify that the stubbed method returns null as expected
++        String stubResult = userAgent0.getUrlAsString("any");
++        assertNull(stubResult);
++        geoAddressStandardizer0.setUserAgent(userAgent0);
++        try {
++            geoAddressStandardizer0.standardizeToGeoAddress("http.socket.receivebuffer");
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            verifyException("java.io.StringReader", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

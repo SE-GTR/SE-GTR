@@ -1,0 +1,49 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
+@@ -71,20 +71,32 @@
+       boolean boolean0 = j2EEProcess1.equals(j2EEProcess0);
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      J2EEProcess j2EEProcess0 = new J2EEProcess();
+-      J2EEProcess j2EEProcess1 = new J2EEProcess();
+-      j2EEProcess1.setCpu("org.ache.log4.or.RendererMa");
+-      assertFalse(j2EEProcess1.equals((Object)j2EEProcess0));
+-      
+-      j2EEProcess0.setCpu("org.ache.log4.or.RendererMa");
+-      boolean boolean0 = j2EEProcess1.equals(j2EEProcess0);
+-      assertTrue(j2EEProcess1.equals((Object)j2EEProcess0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    J2EEProcess j2EEProcess0 = new J2EEProcess();
++    J2EEProcess j2EEProcess1 = new J2EEProcess();
++
++    // initial state verification
++    assertNull(j2EEProcess1.getCpu());
++
++    // act & observe side‑effect
++    j2EEProcess1.setCpu("org.ache.log4.or.RendererMa");
++    assertEquals("org.ache.log4.or.RendererMa", j2EEProcess1.getCpu());
++
++    assertFalse(j2EEProcess1.equals((Object) j2EEProcess0));
++
++    // verify second instance initial state
++    assertNull(j2EEProcess0.getCpu());
++
++    // act & observe side‑effect
++    j2EEProcess0.setCpu("org.ache.log4.or.RendererMa");
++    assertEquals("org.ache.log4.or.RendererMa", j2EEProcess0.getCpu());
++
++    boolean boolean0 = j2EEProcess1.equals(j2EEProcess0);
++    assertTrue(j2EEProcess1.equals((Object) j2EEProcess0));
++    assertTrue(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

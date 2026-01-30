@@ -1,0 +1,46 @@
+--- a/evosuite-tests/bible/servlet/ServletConnection_ESTest.java
++++ b/evosuite-tests/bible/servlet/ServletConnection_ESTest.java
+@@ -150,29 +150,20 @@
+       assertFalse(servletConnection0.isRedirected());
+       assertFalse(servletConnection0.isBypassUser());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(httpServletRequest0).getRemoteHost();
+-      doReturn((String) null).when(httpServletRequest0).getRemoteUser();
+-      doReturn((String) null).when(httpServletRequest0).getRequestURI();
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      doReturn((ServletOutputStream) null).when(httpServletResponse0).getOutputStream();
+-      ServletConnection servletConnection0 = new ServletConnection(httpServletRequest0, httpServletResponse0);
+-      // Undeclared exception!
+-      try { 
+-        servletConnection0.flushResponse();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.io.ByteArrayOutputStream", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    when(httpServletRequest0.getRemoteHost()).thenReturn("localhost");
++    when(httpServletRequest0.getRemoteUser()).thenReturn("user");
++    when(httpServletRequest0.getRequestURI()).thenReturn("/test");
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++    ServletOutputStream servletOutputStream0 = mock(ServletOutputStream.class);
++    when(httpServletResponse0.getOutputStream()).thenReturn(servletOutputStream0);
++    ServletConnection servletConnection0 = new ServletConnection(httpServletRequest0, httpServletResponse0);
++    servletConnection0.flushResponse();
++    verify(httpServletResponse0).getOutputStream();
++}
++
+ @Test(timeout = 4000)
+ public void test10() throws Throwable {
+     HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());

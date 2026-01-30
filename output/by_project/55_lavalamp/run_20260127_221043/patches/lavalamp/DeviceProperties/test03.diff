@@ -1,0 +1,37 @@
+--- a/evosuite-tests/net/sf/lavalamp/device/DeviceProperties_ESTest.java
++++ b/evosuite-tests/net/sf/lavalamp/device/DeviceProperties_ESTest.java
+@@ -74,15 +74,27 @@
+          verifyException("net.sf.lavalamp.device.DeviceProperties", e);
+       }
+   }
++@Test(timeout = 4000)
++  public void test03() throws Throwable {
++    DeviceProperties deviceProperties0 = new DeviceProperties();
++    assertFalse(deviceProperties0.isOnWhenSuccessful());
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    deviceProperties0 = new DeviceProperties();
+-      assertFalse(deviceProperties0.isOnWhenSuccessful());
+-      
+-      deviceProperties0.setOnWhenSuccessful(true);
+-      assertTrue(deviceProperties0.isOnWhenSuccessful());
++    deviceProperties0.setOnWhenSuccessful(true);
++    assertTrue(deviceProperties0.isOnWhenSuccessful());
++
++    // Verify that the state is preserved through serialization
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(deviceProperties0);
++    oos.flush();
++    byte[] serialized = baos.toByteArray();
++
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(serialized));
++    DeviceProperties deserialized = (DeviceProperties) ois.readObject();
++
++    assertTrue(deserialized.isOnWhenSuccessful());
+   }
++
+ @Test(timeout = 4000)
+ public void test04() throws Throwable {
+     DeviceProperties deviceProperties0 = new DeviceProperties();

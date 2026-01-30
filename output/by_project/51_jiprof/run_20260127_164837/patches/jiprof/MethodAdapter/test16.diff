@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodAdapter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodAdapter_ESTest.java
+@@ -206,22 +206,28 @@
+       MethodAdapter methodAdapter0 = new MethodAdapter(methodVisitor0);
+       methodAdapter0.visitMaxs(616, 1);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      MethodAdapter methodAdapter0 = new MethodAdapter((MethodVisitor) null);
+-      // Undeclared exception!
+-      try { 
+-        methodAdapter0.visitTypeInsn(0, "");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.MethodAdapter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        final int[] capturedOpcode = new int[1];
++        final String[] capturedType = new String[1];
++        MethodVisitor dummy = (MethodVisitor) java.lang.reflect.Proxy.newProxyInstance(
++                MethodVisitor.class.getClassLoader(),
++                new Class<?>[]{MethodVisitor.class},
++                (proxy, method, args) -> {
++                    if ("visitTypeInsn".equals(method.getName()) && args != null && args.length == 2) {
++                        capturedOpcode[0] = (Integer) args[0];
++                        capturedType[0] = (String) args[1];
++                    }
++                    return null;
++                });
++        MethodAdapter methodAdapter0 = new MethodAdapter(dummy);
++        int opcode = 0;
++        String type = "java/lang/Object";
++        methodAdapter0.visitTypeInsn(opcode, type);
++        org.junit.Assert.assertEquals(opcode, capturedOpcode[0]);
++        org.junit.Assert.assertEquals(type, capturedType[0]);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

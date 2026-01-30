@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpSession_ESTest.java
+@@ -204,22 +204,14 @@
+          verifyException("org.jsecurity.web.servlet.JSecurityHttpSession", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-    jSecurityHttpSession0 = new JSecurityHttpSession((Session) null, (HttpServletRequest) null, (ServletContext) null);
+-      // Undeclared exception!
+-      try { 
+-        jSecurityHttpSession0.removeValue("JSESSIONID");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.servlet.JSecurityHttpSession", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    Session session = new org.jsecurity.session.SimpleSession();
++    JSecurityHttpSession jSecurityHttpSession0 = new JSecurityHttpSession(session, null, null);
++    Object removed = jSecurityHttpSession0.removeValue("JSESSIONID");
++    assertNull(removed);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

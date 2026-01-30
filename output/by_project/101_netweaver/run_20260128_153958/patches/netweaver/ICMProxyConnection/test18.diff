@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -308,21 +308,28 @@
+     assertTrue(conn0.equals(conn1));
+     assertTrue(conn1.equals((Object) conn0));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+-      Integer integer0 = new Integer(745);
+-      iCMProxyConnection0.setSncContextLength(integer0);
+-      ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
+-      boolean boolean0 = iCMProxyConnection1.equals(iCMProxyConnection0);
+-      assertEquals(0, iCMProxyConnection1.getLocalPort());
+-      assertEquals(0, iCMProxyConnection1.getPeerPort());
+-      assertEquals(0, iCMProxyConnection1.getSocket());
+-      assertEquals(0, iCMProxyConnection1.getNihdl());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test18() throws Throwable {
++        ICMProxyConnection connA = new ICMProxyConnection();
++        Integer val1 = Integer.valueOf(745);
++        connA.setSncContextLength(val1);
++
++        ICMProxyConnection connB = new ICMProxyConnection();
++        connB.setSncContextLength(val1);
++        // Both connections have the same sncContextLength, they should be equal
++        assertTrue(connA.equals(connB));
++
++        // Change B's sncContextLength and verify the objects are no longer equal
++        connB.setSncContextLength(Integer.valueOf(746));
++        assertFalse(connA.equals(connB));
++
++        // Verify default numeric fields remain zero
++        assertEquals(0, connB.getLocalPort());
++        assertEquals(0, connB.getPeerPort());
++        assertEquals(0, connB.getSocket());
++        assertEquals(0, connB.getNihdl());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

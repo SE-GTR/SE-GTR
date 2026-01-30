@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sf/xbus/technical/http/EasyX509TrustManager_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/technical/http/EasyX509TrustManager_ESTest.java
+@@ -30,23 +30,16 @@
+       } catch(IllegalArgumentException e) {
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Exception {
++        java.security.KeyStore keyStore = java.security.KeyStore.getInstance(java.security.KeyStore.getDefaultType());
++        keyStore.load(null, null);
++        EasyX509TrustManager easyX509TrustManager0 = new EasyX509TrustManager(keyStore);
++        java.security.cert.X509Certificate[] x509CertificateArray0 = new java.security.cert.X509Certificate[0];
++        // Verify that no exception is thrown for an empty certificate chain with a valid keystore
++        easyX509TrustManager0.checkServerTrusted(x509CertificateArray0, "RSA");
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      EasyX509TrustManager easyX509TrustManager0 = new EasyX509TrustManager((KeyStore) null);
+-      X509Certificate[] x509CertificateArray0 = new X509Certificate[1];
+-      // Undeclared exception!
+-      try { 
+-        easyX509TrustManager0.checkServerTrusted(x509CertificateArray0, "i]");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.xbus.technical.http.EasyX509TrustManager", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Stop_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Stop_ESTest.java
+@@ -48,15 +48,25 @@
+         // The hash code should reflect the changed state
+         assertNotEquals("Hash code should change after setting apps", hashBefore, hashAfter);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      Stop stop0 = new Stop();
+-      Application[] applicationArray0 = new Application[1];
+-      stop0.setApps(applicationArray0);
+-      stop0.hashCode();
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    Stop stop0 = new Stop();
++    // Verify initial state before setting apps
++    assertNull(stop0.getApps());
++
++    Application[] applicationArray0 = new Application[1];
++    stop0.setApps(applicationArray0);
++
++    // Verify that setApps correctly updated the internal state
++    assertNotNull(stop0.getApps());
++    assertEquals(1, stop0.getApps().length);
++    assertSame(applicationArray0, stop0.getApps());
++
++    // Verify that hashCode returns a consistent value
++    int hash = stop0.hashCode();
++    assertEquals(hash, stop0.hashCode());
++}
++
+ @Test(timeout = 4000)
+   public void test03() throws Throwable {
+       Stop stop0 = new Stop();

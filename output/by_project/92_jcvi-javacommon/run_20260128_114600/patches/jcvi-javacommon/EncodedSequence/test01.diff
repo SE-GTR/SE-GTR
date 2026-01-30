@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/EncodedSequence_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/EncodedSequence_ESTest.java
+@@ -45,26 +45,23 @@
+          verifyException("org.jcvi.jillion.internal.core.EncodedSequence$RangedIterator", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      byte[] byteArray0 = new byte[8];
+-      GlyphCodec<EncodedSequence<Object>> glyphCodec0 = (GlyphCodec<EncodedSequence<Object>>) mock(GlyphCodec.class, new ViolatedAssumptionAnswer());
+-      doReturn(0).when(glyphCodec0).decodedLengthOf(any(byte[].class));
+-      EncodedSequence<EncodedSequence<Object>> encodedSequence0 = new EncodedSequence<EncodedSequence<Object>>(glyphCodec0, byteArray0);
+-      Range range0 = Range.of(367L);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    byte[] byteArray0 = new byte[8];
++    GlyphCodec<EncodedSequence<Object>> glyphCodec0 = (GlyphCodec<EncodedSequence<Object>>) mock(GlyphCodec.class, new ViolatedAssumptionAnswer());
++    doReturn(0).when(glyphCodec0).decodedLengthOf(any(byte[].class));
++    int decodedLength = glyphCodec0.decodedLengthOf(byteArray0);
++    assertEquals(0, decodedLength);
++    EncodedSequence<EncodedSequence<Object>> encodedSequence0 = new EncodedSequence<EncodedSequence<Object>>(glyphCodec0, byteArray0);
++    Range range0 = Range.of(367L);
++    try {
+         encodedSequence0.iterator(range0);
+         fail("Expecting exception: IndexOutOfBoundsException");
+-      
+-      } catch(IndexOutOfBoundsException e) {
+-         //
+-         // range [ 367 .. 367 ]/0B contains offsets that are out of bounds of [ 0 .. -1 ]/0B
+-         //
+-         verifyException("org.jcvi.jillion.internal.core.EncodedSequence$RangedIterator", e);
+-      }
+-  }
++    } catch (IndexOutOfBoundsException e) {
++        verifyException("org.jcvi.jillion.internal.core.EncodedSequence$RangedIterator", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

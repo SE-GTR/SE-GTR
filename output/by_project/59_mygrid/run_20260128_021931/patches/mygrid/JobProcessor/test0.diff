@@ -1,0 +1,37 @@
+--- a/evosuite-tests/mygrid/JobProcessor_ESTest.java
++++ b/evosuite-tests/mygrid/JobProcessor_ESTest.java
+@@ -29,14 +29,28 @@
+       arrayOfContextElement0.setContextElement(contextElementArray0);
+       job0.setContext(arrayOfContextElement0);
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // capture the initial number of context elements (may be zero or null)
++        int beforeSize = 0;
++        if (job0.getContext() != null && job0.getContext().getContextElement() != null) {
++            beforeSize = job0.getContext().getContextElement().length;
++        }
+ 
++        // act: add two context elements
++        JobProcessor.setContextElement(job0, "", "");
++        JobProcessor.setContextElement(job0, "_", "_");
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      JobProcessor.setContextElement(job0, "", "");
+-      JobProcessor.setContextElement(job0, "_", "_");
+-      assertFalse(job0.isBroadcasted());
+-  }
++        // assert: the context now contains the added elements
++        assertNotNull("Context should not be null after adding elements", job0.getContext());
++        assertNotNull("Context elements array should not be null", job0.getContext().getContextElement());
++        int afterSize = job0.getContext().getContextElement().length;
++        assertEquals("Number of context elements should increase by 2", beforeSize + 2, afterSize);
++
++        // existing assertion retained
++        assertFalse(job0.isBroadcasted());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

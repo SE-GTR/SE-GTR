@@ -1,0 +1,63 @@
+--- a/evosuite-tests/visu/handball/moves/model/animation/CurveIterator_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/animation/CurveIterator_ESTest.java
+@@ -100,37 +100,28 @@
+     int int0 = curveIterator0.getWindingRule();
+     assertEquals(0, int0);
+ }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    Offender offender0 = new Offender(1009, -125);
++    MoveEvent moveEvent0 = new MoveEvent(offender0, 1009, -125);
++    // Verify that setting the destination point updates the observable state
++    moveEvent0.setDestinationPoint(1009, -125, false);
++    java.awt.geom.Point2D dest = moveEvent0.getDestinationPoint();
++    assertEquals(1009.0, dest.getX(), 0.0);
++    assertEquals(-125.0, dest.getY(), 0.0);
++    // Verify that setting the control point updates the observable state
++    moveEvent0.setControlPoint(815, -125, false);
++    java.awt.geom.Point2D ctrl = moveEvent0.getControlPoint();
++    assertEquals(815.0, ctrl.getX(), 0.0);
++    assertEquals(-125.0, ctrl.getY(), 0.0);
++    CurveIterator curveIterator0 = new CurveIterator(moveEvent0);
++    // Initial iterator should not be done
++    assertFalse(curveIterator0.isDone());
++    // Advance the iterator several steps; after enough steps it must be done
++    for (int i = 0; i < 20; i++) {
++        curveIterator0.next();
++    }
++    assertTrue(curveIterator0.isDone());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    offender0 = new Offender(1009, (-125));
+-    moveEvent0 = new MoveEvent(offender0, 1009, (-125));
+-      moveEvent0.setDestinationPoint(1009, (-125), false);
+-      moveEvent0.setControlPoint(815, (-125), false);
+-    curveIterator0 = new CurveIterator(moveEvent0);
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      curveIterator0.next();
+-      assertFalse(curveIterator0.isDone());
+-      
+-      curveIterator0.next();
+-      boolean boolean0 = curveIterator0.isDone();
+-      assertTrue(boolean0);
+-  }
+ }

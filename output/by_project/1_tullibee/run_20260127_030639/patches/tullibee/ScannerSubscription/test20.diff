@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/ib/client/ScannerSubscription_ESTest.java
++++ b/evosuite-tests/com/ib/client/ScannerSubscription_ESTest.java
+@@ -360,22 +360,21 @@
+         scannerSubscription0.numberOfRows(rows);
+         assertEquals(rows, scannerSubscription0.numberOfRows());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      ScannerSubscription scannerSubscription0 = new ScannerSubscription();
+-      scannerSubscription0.scanCode();
+-      assertEquals(Integer.MAX_VALUE, scannerSubscription0.averageOptionVolumeAbove());
+-      assertEquals(Integer.MAX_VALUE, scannerSubscription0.aboveVolume());
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.couponRateAbove(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.couponRateBelow(), 0.01);
+-      assertEquals((-1), scannerSubscription0.numberOfRows());
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.marketCapBelow(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.abovePrice(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.belowPrice(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.marketCapAbove(), 0.01);
+-  }
++@Test(timeout = 4000)
++public void test20() throws Throwable {
++    ScannerSubscription sub = new ScannerSubscription();
++    // Act: modify some fields
++    sub.abovePrice(100.0);
++    sub.belowPrice(50.0);
++    sub.numberOfRows(10);
++    // Assert: getters reflect the changes
++    assertEquals(100.0, sub.abovePrice(), 0.01);
++    assertEquals(50.0, sub.belowPrice(), 0.01);
++    assertEquals(10, sub.numberOfRows());
++    // Verify a default value remains unchanged
++    assertEquals(Integer.MAX_VALUE, sub.aboveVolume());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

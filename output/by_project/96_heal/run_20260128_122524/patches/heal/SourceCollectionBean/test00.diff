@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/heal/module/metadata/SourceCollectionBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/SourceCollectionBean_ESTest.java
+@@ -15,13 +15,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SourceCollectionBean_ESTest extends SourceCollectionBean_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    SourceCollectionBean bean = new SourceCollectionBean();
++    bean.setSourceId("testId");
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(bean);
++    oos.flush();
++    byte[] data = baos.toByteArray();
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++    SourceCollectionBean deserialized = (SourceCollectionBean) ois.readObject();
++    org.junit.Assert.assertEquals("testId", deserialized.getSourceId());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      SourceCollectionBean sourceCollectionBean0 = new SourceCollectionBean();
+-      String string0 = sourceCollectionBean0.getSourceId();
+-      assertNull(string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

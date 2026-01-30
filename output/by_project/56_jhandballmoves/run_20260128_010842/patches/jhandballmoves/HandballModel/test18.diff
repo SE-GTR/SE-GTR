@@ -1,0 +1,38 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -259,19 +259,22 @@
+     assertSame(passEvent0, handballModel0.getActualMoveEvent());
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Defender defender0 = new Defender((-3445), (-3445));
+-      MoveEvent moveEvent0 = new MoveEvent(defender0, (-3445));
+-      handballModel0.addMoveEvent(moveEvent0);
+-      handballModel0.setActualMoveEvent(moveEvent0);
+-      boolean boolean0 = handballModel0.hasPlayerBallInNextSequence(defender0);
+-      assertTrue(defender0.isMarked());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test18() throws Throwable {
++    HandballModel handballModel0 = new HandballModel();
++    Defender defender0 = new Defender((-3445), (-3445));
++    MoveEvent moveEvent0 = new MoveEvent(defender0, (-3445));
++    int beforeSize = handballModel0.getEvents().size();
++    handballModel0.addMoveEvent(moveEvent0);
++    assertEquals(beforeSize + 1, handballModel0.getEvents().size());
++    assertTrue(handballModel0.getEvents().contains(moveEvent0));
++    handballModel0.setActualMoveEvent(moveEvent0);
++    assertSame(moveEvent0, handballModel0.getActualMoveEvent());
++    boolean boolean0 = handballModel0.hasPlayerBallInNextSequence(defender0);
++    assertTrue(defender0.isMarked());
++    assertFalse(boolean0);
++}
++
+ @Test(timeout = 4000)
+ public void test19() throws Throwable {
+     HandballModel handballModel0 = new HandballModel();

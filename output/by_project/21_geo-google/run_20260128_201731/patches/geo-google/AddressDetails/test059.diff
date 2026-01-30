@@ -1,0 +1,36 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -620,16 +620,23 @@
+     assertEquals("testCode", result);
+ }
+ @Test(timeout = 4000)
+-    public void test059() throws Throwable {
+-        AddressDetails.PostalServiceElements.SortingCode sortingCode = new AddressDetails.PostalServiceElements.SortingCode();
+-        String value = "NYxerpS? g\"";
+-        sortingCode.setCode(value);
+-        assertEquals(value, sortingCode.getCode());
+-
+-        // Verify that setting the code to null clears the value
+-        sortingCode.setCode(null);
+-        assertNull(sortingCode.getCode());
+-    }
++public void test059() throws Throwable {
++    AddressDetails.PostalServiceElements.SortingCode sortingCode = new AddressDetails.PostalServiceElements.SortingCode();
++    // capture initial hash code (should reflect a null code)
++    int initialHash = sortingCode.hashCode();
++
++    String value = "NYxerpS? g\"";
++    sortingCode.setCode(value);
++    assertEquals(value, sortingCode.getCode());
++    // hash code should change after setting a non‑null value
++    assertNotEquals(initialHash, sortingCode.hashCode());
++
++    // Verify that setting the code to null clears the value and restores the original hash
++    sortingCode.setCode(null);
++    assertNull(sortingCode.getCode());
++    assertEquals(initialHash, sortingCode.hashCode());
++}
++
+ 
+ @Test(timeout = 4000)
+     public void test060() throws Throwable {

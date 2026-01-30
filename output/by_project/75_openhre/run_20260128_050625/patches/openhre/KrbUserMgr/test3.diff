@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/browsersoft/aacs/KrbUserMgr_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/KrbUserMgr_ESTest.java
+@@ -37,19 +37,19 @@
+     krbUserMgr0.checkSecret(null, null, null);
+     // No explicit assertion; the test passes if no exception is thrown.
+ }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        Future<Boolean> future = executor.submit(new java.util.concurrent.Callable<Boolean>() {
++            @Override
++            public Boolean call() {
++                KrbUserMgr krbUserMgr0 = new KrbUserMgr();
++                return krbUserMgr0.checkSecret("YyEl>%Hn>G3LsWT\"@Cx", "YyEl>%Hn>G3LsWT\"@Cx", "krb5");
++            }
++        });
++        Boolean result = future.get(4000, TimeUnit.MILLISECONDS);
++        assertFalse(result);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    Future<?> future = executor.submit(new Runnable(){ 
+-            @Override public void run() { 
+-          KrbUserMgr krbUserMgr0 = new KrbUserMgr();
+-          boolean boolean0 = krbUserMgr0.checkSecret("YyEl>%Hn>G3LsWT\"@Cx", "YyEl>%Hn>G3LsWT\"@Cx", "krb5");
+-          assertFalse(boolean0);
+-      } 
+-    });
+-    future.get(4000, TimeUnit.MILLISECONDS);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

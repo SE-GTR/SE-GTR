@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
+@@ -41,15 +41,17 @@
+     // Existing behavior check
+     assertEquals(0, oSProcess0.getPid());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      OSProcess oSProcess0 = new OSProcess();
+-      oSProcess0.setStarttime("org.apache.log4j.Level");
+-      oSProcess0.hashCode();
+-      assertEquals(0, oSProcess0.getPid());
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    OSProcess oSProcess0 = new OSProcess();
++    int hashBefore = oSProcess0.hashCode();
++    oSProcess0.setStarttime("org.apache.log4j.Level");
++    int hashAfter = oSProcess0.hashCode();
++    assertNotEquals(hashBefore, hashAfter);
++    assertEquals("org.apache.log4j.Level", oSProcess0.getStarttime());
++    assertEquals(0, oSProcess0.getPid());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

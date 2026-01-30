@@ -1,0 +1,42 @@
+--- a/evosuite-tests/visu/handball/moves/xml/HandballModelWriter_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/xml/HandballModelWriter_ESTest.java
+@@ -59,29 +59,17 @@
+         // Verify that the XML was written to the mock file
+         assertEquals(327L, mockFile0.length());
+     }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        java.io.File tempFile = java.io.File.createTempFile("handball", ".xml");
++        tempFile.deleteOnExit();
++        HandballModel handballModel0 = new HandballModel();
++        HandballModelWriter handballModelWriter0 = HandballModelWriter.getInstance(tempFile, handballModel0);
++        handballModelWriter0.writeToXml();
++        assertTrue("Output file should exist", tempFile.exists());
++        assertTrue("Output file should not be empty", tempFile.length() > 0);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("1&bWmsgpPf4Mm");
+-      HandballModel handballModel0 = new HandballModel();
+-      Offender offender0 = new Offender(4780, 771);
+-      PassEvent passEvent0 = new PassEvent(offender0, 958, 208);
+-      passEvent0.setGoalPass(true);
+-      handballModel0.addMoveEvent(passEvent0);
+-      HandballModelWriter handballModelWriter0 = HandballModelWriter.getInstance(mockFile0, handballModel0);
+-      // Undeclared exception!
+-      try { 
+-        handballModelWriter0.writeToXml();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("visu.handball.moves.model.MoveEvent", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

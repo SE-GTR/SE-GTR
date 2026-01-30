@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/heal/module/metadata/TaxonBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/TaxonBean_ESTest.java
+@@ -116,19 +116,26 @@
+     assertFalse(taxonBean1.equals((Object) taxonBean0));
+     assertEquals(-1, int0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test06() throws Throwable {
+     taxonBean0 = new TaxonBean();
+     taxonBean1 = new TaxonBean();
+-      assertTrue(taxonBean1.equals((Object)taxonBean0));
+-      
+-      taxonBean1.setId("i8");
+-      boolean boolean0 = taxonBean0.equals(taxonBean1);
+-      assertFalse(taxonBean1.equals((Object)taxonBean0));
+-      assertFalse(boolean0);
++    assertTrue(taxonBean1.equals((Object) taxonBean0));
++
++    // Verify initial state before setting the id
++    assertNull(taxonBean1.getId());
++
++    // Act: change the id
++    taxonBean1.setId("i8");
++
++    // Assert: the side‑effect of setId is observable via the getter
++    assertEquals("i8", taxonBean1.getId());
++
++    boolean boolean0 = taxonBean0.equals(taxonBean1);
++    assertFalse(taxonBean1.equals((Object) taxonBean0));
++    assertFalse(boolean0);
+   }
++
+ @Test(timeout = 4000)
+   public void test07() throws Throwable {
+     taxonBean0 = new TaxonBean();

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
+@@ -323,23 +323,18 @@
+       JavaParser javaParser0 = new JavaParser("");
+       javaParser0.IfStatement();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test032()  throws Throwable  {
+-      StringReader stringReader0 = new StringReader("switch");
+-      JavaParser javaParser0 = new JavaParser(stringReader0);
+-      try { 
+-        javaParser0.SwitchLabel();
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // Parse error at line 1, column 1.  Encountered: switch
+-         //
+-         verifyException("com.soops.CEN4010.JMCA.JParser.JavaParser", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test032() throws Throwable {
++        StringReader stringReader0 = new StringReader("switch");
++        JavaParser javaParser0 = new JavaParser(stringReader0);
++        try {
++            javaParser0.SwitchLabel();
++            fail("Expected ParseException");
++        } catch (ParseException e) {
++            assertTrue(e.getMessage().contains("Parse error"));
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test033()  throws Throwable  {

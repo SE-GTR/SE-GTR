@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
+@@ -117,22 +117,12 @@
+       } catch(UnsupportedEncodingException e) {
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      BlockingClient blockingClient0 = new BlockingClient();
+-      // Undeclared exception!
+-      try { 
+-        blockingClient0.sendLine((String) null, (String) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.net.client.BlockingClient", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test08() throws Throwable {
++    BlockingClient blockingClient0 = new BlockingClient();
++    blockingClient0.sendLine(null, null);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

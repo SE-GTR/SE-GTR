@@ -1,0 +1,38 @@
+--- a/evosuite-tests/net/sf/sugar/scl/SCLProperties_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/scl/SCLProperties_ESTest.java
+@@ -38,24 +38,18 @@
+     Set<String> set0 = sCLProperties0.keySet();
+     assertTrue(set0.contains("scl"));
+ }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    File file0 = File.createTempFile("scl", ".scl");
++    file0.deleteOnExit();
++    try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file0), "UTF-8"))) {
++        writer.write("root { }");
++    }
++    SCLProperties sCLProperties0 = new SCLProperties(file0);
++    Set<String> keys = sCLProperties0.keySet();
++    assertNotNull(keys);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("eMH|D>", "eMH|D>");
+-      SCLProperties sCLProperties0 = new SCLProperties(file0);
+-      // Undeclared exception!
+-      try { 
+-        sCLProperties0.keySet();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.sugar.scl.SCLProperties", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

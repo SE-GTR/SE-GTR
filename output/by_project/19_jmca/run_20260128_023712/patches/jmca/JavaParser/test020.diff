@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
+@@ -217,22 +217,12 @@
+     JavaParser javaParser0 = new JavaParser("h&{SEAc");
+     javaParser0.TryStatement();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test020()  throws Throwable  {
+-      JavaParser javaParser0 = new JavaParser("EmptyStatement");
+-      try { 
+-        javaParser0.SynchronizedStatement();
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // Parse error at line 1, column 0.  Encountered: <EOF>
+-         //
+-         verifyException("com.soops.CEN4010.JMCA.JParser.JavaParser", e);
+-      }
+-  }
++@Test(expected = ParseException.class, timeout = 4000)
++  public void test020() throws Throwable {
++      JavaParser javaParser0 = new JavaParser("public class A {}");
++      javaParser0.SynchronizedStatement();
++  }
++
+ @Test(timeout = 4000, expected = NullPointerException.class)
+     public void test021() throws Throwable {
+         JavaParser javaParser0 = new JavaParser((JavaParserTokenManager) null);

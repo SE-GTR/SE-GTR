@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMThread_ESTest.java
+@@ -100,17 +100,21 @@
+       boolean boolean0 = iCMThread0.equals(iCMThread1);
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      ICMThread iCMThread0 = new ICMThread();
+-      iCMThread0.setId("requests");
+-      ICMThread iCMThread1 = new ICMThread();
+-      boolean boolean0 = iCMThread1.equals(iCMThread0);
+-      assertFalse(boolean0);
+-      assertFalse(iCMThread0.equals((Object)iCMThread1));
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    ICMThread iCMThread0 = new ICMThread();
++    // Verify the initial state before setting the id
++    assertNull(iCMThread0.getId());
++    iCMThread0.setId("requests");
++    // Assert that the side‑effect of setId is observable
++    assertEquals("requests", iCMThread0.getId());
++
++    ICMThread iCMThread1 = new ICMThread();
++    boolean boolean0 = iCMThread1.equals(iCMThread0);
++    assertFalse(boolean0);
++    assertFalse(iCMThread0.equals((Object) iCMThread1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/Secure_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/Secure_ESTest.java
+@@ -22,18 +22,24 @@
+       String string0 = secure0.toXML((String) null);
+       assertEquals("<secure>\n\t<enable>false</enable>\n\t<load>false</load>\n\t<protocol>TLS</protocol>\n\t<client-auth-enable>false</client-auth-enable>\n\t<secure-store>\n\t\t<type>JKS</type>\n\t\t<algorithm>SunX509</algorithm>\n\t\t<secure-store-manager>org.quickserver.security.SecureStoreManager</secure-store-manager>\n\t</secure-store>\n</secure>\n", string0);
+   }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        Secure secure0 = new Secure();
++        SecureStore beforeStore = secure0.getSecureStore();
++        // Verify initial state of secureStore (should be non‑null)
++        assertNotNull(beforeStore);
++        // Act: set the same store back
++        secure0.setSecureStore(beforeStore);
++        // Assert that the setter correctly updated the field
++        assertSame(beforeStore, secure0.getSecureStore());
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      Secure secure0 = new Secure();
+-      SecureStore secureStore0 = secure0.getSecureStore();
+-      secure0.setSecureStore(secureStore0);
+-      assertEquals("TLS", secure0.getProtocol());
+-      assertEquals((-1), secure0.getPort());
+-      assertFalse(secure0.isLoad());
+-      assertFalse(secure0.getEnable());
+-      assertFalse(secure0.getClientAuthEnable());
+-  }
++        assertEquals("TLS", secure0.getProtocol());
++        assertEquals((-1), secure0.getPort());
++        assertFalse(secure0.isLoad());
++        assertFalse(secure0.getEnable());
++        assertFalse(secure0.getClientAuthEnable());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/ztr/data/RawData_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/ztr/data/RawData_ESTest.java
+@@ -29,12 +29,19 @@
+       byte[] byteArray1 = rawData0.encodeData(byteArray0, (byte)113);
+       assertArrayEquals(new byte[] {(byte)0, (byte)0, (byte)0, (byte)0}, byteArray1);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        rawData0 = RawData.INSTANCE;
++        byteArray0 = new byte[3];
++        byte[] byteArray1 = rawData0.parseData(byteArray0);
++        assertEquals(3, byteArray1.length);
++        // Verify that parsing a null array results in an exception (non‑trivial behavior)
++        try {
++            rawData0.parseData(null);
++            fail("Expected TraceDecoderException");
++        } catch (TraceDecoderException e) {
++            // expected exception
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    rawData0 = RawData.INSTANCE;
+-    byteArray0 = new byte[3];
+-      byte[] byteArray1 = rawData0.parseData(byteArray0);
+-      assertEquals(3, byteArray1.length);
+-  }
+ }

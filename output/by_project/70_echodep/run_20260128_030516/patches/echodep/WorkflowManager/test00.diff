@@ -1,0 +1,36 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/workflow/WorkflowManager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/workflow/WorkflowManager_ESTest.java
+@@ -16,25 +16,15 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class WorkflowManager_ESTest extends WorkflowManager_ESTest_scaffolding {
++@Test(timeout = 4000, expected = System.SystemExitException.class)
++  public void test00() throws Throwable {
++      String[] args = new String[3];
++      args[0] = "PUT";
++      args[1] = "-u";
++      args[2] = "http://schemas.xmlsoap.org/soap/envelope/";
++      WorkflowManager.main(args);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      String[] stringArray0 = new String[3];
+-      stringArray0[0] = "PUT";
+-      stringArray0[1] = "-u";
+-      stringArray0[2] = "http://schemas.xmlsoap.org/soap/envelope/";
+-      // Undeclared exception!
+-      try { 
+-        WorkflowManager.main(stringArray0);
+-        fail("Expecting exception: System.SystemExitException");
+-      
+-      } catch(System.SystemExitException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.System", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

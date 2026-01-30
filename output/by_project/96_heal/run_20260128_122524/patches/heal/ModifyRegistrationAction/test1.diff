@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/heal/servlet/ModifyRegistrationAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/ModifyRegistrationAction_ESTest.java
+@@ -36,28 +36,27 @@
+     modifyRegistrationAction0.perform(servlet0, httpServletRequest0, httpServletResponse0);
+     assertTrue(modifyRegistrationAction0.actionRequiresLogin());
+ }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("validUser", "skip").when(httpServletRequest0).getParameter(anyString());
++        doReturn((HttpSession) null).when(httpServletRequest0).getSession();
++        // Verify stubbing behavior
++        String param = httpServletRequest0.getParameter("any");
++        assertEquals("validUser", param);
++        HttpSession session = httpServletRequest0.getSession();
++        assertNull(session);
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        Servlet servlet0 = new Servlet("skip");
++        ModifyRegistrationAction modifyRegistrationAction0 = new ModifyRegistrationAction();
++        try {
++            modifyRegistrationAction0.perform(servlet0, httpServletRequest0, httpServletResponse0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            verifyException("org.heal.servlet.ModifyRegistrationAction", e);
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("validUser", "skip").when(httpServletRequest0).getParameter(anyString());
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession();
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      Servlet servlet0 = new Servlet("skip");
+-      ModifyRegistrationAction modifyRegistrationAction0 = new ModifyRegistrationAction();
+-      // Undeclared exception!
+-      try { 
+-        modifyRegistrationAction0.perform(servlet0, httpServletRequest0, httpServletResponse0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.ModifyRegistrationAction", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

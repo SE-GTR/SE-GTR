@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -760,11 +760,20 @@
+          verifyException("org.antlr.runtime.Lexer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test057()  throws Throwable  {
+-      ANTLRStringStream aNTLRStringStream0 = new ANTLRStringStream("org.databene.commons.condition.CompositeCondition");
+-  }
++@Test(timeout = 4000)
++    public void test057() throws Throwable {
++        ANTLRStringStream stream = new ANTLRStringStream("org.databene.commons.condition.CompositeCondition");
++        // Verify the first character is as expected
++        assertEquals('o', stream.LA(1));
++        // Verify the initial index is zero
++        assertEquals(0, stream.index());
++        // Consume a character and check that the index advances
++        stream.consume();
++        assertEquals(1, stream.index());
++        // Verify the next character after consuming one character
++        assertEquals('r', stream.LA(1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test058()  throws Throwable  {

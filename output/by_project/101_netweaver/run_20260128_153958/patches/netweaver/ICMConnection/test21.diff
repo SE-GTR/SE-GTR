@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
+@@ -356,18 +356,27 @@
+     assertTrue(iCMConnection1.equals((Object) iCMConnection0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      ICMConnection iCMConnection0 = new ICMConnection();
+-      ICMConnection iCMConnection1 = new ICMConnection();
+-      assertTrue(iCMConnection1.equals((Object)iCMConnection0));
+-      
+-      iCMConnection1.setRole("p<C@9+4nWo900");
+-      boolean boolean0 = iCMConnection0.equals(iCMConnection1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test21() throws Throwable {
++    ICMConnection connA = new ICMConnection();
++    ICMConnection connB = new ICMConnection();
++    assertTrue(connA.equals(connB));
++
++    // Both have the default role (null), so they are equal
++    ICMConnection connC = new ICMConnection();
++    assertTrue(connA.equals(connC));
++
++    // Change role on connB
++    connB.setRole("p<C@9+4nWo900");
++    // Now connA (role null) should not be equal to connB (role set)
++    assertFalse(connA.equals(connB));
++
++    // A new connection with the same role should be equal to connB
++    ICMConnection connD = new ICMConnection();
++    connD.setRole("p<C@9+4nWo900");
++    assertTrue(connB.equals(connD));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

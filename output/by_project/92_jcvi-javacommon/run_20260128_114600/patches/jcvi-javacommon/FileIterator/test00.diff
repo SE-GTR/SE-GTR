@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/FileIterator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/FileIterator_ESTest.java
+@@ -22,25 +22,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class FileIterator_ESTest extends FileIterator_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        java.nio.file.Path tempDirPath = java.nio.file.Files.createTempDirectory("fileiterator_test");
++        File tempDir = tempDirPath.toFile();
++        tempDir.deleteOnExit();
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      FileIterator.FileIteratorBuilder fileIterator_FileIteratorBuilder0 = FileIterator.createDepthFirstFileIteratorBuilder((File) null);
+-      LinkedList<FileFilter> linkedList0 = new LinkedList<FileFilter>();
+-      MultipleFileFilter multipleFileFilter0 = new MultipleFileFilter(linkedList0);
+-      FileIterator.FileIteratorBuilder fileIterator_FileIteratorBuilder1 = fileIterator_FileIteratorBuilder0.fileFilter(multipleFileFilter0);
+-      // Undeclared exception!
+-      try { 
+-        fileIterator_FileIteratorBuilder1.build();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // rootDir can not be null
+-         //
+-         verifyException("org.jcvi.jillion.core.util.FileIterator", e);
+-      }
+-  }
++        FileIterator.FileIteratorBuilder builder = FileIterator.createDepthFirstFileIteratorBuilder(tempDir);
++        LinkedList<FileFilter> filters = new LinkedList<>();
++        MultipleFileFilter multipleFilter = new MultipleFileFilter(filters);
++        FileIterator iterator = builder.fileFilter(multipleFilter).build();
++
++        assertNotNull(iterator);
++        assertFalse(iterator.hasNext());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

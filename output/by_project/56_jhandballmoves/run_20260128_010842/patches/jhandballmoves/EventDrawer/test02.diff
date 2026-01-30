@@ -1,0 +1,55 @@
+--- a/evosuite-tests/visu/handball/moves/views/EventDrawer_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/views/EventDrawer_ESTest.java
+@@ -57,24 +57,34 @@
+         g2d.dispose();
+         org.junit.Assert.assertNotNull(eventDrawer0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Defender defender0 = new Defender(1531, 1531);
+-      MoveEvent moveEvent0 = new MoveEvent(defender0, 0);
+-      moveEvent0.setControlPoint(0, 1, false);
+-      moveEvent0.setDestinationPoint(1, 0, false);
+-      handballModel0.addMoveEvent(moveEvent0);
+-      ColorModel colorModel0 = new ColorModel();
+-      EventDrawer eventDrawer0 = new EventDrawer(handballModel0, colorModel0, false);
+-      handballModel0.setActualMoveEvent(moveEvent0);
+-      Graphic graphic0 = new Graphic();
+-      PdfGraphics2D pdfGraphics2D0 = (PdfGraphics2D)graphic0.createGraphicsShapes((float) 1531, (float) 0);
+-      eventDrawer0.draw(pdfGraphics2D0);
+-      assertEquals(1000, PdfGraphics2D.AFM_DIVISOR);
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        Defender defender0 = new Defender(1531, 1531);
++        MoveEvent moveEvent0 = new MoveEvent(defender0, 0);
++        moveEvent0.setControlPoint(0, 1, false);
++        moveEvent0.setDestinationPoint(1, 0, false);
++
++        // Observe state before adding the move event
++        int sizeBefore = handballModel0.getMoveEvents().size();
++        handballModel0.addMoveEvent(moveEvent0);
++        // Verify that the move event was added
++        assertEquals(sizeBefore + 1, handballModel0.getMoveEvents().size());
++        assertTrue(handballModel0.getMoveEvents().contains(moveEvent0));
++
++        ColorModel colorModel0 = new ColorModel();
++        EventDrawer eventDrawer0 = new EventDrawer(handballModel0, colorModel0, false);
++        handballModel0.setActualMoveEvent(moveEvent0);
++        // Verify that the actual move event was set correctly
++        assertSame(moveEvent0, handballModel0.getActualMoveEvent());
++
++        Graphic graphic0 = new Graphic();
++        PdfGraphics2D pdfGraphics2D0 = (PdfGraphics2D) graphic0.createGraphicsShapes((float) 1531, (float) 0);
++        eventDrawer0.draw(pdfGraphics2D0);
++        // Verify that drawing produced a non‑null graphics state (basic sanity check)
++        assertNotNull(pdfGraphics2D0.getTransform());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

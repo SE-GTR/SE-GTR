@@ -1,0 +1,38 @@
+--- a/evosuite-tests/corina/util/SimpleLog_ESTest.java
++++ b/evosuite-tests/corina/util/SimpleLog_ESTest.java
+@@ -318,15 +318,26 @@
+       assertFalse(simpleLog0.isDebugEnabled());
+       assertTrue(simpleLog0.isFatalEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test31()  throws Throwable  {
+-      SimpleLog simpleLog0 = new SimpleLog("H+0%");
+-      boolean boolean0 = simpleLog0.isFatalEnabled();
+-      assertFalse(simpleLog0.isDebugEnabled());
+-      assertTrue(simpleLog0.isInfoEnabled());
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test31() throws Throwable {
++        PrintStream originalErr = System.err;
++        ByteArrayOutputStream baos = new ByteArrayOutputStream();
++        System.setErr(new PrintStream(baos));
++        try {
++            SimpleLog simpleLog0 = new SimpleLog("H+0%");
++            simpleLog0.debug("debug message");
++            simpleLog0.info("info message");
++            simpleLog0.fatal("fatal message");
++            System.err.flush();
++            String output = baos.toString();
++            assertFalse(output.contains("debug message"));
++            assertTrue(output.contains("info message"));
++            assertTrue(output.contains("fatal message"));
++        } finally {
++            System.setErr(originalErr);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test32()  throws Throwable  {

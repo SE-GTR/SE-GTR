@@ -1,0 +1,21 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/CountryName_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/CountryName_ESTest.java
+@@ -70,7 +70,18 @@
+     countryName0.setContent("\"@0[");
+     assertNull(countryName0.getCode());
+     assertEquals("\"@0[", countryName0.getContent());
++
++    CountryName countryName1 = new CountryName();
++    countryName1.setContent("\"@0[");
++    // Objects with identical content should be equal
++    assertEquals(countryName0, countryName1);
++    // Changing the content should break equality
++    countryName1.setContent("different");
++    assertNotEquals(countryName0, countryName1);
++
++    // Verify that the original object is still not equal to a fresh instance
+     assertNotEquals(new CountryName(), countryName0);
+ }
+ 
++
+ }

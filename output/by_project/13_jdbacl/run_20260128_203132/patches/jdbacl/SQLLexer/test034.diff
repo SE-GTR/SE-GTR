@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -384,23 +384,16 @@
+         org.antlr.runtime.Token token = lexer.nextToken();
+         assertNotNull(token);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test034()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mBEFORE();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test034() throws Throwable {
++        org.antlr.runtime.ANTLRStringStream input = new org.antlr.runtime.ANTLRStringStream("BEFORE");
++        SQLLexer lexer = new SQLLexer(input);
++        lexer.mBEFORE();
++        org.antlr.runtime.Token token = lexer.getToken();
++        org.junit.Assert.assertNotNull(token);
++        org.junit.Assert.assertEquals("BEFORE", token.getText());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test035()  throws Throwable  {

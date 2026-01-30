@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/AbstractValidatingSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/AbstractValidatingSessionManager_ESTest.java
+@@ -47,28 +47,19 @@
+          verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      DefaultSessionManager defaultSessionManager0 = new DefaultSessionManager();
+-      defaultSessionManager0.getSessionDAO();
+-      InetAddress inetAddress0 = MockInetAddress.anyLocalAddress();
+-      Session session0 = defaultSessionManager0.createSession(inetAddress0);
+-      defaultSessionManager0.create(session0);
+-      defaultSessionManager0.validateSessions();
+-      Session session1 = null;
+-      // Undeclared exception!
+-      try { 
+-        defaultSessionManager0.onChange((Session) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    DefaultSessionManager defaultSessionManager0 = new DefaultSessionManager();
++    Object dao = defaultSessionManager0.getSessionDAO();
++    assertNotNull(dao);
++    InetAddress inetAddress0 = MockInetAddress.anyLocalAddress();
++    Session session0 = defaultSessionManager0.createSession(inetAddress0);
++    defaultSessionManager0.create(session0);
++    defaultSessionManager0.validateSessions();
++    // invoke onChange with a valid session; should not throw an exception
++    defaultSessionManager0.onChange(session0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

@@ -1,0 +1,50 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -136,20 +136,33 @@
+         assertEquals(initTotal, session.getTotalRequests());
+         assertEquals(initIdHash, session.getIdHash());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      j2EEEJBSession0.setReference("hPoZ|i_'Z4LNJ>");
+-      assertFalse(j2EEEJBSession0.equals((Object)j2EEEJBSession1));
+-      
+-      j2EEEJBSession1.setReference("hPoZ|i_'Z4LNJ>");
+-      boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
+-      assertTrue(j2EEEJBSession0.equals((Object)j2EEEJBSession1));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
++        J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
++
++        // Verify initial state before setting reference
++        assertNull(j2EEEJBSession0.getReference());
++
++        // Act: set reference on first session
++        j2EEEJBSession0.setReference("hPoZ|i_'Z4LNJ>");
++        // Assert side‑effect of setReference
++        assertEquals("hPoZ|i_'Z4LNJ>", j2EEEJBSession0.getReference());
++
++        // Verify inequality with a session that still has null reference
++        assertFalse(j2EEEJBSession0.equals((Object) j2EEEJBSession1));
++
++        // Act: set same reference on second session
++        j2EEEJBSession1.setReference("hPoZ|i_'Z4LNJ>");
++        // Assert side‑effect on second session
++        assertEquals("hPoZ|i_'Z4LNJ>", j2EEEJBSession1.getReference());
++
++        // Both sessions now have identical references, should be equal
++        boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
++        assertTrue(j2EEEJBSession0.equals((Object) j2EEEJBSession1));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

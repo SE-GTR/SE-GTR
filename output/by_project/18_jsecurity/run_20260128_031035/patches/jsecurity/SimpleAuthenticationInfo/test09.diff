@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jsecurity/authc/SimpleAuthenticationInfo_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/SimpleAuthenticationInfo_ESTest.java
+@@ -103,12 +103,19 @@
+       simpleAuthenticationInfo0.merge(simpleAccount0);
+       assertFalse(simpleAccount0.isCredentialsExpired());
+   }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        simpleAuthenticationInfo0 = new SimpleAuthenticationInfo();
++        // Capture state before merge
++        PrincipalCollection beforePrincipals = simpleAuthenticationInfo0.getPrincipals();
++        Object beforeCredentials = simpleAuthenticationInfo0.getCredentials();
++        // Perform the merge (self‑merge)
++        simpleAuthenticationInfo0.merge(simpleAuthenticationInfo0);
++        // Verify that the merge did not alter the state
++        assertSame(beforePrincipals, simpleAuthenticationInfo0.getPrincipals());
++        assertSame(beforeCredentials, simpleAuthenticationInfo0.getCredentials());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    simpleAuthenticationInfo0 = new SimpleAuthenticationInfo();
+-      simpleAuthenticationInfo0.merge(simpleAuthenticationInfo0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

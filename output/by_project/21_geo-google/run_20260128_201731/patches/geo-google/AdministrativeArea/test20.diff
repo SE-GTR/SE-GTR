@@ -1,0 +1,52 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -220,23 +220,32 @@
+         assertEquals(expected, name.getType());
+     }
+ @Test(timeout = 4000)
+-    public void test20() throws Throwable {
+-        AdministrativeArea.SubAdministrativeArea subArea = new AdministrativeArea.SubAdministrativeArea();
+-        // Verify initial state of postOffice is null
+-        assertNull(subArea.getPostOffice());
+-
+-        // Set a non‑null PostOffice and verify the side effect
+-        PostOffice po = new PostOffice();
+-        subArea.setPostOffice(po);
+-        assertSame(po, subArea.getPostOffice());
+-
+-        // Reset to null and verify again
+-        subArea.setPostOffice(null);
+-        assertNull(subArea.getPostOffice());
+-
+-        // The usageType field is expected to be null by default
+-        assertNull(subArea.getUsageType());
+-    }
++public void test20() throws Throwable {
++    AdministrativeArea.SubAdministrativeArea subArea = new AdministrativeArea.SubAdministrativeArea();
++
++    // Verify initial state
++    assertNull(subArea.getPostOffice());
++    assertNull(subArea.getUsageType());
++
++    // Change usage type and verify side effect
++    String usage = "residential";
++    subArea.setUsageType(usage);
++    assertEquals(usage, subArea.getUsageType());
++
++    // Set a non‑null PostOffice and verify the side effect
++    PostOffice po = new PostOffice();
++    subArea.setPostOffice(po);
++    assertSame(po, subArea.getPostOffice());
++
++    // Reset to null and verify again
++    subArea.setPostOffice(null);
++    assertNull(subArea.getPostOffice());
++
++    // Reset usage type to null and verify
++    subArea.setUsageType(null);
++    assertNull(subArea.getUsageType());
++}
++
+ 
+ @Test(timeout = 4000)
+     public void test21() throws Throwable {

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/corina/site/Location_ESTest.java
++++ b/evosuite-tests/corina/site/Location_ESTest.java
+@@ -22,16 +22,18 @@
+     location0 = new Location();
+       location0.setLatitudeAsDegrees(6380.0F);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-    location0 = new Location();
+-      location0.setLongitudeAsDegrees(1674.9939F);
+-      boolean boolean0 = location0.valid();
+-      assertEquals((-450022), location0.getLongitudeAsSeconds());
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        location0 = new Location();
++        int beforeSeconds = location0.getLongitudeAsSeconds();
++        location0.setLongitudeAsDegrees(1674.9939F);
++        boolean boolean0 = location0.valid();
++        int afterSeconds = location0.getLongitudeAsSeconds();
++        assertEquals(-450022, afterSeconds);
++        assertTrue(boolean0);
++        assertNotEquals("Longitude seconds should change after setting degrees", beforeSeconds, afterSeconds);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

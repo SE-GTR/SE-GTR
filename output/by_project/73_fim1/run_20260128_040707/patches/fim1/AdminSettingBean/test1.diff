@@ -1,0 +1,41 @@
+--- a/evosuite-tests/osa/ora/server/beans/AdminSettingBean_ESTest.java
++++ b/evosuite-tests/osa/ora/server/beans/AdminSettingBean_ESTest.java
+@@ -23,17 +23,29 @@
+       assertEquals("Admin email should remain unchanged after updateSettings with empty path", beforeEmail, adminSettingBean0.getAdminEmail());
+       assertEquals("Path should remain unchanged after updateSettings", "", adminSettingBean0.path);
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    AdminSettingBean adminSettingBean0 = new AdminSettingBean(">u&(cMC^I<y0&?3YP");
++    // capture initial state before invoking the void method
++    String beforeEmail = adminSettingBean0.getAdminEmail();
++    String beforePort = adminSettingBean0.getServerPort();
++    String beforeURL = adminSettingBean0.getServerURL();
+ 
++    // act
++    adminSettingBean0.updateSettings();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      AdminSettingBean adminSettingBean0 = new AdminSettingBean(">u&(cMC^I<y0&?3YP");
+-      adminSettingBean0.updateSettings();
+-      AdminSettingBean adminSettingBean1 = new AdminSettingBean(">u&(cMC^I<y0&?3YP");
+-      assertEquals("null", adminSettingBean1.getAdminEmail());
+-      assertEquals("null", adminSettingBean1.getServerPort());
+-      assertEquals("null", adminSettingBean1.getServerURL());
+-  }
++    // verify that the void method does not unexpectedly modify the state
++    assertEquals(beforeEmail, adminSettingBean0.getAdminEmail());
++    assertEquals(beforePort, adminSettingBean0.getServerPort());
++    assertEquals(beforeURL, adminSettingBean0.getServerURL());
++
++    // additional independent checks on a fresh instance
++    AdminSettingBean adminSettingBean1 = new AdminSettingBean(">u&(cMC^I<y0&?3YP");
++    assertEquals("null", adminSettingBean1.getAdminEmail());
++    assertEquals("null", adminSettingBean1.getServerPort());
++    assertEquals("null", adminSettingBean1.getServerURL());
++}
++
+ @Test(timeout = 4000)
+ public void test2() throws Throwable {
+     AdminSettingBean adminSettingBean0 = new AdminSettingBean("l4NdOB.118o7`yGcz$L");

@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEApplicationAlias_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEApplicationAlias_ESTest.java
+@@ -132,20 +132,29 @@
+     boolean boolean0 = j2EEApplicationAlias1.equals(j2EEApplicationAlias0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-    j2EEApplicationAlias0 = new J2EEApplicationAlias();
+-      j2EEApplicationAlias0.setAlias("${");
+-    j2EEApplicationAlias1 = new J2EEApplicationAlias();
+-      assertFalse(j2EEApplicationAlias1.equals((Object)j2EEApplicationAlias0));
+-      
+-      j2EEApplicationAlias1.setAlias("${");
+-      boolean boolean0 = j2EEApplicationAlias1.equals(j2EEApplicationAlias0);
+-      assertTrue(j2EEApplicationAlias1.equals((Object)j2EEApplicationAlias0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++  public void test07() throws Throwable {
++    j2EEApplicationAlias0 = new J2EEApplicationAlias();
++    // Verify initial state before setting alias
++    assertNull(j2EEApplicationAlias0.getAlias());
++    j2EEApplicationAlias0.setAlias("${");
++    // Assert that setAlias correctly updates the alias field
++    assertEquals("${", j2EEApplicationAlias0.getAlias());
++
++    j2EEApplicationAlias1 = new J2EEApplicationAlias();
++    // Verify initial state of the second instance
++    assertNull(j2EEApplicationAlias1.getAlias());
++    assertFalse(j2EEApplicationAlias1.equals((Object) j2EEApplicationAlias0));
++
++    j2EEApplicationAlias1.setAlias("${");
++    // Confirm the alias was set on the second instance
++    assertEquals("${", j2EEApplicationAlias1.getAlias());
++
++    boolean boolean0 = j2EEApplicationAlias1.equals(j2EEApplicationAlias0);
++    assertTrue(j2EEApplicationAlias1.equals((Object) j2EEApplicationAlias0));
++    assertTrue(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

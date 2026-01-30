@@ -1,0 +1,56 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -577,24 +577,35 @@
+         assertNull(address.getCode());
+     }
+ @Test(timeout = 4000)
+-    public void test056() throws Throwable {
+-        AddressDetails.Address address = new AddressDetails.Address();
+-        // initial state should be null
+-        assertNull(address.getCode());
+-
+-        // explicitly set null and verify no change
+-        address.setCode(null);
+-        assertNull(address.getCode());
+-
+-        // set a non‑null value and verify the side effect
+-        String testCode = "ABC123";
+-        address.setCode(testCode);
+-        assertEquals(testCode, address.getCode());
+-
+-        // reset to null again and verify
+-        address.setCode(null);
+-        assertNull(address.getCode());
+-    }
++public void test056() throws Throwable {
++    AddressDetails.Address address = new AddressDetails.Address();
++
++    // initial state should be null
++    assertNull(address.getCode());
++    // initial isSetCode should be false (if generated)
++    assertFalse(address.isSetCode());
++
++    // explicitly set null and verify no change
++    address.setCode(null);
++    assertNull(address.getCode());
++    assertFalse(address.isSetCode());
++
++    // set a non‑null value and verify the side effect
++    String testCode = "ABC123";
++    address.setCode(testCode);
++    assertEquals(testCode, address.getCode());
++    assertTrue(address.isSetCode());
++
++    // reset to null again and verify
++    address.setCode(null);
++    assertNull(address.getCode());
++    assertFalse(address.isSetCode());
++
++    // ensure other unrelated fields remain untouched
++    assertNull(address.getAddressLines());
++    assertNull(address.getCountry());
++}
++
+ @Test(timeout = 4000)
+ public void test057() throws Throwable {
+     AddressDetails.Address address = new AddressDetails.Address();

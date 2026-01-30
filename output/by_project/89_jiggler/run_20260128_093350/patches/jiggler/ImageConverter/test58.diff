@@ -1,0 +1,98 @@
+--- a/evosuite-tests/jigl/image/utils/ImageConverter_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/ImageConverter_ESTest.java
+@@ -1251,63 +1251,38 @@
+          verifyException("jigl.image.utils.ImageConverter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test58()  throws Throwable  {
+-      InterpolatedColorImage interpolatedColorImage0 = new InterpolatedColorImage(0, 3);
+-      assertEquals(3, interpolatedColorImage0.Y());
+-      assertEquals(0, interpolatedColorImage0.X());
+-      assertEquals(ColorModel.RGB, interpolatedColorImage0.getColorModel());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
+-      
+-      RealGrayImage realGrayImage0 = ImageConverter.toRealGray((ColorImage) interpolatedColorImage0);
+-      assertEquals(3, interpolatedColorImage0.Y());
+-      assertEquals(0, interpolatedColorImage0.X());
+-      assertEquals(ColorModel.RGB, interpolatedColorImage0.getColorModel());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(3, realGrayImage0.Y());
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.X());
+-      
+-      ComplexImage complexImage0 = ImageConverter.toComplex((Image) realGrayImage0);
+-      assertEquals(3, interpolatedColorImage0.Y());
+-      assertEquals(0, interpolatedColorImage0.X());
+-      assertEquals(ColorModel.RGB, interpolatedColorImage0.getColorModel());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(3, realGrayImage0.Y());
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0, complexImage0.X());
+-      assertEquals(3, complexImage0.Y());
+-      
+-      ComplexImage complexImage1 = ImageConverter.toComplex(complexImage0);
+-      assertFalse(complexImage1.equals((Object)complexImage0));
+-      assertNotSame(complexImage0, complexImage1);
+-      assertNotSame(complexImage1, complexImage0);
+-      assertEquals(3, interpolatedColorImage0.Y());
+-      assertEquals(0, interpolatedColorImage0.X());
+-      assertEquals(ColorModel.RGB, interpolatedColorImage0.getColorModel());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(3, realGrayImage0.Y());
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0, complexImage0.X());
+-      assertEquals(3, complexImage0.Y());
+-      assertEquals(3, complexImage1.Y());
+-      assertEquals(0, complexImage1.X());
+-  }
++@Test(timeout = 4000)
++    public void test58() throws Throwable {
++        // Initialize an interpolated color image
++        InterpolatedColorImage interpolatedColorImage0 = new InterpolatedColorImage(0, 3);
++        assertEquals(3, interpolatedColorImage0.Y());
++        assertEquals(0, interpolatedColorImage0.X());
++        assertEquals(ColorModel.RGB, interpolatedColorImage0.getColorModel());
++        assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
++
++        // Convert to a real gray image and verify its state
++        RealGrayImage realGrayImage0 = ImageConverter.toRealGray((ColorImage) interpolatedColorImage0);
++        assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
++        assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
++        assertEquals(-32768.0F, realGrayImage0.max(), 0.01F);
++        assertEquals(3, realGrayImage0.Y());
++        assertEquals(0, realGrayImage0.X());
++        assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
++        assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
++
++        // Convert to a complex image and verify dimensions
++        ComplexImage complexImage0 = ImageConverter.toComplex((Image) realGrayImage0);
++        assertEquals(0, complexImage0.X());
++        assertEquals(3, complexImage0.Y());
++
++        // Convert the complex image again and verify a new instance is created
++        ComplexImage complexImage1 = ImageConverter.toComplex(complexImage0);
++        assertFalse(complexImage1.equals((Object) complexImage0));
++        assertNotSame(complexImage0, complexImage1);
++        assertEquals(0, complexImage1.X());
++        assertEquals(3, complexImage1.Y());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test59()  throws Throwable  {

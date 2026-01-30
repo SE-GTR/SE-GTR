@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -287,22 +287,17 @@
+          verifyException("org.antlr.runtime.Lexer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test024()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mXOR();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test024() throws Throwable {
++        // Properly initialize the lexer with a valid input that contains the XOR token.
++        org.antlr.runtime.ANTLRStringStream input = new org.antlr.runtime.ANTLRStringStream("XOR");
++        SQLLexer lexer = new SQLLexer(input);
++        int indexBefore = lexer.getCharIndex();
++        lexer.mXOR(); // should execute without throwing NullPointerException
++        int indexAfter = lexer.getCharIndex();
++        assertTrue("Lexer should have advanced after processing XOR token", indexAfter > indexBefore);
++    }
++
+ @Test(timeout = 4000)
+     public void test025() throws Throwable {
+         ANTLRStringStream aNTLRStringStream0 = new ANTLRStringStream("+eu2\"=mm#NaT");

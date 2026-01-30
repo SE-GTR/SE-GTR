@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/scf/SCFUtils_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/scf/SCFUtils_ESTest.java
+@@ -74,13 +74,17 @@
+          verifyException("java.nio.Buffer", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        // Negative case: array does not contain the SCF magic number
++        byte[] notMagic = new byte[4];
++        assertFalse(SCFUtils.isMagicNumber(notMagic));
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      byte[] byteArray0 = new byte[9];
+-      boolean boolean0 = SCFUtils.isMagicNumber(byteArray0);
+-      assertFalse(boolean0);
+-  }
++        // Positive case: array contains the exact SCF magic number
++        byte[] magic = new byte[] {0x2E, 0x73, 0x63, 0x66};
++        assertTrue(SCFUtils.isMagicNumber(magic));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

@@ -1,0 +1,28 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermManager_ESTest.java
+@@ -76,20 +76,23 @@
+     int int0 = inMemoryOntologyTermManager0.getOntologyTermIdentifier(ontologyTerm1);
+     assertEquals(-1, int0);
+ }
+-
+ @Test(timeout = 4000)
+ public void test2() throws Throwable {
+     InMemoryChangeEventManager changeMgr = new InMemoryChangeEventManager();
+     OntologyTerm term = new OntologyTerm();
+     InMemoryOntologyTermManager manager = new InMemoryOntologyTermManager(changeMgr);
++    // Verify initial state before mutating the term
++    assertTrue(term.isNewRecord());
+     term.setTerm("SUPPORTING_DOCUMENT");
+     User user = new User("SUPPORTING_DOCUMENT", "SUPPORTING_DOCUMENT");
+     manager.addOntologyTerm(user, term);
++    // The add operation should mark the term as persisted
++    assertFalse(term.isNewRecord());
+     int id = manager.getOntologyTermIdentifier(term);
+-    assertFalse(term.isNewRecord());
+     assertEquals(1, id);
+     assertEquals("SUPPORTING_DOCUMENT", term.getTerm());
+ }
++
+ @Test(timeout = 4000)
+   public void test3() throws Throwable {
+     inMemoryChangeEventManager0 = new InMemoryChangeEventManager();

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/javathena/conf/LoginAthena_ESTest.java
++++ b/evosuite-tests/org/javathena/conf/LoginAthena_ESTest.java
+@@ -360,14 +360,16 @@
+     // Verify default bind IP string
+     assertEquals("127.0.0.1", loginAthena0.getBind_ip_str());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test39()  throws Throwable  {
+-      LoginAthena loginAthena0 = new LoginAthena();
+-      loginAthena0.setIpban_cleanup_interval(436);
+-      assertEquals(436, loginAthena0.getIpban_cleanup_interval());
+-  }
++@Test(timeout = 4000)
++    public void test39() throws Throwable {
++        LoginAthena loginAthena0 = new LoginAthena();
++        int original = loginAthena0.getIpban_cleanup_interval();
++        loginAthena0.setIpban_cleanup_interval(436);
++        int updated = loginAthena0.getIpban_cleanup_interval();
++        assertEquals(436, updated);
++        assertNotEquals(original, updated);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test40()  throws Throwable  {

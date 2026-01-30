@@ -1,0 +1,36 @@
+--- a/evosuite-tests/corina/browser/ItrdbURLConnection_ESTest.java
++++ b/evosuite-tests/corina/browser/ItrdbURLConnection_ESTest.java
+@@ -59,23 +59,17 @@
+          verifyException("java.net.URL", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        URL uRL0 = MockURL.getFileExample();
++        ItrdbURLConnection itrdbURLConnection0 = new ItrdbURLConnection(uRL0);
++        // Properly initialize the connection before accessing the stream
++        itrdbURLConnection0.connect();
++        InputStream inputStream = itrdbURLConnection0.getInputStream();
++        assertNotNull("InputStream should not be null after successful connection", inputStream);
++        inputStream.close();
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    uRL0 = MockURL.getFileExample();
+-    itrdbURLConnection0 = new ItrdbURLConnection(uRL0);
+-      // Undeclared exception!
+-      try { 
+-        itrdbURLConnection0.getInputStream();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.net.URL", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

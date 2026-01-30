@@ -1,0 +1,47 @@
+--- a/evosuite-tests/com/gbshape/dbe/derby/DerbyTableStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/derby/DerbyTableStructure_ESTest.java
+@@ -86,20 +86,30 @@
+       ArrayList arrayList0 = derbyTableStructure0.create((HttpServletRequest) null, dBDataBean0, createTableXmlBean0);
+       assertFalse(arrayList0.isEmpty());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      ColumnBean columnBean0 = new ColumnBean();
+-      columnBean0.setName("GVop(^k");
+-      columnBean0.setUnique(true);
+-      CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
+-      createTableXmlBean0.addColumn(columnBean0);
+-      createTableXmlBean0.addColumn(columnBean0);
+-      DBDataBean dBDataBean0 = new DBDataBean();
+-      DerbyTableStructure derbyTableStructure0 = new DerbyTableStructure();
+-      ArrayList arrayList0 = derbyTableStructure0.create((HttpServletRequest) null, dBDataBean0, createTableXmlBean0);
+-      assertEquals(1, arrayList0.size());
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        ColumnBean columnBean0 = new ColumnBean();
++        columnBean0.setName("GVop(^k");
++        columnBean0.setUnique(true);
++        // verify side‑effects of the setters
++        assertEquals("GVop(^k", columnBean0.getName());
++        assertTrue(columnBean0.isUnique());
++
++        CreateTableXmlBean createTableXmlBean0 = new CreateTableXmlBean();
++        createTableXmlBean0.addColumn(columnBean0);
++        // verify that the column was added
++        assertTrue(createTableXmlBean0.getColumns().contains(columnBean0));
++
++        createTableXmlBean0.addColumn(columnBean0);
++        // the column should still be present after the second addition
++        assertTrue(createTableXmlBean0.getColumns().contains(columnBean0));
++
++        DBDataBean dBDataBean0 = new DBDataBean();
++        DerbyTableStructure derbyTableStructure0 = new DerbyTableStructure();
++        ArrayList arrayList0 = derbyTableStructure0.create((HttpServletRequest) null, dBDataBean0, createTableXmlBean0);
++        assertEquals(1, arrayList0.size());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

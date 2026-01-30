@@ -1,0 +1,27 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/projektgruppe/ProjektgruppeDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/projektgruppe/ProjektgruppeDaoService_ESTest.java
+@@ -218,15 +218,20 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test10() throws Throwable {
+       ProjektgruppeIbatisDao projektgruppeIbatisDao0 = new ProjektgruppeIbatisDao();
+       ProjektgruppeDaoService projektgruppeDaoService0 = new ProjektgruppeDaoService(projektgruppeIbatisDao0);
+       CustomizingIbatisDao customizingIbatisDao0 = new CustomizingIbatisDao();
+       CustomizingDaoService customizingDaoService0 = new CustomizingDaoService(customizingIbatisDao0);
++      // Verify initial state before init
++      assertSame(projektgruppeIbatisDao0, projektgruppeDaoService0.getDao());
++      // Perform the side‑effecting init call
+       projektgruppeDaoService0.init(customizingDaoService0);
+-  }
++      // Verify that the init call correctly set the customizing service
++      assertSame(customizingDaoService0, projektgruppeDaoService0.getCustomizingService());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

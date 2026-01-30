@@ -1,0 +1,38 @@
+--- a/evosuite-tests/bible/obj/References_ESTest.java
++++ b/evosuite-tests/bible/obj/References_ESTest.java
+@@ -27,24 +27,19 @@
+     stringArray0 = new String[0];
+     httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+   }
++@Test(timeout = 4000, expected = NumberFormatException.class)
++public void test0() throws Throwable {
++    doReturn("/a:M").when(httpServletRequest0).getParameter(anyString());
++    doReturn((Object) stringArray0, (Object) stringArray0).when(httpServletRequest0).getParameterValues(anyString());
+ 
++    // Verify that the stubs return the expected values
++    assertEquals("/a:M", httpServletRequest0.getParameter("any"));
++    assertArrayEquals(stringArray0, httpServletRequest0.getParameterValues("any"));
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      doReturn("/a:M").when(httpServletRequest0).getParameter(anyString());
+-      doReturn((Object) stringArray0, (Object) stringArray0).when(httpServletRequest0).getParameterValues(anyString());
+-      References references0 = null;
+-      try {
+-        references0 = new References(httpServletRequest0);
+-        fail("Expecting exception: NumberFormatException");
+-      
+-      } catch(NumberFormatException e) {
+-         //
+-         // For input string: \"M\"
+-         //
+-         verifyException("java.lang.NumberFormatException", e);
+-      }
+-  }
++    // This constructor call is expected to throw NumberFormatException
++    new References(httpServletRequest0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

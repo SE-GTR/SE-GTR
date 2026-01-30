@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/form/ColumnForm_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/form/ColumnForm_ESTest.java
+@@ -270,6 +270,7 @@
+     assertEquals(0, columnForm0.getLen());
+     assertEquals(0, columnForm0.getDec());
+ }
++@Test
+ public void test29() throws Throwable {
+     ColumnForm columnForm0 = new ColumnForm();
+     String defaultVal = "org.apache.commons.lang.builder.ToStringStyle$SimpleToStringStyle";
+@@ -278,7 +279,15 @@
+     assertEquals(0, columnForm0.getLen());
+     String representation = columnForm0.toString();
+     assertTrue(representation.contains(defaultVal));
+-}
++
++    // Verify that changing the default value is reflected in the string representation
++    String newDefault = "newDefaultValue";
++    columnForm0.setDefaultValue(newDefault);
++    String newRepresentation = columnForm0.toString();
++    assertTrue(newRepresentation.contains(newDefault));
++    assertFalse(newRepresentation.equals(representation));
++}
++
+ @Test(timeout = 4000)
+     public void test30() throws Throwable {
+         ColumnForm columnForm0 = new ColumnForm();

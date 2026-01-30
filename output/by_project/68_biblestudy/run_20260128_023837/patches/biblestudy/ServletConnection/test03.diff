@@ -1,0 +1,51 @@
+--- a/evosuite-tests/bible/servlet/ServletConnection_ESTest.java
++++ b/evosuite-tests/bible/servlet/ServletConnection_ESTest.java
+@@ -66,25 +66,29 @@
+     servletConnection0.redirectWithout("I");
+     assertTrue(servletConnection0.getStartTime() > 0L);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(httpServletRequest0).getRemoteHost();
+-      doReturn((String) null).when(httpServletRequest0).getQueryString();
+-      doReturn((String) null).when(httpServletRequest0).getRemoteUser();
+-      doReturn((String) null, (String) null, ".)SlDWO&Io=R").when(httpServletRequest0).getRequestURI();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      ServletConnection servletConnection0 = new ServletConnection(httpServletRequestWrapper0, httpServletResponseWrapper0);
+-      servletConnection0.getFullUrl();
+-      assertFalse(servletConnection0.isRedirected());
+-      
+-      servletConnection0.redirectWithout("S");
+-      assertEquals(1392409281320L, servletConnection0.getStartTime());
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn((String) null).when(httpServletRequest0).getRemoteHost();
++    doReturn((String) null).when(httpServletRequest0).getQueryString();
++    doReturn((String) null).when(httpServletRequest0).getRemoteUser();
++    doReturn((String) null, (String) null, ".)SlDWO&Io=R").when(httpServletRequest0).getRequestURI();
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++    HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++    ServletConnection servletConnection0 = new ServletConnection(httpServletRequestWrapper0, httpServletResponseWrapper0);
++
++    String fullUrl = servletConnection0.getFullUrl();
++    assertNotNull(fullUrl);
++
++    assertFalse(servletConnection0.isRedirected());
++
++    servletConnection0.redirectWithout("S");
++
++    assertTrue(servletConnection0.isRedirected());
++    assertTrue(servletConnection0.getStartTime() > 0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

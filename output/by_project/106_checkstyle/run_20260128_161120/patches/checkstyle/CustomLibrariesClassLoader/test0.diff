@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/util/CustomLibrariesClassLoader_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/util/CustomLibrariesClassLoader_ESTest.java
+@@ -15,21 +15,19 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class CustomLibrariesClassLoader_ESTest extends CustomLibrariesClassLoader_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Prepare a dummy class loader and inject it into the static field
++        ClassLoader dummy = new java.net.URLClassLoader(new java.net.URL[0]);
++        java.lang.reflect.Field field = CustomLibrariesClassLoader.class.getDeclaredField("sLibrariesClassLoader");
++        field.setAccessible(true);
++        field.set(null, dummy);
++        // Act
++        ClassLoader result = CustomLibrariesClassLoader.get();
++        // Assert
++        org.junit.Assert.assertSame("The returned class loader should be the injected dummy loader", dummy, result);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        CustomLibrariesClassLoader.get();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.atlassw.tools.eclipse.checkstyle.util.CustomLibrariesClassLoader", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/jsecurity/authc/pam/ModularRealmAuthenticator_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/pam/ModularRealmAuthenticator_ESTest.java
+@@ -88,26 +88,22 @@
+       AuthenticationInfo authenticationInfo0 = modularRealmAuthenticator0.doMultiRealmAuthentication(linkedList0, (AuthenticationToken) null);
+       assertNotNull(authenticationInfo0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test06() throws Throwable {
+       ModularRealmAuthenticator modularRealmAuthenticator0 = new ModularRealmAuthenticator();
+       LinkedList<Realm> linkedList0 = new LinkedList<Realm>();
+       SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      linkedList0.offerLast(simpleAccountRealm0);
++      boolean offered = linkedList0.offerLast(simpleAccountRealm0);
++      assertTrue(offered);
+       UsernamePasswordToken usernamePasswordToken0 = new UsernamePasswordToken();
+-      // Undeclared exception!
+-      try { 
+-        modularRealmAuthenticator0.doMultiRealmAuthentication(linkedList0, usernamePasswordToken0);
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Unable to acquire account data from realm [org.jsecurity.realm.SimpleAccountRealm@3].  The [org.jsecurity.authc.pam.AllSuccessfulModularAuthenticationStrategy implementation requires all configured realm(s) to operate successfully for a successful authentication.
+-         //
+-         verifyException("org.jsecurity.authc.pam.AllSuccessfulModularAuthenticationStrategy", e);
++      try {
++          modularRealmAuthenticator0.doMultiRealmAuthentication(linkedList0, usernamePasswordToken0);
++          fail("Expecting exception: RuntimeException");
++      } catch (RuntimeException e) {
++          verifyException("org.jsecurity.authc.pam.AllSuccessfulModularAuthenticationStrategy", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

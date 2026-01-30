@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -120,11 +120,17 @@
+       String string0 = ConfigurationManagement.getLogin_ip_str();
+       assertEquals("127.0.0.1", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      ConfigurationManagement.setNum_regs(0);
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    // Verify that setting the number of registrations updates the internal state.
++    ConfigurationManagement.setNum_regs(0L);
++    assertEquals(0L, ConfigurationManagement.getNum_regs());
++
++    // Change the value and verify the update is reflected.
++    ConfigurationManagement.setNum_regs(42L);
++    assertEquals(42L, ConfigurationManagement.getNum_regs());
++}
++
+ @Test(timeout = 4000)
+ public void test14() throws Throwable {
+     int before = ConfigurationManagement.getChar_id_count();

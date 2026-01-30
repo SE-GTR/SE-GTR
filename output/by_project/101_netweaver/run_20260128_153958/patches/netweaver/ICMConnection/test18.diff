@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
+@@ -300,18 +300,29 @@
+       iCMConnection1.setPeerAddress("different");
+       assertFalse(iCMConnection0.equals(iCMConnection1));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      ICMConnection iCMConnection0 = new ICMConnection();
+-      ICMConnection iCMConnection1 = new ICMConnection();
+-      assertTrue(iCMConnection1.equals((Object)iCMConnection0));
+-      
+-      iCMConnection1.setRequesttype(";}=nG-K2E*|bRK9|K]");
+-      boolean boolean0 = iCMConnection0.equals(iCMConnection1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test18() throws Throwable {
++        ICMConnection iCMConnection0 = new ICMConnection();
++        ICMConnection iCMConnection1 = new ICMConnection();
++        assertTrue(iCMConnection1.equals((Object) iCMConnection0));
++
++        // Verify initial state of requesttype
++        assertNull(iCMConnection1.getRequesttype());
++        assertNull(iCMConnection0.getRequesttype());
++
++        // Act
++        String newRequestType = ";}=nG-K2E*|bRK9|K]";
++        iCMConnection1.setRequesttype(newRequestType);
++
++        // Observe side‑effect via getter
++        assertEquals(newRequestType, iCMConnection1.getRequesttype());
++        assertNull(iCMConnection0.getRequesttype());
++
++        // Equality should now reflect the changed state
++        boolean boolean0 = iCMConnection0.equals(iCMConnection1);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

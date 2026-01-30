@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
+@@ -222,17 +222,22 @@
+       assertTrue(iCMConnection0.equals((Object) iCMConnection1));
+       assertTrue(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      ICMConnection iCMConnection0 = new ICMConnection();
+-      iCMConnection0.setLocalAddress("F,");
+-      ICMConnection iCMConnection1 = new ICMConnection();
+-      boolean boolean0 = iCMConnection1.equals(iCMConnection0);
+-      assertFalse(boolean0);
+-      assertEquals(0, iCMConnection1.getPeerPort());
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    ICMConnection iCMConnection0 = new ICMConnection();
++    iCMConnection0.setLocalAddress("F,");
++    // Verify that the local address was set correctly
++    assertEquals("F,", iCMConnection0.getLocalAddress());
++
++    ICMConnection iCMConnection1 = new ICMConnection();
++    // The second connection should have no local address by default
++    assertNull(iCMConnection1.getLocalAddress());
++
++    boolean boolean0 = iCMConnection1.equals(iCMConnection0);
++    assertFalse(boolean0);
++    assertEquals(0, iCMConnection1.getPeerPort());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

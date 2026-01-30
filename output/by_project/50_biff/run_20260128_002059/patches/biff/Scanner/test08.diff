@@ -1,0 +1,49 @@
+--- a/evosuite-tests/Scanner_ESTest.java
++++ b/evosuite-tests/Scanner_ESTest.java
+@@ -89,27 +89,27 @@
+       FileSystemHandling.appendLineToFile(evoSuiteFile0, "STRING or VARIABLE");
+       Scanner scanner0 = new Scanner("[I<");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-    evoSuiteFile0 = new EvoSuiteFile("[I<");
+-      byte[] byteArray0 = new byte[1];
+-      FileSystemHandling.appendDataToFile(evoSuiteFile0, byteArray0);
+-      Scanner scanner0 = new Scanner("[I<");
+-      ArrayList<Object> arrayList0 = new ArrayList<Object>();
+-      arrayList0.add((Object) scanner0);
+-      // Undeclared exception!
+-      try { 
++public void test08() throws Throwable {
++    evoSuiteFile0 = new EvoSuiteFile("[I<");
++    byte[] byteArray0 = new byte[1];
++    boolean appended = FileSystemHandling.appendDataToFile(evoSuiteFile0, byteArray0);
++    assertTrue(appended);
++    Scanner scanner0 = new Scanner("[I<");
++    ArrayList<Object> arrayList0 = new ArrayList<Object>();
++    boolean added = arrayList0.add((Object) scanner0);
++    assertTrue(added);
++    // Undeclared exception!
++    try {
+         scanner0.printAdvLexems(arrayList0);
+         fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // Scanner cannot be cast to AdvLexem
+-         //
+-         verifyException("Scanner", e);
+-      }
+-  }
++    } catch (ClassCastException e) {
++        //
++        // Scanner cannot be cast to AdvLexem
++        //
++        verifyException("Scanner", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

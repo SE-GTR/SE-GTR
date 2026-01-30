@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleRole_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleRole_ESTest.java
+@@ -144,16 +144,19 @@
+       simpleRole0.addAll((Collection<Permission>) null);
+       assertNull(simpleRole0.getName());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      LinkedHashSet<Permission> linkedHashSet0 = new LinkedHashSet<Permission>();
++public void test14() throws Throwable {
++    LinkedHashSet<Permission> linkedHashSet0 = new LinkedHashSet<Permission>();
+     simpleRole0 = new SimpleRole("\"H'?`9mJ4{K", linkedHashSet0);
+     allPermission0 = new AllPermission();
+-      simpleRole0.add(allPermission0);
+-      assertFalse(linkedHashSet0.isEmpty());
+-      assertEquals(1, linkedHashSet0.size());
+-  }
++    int beforeSize = simpleRole0.getPermissions().size();
++    simpleRole0.add(allPermission0);
++    int afterSize = simpleRole0.getPermissions().size();
++    assertEquals(beforeSize + 1, afterSize);
++    assertTrue(simpleRole0.getPermissions().contains(allPermission0));
++    assertFalse(linkedHashSet0.isEmpty());
++    assertEquals(1, linkedHashSet0.size());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -291,19 +291,27 @@
+       assertEquals((-3489), enqLock1.getUseCountOwner());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
+-      enqLock0.setOwnerVb("Could not instantiate class [");
+-      EnqLock enqLock1 = new EnqLock();
+-      assertFalse(enqLock1.equals((Object)enqLock0));
+-      
+-      enqLock1.setOwnerVb("Could not instantiate class [");
+-      boolean boolean0 = enqLock0.equals(enqLock1);
+-      assertTrue(enqLock1.equals((Object)enqLock0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        EnqLock enqLock0 = new EnqLock();
++        // verify initial state before setting ownerVb
++        assertNull(enqLock0.getOwnerVb());
++        enqLock0.setOwnerVb("Could not instantiate class [");
++        // assert side‑effect of setOwnerVb
++        assertEquals("Could not instantiate class [", enqLock0.getOwnerVb());
++
++        EnqLock enqLock1 = new EnqLock();
++        assertFalse(enqLock1.equals((Object) enqLock0));
++
++        enqLock1.setOwnerVb("Could not instantiate class [");
++        // assert side‑effect on the second instance
++        assertEquals("Could not instantiate class [", enqLock1.getOwnerVb());
++
++        boolean boolean0 = enqLock0.equals(enqLock1);
++        assertTrue(enqLock1.equals((Object) enqLock0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

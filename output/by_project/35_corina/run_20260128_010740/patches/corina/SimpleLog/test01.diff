@@ -1,0 +1,44 @@
+--- a/evosuite-tests/corina/util/SimpleLog_ESTest.java
++++ b/evosuite-tests/corina/util/SimpleLog_ESTest.java
+@@ -26,15 +26,32 @@
+       assertTrue(simpleLog0.isFatalEnabled());
+       assertFalse(simpleLog0.isDebugEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      SimpleLog simpleLog0 = new SimpleLog("org.apache.batk.apps.rasterizer.SVGConverter$SVGFileFilter");
+-      simpleLog0.setLevel(35);
+-      SecurityException securityException0 = new SecurityException();
+-      simpleLog0.fatal((Object) "org.apache.batk.apps.rasterizer.SVGConverter$SVGFileFilter", (Throwable) securityException0);
+-      assertEquals(35, simpleLog0.getLevel());
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        SimpleLog simpleLog0 = new SimpleLog("org.apache.batk.apps.rasterizer.SVGConverter$SVGFileFilter");
++        simpleLog0.setLevel(35);
++        SecurityException securityException0 = new SecurityException();
++
++        // Capture System.err output produced by fatal()
++        java.io.ByteArrayOutputStream outContent = new java.io.ByteArrayOutputStream();
++        java.io.PrintStream originalErr = System.err;
++        System.setErr(new java.io.PrintStream(outContent));
++        try {
++            simpleLog0.fatal((Object) "org.apache.batk.apps.rasterizer.SVGConverter$SVGFileFilter",
++                    (Throwable) securityException0);
++        } finally {
++            System.setErr(originalErr);
++        }
++
++        // Verify that the log level was set correctly
++        assertEquals(35, simpleLog0.getLevel());
++
++        // Verify that fatal() produced output containing the message and exception type
++        String logged = outContent.toString();
++        assertTrue(logged.contains("org.apache.batk.apps.rasterizer.SVGConverter$SVGFileFilter"));
++        assertTrue(logged.contains(SecurityException.class.getSimpleName()));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

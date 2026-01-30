@@ -1,0 +1,45 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryUserManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryUserManager_ESTest.java
+@@ -92,27 +92,25 @@
+     ArrayList<User> users = inMemoryUserManager0.getUsers(null);
+     assertTrue("User list should be empty when no users are added", users.isEmpty());
+ }
+-
+ @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+-      Log log0 = new Log();
+-      User user0 = new User();
+-      ArrayList<User> arrayList0 = new ArrayList<User>();
+-      boolean added = arrayList0.add(user0);
+-      assertTrue(added);
+-      InMemoryUserManager inMemoryUserManager0 = new InMemoryUserManager(inMemoryChangeEventManager0, log0, user0);
+-      try { 
++public void test06() throws Throwable {
++    InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
++    Log log0 = new Log();
++    User user0 = new User();
++    ArrayList<User> arrayList0 = new ArrayList<User>();
++    boolean added = arrayList0.add(user0);
++    assertTrue(added);
++    assertEquals(1, arrayList0.size());
++    InMemoryUserManager inMemoryUserManager0 = new InMemoryUserManager(inMemoryChangeEventManager0, log0, user0);
++    try {
+         inMemoryUserManager0.deleteUsers(user0, arrayList0);
+         fail("Expecting exception: Exception");
++    } catch (Exception e) {
++        // "" does not exist.
++        verifyException("macaw.persistenceLayer.demo.InMemoryUserManager", e);
++    }
++}
+ 
+-      } catch(Exception e) {
+-         //
+-         // \"\" does not exist.
+-         //
+-         verifyException("macaw.persistenceLayer.demo.InMemoryUserManager", e);
+-      }
+-  }
+ 
+ 
+   @Test(timeout = 4000)

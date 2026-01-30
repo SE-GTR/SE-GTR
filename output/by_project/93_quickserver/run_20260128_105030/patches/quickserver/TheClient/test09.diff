@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/net/server/TheClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/TheClient_ESTest.java
+@@ -89,16 +89,17 @@
+         TheClient theClient0 = new TheClient();
+         assertNotNull(theClient0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      TheClient theClient0 = new TheClient();
+-      theClient0.setTimeout(0);
+-      assertTrue(theClient0.getCommunicationLogging());
+-      assertEquals(0, theClient0.getTimeout());
+-      assertFalse(theClient0.getTrusted());
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        TheClient theClient0 = new TheClient();
++        int originalTimeout = theClient0.getTimeout();
++        theClient0.setTimeout(1234);
++        assertTrue(theClient0.getCommunicationLogging());
++        assertEquals(1234, theClient0.getTimeout());
++        assertFalse(theClient0.getTrusted());
++        assertNotEquals(originalTimeout, theClient0.getTimeout());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

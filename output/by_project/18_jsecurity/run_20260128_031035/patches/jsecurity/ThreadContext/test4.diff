@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/util/ThreadContext_ESTest.java
++++ b/evosuite-tests/org/jsecurity/util/ThreadContext_ESTest.java
+@@ -48,15 +48,18 @@
+       Locale locale0 = new Locale("W}*");
+       System.setCurrentTimeMillis(4L);
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        java.net.InetAddress unboundInet = ThreadContext.unbindInetAddress();
++        assertNull(unboundInet);
++        org.jsecurity.subject.Subject unboundSubject = ThreadContext.unbindSubject();
++        assertNull(unboundSubject);
++        java.net.InetAddress retrieved = ThreadContext.getInetAddress();
++        assertNull(retrieved);
++        java.net.InetAddress inetAddress0 = MockInetAddress.getLoopbackAddress();
++        ThreadContext.put(inetAddress0, (Object) null);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      ThreadContext.unbindInetAddress();
+-      ThreadContext.unbindSubject();
+-      InetAddress inetAddress0 = MockInetAddress.getLoopbackAddress();
+-      ThreadContext.getInetAddress();
+-      ThreadContext.put(inetAddress0, (Object) null);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

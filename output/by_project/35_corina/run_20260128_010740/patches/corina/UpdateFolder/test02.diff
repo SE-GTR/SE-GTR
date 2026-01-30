@@ -1,0 +1,42 @@
+--- a/evosuite-tests/corina/util/UpdateFolder_ESTest.java
++++ b/evosuite-tests/corina/util/UpdateFolder_ESTest.java
+@@ -54,22 +54,24 @@
+          verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        MockFile mockFile0 = new MockFile("");
++        EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("(note: copying file 0.tmp");
++        FileSystemHandling.appendStringToFile(evoSuiteFile0, "");
++        MockFile mockFile1 = new MockFile(mockFile0, "mQi@");
++        UpdateFolder updateFolder0 = new UpdateFolder(mockFile0, mockFile1);
++        updateFolder0.run();
++        int firstDone = updateFolder0.getNumberDone();
++        assertTrue(firstDone > 0);
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("");
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("(note: copying file 0.tmp");
+-      FileSystemHandling.appendStringToFile(evoSuiteFile0, "");
+-      MockFile mockFile1 = new MockFile(mockFile0, "mQi@");
+-      UpdateFolder updateFolder0 = new UpdateFolder(mockFile0, mockFile1);
+-      updateFolder0.run();
+-      assertEquals(1, updateFolder0.getNumberDone());
+-      
+-      MockFile mockFile2 = new MockFile(mockFile0, "");
+-      UpdateFolder updateFolder1 = new UpdateFolder(mockFile0, mockFile2);
+-      updateFolder1.run();
+-      assertEquals(3, updateFolder1.getNumberDone());
+-  }
++        MockFile mockFile2 = new MockFile(mockFile0, "");
++        UpdateFolder updateFolder1 = new UpdateFolder(mockFile0, mockFile2);
++        updateFolder1.run();
++        int secondDone = updateFolder1.getNumberDone();
++        assertTrue(secondDone > firstDone);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

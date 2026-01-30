@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
+@@ -246,18 +246,24 @@
+         assertTrue(j2EEProcess0.equals((Object) j2EEProcess1));
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      J2EEProcess j2EEProcess0 = new J2EEProcess();
+-      J2EEProcess j2EEProcess1 = new J2EEProcess();
+-      assertTrue(j2EEProcess1.equals((Object)j2EEProcess0));
+-      
+-      j2EEProcess0.setStatetext("SAPControl-J2EE-STARTING");
+-      boolean boolean0 = j2EEProcess1.equals(j2EEProcess0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        J2EEProcess j2EEProcess0 = new J2EEProcess();
++        J2EEProcess j2EEProcess1 = new J2EEProcess();
++        assertTrue(j2EEProcess1.equals((Object) j2EEProcess0));
++
++        // Verify that setStatetext actually changes the internal state
++        String before = j2EEProcess0.getStatetext();
++        assertNull(before);
++
++        j2EEProcess0.setStatetext("SAPControl-J2EE-STARTING");
++        assertEquals("SAPControl-J2EE-STARTING", j2EEProcess0.getStatetext());
++
++        // Changing the state text should affect equality
++        boolean boolean0 = j2EEProcess1.equals(j2EEProcess0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

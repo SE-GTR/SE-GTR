@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/eis/CachingSessionDAO_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/eis/CachingSessionDAO_ESTest.java
+@@ -39,17 +39,20 @@
+ 
+     org.junit.Assert.assertEquals("jsecurity-activeSessionCache", memorySessionDAO0.getActiveSessionsCacheName());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      SimpleSession simpleSession0 = new SimpleSession();
+-      MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
+-      memorySessionDAO0.setCacheManager((CacheManager) null);
+-      memorySessionDAO0.assignSessionId(simpleSession0, simpleSession0);
+-      memorySessionDAO0.delete(simpleSession0);
+-      assertEquals("jsecurity-activeSessionCache", memorySessionDAO0.getActiveSessionsCacheName());
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    SimpleSession simpleSession0 = new SimpleSession();
++    MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
++    // Verify that the session initially has no identifier
++    assertNull(simpleSession0.getId());
++    memorySessionDAO0.setCacheManager((CacheManager) null);
++    memorySessionDAO0.assignSessionId(simpleSession0, simpleSession0);
++    // After assigning, the session should have a non‑null identifier
++    assertNotNull("Session ID should be assigned", simpleSession0.getId());
++    memorySessionDAO0.delete(simpleSession0);
++    assertEquals("jsecurity-activeSessionCache", memorySessionDAO0.getActiveSessionsCacheName());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

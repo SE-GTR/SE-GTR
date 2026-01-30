@@ -1,0 +1,45 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/DemonstrationCurationService_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/DemonstrationCurationService_ESTest.java
+@@ -834,23 +834,23 @@
+       ArrayList<MacawChangeEvent> arrayList0 = demonstrationCurationService0.getChangeHistoryForVariable(user0, rawVariable0);
+       assertTrue(arrayList0.isEmpty());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test59()  throws Throwable  {
+-      DemonstrationCurationService demonstrationCurationService0 = new DemonstrationCurationService();
+-      InMemoryChangeEventManager inMemoryChangeEventManager0 = demonstrationCurationService0.changeEventManager;
+-      InMemorySupportingDocumentsManager inMemorySupportingDocumentsManager0 = new InMemorySupportingDocumentsManager(inMemoryChangeEventManager0);
+-      ArrayList<SupportingDocument> arrayList0 = inMemorySupportingDocumentsManager0.getAllSupportingDocuments((User) null);
+-      // Undeclared exception!
+-      try { 
+-        demonstrationCurationService0.deleteSupportingDocuments((User) null, arrayList0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("macaw.persistenceLayer.ChangeEventGenerator", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test59() throws Throwable {
++    DemonstrationCurationService service = new DemonstrationCurationService();
++    // Ensure the change event manager is initialized
++    if (service.changeEventManager == null) {
++        service.changeEventManager = new InMemoryChangeEventManager();
++    }
++    // Initialise the supporting documents manager with the (now) valid change event manager
++    service.supportingDocumentsManager = new InMemorySupportingDocumentsManager(service.changeEventManager);
++    // Create a non‑null user for the operation
++    User user = new User();
++    // Retrieve the (empty) list of supporting documents for this user
++    ArrayList<SupportingDocument> docs = service.supportingDocumentsManager.getAllSupportingDocuments(user);
++    // The method should execute without throwing an exception
++    service.deleteSupportingDocuments(user, docs);
++    // Verify that the supporting documents list remains empty after deletion
++    org.junit.Assert.assertTrue(service.supportingDocumentsManager.getAllSupportingDocuments(user).isEmpty());
+ }
++
++}

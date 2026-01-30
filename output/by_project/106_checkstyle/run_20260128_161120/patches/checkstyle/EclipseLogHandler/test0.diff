@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/util/EclipseLogHandler_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/util/EclipseLogHandler_ESTest.java
+@@ -16,19 +16,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class EclipseLogHandler_ESTest extends EclipseLogHandler_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() {
++        Plugin dummyPlugin = new Plugin() {
++            @Override
++            public void start(org.osgi.framework.BundleContext context) throws Exception {
++                // no-op
++            }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      EclipseLogHandler eclipseLogHandler0 = null;
+-      try {
+-        eclipseLogHandler0 = new EclipseLogHandler((Plugin) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.atlassw.tools.eclipse.checkstyle.util.EclipseLogHandler", e);
+-      }
+-  }
++            @Override
++            public void stop(org.osgi.framework.BundleContext context) throws Exception {
++                // no-op
++            }
++        };
++        EclipseLogHandler handler = new EclipseLogHandler(dummyPlugin);
++        assertNotNull(handler);
++    }
++
+ }

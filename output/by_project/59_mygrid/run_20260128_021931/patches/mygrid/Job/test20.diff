@@ -1,0 +1,37 @@
+--- a/evosuite-tests/mygrid/web/Job_ESTest.java
++++ b/evosuite-tests/mygrid/web/Job_ESTest.java
+@@ -323,17 +323,23 @@
+       assertTrue(job1.equals((Object) job0));
+       assertTrue(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      Job job0 = new Job();
+-      job0.setName("Wbh2/");
+-      Job job1 = new Job();
+-      boolean boolean0 = job1.equals(job0);
+-      assertFalse(boolean0);
+-      assertFalse(job0.equals((Object)job1));
+-  }
++@Test(timeout = 4000)
++public void test20() throws Throwable {
++    Job job0 = new Job();
++    // verify initial state (name should be null)
++    assertNull(job0.getName());
++    // act: set the name
++    job0.setName("Wbh2/");
++    // assert side‑effect of setName
++    assertEquals("Wbh2/", job0.getName());
++
++    Job job1 = new Job();
++    // job1 has default name (null), so it should not be equal to job0
++    boolean boolean0 = job1.equals(job0);
++    assertFalse(boolean0);
++    assertFalse(job0.equals((Object) job1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

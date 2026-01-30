@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache2_ESTest.java
+@@ -304,17 +304,26 @@
+       assertNotEquals(before, j2EECache2_1.getPuts());
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      J2EECache2 j2EECache2_0 = new J2EECache2();
+-      J2EECache2 j2EECache2_1 = new J2EECache2();
+-      j2EECache2_1.setUsedObjects((-674));
+-      boolean boolean0 = j2EECache2_0.equals(j2EECache2_1);
+-      assertEquals((-674), j2EECache2_1.getUsedObjects());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++  public void test15() throws Throwable {
++      J2EECache2 j2EECache2_0 = new J2EECache2();
++      J2EECache2 j2EECache2_1 = new J2EECache2();
++
++      // Observe the initial state before the side‑effect
++      int initialUsedObjects = j2EECache2_1.getUsedObjects();
++
++      // Side‑effect under test
++      j2EECache2_1.setUsedObjects(-674);
++
++      // Verify that the side‑effect actually changed the state
++      assertEquals(-674, j2EECache2_1.getUsedObjects());
++      assertNotEquals(initialUsedObjects, j2EECache2_1.getUsedObjects());
++
++      // Additional behavior verification
++      boolean boolean0 = j2EECache2_0.equals(j2EECache2_1);
++      assertFalse(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/quickserver/util/TextFile_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/TextFile_ESTest.java
+@@ -27,21 +27,15 @@
+       TextFile.write("org.quickserver.util.io.DirFileList", "org.quickserver.util.io.DirFileList");
+     textFile0 = new TextFile("org.quickserver.util.io.DirFileList");
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Read a known resource from the classpath to avoid external I/O dependencies.
++        String content = TextFile.read("org/quickserver/util/TextFile_ESTest.class", this);
++        assertNotNull("Content should not be null when reading an existing resource", content);
++        // Basic sanity check that the content resembles a Java class file representation.
++        assertTrue("Content should contain the word 'class'", content.contains("class"));
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      try { 
+-        TextFile.read("org.quickserver.util.io.DirFileList", (Object) "org.quickserver.util.io.DirFileList");
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Stream closed
+-         //
+-         verifyException("java.io.BufferedInputStream", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

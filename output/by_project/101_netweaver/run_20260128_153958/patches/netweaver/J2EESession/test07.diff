@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
+@@ -126,18 +126,28 @@
+         j2EESession2.setStartTime("differentStart");
+         assertFalse(j2EESession0.equals(j2EESession2));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      J2EESession j2EESession0 = new J2EESession();
+-      J2EESession j2EESession1 = new J2EESession();
+-      assertTrue(j2EESession1.equals((Object)j2EESession0));
+-      
+-      j2EESession1.setCorrupt("http://www.w3.org/2001/XMLSchema");
+-      boolean boolean0 = j2EESession0.equals(j2EESession1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    J2EESession j2EESession0 = new J2EESession();
++    J2EESession j2EESession1 = new J2EESession();
++    assertTrue(j2EESession1.equals((Object) j2EESession0));
++
++    // Verify initial state of the corrupt field
++    assertNull(j2EESession1.getCorrupt());
++    assertNull(j2EESession0.getCorrupt());
++
++    // Exercise the method under test
++    j2EESession1.setCorrupt("http://www.w3.org/2001/XMLSchema");
++
++    // Assert the side‑effect of setCorrupt
++    assertEquals("http://www.w3.org/2001/XMLSchema", j2EESession1.getCorrupt());
++    assertNull(j2EESession0.getCorrupt());
++
++    // Ensure the equality relationship reflects the change
++    boolean boolean0 = j2EESession0.equals(j2EESession1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

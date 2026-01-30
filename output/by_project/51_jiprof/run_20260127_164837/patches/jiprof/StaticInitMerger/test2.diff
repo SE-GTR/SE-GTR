@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/StaticInitMerger_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/StaticInitMerger_ESTest.java
+@@ -46,22 +46,25 @@
+     staticInitMerger0 = new StaticInitMerger(")i%GVQ;9F+]&x/Z+n", classWriter0);
+       staticInitMerger0.visitEnd();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
+     classWriter0 = new ClassWriter(0);
+     staticInitMerger0 = new StaticInitMerger(")i%GVQ;9F+]&x/Z+n", classWriter0);
+-      String[] stringArray0 = new String[5];
+-      stringArray0[0] = "1;(!k7C6Gr-US-=6Z";
+-      stringArray0[1] = "mMDTh";
+-      stringArray0[2] = "mMDTh";
+-      stringArray0[3] = "1;(!k7C6Gr-US-=6Z";
+-      stringArray0[4] = ")i%GVQ;9F+]&x/Z+n";
+-      staticInitMerger0.visit(184, 1300, "", "", ")i%GVQ;9F+]&x/Z+n", stringArray0);
+-      MethodVisitor methodVisitor0 = staticInitMerger0.visitMethod(184, "<clinit>", "", "mMDTh", stringArray0);
+-      MethodVisitor methodVisitor1 = staticInitMerger0.visitMethod(5, "<clinit>", "<clinit>", "org.yasl.jars.JarFileFilter", stringArray0);
+-      assertNotSame(methodVisitor1, methodVisitor0);
++    String[] stringArray0 = new String[5];
++    stringArray0[0] = "1;(!k7C6Gr-US-=6Z";
++    stringArray0[1] = "mMDTh";
++    stringArray0[2] = "mMDTh";
++    stringArray0[3] = "1;(!k7C6Gr-US-=6Z";
++    stringArray0[4] = ")i%GVQ;9F+]&x/Z+n";
++    staticInitMerger0.visit(184, 1300, "", "", ")i%GVQ;9F+]&x/Z+n", stringArray0);
++    MethodVisitor methodVisitor0 = staticInitMerger0.visitMethod(184, "<clinit>", "", "mMDTh", stringArray0);
++    MethodVisitor methodVisitor1 = staticInitMerger0.visitMethod(5, "<clinit>", "<clinit>", "org.yasl.jars.JarFileFilter", stringArray0);
++    assertNotSame(methodVisitor1, methodVisitor0);
++    // Verify that the visit call had a side‑effect on the underlying ClassWriter
++    byte[] classBytes = classWriter0.toByteArray();
++    assertTrue("ClassWriter should contain generated class data after visits", classBytes.length > 0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

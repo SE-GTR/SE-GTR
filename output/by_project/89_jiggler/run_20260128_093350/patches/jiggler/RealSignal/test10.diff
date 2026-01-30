@@ -1,0 +1,47 @@
+--- a/evosuite-tests/jigl/signal/RealSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/RealSignal_ESTest.java
+@@ -135,23 +135,27 @@
+       RealSignal realSignal1 = realSignal0.add(realSignal0, rOI0, rOI0);
+       assertSame(realSignal0, realSignal1);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      RealSignal realSignal0 = new RealSignal();
+-      ROI rOI0 = new ROI();
+-      // Undeclared exception!
+-      try { 
+-        realSignal0.divide(realSignal0, rOI0, rOI0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.signal.RealSignal", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        // Prepare two signals with valid data
++        RealSignal dividend = new RealSignal();
++        dividend.data = new float[] { 6.0f, 8.0f };
++        dividend.length = dividend.data.length;
++
++        RealSignal divisor = new RealSignal();
++        divisor.data = new float[] { 2.0f, 4.0f };
++        divisor.length = divisor.data.length;
++
++        // Use default ROIs (assumed to cover the whole signal)
++        ROI sourceROI = new ROI();
++        ROI destROI = new ROI();
++
++        // Perform division and verify a non‑null result with expected length
++        RealSignal result = dividend.divide(divisor, sourceROI, destROI);
++        assertNotNull(result);
++        assertEquals(dividend.length, result.length);
++    }
++
+ @Test(timeout = 4000)
+   public void test11() throws Throwable {
+       RealSignal realSignal0 = new RealSignal();

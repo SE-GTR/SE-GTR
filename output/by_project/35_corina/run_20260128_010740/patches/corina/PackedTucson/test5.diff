@@ -1,0 +1,45 @@
+--- a/evosuite-tests/corina/formats/PackedTucson_ESTest.java
++++ b/evosuite-tests/corina/formats/PackedTucson_ESTest.java
+@@ -125,24 +125,25 @@
+          verifyException("corina.formats.PackedTucson", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        packedTucson0 = new PackedTucson();
++        sample0 = new Sample();
++        LinkedList<Object> linkedList0 = new LinkedList<Object>();
++        boolean added = linkedList0.add((Object) sample0);
++        assertTrue(added);
++        assertEquals(1, linkedList0.size());
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    packedTucson0 = new PackedTucson();
+-    sample0 = new Sample();
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      linkedList0.add((Object) sample0);
+-      try { 
+-        packedTucson0.saveSamples(linkedList0, (BufferedWriter) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Invalid META ID in file null
+-         //
+-         verifyException("corina.formats.PackedTucson", e);
+-      }
+-  }
++        java.io.StringWriter stringWriter = new java.io.StringWriter();
++        java.io.BufferedWriter bufferedWriter = new java.io.BufferedWriter(stringWriter);
++        packedTucson0.saveSamples(linkedList0, bufferedWriter);
++        bufferedWriter.flush();
++
++        String output = stringWriter.toString();
++        assertNotNull(output);
++        assertFalse(output.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

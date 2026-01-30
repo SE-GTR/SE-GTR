@@ -1,0 +1,34 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/BuildingNameType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/BuildingNameType_ESTest.java
+@@ -76,17 +76,21 @@
+     assertEquals("oasis.names.tc.ciq.xsdschema.xal._2.BuildingNameType", buildingNameType0.getContent());
+     assertNull(buildingNameType0.getTypeOccurrence());
+ }
++public void test8() throws Throwable {
++    BuildingNameType nameA = new BuildingNameType();
++    nameA.setContent("Alpha");
++    BuildingNameType nameB = new BuildingNameType();
++    nameB.setContent("Alpha");
+ 
+-@Test(timeout = 4000)
+-    public void test8() throws Throwable {
+-        BuildingNameType buildingNameType0 = new BuildingNameType();
+-        buildingNameType0.setContent("Alpha");
+-        assertEquals("Alpha", buildingNameType0.getContent());
++    // Objects with identical content should be equal and share hash code
++    assertEquals(nameA, nameB);
++    assertEquals(nameA.hashCode(), nameB.hashCode());
+ 
+-        BuildingNameType buildingNameType1 = new BuildingNameType();
+-        buildingNameType1.setContent("Beta");
+-        assertNotEquals(buildingNameType0, buildingNameType1);
+-        assertNotEquals(buildingNameType0.hashCode(), buildingNameType1.hashCode());
+-    }
++    // Modifying one object's content should break equality and hash code consistency
++    nameB.setContent("Beta");
++    assertNotEquals(nameA, nameB);
++    assertNotEquals(nameA.hashCode(), nameB.hashCode());
++}
++
+ 
+ }

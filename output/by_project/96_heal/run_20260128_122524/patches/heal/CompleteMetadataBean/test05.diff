@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/heal/module/metadata/CompleteMetadataBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/CompleteMetadataBean_ESTest.java
+@@ -73,14 +73,19 @@
+       completeMetadataBean0.addFormat(formatBean0);
+       assertFalse(completeMetadataBean0.isCataloged());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test05() throws Throwable {
+       CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+       ArrayList<FormatBean> arrayList0 = new ArrayList<FormatBean>();
++      // Act: set the formats list (void method with side effect)
+       completeMetadataBean0.setFormats(arrayList0);
++      // Verify that the side effect is observable via the getter
++      assertNotNull(completeMetadataBean0.getFormats());
++      assertTrue(completeMetadataBean0.getFormats().isEmpty());
++      // Existing behavior check
+       assertFalse(completeMetadataBean0.isPrivate());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

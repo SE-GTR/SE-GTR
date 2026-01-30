@@ -1,0 +1,58 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/assembly/util/AbstractSliceMap_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/assembly/util/AbstractSliceMap_ESTest.java
+@@ -32,31 +32,39 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AbstractSliceMap_ESTest extends AbstractSliceMap_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       LinkedList<Slice> linkedList0 = new LinkedList<Slice>();
+       LinkedList<AceAssembledReadAdapter> linkedList1 = new LinkedList<AceAssembledReadAdapter>();
+       ListIterator<AceAssembledReadAdapter> listIterator0 = linkedList1.listIterator();
+-      CoverageRegion<AceAssembledReadAdapter> coverageRegion0 = (CoverageRegion<AceAssembledReadAdapter>) mock(CoverageRegion.class, new ViolatedAssumptionAnswer());
++      CoverageRegion<AceAssembledReadAdapter> coverageRegion0 = (CoverageRegion<AceAssembledReadAdapter>) mock(CoverageRegion.class,
++              new ViolatedAssumptionAnswer());
+       doReturn(listIterator0).when(coverageRegion0).iterator();
+       doReturn(246).when(coverageRegion0).getCoverageDepth();
+-      linkedList1.add((AceAssembledReadAdapter) null);
++      // assert the stubbed return values
++      Iterator<AceAssembledReadAdapter> iteratorResult = coverageRegion0.iterator();
++      assertNotNull(iteratorResult);
++      int depthResult = coverageRegion0.getCoverageDepth();
++      assertEquals(246, depthResult);
++      // assert the result of adding null to the list
++      boolean addResult = linkedList1.add((AceAssembledReadAdapter) null);
++      assertTrue(addResult);
+       DefaultSliceMap defaultSliceMap0 = new DefaultSliceMap(linkedList0);
+-      QualitySequenceDataStore qualitySequenceDataStore0 = mock(QualitySequenceDataStore.class, new ViolatedAssumptionAnswer());
++      QualitySequenceDataStore qualitySequenceDataStore0 = mock(QualitySequenceDataStore.class,
++              new ViolatedAssumptionAnswer());
+       GapQualityValueStrategy gapQualityValueStrategy0 = GapQualityValueStrategy.LOWEST_FLANKING;
+-      // Undeclared exception!
+-      try { 
+-        defaultSliceMap0.createSliceElementsFor(coverageRegion0, 246, qualitySequenceDataStore0, gapQualityValueStrategy0);
+-        fail("Expecting exception: ConcurrentModificationException");
+-      
+-      } catch(ConcurrentModificationException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.util.LinkedList$ListItr", e);
++      try {
++          defaultSliceMap0.createSliceElementsFor(coverageRegion0, 246, qualitySequenceDataStore0,
++                  gapQualityValueStrategy0);
++          fail("Expecting exception: ConcurrentModificationException");
++      } catch (ConcurrentModificationException e) {
++          //
++          // no message in exception (getMessage() returned null)
++          //
++          verifyException("java.util.LinkedList$ListItr", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

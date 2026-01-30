@@ -1,0 +1,36 @@
+--- a/evosuite-tests/visu/handball/moves/actions/AnimationModusAction_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/actions/AnimationModusAction_ESTest.java
+@@ -40,15 +40,25 @@
+       AnimationModusAction animationModusAction0 = new AnimationModusAction(handballModel0);
+       animationModusAction0.modelChanged();
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        // Arrange: set a known state
++        HandballModel.State expectedState = HandballModel.State.ANIMATION_RUNNING;
++        handballModel0.setState(expectedState);
++        assertEquals(expectedState, handballModel0.getState());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      HandballModel.State handballModel_State0 = HandballModel.State.ANIMATION_RUNNING;
+-      handballModel0.setState(handballModel_State0);
+-      handballModel0.addMoveEvent(moveEvent0);
+-      AnimationModusAction animationModusAction0 = new AnimationModusAction(handballModel0);
+-      animationModusAction0.modelChanged();
+-  }
++        // Act: add a move event and verify it is recorded
++        handballModel0.addMoveEvent(moveEvent0);
++        assertTrue(handballModel0.getMoveEvents().contains(moveEvent0));
++
++        // Create the action and trigger a model change
++        AnimationModusAction animationModusAction0 = new AnimationModusAction(handballModel0);
++        animationModusAction0.modelChanged();
++
++        // Assert: the action should be enabled when the model is in ANIMATION_RUNNING state
++        assertTrue(animationModusAction0.isEnabled());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

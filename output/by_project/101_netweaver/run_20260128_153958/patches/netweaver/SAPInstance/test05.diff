@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPInstance_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPInstance_ESTest.java
+@@ -106,18 +106,24 @@
+         boolean boolean0 = sAPInstance0.equals(sAPInstance1);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      SAPInstance sAPInstance0 = new SAPInstance();
+-      SAPInstance sAPInstance1 = new SAPInstance();
+-      assertTrue(sAPInstance1.equals((Object)sAPInstance0));
+-      
+-      sAPInstance1.setFeatures("+*imNFV&~|Q\"");
+-      boolean boolean0 = sAPInstance1.equals(sAPInstance0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    SAPInstance sAPInstance0 = new SAPInstance();
++    SAPInstance sAPInstance1 = new SAPInstance();
++    assertTrue(sAPInstance1.equals((Object) sAPInstance0));
++
++    // Verify initial features state (expected to be null)
++    assertNull(sAPInstance1.getFeatures());
++
++    String newFeatures = "+*imNFV&~|Q\"";
++    sAPInstance1.setFeatures(newFeatures);
++    // Observe the side‑effect of setFeatures
++    assertEquals(newFeatures, sAPInstance1.getFeatures());
++
++    // Changing features should affect equality
++    assertFalse(sAPInstance1.equals(sAPInstance0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

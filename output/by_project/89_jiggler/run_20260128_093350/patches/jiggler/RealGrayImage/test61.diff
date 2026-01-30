@@ -1,0 +1,72 @@
+--- a/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
+@@ -3849,45 +3849,30 @@
+     assertEquals(0, divided.X());
+     assertEquals(32767.0F, divided.min(), 0.01F);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test61()  throws Throwable  {
+-      int int0 = 0;
+-      int int1 = 850;
+-      RealGrayImage realGrayImage0 = new RealGrayImage(0, 850);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(850, realGrayImage0.Y());
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      
+-      String string0 = realGrayImage0.toString();
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(850, realGrayImage0.Y());
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals("0:850\n", string0);
+-      
+-      int int2 = 885;
+-      ImageProducer imageProducer0 = realGrayImage0.getJavaImage();
+-      assertNotNull(imageProducer0);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(850, realGrayImage0.Y());
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      
+-      // Undeclared exception!
+-      realGrayImage0.addbuffer(850, 885, 1399.0F);
+-  }
++@Test(timeout = 4000)
++public void test61() throws Throwable {
++    RealGrayImage realGrayImage0 = new RealGrayImage(0, 850);
++    // Verify initial state
++    assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
++    assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
++    assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
++    assertEquals(0, realGrayImage0.X());
++    assertEquals(850, realGrayImage0.Y());
++
++    // toString representation
++    String string0 = realGrayImage0.toString();
++    assertEquals("0:850\n", string0);
++
++    // Java image producer should be obtainable
++    ImageProducer imageProducer0 = realGrayImage0.getJavaImage();
++    assertNotNull(imageProducer0);
++
++    // addbuffer should return a non‑null RealGrayImage (typically the same instance)
++    RealGrayImage result = realGrayImage0.addbuffer(850, 885, 1399.0F);
++    assertNotNull(result);
++    assertSame(realGrayImage0, result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test62()  throws Throwable  {

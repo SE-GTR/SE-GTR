@@ -1,0 +1,50 @@
+--- a/evosuite-tests/visu/handball/moves/views/EventDrawer_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/views/EventDrawer_ESTest.java
+@@ -165,23 +165,30 @@
+     eventDrawer0.draw(g2d);
+     g2d.dispose();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Defender defender0 = new Defender((-4938), (-4938));
+-      PassEvent passEvent0 = new PassEvent(defender0, 0, 0);
+-      handballModel0.addMoveEvent(passEvent0);
+-      passEvent0.setMarked(true);
+-      passEvent0.setDestinationPoint(0, (-4938), false);
+-      ColorModel colorModel0 = new ColorModel();
+-      EventDrawer eventDrawer0 = new EventDrawer(handballModel0, colorModel0);
+-      Graphic graphic0 = new Graphic();
+-      PdfGraphics2D pdfGraphics2D0 = (PdfGraphics2D)graphic0.createGraphicsShapes((float) (-4938), (float) 1);
+-      eventDrawer0.draw(pdfGraphics2D0);
+-      assertEquals(1000, PdfGraphics2D.AFM_DIVISOR);
+-  }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    HandballModel handballModel0 = new HandballModel();
++    Defender defender0 = new Defender((-4938), (-4938));
++    PassEvent passEvent0 = new PassEvent(defender0, 0, 0);
++    handballModel0.addMoveEvent(passEvent0);
++    passEvent0.setMarked(true);
++    passEvent0.setDestinationPoint(0, (-4938), false);
++    ColorModel colorModel0 = new ColorModel();
++    EventDrawer eventDrawer0 = new EventDrawer(handballModel0, colorModel0);
++    Graphic graphic0 = new Graphic();
++    PdfGraphics2D pdfGraphics2D0 = (PdfGraphics2D) graphic0.createGraphicsShapes((float) (-4938), (float) 1);
++    eventDrawer0.draw(pdfGraphics2D0);
++    // Verify that the move event was added to the model
++    assertEquals(1, handballModel0.getMoveEvents().size());
++    assertTrue(handballModel0.getMoveEvents().contains(passEvent0));
++    // Verify that the event was marked
++    assertTrue(passEvent0.isMarked());
++    // Verify that the destination point was set correctly
++    MovePoint dest = passEvent0.getDestinationPoint();
++    assertEquals(0, dest.getX());
++    assertEquals(-4938, dest.getY());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

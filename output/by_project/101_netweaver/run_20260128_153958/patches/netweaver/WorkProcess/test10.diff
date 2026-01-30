@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -158,20 +158,27 @@
+     boolean boolean0 = workProcess1.equals(workProcess0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
+-      workProcess0.setClient("b");
+-      WorkProcess workProcess1 = new WorkProcess();
+-      assertFalse(workProcess1.equals((Object)workProcess0));
+-      
+-      workProcess1.setClient("b");
+-      boolean boolean0 = workProcess0.equals(workProcess1);
+-      assertTrue(workProcess1.equals((Object)workProcess0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        WorkProcess workProcess0 = new WorkProcess();
++        // Verify initial client state is null
++        assertNull(workProcess0.getClient());
++        workProcess0.setClient("b");
++        // Verify side‑effect of setClient
++        assertEquals("b", workProcess0.getClient());
++
++        WorkProcess workProcess1 = new WorkProcess();
++        assertFalse(workProcess1.equals((Object) workProcess0));
++
++        workProcess1.setClient("b");
++        // Verify side‑effect on the second instance
++        assertEquals("b", workProcess1.getClient());
++
++        boolean boolean0 = workProcess0.equals(workProcess1);
++        assertTrue(workProcess1.equals((Object) workProcess0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

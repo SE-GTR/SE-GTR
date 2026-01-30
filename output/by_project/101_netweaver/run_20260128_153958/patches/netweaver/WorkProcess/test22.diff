@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -363,18 +363,26 @@
+       boolean boolean0 = workProcess1.equals(workProcess0);
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
+-      WorkProcess workProcess1 = new WorkProcess();
+-      assertTrue(workProcess1.equals((Object)workProcess0));
+-      
+-      workProcess1.setErr("no");
+-      boolean boolean0 = workProcess1.equals(workProcess0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test22() throws Throwable {
++        WorkProcess workProcess0 = new WorkProcess();
++        WorkProcess workProcess1 = new WorkProcess();
++        assertTrue(workProcess1.equals((Object) workProcess0));
++
++        // Verify initial error state is null
++        assertNull(workProcess1.getErr());
++
++        workProcess1.setErr("no");
++
++        // Observe side‑effect of setErr
++        assertEquals("no", workProcess1.getErr());
++        // Ensure the other instance is unchanged
++        assertNull(workProcess0.getErr());
++
++        boolean boolean0 = workProcess1.equals(workProcess0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

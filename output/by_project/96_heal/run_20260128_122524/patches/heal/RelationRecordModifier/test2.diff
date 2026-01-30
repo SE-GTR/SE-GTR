@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/RelationRecordModifier_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/RelationRecordModifier_ESTest.java
+@@ -56,18 +56,20 @@
+       relationRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
+       assertFalse(completeMetadataBean0.isHidden());
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    RelationRecordModifier relationRecordModifier0 = new RelationRecordModifier();
++    CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn("-1", "-1", "-1", "-1", "-1").when(httpServletRequest0).getParameter(anyString());
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    relationRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
++    // Verify that the method attempted to read parameters from the request
++    verify(httpServletRequest0, atLeastOnce()).getParameter(anyString());
++    // Expect that fileName remains unset (null) when parameter values are "-1"
++    assertNull(completeMetadataBean0.getFileName());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    relationRecordModifier0 = new RelationRecordModifier();
+-    completeMetadataBean0 = new CompleteMetadataBean();
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("-1", "-1", "-1", "-1", "-1").when(httpServletRequest0).getParameter(anyString());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      relationRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
+-      relationRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
+-      assertNull(completeMetadataBean0.getFileName());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

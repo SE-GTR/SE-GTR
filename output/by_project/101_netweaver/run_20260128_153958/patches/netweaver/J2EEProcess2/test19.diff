@@ -1,0 +1,51 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess2_ESTest.java
+@@ -346,20 +346,34 @@
+       boolean boolean0 = j2EEProcess2_1.equals(j2EEProcess2_0);
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      J2EEProcess2 j2EEProcess2_0 = new J2EEProcess2();
+-      J2EEProcess2 j2EEProcess2_1 = new J2EEProcess2();
+-      j2EEProcess2_0.setStatetext("%Yam<UQ<*S");
+-      assertFalse(j2EEProcess2_0.equals((Object)j2EEProcess2_1));
+-      
+-      j2EEProcess2_1.setStatetext("%Yam<UQ<*S");
+-      boolean boolean0 = j2EEProcess2_1.equals(j2EEProcess2_0);
+-      assertTrue(j2EEProcess2_0.equals((Object)j2EEProcess2_1));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        J2EEProcess2 p0 = new J2EEProcess2();
++        J2EEProcess2 p1 = new J2EEProcess2();
++
++        // Verify initial state
++        assertNull(p0.getStatetext());
++        assertNull(p1.getStatetext());
++
++        String txt = "%Yam<UQ<*S";
++
++        // Exercise setStatetext and assert its effect on p0
++        p0.setStatetext(txt);
++        assertEquals(txt, p0.getStatetext());
++
++        // Equality before p1 is configured
++        assertFalse(p0.equals((Object) p1));
++
++        // Exercise setStatetext on p1 and assert its effect
++        p1.setStatetext(txt);
++        assertEquals(txt, p1.getStatetext());
++
++        // Equality after both have the same state text
++        boolean eq = p1.equals(p0);
++        assertTrue(p0.equals((Object) p1));
++        assertTrue(eq);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

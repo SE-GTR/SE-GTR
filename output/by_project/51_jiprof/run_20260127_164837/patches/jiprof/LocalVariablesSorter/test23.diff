@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/LocalVariablesSorter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/LocalVariablesSorter_ESTest.java
+@@ -290,23 +290,17 @@
+     public void test22() throws Throwable {
+         new LocalVariablesSorter(-1335, "KhCh}r;)I", (MethodVisitor) null);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      LocalVariablesSorter localVariablesSorter0 = new LocalVariablesSorter(5, "K)3*8-%hP,p_XIi7;U", (MethodVisitor) null);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        MethodVisitor mv = new MethodVisitor(Opcodes.ASM5) {
++        };
++        LocalVariablesSorter localVariablesSorter0 = new LocalVariablesSorter(5, "K)3*8-%hP,p_XIi7;U", mv);
++        // The method should execute without throwing a NullPointerException now that a valid MethodVisitor is provided.
+         localVariablesSorter0.visitMaxs(10, 0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.commons.LocalVariablesSorter", e);
+-      }
+-  }
++        // Verify that the object was created successfully and the call completed.
++        assertNotNull(localVariablesSorter0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

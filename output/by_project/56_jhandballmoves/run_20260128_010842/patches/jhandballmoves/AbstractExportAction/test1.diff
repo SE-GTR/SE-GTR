@@ -1,0 +1,34 @@
+--- a/evosuite-tests/visu/handball/moves/actions/AbstractExportAction_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/actions/AbstractExportAction_ESTest.java
+@@ -48,23 +48,16 @@
+          verifyException("visu.handball.moves.actions.AbstractExportAction", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     handballModel0 = new HandballModel();
+     printMoveAction0 = new PrintMoveAction(handballModel0);
+-      // Undeclared exception!
+-      try { 
+-        printMoveAction0.drawHeader((Graphics) null, 10, 10, 10);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("visu.handball.moves.actions.AbstractExportAction", e);
+-      }
+-  }
++    java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(100, 100, java.awt.image.BufferedImage.TYPE_INT_ARGB);
++    java.awt.Graphics2D g2d = img.createGraphics();
++    java.awt.Graphics2D result = printMoveAction0.drawHeader(g2d, 10, 10, 10);
++    org.junit.Assert.assertNotNull("drawHeader should return a Graphics2D instance", result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

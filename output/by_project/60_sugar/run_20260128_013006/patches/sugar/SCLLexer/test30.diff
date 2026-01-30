@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/sf/sugar/scl/SCLLexer_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/scl/SCLLexer_ESTest.java
+@@ -391,23 +391,21 @@
+         sCLLexer0.mTokens();
+         assertTrue(sCLLexer0.getCharPositionInLine() > 0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      ANTLRReaderStream aNTLRReaderStream0 = new ANTLRReaderStream();
++@Test(timeout = 4000)
++  public void test30() throws Throwable {
++      // Provide a minimal valid input (a single whitespace) to avoid setup‑related exceptions
++      java.io.StringReader stringReader = new java.io.StringReader(" ");
++      ANTLRReaderStream aNTLRReaderStream0 = new ANTLRReaderStream(stringReader);
+       SCLLexer sCLLexer0 = new SCLLexer(aNTLRReaderStream0);
+-      try { 
+-        sCLLexer0.mTokens();
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.sugar.scl.SCLLexer$DFA8", e);
+-      }
+-  }
++
++      // The lexer should process the input without throwing an exception
++      sCLLexer0.mTokens();
++
++      // After tokenisation the next token should be EOF
++      org.antlr.runtime.Token token = sCLLexer0.nextToken();
++      assertEquals(org.antlr.runtime.Token.EOF, token.getType());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

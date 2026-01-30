@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/petsoar/order/Order_ESTest.java
++++ b/evosuite-tests/org/petsoar/order/Order_ESTest.java
+@@ -102,15 +102,20 @@
+       order0.setBillingInfo((BillingInfo) null);
+       assertEquals("Pending", order0.getStatus());
+   }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        Order order0 = new Order();
++        // Verify initial state before setting shipment info
++        assertNull(order0.getShipmentInfo());
++        User user0 = new User();
++        ShipmentInfo shipmentInfo0 = new ShipmentInfo(user0);
++        order0.setShipmentInfo(shipmentInfo0);
++        // Observe the side‑effect of the setter
++        assertSame(shipmentInfo0, order0.getShipmentInfo());
++        // Ensure status remains the default pending value
++        assertEquals(Order.ORDER_STATUS_PENDING, order0.getStatus());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      Order order0 = new Order();
+-      User user0 = new User();
+-      ShipmentInfo shipmentInfo0 = new ShipmentInfo(user0);
+-      order0.setShipmentInfo(shipmentInfo0);
+-      assertEquals("Pending", order0.getStatus());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

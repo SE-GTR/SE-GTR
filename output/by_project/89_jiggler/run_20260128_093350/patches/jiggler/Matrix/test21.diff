@@ -1,0 +1,31 @@
+--- a/evosuite-tests/jigl/math/Matrix_ESTest.java
++++ b/evosuite-tests/jigl/math/Matrix_ESTest.java
+@@ -318,13 +318,22 @@
+          verifyException("jigl.math.Matrix", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test21() throws Throwable {
+       Matrix matrix0 = new Matrix(2, 2);
+-      Matrix matrix1 = matrix0.mult((double) 2);
+-      assertEquals(2, matrix1.nRows());
+-  }
++      // initialise matrix with known values
++      matrix0.mem[0][0] = 1.0;
++      matrix0.mem[0][1] = -3.5;
++      matrix0.mem[1][0] = 2.0;
++      matrix0.mem[1][1] = 0.0;
++      Matrix matrix1 = matrix0.mult(2.0);
++      // verify that each element was correctly multiplied by 2
++      assertEquals(2.0, matrix1.mem[0][0], 0.0);
++      assertEquals(-7.0, matrix1.mem[0][1], 0.0);
++      assertEquals(4.0, matrix1.mem[1][0], 0.0);
++      assertEquals(0.0, matrix1.mem[1][1], 0.0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/tos/Projekt_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/tos/Projekt_ESTest.java
+@@ -50,13 +50,21 @@
+       projekt0.setNaUID((Long) null);
+       assertNull(projekt0.getAnzahlNaResultate());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      Projekt projekt0 = new Projekt();
+-      Integer integer0 = projekt0.getProjektgruppeId();
+-      assertNull(integer0);
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        Projekt projekt0 = new Projekt();
++        // Act: serialize and deserialize the object
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(projekt0);
++        oos.flush();
++        byte[] serialized = baos.toByteArray();
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(serialized));
++        Projekt deserialized = (Projekt) ois.readObject();
++        // Assert: the deserialized object retains the default null value
++        assertNull(deserialized.getProjektgruppeId());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

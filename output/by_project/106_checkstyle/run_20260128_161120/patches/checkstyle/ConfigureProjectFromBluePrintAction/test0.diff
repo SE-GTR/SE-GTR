@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/actions/ConfigureProjectFromBluePrintAction_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/actions/ConfigureProjectFromBluePrintAction_ESTest.java
+@@ -18,14 +18,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ConfigureProjectFromBluePrintAction_ESTest extends ConfigureProjectFromBluePrintAction_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    ConfigureProjectFromBluePrintAction action = new ConfigureProjectFromBluePrintAction();
++    StructuredSelection selection = StructuredSelection.EMPTY;
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ConfigureProjectFromBluePrintAction configureProjectFromBluePrintAction0 = new ConfigureProjectFromBluePrintAction();
+-      StructuredSelection structuredSelection0 = StructuredSelection.EMPTY;
+-      configureProjectFromBluePrintAction0.selectionChanged((IAction) null, structuredSelection0);
+-      assertEquals(0, structuredSelection0.size());
+-  }
++    // Verify initial state (no projects selected)
++    java.util.Collection<?> before = action.getSelectedProjects();
++    assertTrue(before == null || before.isEmpty());
++
++    // Invoke the method under test
++    action.selectionChanged(null, selection);
++
++    // Verify that the side‑effect (selected projects) is observed correctly
++    java.util.Collection<?> after = action.getSelectedProjects();
++    assertNotNull(after);
++    assertTrue(after.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

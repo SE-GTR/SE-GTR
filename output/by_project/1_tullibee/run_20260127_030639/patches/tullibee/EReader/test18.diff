@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/ib/client/EReader_ESTest.java
++++ b/evosuite-tests/com/ib/client/EReader_ESTest.java
+@@ -286,23 +286,17 @@
+     EReader eReader0 = new EReader(dataInputStream0, null, 53);
+     eReader0.processMsg(53);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      DataInputStream dataInputStream0 = new DataInputStream((InputStream) null);
+-      EReader eReader0 = new EReader(dataInputStream0, (EWrapper) null, 34);
+-      // Undeclared exception!
+-      try { 
+-        eReader0.processMsg((byte)51);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test18() throws Throwable {
++        java.io.DataInputStream dataInputStream0 = new java.io.DataInputStream(
++                new java.io.ByteArrayInputStream(new byte[0]));
++        com.ib.client.EWrapper wrapper = org.mockito.Mockito.mock(com.ib.client.EWrapper.class);
++        com.ib.client.EReader eReader0 = new com.ib.client.EReader(dataInputStream0, wrapper, 34);
++        // Use a message id that is not handled to verify normal execution without exceptions
++        boolean processed = eReader0.processMsg(0);
++        org.junit.Assert.assertFalse("Unexpected processing of unknown message id", processed);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

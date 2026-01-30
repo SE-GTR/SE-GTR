@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
+@@ -86,14 +86,18 @@
+       nonBlockingClientHandler0.returnThread();
+       assertEquals(98, nonBlockingClientHandler0.getThreadAccessCount());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-    nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      nonBlockingClientHandler0.returnThread();
+-      nonBlockingClientHandler0.returnClientHandler();
+-      assertEquals((-1), nonBlockingClientHandler0.getThreadAccessCount());
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    nonBlockingClientHandler0 = new NonBlockingClientHandler();
++    int before = nonBlockingClientHandler0.getThreadAccessCount();
++    nonBlockingClientHandler0.returnThread();
++    int afterReturnThread = nonBlockingClientHandler0.getThreadAccessCount();
++    assertEquals(before - 1, afterReturnThread);
++    nonBlockingClientHandler0.returnClientHandler();
++    int afterReturnClient = nonBlockingClientHandler0.getThreadAccessCount();
++    assertEquals(afterReturnThread, afterReturnClient);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
+@@ -316,26 +316,19 @@
+          verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      CopyrightHolderBean copyrightHolderBean0 = new CopyrightHolderBean();
+-      copyrightHolderBean0.setVCard("package");
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      completeMetadataBean0.addCopyrightHolder(copyrightHolderBean0);
+-      completeMetadataBean0.setLocation("thumbnails");
+-      try { 
+-        HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, (OutputStream) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // javax.xml.transform.TransformerException: Result object passed to ''{0}'' is invalid.
+-         //
+-         verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test21() throws Throwable {
++    FileLocator fileLocator0 = new FileLocator();
++    CopyrightHolderBean copyrightHolderBean0 = new CopyrightHolderBean();
++    copyrightHolderBean0.setVCard("package");
++    CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++    completeMetadataBean0.addCopyrightHolder(copyrightHolderBean0);
++    completeMetadataBean0.setLocation("thumbnails");
++    java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
++    HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, out);
++    org.junit.Assert.assertTrue("Output should not be empty", out.size() > 0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

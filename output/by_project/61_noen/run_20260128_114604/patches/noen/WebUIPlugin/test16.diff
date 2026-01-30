@@ -1,0 +1,32 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
+@@ -227,15 +227,20 @@
+       BundleContext bundleContext1 = webUIPlugin0.getBundleContext();
+       assertSame(bundleContext1, bundleContext0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      ServiceReference[] serviceReferenceArray0 = new ServiceReference[8];
+-    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) serviceReferenceArray0, (Object) serviceReferenceArray0, (Object) serviceReferenceArray0).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-    webUIPlugin0 = new WebUIPlugin(bundleContext0);
+-      webUIPlugin0.setRegistry((RegistryPlugin) null);
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        ServiceReference[] serviceReferenceArray0 = new ServiceReference[8];
++        bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++        doReturn((Object) serviceReferenceArray0, (Object) serviceReferenceArray0, (Object) serviceReferenceArray0)
++                .when(bundleContext0).getServiceReferences(anyString(), anyString());
++        // Capture the return value and assert its properties
++        ServiceReference[] returnedRefs = bundleContext0.getServiceReferences("", "");
++        assertNotNull(returnedRefs);
++        assertEquals(8, returnedRefs.length);
++        webUIPlugin0 = new WebUIPlugin(bundleContext0);
++        webUIPlugin0.setRegistry((RegistryPlugin) null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

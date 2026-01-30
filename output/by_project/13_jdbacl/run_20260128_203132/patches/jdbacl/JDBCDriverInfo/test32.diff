@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/databene/jdbacl/JDBCDriverInfo_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/JDBCDriverInfo_ESTest.java
+@@ -243,14 +243,23 @@
+         JDBCDriverInfo info2 = JDBCDriverInfo.getInstance("IBM-865");
+         assertSame(info1, info2);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
+-      JDBCDriverInfo jDBCDriverInfo0 = new JDBCDriverInfo("L,#ge=vi9kAU", "L,#ge=vi9kAU", "L,#ge=vi9kAU");
+-      String string0 = jDBCDriverInfo0.getUrlPattern();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++    public void test32() throws Throwable {
++        JDBCDriverInfo original = new JDBCDriverInfo("L,#ge=vi9kAU", "L,#ge=vi9kAU", "L,#ge=vi9kAU");
++        // Serialize the instance
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(original);
++        oos.flush();
++        byte[] data = baos.toByteArray();
++        // Deserialize to a new instance
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++        JDBCDriverInfo copy = (JDBCDriverInfo) ois.readObject();
++        // Verify that a distinct object was created and its state is preserved
++        assertNotSame(original, copy);
++        assertNull(copy.getUrlPattern());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test33()  throws Throwable  {

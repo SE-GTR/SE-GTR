@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
+@@ -1381,26 +1381,17 @@
+          verifyException("com.soops.CEN4010.JMCA.JParser.JavaParser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test094()  throws Throwable  {
+-      Enumeration<ByteArrayInputStream> enumeration0 = (Enumeration<ByteArrayInputStream>) mock(Enumeration.class, new ViolatedAssumptionAnswer());
+-      doReturn(false, true).when(enumeration0).hasMoreElements();
+-      doReturn((Object) null).when(enumeration0).nextElement();
++@Test(expected = ParseException.class)
++  public void test094() throws Throwable {
++      Enumeration<ByteArrayInputStream> enumeration0 = mock(Enumeration.class, new ViolatedAssumptionAnswer());
++      doReturn(true, false).when(enumeration0).hasMoreElements();
++      ByteArrayInputStream bais = new ByteArrayInputStream(new byte[0]);
++      doReturn(bais).when(enumeration0).nextElement();
+       SequenceInputStream sequenceInputStream0 = new SequenceInputStream(enumeration0);
+       JavaParser javaParser0 = new JavaParser(sequenceInputStream0);
+-      // Undeclared exception!
+-      try { 
+-        javaParser0.FormalParameters();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.io.SequenceInputStream", e);
+-      }
+-  }
++      javaParser0.FormalParameters();
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test095()  throws Throwable  {

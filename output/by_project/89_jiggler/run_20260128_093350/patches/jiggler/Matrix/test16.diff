@@ -1,0 +1,37 @@
+--- a/evosuite-tests/jigl/math/Matrix_ESTest.java
++++ b/evosuite-tests/jigl/math/Matrix_ESTest.java
+@@ -232,22 +232,18 @@
+          verifyException("jigl.math.Matrix", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      double[][] doubleArray0 = new double[1][2];
+-      Matrix matrix0 = new Matrix(doubleArray0);
+-      try { 
+-        matrix0.gaussj(matrix0);
+-        fail("Expecting exception: ArithmeticException");
+-      
+-      } catch(ArithmeticException e) {
+-         //
+-         // Matrix is not a square matrix
+-         //
+-         verifyException("jigl.math.Matrix", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    double[][] a = {{1, 2}, {3, 4}};
++    double[][] b = {{1, 0}, {0, 1}};
++    Matrix m = new Matrix(a);
++    Matrix n = new Matrix(b);
++    Matrix result = m.gaussj(n);
++    assertNotNull(result);
++    assertEquals(2, result.mem.length);
++    assertEquals(2, result.mem[0].length);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

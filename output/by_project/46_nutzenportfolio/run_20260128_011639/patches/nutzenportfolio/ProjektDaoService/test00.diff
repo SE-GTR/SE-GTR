@@ -1,0 +1,41 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/projekt/ProjektDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/projekt/ProjektDaoService_ESTest.java
+@@ -25,27 +25,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ProjektDaoService_ESTest extends ProjektDaoService_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      ProjektIbatisDao projektIbatisDao0 = new ProjektIbatisDao();
+-      NaOpNuIbatisDao naOpNuIbatisDao0 = new NaOpNuIbatisDao();
+-      ProjektDaoService projektDaoService0 = new ProjektDaoService(projektIbatisDao0, (ProjektgruppeService) null, naOpNuIbatisDao0);
+-      Projekt projekt0 = new Projekt();
+-      Integer integer0 = new Integer(0);
+-      projekt0.setProjektId(integer0);
+-      // Undeclared exception!
+-      try { 
+-        projektDaoService0.save((HttpServletRequest) null, projekt0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = IllegalArgumentException.class)
++public void test00() throws Throwable {
++    ProjektIbatisDao projektIbatisDao0 = new ProjektIbatisDao();
++    NaOpNuIbatisDao naOpNuIbatisDao0 = new NaOpNuIbatisDao();
++    ProjektDaoService projektDaoService0 = new ProjektDaoService(projektIbatisDao0, (ProjektgruppeService) null, naOpNuIbatisDao0);
++    Projekt projekt0 = new Projekt();
++    Integer integer0 = Integer.valueOf(0);
++    projekt0.setProjektId(integer0);
++    projektDaoService0.save((HttpServletRequest) null, projekt0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

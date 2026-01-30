@@ -1,0 +1,33 @@
+--- a/evosuite-tests/br/com/jnfe/base/CST_Grupo_ESTest.java
++++ b/evosuite-tests/br/com/jnfe/base/CST_Grupo_ESTest.java
+@@ -44,14 +44,24 @@
+ public void test3() throws Throwable {
+     assertFalse(CST_Grupo._10.isSimplesNacional());
+ }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    // Verify that the _40 group is exempt
++    CST_Grupo cST_Grupo0 = CST_Grupo._40;
++    assertTrue(cST_Grupo0.isIsento());
+ 
++    // Find another group that is not exempt and verify its behavior
++    CST_Grupo nonExempt = null;
++    for (CST_Grupo g : CST_Grupo.values()) {
++        if (!g.isIsento()) {
++            nonExempt = g;
++            break;
++        }
++    }
++    assertNotNull("Expected at least one non‑exempt group", nonExempt);
++    assertFalse(nonExempt.isIsento());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      CST_Grupo cST_Grupo0 = CST_Grupo._40;
+-      boolean boolean0 = cST_Grupo0.isIsento();
+-      assertTrue(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

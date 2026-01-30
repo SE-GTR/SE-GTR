@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/quickserver/net/client/HostList_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/HostList_ESTest.java
+@@ -24,14 +24,27 @@
+     hostList0 = new HostList("; Status:");
+     host0 = new Host();
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Observe initial state of the list
++        int beforeSize = hostList0.getFullList().size();
+ 
++        // Act: change host name and add to list
++        host0.setName("{H?C*Qk<!F&FKs1");
++        hostList0.add(host0);
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      host0.setName("{H?C*Qk<!F&FKs1");
+-      hostList0.add(host0);
+-      assertEquals(10000, host0.getTimeout());
+-  }
++        // Assert side effects of setName
++        assertEquals("{H?C*Qk<!F&FKs1", host0.getName());
++
++        // Assert side effects of add
++        int afterSize = hostList0.getFullList().size();
++        assertEquals(beforeSize + 1, afterSize);
++        assertTrue(hostList0.getFullList().contains(host0));
++
++        // Existing assertion retained
++        assertEquals(10000, host0.getTimeout());
++    }
++
+ @Test(timeout = 4000)
+ public void test1() throws Throwable {
+     HostList hostList0 = new HostList("wz[*:^vs{,ar tOWiR");

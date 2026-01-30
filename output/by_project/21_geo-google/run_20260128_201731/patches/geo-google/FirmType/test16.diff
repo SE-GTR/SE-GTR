@@ -1,0 +1,25 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/FirmType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/FirmType_ESTest.java
+@@ -188,10 +188,21 @@
+ @Test(timeout = 4000)
+ public void test16() throws Throwable {
+     FirmType firmType0 = new FirmType();
+-    firmType0.setMailStop((MailStopType) null);
++    // Verify default state
+     assertNull(firmType0.getMailStop());
+     assertNull(firmType0.getType());
++
++    // Explicitly set mailStop to null and verify
++    firmType0.setMailStop(null);
++    assertNull(firmType0.getMailStop());
++
++    // Exercise non‑trivial behavior: manipulate the live addressLine list
++    AddressLine addressLine = new AddressLine();
++    firmType0.getAddressLine().add(addressLine);
++    assertEquals(1, firmType0.getAddressLine().size());
++    assertSame(addressLine, firmType0.getAddressLine().get(0));
+ }
++
+ 
+ @Test(timeout = 4000)
+   public void test17() throws Throwable {

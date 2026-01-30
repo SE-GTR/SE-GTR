@@ -1,0 +1,34 @@
+--- a/evosuite-tests/corina/site/Site_ESTest.java
++++ b/evosuite-tests/corina/site/Site_ESTest.java
+@@ -215,16 +215,21 @@
+       site0.setTypes(booleanArray0);
+       assertEquals("4", site0.getTypeString());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      Site site0 = new Site();
+-      boolean[] booleanArray0 = new boolean[5];
+-      booleanArray0[2] = true;
+-      site0.setTypes(booleanArray0);
+-      site0.getSiteColor();
+-      assertTrue(site0.isForest());
+-  }
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        Site site0 = new Site();
++        // Verify initial state before setting types
++        assertFalse(site0.isForest());
++        boolean[] booleanArray0 = new boolean[5];
++        booleanArray0[2] = true;
++        site0.setTypes(booleanArray0);
++        // Verify side‑effect of setTypes
++        assertTrue(site0.isForest());
++        // Observe return value of getSiteColor
++        java.awt.Color color = site0.getSiteColor();
++        assertNotNull(color);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

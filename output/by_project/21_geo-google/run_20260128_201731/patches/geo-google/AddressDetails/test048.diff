@@ -1,0 +1,32 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -499,13 +499,25 @@
+     AddressDetails.PostalServiceElements.EndorsementLineCode endorsementLineCode = new AddressDetails.PostalServiceElements.EndorsementLineCode();
+     // initial state should have no type set
+     assertNull(endorsementLineCode.getType());
++
+     // set a type value and verify the side‑effect
+-    String expectedType = "KQ^ar@^";
+-    endorsementLineCode.setType(expectedType);
+-    assertEquals(expectedType, endorsementLineCode.getType());
+-    // existing assertion for code field
++    String firstType = "KQ^ar@^";
++    endorsementLineCode.setType(firstType);
++    assertEquals(firstType, endorsementLineCode.getType());
++
++    // change to a different type and verify the update
++    String secondType = "AnotherType";
++    endorsementLineCode.setType(secondType);
++    assertEquals(secondType, endorsementLineCode.getType());
++
++    // reset the type to null and verify it is cleared
++    endorsementLineCode.setType(null);
++    assertNull(endorsementLineCode.getType());
++
++    // existing assertion for code field remains unchanged
+     assertNull(endorsementLineCode.getCode());
+ }
++
+ @Test(timeout = 4000)
+ public void test049() throws Throwable {
+     AddressDetails.PostalServiceElements.EndorsementLineCode code = new AddressDetails.PostalServiceElements.EndorsementLineCode();

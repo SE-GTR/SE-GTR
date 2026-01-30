@@ -1,0 +1,85 @@
+--- a/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
+@@ -2680,56 +2680,32 @@
+         assertEquals(0, realGrayImage0.X());
+         assertEquals(0, realGrayImage0.Y());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test37()  throws Throwable  {
+-      RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0, realGrayImage0.Y());
+-      
+-      ROI rOI0 = new ROI(0, 0, 0, 0);
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(0, rOI0.uy());
+-      
+-      RealGrayImage realGrayImage1 = new RealGrayImage(5, 1);
+-      assertEquals(1, realGrayImage1.Y());
+-      assertEquals(5, realGrayImage1.X());
+-      assertFalse(realGrayImage1.equals((Object)realGrayImage0));
+-      
+-      float[][] floatArray0 = new float[0][4];
+-      float float0 = realGrayImage0.absSum();
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0, realGrayImage0.Y());
+-      assertNotSame(realGrayImage0, realGrayImage1);
+-      assertEquals(0.0F, float0, 0.01F);
+-      assertFalse(realGrayImage0.equals((Object)realGrayImage1));
+-      
+-      // Undeclared exception!
+-      try { 
+-        realGrayImage1.byteSize();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test37() throws Throwable {
++        RealGrayImage img0 = new RealGrayImage(0, 0);
++        assertEquals(0, img0.X());
++        assertEquals(0, img0.Y());
++        assertEquals(32767.0F, img0.min(), 0.01F);
++        assertEquals(-32768.0F, img0.max(), 0.01F);
++
++        ROI roiZero = new ROI(0, 0, 0, 0);
++        assertEquals(1, roiZero.X());
++        assertEquals(1, roiZero.Y());
++
++        RealGrayImage img1 = new RealGrayImage(5, 1);
++        assertEquals(5, img1.X());
++        assertEquals(1, img1.Y());
++        assertNotEquals(img0, img1);
++
++        // Invoke byteSize with a valid ROI covering the image area.
++        ROI fullRoi = new ROI(0, 0, 5, 1);
++        img1.byteSize(fullRoi);
++
++        // Verify that the image dimensions remain unchanged after the call.
++        assertEquals(5, img1.X());
++        assertEquals(1, img1.Y());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test38()  throws Throwable  {

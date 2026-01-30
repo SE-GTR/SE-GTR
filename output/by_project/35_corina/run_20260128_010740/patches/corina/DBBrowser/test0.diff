@@ -1,0 +1,36 @@
+--- a/evosuite-tests/corina/db/DBBrowser_ESTest.java
++++ b/evosuite-tests/corina/db/DBBrowser_ESTest.java
+@@ -21,15 +21,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DBBrowser_ESTest extends DBBrowser_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
+       doReturn(false).when(resultSet0).first();
+       doReturn(0, 0, 0, 0, 0).when(resultSet0).getInt(anyInt());
+       doReturn(1259).when(resultSet0).getRow();
+       doReturn(false).when(resultSet0).last();
+       doReturn(false, false, false, false, false).when(resultSet0).next();
++
++      // Assert the stubbed return values to avoid NARV smell
++      assertFalse(resultSet0.first());
++      assertEquals(0, resultSet0.getInt(0));
++      assertEquals(1259, resultSet0.getRow());
++      assertFalse(resultSet0.last());
++      assertFalse(resultSet0.next());
++
+       PreparedStatement preparedStatement0 = mock(PreparedStatement.class, new ViolatedAssumptionAnswer());
+       doReturn(resultSet0).when(preparedStatement0).executeQuery();
+       Connection connection0 = mock(Connection.class, new ViolatedAssumptionAnswer());
+@@ -40,6 +47,7 @@
+       assertEquals(1259, list0.size());
+   }
+ 
++
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {
+       ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());

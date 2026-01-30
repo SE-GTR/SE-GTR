@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ShoppingCart_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ShoppingCart_ESTest.java
+@@ -130,16 +130,22 @@
+     Item item0 = shoppingCart0.getItem("HMAC = null\nPurchase URL = null\nCartId = null\nitems = \n");
+     assertNull(item0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-    shoppingCart0 = new ShoppingCart();
+-    items0 = new Items();
+-      shoppingCart0.setItems(items0);
+-      Item item0 = shoppingCart0.getItem("HMAC = null\nPurchase URL = null\nCartId = null\nitems = Asin = null\nName = null\nquantity = null\n\n");
+-      assertNull(item0);
+-  }
++@Test(timeout = 4000)
++  public void test07() throws Throwable {
++    shoppingCart0 = new ShoppingCart();
++    items0 = new Items();
++    // Verify initial state
++    assertNull(shoppingCart0.getItems());
++    // Act
++    shoppingCart0.setItems(items0);
++    // Observe side‑effect of setItems
++    assertSame(items0, shoppingCart0.getItems());
++    // Existing behavior check
++    Item item0 = shoppingCart0.getItem(
++        "HMAC = null\nPurchase URL = null\nCartId = null\nitems = Asin = null\nName = null\nquantity = null\n\n");
++    assertNull(item0);
++  }
++
+ @Test(timeout = 4000)
+ public void test08() throws Throwable {
+     shoppingCart0 = new ShoppingCart();

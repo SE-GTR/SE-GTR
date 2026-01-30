@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/Database_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/Database_ESTest.java
+@@ -171,18 +171,23 @@
+         assertFalse(boolean0);
+         assertFalse(database0.equals((Object) database1));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      Database database0 = new Database();
+-      Property[] propertyArray0 = new Property[1];
+-      database0.setMDatabase(propertyArray0);
+-      Database database1 = new Database();
+-      boolean boolean0 = database1.equals(database0);
+-      assertFalse(boolean0);
+-      assertFalse(database0.equals((Object)database1));
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        Database database0 = new Database();
++        Property[] propertyArray0 = new Property[1];
++        // Verify initial state before setting
++        assertNull(database0.getMDatabase());
++        // Act: set the database property array
++        database0.setMDatabase(propertyArray0);
++        // Assert that the side‑effect is observable via the getter
++        assertSame(propertyArray0, database0.getMDatabase());
++        // Existing behavior checks
++        Database database1 = new Database();
++        boolean boolean0 = database1.equals(database0);
++        assertFalse(boolean0);
++        assertFalse(database0.equals((Object) database1));
++    }
++
+ @Test(timeout = 4000)
+     public void test13() throws Throwable {
+         TypeDesc typeDesc0 = Database.getTypeDesc();

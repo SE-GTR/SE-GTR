@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
+@@ -787,21 +787,16 @@
+          verifyException("com.soops.CEN4010.JMCA.JParser.JavaParser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test052()  throws Throwable  {
+-      JavaParser javaParser0 = new JavaParser((Reader) null);
+-      // Undeclared exception!
+-      try { 
+-        javaParser0.AllocationExpression();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
++@Test(timeout = 4000)
++public void test052() throws Throwable {
++    // Provide a minimal valid input for AllocationExpression parsing
++    String source = "new int[5]";
++    JavaParser javaParser0 = new JavaParser(new java.io.StringReader(source));
++    // The method should parse without throwing an exception
++    javaParser0.AllocationExpression();
++    // Successful execution indicates the parser handles a valid allocation expression
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test053()  throws Throwable  {

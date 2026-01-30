@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
+@@ -141,19 +141,28 @@
+       assertEquals(1, iCMConnection1.getNihdl());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      ICMConnection iCMConnection0 = new ICMConnection();
++@Test(timeout = 4000)
++  public void test08() throws Throwable {
++      ICMConnection iCMConnection0 = new ICMConnection();
++      // Verify initial state
++      assertNull(iCMConnection0.getConnectionTime());
++      // Apply side‑effect and assert it
+       iCMConnection0.setConnectionTime(">K");
+-      ICMConnection iCMConnection1 = new ICMConnection();
+-      assertFalse(iCMConnection1.equals((Object)iCMConnection0));
+-      
++      assertEquals(">K", iCMConnection0.getConnectionTime());
++
++      ICMConnection iCMConnection1 = new ICMConnection();
++      assertFalse(iCMConnection1.equals((Object) iCMConnection0));
++
++      // Apply same side‑effect to second instance and verify
+       iCMConnection1.setConnectionTime(">K");
+-      boolean boolean0 = iCMConnection0.equals(iCMConnection1);
+-      assertTrue(iCMConnection1.equals((Object)iCMConnection0));
+-      assertTrue(boolean0);
+-  }
++      assertEquals(">K", iCMConnection1.getConnectionTime());
++
++      // Equality should now hold
++      boolean boolean0 = iCMConnection0.equals(iCMConnection1);
++      assertTrue(iCMConnection1.equals((Object) iCMConnection0));
++      assertTrue(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

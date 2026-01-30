@@ -1,0 +1,39 @@
+--- a/evosuite-tests/de/paragon/explorer/util/StandardEnumerator_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/util/StandardEnumerator_ESTest.java
+@@ -36,17 +36,26 @@
+          verifyException("de.paragon.explorer.util.ResourceBundleManager", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        StandardEnumerator standardEnumerator0 = new StandardEnumerator();
++        Stack<DefaultTableModel> stack0 = new Stack<DefaultTableModel>();
++        DefaultTableModel defaultTableModel0 = new DefaultTableModel(stack0, 100);
++        int sizeBefore = stack0.size();
++        boolean added = stack0.add(defaultTableModel0);
++        assertTrue(added);
++        assertEquals(sizeBefore + 1, stack0.size());
++        standardEnumerator0.setVector(stack0);
++        Object object0 = standardEnumerator0.nextElement();
++        assertSame(defaultTableModel0, object0);
++        try {
++            standardEnumerator0.nextElement();
++            fail("Expected NoSuchElementException");
++        } catch (java.util.NoSuchElementException e) {
++            // expected
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      StandardEnumerator standardEnumerator0 = new StandardEnumerator();
+-      Stack<DefaultTableModel> stack0 = new Stack<DefaultTableModel>();
+-      DefaultTableModel defaultTableModel0 = new DefaultTableModel(stack0, 100);
+-      stack0.add(defaultTableModel0);
+-      standardEnumerator0.setVector(stack0);
+-      Object object0 = standardEnumerator0.nextElement();
+-      assertSame(object0, defaultTableModel0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

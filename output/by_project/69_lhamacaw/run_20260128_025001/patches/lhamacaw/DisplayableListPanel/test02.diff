@@ -1,0 +1,38 @@
+--- a/evosuite-tests/macaw/util/DisplayableListPanel_ESTest.java
++++ b/evosuite-tests/macaw/util/DisplayableListPanel_ESTest.java
+@@ -54,19 +54,22 @@
+       // Verify that the list passed to the panel is not empty
+       assertFalse(arrayList0.isEmpty());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      SessionProperties sessionProperties0 = new SessionProperties();
+-      User user0 = new User();
+-      sessionProperties0.setProperty("currentUser", user0);
+-      ArrayList<Displayable> arrayList0 = new ArrayList<Displayable>();
+-      arrayList0.add((Displayable) user0);
+-      DisplayableListPanel displayableListPanel0 = new DisplayableListPanel(sessionProperties0, (DisplayableListParentForm) null, "startupOptions", true, false);
+-      displayableListPanel0.setDisplayableItems(arrayList0);
+-      assertFalse(arrayList0.isEmpty());
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        SessionProperties sessionProperties0 = new SessionProperties();
++        User user0 = new User();
++        sessionProperties0.setProperty("currentUser", user0);
++        ArrayList<Displayable> arrayList0 = new ArrayList<Displayable>();
++        arrayList0.add(user0);
++        DisplayableListPanel displayableListPanel0 = new DisplayableListPanel(sessionProperties0, null, "startupOptions", true, false);
++        int expectedSize = arrayList0.size();
++        displayableListPanel0.setDisplayableItems(arrayList0);
++        // Verify that the panel now holds the same number of items that were supplied
++        assertEquals(expectedSize, displayableListPanel0.getDisplayableItems().size());
++        // Original sanity check that the source list is not empty
++        assertFalse(arrayList0.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

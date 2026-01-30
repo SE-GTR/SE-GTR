@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/chromat/scf/ScfChromatogramBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/chromat/scf/ScfChromatogramBuilder_ESTest.java
+@@ -110,13 +110,16 @@
+     shortArray0 = scfChromatogramBuilder0.tPositions();
+       assertArrayEquals(new short[] {}, shortArray0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-    scfChromatogramBuilder0 = new ScfChromatogramBuilder("|H:6OQjL$c '");
+-      QualitySequence qualitySequence0 = scfChromatogramBuilder0.substitutionConfidence();
+-      assertNull(qualitySequence0);
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    ScfChromatogramBuilder builder = new ScfChromatogramBuilder("|H:6OQjL$c '");
++    byte[] confidence = new byte[] { 10, 20, 30 };
++    builder.substitutionConfidence(confidence);
++    QualitySequence qs = builder.substitutionConfidence();
++    assertNotNull(qs);
++    assertEquals(confidence.length, qs.getLength());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

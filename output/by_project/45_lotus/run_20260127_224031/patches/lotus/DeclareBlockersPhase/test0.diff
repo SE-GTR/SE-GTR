@@ -1,0 +1,40 @@
+--- a/evosuite-tests/lotus/core/phases/DeclareBlockersPhase_ESTest.java
++++ b/evosuite-tests/lotus/core/phases/DeclareBlockersPhase_ESTest.java
+@@ -21,24 +21,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DeclareBlockersPhase_ESTest extends DeclareBlockersPhase_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    Player player0 = mock(Player.class);
++    Player player1 = mock(Player.class);
++    Combat combat0 = new Combat(player0, player1);
++    Creature creature0 = mock(Creature.class, new ViolatedAssumptionAnswer());
++    boolean added = combat0.attackingCreatures.add(creature0);
++    assertTrue(added);
++    Game.combat = combat0;
++    DeclareBlockersPhase declareBlockersPhase0 = new DeclareBlockersPhase();
++    // Verify that the phase executes without throwing a NullPointerException
++    declareBlockersPhase0.doPhase();
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Combat combat0 = new Combat((Player) null, (Player) null);
+-      Creature creature0 = mock(Creature.class, new ViolatedAssumptionAnswer());
+-      combat0.attackingCreatures.add(creature0);
+-      Game.combat = combat0;
+-      DeclareBlockersPhase declareBlockersPhase0 = new DeclareBlockersPhase();
+-      // Undeclared exception!
+-      try { 
+-        declareBlockersPhase0.doPhase();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("lotus.core.phases.DeclareBlockersPhase", e);
+-      }
+-  }
+ }

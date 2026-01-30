@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/Alert_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/Alert_ESTest.java
+@@ -347,14 +347,31 @@
+         TypeDesc typeDesc0 = Alert.getTypeDesc();
+         assertNotNull(typeDesc0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      Alert alert0 = new Alert();
+-      alert0.setObject("~1C~");
+-      assertEquals("~1C~", alert0.getObject());
+-  }
++@Test(timeout = 4000)
++    public void test24() throws Throwable {
++        Alert alert0 = new Alert();
++        alert0.setObject("~1C~");
++        assertEquals("~1C~", alert0.getObject());
++
++        // Serialize the object
++        java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(bos);
++        out.writeObject(alert0);
++        out.flush();
++        byte[] serialized = bos.toByteArray();
++        out.close();
++        bos.close();
++
++        // Deserialize and verify the state is preserved
++        java.io.ByteArrayInputStream bis = new java.io.ByteArrayInputStream(serialized);
++        java.io.ObjectInputStream in = new java.io.ObjectInputStream(bis);
++        Alert deserialized = (Alert) in.readObject();
++        in.close();
++        bis.close();
++
++        assertEquals("~1C~", deserialized.getObject());
++    }
++
+ @Test(timeout = 4000)
+     public void test25() throws Throwable {
+         Class<Object> class0 = Object.class;

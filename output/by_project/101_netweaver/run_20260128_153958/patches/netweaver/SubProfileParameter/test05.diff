@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SubProfileParameter_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SubProfileParameter_ESTest.java
+@@ -87,19 +87,24 @@
+     int afterHash = subProfileParameter0.hashCode();
+     assertNotEquals("hashCode should change after setting name", beforeHash, afterHash);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      SubProfileParameter subProfileParameter0 = new SubProfileParameter();
+-      SubProfileParameter subProfileParameter1 = new SubProfileParameter();
+-      assertTrue(subProfileParameter1.equals((Object)subProfileParameter0));
+-      
+-      ParameterRestriction parameterRestriction0 = new ParameterRestriction();
+-      subProfileParameter1.setRestriction(parameterRestriction0);
+-      boolean boolean0 = subProfileParameter0.equals(subProfileParameter1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    SubProfileParameter subProfileParameter0 = new SubProfileParameter();
++    SubProfileParameter subProfileParameter1 = new SubProfileParameter();
++    assertTrue(subProfileParameter1.equals((Object) subProfileParameter0));
++
++    ParameterRestriction parameterRestriction0 = new ParameterRestriction();
++    // Verify initial state before setting restriction
++    assertNull(subProfileParameter1.getRestriction());
++
++    subProfileParameter1.setRestriction(parameterRestriction0);
++    // Verify the side‑effect of setRestriction
++    assertSame(parameterRestriction0, subProfileParameter1.getRestriction());
++
++    boolean boolean0 = subProfileParameter0.equals(subProfileParameter1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

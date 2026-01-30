@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
+@@ -925,14 +925,18 @@
+          verifyException("org.mozilla.javascript.DefaultErrorReporter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test55()  throws Throwable  {
+-      DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
+-      Parser parser0 = new Parser((CompilerEnvirons) null, defaultErrorReporter0);
+-      String string0 = parser0.getEncodedSource();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++public void test55() throws Throwable {
++    CompilerEnvirons env = new CompilerEnvirons();
++    DefaultErrorReporter reporter = DefaultErrorReporter.instance;
++    Parser parser = new Parser(env, reporter);
++    // Exercise non‑trivial parsing logic
++    parser.parse("var a = 1;", "test.js", 1);
++    String encoded = parser.getEncodedSource();
++    assertNotNull(encoded);
++    assertTrue(encoded.contains("var a = 1"));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test56()  throws Throwable  {

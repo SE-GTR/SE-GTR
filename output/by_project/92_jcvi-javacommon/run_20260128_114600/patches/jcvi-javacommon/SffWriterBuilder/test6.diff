@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/SffWriterBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/SffWriterBuilder_ESTest.java
+@@ -117,24 +117,25 @@
+          verifyException("org.jcvi.jillion.trace.sff.SffWriterBuilder", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        MockFile mockFile0 = new MockFile("iL@k!iK-q_11rx'");
++        NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++        doReturn(0L, 0L).when(nucleotideSequence0).getLength();
++        doReturn(0, 0).when(nucleotideSequence0).getNumberOfGaps();
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("iL@k!iK-q_11rx'");
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(0L, 0L).when(nucleotideSequence0).getLength();
+-      doReturn(0, 0).when(nucleotideSequence0).getNumberOfGaps();
+-      SffWriterBuilder sffWriterBuilder0 = new SffWriterBuilder(mockFile0, nucleotideSequence0, nucleotideSequence0);
+-      // Undeclared exception!
+-      try { 
+-        sffWriterBuilder0.build();
+-        fail("Expecting exception: BufferOverflowException");
+-      
+-      } catch(BufferOverflowException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.nio.HeapByteBuffer", e);
+-      }
+-  }
++        // Assert the stubbed return values to eliminate NARV smell
++        assertEquals(0L, nucleotideSequence0.getLength());
++        assertEquals(0, nucleotideSequence0.getNumberOfGaps());
++
++        SffWriterBuilder sffWriterBuilder0 = new SffWriterBuilder(mockFile0, nucleotideSequence0, nucleotideSequence0);
++        try {
++            sffWriterBuilder0.build();
++            fail("Expecting exception: BufferOverflowException");
++        } catch (BufferOverflowException e) {
++            // Expected exception with no message
++            verifyException("java.nio.HeapByteBuffer", e);
++        }
++    }
++
+ }

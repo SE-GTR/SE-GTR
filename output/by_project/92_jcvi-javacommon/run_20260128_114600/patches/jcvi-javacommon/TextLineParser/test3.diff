@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/io/TextLineParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/io/TextLineParser_ESTest.java
+@@ -46,15 +46,19 @@
+       TextLineParser textLineParser1 = new TextLineParser(byteArrayInputStream0);
+       assertEquals(0, byteArrayInputStream0.available());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
+       byte[] byteArray0 = new byte[5];
+-      byteArray0[1] = (byte)10;
++      byteArray0[1] = (byte) 10;
+       ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+       TextLineParser textLineParser0 = new TextLineParser(byteArrayInputStream0);
+-      assertEquals(3, byteArrayInputStream0.available());
++      int before = byteArrayInputStream0.available();
++      String line = textLineParser0.nextLine();
++      int after = byteArrayInputStream0.available();
++      assertTrue(after < before);
++      assertNotNull(line);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

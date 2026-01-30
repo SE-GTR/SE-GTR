@@ -1,0 +1,33 @@
+--- a/evosuite-tests/corina/io/Files_ESTest.java
++++ b/evosuite-tests/corina/io/Files_ESTest.java
+@@ -66,20 +66,17 @@
+          verifyException("corina.io.Files", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("test3");
++        try {
++            java.nio.file.Path nonExistent = tempDir.resolve("nonexistent.txt");
++            assertThrows(FileNotFoundException.class, () -> Files.load(nonExistent.toString()));
++        } finally {
++            java.nio.file.Files.deleteIfExists(tempDir);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      try { 
+-        Files.load("W");
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // File doesn't exist.
+-         //
+-         verifyException("corina.io.Files", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

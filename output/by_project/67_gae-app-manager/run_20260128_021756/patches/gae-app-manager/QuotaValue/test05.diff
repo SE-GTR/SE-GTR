@@ -1,0 +1,30 @@
+--- a/evosuite-tests/net/sf/gaeappmanager/google/appengine/QuotaValue_ESTest.java
++++ b/evosuite-tests/net/sf/gaeappmanager/google/appengine/QuotaValue_ESTest.java
+@@ -53,14 +53,21 @@
+     java.math.BigDecimal limit = quotaValue0.getLimit();
+     assertEquals(java.math.BigDecimal.ZERO, limit);
+ }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        QuotaValue quotaValue = new QuotaValue();
++        // Initially the quota is not okay
++        assertFalse(quotaValue.isOkay());
+ 
++        // Setting a null limit should keep it not okay
++        quotaValue.setLimit(null);
++        assertFalse(quotaValue.isOkay());
+ 
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      QuotaValue quotaValue0 = new QuotaValue();
+-      quotaValue0.setLimit((BigDecimal) null);
+-      assertFalse(quotaValue0.isOkay());
+-  }
++        // Setting a concrete limit should make it okay
++        quotaValue.setLimit(BigDecimal.ONE);
++        assertTrue(quotaValue.isOkay());
++    }
++
+ @Test(timeout = 4000)
+ public void test06() throws Throwable {
+     QuotaValue quotaValue0 = new QuotaValue();

@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/petsoar/security/SecurityHttpRequestWrapper_ESTest.java
++++ b/evosuite-tests/org/petsoar/security/SecurityHttpRequestWrapper_ESTest.java
+@@ -19,15 +19,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SecurityHttpRequestWrapper_ESTest extends SecurityHttpRequestWrapper_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
++      OngoingStubbing<Object> attrStub = doReturn((Object) null).when(httpSession0).getAttribute(anyString());
++      assertNotNull(attrStub);
+       HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
++      OngoingStubbing<HttpSession> sessionStub = doReturn(httpSession0).when(httpServletRequest0).getSession();
++      assertNotNull(sessionStub);
+       SecurityHttpRequestWrapper securityHttpRequestWrapper0 = new SecurityHttpRequestWrapper(httpServletRequest0);
+       Principal principal0 = securityHttpRequestWrapper0.getUserPrincipal();
+       assertNotNull(principal0);
+   }
++
+ }

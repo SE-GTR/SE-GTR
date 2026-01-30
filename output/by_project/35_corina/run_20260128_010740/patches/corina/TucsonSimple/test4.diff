@@ -1,0 +1,42 @@
+--- a/evosuite-tests/corina/formats/TucsonSimple_ESTest.java
++++ b/evosuite-tests/corina/formats/TucsonSimple_ESTest.java
+@@ -110,26 +110,20 @@
+          verifyException("java.util.ArrayList", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        Sample sample0 = new Sample();
++        HashMap<Object, String> hashMap0 = new HashMap<>();
++        String previous = hashMap0.put("id", "lXJ;sYA");
++        assertNull(previous);
++        sample0.meta = hashMap0;
++        TucsonSimple tucsonSimple0 = new TucsonSimple();
++        BufferedWriter writer = new BufferedWriter(new java.io.StringWriter());
++        tucsonSimple0.saveData(sample0, writer);
++        writer.flush();
++        assertNotNull(writer);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    sample0 = new Sample();
+-      HashMap<Object, String> hashMap0 = new HashMap<Object, String>();
+-      hashMap0.put("id", "lXJ;sYA");
+-      sample0.meta = (Map) hashMap0;
+-      TucsonSimple tucsonSimple0 = new TucsonSimple();
+-      // Undeclared exception!
+-      try { 
+-        tucsonSimple0.saveData(sample0, (BufferedWriter) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.formats.TucsonSimple", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

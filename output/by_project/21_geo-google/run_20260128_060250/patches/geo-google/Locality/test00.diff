@@ -1,0 +1,28 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Locality_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Locality_ESTest.java
+@@ -26,14 +26,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Locality_ESTest extends Locality_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Locality locality0 = new Locality();
+-      List<Object> list0 = locality0.getAny();
+-      List<Object> list1 = locality0.getAny();
+-      assertSame(list1, list0);
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        Locality locality0 = new Locality();
++        List<Object> anyList = locality0.getAny();
++        anyList.add("sample");
++        // The list returned by subsequent calls should be the same instance and reflect the added element
++        assertSame(anyList, locality0.getAny());
++        assertEquals(1, locality0.getAny().size());
++        assertEquals("sample", locality0.getAny().get(0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

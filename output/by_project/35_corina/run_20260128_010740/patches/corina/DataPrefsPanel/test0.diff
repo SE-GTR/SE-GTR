@@ -1,0 +1,37 @@
+--- a/evosuite-tests/corina/prefs/panels/DataPrefsPanel_ESTest.java
++++ b/evosuite-tests/corina/prefs/panels/DataPrefsPanel_ESTest.java
+@@ -15,19 +15,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DataPrefsPanel_ESTest extends DataPrefsPanel_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        String previous = System.getProperty("java.awt.headless");
++        System.setProperty("java.awt.headless", "true");
++        try {
++            DataPrefsPanel panel = new DataPrefsPanel();
++            assertNotNull(panel);
++        } finally {
++            if (previous != null) {
++                System.setProperty("java.awt.headless", previous);
++            } else {
++                System.clearProperty("java.awt.headless");
++            }
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      DataPrefsPanel dataPrefsPanel0 = null;
+-      try {
+-        dataPrefsPanel0 = new DataPrefsPanel();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.prefs.panels.DataPrefsPanel", e);
+-      }
+-  }
+ }

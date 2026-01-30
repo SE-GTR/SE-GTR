@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/DefaultClientEventHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/DefaultClientEventHandler_ESTest.java
+@@ -79,16 +79,19 @@
+          verifyException("org.quickserver.net.server.impl.BasicClientHandler", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    DefaultClientEventHandler defaultClientEventHandler0 = new DefaultClientEventHandler();
++    CommandHandler commandHandler0 = new CommandHandler();
++    defaultClientEventHandler0.setClientCommandHandler(commandHandler0);
++    // Verify that the client command handler was correctly set
++    assertSame(commandHandler0, defaultClientEventHandler0.getClientCommandHandler());
++    NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
++    defaultClientEventHandler0.lostConnection(nonBlockingClientHandler0);
++    // Ensure the handler remains unchanged after lostConnection
++    assertSame(commandHandler0, defaultClientEventHandler0.getClientCommandHandler());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      DefaultClientEventHandler defaultClientEventHandler0 = new DefaultClientEventHandler();
+-      CommandHandler commandHandler0 = new CommandHandler();
+-      defaultClientEventHandler0.setClientCommandHandler(commandHandler0);
+-      NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      defaultClientEventHandler0.lostConnection(nonBlockingClientHandler0);
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:4>", nonBlockingClientHandler0.getName());
+-  }
+ @Test(expected = NullPointerException.class)
+     public void test5() throws Throwable {
+         DefaultClientEventHandler defaultClientEventHandler0 = new DefaultClientEventHandler();

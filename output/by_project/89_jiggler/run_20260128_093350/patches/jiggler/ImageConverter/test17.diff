@@ -1,0 +1,47 @@
+--- a/evosuite-tests/jigl/image/utils/ImageConverter_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/ImageConverter_ESTest.java
+@@ -380,26 +380,24 @@
+         verifyException("jigl.image.types.ComplexImage", e);
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      RealColorImage realColorImage0 = new RealColorImage(3, 3);
+-      assertEquals(ColorModel.RGB, realColorImage0.getColorModel());
+-      assertEquals(3, realColorImage0.Y());
+-      assertEquals(3, realColorImage0.X());
+-      
+-      RealColorImage realColorImage1 = ImageConverter.toRealColor(realColorImage0);
+-      assertFalse(realColorImage1.equals((Object)realColorImage0));
+-      assertNotSame(realColorImage0, realColorImage1);
+-      assertNotSame(realColorImage1, realColorImage0);
+-      assertEquals(ColorModel.RGB, realColorImage0.getColorModel());
+-      assertEquals(3, realColorImage0.Y());
+-      assertEquals(3, realColorImage0.X());
+-      assertEquals(3, realColorImage1.Y());
+-      assertEquals(3, realColorImage1.X());
+-      assertEquals(ColorModel.RGB, realColorImage1.getColorModel());
+-  }
++@Test(timeout = 4000)
++public void test17() throws Throwable {
++    RealColorImage original = new RealColorImage(3, 3);
++    // Verify constructor-initialized state once
++    assertEquals(ColorModel.RGB, original.getColorModel());
++    assertEquals(3, original.X());
++    assertEquals(3, original.Y());
++
++    RealColorImage converted = ImageConverter.toRealColor(original);
++    // Ensure a new instance is created
++    assertNotSame(original, converted);
++    assertFalse(converted.equals((Object) original));
++    // Verify conversion preserved key properties
++    assertEquals(original.X(), converted.X());
++    assertEquals(original.Y(), converted.Y());
++    assertEquals(original.getColorModel(), converted.getColorModel());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

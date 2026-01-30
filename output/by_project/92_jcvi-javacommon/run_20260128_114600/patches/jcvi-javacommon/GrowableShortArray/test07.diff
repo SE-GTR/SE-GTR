@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/util/GrowableShortArray_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/util/GrowableShortArray_ESTest.java
+@@ -89,24 +89,22 @@
+          verifyException("org.jcvi.jillion.internal.core.util.GrowableShortArray", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      short[] shortArray0 = new short[7];
+-      GrowableShortArray growableShortArray0 = new GrowableShortArray(shortArray0);
+-      Range range0 = Range.of((-434L));
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        short[] shortArray0 = new short[7];
++        GrowableShortArray growableShortArray0 = new GrowableShortArray(shortArray0);
++        Range range0 = Range.of(2L, 4L);
++        // valid removal should not throw an exception
+         growableShortArray0.remove(range0);
+-        fail("Expecting exception: IndexOutOfBoundsException");
+-      
+-      } catch(IndexOutOfBoundsException e) {
+-         //
+-         // range: [ -434 .. -434 ]/0B, array size: 7
+-         //
+-         verifyException("org.jcvi.jillion.internal.core.util.GrowableShortArray", e);
+-      }
+-  }
++        // after removal, the same range is now out of bounds and should throw
++        try {
++            growableShortArray0.remove(range0);
++            fail("Expecting exception: IndexOutOfBoundsException");
++        } catch (IndexOutOfBoundsException e) {
++            // expected
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

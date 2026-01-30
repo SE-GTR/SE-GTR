@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
+@@ -159,19 +159,27 @@
+         assertTrue(profileParameter1.equals((Object) profileParameter0));
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test08() throws Throwable {
+       ProfileParameter profileParameter0 = new ProfileParameter();
+       String[] stringArray0 = new String[1];
+       ProfileParameter profileParameter1 = new ProfileParameter();
+-      assertTrue(profileParameter1.equals((Object)profileParameter0));
+-      
++      assertTrue(profileParameter1.equals((Object) profileParameter0));
++
++      // verify initial state before setting values
++      assertNull(profileParameter1.getValues());
++
++      // act: set the values array
+       profileParameter1.setValues(stringArray0);
+-      boolean boolean0 = profileParameter1.equals(profileParameter0);
+-      assertFalse(boolean0);
+-  }
++
++      // assert side‑effect: the internal values array should be the one we set
++      assertSame(stringArray0, profileParameter1.getValues());
++
++      // original behavior check
++      boolean boolean0 = profileParameter1.equals(profileParameter0);
++      assertFalse(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

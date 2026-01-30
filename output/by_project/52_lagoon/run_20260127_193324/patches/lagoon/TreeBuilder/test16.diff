@@ -1,0 +1,36 @@
+--- a/evosuite-tests/nu/staldal/xtree/TreeBuilder_ESTest.java
++++ b/evosuite-tests/nu/staldal/xtree/TreeBuilder_ESTest.java
+@@ -217,21 +217,18 @@
+          verifyException("nu.staldal.xtree.TreeBuilder", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("", "");
+-      try { 
+-        TreeBuilder.fileToInputSource(mockFile0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // file:///
+-         //
+-         verifyException("nu.staldal.xtree.TreeBuilder", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        File tempFile = File.createTempFile("test16", ".xml");
++        tempFile.deleteOnExit();
++        try (Writer writer = new OutputStreamWriter(new FileOutputStream(tempFile), "UTF-8")) {
++            writer.write("<root/>");
++        }
++        InputSource inputSource = TreeBuilder.fileToInputSource(tempFile);
++        assertNotNull(inputSource);
++        assertTrue(inputSource.getSystemId().endsWith(tempFile.getName()));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

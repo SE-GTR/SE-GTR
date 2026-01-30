@@ -1,0 +1,30 @@
+--- a/evosuite-tests/corina/map/PngEncoderB_ESTest.java
++++ b/evosuite-tests/corina/map/PngEncoderB_ESTest.java
+@@ -59,15 +59,19 @@
+       assertEquals(0, pngEncoderB0.getCompressionLevel());
+       assertEquals(0, pngEncoderB0.getFilter());
+   }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        PngEncoderB pngEncoderB0 = new PngEncoderB();
++        BufferedImage bufferedImage0 = new BufferedImage(2, 1, BufferedImage.TYPE_4BYTE_ABGR);
++        // Verify that no image is set initially (if a getter is available)
++        assertNull(pngEncoderB0.getImage());
++        pngEncoderB0.setImage(bufferedImage0);
++        // Assert that the side‑effect of setImage is observable via the getter
++        assertSame(bufferedImage0, pngEncoderB0.getImage());
++        byte[] byteArray0 = pngEncoderB0.pngEncode();
++        assertEquals(75, byteArray0.length);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      PngEncoderB pngEncoderB0 = new PngEncoderB();
+-      BufferedImage bufferedImage0 = new BufferedImage(2, 1, 7);
+-      pngEncoderB0.setImage(bufferedImage0);
+-      byte[] byteArray0 = pngEncoderB0.pngEncode();
+-      assertEquals(75, byteArray0.length);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

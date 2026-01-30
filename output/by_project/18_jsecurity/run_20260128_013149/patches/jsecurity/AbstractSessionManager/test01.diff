@@ -1,0 +1,54 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/AbstractSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/AbstractSessionManager_ESTest.java
+@@ -50,30 +50,29 @@
+         verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-    defaultSessionManager0 = new DefaultSessionManager();
+-    inetAddress0 = MockInetAddress.anyLocalAddress();
+-      Session session0 = defaultSessionManager0.createSession(inetAddress0);
+-      defaultSessionManager0.notifyExpiration(session0);
+-      defaultSessionManager0.onExpiration(session0);
+-      defaultSessionManager0.create(session0);
+-      defaultSessionManager0.onChange(session0);
+-      SessionListener sessionListener0 = mock(SessionListener.class, new ViolatedAssumptionAnswer());
+-      defaultSessionManager0.remove(sessionListener0);
+-      try { 
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    defaultSessionManager0 = new DefaultSessionManager();
++    inetAddress0 = MockInetAddress.anyLocalAddress();
++    Session session0 = defaultSessionManager0.createSession(inetAddress0);
++    defaultSessionManager0.notifyExpiration(session0);
++    defaultSessionManager0.onExpiration(session0);
++    defaultSessionManager0.create(session0);
++    defaultSessionManager0.onChange(session0);
++    SessionListener sessionListener0 = mock(SessionListener.class, new ViolatedAssumptionAnswer());
++    boolean removed = defaultSessionManager0.remove(sessionListener0);
++    assertFalse(removed);
++    try {
+         defaultSessionManager0.getSession(inetAddress0);
+         fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // There is no session with id [/192.168.1.42]
+-         //
+-         verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+-      }
+-  }
++    } catch (RuntimeException e) {
++        //
++        // There is no session with id [/192.168.1.42]
++        //
++        verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

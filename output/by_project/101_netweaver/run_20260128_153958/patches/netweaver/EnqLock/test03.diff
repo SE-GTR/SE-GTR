@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -60,16 +60,17 @@
+         assertEquals(0, enqLock0.getUseCountOwner());
+         assertEquals(0, enqLock0.getUseCountOwnerVb());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
+-      enqLock0.setClient("owner-vb");
+-      enqLock0.hashCode();
+-      assertEquals(0, enqLock0.getUseCountOwner());
+-      assertEquals(0, enqLock0.getUseCountOwnerVb());
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        EnqLock enqLock0 = new EnqLock();
++        int hashBefore = enqLock0.hashCode();
++        enqLock0.setClient("owner-vb");
++        int hashAfter = enqLock0.hashCode();
++        assertNotEquals("hashCode should reflect client change", hashBefore, hashAfter);
++        assertEquals(0, enqLock0.getUseCountOwner());
++        assertEquals(0, enqLock0.getUseCountOwnerVb());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

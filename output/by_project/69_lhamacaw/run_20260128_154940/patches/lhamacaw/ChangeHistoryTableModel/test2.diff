@@ -1,0 +1,37 @@
+--- a/evosuite-tests/macaw/presentationLayer/ChangeHistoryTableModel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/ChangeHistoryTableModel_ESTest.java
+@@ -54,9 +54,8 @@
+     assertEquals("", model.getValueAt(0, 1));
+     assertNotNull(model.getValueAt(0, 0));
+ }
+-
+ @Test(timeout = 4000)
+-  public void test2() throws Throwable {
++public void test2() throws Throwable {
+     changeHistoryTableModel0 = new ChangeHistoryTableModel();
+     arrayList0 = new ArrayList<MacawChangeEvent>();
+     changeEventType0 = ChangeEventType.LIST_CHOICE;
+@@ -65,13 +64,20 @@
+     boolean added = arrayList0.add(macawChangeEvent0);
+     assertTrue(added);
+     // ensure the model is initially empty
+-    assertEquals(0, changeHistoryTableModel0.getRowCount());
++    int beforeRowCount = changeHistoryTableModel0.getRowCount();
++    assertEquals(0, beforeRowCount);
+     // set the change events (void method) and verify its side‑effect (NASE, TSVM)
+     changeHistoryTableModel0.setChangeEvents(arrayList0);
+-    assertEquals(1, changeHistoryTableModel0.getRowCount());
++    int afterRowCount = changeHistoryTableModel0.getRowCount();
++    assertEquals(beforeRowCount + arrayList0.size(), afterRowCount);
++    assertEquals(1, afterRowCount);
++    // verify displayed values
+     Object object0 = changeHistoryTableModel0.getValueAt(0, 0);
+     assertEquals("14-Feb-2014 08:21:21", object0);
+-  }
++    // additional distinct assertion to differentiate this test
++    assertEquals(3, changeHistoryTableModel0.getColumnCount());
++}
++
+ @Test(timeout = 4000)
+   public void test3() throws Throwable {
+     changeHistoryTableModel0 = new ChangeHistoryTableModel();

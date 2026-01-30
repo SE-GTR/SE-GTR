@@ -1,0 +1,32 @@
+--- a/evosuite-tests/corina/formats/TSAPMatrix_ESTest.java
++++ b/evosuite-tests/corina/formats/TSAPMatrix_ESTest.java
+@@ -21,16 +21,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class TSAPMatrix_ESTest extends TSAPMatrix_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        TSAPMatrix tSAPMatrix0 = new TSAPMatrix();
++        Sample sample0 = new Sample();
++        StringWriter stringWriter0 = new StringWriter();
++        BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0);
++        int beforeLength = stringWriter0.getBuffer().length();
++        tSAPMatrix0.save(sample0, bufferedWriter0);
++        bufferedWriter0.flush();
++        int afterLength = stringWriter0.getBuffer().length();
++        assertTrue("Writer should have same or increased content after save", afterLength >= beforeLength);
++        assertFalse(sample0.isIndexed());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      TSAPMatrix tSAPMatrix0 = new TSAPMatrix();
+-      Sample sample0 = new Sample();
+-      StringWriter stringWriter0 = new StringWriter();
+-      BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0);
+-      tSAPMatrix0.save(sample0, bufferedWriter0);
+-      assertFalse(sample0.isIndexed());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

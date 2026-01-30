@@ -1,0 +1,38 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -308,16 +308,27 @@
+ @Test(timeout = 4000)
+ public void test27() throws Throwable {
+     AdministrativeArea.SubAdministrativeArea subArea = new AdministrativeArea.SubAdministrativeArea();
+-    // initial state should have no indicator
++    // initial state checks
+     assertNull(subArea.getIndicator());
+-    // set a specific indicator value
+-    String expected = "testIndicator";
+-    subArea.setIndicator(expected);
+-    // verify that the setter had the intended effect
+-    assertEquals(expected, subArea.getIndicator());
+-    // ensure other unrelated fields remain unchanged
+     assertNull(subArea.getType());
+-}
++
++    // first indicator set and verification
++    String first = "firstIndicator";
++    subArea.setIndicator(first);
++    assertEquals(first, subArea.getIndicator());
++
++    // change indicator to a different value and verify side‑effect
++    String second = "secondIndicator";
++    subArea.setIndicator(second);
++    assertEquals(second, subArea.getIndicator());
++
++    // interact with a non‑trivial collection property to add meaningful behavior
++    oasis.names.tc.ciq.xsdschema.xal._2.AddressLine line = new oasis.names.tc.ciq.xsdschema.xal._2.AddressLine();
++    subArea.getAddressLine().add(line);
++    assertTrue(subArea.getAddressLine().contains(line));
++    assertEquals(1, subArea.getAddressLine().size());
++}
++
+ 
+ @Test(timeout = 4000)
+     public void test28() throws Throwable {

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/ExecutorServiceSessionValidationScheduler_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/ExecutorServiceSessionValidationScheduler_ESTest.java
+@@ -337,25 +337,19 @@
+          verifyException("org.jsecurity.session.mgt.ExecutorServiceSessionValidationScheduler", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      ExecutorServiceSessionValidationScheduler executorServiceSessionValidationScheduler0 = new ExecutorServiceSessionValidationScheduler();
+-      assertFalse(executorServiceSessionValidationScheduler0.isEnabled());
+-      assertEquals(3600000L, executorServiceSessionValidationScheduler0.getInterval());
+-      
+-      // Undeclared exception!
+-      try { 
+-        executorServiceSessionValidationScheduler0.run();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.session.mgt.ExecutorServiceSessionValidationScheduler", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        // Provide a properly initialized ValidatingSessionManager to avoid NPE
++        ValidatingSessionManager mockManager = org.mockito.Mockito.mock(ValidatingSessionManager.class);
++        ExecutorServiceSessionValidationScheduler scheduler = new ExecutorServiceSessionValidationScheduler(mockManager);
++
++        // Act
++        scheduler.run();
++
++        // Verify that the scheduler delegated to the session manager
++        org.mockito.Mockito.verify(mockManager).validateSessions();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

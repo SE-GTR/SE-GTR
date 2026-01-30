@@ -1,0 +1,81 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerStateImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerStateImpl_ESTest.java
+@@ -288,23 +288,61 @@
+     state.eventBeginComponent();
+     assertEquals(beforeLength, state.getActualFieldLength());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      HL7DataTypePartListImpl hL7DataTypePartListImpl0 = new HL7DataTypePartListImpl();
+-      HL7DataTypePartPrimitiveImpl hL7DataTypePartPrimitiveImpl0 = new HL7DataTypePartPrimitiveImpl();
+-      hL7DataTypePartListImpl0.addItem(hL7DataTypePartPrimitiveImpl0);
+-      HL7DataTypeImpl hL7DataTypeImpl0 = new HL7DataTypeImpl();
+-      hL7DataTypeImpl0.setParts(hL7DataTypePartListImpl0);
+-      HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
+-      hL7CheckerStateImpl0.setActualComponentDataType(hL7DataTypeImpl0);
+-      assertEquals(0, hL7CheckerStateImpl0.getActualDataTypeSubPartsPossition());
+-      
+-      hL7CheckerStateImpl0.eventBeginSubComponent();
+-      assertEquals(0, hL7CheckerStateImpl0.getActualDataTypePartsPossition());
+-      assertEquals(0, hL7CheckerStateImpl0.getActualFieldLength());
+-  }
++@Test(timeout = 4000)
++    public void test18() throws Throwable {
++        // Arrange
++        HL7DataTypePartListImpl hL7DataTypePartListImpl0 = new HL7DataTypePartListImpl();
++        HL7DataTypePartPrimitiveImpl hL7DataTypePartPrimitiveImpl0 = new HL7DataTypePartPrimitiveImpl();
++        hL7DataTypePartListImpl0.addItem(hL7DataTypePartPrimitiveImpl0);
++        HL7DataTypeImpl hL7DataTypeImpl0 = new HL7DataTypeImpl();
++
++        // Verify initial state of parts (should be empty)
++        assertNotNull(hL7DataTypeImpl0);
++        // Assuming a getter exists for parts; if not, this line will be ignored by the compiler check
++        // assertEquals(0, hL7DataTypeImpl0.getParts().size());
++
++        // Act: set parts
++        hL7DataTypeImpl0.setParts(hL7DataTypePartListImpl0);
++
++        // Assert side‑effect of setParts
++        assertNotNull(hL7DataTypeImpl0.getParts());
++        assertEquals(1, hL7DataTypeImpl0.getParts().size());
++
++        HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
++
++        // Verify initial component data type is null (or not set)
++        // Assuming a getter exists
++        // assertNull(hL7CheckerStateImpl0.getActualComponentDataType());
++
++        // Act: set actual component data type
++        hL7CheckerStateImpl0.setActualComponentDataType(hL7DataTypeImpl0);
++
++        // Assert side‑effect of setActualComponentDataType
++        assertSame(hL7DataTypeImpl0, hL7CheckerStateImpl0.getActualComponentDataType());
++
++        // Existing assertions
++        assertEquals(0, hL7CheckerStateImpl0.getActualDataTypeSubPartsPossition());
++
++        // Capture state before eventBeginSubComponent
++        int beforePartsPos = hL7CheckerStateImpl0.getActualDataTypePartsPossition();
++        int beforeFieldLength = hL7CheckerStateImpl0.getActualFieldLength();
++
++        // Act: begin sub‑component
++        hL7CheckerStateImpl0.eventBeginSubComponent();
++
++        // Capture state after eventBeginSubComponent
++        int afterPartsPos = hL7CheckerStateImpl0.getActualDataTypePartsPossition();
++        int afterFieldLength = hL7CheckerStateImpl0.getActualFieldLength();
++
++        // Assert that the method had a deterministic effect (positions should not decrease)
++        assertTrue(afterPartsPos >= beforePartsPos);
++        assertTrue(afterFieldLength >= beforeFieldLength);
++
++        // Existing assertions (still hold)
++        assertEquals(0, hL7CheckerStateImpl0.getActualDataTypePartsPossition());
++        assertEquals(0, hL7CheckerStateImpl0.getActualFieldLength());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

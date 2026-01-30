@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
+@@ -797,14 +797,17 @@
+       OutputStream output = nonBlockingClientHandler0.getOutputStream();
+       assertNull("OutputStream should be null before a socket is assigned", output);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test82()  throws Throwable  {
+-      BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
+-      blockingClientHandler0.updateLastCommunicationTime();
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:10>", blockingClientHandler0.getName());
+-  }
++@Test(timeout = 4000)
++public void test82() throws Throwable {
++    BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
++    // Verify that the timestamp is initially unset
++    assertNull(blockingClientHandler0.getLastCommunicationTime());
++    // Exercise the method that updates the timestamp
++    blockingClientHandler0.updateLastCommunicationTime();
++    // Assert that the side‑effect took place
++    assertNotNull(blockingClientHandler0.getLastCommunicationTime());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test83()  throws Throwable  {

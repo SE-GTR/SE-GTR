@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/gbshape/dbe/oracle/OracleTableStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/oracle/OracleTableStructure_ESTest.java
+@@ -610,15 +610,18 @@
+          verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test40()  throws Throwable  {
+-      DBDataBean dBDataBean0 = new DBDataBean();
+-      dBDataBean0.setDriver("org.apache.commons.fileupload.DiskFileUpload");
+-      OracleTableStructure oracleTableStructure0 = new OracleTableStructure();
+-      TableStructureBean tableStructureBean0 = oracleTableStructure0.getStructure(dBDataBean0, "org.apache.commons.fileupload.DiskFileUpload");
+-      assertEquals("org.apache.commons.fileupload.DiskFileUpload", tableStructureBean0.getTableName());
+-  }
++@Test(timeout = 4000)
++    public void test40() throws Throwable {
++        DBDataBean dBDataBean0 = new DBDataBean();
++        String driverClass = "org.apache.commons.fileupload.DiskFileUpload";
++        dBDataBean0.setDriver(driverClass);
++        // Verify that the driver was correctly set (NASE fix)
++        assertEquals(driverClass, dBDataBean0.getDriver());
++        OracleTableStructure oracleTableStructure0 = new OracleTableStructure();
++        TableStructureBean tableStructureBean0 = oracleTableStructure0.getStructure(dBDataBean0, driverClass);
++        assertEquals(driverClass, tableStructureBean0.getTableName());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test41()  throws Throwable  {

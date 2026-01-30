@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -129,12 +129,20 @@
+   public void test14()  throws Throwable  {
+       ConfigurationManagement.addChar_id_count(35);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      String string0 = ConfigurationManagement.getBackup_txt_flag();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    // Preserve original value to avoid side‑effects on other tests
++    String original = ConfigurationManagement.getBackup_txt_flag();
++
++    // Exercise a state‑changing operation and verify its effect
++    ConfigurationManagement.setBackup_txt_flag("testFlag");
++    String updated = ConfigurationManagement.getBackup_txt_flag();
++    assertEquals("testFlag", updated);
++
++    // Restore original state
++    ConfigurationManagement.setBackup_txt_flag(original);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

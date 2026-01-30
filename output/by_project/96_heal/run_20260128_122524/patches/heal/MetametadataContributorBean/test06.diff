@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/module/metadata/MetametadataContributorBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/MetametadataContributorBean_ESTest.java
+@@ -77,14 +77,26 @@
+         MetametadataContributorBean bean = new MetametadataContributorBean();
+         org.junit.Assert.assertTrue(bean instanceof java.io.Serializable);
+     }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        MetametadataContributorBean bean = new MetametadataContributorBean();
++        String expectedId = "testId";
++        bean.setMetadataId(expectedId);
++        // Serialize the bean
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        try (java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos)) {
++            oos.writeObject(bean);
++        }
++        // Deserialize the bean
++        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++        MetametadataContributorBean deserializedBean;
++        try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais)) {
++            deserializedBean = (MetametadataContributorBean) ois.readObject();
++        }
++        // Verify that the metadataId was preserved through serialization
++        assertEquals(expectedId, deserializedBean.getMetadataId());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      MetametadataContributorBean metametadataContributorBean0 = new MetametadataContributorBean();
+-      String string0 = metametadataContributorBean0.getMetadataId();
+-      assertNull(string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

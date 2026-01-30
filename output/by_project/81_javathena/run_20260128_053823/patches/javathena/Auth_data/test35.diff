@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/javathena/core/data/Auth_data_ESTest.java
++++ b/evosuite-tests/org/javathena/core/data/Auth_data_ESTest.java
+@@ -334,12 +334,22 @@
+       auth_data0.setClientType(2);
+       assertEquals(2, auth_data0.getClientType());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test35()  throws Throwable  {
+-      Auth_data auth_data0 = new Auth_data();
+-      auth_data0.setEmail("B&[9G=bj");
+-      assertEquals((-1), auth_data0.getCharserver());
+-      assertEquals("B&[9G=bj", auth_data0.getEmail());
+-  }
+-}
++@Test(timeout = 4000)
++public void test35() throws Throwable {
++    Auth_data auth_data0 = new Auth_data();
++
++    // Verify initial state
++    assertEquals(-1, auth_data0.getCharserver());
++
++    // First email assignment and verification
++    auth_data0.setEmail("B&[9G=bj");
++    assertEquals("B&[9G=bj", auth_data0.getEmail());
++    assertEquals(-1, auth_data0.getCharserver());
++
++    // Change email again to ensure the setter updates the field each time
++    auth_data0.setEmail("new@example.com");
++    assertEquals("new@example.com", auth_data0.getEmail());
++    assertEquals(-1, auth_data0.getCharserver());
++}
++
++}

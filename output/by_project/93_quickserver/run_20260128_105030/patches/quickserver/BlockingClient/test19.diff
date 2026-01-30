@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
+@@ -241,21 +241,12 @@
+     });
+     future.get(4000, TimeUnit.MILLISECONDS);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      BlockingClient blockingClient0 = new BlockingClient();
+-      try { 
+-        blockingClient0.readBytes("SunJSSE");
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Stream closed
+-         //
+-         verifyException("java.io.BufferedInputStream", e);
+-      }
+-  }
++@Test(expected = IOException.class, timeout = 4000)
++public void test19() throws Throwable {
++    BlockingClient blockingClient0 = new BlockingClient();
++    blockingClient0.readBytes("SunJSSE");
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

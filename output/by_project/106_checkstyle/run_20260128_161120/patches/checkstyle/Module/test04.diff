@@ -1,0 +1,47 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/Module_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/Module_ESTest.java
+@@ -71,18 +71,32 @@
+          verifyException("com.atlassw.tools.eclipse.checkstyle.config.Module", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      SeverityLevel severityLevel0 = SeverityLevel.IGNORE;
+-      RuleMetadata ruleMetadata0 = new RuleMetadata("com.atlassw.tools.eclipse.checkstyle.config.Module", "com.atlassw.tools.eclipse.checkstyle.config.Module", ";aa6&nAGyi`Px", severityLevel0, true, true, true, false, (RuleGroupMetadata) null);
+-      Module module0 = new Module(ruleMetadata0, true);
+-      SeverityLevel severityLevel1 = SeverityLevel.ERROR;
+-      module0.setSeverity(severityLevel1);
+-      SeverityLevel severityLevel2 = module0.getSeverity();
+-      assertEquals("error", severityLevel2.getName());
+-      assertNotNull(severityLevel2);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        SeverityLevel severityLevel0 = SeverityLevel.IGNORE;
++        RuleMetadata ruleMetadata0 = new RuleMetadata(
++                "com.atlassw.tools.eclipse.checkstyle.config.Module",
++                "com.atlassw.tools.eclipse.checkstyle.config.Module",
++                ";aa6&nAGyi`Px",
++                severityLevel0,
++                true, true, true, false,
++                (RuleGroupMetadata) null);
++        Module module0 = new Module(ruleMetadata0, true);
++
++        // Verify initial severity
++        SeverityLevel initialSeverity = module0.getSeverity();
++        assertNotNull(initialSeverity);
++        assertEquals("ignore", initialSeverity.getName());
++
++        // Change severity and verify the side‑effect
++        SeverityLevel severityLevel1 = SeverityLevel.ERROR;
++        module0.setSeverity(severityLevel1);
++        SeverityLevel updatedSeverity = module0.getSeverity();
++        assertNotNull(updatedSeverity);
++        assertEquals("error", updatedSeverity.getName());
++        assertNotEquals(initialSeverity, updatedSeverity);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

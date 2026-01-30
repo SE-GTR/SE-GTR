@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/tivo/jipviewer/ValueModel_ESTest.java
++++ b/evosuite-tests/com/tivo/jipviewer/ValueModel_ESTest.java
+@@ -32,15 +32,18 @@
+       valueModel0.removeChangeListener(methodViewer0);
+       assertFalse(methodViewer0.getIgnoreRepaint());
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    ValueModel<Object> valueModel0 = new ValueModel<>();
++    JipRun jipRun0 = new JipRun();
++    ValueModel<JipMethod> valueModel1 = new ValueModel<>();
++    MethodViewer methodViewer0 = new MethodViewer(jipRun0, valueModel1);
++    valueModel0.addChangeListener(methodViewer0);
++    valueModel0.setValue(methodViewer0);
++    // Verify that setValue correctly updates the model's value.
++    assertSame(methodViewer0, valueModel0.getValue());
++    // Preserve original behavior check.
++    assertFalse(methodViewer0.isFocusTraversalPolicyProvider());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      ValueModel<Object> valueModel0 = new ValueModel<Object>();
+-      JipRun jipRun0 = new JipRun();
+-      ValueModel<JipMethod> valueModel1 = new ValueModel<JipMethod>();
+-      MethodViewer methodViewer0 = new MethodViewer(jipRun0, valueModel1);
+-      valueModel0.addChangeListener(methodViewer0);
+-      valueModel0.setValue(methodViewer0);
+-      assertFalse(methodViewer0.isFocusTraversalPolicyProvider());
+-  }
+ }

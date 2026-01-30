@@ -1,0 +1,35 @@
+--- a/evosuite-tests/corina/gui/Layout_ESTest.java
++++ b/evosuite-tests/corina/gui/Layout_ESTest.java
+@@ -191,22 +191,16 @@
+       JPanel jPanel1 = Layout.buttonLayout((Component) jPanel0, (Component) null, (Component) null);
+       assertNotSame(jPanel1, jPanel0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      Object object0 = new Object();
+-      // Undeclared exception!
+-      try { 
+-        Layout.flowLayoutL(object0, object0, object0, object0, object0, object0);
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.lang.Object cannot be cast to java.awt.Component
+-         //
+-         verifyException("corina.gui.Layout", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        // Use valid components instead of generic Objects to avoid ClassCastException
++        JLabel label = new JLabel("label");
++        JPanel panel = Layout.flowLayoutL(label, label, label, label, label, label);
++        assertNotNull("flowLayoutL should return a non‑null JPanel", panel);
++        // The method is expected to add each argument as a component to the panel
++        assertEquals("Panel should contain six components", 6, panel.getComponentCount());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

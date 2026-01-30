@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
+@@ -191,17 +191,22 @@
+     boolean boolean0 = oSProcess1.equals(oSProcess0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      OSProcess oSProcess0 = new OSProcess();
+-      oSProcess0.setTextstatus("org.apache.log4j.spi.Configurator");
+-      OSProcess oSProcess1 = new OSProcess();
+-      boolean boolean0 = oSProcess1.equals(oSProcess0);
+-      assertFalse(oSProcess0.equals((Object)oSProcess1));
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    OSProcess oSProcess0 = new OSProcess();
++    // Verify initial state before setting textstatus
++    assertNull(oSProcess0.getTextstatus());
++    // Act: set the text status
++    oSProcess0.setTextstatus("org.apache.log4j.spi.Configurator");
++    // Assert that the side‑effect is observable via the getter
++    assertEquals("org.apache.log4j.spi.Configurator", oSProcess0.getTextstatus());
++
++    OSProcess oSProcess1 = new OSProcess();
++    boolean boolean0 = oSProcess1.equals(oSProcess0);
++    assertFalse(oSProcess0.equals((Object) oSProcess1));
++    assertFalse(boolean0);
++}
++
+ @Test(timeout = 4000)
+ public void test12() throws Throwable {
+     OSProcess oSProcess0 = new OSProcess();

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/heal/module/oai/heal/HEALProviderConfig_ESTest.java
++++ b/evosuite-tests/org/heal/module/oai/heal/HEALProviderConfig_ESTest.java
+@@ -335,18 +335,27 @@
+         String contentPrefix = hEALProviderConfig0.getContentPrefix();
+         assertNull(contentPrefix);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      String[] stringArray0 = new String[0];
+-      OAIMetadataFormat[] oAIMetadataFormatArray0 = new OAIMetadataFormat[1];
+-      NSDL_DCMetadataFormat nSDL_DCMetadataFormat0 = new NSDL_DCMetadataFormat();
+-      oAIMetadataFormatArray0[0] = (OAIMetadataFormat) nSDL_DCMetadataFormat0;
+-      HEALProviderConfig hEALProviderConfig0 = new HEALProviderConfig("health-sciences", 2003, "health-sciences", "health-sciences", (String) null, stringArray0, stringArray0, "org.heal.module.oai.providep.nsdl_dc.NSDL_DCMetadataFormat", stringArray0, "org.heal.module.oai.providep.nsdl_dc.NSDL_DCMetadataFormat", "org.heal.module.oai.providep.nsdl_dc.NSDL_DCMetadataFormat", oAIMetadataFormatArray0, "health-sciences");
+-      String[] stringArray1 = hEALProviderConfig0.getAllowedCollections();
+-      assertEquals(2, stringArray1.length);
+-  }
++@Test(timeout = 4000)
++public void test19() throws Throwable {
++    String[] emptyArray = new String[0];
++    OAIMetadataFormat[] formats = new OAIMetadataFormat[1];
++    formats[0] = new NSDL_DCMetadataFormat();
++    HEALProviderConfig config = new HEALProviderConfig(
++        "health-sciences", 2003, "health-sciences", "health-sciences",
++        null, emptyArray, emptyArray,
++        "org.heal.module.oai.providep.nsdl_dc.NSDL_DCMetadataFormat",
++        emptyArray, "org.heal.module.oai.providep.nsdl_dc.NSDL_DCMetadataFormat",
++        "org.heal.module.oai.providep.nsdl_dc.NSDL_DCMetadataFormat",
++        formats, "health-sciences");
++    // Verify that the coverage argument is stored correctly
++    assertEquals("health-sciences", config.getCoverage());
++    // Verify that allowed collections fall back to the default non‑empty list
++    String[] allowed = config.getAllowedCollections();
++    assertNotNull(allowed);
++    assertTrue(allowed.length > 0);
++    assertEquals("Peer Review Pending", allowed[0]);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

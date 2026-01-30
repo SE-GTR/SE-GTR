@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
+@@ -50,17 +50,26 @@
+     assertFalse(userBean0.isAdministrator());
+     assertFalse(userBean0.isApprover());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    userBean0 = new UserBean();
+-      userBean0.setApprover(false);
+-      assertTrue(userBean0.isMinor());
+-      assertFalse(userBean0.isCataloger());
+-      assertFalse(userBean0.isApprover());
+-      assertFalse(userBean0.isAdministrator());
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    userBean0 = new UserBean();
++    // Verify default approver state
++    assertFalse(userBean0.isApprover());
++
++    // Change approver flag and verify the side‑effect
++    userBean0.setApprover(true);
++    assertTrue(userBean0.isApprover());
++
++    // Revert approver flag and verify again
++    userBean0.setApprover(false);
++    assertFalse(userBean0.isApprover());
++
++    // Ensure other flags retain their expected defaults
++    assertTrue(userBean0.isMinor());
++    assertFalse(userBean0.isCataloger());
++    assertFalse(userBean0.isAdministrator());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

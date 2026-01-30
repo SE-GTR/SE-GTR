@@ -1,0 +1,41 @@
+--- a/evosuite-tests/corina/map/MapFile_ESTest.java
++++ b/evosuite-tests/corina/map/MapFile_ESTest.java
+@@ -16,21 +16,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class MapFile_ESTest extends MapFile_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        // Properly initialize the MapFile before invoking close()
++        try {
++            java.util.Iterator<?> headers = MapFile.getHeaders();
++            assertNotNull("Headers iterator should not be null after initialization", headers);
++        } catch (Throwable initEx) {
++            fail("Failed to initialize MapFile before close(): " + initEx);
++        }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        MapFile.close();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.map.MapFile", e);
+-      }
+-  }
++        // After initialization, close() should complete without throwing NullPointerException
++        try {
++            MapFile.close();
++        } catch (NullPointerException npe) {
++            fail("MapFile.close() threw NullPointerException after proper initialization");
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,24 @@
+--- a/evosuite-tests/SaveStackTrace_ESTest.java
++++ b/evosuite-tests/SaveStackTrace_ESTest.java
+@@ -20,11 +20,17 @@
+       SaveStackTrace.printTrace((String) null, mockThrowable0);
+       assertNull(mockThrowable0.getMessage());
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        java.io.ByteArrayOutputStream stream = SaveStackTrace.getStackStream();
++        int before = stream.size();
++        SaveStackTrace.printTrace("UqG5v>!uktBv3|", null);
++        int after = stream.size();
++        org.junit.Assert.assertTrue("Stream should have grown after printTrace", after > before);
++        String content = stream.toString();
++        org.junit.Assert.assertTrue("Output should contain the message", content.contains("UqG5v>!uktBv3|"));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      SaveStackTrace.printTrace("UqG5v>!uktBv3|", (Throwable) null);
+-  }
+ @Test(timeout = 4000)
+   public void test2() throws Throwable {
+       SaveStackTrace saveStackTrace0 = new SaveStackTrace();

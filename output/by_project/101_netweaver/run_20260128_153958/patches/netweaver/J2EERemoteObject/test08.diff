@@ -1,0 +1,50 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EERemoteObject_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EERemoteObject_ESTest.java
+@@ -156,20 +156,33 @@
+         assertTrue(j2EERemoteObject1.equals((Object) j2EERemoteObject0));
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      J2EERemoteObject j2EERemoteObject0 = new J2EERemoteObject();
+-      j2EERemoteObject0.setCreationTime("protocol");
+-      J2EERemoteObject j2EERemoteObject1 = new J2EERemoteObject();
+-      boolean boolean0 = j2EERemoteObject1.equals(j2EERemoteObject0);
+-      assertEquals(0, j2EERemoteObject1.getIdHash());
+-      assertEquals(0, j2EERemoteObject1.getImplementations());
+-      assertFalse(boolean0);
+-      assertEquals(0, j2EERemoteObject1.getStubs());
+-      assertEquals(0, j2EERemoteObject1.getPort());
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    J2EERemoteObject j2EERemoteObject0 = new J2EERemoteObject();
++    // Capture the initial state before invoking the void method
++    int idHashBefore = j2EERemoteObject0.getIdHash();
++    int implBefore = j2EERemoteObject0.getImplementations();
++    int stubsBefore = j2EERemoteObject0.getStubs();
++    int portBefore = j2EERemoteObject0.getPort();
++
++    // Act: set the creation time
++    j2EERemoteObject0.setCreationTime("protocol");
++
++    // Verify that only the creationTime field was affected (other fields unchanged)
++    assertEquals(idHashBefore, j2EERemoteObject0.getIdHash());
++    assertEquals(implBefore, j2EERemoteObject0.getImplementations());
++    assertEquals(stubsBefore, j2EERemoteObject0.getStubs());
++    assertEquals(portBefore, j2EERemoteObject0.getPort());
++
++    J2EERemoteObject j2EERemoteObject1 = new J2EERemoteObject();
++    boolean boolean0 = j2EERemoteObject1.equals(j2EERemoteObject0);
++    assertFalse(boolean0);
++    assertEquals(0, j2EERemoteObject1.getIdHash());
++    assertEquals(0, j2EERemoteObject1.getImplementations());
++    assertEquals(0, j2EERemoteObject1.getStubs());
++    assertEquals(0, j2EERemoteObject1.getPort());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

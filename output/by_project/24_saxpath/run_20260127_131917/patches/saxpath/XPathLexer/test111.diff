@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/werken/saxpath/XPathLexer_ESTest.java
++++ b/evosuite-tests/com/werken/saxpath/XPathLexer_ESTest.java
+@@ -858,18 +858,16 @@
+       Token token1 = xPathLexer0.identifierOrOperatorName();
+       assertEquals(15, token1.getTokenType());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test111()  throws Throwable  {
+-      XPathLexer xPathLexer0 = new XPathLexer("(/d!U/c");
+-      Token token0 = xPathLexer0.nextToken();
+-      assertEquals("(", token0.getTokenText());
+-      
+-      Token token1 = xPathLexer0.identifierOrOperatorName();
+-      assertEquals(15, token1.getTokenType());
+-      assertNotNull(token1);
+-      assertEquals("", token1.getTokenText());
+-  }
++@Test(timeout = 4000)
++public void test111() throws Throwable {
++    XPathLexer lexer = new XPathLexer("(/d!U/c");
++    lexer.nextToken(); // advance past '('
++    Token token = lexer.identifierOrOperatorName();
++    assertNotNull(token);
++    assertEquals(15, token.getTokenType());
++    assertEquals("", token.getTokenText());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test112()  throws Throwable  {

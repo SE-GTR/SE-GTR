@@ -1,0 +1,32 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -587,14 +587,21 @@
+       boolean boolean0 = handballModel0.isSaved();
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test45()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      handballModel0.setMoveName("GK)>~v4+!aA=65~95");
+-      boolean boolean0 = handballModel0.isSaved();
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test45() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        // capture initial move name (expected to be null or empty)
++        String before = handballModel0.getMoveName();
++        // act
++        handballModel0.setMoveName("GK)>~v4+!aA=65~95");
++        // assert that the move name was updated
++        assertEquals("GK)>~v4+!aA=65~95", handballModel0.getMoveName());
++        // ensure that setting the name does not mark the model as saved
++        assertFalse(handballModel0.isSaved());
++        // optional sanity check that the name actually changed from its previous value
++        assertNotEquals(before, handballModel0.getMoveName());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test46()  throws Throwable  {

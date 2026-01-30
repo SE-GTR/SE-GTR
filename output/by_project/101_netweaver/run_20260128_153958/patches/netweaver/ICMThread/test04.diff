@@ -1,0 +1,47 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMThread_ESTest.java
+@@ -61,20 +61,30 @@
+     iCMThread2.setRequesttype(req);
+     assertTrue(iCMThread0.equals(iCMThread2));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      ICMThread iCMThread0 = new ICMThread();
+-      ICMThread iCMThread1 = new ICMThread();
+-      iCMThread1.setStatus("4|pNo[i:#Lx3}d#]");
+-      assertFalse(iCMThread1.equals((Object)iCMThread0));
+-      
+-      iCMThread0.setStatus("4|pNo[i:#Lx3}d#]");
+-      boolean boolean0 = iCMThread0.equals(iCMThread1);
+-      assertTrue(iCMThread1.equals((Object)iCMThread0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        ICMThread iCMThread0 = new ICMThread();
++        ICMThread iCMThread1 = new ICMThread();
++
++        // initial status should be null
++        assertNull(iCMThread1.getStatus());
++
++        // set and verify status on first thread
++        iCMThread1.setStatus("4|pNo[i:#Lx3}d#]");
++        assertEquals("4|pNo[i:#Lx3}d#]", iCMThread1.getStatus());
++
++        // objects differ because second thread still has null status
++        assertFalse(iCMThread1.equals((Object) iCMThread0));
++
++        // set same status on second thread and verify
++        iCMThread0.setStatus("4|pNo[i:#Lx3}d#]");
++        assertEquals("4|pNo[i:#Lx3}d#]", iCMThread0.getStatus());
++
++        boolean boolean0 = iCMThread0.equals(iCMThread1);
++        assertTrue(iCMThread1.equals((Object) iCMThread0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

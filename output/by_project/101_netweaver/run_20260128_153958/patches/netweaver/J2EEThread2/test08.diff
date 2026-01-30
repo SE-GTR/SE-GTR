@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
+@@ -117,15 +117,24 @@
+     // Existing assertion on index
+     assertEquals(0, j2EEThread2_0.getIndex());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      J2EEThread2 j2EEThread2_0 = new J2EEThread2();
+-      j2EEThread2_0.setTaskupdateTime("~5$2");
+-      j2EEThread2_0.hashCode();
+-      assertEquals(0, j2EEThread2_0.getIndex());
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    J2EEThread2 thread = new J2EEThread2();
++    // initial state should have no task update time
++    assertNull(thread.getTaskupdateTime());
++    // set a specific task update time
++    String newTime = "~5$2";
++    thread.setTaskupdateTime(newTime);
++    // verify the side‑effect via the getter
++    assertEquals(newTime, thread.getTaskupdateTime());
++    // hashCode should be stable for the same object state
++    int hash1 = thread.hashCode();
++    int hash2 = thread.hashCode();
++    assertEquals(hash1, hash2);
++    // existing behavior check
++    assertEquals(0, thread.getIndex());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

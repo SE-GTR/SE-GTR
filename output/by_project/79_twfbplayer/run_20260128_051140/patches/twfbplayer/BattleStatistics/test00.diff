@@ -1,0 +1,29 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/statistics/BattleStatistics_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/statistics/BattleStatistics_ESTest.java
+@@ -32,14 +32,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class BattleStatistics_ESTest extends BattleStatistics_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      BattleStatistics battleStatistics0 = new BattleStatistics(0, 0);
+-      battleStatistics0.setRound(0);
+-      Map<CombatantSide, ? extends LabeledData> map0 = battleStatistics0.getNotShootersPerRound();
+-      assertEquals(2, map0.size());
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    BattleStatistics battleStatistics0 = new BattleStatistics(0, 0);
++    int roundBefore = battleStatistics0.getCurrentRoundNo();
++    battleStatistics0.setRound(0);
++    int roundAfter = battleStatistics0.getCurrentRoundNo();
++    assertEquals(roundBefore, roundAfter);
++    assertEquals(0, roundAfter);
++    Map<CombatantSide, ? extends LabeledData> map0 = battleStatistics0.getNotShootersPerRound();
++    assertEquals(2, map0.size());
++}
++
+ @Test(timeout = 4000)
+ public void test01() throws Throwable {
+     BattleStatistics battleStatistics0 = new BattleStatistics(0, 0);

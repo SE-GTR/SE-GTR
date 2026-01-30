@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/jcvi/jillion/fasta/nt/IndexedNucleotideSequenceFastaFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/fasta/nt/IndexedNucleotideSequenceFastaFileDataStore_ESTest.java
+@@ -166,27 +166,25 @@
+       boolean boolean0 = indexedNucleotideSequenceFastaFileDataStore0.contains("iLP('zljd;");
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("");
+-      FastaFileParser fastaFileParser0 = FastaFileParser.create((File) mockFile0);
+-      DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
+-      HashMap<String, FastaVisitorCallback.FastaVisitorMemento> hashMap0 = new HashMap<String, FastaVisitorCallback.FastaVisitorMemento>();
+-      hashMap0.put("", (FastaVisitorCallback.FastaVisitorMemento) null);
+-      IndexedNucleotideSequenceFastaFileDataStore indexedNucleotideSequenceFastaFileDataStore0 = new IndexedNucleotideSequenceFastaFileDataStore(mockFile0, fastaFileParser0, dataStoreFilter0, hashMap0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    MockFile mockFile0 = new MockFile("");
++    FastaFileParser fastaFileParser0 = FastaFileParser.create((File) mockFile0);
++    DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
++    HashMap<String, FastaVisitorCallback.FastaVisitorMemento> hashMap0 = new HashMap<>();
++    FastaVisitorCallback.FastaVisitorMemento previous = hashMap0.put("", (FastaVisitorCallback.FastaVisitorMemento) null);
++    assertNull(previous);
++    IndexedNucleotideSequenceFastaFileDataStore indexedNucleotideSequenceFastaFileDataStore0 =
++            new IndexedNucleotideSequenceFastaFileDataStore(mockFile0, fastaFileParser0, dataStoreFilter0, hashMap0);
++    try {
+         indexedNucleotideSequenceFastaFileDataStore0.get("");
+         fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // unknown memento instance : null
+-         //
+-         verifyException("org.jcvi.jillion.fasta.FastaFileParser$FileFastaParser", e);
+-      }
+-  }
++    } catch (IllegalStateException e) {
++        // unknown memento instance : null
++        verifyException("org.jcvi.jillion.fasta.FastaFileParser$FileFastaParser", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

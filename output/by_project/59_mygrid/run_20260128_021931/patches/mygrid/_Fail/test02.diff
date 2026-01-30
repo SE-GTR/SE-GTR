@@ -1,0 +1,39 @@
+--- a/evosuite-tests/mygrid/web/_Fail_ESTest.java
++++ b/evosuite-tests/mygrid/web/_Fail_ESTest.java
+@@ -36,19 +36,25 @@
+     int secondHash = _Fail0.hashCode();
+     assertEquals(firstHash, secondHash);
+ }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    _Fail _Fail0 = new _Fail();
++    _Fail _Fail1 = new _Fail();
++    // Verify initial state
++    assertNull(_Fail0.getJob());
++    assertNull(_Fail1.getJob());
++    assertTrue(_Fail1.equals((Object) _Fail0));
+ 
++    Job job0 = new Job();
++    _Fail1.setJob(job0);
++    // Observe side‑effect of setJob
++    assertSame(job0, _Fail1.getJob());
++    assertNull(_Fail0.getJob());
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      _Fail _Fail0 = new _Fail();
+-      _Fail _Fail1 = new _Fail();
+-      assertTrue(_Fail1.equals((Object)_Fail0));
+-      
+-      Job job0 = new Job();
+-      _Fail1.setJob(job0);
+-      boolean boolean0 = _Fail0.equals(_Fail1);
+-      assertFalse(boolean0);
+-  }
++    boolean boolean0 = _Fail0.equals(_Fail1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

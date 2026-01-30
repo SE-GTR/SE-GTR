@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParserTokenManager_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParserTokenManager_ESTest.java
+@@ -942,17 +942,20 @@
+     Token token0 = javaParserTokenManager0.getNextToken();
+     assertEquals(74, token0.kind);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test86()  throws Throwable  {
+-      FileDescriptor fileDescriptor0 = new FileDescriptor();
+-      MockFileInputStream mockFileInputStream0 = new MockFileInputStream(fileDescriptor0);
+-      JavaCharStream javaCharStream0 = new JavaCharStream(mockFileInputStream0, 81, 81, 81);
+-      JavaParserTokenManager javaParserTokenManager0 = new JavaParserTokenManager(javaCharStream0);
+-      MockPrintStream mockPrintStream0 = new MockPrintStream(javaParserTokenManager0.debugStream, false);
+-      javaParserTokenManager0.setDebugStream(mockPrintStream0);
+-  }
++@Test(timeout = 4000)
++public void test86() throws Throwable {
++    FileDescriptor fileDescriptor0 = new FileDescriptor();
++    MockFileInputStream mockFileInputStream0 = new MockFileInputStream(fileDescriptor0);
++    JavaCharStream javaCharStream0 = new JavaCharStream(mockFileInputStream0, 81, 81, 81);
++    JavaParserTokenManager javaParserTokenManager0 = new JavaParserTokenManager(javaCharStream0);
++    MockPrintStream mockPrintStream0 = new MockPrintStream(javaParserTokenManager0.debugStream, false);
++    // Verify initial debug stream
++    assertSame(System.out, javaParserTokenManager0.debugStream);
++    javaParserTokenManager0.setDebugStream(mockPrintStream0);
++    // Verify that the debug stream was updated
++    assertSame(mockPrintStream0, javaParserTokenManager0.debugStream);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test87()  throws Throwable  {

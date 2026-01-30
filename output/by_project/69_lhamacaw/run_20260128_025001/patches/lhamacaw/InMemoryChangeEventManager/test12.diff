@@ -1,0 +1,39 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryChangeEventManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryChangeEventManager_ESTest.java
+@@ -169,19 +169,23 @@
+     ArrayList<MacawChangeEvent> history = manager.getChangeHistoryForVariable(user, variable);
+     assertNotNull(history);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+-      User user0 = new User();
+-      DerivedVariable derivedVariable0 = new DerivedVariable();
+-      MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent();
+-      macawChangeEvent0.setVariableOwnerID(1);
+-      inMemoryChangeEventManager0.registerChangeEvent(macawChangeEvent0);
+-      ArrayList<MacawChangeEvent> arrayList0 = inMemoryChangeEventManager0.getChangeHistoryForVariable(user0, derivedVariable0);
+-      assertFalse(arrayList0.contains(macawChangeEvent0));
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
++        User user0 = new User();
++        DerivedVariable derivedVariable0 = new DerivedVariable();
++        MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent();
++        // Observe the side‑effect of setVariableOwnerID
++        int beforeOwnerId = macawChangeEvent0.getVariableOwnerID();
++        macawChangeEvent0.setVariableOwnerID(1);
++        assertEquals(1, macawChangeEvent0.getVariableOwnerID());
++        assertNotEquals(beforeOwnerId, macawChangeEvent0.getVariableOwnerID());
++        // Existing behavior verification
++        inMemoryChangeEventManager0.registerChangeEvent(macawChangeEvent0);
++        ArrayList<MacawChangeEvent> arrayList0 = inMemoryChangeEventManager0.getChangeHistoryForVariable(user0, derivedVariable0);
++        assertFalse(arrayList0.contains(macawChangeEvent0));
++    }
++
+ @Test(timeout = 4000)
+   public void test13() throws Throwable {
+       InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();

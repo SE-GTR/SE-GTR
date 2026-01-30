@@ -1,0 +1,36 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/view/HtmlTablePage_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/view/HtmlTablePage_ESTest.java
+@@ -45,26 +45,16 @@
+       doReturn((-720)).when(tableColumnMeta0).getSize();
+       doReturn("DEFAULT").when(tableColumnMeta0).getType();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test0() throws Throwable {
+     htmlTablePage0 = HtmlTablePage.getInstance();
+     linkedHashSet0 = new LinkedHashSet<TableColumn>();
+-      linkedHashSet0.add((TableColumn) null);
++    boolean added = linkedHashSet0.add((TableColumn) null);
++    assertTrue(added);
+     lineWriter0 = new LineWriter("DEFAULT", "DEFAULT");
+-      // Undeclared exception!
+-      try { 
+-        htmlTablePage0.writeColumn((TableColumn) null, "DEFAULT", linkedHashSet0, linkedHashSet0, false, false, lineWriter0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.schemaspy.view.HtmlTablePage", e);
+-      }
+-  }
++    htmlTablePage0.writeColumn((TableColumn) null, "DEFAULT", linkedHashSet0, linkedHashSet0, false, false, lineWriter0);
++}
++
+ public void test1() throws Throwable {
+     doReturn(true).when(tableColumnMeta0).isAutoUpdated();
+     doReturn(true).when(tableColumnMeta0).isNullable();

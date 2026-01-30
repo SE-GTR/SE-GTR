@@ -1,0 +1,33 @@
+--- a/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
++++ b/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
+@@ -208,11 +208,23 @@
+       String string0 = geoUsAddress0.getCounty();
+       assertEquals("", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      GeoUsAddress geoUsAddress0 = new GeoUsAddress();
+-      geoUsAddress0.setAddressLine1("");
+-      assertEquals("", geoUsAddress0.getCounty());
+-  }
++@Test(timeout = 4000)
++    public void test20() throws Throwable {
++        GeoUsAddress address1 = new GeoUsAddress();
++        GeoUsAddress address2 = new GeoUsAddress();
++
++        // Apply the same state to both objects
++        address1.setAddressLine1("123 Main St");
++        address2.setAddressLine1("123 Main St");
++
++        // Verify that the side‑effect of setting the field is observable via equals and hashCode
++        assertTrue(address1.equals(address2));
++        assertEquals(address1.hashCode(), address2.hashCode());
++
++        // Change state of one object and verify the difference is detected
++        address2.setAddressLine1("456 Oak Ave");
++        assertFalse(address1.equals(address2));
++        assertNotEquals(address1.hashCode(), address2.hashCode());
++    }
++
+ }

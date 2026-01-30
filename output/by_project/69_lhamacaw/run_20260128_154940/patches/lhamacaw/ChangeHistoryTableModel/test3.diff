@@ -1,0 +1,29 @@
+--- a/evosuite-tests/macaw/presentationLayer/ChangeHistoryTableModel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/ChangeHistoryTableModel_ESTest.java
+@@ -77,9 +77,8 @@
+     // additional distinct assertion to differentiate this test
+     assertEquals(3, changeHistoryTableModel0.getColumnCount());
+ }
+-
+ @Test(timeout = 4000)
+-  public void test3() throws Throwable {
++public void test3() throws Throwable {
+     changeHistoryTableModel0 = new ChangeHistoryTableModel();
+     arrayList0 = new ArrayList<MacawChangeEvent>();
+     changeEventType0 = ChangeEventType.LIST_CHOICE;
+@@ -90,9 +89,14 @@
+     changeHistoryTableModel0.setChangeEvents(arrayList0);
+     int rowsAfter = changeHistoryTableModel0.getRowCount();
+     assertEquals(rowsBefore + 1, rowsAfter);
++    // Verify that the inserted event is reflected in the table model
++    Object message = changeHistoryTableModel0.getValueAt(0, 1);
++    assertEquals("x", message);
++    // Access with an invalid column should return null
+     Object object0 = changeHistoryTableModel0.getValueAt(0, -3717);
+     assertNull(object0);
+-  }
++}
++
+ @Test(timeout = 4000)
+ public void test4() throws Throwable {
+     ChangeHistoryTableModel model = new ChangeHistoryTableModel();

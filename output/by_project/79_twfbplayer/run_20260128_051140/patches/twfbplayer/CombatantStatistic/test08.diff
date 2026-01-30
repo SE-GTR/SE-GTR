@@ -1,0 +1,35 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/statistics/CombatantStatistic_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/statistics/CombatantStatistic_ESTest.java
+@@ -100,16 +100,22 @@
+     double double0 = combatantStatistic0.averageWeaponDamage(combatantSide0);
+     assertTrue("Average weapon damage should be non‑negative", double0 >= 0.0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      CombatantStatistic combatantStatistic0 = new CombatantStatistic(20);
+-      CombatantSide combatantSide0 = CombatantSide.ATTACKER;
+-      CombatantStatType combatantStatType0 = CombatantStatType.charclass;
+-      combatantStatistic0.addData(combatantStatType0, combatantSide0, 20);
+-      combatantStatistic0.addData(combatantStatType0, combatantSide0, 20);
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        CombatantStatistic combatantStatistic0 = new CombatantStatistic(20);
++        CombatantSide combatantSide0 = CombatantSide.ATTACKER;
++        CombatantStatType combatantStatType0 = CombatantStatType.charclass;
++
++        int before = combatantStatistic0.getData(combatantStatType0, combatantSide0);
++        combatantStatistic0.addData(combatantStatType0, combatantSide0, 20);
++        int afterFirst = combatantStatistic0.getData(combatantStatType0, combatantSide0);
++        assertEquals(before + 20, afterFirst);
++
++        combatantStatistic0.addData(combatantStatType0, combatantSide0, 20);
++        int afterSecond = combatantStatistic0.getData(combatantStatType0, combatantSide0);
++        assertEquals(before + 40, afterSecond);
++    }
++
+ @Test(timeout = 4000)
+ public void test09() throws Throwable {
+     CombatantStatistic combatantStatistic0 = new CombatantStatistic(2522);

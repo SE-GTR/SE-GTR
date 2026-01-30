@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/FileIterator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/FileIterator_ESTest.java
+@@ -41,23 +41,18 @@
+          verifyException("org.jcvi.jillion.core.util.FileIterator", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("fileiter_test");
++        File dir = tempDir.toFile();
++        FileIterator.FileIteratorBuilder builder = FileIterator.createNonRecursiveFileIteratorBuilder(dir);
++        builder = builder.includeHiddenFiles(true);
++        FileIterator iterator = builder.build();
++        assertNotNull(iterator);
++        assertFalse(iterator.hasNext());
++        java.nio.file.Files.deleteIfExists(tempDir);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      FileIterator.FileIteratorBuilder fileIterator_FileIteratorBuilder0 = FileIterator.createNonRecursiveFileIteratorBuilder((File) null);
+-      FileIterator.FileIteratorBuilder fileIterator_FileIteratorBuilder1 = fileIterator_FileIteratorBuilder0.includeHiddenFiles(true);
+-      // Undeclared exception!
+-      try { 
+-        fileIterator_FileIteratorBuilder1.build();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // rootDir can not be null
+-         //
+-         verifyException("org.jcvi.jillion.core.util.FileIterator", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

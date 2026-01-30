@@ -1,0 +1,52 @@
+--- a/evosuite-tests/org/heal/servlet/ControllerServlet_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/ControllerServlet_ESTest.java
+@@ -42,31 +42,25 @@
+         controllerServlet0.doPost(httpServletRequestWrapper0, httpServletResponse0);
+         assertSame(hashtable0, controllerServlet0.actions);
+     }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    controllerServlet0 = new ControllerServlet();
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn("rbf").when(httpServletRequest0).getPathInfo();
++    HttpSession httpSession0 = mock(HttpSession.class);
++    doReturn(httpSession0).when(httpServletRequest0).getSession();
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class);
++    Hashtable<Object, DownloadAction> hashtable0 = new Hashtable<>();
++    DownloadAction downloadAction0 = new DownloadAction();
++    hashtable0.put("rbf", downloadAction0);
++    controllerServlet0.actions = hashtable0;
++    // invoke without expecting an exception
++    controllerServlet0.doPost(httpServletRequestWrapper0, httpServletResponse0);
++    // verify that the action mapping remains intact
++    assertSame(downloadAction0, controllerServlet0.actions.get("rbf"));
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    controllerServlet0 = new ControllerServlet();
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("rbf").when(httpServletRequest0).getPathInfo();
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      Hashtable<Object, DownloadAction> hashtable0 = new Hashtable<Object, DownloadAction>();
+-      DownloadAction downloadAction0 = new DownloadAction();
+-      hashtable0.put("rbf", downloadAction0);
+-      controllerServlet0.actions = hashtable0;
+-      // Undeclared exception!
+-      try { 
+-        controllerServlet0.doPost(httpServletRequestWrapper0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.ControllerServlet", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

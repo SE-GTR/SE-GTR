@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
+@@ -100,13 +100,27 @@
+         assertEquals(10, columnBean0.getLen());
+         assertEquals(3, columnBean0.getDec());
+     }
+-public void test11() throws Throwable {
+-    ColumnBean columnBean0 = new ColumnBean();
+-    columnBean0.setName("z%Zdq0w.");
+-    assertEquals("z%Zdq0w.", columnBean0.getName());
+-    assertEquals(0, columnBean0.getDec());
+-    assertEquals(0, columnBean0.getLen());
+-}
++@Test
++    public void test11() throws Throwable {
++        ColumnBean columnBean0 = new ColumnBean();
++        // Verify initial state
++        assertEquals("", columnBean0.getName());
++        assertEquals(0, columnBean0.getDec());
++        assertEquals(0, columnBean0.getLen());
++
++        // Change name and verify the side‑effect is observed
++        columnBean0.setName("first");
++        assertEquals("first", columnBean0.getName());
++
++        // Change name again to ensure mutability works as expected
++        columnBean0.setName("second");
++        assertEquals("second", columnBean0.getName());
++
++        // Ensure other fields remain unchanged
++        assertEquals(0, columnBean0.getDec());
++        assertEquals(0, columnBean0.getLen());
++    }
++
+ @Test(timeout = 4000)
+     public void test12() throws Throwable {
+         ColumnBean columnBean0 = new ColumnBean();

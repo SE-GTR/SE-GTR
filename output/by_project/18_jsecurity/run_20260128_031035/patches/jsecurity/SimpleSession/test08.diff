@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
+@@ -86,14 +86,17 @@
+       assertTrue(simpleSession0.isExpired());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      SimpleSession simpleSession0 = new SimpleSession();
+-      boolean boolean0 = simpleSession0.isValid();
+-      assertTrue(boolean0);
+-      assertEquals(1800000L, simpleSession0.getTimeout());
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        SimpleSession simpleSession0 = new SimpleSession();
++        // Change the session timeout and verify the update
++        long newTimeout = 5000L;
++        simpleSession0.setTimeout(newTimeout);
++        assertEquals(newTimeout, simpleSession0.getTimeout());
++        // The session should still be valid after changing the timeout
++        assertTrue(simpleSession0.isValid());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

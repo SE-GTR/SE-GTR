@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/fasta/qual/DefaultQualityFastaFileDataStoreBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/fasta/qual/DefaultQualityFastaFileDataStoreBuilder_ESTest.java
+@@ -20,16 +20,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DefaultQualityFastaFileDataStoreBuilder_ESTest extends DefaultQualityFastaFileDataStoreBuilder_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(dataStoreFilter0).accept(anyString());
++    boolean acceptResult = dataStoreFilter0.accept("testString");
++    assertFalse(acceptResult);
++    DefaultQualityFastaFileDataStoreBuilder defaultQualityFastaFileDataStoreBuilder0 = new DefaultQualityFastaFileDataStoreBuilder(dataStoreFilter0);
++    FastaVisitorCallback fastaVisitorCallback0 = mock(FastaVisitorCallback.class, new ViolatedAssumptionAnswer());
++    FastaRecordVisitor fastaRecordVisitor0 = defaultQualityFastaFileDataStoreBuilder0.visitDefline(fastaVisitorCallback0, "org.jcvi.jillion.core.util.FileIterator$NonDirectoryFileFilter", "org.jcvi.jillion.core.util.FileIterator$NonDirectoryFileFilter");
++    assertNull(fastaRecordVisitor0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(dataStoreFilter0).accept(anyString());
+-      DefaultQualityFastaFileDataStoreBuilder defaultQualityFastaFileDataStoreBuilder0 = new DefaultQualityFastaFileDataStoreBuilder(dataStoreFilter0);
+-      FastaVisitorCallback fastaVisitorCallback0 = mock(FastaVisitorCallback.class, new ViolatedAssumptionAnswer());
+-      FastaRecordVisitor fastaRecordVisitor0 = defaultQualityFastaFileDataStoreBuilder0.visitDefline(fastaVisitorCallback0, "org.jcvi.jillion.core.util.FileIterator$NonDirectoryFileFilter", "org.jcvi.jillion.core.util.FileIterator$NonDirectoryFileFilter");
+-      assertNull(fastaRecordVisitor0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

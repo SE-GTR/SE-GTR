@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/browsersoft/aacs/SimpleUserMgr_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/SimpleUserMgr_ESTest.java
+@@ -105,13 +105,20 @@
+         // Trivial assertion to satisfy JUnit's expectation of at least one assert.
+         assertTrue(true);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
+-      simpleUserMgr0.parseLine("ip");
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
++        // Verify initial state: no user should be set
++        assertNull(simpleUserMgr0.getUser());
++        // Act: parse a line that should create a user
++        simpleUserMgr0.parseLine("ip");
++        // Verify side‑effect: a user object is now stored
++        User user = simpleUserMgr0.getUser();
++        assertNotNull(user);
++        // The created user should be a proper User instance
++        assertTrue(user instanceof User);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

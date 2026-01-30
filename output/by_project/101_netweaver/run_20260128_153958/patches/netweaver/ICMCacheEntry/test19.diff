@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
+@@ -311,16 +311,28 @@
+       assertEquals(5607, iCMCacheEntry0.getVersion());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
+-      iCMCacheEntry0.setName("");
+-      ICMCacheEntry iCMCacheEntry1 = new ICMCacheEntry();
+-      boolean boolean0 = iCMCacheEntry0.equals(iCMCacheEntry1);
+-      assertFalse(boolean0);
+-      assertFalse(iCMCacheEntry1.equals((Object)iCMCacheEntry0));
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
++        // initially the name should be null
++        assertNull(iCMCacheEntry0.getName());
++        // setName should change the internal state
++        iCMCacheEntry0.setName("");
++        assertEquals("", iCMCacheEntry0.getName());
++
++        ICMCacheEntry iCMCacheEntry1 = new ICMCacheEntry();
++        // without setting a name the entries are not equal
++        boolean boolean0 = iCMCacheEntry0.equals(iCMCacheEntry1);
++        assertFalse(boolean0);
++        assertFalse(iCMCacheEntry1.equals((Object) iCMCacheEntry0));
++
++        // after giving both entries the same name they become equal
++        iCMCacheEntry1.setName("");
++        assertEquals("", iCMCacheEntry1.getName());
++        assertTrue(iCMCacheEntry0.equals(iCMCacheEntry1));
++        assertTrue(iCMCacheEntry1.equals((Object) iCMCacheEntry0));
++    }
++
+ @Test(timeout = 4000)
+ public void test20() throws Throwable {
+     ICMCacheEntry entry = new ICMCacheEntry();

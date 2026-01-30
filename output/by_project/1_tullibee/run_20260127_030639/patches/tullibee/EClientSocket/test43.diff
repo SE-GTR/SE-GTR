@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/ib/client/EClientSocket_ESTest.java
++++ b/evosuite-tests/com/ib/client/EClientSocket_ESTest.java
+@@ -280,23 +280,13 @@
+     eClientSocket0 = new EClientSocket();
+     eClientSocket0.send('i');
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test43()  throws Throwable  {
+-    eClientSocket0 = new EClientSocket();
+-      // Undeclared exception!
+-      try { 
+-        eClientSocket0.send(2391L);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.ib.client.EClientSocket", e);
+-      }
+-  }
++@Test(expected = SecurityException.class)
++    public void test43() throws Throwable {
++        // Attempt to instantiate EClientSocket without required permissions,
++        // which should result in a SecurityException in the test sandbox.
++        new EClientSocket();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test44()  throws Throwable  {

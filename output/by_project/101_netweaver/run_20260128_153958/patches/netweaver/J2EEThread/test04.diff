@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
+@@ -62,14 +62,19 @@
+         int secondHash = j2EEThread0.hashCode();
+         assertEquals(firstHash, secondHash);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      J2EEThread j2EEThread0 = new J2EEThread();
+-      j2EEThread0.setClassname("58z{Z~+I");
+-      j2EEThread0.hashCode();
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        J2EEThread j2EEThread0 = new J2EEThread();
++        String expectedClassname = "58z{Z~+I";
++        j2EEThread0.setClassname(expectedClassname);
++        // Verify that the classname was set correctly (NASE)
++        org.junit.Assert.assertEquals(expectedClassname, j2EEThread0.getClassname());
++        // Verify hashCode behavior (NARV)
++        int hash1 = j2EEThread0.hashCode();
++        int hash2 = j2EEThread0.hashCode();
++        org.junit.Assert.assertEquals(hash1, hash2);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

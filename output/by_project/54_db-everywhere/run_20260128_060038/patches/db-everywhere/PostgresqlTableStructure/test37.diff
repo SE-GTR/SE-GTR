@@ -1,0 +1,25 @@
+--- a/evosuite-tests/com/gbshape/dbe/postgresql/PostgresqlTableStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/postgresql/PostgresqlTableStructure_ESTest.java
+@@ -582,15 +582,18 @@
+          verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test37()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test37() throws Throwable {
+       PostgresqlTableStructure postgresqlTableStructure0 = new PostgresqlTableStructure();
+       DBDataBean dBDataBean0 = new DBDataBean();
+       dBDataBean0.setDriver("org.apache.struts.config.DataSourceConfig");
+-      TableStructureBean tableStructureBean0 = postgresqlTableStructure0.getStructure(dBDataBean0, "org.apache.struts.config.DataSourceConfig");
++      // Verify that the driver was set correctly (observes side effect)
++      assertEquals("org.apache.struts.config.DataSourceConfig", dBDataBean0.getDriver());
++      TableStructureBean tableStructureBean0 = postgresqlTableStructure0.getStructure(dBDataBean0,
++              "org.apache.struts.config.DataSourceConfig");
+       assertEquals("org.apache.struts.config.DataSourceConfig", tableStructureBean0.getTableName());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test38()  throws Throwable  {

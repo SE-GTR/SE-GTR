@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
+@@ -459,22 +459,30 @@
+     assertNotEquals(defaultMsg, quickServerConfig0.getMaxConnectionMsg());
+     assertEquals(";M)G", quickServerConfig0.getMaxConnectionMsg());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      QSAdminServerConfig qSAdminServerConfig0 = new QSAdminServerConfig();
+-      qSAdminServerConfig0.setMaxConnectionMsg("");
+-      assertEquals("-ERR Max Auth Try Reached", qSAdminServerConfig0.getMaxAuthTryMsg());
+-      assertEquals(5, qSAdminServerConfig0.getMaxAuthTry());
+-      assertEquals(60000, qSAdminServerConfig0.getTimeout());
+-      assertEquals(1L, qSAdminServerConfig0.getMaxConnection());
+-      assertEquals("INFO", qSAdminServerConfig0.getConsoleLoggingLevel());
+-      assertEquals(9877, qSAdminServerConfig0.getPort());
+-      assertFalse(qSAdminServerConfig0.getCommunicationLogging());
+-      assertEquals("-ERR Timeout", qSAdminServerConfig0.getTimeoutMsg());
+-      assertEquals("-ERR Server Busy. Max Connection Reached", qSAdminServerConfig0.getMaxConnectionMsg());
+-  }
++@Test(timeout = 4000)
++public void test26() throws Throwable {
++    QSAdminServerConfig qSAdminServerConfig0 = new QSAdminServerConfig();
++
++    // Verify the default max connection message
++    String defaultMsg = qSAdminServerConfig0.getMaxConnectionMsg();
++    assertEquals("-ERR Server Busy. Max Connection Reached", defaultMsg);
++
++    // Change the max connection message and verify the side‑effect
++    String newMsg = "Connection limit reached";
++    qSAdminServerConfig0.setMaxConnectionMsg(newMsg);
++    assertEquals(newMsg, qSAdminServerConfig0.getMaxConnectionMsg());
++
++    // Other default configuration assertions
++    assertEquals("-ERR Max Auth Try Reached", qSAdminServerConfig0.getMaxAuthTryMsg());
++    assertEquals(5, qSAdminServerConfig0.getMaxAuthTry());
++    assertEquals(60000, qSAdminServerConfig0.getTimeout());
++    assertEquals(1L, qSAdminServerConfig0.getMaxConnection());
++    assertEquals("INFO", qSAdminServerConfig0.getConsoleLoggingLevel());
++    assertEquals(9877, qSAdminServerConfig0.getPort());
++    assertFalse(qSAdminServerConfig0.getCommunicationLogging());
++    assertEquals("-ERR Timeout", qSAdminServerConfig0.getTimeoutMsg());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

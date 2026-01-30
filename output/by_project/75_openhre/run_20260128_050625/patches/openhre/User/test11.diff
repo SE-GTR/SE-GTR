@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
+@@ -162,13 +162,26 @@
+          verifyException("java.util.StringTokenizer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-    user0 = new User();
+-      user0.setDN("fc4B%iY*Lmi");
+-      assertFalse(user0.getPasschange());
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    user0 = new User();
++    // Capture initial state
++    String beforeCountry = user0.getCountry();
++    String beforeOrganization = user0.getOrganization();
++    String beforeUserName = user0.getUserName();
++
++    // Act
++    user0.setDN("fc4B%iY*Lmi");
++
++    // Verify that setDN has modified at least one of the related fields
++    assertTrue(!user0.getCountry().equals(beforeCountry) ||
++               !user0.getOrganization().equals(beforeOrganization) ||
++               !user0.getUserName().equals(beforeUserName));
++
++    // Existing assertion
++    assertFalse(user0.getPasschange());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

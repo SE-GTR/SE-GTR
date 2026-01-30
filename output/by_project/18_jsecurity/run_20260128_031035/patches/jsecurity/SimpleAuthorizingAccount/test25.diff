@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
+@@ -271,15 +271,19 @@
+       simpleAuthorizingAccount0.addAll(linkedHashSet0);
+       assertFalse(simpleAuthorizingAccount0.isLocked());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test25() throws Throwable {
+       SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount("<6l^d8", "<6l^d8", "<6l^d8");
+       simpleAuthorizingAccount0.addRole("<6l^d8");
+       Set<SimpleRole> set0 = simpleAuthorizingAccount0.simpleRoles;
++      int beforeSize = simpleAuthorizingAccount0.simpleRoles.size();
+       simpleAuthorizingAccount0.addAll(set0);
+-      assertFalse(simpleAuthorizingAccount0.isCredentialsExpired());
+-  }
++      int afterSize = simpleAuthorizingAccount0.simpleRoles.size();
++      assertEquals(beforeSize, afterSize);
++      assertTrue(simpleAuthorizingAccount0.simpleRoles.containsAll(set0));
++      assertFalse(simpleAuthorizingAccount0.isCredentialsExpired());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/heal/util/VCardBean_ESTest.java
++++ b/evosuite-tests/org/heal/util/VCardBean_ESTest.java
+@@ -181,19 +181,31 @@
+         assertTrue(vCard.contains("FN:" + value + " " + value));
+         assertTrue(vCard.contains("N:" + value + ";;" + value + ";"));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      VCardBean vCardBean0 = new VCardBean();
+-      vCardBean0.setOrganization("qXw}nWJuW]P");
+-      vCardBean0.setFirstName("qXw}nWJuW]P");
+-      vCardBean0.setLastName("qXw}nWJuW]P");
+-      vCardBean0.setTitle("BEGIN:VCARDBEGIN:VCARDBEGIN:VCARD\nFN:UBS9*7NHT  UBS9*7NT  ~BIN:{~B;UBS9*7HT ;UBS9*NHT ;\nTILE:;)HNVI~BA^T)\"S\nORG:5SK PFTM%R9,\"\"G\n!MAIL;TYPE=INERNE:3DC'-U\nTEL;:5SK`PMTM%9;\"\"GEND:VCARD");
+-      vCardBean0.setEmail("qXw}nWJuW]P");
+-      String string0 = vCardBean0.getVCard();
+-      assertEquals("BEGIN:VCARD\nFN:qXw}nWJuW]P qXw}nWJuW]P\nN:qXw}nWJuW]P;;qXw}nWJuW]P;\nTITLE:BEGIN:VCARDBEGIN:VCARDBEGIN:VCARD\nFN:UBS9*7NHT  UBS9*7NT  ~BIN:{~B;UBS9*7HT ;UBS9*NHT ;\nTILE:;)HNVI~BA^T)\"S\nORG:5SK PFTM%R9,\"\"G\n!MAIL;TYPE=INERNE:3DC'-U\nTEL;:5SK`PMTM%9;\"\"GEND:VCARD\nORG:qXw}nWJuW]P\nEMAIL;TYPE=INTERNET:qXw}nWJuW]P\nEND:VCARD", string0);
+-  }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    VCardBean vCardBean0 = new VCardBean();
++    String org = "qXw}nWJuW]P";
++    String first = "qXw}nWJuW]P";
++    String last = "qXw}nWJuW]P";
++    String title = "BEGIN:VCARDBEGIN:VCARDBEGIN:VCARD\nFN:UBS9*7NHT  UBS9*7NT  ~BIN:{~B;UBS9*7HT ;UBS9*NHT ;\nTILE:;)HNVI~BA^T)\"S\nORG:5SK PFTM%R9,\"\"G\n!MAIL;TYPE=INERNE:3DC'-U\nTEL;:5SK`PMTM%9;\"\"GEND:VCARD";
++    String email = "qXw}nWJuW]P";
++
++    vCardBean0.setOrganization(org);
++    vCardBean0.setFirstName(first);
++    vCardBean0.setLastName(last);
++    vCardBean0.setTitle(title);
++    vCardBean0.setEmail(email);
++
++    String vcard = vCardBean0.getVCard();
++    assertNotNull(vcard);
++    assertTrue(vcard.startsWith("BEGIN:VCARD"));
++    assertTrue(vcard.endsWith("END:VCARD"));
++    assertTrue(vcard.contains("ORG:" + org));
++    assertTrue(vcard.contains("EMAIL;TYPE=INTERNET:" + email));
++    assertTrue(vcard.contains("FN:" + first + " " + last));
++    assertTrue(vcard.contains("TITLE:" + title));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

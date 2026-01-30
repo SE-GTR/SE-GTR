@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -547,20 +547,26 @@
+       assertEquals(0, j2EEEJBSession1.getSize());
+       assertEquals(0, j2EEEJBSession1.getActiveRequests());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      j2EEEJBSession0.setBackingStore("org.apache.axis.encoding.ser.EnumDeserializerFactory");
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      assertFalse(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      
+-      j2EEEJBSession1.setBackingStore("org.apache.axis.encoding.ser.EnumDeserializerFactory");
+-      boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
+-      assertTrue(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test29() throws Throwable {
++    J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
++    J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
++
++    // Initially both sessions should be equal (no backing store set)
++    assertTrue(j2EEEJBSession0.equals(j2EEEJBSession1));
++
++    // Set backing store on the first session
++    j2EEEJBSession0.setBackingStore("customBackingStore");
++    // After setting, they should not be equal
++    assertFalse(j2EEEJBSession0.equals(j2EEEJBSession1));
++
++    // Set the same backing store on the second session
++    j2EEEJBSession1.setBackingStore("customBackingStore");
++    // Now they should be equal again
++    assertTrue(j2EEEJBSession0.equals(j2EEEJBSession1));
++    assertTrue(j2EEEJBSession1.equals(j2EEEJBSession0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

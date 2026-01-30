@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
+@@ -265,17 +265,21 @@
+          verifyException("org.hsqldb.jdbc.Util", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      Result result0 = new Result(335544331);
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      DBCheckConstraint[] dBCheckConstraintArray0 = oracleDialect0.queryCheckConstraints(jdbcConnection0, "45fTLII+d]@3LGH<k");
+-      assertEquals(0, dBCheckConstraintArray0.length);
+-  }
++@Test(timeout = 4000)
++    public void test20() throws Throwable {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        Result result0 = new Result(335544331);
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
++        // Verify that the stubbed execute method returns the expected Result
++        Result dummyResult = new Result(123);
++        Result returnedResult = session0.execute(dummyResult);
++        assertSame(result0, returnedResult);
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++        DBCheckConstraint[] dBCheckConstraintArray0 = oracleDialect0.queryCheckConstraints(jdbcConnection0, "45fTLII+d]@3LGH<k");
++        assertEquals(0, dBCheckConstraintArray0.length);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

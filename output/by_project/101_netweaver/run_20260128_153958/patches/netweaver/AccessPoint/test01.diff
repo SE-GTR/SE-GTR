@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AccessPoint_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AccessPoint_ESTest.java
+@@ -30,15 +30,23 @@
+     assertNotEquals(hashAfter, hashAfter2);
+     assertEquals(0, accessPoint0.getPort());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      AccessPoint accessPoint0 = new AccessPoint();
+-      accessPoint0.setProcessname("+'fzy");
+-      accessPoint0.hashCode();
+-      assertEquals(0, accessPoint0.getPort());
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        AccessPoint accessPoint0 = new AccessPoint();
++        String processName = "+'fzy";
++        accessPoint0.setProcessname(processName);
++        // Verify that the process name was set correctly
++        assertEquals(processName, accessPoint0.getProcessname());
++
++        // Verify hashCode consistency
++        int hash1 = accessPoint0.hashCode();
++        int hash2 = accessPoint0.hashCode();
++        assertEquals(hash1, hash2);
++
++        // Existing assertion on default port
++        assertEquals(0, accessPoint0.getPort());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -130,18 +130,20 @@
+ 
+     assertFalse(methodWriter0.equals((Object) methodWriter1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      ClassWriter classWriter0 = new ClassWriter((-814));
+-      String[] stringArray0 = new String[1];
+-      stringArray0[0] = "q_Sfc<M=|@";
+-      MethodWriter methodWriter0 = new MethodWriter(classWriter0, 1, "q_Sfc<M=|@", "q_Sfc<M=|@", "q_Sfc<M=|@", stringArray0, false, false);
+-      methodWriter0.visitAnnotationDefault();
+-      ByteVector byteVector0 = classWriter0.pool;
+-      methodWriter0.put(byteVector0);
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    ClassWriter classWriter0 = new ClassWriter((-814));
++    String[] stringArray0 = new String[1];
++    stringArray0[0] = "q_Sfc<M=|@";
++    MethodWriter methodWriter0 = new MethodWriter(classWriter0, 1, "q_Sfc<M=|@", "q_Sfc<M=|@", "q_Sfc<M=|@", stringArray0, false, false);
++    AnnotationVisitor av = methodWriter0.visitAnnotationDefault();
++    assertNotNull(av);
++    ByteVector byteVector0 = classWriter0.pool;
++    int beforeLength = byteVector0.length;
++    methodWriter0.put(byteVector0);
++    assertTrue("ByteVector length should increase after put", byteVector0.length > beforeLength);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

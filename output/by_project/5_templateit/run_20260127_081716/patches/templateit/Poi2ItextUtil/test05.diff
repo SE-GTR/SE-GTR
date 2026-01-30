@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/templateit/Poi2ItextUtil_ESTest.java
++++ b/evosuite-tests/org/templateit/Poi2ItextUtil_ESTest.java
+@@ -86,18 +86,23 @@
+       poi2ItextUtil0.copyCellHorisontalAlignment(hSSFCell0, pdfPCell0);
+       assertEquals(2.0F, pdfPCell0.getPaddingRight(), 0.01F);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      HSSFWorkbook hSSFWorkbook0 = new HSSFWorkbook();
+-      Poi2ItextUtil poi2ItextUtil0 = new Poi2ItextUtil(hSSFWorkbook0);
+-      HSSFSheet hSSFSheet0 = hSSFWorkbook0.createSheet();
+-      HSSFRow hSSFRow0 = hSSFSheet0.createRow(3);
+-      HSSFCell hSSFCell0 = hSSFRow0.createCell(2, 5);
+-      PdfPCell pdfPCell0 = new PdfPCell();
+-      poi2ItextUtil0.copyCellHorisontalAlignment(hSSFCell0, pdfPCell0);
+-      assertEquals((-1), pdfPCell0.getHorizontalAlignment());
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    HSSFWorkbook hWorkbook = new HSSFWorkbook();
++    Poi2ItextUtil util = new Poi2ItextUtil(hWorkbook);
++    HSSFSheet sheet = hWorkbook.createSheet();
++    HSSFRow row = sheet.createRow(3);
++    HSSFCell cell = row.createCell(2);
++    // Set a non‑default horizontal alignment on the POI cell
++    HSSFCellStyle style = hWorkbook.createCellStyle();
++    style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
++    cell.setCellStyle(style);
++    PdfPCell pdfCell = new PdfPCell();
++    util.copyCellHorisontalAlignment(cell, pdfCell);
++    // Verify that the alignment was copied (i.e., not the default -1)
++    assertNotEquals((-1), pdfCell.getHorizontalAlignment());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/gui/gl/ParticleSystem_ESTest.java
++++ b/evosuite-tests/gui/gl/ParticleSystem_ESTest.java
+@@ -67,17 +67,19 @@
+     ParticleSystem particleSystem0 = new ParticleSystem(particleManager0, 1, coord3f0, 0, 0);
+     assertNotNull(particleSystem0);
+ }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        ParticleManager particleManager0 = new ParticleManager();
++        float nextTimeBefore = particleManager0.getNextTime();
++        Coord3f coord3f0 = new Coord3f();
++        ParticleSystem particleSystem0 = particleManager0.createParticleSystem(0, coord3f0, 0, 0);
++        particleManager0.updateSystems(particleSystem0.IDENTITY);
++        float nextTimeAfter = particleManager0.getNextTime();
++        assertTrue("nextTime should change after updateSystems", nextTimeAfter != nextTimeBefore);
++        assertEquals(0.2F, particleSystem0.particleSize, 0.01F);
++        assertEquals(0, particleSystem0.getType());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      ParticleManager particleManager0 = new ParticleManager();
+-      Coord3f coord3f0 = new Coord3f();
+-      ParticleSystem particleSystem0 = particleManager0.createParticleSystem(0, coord3f0, 0, 0);
+-      particleManager0.updateSystems(particleSystem0.IDENTITY);
+-      assertEquals(0.2F, particleSystem0.particleSize, 0.01F);
+-      assertEquals(0, particleSystem0.getType());
+-  }
+ @Test(timeout = 4000)
+     public void test7() throws Throwable {
+         ParticleManager particleManager0 = new ParticleManager();

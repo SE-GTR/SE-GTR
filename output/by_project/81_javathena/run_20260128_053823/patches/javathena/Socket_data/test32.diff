@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/javathena/core/data/Socket_data_ESTest.java
++++ b/evosuite-tests/org/javathena/core/data/Socket_data_ESTest.java
+@@ -375,15 +375,26 @@
+     assertNotNull(string0);
+     assertTrue(string0.matches("\\d+\\.\\d+\\.\\d+\\.\\d+"));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
+-      MockSocket mockSocket0 = new MockSocket();
+-      Socket_data socket_data0 = new Socket_data(mockSocket0);
+-      Excecutable excecutable0 = socket_data0.getFunc_console();
+-      assertNull(excecutable0);
+-  }
++@Test(timeout = 4000)
++    public void test32() throws Throwable {
++        Socket dummySocket = new Socket() {
++            @Override
++            public java.io.InputStream getInputStream() {
++                return new java.io.ByteArrayInputStream(new byte[0]);
++            }
++
++            @Override
++            public java.io.OutputStream getOutputStream() {
++                return new java.io.ByteArrayOutputStream();
++            }
++        };
++        Socket_data socket_data0 = new Socket_data(dummySocket);
++        // Exercise a non‑trivial behavior
++        socket_data0.run();
++        // Verify state after the action
++        assertNull(socket_data0.getFunc_console());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test33()  throws Throwable  {

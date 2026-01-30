@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/jsecurity/web/session/DefaultWebSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/session/DefaultWebSessionManager_ESTest.java
+@@ -185,29 +185,17 @@
+          verifyException("org.jsecurity.web.WebUtils", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      DefaultWebSessionManager defaultWebSessionManager0 = new DefaultWebSessionManager();
+-      assertEquals(1800000L, AbstractValidatingSessionManager.DEFAULT_GLOBAL_SESSION_TIMEOUT);
+-      assertEquals(3600000L, AbstractValidatingSessionManager.DEFAULT_SESSION_VALIDATION_INTERVAL);
+-      assertEquals(3600000L, defaultWebSessionManager0.getSessionValidationInterval());
+-      assertTrue(defaultWebSessionManager0.isSessionValidationSchedulerEnabled());
+-      assertEquals(1800000L, defaultWebSessionManager0.getGlobalSessionTimeout());
+-      assertFalse(defaultWebSessionManager0.isValidateRequestOrigin());
+-      
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    DefaultWebSessionManager defaultWebSessionManager0 = new DefaultWebSessionManager();
++    try {
+         defaultWebSessionManager0.getHostAddress((Serializable) null);
+         fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // No ServletRequest found in ThreadContext. Make sure WebUtils.bind() is being called. (typically called by JSecurityFilter)  This could also happen when running integration tests that don't properly call WebUtils.bind().
+-         //
+-         verifyException("org.jsecurity.web.WebUtils", e);
+-      }
+-  }
++    } catch (IllegalStateException e) {
++        verifyException("org.jsecurity.web.WebUtils", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

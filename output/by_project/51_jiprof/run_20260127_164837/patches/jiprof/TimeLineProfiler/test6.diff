@@ -1,0 +1,32 @@
+--- a/evosuite-tests/net/sourceforge/jiprof/timeline/TimeLineProfiler_ESTest.java
++++ b/evosuite-tests/net/sourceforge/jiprof/timeline/TimeLineProfiler_ESTest.java
+@@ -88,19 +88,15 @@
+   public void test5()  throws Throwable  {
+       TimeLineProfiler.beginWait("cufoa4", "include:");
+   }
++@Test(timeout = 4000)
++public void test6() throws Throwable {
++    // Reset static state to ensure proper initialization
++    TimeLineProfiler._timeLine = null;
++    TimeLineProfiler._startTime = 0L;
++    // Invoke start with distinct identifiers
++    TimeLineProfiler.start("TestClass6", "testMethod6");
++    // Verify that the profiler has been initialized
++    assertNotNull("TimeLine should be initialized after start", TimeLineProfiler._timeLine);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        TimeLineProfiler.start("0045OzHZ:in~/", "0045OzHZ:in~/");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.jiprof.timeline.TimeLineProfiler", e);
+-      }
+-  }
+ }

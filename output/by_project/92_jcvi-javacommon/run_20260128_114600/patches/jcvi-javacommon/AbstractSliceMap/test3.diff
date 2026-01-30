@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/assembly/util/AbstractSliceMap_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/assembly/util/AbstractSliceMap_ESTest.java
+@@ -95,27 +95,29 @@
+       boolean boolean0 = abstractSliceMap_SliceIterator0.hasNext();
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
+       LinkedList<Slice> linkedList0 = new LinkedList<Slice>();
+       DefaultSliceMap defaultSliceMap0 = new DefaultSliceMap(linkedList0);
+       Long long0 = new Long(0L);
+       Iterator<Long> iterator0 = (Iterator<Long>) mock(Iterator.class, new ViolatedAssumptionAnswer());
+       doReturn(long0).when(iterator0).next();
++      // capture and assert the stubbed return value
++      Long returned = iterator0.next();
++      assertEquals(long0, returned);
+       AbstractSliceMap.SliceIterator abstractSliceMap_SliceIterator0 = new AbstractSliceMap.SliceIterator(iterator0, defaultSliceMap0);
+       // Undeclared exception!
+-      try { 
+-        abstractSliceMap_SliceIterator0.next();
+-        fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // 0
+-         //
+-         verifyException("org.jcvi.jillion.internal.assembly.util.DefaultSliceMap", e);
++      try {
++          abstractSliceMap_SliceIterator0.next();
++          fail("Expecting exception: ArrayIndexOutOfBoundsException");
++      } catch (ArrayIndexOutOfBoundsException e) {
++          //
++          // 0
++          //
++          verifyException("org.jcvi.jillion.internal.assembly.util.DefaultSliceMap", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

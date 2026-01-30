@@ -1,0 +1,40 @@
+--- a/evosuite-tests/jigl/math/Matrix_ESTest.java
++++ b/evosuite-tests/jigl/math/Matrix_ESTest.java
+@@ -54,19 +54,24 @@
+         assertNotNull("svbksb should return a non‑null Vector", result);
+         assertArrayEquals(new double[] {1.0, 1.0}, doubleArray1, 0.01);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      double[][] doubleArray0 = new double[1][2];
+-      Matrix matrix0 = new Matrix(doubleArray0);
+-      double[] doubleArray1 = new double[2];
+-      Matrix matrix1 = new Matrix(matrix0.mem);
+-      matrix1.svdcmp(matrix0, doubleArray1, matrix1);
+-      Vector vector0 = new Vector(doubleArray1);
+-      Vector vector1 = Matrix.svbksb(matrix1, doubleArray1, matrix1, vector0);
+-      assertEquals(2, vector1.dim());
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    double[][] doubleArray0 = new double[1][2];
++    Matrix matrix0 = new Matrix(doubleArray0);
++    double[] doubleArray1 = new double[2];
++    Matrix matrix1 = new Matrix(matrix0.mem);
++    // Capture matrix references before svdcmp to observe side‑effects
++    double[][] beforeU = matrix0.mem;
++    double[][] beforeV = matrix1.mem;
++    matrix1.svdcmp(matrix0, doubleArray1, matrix1);
++    // Verify that svdcmp modified the matrices (side‑effect observed)
++    assertNotSame("U matrix should be replaced after svdcmp", beforeU, matrix0.mem);
++    assertNotSame("V matrix should be replaced after svdcmp", beforeV, matrix1.mem);
++    Vector vector0 = new Vector(doubleArray1);
++    Vector vector1 = Matrix.svbksb(matrix1, doubleArray1, matrix1, vector0);
++    assertEquals(2, vector1.dim());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

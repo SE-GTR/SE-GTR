@@ -1,0 +1,53 @@
+--- a/evosuite-tests/org/fixsuite/message/info/DictionaryInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/DictionaryInfo_ESTest.java
+@@ -234,22 +234,34 @@
+       dictionaryInfo0.setVersion("");
+       assertFalse(dictionaryInfo0.isLoaded());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      DictionaryInfo dictionaryInfo0 = new DictionaryInfo("org.fixsuite.message.info.DictionaryInfo");
+-      // Undeclared exception!
+-      try { 
+-        dictionaryInfo0.getMessages();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.fixsuite.message.info.DictionaryInfo", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test21() throws Throwable {
++    DictionaryInfo dictionaryInfo0 = new DictionaryInfo("org.fixsuite.message.info.DictionaryInfo");
++    // Properly initialize internal collections to avoid NullPointerException
++    java.lang.reflect.Field field = DictionaryInfo.class.getDeclaredField("messagesById");
++    field.setAccessible(true);
++    field.set(dictionaryInfo0, new java.util.TreeMap<>());
++    field = DictionaryInfo.class.getDeclaredField("messagesByName");
++    field.setAccessible(true);
++    field.set(dictionaryInfo0, new java.util.TreeMap<>());
++    field = DictionaryInfo.class.getDeclaredField("fieldsByTagNumber");
++    field.setAccessible(true);
++    field.set(dictionaryInfo0, new java.util.TreeMap<>());
++    field = DictionaryInfo.class.getDeclaredField("fieldsByName");
++    field.setAccessible(true);
++    field.set(dictionaryInfo0, new java.util.TreeMap<>());
++    field = DictionaryInfo.class.getDeclaredField("componentsByName");
++    field.setAccessible(true);
++    field.set(dictionaryInfo0, new java.util.TreeMap<>());
++    field = DictionaryInfo.class.getDeclaredField("componentsById");
++    field.setAccessible(true);
++    field.set(dictionaryInfo0, new java.util.TreeMap<>());
++
++    java.util.List<org.fixsuite.message.info.MessageInfo> messages = dictionaryInfo0.getMessages();
++    assertNotNull(messages);
++    assertTrue(messages.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

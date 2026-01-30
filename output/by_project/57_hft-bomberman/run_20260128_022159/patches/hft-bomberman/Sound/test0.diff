@@ -1,0 +1,37 @@
+--- a/evosuite-tests/sound/Sound_ESTest.java
++++ b/evosuite-tests/sound/Sound_ESTest.java
+@@ -15,21 +15,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Sound_ESTest extends Sound_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        Sound sound0 = new Sound();
++        // Initialize the required field to avoid NullPointerException
++        sound0.sndf = "dummy.wav";
++        try {
++            sound0.run();
++        } catch (NullPointerException e) {
++            fail("run() should not throw NullPointerException when sndf is initialized");
++        } catch (Throwable t) {
++            fail("run() threw an unexpected exception: " + t);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Sound sound0 = new Sound();
+-      // Undeclared exception!
+-      try { 
+-        sound0.run();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

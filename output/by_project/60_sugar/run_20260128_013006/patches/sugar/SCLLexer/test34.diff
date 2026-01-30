@@ -1,0 +1,37 @@
+--- a/evosuite-tests/net/sf/sugar/scl/SCLLexer_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/scl/SCLLexer_ESTest.java
+@@ -440,22 +440,18 @@
+       sCLLexer0.mTokens();
+       assertEquals(1, sCLLexer0.getCharPositionInLine());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      SCLLexer sCLLexer0 = new SCLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sCLLexer0.mSTART_INCLUDE();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test34() throws Throwable {
++        // Provide a minimal valid input that matches the START_INCLUDE rule
++        org.antlr.runtime.ANTLRStringStream input = new org.antlr.runtime.ANTLRStringStream("#include");
++        SCLLexer lexer = new SCLLexer(input);
++        lexer.mSTART_INCLUDE();
++        org.antlr.runtime.Token token = lexer.getToken();
++        org.junit.Assert.assertNotNull("Token should not be null after lexing START_INCLUDE", token);
++        org.junit.Assert.assertEquals("Token type should be START_INCLUDE",
++                SCLLexer.START_INCLUDE, token.getType());
++    }
++
+ @Test(timeout = 4000)
+     public void test35() throws Throwable {
+         char[] charArray0 = new char[10];

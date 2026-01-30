@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/Module_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/Module_ESTest.java
+@@ -173,14 +173,20 @@
+       String string0 = module0.getId();
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      Module module0 = new Module("throws");
+-      RuleMetadata ruleMetadata0 = new RuleMetadata("throws", "throws", "s%xoa,G<:,AKJD@{", (SeverityLevel) null, true, true, true, true, (RuleGroupMetadata) null);
+-      module0.setMetaData(ruleMetadata0);
+-      assertNull(ruleMetadata0.getDescription());
+-  }
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    Module module0 = new Module("throws");
++    RuleMetadata ruleMetadata0 = new RuleMetadata("throws", "throws", "s%xoa,G<:,AKJD@{", (SeverityLevel) null, true, true, true, true, (RuleGroupMetadata) null);
++    // Verify initial state has no metadata
++    assertNull(module0.getMetaData());
++    // Exercise non‑trivial behavior
++    module0.setMetaData(ruleMetadata0);
++    // Observe the side effect
++    assertSame(ruleMetadata0, module0.getMetaData());
++    // Keep original assertion about description
++    assertNull(ruleMetadata0.getDescription());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

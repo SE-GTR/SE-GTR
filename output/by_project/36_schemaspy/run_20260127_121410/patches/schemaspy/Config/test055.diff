@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -841,23 +841,20 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test055()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.isSchemaDisabled();
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-u' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test055() throws Throwable {
++        Config config0 = Config.getInstance();
++        boolean schemaDisabled = config0.isSchemaDisabled();
++        assertFalse("Schema should not be disabled by default", schemaDisabled);
++        try {
++            config0.asList();
++            fail("Expecting RuntimeException due to missing required parameter '-u'");
++        } catch (RuntimeException e) {
++            assertTrue("Exception message should mention missing '-u' parameter", e.getMessage().contains("-u"));
++            verifyException("net.sourceforge.schemaspy.Config", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test056()  throws Throwable  {

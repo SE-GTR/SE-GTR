@@ -1,0 +1,31 @@
+--- a/evosuite-tests/br/com/jnfe/base/Orig_ESTest.java
++++ b/evosuite-tests/br/com/jnfe/base/Orig_ESTest.java
+@@ -21,14 +21,23 @@
+       assertNotNull(string0);
+       assertFalse(string0.isEmpty());
+   }
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
++      Orig estrangeira = Orig.ESTRANGEIRA_ADQINT;
++      assertFalse(estrangeira.isNacional());
+ 
++      // Verify that a known national enum (if present) reports true for isNacional()
++      try {
++          Orig nacional = Orig.valueOf("NACIONAL");
++          assertTrue(nacional.isNacional());
++      } catch (IllegalArgumentException e) {
++          // NACIONAL constant not defined; test proceeds without this check
++      }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Orig orig0 = Orig.ESTRANGEIRA_ADQINT;
+-      boolean boolean0 = orig0.isNacional();
+-      assertFalse(boolean0);
++      // Ensure the enum constant is part of the values array
++      assertTrue(java.util.Arrays.asList(Orig.values()).contains(estrangeira));
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -767,14 +767,20 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test050()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.setConnectionProperties("G=V?b_OA^fES)");
+-      assertFalse(config0.hasRoutines());
+-      assertFalse(config0.hasOrphans());
+-  }
++@Test(timeout = 4000)
++    public void test050() throws Throwable {
++        Config config0 = Config.getInstance();
++        // Act: set connection properties
++        config0.setConnectionProperties("G=V?b_OA^fES)");
++        // Assert side effect: the property should be stored and retrievable
++        Properties props = config0.getUserConnectionProperties();
++        assertNotNull(props);
++        assertEquals("V?b_OA^fES)", props.getProperty("G"));
++        // Existing assertions
++        assertFalse(config0.hasRoutines());
++        assertFalse(config0.hasOrphans());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test051()  throws Throwable  {

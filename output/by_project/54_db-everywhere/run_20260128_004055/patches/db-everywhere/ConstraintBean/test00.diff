@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ConstraintBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ConstraintBean_ESTest.java
+@@ -14,13 +14,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ConstraintBean_ESTest extends ConstraintBean_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    ConstraintBean bean = new ConstraintBean();
++    // Verify the initial state
++    boolean initial = bean.isUnique();
++    assertEquals(false, initial);
++    // Change state to true and verify
++    bean.setUnique(true);
++    assertTrue(bean.isUnique());
++    // Change state back to false and verify
++    bean.setUnique(false);
++    assertFalse(bean.isUnique());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      ConstraintBean constraintBean0 = new ConstraintBean();
+-      constraintBean0.setUnique(false);
+-      assertFalse(constraintBean0.isUnique());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

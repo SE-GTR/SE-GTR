@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/heal/servlet/RemoveFromDownloadAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/RemoveFromDownloadAction_ESTest.java
+@@ -31,23 +31,25 @@
+     removeFromDownloadAction0 = new RemoveFromDownloadAction();
+     servlet0 = new Servlet("");
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        DownloadQueueBean downloadQueueBean0 = new DownloadQueueBean();
++        HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++        when(httpSession0.getAttribute(anyString())).thenReturn(downloadQueueBean0);
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        when(httpServletRequest0.getParameter(anyString())).thenReturn("");
++        when(httpServletRequest0.getParameterValues(anyString())).thenReturn(null);
++        when(httpServletRequest0.getSession()).thenReturn(httpSession0);
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++        removeFromDownloadAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
++        // Verify that the action accessed the session attribute as part of its work
++        verify(httpSession0, atLeastOnce()).getAttribute(anyString());
++        // The action should not be marked as authenticated by default
++        assertFalse(removeFromDownloadAction0.isAuthenticatedAction());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      DownloadQueueBean downloadQueueBean0 = new DownloadQueueBean();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(downloadQueueBean0).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("", "Ys?'Rr>p").when(httpServletRequest0).getParameter(anyString());
+-      doReturn((String[]) null).when(httpServletRequest0).getParameterValues(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      removeFromDownloadAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
+-      assertFalse(removeFromDownloadAction0.isAuthenticatedAction());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
+@@ -1029,12 +1029,15 @@
+     assertEquals((-1L), quickServerConfig0.getMaxConnection());
+     assertEquals("INFO", quickServerConfig0.getConsoleLoggingLevel());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test60()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test60() throws Throwable {
+       QSAdminServerConfig qSAdminServerConfig0 = new QSAdminServerConfig();
+-      qSAdminServerConfig0.setServerBanner("");
++      // verify initial state of serverBanner (should be null)
++      assertNull(qSAdminServerConfig0.getServerBanner());
++      // act: set a specific banner and verify the side‑effect
++      qSAdminServerConfig0.setServerBanner("TestBanner");
++      assertEquals("TestBanner", qSAdminServerConfig0.getServerBanner());
++
+       assertFalse(qSAdminServerConfig0.getCommunicationLogging());
+       assertEquals(60000, qSAdminServerConfig0.getTimeout());
+       assertEquals("-ERR Server Busy. Max Connection Reached", qSAdminServerConfig0.getMaxConnectionMsg());
+@@ -1046,6 +1049,7 @@
+       assertEquals(9877, qSAdminServerConfig0.getPort());
+   }
+ 
++
+   @Test(timeout = 4000)
+   public void test61()  throws Throwable  {
+       QuickServerConfig quickServerConfig0 = new QuickServerConfig();

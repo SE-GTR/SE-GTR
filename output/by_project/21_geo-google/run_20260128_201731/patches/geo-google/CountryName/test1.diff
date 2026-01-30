@@ -1,0 +1,19 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/CountryName_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/CountryName_ESTest.java
+@@ -29,7 +29,16 @@
+     countryName0.setType("");
+     assertEquals("", countryName0.getType());
+     assertNull(countryName0.getContent());
++
++    // Verify that the hash code reflects the internal state
++    int hashBefore = countryName0.hashCode();
++    countryName0.setType("US");
++    int hashAfter = countryName0.hashCode();
++    assertNotEquals(hashBefore, hashAfter);
++    // Hash code should be stable for the same state
++    assertEquals(hashAfter, countryName0.hashCode());
+ }
++
+ 
+ @Test(timeout = 4000)
+ public void test2() throws Throwable {

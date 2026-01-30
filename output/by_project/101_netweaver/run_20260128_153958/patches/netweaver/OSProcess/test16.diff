@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
+@@ -269,20 +269,27 @@
+       boolean boolean0 = oSProcess1.equals(oSProcess0);
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      OSProcess oSProcess0 = new OSProcess();
+-      oSProcess0.setName("Ugu.(3f-{");
+-      OSProcess oSProcess1 = new OSProcess();
+-      assertFalse(oSProcess1.equals((Object)oSProcess0));
+-      
+-      oSProcess1.setName("Ugu.(3f-{");
+-      boolean boolean0 = oSProcess0.equals(oSProcess1);
+-      assertTrue(oSProcess1.equals((Object)oSProcess0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        OSProcess oSProcess0 = new OSProcess();
++        OSProcess oSProcess1 = new OSProcess();
++
++        // Initially both processes should be equal (default state)
++        assertTrue(oSProcess0.equals(oSProcess1));
++        assertTrue(oSProcess1.equals(oSProcess0));
++
++        // Change name of the first process and verify the side‑effect
++        oSProcess0.setName("Ugu.(3f-{");
++        assertFalse(oSProcess0.equals(oSProcess1));
++        assertFalse(oSProcess1.equals(oSProcess0));
++
++        // Apply the same name to the second process and verify equality again
++        oSProcess1.setName("Ugu.(3f-{");
++        boolean boolean0 = oSProcess0.equals(oSProcess1);
++        assertTrue(oSProcess1.equals((Object) oSProcess0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

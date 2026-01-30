@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleAuthorizationInfo_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleAuthorizationInfo_ESTest.java
+@@ -78,15 +78,20 @@
+          verifyException("java.util.AbstractCollection", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test04() throws Throwable {
+       SimpleAuthorizationInfo simpleAuthorizationInfo0 = new SimpleAuthorizationInfo();
+       LinkedHashSet<String> linkedHashSet0 = new LinkedHashSet<String>();
+       simpleAuthorizationInfo0.addStringPermission("fE|q138#+Z9y&#8eqB");
+       simpleAuthorizationInfo0.addStringPermissions(linkedHashSet0);
++      // Verify that the permission was added
++      assertTrue(simpleAuthorizationInfo0.getStringPermissions().contains("fE|q138#+Z9y&#8eqB"));
++      // Verify that adding an empty collection does not change the size
++      assertEquals(1, simpleAuthorizationInfo0.getStringPermissions().size());
++      // The original collection remains empty
+       assertTrue(linkedHashSet0.isEmpty());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

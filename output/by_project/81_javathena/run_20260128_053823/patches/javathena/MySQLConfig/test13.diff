@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
+@@ -114,12 +114,20 @@
+       String second = MySQLConfig.getMd5key();
+       assertSame(first, second);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      MySQLConfig.setLogin_db_user_pass("account_id");
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        // Preserve original value to avoid side effects on other tests
++        String original = MySQLConfig.getLogin_db_user_pass();
++        try {
++            String newValue = "account_id";
++            MySQLConfig.setLogin_db_user_pass(newValue);
++            assertEquals(newValue, MySQLConfig.getLogin_db_user_pass());
++        } finally {
++            // Restore original state
++            MySQLConfig.setLogin_db_user_pass(original);
++        }
++    }
++
+ @Test(timeout = 4000)
+ public void test14() throws Throwable {
+     String loginlogDb = MySQLConfig.getLoginlog_db();

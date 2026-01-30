@@ -1,0 +1,43 @@
+--- a/evosuite-tests/corina/browser/SearchField_ESTest.java
++++ b/evosuite-tests/corina/browser/SearchField_ESTest.java
+@@ -27,22 +27,25 @@
+       String[] stringArray0 = searchField0.getTextAsWords();
+       assertEquals(1, stringArray0.length);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        // Create a minimal valid Browser instance (assumes a no‑arg constructor is available)
++        Browser browser = new Browser();
++        // Use a simple AWT component as the event target
++        Component eventTarget = new java.awt.Panel();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      SearchField searchField0 = new SearchField((Browser) null, (Component) null);
+-      // Undeclared exception!
+-      try { 
+-        searchField0.replaceSelection("4");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.browser.SearchField$1", e);
+-      }
+-  }
++        SearchField searchField = new SearchField(browser, eventTarget);
++        // Prepare the field with known text and a selection
++        searchField.setText("abcde");
++        searchField.select(1, 3); // selects "bc"
++
++        // Replace the selected text
++        searchField.replaceSelection("X");
++
++        // Verify that the replacement occurred as expected
++        assertEquals("aXde", searchField.getText());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

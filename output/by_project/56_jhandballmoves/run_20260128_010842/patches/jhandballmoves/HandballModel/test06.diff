@@ -1,0 +1,40 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -98,18 +98,25 @@
+     handballModel0.removePlayer((Player) null);
+     assertEquals(HandballModel.State.PLACE_OFFENDERS, handballModel0.getState());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Offender offender0 = new Offender(1532, 1532);
+-      PassEvent passEvent0 = new PassEvent(offender0, 1532, 1);
+-      passEvent0.setDestinationPlayer(offender0, true);
+-      handballModel0.addMoveEvent(passEvent0);
+-      handballModel0.removePlayer(offender0);
+-      assertEquals(0, Offender.counter);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        Offender offender0 = new Offender(1532, 1532);
++        PassEvent passEvent0 = new PassEvent(offender0, 1532, 1);
++        // Verify that setting the destination player updates the event state
++        passEvent0.setDestinationPlayer(offender0, true);
++        assertEquals(offender0, passEvent0.getDestinationPlayer());
++
++        // Verify that adding a move event changes the model's event collection
++        int eventsBefore = handballModel0.getEvents().size();
++        handballModel0.addMoveEvent(passEvent0);
++        assertEquals(eventsBefore + 1, handballModel0.getEvents().size());
++
++        // Verify that removing a player updates the model's offender list
++        handballModel0.removePlayer(offender0);
++        assertFalse(handballModel0.getOffenders().contains(offender0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

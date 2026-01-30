@@ -1,0 +1,48 @@
+--- a/evosuite-tests/com/sap/netweaver/porta/ide/eclipse/server/ui/wizard/SapNWRuntimeWizardFragment_ESTest.java
++++ b/evosuite-tests/com/sap/netweaver/porta/ide/eclipse/server/ui/wizard/SapNWRuntimeWizardFragment_ESTest.java
+@@ -49,21 +49,31 @@
+          verifyException("org.evosuite.runtime.mock.java.io.EvoFileChannel", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        // Create a temporary source file with known content
++        java.io.File src = java.io.File.createTempFile("src", ".txt");
++        src.deleteOnExit();
++        try (java.io.FileWriter writer = new java.io.FileWriter(src)) {
++            writer.write("evosuite");
++        }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("", "");
+-      try { 
+-        SapNWRuntimeWizardFragment.copyFile(mockFile0, mockFile0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
++        // Create a temporary destination file (will be overwritten)
++        java.io.File dest = java.io.File.createTempFile("dest", ".txt");
++        dest.deleteOnExit();
++        // Ensure the destination file does not exist before copying
++        dest.delete();
++
++        // Perform the copy operation
++        SapNWRuntimeWizardFragment.copyFile(src, dest);
++
++        // Verify that the destination file now exists and its contents match the source
++        assertTrue("Destination file should exist after copy", dest.exists());
++        byte[] srcBytes = java.nio.file.Files.readAllBytes(src.toPath());
++        byte[] destBytes = java.nio.file.Files.readAllBytes(dest.toPath());
++        assertArrayEquals("Copied file content should match source", srcBytes, destBytes);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

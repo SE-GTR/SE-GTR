@@ -1,0 +1,39 @@
+--- a/evosuite-tests/corina/util/Hooks_ESTest.java
++++ b/evosuite-tests/corina/util/Hooks_ESTest.java
+@@ -31,23 +31,20 @@
+       hooks0.addHook(mockThread0);
+       assertFalse(mockThread0.isInterrupted());
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        Hooks hooks0 = new Hooks();
++        final java.util.concurrent.atomic.AtomicBoolean executed = new java.util.concurrent.atomic.AtomicBoolean(false);
++        hooks0.addHook(new Runnable() {
++            @Override
++            public void run() {
++                executed.set(true);
++            }
++        });
++        hooks0.run();
++        assertTrue(executed.get());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      Hooks hooks0 = new Hooks();
+-      hooks0.addHook((Runnable) null);
+-      // Undeclared exception!
+-      try { 
+-        hooks0.run();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.util.Hooks", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

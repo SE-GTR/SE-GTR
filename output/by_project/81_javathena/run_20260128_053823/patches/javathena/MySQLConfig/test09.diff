@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
+@@ -86,12 +86,17 @@
+     String codepage = MySQLConfig.getDefault_codepage();
+     assertNotNull(codepage);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      MySQLConfig.setReg_db("I}L!X/h$FnM");
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        // Preserve original value to avoid side effects on other tests
++        String original = MySQLConfig.getReg_db();
++        String newValue = "I}L!X/h$FnM";
++        MySQLConfig.setReg_db(newValue);
++        assertEquals(newValue, MySQLConfig.getReg_db());
++        // Restore original state
++        MySQLConfig.setReg_db(original);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

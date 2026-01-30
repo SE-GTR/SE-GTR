@@ -1,0 +1,62 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
+@@ -137,28 +137,37 @@
+       } catch(StringIndexOutOfBoundsException e) {
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("http").when(httpServletRequest0).getScheme();
+-      doReturn("http").when(httpServletRequest0).getServerName();
+-      doReturn(2657).when(httpServletRequest0).getServerPort();
+-      doReturn("org.jsecurity.web.servlet.JSecurityHttpServletRequestREFERENCED_SESSION_ID_SOURCE").when(httpServletRequest0).getRequestURI();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
+-      ServletContext servletContext1 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
+-      JSecurityHttpServletRequest jSecurityHttpServletRequest0 = new JSecurityHttpServletRequest(httpServletRequestWrapper0, servletContext1, true);
+-      JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(httpServletResponse0, servletContext0, jSecurityHttpServletRequest0);
+-      // Undeclared exception!
+-      try { 
+-        jSecurityHttpServletResponse0.encodeRedirectURL("org.jsecurity.web.servlet.JSecurityHttpServletRequest_REQUESTED_SESSION_ID");
+-        fail("Expecting exception: StringIndexOutOfBoundsException");
+-      
+-      } catch(StringIndexOutOfBoundsException e) {
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("http").when(httpServletRequest0).getScheme();
++        doReturn("http").when(httpServletRequest0).getServerName();
++        doReturn(2657).when(httpServletRequest0).getServerPort();
++        doReturn("org.jsecurity.web.servlet.JSecurityHttpServletRequestREFERENCED_SESSION_ID_SOURCE")
++                .when(httpServletRequest0).getRequestURI();
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        // Assert that stubbing works
++        assertEquals("http", httpServletRequest0.getScheme());
++        assertEquals("http", httpServletRequest0.getServerName());
++        assertEquals(2657, httpServletRequest0.getServerPort());
++        assertEquals("org.jsecurity.web.servlet.JSecurityHttpServletRequestREFERENCED_SESSION_ID_SOURCE",
++                httpServletRequest0.getRequestURI());
++        ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
++        ServletContext servletContext1 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
++        JSecurityHttpServletRequest jSecurityHttpServletRequest0 = new JSecurityHttpServletRequest(
++                httpServletRequestWrapper0, servletContext1, true);
++        JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(
++                httpServletResponse0, servletContext0, jSecurityHttpServletRequest0);
++        try {
++            jSecurityHttpServletResponse0.encodeRedirectURL(
++                    "org.jsecurity.web.servlet.JSecurityHttpServletRequest_REQUESTED_SESSION_ID");
++            fail("Expecting exception: StringIndexOutOfBoundsException");
++        } catch (StringIndexOutOfBoundsException e) {
++            // expected
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

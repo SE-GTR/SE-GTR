@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/ByteVector_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/ByteVector_ESTest.java
+@@ -47,14 +47,18 @@
+     assertNotNull(byteVector1);
+     assertTrue(byteVector1 instanceof ByteVector);
+ }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    ByteVector byteVector0 = new ByteVector(0);
++    int initialLength = byteVector0.length;
++    ByteVector result = byteVector0.putLong(0L);
++    assertSame(byteVector0, result);
++    assertEquals(initialLength + 8, byteVector0.length);
++    for (int i = initialLength; i < byteVector0.length; i++) {
++        assertEquals((byte) 0, byteVector0.data[i]);
++    }
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      ByteVector byteVector0 = new ByteVector(0);
+-      ByteVector byteVector1 = byteVector0.putLong(0);
+-      assertSame(byteVector0, byteVector1);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

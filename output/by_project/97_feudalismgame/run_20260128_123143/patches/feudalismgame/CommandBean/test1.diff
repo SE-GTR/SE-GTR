@@ -1,0 +1,35 @@
+--- a/evosuite-tests/src/CommandBean_ESTest.java
++++ b/evosuite-tests/src/CommandBean_ESTest.java
+@@ -27,15 +27,24 @@
+         assertEquals(2, commandBean0.getArgs().size());
+         assertEquals("second", commandBean0.getArgs().get(1));
+     }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    ArrayList<Object> arrayList0 = new ArrayList<>();
++    CommandBean commandBean0 = new CommandBean((String) null, arrayList0);
++    // Serialize and deserialize the bean to exercise non‑trivial behavior
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    try (java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos)) {
++        oos.writeObject(commandBean0);
++    }
++    java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++    CommandBean deserialized;
++    try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais)) {
++        deserialized = (CommandBean) ois.readObject();
++    }
++    String string0 = deserialized.getCommandName();
++    assertNull(string0);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ArrayList<Object> arrayList0 = new ArrayList<Object>();
+-      CommandBean commandBean0 = new CommandBean((String) null, arrayList0);
+-      String string0 = commandBean0.getCommandName();
+-      assertNull(string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
++++ b/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
+@@ -24,13 +24,17 @@
+       GeoAddressAccuracy geoAddressAccuracy0 = geoUsAddress0.getAccuracy();
+       assertEquals(GeoAddressAccuracy.UNKNOWN_LOCATION, geoAddressAccuracy0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      GeoUsAddress geoUsAddress0 = new GeoUsAddress();
+-      String string0 = geoUsAddress0.getState();
+-      assertEquals("", string0);
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        GeoUsAddress addr1 = new GeoUsAddress("", "", "", "", "NY", "", "", null, GeoAddressAccuracy.UNKNOWN_LOCATION);
++        GeoUsAddress addr2 = new GeoUsAddress("", "", "", "", "NY", "", "", null, GeoAddressAccuracy.UNKNOWN_LOCATION);
++        // Verify that the state set via constructor is returned correctly
++        assertEquals("NY", addr1.getState());
++        // Verify logical behavior: objects with identical data are equal and have same hash code
++        assertEquals(addr1, addr2);
++        assertEquals(addr1.hashCode(), addr2.hashCode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

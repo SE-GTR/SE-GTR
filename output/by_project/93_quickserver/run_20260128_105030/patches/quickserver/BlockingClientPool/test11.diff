@@ -1,0 +1,64 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
+@@ -175,36 +175,33 @@
+          verifyException("org.quickserver.net.client.pool.BlockingClientPool", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      HostList hostList0 = mock(HostList.class, new ViolatedAssumptionAnswer());
+-      doReturn(linkedList0).when(hostList0).getFullList();
+-      linkedList0.add((Object) "poolToReturn wasCnull.. wil2 close");
+-      LoadDistributor loadDistributor0 = mock(LoadDistributor.class, new ViolatedAssumptionAnswer());
+-      doReturn(hostList0, hostList0).when(loadDistributor0).getHostList();
+-      HostMonitor hostMonitor0 = mock(HostMonitor.class, new ViolatedAssumptionAnswer());
+-      PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null, (String) null, (String) null).when(poolableBlockingClient0).toString();
+-      doReturn(hostMonitor0).when(poolableBlockingClient0).getHostMonitor();
+-      doReturn(1086, 1086).when(poolableBlockingClient0).getHostMonitoringIntervalInSec();
+-      doReturn(loadDistributor0).when(poolableBlockingClient0).getLoadDistributor();
+-      doReturn(1086).when(poolableBlockingClient0).getMaxIntervalForBorrowInSec();
+-      doReturn((long)1086).when(poolableBlockingClient0).getNoOpTimeIntervalMiliSec();
+-      BlockingClientPool blockingClientPool0 = new BlockingClientPool("poolToReturn wasCnull.. wil2 close", poolableBlockingClient0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    LinkedList<Object> linkedList0 = new LinkedList<Object>();
++    HostList hostList0 = mock(HostList.class, new ViolatedAssumptionAnswer());
++    doReturn(linkedList0).when(hostList0).getFullList();
++    boolean added = linkedList0.add((Object) "poolToReturn wasCnull.. wil2 close");
++    assertTrue(added);
++    assertEquals("poolToReturn wasCnull.. wil2 close", linkedList0.getFirst());
++    LoadDistributor loadDistributor0 = mock(LoadDistributor.class, new ViolatedAssumptionAnswer());
++    doReturn(hostList0, hostList0).when(loadDistributor0).getHostList();
++    HostMonitor hostMonitor0 = mock(HostMonitor.class, new ViolatedAssumptionAnswer());
++    PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
++    doReturn((String) null, (String) null, (String) null).when(poolableBlockingClient0).toString();
++    doReturn(hostMonitor0).when(poolableBlockingClient0).getHostMonitor();
++    doReturn(1086, 1086).when(poolableBlockingClient0).getHostMonitoringIntervalInSec();
++    doReturn(loadDistributor0).when(poolableBlockingClient0).getLoadDistributor();
++    doReturn(1086).when(poolableBlockingClient0).getMaxIntervalForBorrowInSec();
++    doReturn((long)1086).when(poolableBlockingClient0).getNoOpTimeIntervalMiliSec();
++    BlockingClientPool blockingClientPool0 = new BlockingClientPool("poolToReturn wasCnull.. wil2 close", poolableBlockingClient0);
++    try {
+         blockingClientPool0.init();
+         fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.lang.String cannot be cast to org.quickserver.net.client.SocketBasedHost
+-         //
+-         verifyException("org.quickserver.net.client.pool.BlockingClientPool", e);
+-      }
+-  }
++    } catch (ClassCastException e) {
++        verifyException("org.quickserver.net.client.pool.BlockingClientPool", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

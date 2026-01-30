@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/heal/util/VCardBean_ESTest.java
++++ b/evosuite-tests/org/heal/util/VCardBean_ESTest.java
+@@ -73,15 +73,23 @@
+       assertEquals("MyOrg", vCardBean0.getOrganization());
+       assertEquals("my@example.com", vCardBean0.getEmail());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      VCardBean vCardBean0 = new VCardBean();
+-      vCardBean0.setVCard("CR-'X2L[(MH");
+-      boolean boolean0 = vCardBean0.isValidVCard();
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++  public void test06() throws Throwable {
++      VCardBean vCardBean0 = new VCardBean();
++      String input = "CR-'X2L[(MH";
++      vCardBean0.setVCard(input);
++      // Verify that the vCard string was stored
++      assertEquals(input, vCardBean0.getVCard());
++      // Verify that parsing did not populate other fields
++      assertNull(vCardBean0.getFirstName());
++      assertNull(vCardBean0.getLastName());
++      assertNull(vCardBean0.getPhone());
++      assertNull(vCardBean0.getFormattedName());
++      assertNull(vCardBean0.getOrganization());
++      // The VCard should be considered invalid
++      assertFalse(vCardBean0.isValidVCard());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

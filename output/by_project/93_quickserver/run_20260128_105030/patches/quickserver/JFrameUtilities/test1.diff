@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/quickserver/swing/JFrameUtilities_ESTest.java
++++ b/evosuite-tests/org/quickserver/swing/JFrameUtilities_ESTest.java
+@@ -26,21 +26,22 @@
+       String string0 = JFrameUtilities.title(object0);
+       assertEquals("Object", string0);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        // Use a valid panel and positive dimensions to exercise normal behavior
++        JPanel panel = new JPanel();
++        JFrameUtilities.run(panel, 200, 100);
++        // Verify that a JFrame was created and is visible
++        boolean frameCreated = false;
++        for (java.awt.Window w : java.awt.Window.getWindows()) {
++            if (w instanceof javax.swing.JFrame && w.isVisible()) {
++                frameCreated = true;
++                break;
++            }
++        }
++        org.junit.Assert.assertTrue("A visible JFrame should be created", frameCreated);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        JFrameUtilities.run((JPanel) null, (-595), (-595));
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.swing.JFrameUtilities", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

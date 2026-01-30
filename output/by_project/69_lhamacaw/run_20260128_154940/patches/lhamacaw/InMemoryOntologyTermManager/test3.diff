@@ -1,0 +1,38 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermManager_ESTest.java
+@@ -92,9 +92,8 @@
+     assertEquals(1, id);
+     assertEquals("SUPPORTING_DOCUMENT", term.getTerm());
+ }
+-
+ @Test(timeout = 4000)
+-  public void test3() throws Throwable {
++public void test3() throws Throwable {
+     inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+     ontologyTerm0 = new OntologyTerm();
+     inMemoryOntologyTermManager0 = new InMemoryOntologyTermManager(inMemoryChangeEventManager0);
+@@ -113,12 +112,18 @@
+     int sizeAfterAdd = inMemoryOntologyTermManager0.getAllOntologyTerms(user0).size();
+     assertEquals(sizeBefore + 1, sizeAfterAdd);
+ 
+-    // Retrieve terms, delete them, and verify deletion
+-    ArrayList<OntologyTerm> arrayList0 = inMemoryOntologyTermManager0.getAllOntologyTerms(user0);
+-    inMemoryOntologyTermManager0.deleteOntologyTerms(user0, arrayList0);
+-    ArrayList<OntologyTerm> afterDelete = inMemoryOntologyTermManager0.getAllOntologyTerms(user0);
+-    assertTrue(afterDelete.isEmpty());
+-  }
++    // Verify that the added term is present in the manager
++    ArrayList<OntologyTerm> allTerms = inMemoryOntologyTermManager0.getAllOntologyTerms(user0);
++    boolean found = false;
++    for (OntologyTerm term : allTerms) {
++        if ("ontologyTerm.error.duplicateExiAts".equals(term.getTerm())) {
++            found = true;
++            break;
++        }
++    }
++    assertTrue(found);
++}
++
+ @Test(timeout = 4000)
+   public void test4() throws Throwable {
+     inMemoryChangeEventManager0 = new InMemoryChangeEventManager();

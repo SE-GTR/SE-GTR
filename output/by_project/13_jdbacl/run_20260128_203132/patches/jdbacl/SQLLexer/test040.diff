@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -446,23 +446,15 @@
+         // Verify that the lexer instance was created successfully
+         assertNotNull(lexer);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test040()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mCHAR();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test040() throws Throwable {
++        org.antlr.runtime.ANTLRStringStream input = new org.antlr.runtime.ANTLRStringStream("'a'");
++        SQLLexer lexer = new SQLLexer(input);
++        lexer.mCHAR(); // should not throw NPE when properly initialized
++        int charPos = lexer.getCharPositionInLine();
++        org.junit.Assert.assertTrue("Lexer should have advanced after mCHAR()", charPos > 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test041()  throws Throwable  {

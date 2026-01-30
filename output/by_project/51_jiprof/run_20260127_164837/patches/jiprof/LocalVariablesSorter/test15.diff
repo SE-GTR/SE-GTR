@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/LocalVariablesSorter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/LocalVariablesSorter_ESTest.java
+@@ -213,14 +213,16 @@
+          verifyException("org.objectweb.asm.jip.commons.LocalVariablesSorter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-    methodVisitor0 = mock(MethodVisitor.class, new ViolatedAssumptionAnswer());
+-    methodAdapter0 = new MethodAdapter(methodVisitor0);
+-      LocalVariablesSorter localVariablesSorter0 = new LocalVariablesSorter(56, "K)U^8-%zhk4,p_oiH;$f", methodAdapter0);
+-      localVariablesSorter0.visitVarInsn(56, 56);
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    methodVisitor0 = mock(MethodVisitor.class, new ViolatedAssumptionAnswer());
++    methodAdapter0 = new MethodAdapter(methodVisitor0);
++    LocalVariablesSorter localVariablesSorter0 = new LocalVariablesSorter(56, "K)U^8-%zhk4,p_oiH;$f", methodAdapter0);
++    localVariablesSorter0.visitVarInsn(56, 56);
++    // Verify that the underlying MethodVisitor received the delegated call
++    org.mockito.Mockito.verify(methodVisitor0).visitVarInsn(org.mockito.Mockito.eq(56), org.mockito.Mockito.anyInt());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

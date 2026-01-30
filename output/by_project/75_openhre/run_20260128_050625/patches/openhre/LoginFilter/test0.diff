@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/browsersoft/aacs/LoginFilter_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/LoginFilter_ESTest.java
+@@ -31,18 +31,24 @@
+     loginFilter0 = new LoginFilter();
+     servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+   }
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    doReturn((RequestDispatcher) null).when(servletRequest0).getRequestDispatcher(anyString());
++    doReturn(false).when(servletRequest0).isSecure();
+ 
++    // Verify the stubbed return values
++    RequestDispatcher rd = servletRequest0.getRequestDispatcher("any");
++    assertNull(rd);
++    boolean secure = servletRequest0.isSecure();
++    assertFalse(secure);
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      doReturn((RequestDispatcher) null).when(servletRequest0).getRequestDispatcher(anyString());
+-      doReturn(false).when(servletRequest0).isSecure();
+-      ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
+-      ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
+-      ServletResponseWrapper servletResponseWrapper0 = new ServletResponseWrapper(servletResponse0);
+-      FilterChain filterChain0 = mock(FilterChain.class, new ViolatedAssumptionAnswer());
+-      loginFilter0.doFilter(servletRequestWrapper0, servletResponseWrapper0, filterChain0);
+-  }
++    ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
++    ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
++    ServletResponseWrapper servletResponseWrapper0 = new ServletResponseWrapper(servletResponse0);
++    FilterChain filterChain0 = mock(FilterChain.class, new ViolatedAssumptionAnswer());
++    loginFilter0.doFilter(servletRequestWrapper0, servletResponseWrapper0, filterChain0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

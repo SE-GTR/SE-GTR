@@ -1,0 +1,30 @@
+--- a/evosuite-tests/jigl/signal/RealSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/RealSignal_ESTest.java
+@@ -323,15 +323,18 @@
+          verifyException("jigl.signal.RealSignal", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      float[] floatArray0 = new float[7];
+-      floatArray0[0] = (-499.2056F);
+-      RealSignal realSignal0 = new RealSignal(floatArray0);
+-      realSignal0.median(992);
+-      assertEquals(0.0F, realSignal0.min(), 0.01F);
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        float[] floatArray0 = new float[7];
++        floatArray0[0] = -499.2056F;
++        RealSignal realSignal0 = new RealSignal(floatArray0);
++        float beforeMin = realSignal0.min();
++        realSignal0.median(992);
++        float afterMin = realSignal0.min();
++        // Verify that the median operation changes the minimum value
++        assertNotEquals(beforeMin, afterMin, 0.01F);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

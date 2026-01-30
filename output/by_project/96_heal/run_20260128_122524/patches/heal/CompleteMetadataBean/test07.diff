@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/heal/module/metadata/CompleteMetadataBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/CompleteMetadataBean_ESTest.java
+@@ -94,19 +94,33 @@
+       String string0 = completeMetadataBean0.toString();
+       assertEquals("Basic metadata:\nmetadataId: null\ntitle: null\ndescription: null\nlocation: null\ncontributeName: null\ncontributeUserId: null\nfileName: null\nfileExtension: null\nfileHeight: null\nfileWidth: null\nformat: null\nglobalId: null\nsourceCollection: null\nthumbnail: null\nsourcecollections: null\n\nExtended Metadata:  sourceCollectionId:null annotated:false inappropriate:false archived:false private:false specimenType:null radiographType:null orientation:null magnification:null clinicalHistory:null duration:null publicationId:null publicationName:null publicationDate:null approveDate:null catalogDate:null rejectDate:null creationDate:null languageType:null\nComplete Metadata: Disease Diagnoses: \nCopyrights: \nTaxonPaths: \nCopyrightHolders: \nContextURLs: \nrequirements: \nMetametadata Identifiers: \nMetametadata Contributors: \nrelations: \nkeywords: \nTargetUserGroups: \n", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      String string0 = completeMetadataBean0.toString();
+-      assertEquals("Basic metadata:\nmetadataId: null\ntitle: null\ndescription: null\nlocation: null\ncontributeName: null\ncontributeUserId: null\nfileName: null\nfileExtension: null\nfileHeight: null\nfileWidth: null\nformat: null\nglobalId: null\nsourceCollection: null\nthumbnail: null\nsourcecollections: null\n\nExtended Metadata:  sourceCollectionId:null annotated:false inappropriate:false archived:false private:false specimenType:null radiographType:null orientation:null magnification:null clinicalHistory:null duration:null publicationId:null publicationName:null publicationDate:null approveDate:null catalogDate:null rejectDate:null creationDate:null languageType:null\nComplete Metadata: Disease Diagnoses: \nCopyrights: \nTaxonPaths: \nCopyrightHolders: \nContextURLs: \nrequirements: \nMetametadata Identifiers: \nMetametadata Contributors: \nrelations: \nkeywords: \nformats: \nTargetUserGroups: \n", string0);
+-      
+-      ContributorBean contributorBean0 = new ContributorBean();
+-      contributorBean0.setRole(string0);
+-      completeMetadataBean0.addContributor(contributorBean0);
+-      completeMetadataBean0.addContributor(contributorBean0);
+-      assertEquals("Basic metadata:\nmetadataId: null\ntitle: null\ndescription: null\nlocation: null\ncontributeName: null\ncontributeUserId: null\nfileName: null\nfileExtension: null\nfileHeight: null\nfileWidth: null\nformat: null\nglobalId: null\nsourceCollection: null\nthumbnail: null\nsourcecollections: null\n\nExtended Metadata:  sourceCollectionId:null annotated:false inappropriate:false archived:false private:false specimenType:null radiographType:null orientation:null magnification:null clinicalHistory:null duration:null publicationId:null publicationName:null publicationDate:null approveDate:null catalogDate:null rejectDate:null creationDate:null languageType:null\nComplete Metadata: Disease Diagnoses: \nCopyrights: \nTaxonPaths: \nCopyrightHolders: \nContextURLs: \nrequirements: \nMetametadata Identifiers: \nMetametadata Contributors: \nrelations: \nkeywords: \nformats: \nTargetUserGroups: \n", contributorBean0.getRole());
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++        String string0 = completeMetadataBean0.toString();
++        // Verify that the string representation contains the expected header
++        assertTrue(string0.startsWith("Basic metadata"));
++
++        ContributorBean contributorBean0 = new ContributorBean();
++        contributorBean0.setRole(string0);
++
++        // Capture size before adding contributors
++        int sizeBefore = completeMetadataBean0.getContributors().size();
++        completeMetadataBean0.addContributor(contributorBean0);
++        // Verify that the contributor list grew by one
++        assertEquals(sizeBefore + 1, completeMetadataBean0.getContributors().size());
++        assertTrue(completeMetadataBean0.getContributors().contains(contributorBean0));
++
++        // Add the same contributor again to test handling of duplicates
++        completeMetadataBean0.addContributor(contributorBean0);
++        // Verify that the list size reflects the second addition (allowing duplicates)
++        assertEquals(sizeBefore + 2, completeMetadataBean0.getContributors().size());
++        assertTrue(completeMetadataBean0.getContributors().contains(contributorBean0));
++
++        // Ensure the role was set correctly on the contributor
++        assertEquals(string0, contributorBean0.getRole());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/jigl/image/ops/Convolve_ESTest.java
++++ b/evosuite-tests/jigl/image/ops/Convolve_ESTest.java
+@@ -27,13 +27,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Convolve_ESTest extends Convolve_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      String[] stringArray0 = new String[5];
+-      Convolve.main(stringArray0);
+-      assertEquals(5, stringArray0.length);
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    String[] stringArray0 = new String[5];
++    // verify initial state of the array
++    for (String s : stringArray0) {
++        assertNull(s);
++    }
++    Convolve.main(stringArray0);
++    // verify that the call to main does not alter the array
++    assertEquals(5, stringArray0.length);
++    for (String s : stringArray0) {
++        assertNull(s);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

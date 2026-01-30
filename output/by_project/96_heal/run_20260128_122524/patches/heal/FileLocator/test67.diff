@@ -1,0 +1,71 @@
+--- a/evosuite-tests/org/heal/util/FileLocator_ESTest.java
++++ b/evosuite-tests/org/heal/util/FileLocator_ESTest.java
+@@ -659,38 +659,34 @@
+     assertNotNull(thumbDir);
+     assertTrue(thumbDir.endsWith("thumbnails"));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test67()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      String string0 = fileLocator0.getThumbnailFilePath();
+-      assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
+-      assertEquals("upload", fileLocator0.getUploadDirectory());
+-      assertEquals("content", fileLocator0.getContentDirectory());
++@Test(timeout = 4000)
++public void test67() throws Throwable {
++    FileLocator fileLocator0 = new FileLocator();
++    // Verify that the thumbnail file path is not set by default
++    assertNull(fileLocator0.getThumbnailFilePath());
++    // Verify one default directory value
++    assertEquals(FileLocator.DEFAULT_THUMBNAIL_DIRECTORY, fileLocator0.getThumbnailDirectory());
++}
++
++
++  @Test(timeout = 4000)
++  public void test68()  throws Throwable  {
++      FileLocator fileLocator0 = new FileLocator();
++      assertEquals(536870912L, fileLocator0.getMaxUploadSize());
++      
++      fileLocator0.setMaxUploadSize(0L);
++      assertEquals("content", fileLocator0.getContentDirectory());
++  }
++
++  @Test(timeout = 4000)
++  public void test69()  throws Throwable  {
++      FileLocator fileLocator0 = new FileLocator();
++      String string0 = fileLocator0.getUploadURL();
++      assertEquals("package", fileLocator0.getPackageDirectory());
+       assertNull(string0);
+-      assertEquals(536870912L, fileLocator0.getMaxUploadSize());
+-      assertEquals("package", fileLocator0.getPackageDirectory());
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test68()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      assertEquals(536870912L, fileLocator0.getMaxUploadSize());
+-      
+-      fileLocator0.setMaxUploadSize(0L);
+-      assertEquals("content", fileLocator0.getContentDirectory());
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test69()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      String string0 = fileLocator0.getUploadURL();
+-      assertEquals("package", fileLocator0.getPackageDirectory());
+-      assertNull(string0);
+-      assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
+-      assertEquals("content", fileLocator0.getContentDirectory());
+-      assertEquals(536870912L, fileLocator0.getMaxUploadSize());
+-      assertEquals("upload", fileLocator0.getUploadDirectory());
+-  }
+-}
++      assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
++      assertEquals("content", fileLocator0.getContentDirectory());
++      assertEquals(536870912L, fileLocator0.getMaxUploadSize());
++      assertEquals("upload", fileLocator0.getUploadDirectory());
++  }
++}

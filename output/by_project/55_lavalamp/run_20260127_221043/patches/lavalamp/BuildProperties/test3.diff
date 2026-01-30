@@ -1,0 +1,28 @@
+--- a/evosuite-tests/net/sf/lavalamp/site/BuildProperties_ESTest.java
++++ b/evosuite-tests/net/sf/lavalamp/site/BuildProperties_ESTest.java
+@@ -48,13 +48,19 @@
+       buildProperties0.check();
+       assertEquals("A:X[GPL;`]_`ma", buildProperties0.getBuild());
+   }
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
++      BuildProperties original = new BuildProperties();
++      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++      oos.writeObject(original);
++      oos.flush();
++      byte[] data = baos.toByteArray();
++      java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++      BuildProperties deserialized = (BuildProperties) ois.readObject();
++      assertNull(deserialized.getBuild());
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      BuildProperties buildProperties0 = new BuildProperties();
+-      String string0 = buildProperties0.getBuild();
+-      assertNull(string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

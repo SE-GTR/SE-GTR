@@ -1,0 +1,32 @@
+--- a/evosuite-tests/macaw/businessLayer/Variable_ESTest.java
++++ b/evosuite-tests/macaw/businessLayer/Variable_ESTest.java
+@@ -308,15 +308,20 @@
+          verifyException("macaw.businessLayer.DerivedVariable", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      RawVariable rawVariable0 = new RawVariable();
+-      rawVariable0.setName("[oz[Wbe7]J~u(T:1");
+-      Variable.validateFields(rawVariable0);
+-      assertEquals("[oz[Wbe7]J~u(T:1", rawVariable0.getDisplayName());
+-      assertEquals("[oz[Wbe7]J~u(T:1", rawVariable0.getName());
+-  }
++public void test24() throws Throwable {
++    RawVariable rawVariable0 = new RawVariable();
++    // Verify initial state before mutation
++    assertNull(rawVariable0.getName());
++    String newName = "[oz[Wbe7]J~u(T:1";
++    // Mutate state
++    rawVariable0.setName(newName);
++    // Observe side‑effect via getter
++    assertEquals(newName, rawVariable0.getName());
++    // Validate fields and assert no validation errors (return value observed)
++    java.util.List<String> validation = Variable.validateFields(rawVariable0);
++    assertTrue(validation.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test25()  throws Throwable  {

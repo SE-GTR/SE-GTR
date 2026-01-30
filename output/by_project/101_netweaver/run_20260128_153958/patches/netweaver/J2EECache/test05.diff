@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache_ESTest.java
+@@ -104,18 +104,27 @@
+     assertEquals(0, j2EECache1.getClusterInvalidations());
+     assertEquals(0, j2EECache1.getGets());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      J2EECache j2EECache0 = new J2EECache();
+-      J2EECache j2EECache1 = new J2EECache();
+-      assertTrue(j2EECache1.equals((Object)j2EECache0));
+-      
+-      j2EECache1.setUpdateTime("+xW(Fue}}7`VS");
+-      boolean boolean0 = j2EECache1.equals(j2EECache0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        J2EECache j2EECache0 = new J2EECache();
++        J2EECache j2EECache1 = new J2EECache();
++        assertTrue(j2EECache1.equals((Object) j2EECache0));
++
++        // Verify initial state before mutation
++        assertNull(j2EECache1.getUpdateTime());
++        assertNull(j2EECache0.getUpdateTime());
++
++        // Exercise the void method and assert its side‑effect
++        String newTime = "+xW(Fue}}7`VS";
++        j2EECache1.setUpdateTime(newTime);
++        assertEquals(newTime, j2EECache1.getUpdateTime());
++        assertNull(j2EECache0.getUpdateTime());
++
++        // The mutation should affect equality
++        boolean boolean0 = j2EECache1.equals(j2EECache0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

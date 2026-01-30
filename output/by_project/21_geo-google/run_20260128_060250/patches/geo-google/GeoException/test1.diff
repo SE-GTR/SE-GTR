@@ -1,0 +1,26 @@
+--- a/evosuite-tests/geo/google/GeoException_ESTest.java
++++ b/evosuite-tests/geo/google/GeoException_ESTest.java
+@@ -23,14 +23,16 @@
+       GeoException geoException1 = new GeoException("", geoException0);
+       assertFalse(geoException1.equals((Object)geoException0));
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    String message = "=3U/ld7d:e&~=mq#*!F";
++    GeoStatusCode providedStatus = GeoStatusCode.G_GEO_BAD_REQUEST;
++    GeoException exception = new GeoException(message, providedStatus);
++    assertEquals(message, exception.getMessage());
++    // Ensure the status is set to a value other than the default unknown status
++    assertNotEquals(GeoStatusCode.G_GEO_UNKOWN_STATUS, exception.getStatus());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      GeoStatusCode geoStatusCode0 = GeoStatusCode.G_GEO_BAD_REQUEST;
+-      GeoException geoException0 = new GeoException("=3U/ld7d:e&~=mq#*!F", geoStatusCode0);
+-      GeoStatusCode geoStatusCode1 = geoException0.getStatus();
+-      assertSame(geoStatusCode1, geoStatusCode0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/AbstractCasFileVisitor_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/AbstractCasFileVisitor_ESTest.java
+@@ -172,18 +172,21 @@
+     assertSame(streamingIterator0, casGappedReferenceDataStore0.idIterator());
+     assertSame(streamingIterator1, casGappedReferenceDataStore0.iterator());
+ }
++@Test(timeout = 4000)
++    public void test8() throws Throwable {
++        StreamingIterator<String> streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++        doReturn(false).when(streamingIterator0).hasNext();
++        StreamingIterator<NucleotideSequence> streamingIterator1 = (StreamingIterator<NucleotideSequence>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++        CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
++        doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
++        doReturn(streamingIterator1).when(casGappedReferenceDataStore0).iterator();
++        MockFile mockFile0 = new MockFile("iEv'");
++        Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "org.jcvi.jillion.assembly.clc.cas.AbstractCasFileVisitor");
++        cas2Consed0.visitAssemblyProgramInfo("iEv'", "", "iEv'");
++        // Assertions for previously unasserted return values
++        assertFalse(streamingIterator0.hasNext());
++        assertSame(streamingIterator0, casGappedReferenceDataStore0.idIterator());
++        assertSame(streamingIterator1, casGappedReferenceDataStore0.iterator());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-      StreamingIterator<String> streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(streamingIterator0).hasNext();
+-      StreamingIterator<NucleotideSequence> streamingIterator1 = (StreamingIterator<NucleotideSequence>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
+-      doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
+-      doReturn(streamingIterator1).when(casGappedReferenceDataStore0).iterator();
+-      MockFile mockFile0 = new MockFile("iEv'");
+-      Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "org.jcvi.jillion.assembly.clc.cas.AbstractCasFileVisitor");
+-      cas2Consed0.visitAssemblyProgramInfo("iEv'", "", "iEv'");
+-  }
+ }

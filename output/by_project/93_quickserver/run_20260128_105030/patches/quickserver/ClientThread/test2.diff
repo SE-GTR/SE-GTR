@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/quickserver/util/pool/thread/ClientThread_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/thread/ClientThread_ESTest.java
+@@ -46,17 +46,19 @@
+       int hash = id1.hashCode();
+       assertEquals(hash, id1.hashCode());
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    MakeQSObjectPool makeQSObjectPool0 = new MakeQSObjectPool();
++    ClientDataObjectPoolConfig clientDataObjectPoolConfig0 = new ClientDataObjectPoolConfig();
++    ClientPool clientPool0 = new ClientPool(makeQSObjectPool0, clientDataObjectPoolConfig0);
++    ClientThread clientThread0 = new ClientThread(clientPool0);
++    // Verify initial ready state
++    assertFalse("ClientThread should not be ready upon construction", clientThread0.isReady());
++    // Verify instance id is non‑negative
++    int instanceId = clientThread0.getInstanceId();
++    assertTrue("Instance id should be non‑negative", instanceId >= 0);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      MakeQSObjectPool makeQSObjectPool0 = new MakeQSObjectPool();
+-      ClientDataObjectPoolConfig clientDataObjectPoolConfig0 = new ClientDataObjectPoolConfig();
+-      ClientPool clientPool0 = new ClientPool(makeQSObjectPool0, clientDataObjectPoolConfig0);
+-      ClientThread clientThread0 = new ClientThread(clientPool0);
+-      clientThread0.isReady();
+-      //  // Unstable assertion: assertEquals(2, clientThread0.getInstanceId());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -300,14 +300,18 @@
+       boolean boolean0 = simpleAccountRealm0.isPermittedAll((Collection<Permission>) linkedList0, (AuthorizationInfo) simpleAuthorizationInfo0);
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      LinkedHashSet<Permission> linkedHashSet0 = new LinkedHashSet<Permission>();
+-      boolean boolean0 = simpleAccountRealm0.isPermittedAll((Collection<Permission>) linkedHashSet0, (AuthorizationInfo) null);
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test24() throws Throwable {
++    SimpleAccountRealm realm = new SimpleAccountRealm();
++    LinkedHashSet<Permission> emptySet = new LinkedHashSet<Permission>();
++    assertTrue(realm.isPermittedAll(emptySet, null));
++
++    Permission perm = new org.jsecurity.authz.permission.WildcardPermission("test:read");
++    LinkedHashSet<Permission> permSet = new LinkedHashSet<Permission>();
++    permSet.add(perm);
++    assertFalse(realm.isPermittedAll(permSet, null));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test25()  throws Throwable  {

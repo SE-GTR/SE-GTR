@@ -1,0 +1,43 @@
+--- a/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
+@@ -141,21 +141,34 @@
+         assertTrue(moveEvent1.isControlPointSet());
+         assertTrue(moveEvent0.isControlPointSet());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test06() throws Throwable {
+       Offender offender0 = new Offender(61, 61);
+       MoveEvent moveEvent0 = new MoveEvent(offender0, 61);
+       MoveEvent moveEvent1 = new MoveEvent(offender0, 61, 61);
++
++      // initially no control point set
++      assertFalse(moveEvent0.isControlPointSet());
++      assertFalse(moveEvent1.isControlPointSet());
++
++      // set control points
+       moveEvent0.setControlPoint(1, 61, true);
+       moveEvent1.setControlPoint(1, 61, true);
++
++      // verify side‑effects of setControlPoint
++      assertTrue(moveEvent0.isControlPointSet());
++      assertTrue(moveEvent1.isControlPointSet());
++
+       MovePoint movePoint0 = moveEvent1.controlPoint;
+       moveEvent1.setPoint(movePoint0, 61, 61);
+-      moveEvent0.equals(moveEvent1);
+-      assertTrue(moveEvent1.isControlPointSet());
++
++      // verify equality after setting point
++      assertTrue(moveEvent0.equals(moveEvent1));
++
++      // other observable state
+       assertEquals(0, moveEvent0.getDelay());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

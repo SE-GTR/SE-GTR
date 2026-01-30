@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -144,22 +144,19 @@
+       sQLLexer0.mCOMMENT_TABLE();
+       assertEquals(58, SQLLexer.TIMESTAMP);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test012()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mT__113();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test012() throws Throwable {
++        // Properly initialize the lexer with a suitable input that matches token T__113
++        ANTLRStringStream input = new ANTLRStringStream("BETWEEN");
++        SQLLexer lexer = new SQLLexer(input);
++        // Invoke the token rule; it should not throw an exception
++        lexer.mT__113();
++        // Verify that a token was emitted and has the expected text
++        Token token = lexer.getToken();
++        assertNotNull("Token should not be null after invoking mT__113()", token);
++        assertEquals("Token text should match the input", "BETWEEN", token.getText());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test013()  throws Throwable  {

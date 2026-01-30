@@ -1,0 +1,123 @@
+--- a/evosuite-tests/jigl/image/utils/LocalDifferentialGeometry_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/LocalDifferentialGeometry_ESTest.java
+@@ -167,79 +167,47 @@
+         // expected
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      
+-      LocalDifferentialGeometry localDifferentialGeometry0 = new LocalDifferentialGeometry(realGrayImage0);
+-      assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevAbsKappa, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      
+-      RealGrayImage realGrayImage1 = localDifferentialGeometry0.calcIsophoteFlowStore(2555, 168, 135, 168);
+-      assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevAbsKappa, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
+-      assertFalse(realGrayImage1.equals((Object)realGrayImage0));
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage1.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage1.max(), 0.01F);
+-      assertEquals(0.0F, realGrayImage1.addSum(), 0.01F);
+-      assertEquals(0, realGrayImage1.X());
+-      assertEquals(0.0F, realGrayImage1.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage1.Y());
+-      assertEquals(0.0, realGrayImage1.sqrSum(), 0.01);
+-      assertNotSame(realGrayImage0, realGrayImage1);
+-      assertNotSame(realGrayImage1, realGrayImage0);
+-      
+-      localDifferentialGeometry0.calcIx(realGrayImage1, realGrayImage1, 2555, 168, 2555, 168);
+-      assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevAbsKappa, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
+-      assertFalse(realGrayImage0.equals((Object)realGrayImage1));
+-      assertFalse(realGrayImage1.equals((Object)realGrayImage0));
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage1.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage1.max(), 0.01F);
+-      assertEquals(0.0F, realGrayImage1.addSum(), 0.01F);
+-      assertEquals(0, realGrayImage1.X());
+-      assertEquals(0.0F, realGrayImage1.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage1.Y());
+-      assertEquals(0.0, realGrayImage1.sqrSum(), 0.01);
+-      assertNotSame(realGrayImage0, realGrayImage1);
+-      assertNotSame(realGrayImage1, realGrayImage0);
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    RealGrayImage img0 = new RealGrayImage(0, 0);
++    // basic initialization checks (once)
++    assertEquals(0, img0.X());
++    assertEquals(0, img0.Y());
++    assertEquals(32767.0f, img0.min(), 0.01f);
++    assertEquals(-32768.0f, img0.max(), 0.01f);
++
++    LocalDifferentialGeometry ldg = new LocalDifferentialGeometry(img0);
++    // verify initial statistical fields are zero
++    assertEquals(0.0, ldg.avgKappaSquare, 0.01);
++    assertEquals(0.0, ldg.avgAbsKappa, 0.01);
++    assertEquals(0.0, ldg.stdDevKappaSquare, 0.01);
++    assertEquals(0.0, ldg.stdDevAbsKappa, 0.01);
++
++    // exercise calcIsophoteFlowStore
++    RealGrayImage img1 = ldg.calcIsophoteFlowStore(2555, 168, 135, 168);
++    assertNotSame(img0, img1);
++    // ensure returned image has default stats for an empty image
++    assertEquals(0, img1.X());
++    assertEquals(0, img1.Y());
++    assertEquals(32767.0f, img1.min(), 0.01f);
++    assertEquals(-32768.0f, img1.max(), 0.01f);
++    // original image unchanged
++    assertEquals(0, img0.X());
++    assertEquals(0, img0.Y());
++
++    // verify that internal state of ldg unchanged by calcIsophoteFlowStore
++    assertEquals(0.0, ldg.avgKappaSquare, 0.01);
++    assertEquals(0.0, ldg.avgAbsKappa, 0.01);
++    assertEquals(0.0, ldg.stdDevKappaSquare, 0.01);
++    assertEquals(0.0, ldg.stdDevAbsKappa, 0.01);
++
++    // exercise calcIx (void) and assert side effect
++    ldg.calcIx(img1, img1, 2555, 168, 2555, 168);
++    assertNotNull(ldg.IxImage);
++    assertEquals(img1.X(), ldg.IxImage.X());
++    assertEquals(img1.Y(), ldg.IxImage.Y());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

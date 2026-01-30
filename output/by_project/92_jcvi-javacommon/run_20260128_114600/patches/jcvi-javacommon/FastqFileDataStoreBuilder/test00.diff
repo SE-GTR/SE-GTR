@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/FastqFileDataStoreBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/FastqFileDataStoreBuilder_ESTest.java
+@@ -26,18 +26,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class FastqFileDataStoreBuilder_ESTest extends FastqFileDataStoreBuilder_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        File file0 = MockFile.createTempFile("o4`Xgk#<|+9i5`y5Q=u", "o4`Xgk#<|+9i5`y5Q=u");
++        FastqFileDataStoreBuilder builder = new FastqFileDataStoreBuilder(file0);
++        FastqQualityCodec codec = FastqQualityCodec.ILLUMINA;
++        FastqFileDataStoreBuilder afterCodec = builder.qualityCodec(codec);
++        assertSame(builder, afterCodec);
++        DataStoreProviderHint hint = DataStoreProviderHint.ITERATION_ONLY;
++        FastqFileDataStoreBuilder afterHint = afterCodec.hint(hint);
++        assertSame(builder, afterHint);
++        FastqDataStore store = afterHint.build();
++        assertNotNull(store);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("o4`Xgk#<|+9i5`y5Q=u", "o4`Xgk#<|+9i5`y5Q=u");
+-      FastqFileDataStoreBuilder fastqFileDataStoreBuilder0 = new FastqFileDataStoreBuilder(file0);
+-      FastqQualityCodec fastqQualityCodec0 = FastqQualityCodec.ILLUMINA;
+-      fastqFileDataStoreBuilder0.qualityCodec(fastqQualityCodec0);
+-      DataStoreProviderHint dataStoreProviderHint0 = DataStoreProviderHint.ITERATION_ONLY;
+-      FastqFileDataStoreBuilder fastqFileDataStoreBuilder1 = fastqFileDataStoreBuilder0.hint(dataStoreProviderHint0);
+-      FastqDataStore fastqDataStore0 = fastqFileDataStoreBuilder1.build();
+-      assertFalse(fastqDataStore0.isClosed());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

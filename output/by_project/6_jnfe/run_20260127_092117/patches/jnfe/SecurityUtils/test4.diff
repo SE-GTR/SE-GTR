@@ -1,0 +1,28 @@
+--- a/evosuite-tests/br/com/jnfe/base/util/SecurityUtils_ESTest.java
++++ b/evosuite-tests/br/com/jnfe/base/util/SecurityUtils_ESTest.java
+@@ -68,20 +68,12 @@
+          verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+       }
+   }
++@Test(expected = FileNotFoundException.class, timeout = 4000)
++public void test4() throws Throwable {
++    // Provide paths that are guaranteed not to exist to trigger the expected exception
++    SecurityUtils.installCertificate("nonexistentTrustStorePath", "nonexistentCertificateLocation");
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      try { 
+-        SecurityUtils.installCertificate("", "");
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

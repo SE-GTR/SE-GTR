@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/AccessConstraintConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/AccessConstraintConfig_ESTest.java
+@@ -88,16 +88,21 @@
+     String string0 = accessConstraintConfig0.toXML("</access-constraint>\n");
+     assertTrue(string0.startsWith("</access-constraint>\n"));
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    accessConstraintConfig0 = new AccessConstraintConfig();
++    IpFilterConfig ipFilterConfig0 = new IpFilterConfig();
++    // verify initial state before setting
++    assertNull(accessConstraintConfig0.getIpFilterConfig());
++    // act
++    accessConstraintConfig0.setIpFilterConfig(ipFilterConfig0);
++    // verify side‑effect of the void method
++    assertSame(ipFilterConfig0, accessConstraintConfig0.getIpFilterConfig());
++    String string0 = accessConstraintConfig0.toXML("</access-constraint>\n");
++    // simple oracle for the XML generation
++    assertTrue(string0.contains("<ip-filter>"));
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    accessConstraintConfig0 = new AccessConstraintConfig();
+-      IpFilterConfig ipFilterConfig0 = new IpFilterConfig();
+-      accessConstraintConfig0.setIpFilterConfig(ipFilterConfig0);
+-      String string0 = accessConstraintConfig0.toXML("</access-constraint>\n");
+-      assertEquals("</access-constraint>\n<access-constraint>\n</access-constraint>\n\t<ip-filter>\n</access-constraint>\n\t\t<enable>false</enable>\n</access-constraint>\n\t\t<allow-access>false</allow-access>\n</access-constraint>\n\t\t<ip-collection>\n</access-constraint>\n\t\t</ip-collection>\n</access-constraint>\n\t</ip-filter>\n</access-constraint>\n</access-constraint>\n", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

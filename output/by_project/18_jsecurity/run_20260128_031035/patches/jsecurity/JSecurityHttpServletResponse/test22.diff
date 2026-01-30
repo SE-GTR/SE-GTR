@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
+@@ -424,14 +424,19 @@
+       ServletContext servletContext1 = jSecurityHttpServletResponse0.getContext();
+       assertSame(servletContext1, servletContext0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
+-      JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(httpServletResponse0, servletContext0, (JSecurityHttpServletRequest) null);
+-      jSecurityHttpServletResponse0.setRequest((JSecurityHttpServletRequest) null);
+-  }
++@Test(timeout = 4000)
++public void test22() throws Throwable {
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++    ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
++    JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(httpServletResponse0, servletContext0, (JSecurityHttpServletRequest) null);
++    // Verify the initial state of the request field
++    org.junit.Assert.assertNull(jSecurityHttpServletResponse0.getRequest());
++    // Act: set the request (side‑effect)
++    jSecurityHttpServletResponse0.setRequest((JSecurityHttpServletRequest) null);
++    // Assert that the side‑effect is observable via the getter
++    org.junit.Assert.assertNull(jSecurityHttpServletResponse0.getRequest());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

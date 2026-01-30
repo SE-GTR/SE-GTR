@@ -1,0 +1,37 @@
+--- a/evosuite-tests/visu/handball/moves/views/PlayerToolBar_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/views/PlayerToolBar_ESTest.java
+@@ -58,18 +58,24 @@
+     playerToolBar0.modelChanged();
+     assertFalse(playerToolBar0.isFocusTraversalPolicySet());
+ }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    handballModel0 = new HandballModel();
++    HandballModel.State handballModel_State0 = HandballModel.State.PLACE_DEFENDERS;
++    handballModel0.setState(handballModel_State0);
++    assertEquals(handballModel_State0, handballModel0.getState());
+ 
++    playerToolBar0 = new PlayerToolBar(handballModel0);
++    int countBefore = playerToolBar0.getComponentCount();
++    playerToolBar0.modelChanged();
++    int countAfterFirst = playerToolBar0.getComponentCount();
++    assertTrue(countAfterFirst >= countBefore);
++    playerToolBar0.modelChanged();
++    int countAfterSecond = playerToolBar0.getComponentCount();
++    assertEquals(countAfterFirst, countAfterSecond);
++    assertFalse(playerToolBar0.isFocusTraversalPolicySet());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    handballModel0 = new HandballModel();
+-      HandballModel.State handballModel_State0 = HandballModel.State.PLACE_DEFENDERS;
+-      handballModel0.setState(handballModel_State0);
+-    playerToolBar0 = new PlayerToolBar(handballModel0);
+-      playerToolBar0.modelChanged();
+-      playerToolBar0.modelChanged();
+-      assertFalse(playerToolBar0.isFocusTraversalPolicySet());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

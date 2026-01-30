@@ -1,0 +1,73 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Hub2BagitPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Hub2BagitPackager_ESTest.java
+@@ -86,35 +86,44 @@
+          verifyException("java.util.zip.ZipOutputStream", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
+     metsDivType_MptrArray0 = new MetsDivType.Mptr[0];
+     metsMetsDocument_Mets0 = mock(MetsMetsDocument.Mets.class, new ViolatedAssumptionAnswer());
+-      doReturn("").when(metsMetsDocument_Mets0).getLABEL();
+-      MetsMetsDocument metsMetsDocument0 = mock(MetsMetsDocument.class, new ViolatedAssumptionAnswer());
+-      doReturn(metsMetsDocument_Mets0).when(metsMetsDocument0).getMets();
+-      MetsFileType[] metsFileTypeArray0 = new MetsFileType[0];
+-      HaSMETSProfile haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(metsFileTypeArray0).when(haSMETSProfile0).getAllFiles();
+-      doReturn(metsMetsDocument0).when(haSMETSProfile0).getMetsDocument();
+-      URI uRI0 = MockURI.create("http://www.loc.gov/standards/premis/v1");
+-      HaSMasterMETSProfile haSMasterMETSProfile0 = mock(HaSMasterMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(haSMETSProfile0).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
+-      doReturn(metsDivType_MptrArray0).when(haSMasterMETSProfile0).getAllMptrs();
+-      doReturn(uRI0).when(haSMasterMETSProfile0).getBaseURI();
+-      // Undeclared exception!
+-      try { 
+-        Hub2BagitPackager.createBagitPackage(haSMasterMETSProfile0, "http://www.loc.gov/mix/", "http://www.loc.gov/VMD/");
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // URI scheme is not \"file\"
+-         //
+-         verifyException("java.io.File", e);
+-      }
++    doReturn("").when(metsMetsDocument_Mets0).getLABEL();
++    assertEquals("", metsMetsDocument_Mets0.getLABEL());
++
++    MetsMetsDocument metsMetsDocument0 = mock(MetsMetsDocument.class, new ViolatedAssumptionAnswer());
++    doReturn(metsMetsDocument_Mets0).when(metsMetsDocument0).getMets();
++    assertSame(metsMetsDocument_Mets0, metsMetsDocument0.getMets());
++
++    MetsFileType[] metsFileTypeArray0 = new MetsFileType[0];
++    HaSMETSProfile haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
++    doReturn(metsFileTypeArray0).when(haSMETSProfile0).getAllFiles();
++    assertSame(metsFileTypeArray0, haSMETSProfile0.getAllFiles());
++
++    doReturn(metsMetsDocument0).when(haSMETSProfile0).getMetsDocument();
++    assertSame(metsMetsDocument0, haSMETSProfile0.getMetsDocument());
++
++    URI uRI0 = MockURI.create("http://www.loc.gov/standards/premis/v1");
++    HaSMasterMETSProfile haSMasterMETSProfile0 = mock(HaSMasterMETSProfile.class, new ViolatedAssumptionAnswer());
++    doReturn(haSMETSProfile0).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
++    assertSame(haSMETSProfile0, haSMasterMETSProfile0.getMostRecentEchoDepMETS());
++
++    doReturn(metsDivType_MptrArray0).when(haSMasterMETSProfile0).getAllMptrs();
++    assertSame(metsDivType_MptrArray0, haSMasterMETSProfile0.getAllMptrs());
++
++    doReturn(uRI0).when(haSMasterMETSProfile0).getBaseURI();
++    assertSame(uRI0, haSMasterMETSProfile0.getBaseURI());
++
++    try {
++      Hub2BagitPackager.createBagitPackage(haSMasterMETSProfile0, "http://www.loc.gov/mix/", "http://www.loc.gov/VMD/");
++      fail("Expecting exception: IllegalArgumentException");
++    } catch (IllegalArgumentException e) {
++      verifyException("java.io.File", e);
++    }
+   }
++
+ @Test(timeout = 4000)
+ public void test4() throws Throwable {
+     MetsMetsDocument metsMetsDocument0 = mock(MetsMetsDocument.class, new ViolatedAssumptionAnswer());

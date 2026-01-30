@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/scf/SCFCodecs_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/scf/SCFCodecs_ESTest.java
+@@ -82,21 +82,18 @@
+       sCFCodecs0.parse((DataInputStream) null, (SCFHeader) defaultSCFHeader0, (ChromatogramFileVisitor) abiChromatogramBuilder_AbiChromatogramBuilderVisitor0);
+       assertEquals(0, defaultSCFHeader0.getPrivateDataOffset());
+   }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    SCFCodecs sCFCodecs0 = SCFCodecs.valueOf("VERSION_2");
++    AbiChromatogramBuilder.AbiChromatogramBuilderVisitor abiChromatogramBuilder_AbiChromatogramBuilderVisitor0 =
++        new AbiChromatogramBuilder.AbiChromatogramBuilderVisitor("VERSION_2");
++    try (java.io.InputStream in = new java.io.ByteArrayInputStream(new byte[0])) {
++        sCFCodecs0.parse(in, (ChromatogramFileVisitor) abiChromatogramBuilder_AbiChromatogramBuilderVisitor0);
++        fail("Expecting exception: IOException");
++    } catch (IOException e) {
++        // Expected due to invalid/empty input
++        verifyException("org.jcvi.jillion.internal.trace.chromat.scf.header.DefaultSCFHeaderCodec", e);
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      SCFCodecs sCFCodecs0 = SCFCodecs.valueOf("VERSION_2");
+-      File file0 = MockFile.createTempFile("VERSION_2", "VERSION_2");
+-      AbiChromatogramBuilder.AbiChromatogramBuilderVisitor abiChromatogramBuilder_AbiChromatogramBuilderVisitor0 = new AbiChromatogramBuilder.AbiChromatogramBuilderVisitor("VERSION_2");
+-      try { 
+-        sCFCodecs0.parse(file0, (ChromatogramFileVisitor) abiChromatogramBuilder_AbiChromatogramBuilderVisitor0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Error parsing Header
+-         //
+-         verifyException("org.jcvi.jillion.internal.trace.chromat.scf.header.DefaultSCFHeaderCodec", e);
+-      }
+-  }
+ }

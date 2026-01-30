@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jsecurity/web/WebUtils_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/WebUtils_ESTest.java
+@@ -143,15 +143,15 @@
+       String string0 = WebUtils.getPathWithinApplication(httpServletRequest0);
+       assertEquals("/", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(";", ";").when(httpServletRequest0).getAttribute(anyString());
+-      doReturn(";", ";").when(httpServletRequest0).getCharacterEncoding();
+-      String string0 = WebUtils.getPathWithinApplication(httpServletRequest0);
+-      assertEquals("", string0);
+-  }
++@Test(timeout = 4000)
++  public void test12() throws Throwable {
++    httpServletRequest0 = mock(HttpServletRequest.class);
++    when(httpServletRequest0.getRequestURI()).thenReturn("/app/home");
++    when(httpServletRequest0.getContextPath()).thenReturn("/app");
++    String string0 = WebUtils.getPathWithinApplication(httpServletRequest0);
++    assertEquals("/home", string0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

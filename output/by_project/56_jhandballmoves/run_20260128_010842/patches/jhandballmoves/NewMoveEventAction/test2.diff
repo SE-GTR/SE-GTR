@@ -1,0 +1,39 @@
+--- a/evosuite-tests/visu/handball/moves/actions/NewMoveEventAction_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/actions/NewMoveEventAction_ESTest.java
+@@ -50,19 +50,24 @@
+     // Ensure that modelChanged does not unintentionally modify the model's state
+     assertEquals(beforeState, handballModel0.getState());
+ }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    HandballModel handballModel0 = new HandballModel();
++    HandballModel.State handballModel_State0 = HandballModel.State.EDIT;
++    Offender offender0 = new Offender((-2783), (-2783));
++    MoveEvent moveEvent0 = new MoveEvent(offender0, 1, 1);
++    handballModel0.setActualMoveEvent(moveEvent0);
++    handballModel0.setState(handballModel_State0);
++    // verify side effects of the setters
++    assertSame(moveEvent0, handballModel0.getActualMoveEvent());
++    assertEquals(handballModel_State0, handballModel0.getState());
++    NewMoveEventAction newMoveEventAction0 = new NewMoveEventAction(handballModel0);
++    newMoveEventAction0.actionPerformed((ActionEvent) null);
++    // verify that actionPerformed does not alter the model's core fields in this scenario
++    assertSame(moveEvent0, handballModel0.getActualMoveEvent());
++    assertEquals(handballModel_State0, handballModel0.getState());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      HandballModel.State handballModel_State0 = HandballModel.State.EDIT;
+-      Offender offender0 = new Offender((-2783), (-2783));
+-      MoveEvent moveEvent0 = new MoveEvent(offender0, 1, 1);
+-      handballModel0.setActualMoveEvent(moveEvent0);
+-      handballModel0.setState(handballModel_State0);
+-      NewMoveEventAction newMoveEventAction0 = new NewMoveEventAction(handballModel0);
+-      newMoveEventAction0.actionPerformed((ActionEvent) null);
+-  }
+ @Test(timeout = 4000)
+   public void test3() throws Throwable {
+       HandballModel handballModel0 = new HandballModel();

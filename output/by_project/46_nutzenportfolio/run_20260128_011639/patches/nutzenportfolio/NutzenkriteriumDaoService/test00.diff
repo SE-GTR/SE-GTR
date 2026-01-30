@@ -1,0 +1,56 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/nutzenkriterium/NutzenkriteriumDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/nutzenkriterium/NutzenkriteriumDaoService_ESTest.java
+@@ -37,28 +37,33 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class NutzenkriteriumDaoService_ESTest extends NutzenkriteriumDaoService_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      NutzenkriteriumIbatisDao nutzenkriteriumIbatisDao0 = new NutzenkriteriumIbatisDao();
+-      NutzenkriteriumDaoService nutzenkriteriumDaoService0 = new NutzenkriteriumDaoService(nutzenkriteriumIbatisDao0);
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    NutzenkriteriumIbatisDao nutzenkriteriumIbatisDao0 = new NutzenkriteriumIbatisDao();
++    NutzenkriteriumDaoService nutzenkriteriumDaoService0 = new NutzenkriteriumDaoService(nutzenkriteriumIbatisDao0);
++    HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    doReturn((Object) null).when(httpSession0).getAttribute(anyString());
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn(httpSession0).when(httpServletRequest0).getSession();
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    // Capture and assert return values from the stubbed methods
++    Object attr = httpSession0.getAttribute("testKey");
++    assertNull(attr);
++    HttpSession session = httpServletRequest0.getSession();
++    assertNotNull(session);
++    assertSame(httpSession0, session);
++    // Undeclared exception!
++    try {
+         nutzenkriteriumDaoService0.getNutzenkriterium(httpServletRequestWrapper0, (DynaActionForm) null);
+         fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++    } catch (IllegalArgumentException e) {
++        //
++        // No SqlMapClient specified
++        //
++        verifyException("org.springframework.util.Assert", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

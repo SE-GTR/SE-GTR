@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/Database_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/Database_ESTest.java
+@@ -96,20 +96,26 @@
+         // After the mutation the two databases should no longer be equal
+         assertFalse(database0.equals(database1));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      Database database0 = new Database();
+-      Database database1 = new Database();
+-      assertTrue(database1.equals((Object)database0));
+-      
++@Test(timeout = 4000)
++  public void test05() throws Throwable {
++      Database database0 = new Database();
++      Database database1 = new Database();
++      assertTrue(database1.equals((Object) database0));
++
++      // Verify initial state of the database array is null (or empty)
++      assertNull(database1.getMDatabase());
++
+       Property[] propertyArray0 = new Property[1];
+       database1.setMDatabase(propertyArray0);
++
++      // Observe the side‑effect of setMDatabase via its getter
++      assertArrayEquals(propertyArray0, database1.getMDatabase());
++
+       boolean boolean0 = database1.equals(database0);
+-      assertFalse(database1.equals((Object)database0));
+-      assertFalse(boolean0);
+-  }
++      assertFalse(boolean0);
++      assertFalse(database1.equals((Object) database0));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

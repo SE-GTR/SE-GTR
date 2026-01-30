@@ -1,0 +1,44 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -152,15 +152,32 @@
+       assertFalse(config0.hasRoutines());
+       assertFalse(config0.hasOrphans());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test010()  throws Throwable  {
+-      Config config0 = new Config();
+-      config0.setUser("ora");
+-      config0.setOutputDir("ora");
+-      config0.getRemainingParameters();
+-      assertFalse(config0.hasOrphans());
+-  }
++@Test(timeout = 4000)
++    public void test010() throws Throwable {
++        Config config0 = new Config();
++
++        // Verify initial state (user should be null before setting)
++        assertNull(config0.getUser());
++
++        // Set user and assert side‑effect
++        config0.setUser("ora");
++        assertEquals("ora", config0.getUser());
++
++        // Set output directory and assert side‑effect
++        config0.setOutputDir("ora");
++        File outputDir = config0.getOutputDir();
++        assertNotNull(outputDir);
++        assertEquals("ora", outputDir.getPath());
++
++        // Observe return value of getRemainingParameters
++        List<String> remaining = config0.getRemainingParameters();
++        assertNotNull(remaining);
++        assertTrue(remaining.isEmpty());
++
++        // Existing assertion
++        assertFalse(config0.hasOrphans());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test011()  throws Throwable  {

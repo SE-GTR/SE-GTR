@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
+@@ -578,12 +578,15 @@
+       assertEquals(0, j2EEProcess1.getTelnetPort());
+       assertFalse(j2EEProcess0.equals((Object) j2EEProcess1));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      J2EEProcess j2EEProcess0 = new J2EEProcess();
++@Test(timeout = 4000)
++  public void test34() throws Throwable {
++      J2EEProcess j2EEProcess0 = new J2EEProcess();
++      // Verify initial state before setting CPU
++      assertNull(j2EEProcess0.getCpu());
+       j2EEProcess0.setCpu("int");
++      // Assert the side‑effect of setCpu
++      assertEquals("int", j2EEProcess0.getCpu());
++
+       J2EEProcess j2EEProcess1 = new J2EEProcess();
+       boolean boolean0 = j2EEProcess0.equals(j2EEProcess1);
+       assertEquals(0, j2EEProcess1.getPid());
+@@ -592,6 +595,7 @@
+       assertEquals(0, j2EEProcess1.getTelnetPort());
+       assertEquals(0, j2EEProcess1.getRestartCount());
+   }
++
+ @Test(timeout = 4000)
+     public void test35() throws Throwable {
+         Class<J2EEProcess> class0 = J2EEProcess.class;

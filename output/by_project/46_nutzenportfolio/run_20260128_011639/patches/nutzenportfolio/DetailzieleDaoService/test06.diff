@@ -1,0 +1,46 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/detailziele/DetailzieleDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/detailziele/DetailzieleDaoService_ESTest.java
+@@ -142,24 +142,25 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-    detailzieleIbatisDao0 = new DetailzieleIbatisDao();
+-    detailzieleDaoService0 = new DetailzieleDaoService(detailzieleIbatisDao0);
+-      Detailziel detailziel0 = new Detailziel();
+-      // Undeclared exception!
+-      try { 
+-        detailzieleDaoService0.getAssignments(detailziel0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    // Create a mock DAO that returns an empty list for getAssignments
++    DetailzieleDao mockDao = org.mockito.Mockito.mock(DetailzieleDao.class);
++    org.mockito.Mockito.when(mockDao.getAssignments(org.mockito.ArgumentMatchers.any(Detailziel.class)))
++        .thenReturn(java.util.Collections.emptyList());
++
++    // Initialize the service with the mock DAO
++    detailzieleDaoService0 = new DetailzieleDaoService(mockDao);
++
++    // Execute the method under test
++    Detailziel detailziel0 = new Detailziel();
++    java.util.List<Detailziel> result = detailzieleDaoService0.getAssignments(detailziel0);
++
++    // Verify normal behavior (no exception, empty result)
++    org.junit.Assert.assertNotNull(result);
++    org.junit.Assert.assertTrue(result.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

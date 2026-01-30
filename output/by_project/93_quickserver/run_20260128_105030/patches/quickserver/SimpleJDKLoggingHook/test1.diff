@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/quickserver/util/logging/SimpleJDKLoggingHook_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/logging/SimpleJDKLoggingHook_ESTest.java
+@@ -35,24 +35,16 @@
+          verifyException("java.util.logging.FileHandler", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        SimpleJDKLoggingHook simpleJDKLoggingHook0 = new SimpleJDKLoggingHook();
++        EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("./log");
++        boolean folderCreated = FileSystemHandling.createFolder(evoSuiteFile0);
++        assertTrue("Folder should be created", folderCreated);
++        QuickServer quickServer0 = new QuickServer("");
++        simpleJDKLoggingHook0.handleInit(quickServer0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      SimpleJDKLoggingHook simpleJDKLoggingHook0 = new SimpleJDKLoggingHook();
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("./log");
+-      FileSystemHandling.createFolder(evoSuiteFile0);
+-      QuickServer quickServer0 = new QuickServer("");
+-      try { 
+-        simpleJDKLoggingHook0.handleInit(quickServer0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Couldn't get lock for .tmp_file_needed_by_mock_of_FileHandler, maxLocks: 100
+-         //
+-         verifyException("java.util.logging.FileHandler", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

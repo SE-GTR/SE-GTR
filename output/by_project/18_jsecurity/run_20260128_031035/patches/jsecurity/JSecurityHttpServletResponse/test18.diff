@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
+@@ -364,14 +364,16 @@
+          verifyException("org.jsecurity.web.servlet.JSecurityHttpSession", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++@Test(timeout = 4000)
++  public void test18() throws Throwable {
++      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++      org.evosuite.shaded.org.mockito.Mockito.when(httpServletResponse0.encodeRedirectURL("test"))
++              .thenReturn("encoded");
+       JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(httpServletResponse0, (ServletContext) null, (JSecurityHttpServletRequest) null);
+-      String string0 = jSecurityHttpServletResponse0.encodeRedirectURL((String) null);
+-      assertNull(string0);
+-  }
++      String result = jSecurityHttpServletResponse0.encodeRedirectURL("test");
++      assertEquals("encoded", result);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

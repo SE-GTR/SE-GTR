@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/qual/DefaultQualitySymbolCodec_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/qual/DefaultQualitySymbolCodec_ESTest.java
+@@ -34,12 +34,17 @@
+       byte[] byteArray1 = defaultQualitySymbolCodec0.encode(treeSet0);
+       assertEquals(1, byteArray1.length);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        defaultQualitySymbolCodec0 = DefaultQualitySymbolCodec.INSTANCE;
++        byte[] original = new byte[] {0, 10, 20};
++        byte[] encoded = defaultQualitySymbolCodec0.encode(original);
++        int encodedLen = defaultQualitySymbolCodec0.encodedLengthOf(original);
++        assertEquals(encoded.length, encodedLen);
++        int decodedLen = defaultQualitySymbolCodec0.decodedLengthOf(encoded);
++        assertEquals(original.length, decodedLen);
++        byte[] decoded = defaultQualitySymbolCodec0.decode(encoded);
++        assertArrayEquals(original, decoded);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    defaultQualitySymbolCodec0 = DefaultQualitySymbolCodec.INSTANCE;
+-    byteArray0 = new byte[1];
+-      int int0 = defaultQualitySymbolCodec0.decodedLengthOf(byteArray0);
+-      assertEquals(1, int0);
+-  }
+ }

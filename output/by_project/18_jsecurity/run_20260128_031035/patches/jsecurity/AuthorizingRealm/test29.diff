@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -352,15 +352,17 @@
+     SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm("msRQ>G>2t ");
+     simpleAccountRealm0.isPermittedAll(null, new String[] { "msRQ>G>2t " });
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      String[] stringArray0 = new String[0];
+-      boolean boolean0 = simpleAccountRealm0.isPermittedAll((PrincipalCollection) null, stringArray0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test29() throws Throwable {
++        SimpleAccountRealm realm = new SimpleAccountRealm();
++        realm.addAccount("user", "pwd", "role1");
++        realm.addRole("role1", "read");
++        org.jsecurity.subject.PrincipalCollection principals = new org.jsecurity.subject.SimplePrincipalCollection("user", "testRealm");
++        String[] permissions = new String[] { "read" };
++        boolean permitted = realm.isPermittedAll(principals, permissions);
++        assertTrue(permitted);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

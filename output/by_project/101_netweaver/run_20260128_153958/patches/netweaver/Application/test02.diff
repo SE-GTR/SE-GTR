@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
+@@ -47,18 +47,27 @@
+         boolean boolean0 = application1.equals(application0);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-    application0 = new Application();
+-    application1 = new Application();
+-      assertTrue(application1.equals((Object)application0));
+-      
+-      application0.setVersion("b4l5Pa(");
+-      boolean boolean0 = application1.equals(application0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++  public void test02() throws Throwable {
++    application0 = new Application();
++    application1 = new Application();
++    assertTrue(application1.equals((Object) application0));
++
++    // Verify initial version is null for both instances
++    assertNull(application0.getVersion());
++    assertNull(application1.getVersion());
++
++    // Act
++    application0.setVersion("b4l5Pa(");
++
++    // Observe side‑effect of setVersion
++    assertEquals("b4l5Pa(", application0.getVersion());
++    assertNull(application1.getVersion());
++
++    // Equality should now differ because versions differ
++    assertFalse(application1.equals(application0));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

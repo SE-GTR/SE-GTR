@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
+@@ -162,18 +162,26 @@
+     // Equality should now reflect the changed state
+     assertFalse(application0.equals(application1));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-    application0 = new Application();
+-    application1 = new Application();
+-      assertTrue(application1.equals((Object)application0));
+-      
+-      application1.setLocation("NYNb+CQFtk2rA>fJ>");
+-      boolean boolean0 = application1.equals(application0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    application0 = new Application();
++    application1 = new Application();
++    assertTrue(application1.equals((Object) application0));
++
++    // Verify initial state before mutation
++    assertNull(application1.getLocation());
++
++    // Act: change location
++    application1.setLocation("NYNb+CQFtk2rA>fJ>");
++
++    // Assert side‑effect of setLocation
++    assertEquals("NYNb+CQFtk2rA>fJ>", application1.getLocation());
++
++    // Existing behavior check
++    boolean boolean0 = application1.equals(application0);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

@@ -1,0 +1,31 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/Features_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/Features_ESTest.java
+@@ -60,15 +60,20 @@
+          verifyException("java.util.ArrayList", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        Features features0 = new Features();
++        String[] stringArray0 = new String[5];
++        // Exercise the void method whose side‑effect we want to verify
++        features0.setFeature(stringArray0);
++        // Verify that the feature array was stored: accessing a valid index returns null
++        String firstFeature = features0.getFeature(0);
++        assertNull(firstFeature);
++        // Also keep the original out‑of‑bounds check
++        String outOfBoundsFeature = features0.getFeature(-22);
++        assertNull(outOfBoundsFeature);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      Features features0 = new Features();
+-      String[] stringArray0 = new String[5];
+-      features0.setFeature(stringArray0);
+-      String string0 = features0.getFeature((-22));
+-      assertNull(string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

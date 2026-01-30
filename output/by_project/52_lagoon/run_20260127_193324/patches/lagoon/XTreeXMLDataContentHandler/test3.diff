@@ -1,0 +1,36 @@
+--- a/evosuite-tests/nu/staldal/xtree/XTreeXMLDataContentHandler_ESTest.java
++++ b/evosuite-tests/nu/staldal/xtree/XTreeXMLDataContentHandler_ESTest.java
+@@ -38,21 +38,17 @@
+         assertNotNull(flavors);
+         assertTrue(flavors.length >= 2);
+     }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        XTreeXMLDataContentHandler handler = new XTreeXMLDataContentHandler();
++        String xml = "<root></root>";
++        javax.activation.ByteArrayDataSource ds = new javax.activation.ByteArrayDataSource(xml, "application/xml");
++        try {
++            Object content = handler.getContent(ds);
++            assertNotNull(content);
++        } catch (Exception e) {
++            fail("Unexpected exception: " + e);
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      XTreeXMLDataContentHandler xTreeXMLDataContentHandler0 = new XTreeXMLDataContentHandler();
+-      FileDataSource fileDataSource0 = new FileDataSource("te|xt/xml");
+-      try { 
+-        xTreeXMLDataContentHandler0.getContent(fileDataSource0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // te|xt/xml (No such file or directory)
+-         //
+-         verifyException("java.io.FileInputStream", e);
+-      }
+-  }
+ }

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/heal/util/AuthenticationTools_ESTest.java
++++ b/evosuite-tests/org/heal/util/AuthenticationTools_ESTest.java
+@@ -107,19 +107,27 @@
+         assertFalse(boolean0);
+         assertFalse(boolean1);
+     }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    userBean0 = new UserBean();
++    userBean0.setCataloger(true);
++    // verify side‑effect of setCataloger
++    assertTrue(userBean0.isCataloger());
+ 
++    httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    doReturn(userBean0).when(httpSession0).getAttribute(anyString());
++    // assert that the stubbed method returns the expected object
++    assertSame(userBean0, httpSession0.getAttribute("anyKey"));
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    userBean0 = new UserBean();
+-      userBean0.setCataloger(true);
+-    httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(userBean0).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      boolean boolean0 = AuthenticationTools.isCataloger(httpServletRequest0);
+-      assertTrue(boolean0);
+-  }
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn(httpSession0).when(httpServletRequest0).getSession();
++    // assert that the stubbed method returns the expected session
++    assertSame(httpSession0, httpServletRequest0.getSession());
++
++    boolean boolean0 = AuthenticationTools.isCataloger(httpServletRequest0);
++    assertTrue(boolean0);
++}
++
+ @Test(timeout = 4000)
+ public void test6() throws Throwable {
+     UserBean userBean0 = new UserBean();

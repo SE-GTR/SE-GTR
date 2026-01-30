@@ -1,0 +1,59 @@
+--- a/evosuite-tests/org/heal/servlet/ViewDownloadFolderAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/ViewDownloadFolderAction_ESTest.java
+@@ -24,30 +24,33 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ViewDownloadFolderAction_ESTest extends ViewDownloadFolderAction_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    ViewDownloadFolderAction action = new ViewDownloadFolderAction();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ViewDownloadFolderAction viewDownloadFolderAction0 = new ViewDownloadFolderAction();
+-      Servlet servlet0 = new Servlet();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0, (HttpSession) null).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      // Undeclared exception!
+-      try { 
+-        viewDownloadFolderAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.ViewDownloadFolderAction", e);
+-      }
+-  }
++    // Mock servlet and its context to avoid NullPointerException inside perform()
++    HttpServlet servlet = mock(HttpServlet.class);
++    javax.servlet.ServletContext servletContext = mock(javax.servlet.ServletContext.class);
++    when(servlet.getServletContext()).thenReturn(servletContext);
++
++    // Mock session and request
++    HttpSession session = mock(HttpSession.class);
++    when(session.getAttribute(anyString())).thenReturn(null);
++    HttpServletRequest request = mock(HttpServletRequest.class);
++    when(request.getSession()).thenReturn(session);
++    HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(request);
++
++    // Mock response
++    HttpServletResponse response = mock(HttpServletResponse.class);
++    HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper(response);
++
++    // Execute the action
++    action.perform(servlet, requestWrapper, responseWrapper);
++
++    // Verify that the servlet context was accessed (basic sanity check)
++    verify(servlet).getServletContext();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

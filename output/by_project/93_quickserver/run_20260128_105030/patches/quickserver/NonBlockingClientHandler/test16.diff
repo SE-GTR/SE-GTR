@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
+@@ -158,14 +158,16 @@
+     // Verify that the connection flag is set correctly without invoking closeConnection
+     assertTrue("Connection flag should be true after manual set", nonBlockingClientHandler0.connection);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-    nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      nonBlockingClientHandler0.setSelectionKey((SelectionKey) null);
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:92>", nonBlockingClientHandler0.getName());
+-  }
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    NonBlockingClientHandler handler = new NonBlockingClientHandler();
++    // Verify that the handler creates a non‑null name (non‑trivial behavior)
++    assertNotNull("Handler name should be initialized", handler.getName());
++    // Set the selection key to null and assert the side‑effect is observable
++    handler.setSelectionKey(null);
++    assertNull("SelectionKey should be null after setting it to null", handler.getSelectionKey());
++}
++
+ @Test(timeout = 4000, expected = IllegalStateException.class)
+ public void test17() throws Throwable {
+     nonBlockingClientHandler0 = new NonBlockingClientHandler();

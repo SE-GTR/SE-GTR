@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
+@@ -249,19 +249,29 @@
+          verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      RelationBean relationBean0 = new RelationBean();
+-      relationBean0.setKind("upload");
+-      completeMetadataBean0.addRelation(relationBean0);
+-      completeMetadataBean0.setLocation("{muj");
+-      ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
+-      HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, byteArrayOutputStream0);
+-      assertEquals(1115, byteArrayOutputStream0.size());
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    FileLocator fileLocator0 = new FileLocator();
++    CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++    RelationBean relationBean0 = new RelationBean();
++
++    // Verify setKind side‑effect
++    relationBean0.setKind("upload");
++    assertEquals("upload", relationBean0.getKind());
++
++    // Verify addRelation side‑effect
++    completeMetadataBean0.addRelation(relationBean0);
++    assertEquals(1, completeMetadataBean0.getRelations().size());
++
++    // Verify setLocation side‑effect
++    completeMetadataBean0.setLocation("{muj");
++    assertEquals("{muj", completeMetadataBean0.getLocation());
++
++    ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
++    HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, byteArrayOutputStream0);
++    assertEquals(1115, byteArrayOutputStream0.size());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

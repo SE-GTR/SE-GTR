@@ -1,0 +1,89 @@
+--- a/evosuite-tests/jigl/image/utils/LocalDifferentialGeometry_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/LocalDifferentialGeometry_ESTest.java
+@@ -489,55 +489,37 @@
+         verifyException("jigl.image.utils.LocalDifferentialGeometry", e);
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      
+-      LocalDifferentialGeometry localDifferentialGeometry0 = new LocalDifferentialGeometry(realGrayImage0);
+-      assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevAbsKappa, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      
+-      RealGrayImage realGrayImage1 = localDifferentialGeometry0.calcGradientMagnitude((-611), (-1), 3, (-611));
+-      assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevAbsKappa, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
+-      assertFalse(realGrayImage1.equals((Object)realGrayImage0));
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(0, realGrayImage0.X());
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(0.0F, realGrayImage1.addSum(), 0.01F);
+-      assertEquals(0.0, realGrayImage1.sqrSum(), 0.01);
+-      assertEquals(0, realGrayImage1.X());
+-      assertEquals(0.0F, realGrayImage1.absSum(), 0.01F);
+-      assertEquals(0, realGrayImage1.Y());
+-      assertEquals((-32768.0F), realGrayImage1.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage1.min(), 0.01F);
+-      assertNotSame(realGrayImage0, realGrayImage1);
+-      assertNotSame(realGrayImage1, realGrayImage0);
+-  }
++@Test(timeout = 4000)
++public void test22() throws Throwable {
++    RealGrayImage realGrayImage0 = new RealGrayImage(0, 0);
++    // Verify initial state of the empty image
++    assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
++    assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
++    assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
++    assertEquals(0, realGrayImage0.X());
++    assertEquals(0, realGrayImage0.Y());
++
++    LocalDifferentialGeometry localDifferentialGeometry0 = new LocalDifferentialGeometry(realGrayImage0);
++    // Fields should be initialized to zero
++    assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
++    assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
++
++    RealGrayImage realGrayImage1 = localDifferentialGeometry0.calcGradientMagnitude(-611, -1, 3, -611);
++    // Resulting image should be distinct from the original
++    assertNotSame(realGrayImage0, realGrayImage1);
++    assertFalse(realGrayImage1.equals((Object) realGrayImage0));
++
++    // Verify that the original image remains unchanged
++    assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
++
++    // Verify basic properties of the computed gradient magnitude image
++    assertEquals(0.0F, realGrayImage1.addSum(), 0.01F);
++    assertEquals(0, realGrayImage1.X());
++    assertEquals(0, realGrayImage1.Y());
++    assertEquals(32767.0F, realGrayImage1.min(), 0.01F);
++    assertEquals((-32768.0F), realGrayImage1.max(), 0.01F);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

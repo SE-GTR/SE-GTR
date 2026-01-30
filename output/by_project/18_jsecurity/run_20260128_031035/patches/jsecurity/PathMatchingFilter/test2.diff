@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/web/filter/PathMatchingFilter_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/filter/PathMatchingFilter_ESTest.java
+@@ -32,20 +32,11 @@
+       formAuthenticationFilter0.processPathConfig((String) null, (String) null);
+       assertEquals("username", formAuthenticationFilter0.getUsernameParam());
+   }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test2() throws Throwable {
++        RolesAuthorizationFilter rolesAuthorizationFilter0 = new RolesAuthorizationFilter();
++        rolesAuthorizationFilter0.processPathConfig(".FILTERED", "POST");
++        rolesAuthorizationFilter0.preHandle((ServletRequest) null, (ServletResponse) null);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      RolesAuthorizationFilter rolesAuthorizationFilter0 = new RolesAuthorizationFilter();
+-      rolesAuthorizationFilter0.processPathConfig(".FILTERED", "POST");
+-      try { 
+-        rolesAuthorizationFilter0.preHandle((ServletRequest) null, (ServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.WebUtils", e);
+-      }
+-  }
+ }

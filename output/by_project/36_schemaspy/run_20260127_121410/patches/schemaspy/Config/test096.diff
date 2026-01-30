@@ -1,0 +1,39 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -1395,24 +1395,18 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test096()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.setMeta("-");
+-      config0.setSingleSignOn(true);
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-o' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++public void test096() throws Throwable {
++    Config config0 = Config.getInstance();
++    config0.setMeta("-");
++    config0.setSingleSignOn(true);
++    try {
++        config0.asList();
++        fail("Expecting RuntimeException");
++    } catch (RuntimeException e) {
++        assertTrue(e.getMessage().contains("Required parameter '-o' was not specified."));
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test097()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/output/ProfileTextDump_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/output/ProfileTextDump_ESTest.java
+@@ -63,13 +63,25 @@
+         // also confirm the flag remains as set
+         assertTrue("Output summary only flag should stay true", Controller._outputSummaryOnly);
+     }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        Controller._fileName = "          ------------";
++        // Capture the state of the internal map before dumping
++        java.util.HashMap<String, ?> beforeMap = ProfileTextDump._clumpedFrameMap;
++        int beforeSize = (beforeMap == null) ? 0 : beforeMap.size();
+ 
++        // Act
++        ProfileTextDump.dump();
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      Controller._fileName = "          ------------";
+-      ProfileTextDump.dump();
+-  }
++        // Assert that the dump operation initialized/maintained the map
++        assertNotNull("The clumped frame map should be non‑null after dump()", ProfileTextDump._clumpedFrameMap);
++        int afterSize = ProfileTextDump._clumpedFrameMap.size();
++        assertTrue("Map size should be non‑negative", afterSize >= 0);
++        if (beforeMap != null) {
++            assertTrue("Map size should not decrease after dump()", afterSize >= beforeSize);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -414,13 +414,18 @@
+       String string0 = ConfigurationManagement.getFriends_txt();
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test62()  throws Throwable  {
+-      ACO aCO0 = ACO.ALLOW_DENY;
+-      ConfigurationManagement.setAccess_order(aCO0);
+-      ConfigurationManagement.display_conf_warnings();
+-  }
++@Test(timeout = 4000)
++public void test62() throws Throwable {
++    ACO aCO0 = ACO.ALLOW_DENY;
++    // Verify that setAccess_order correctly updates the access order
++    ConfigurationManagement.setAccess_order(aCO0);
++    assertEquals(aCO0, ConfigurationManagement.getAccess_order());
++
++    // Call display_conf_warnings and ensure it does not alter the access order
++    ConfigurationManagement.display_conf_warnings();
++    assertEquals(aCO0, ConfigurationManagement.getAccess_order());
++}
++
+ @Test(timeout = 4000)
+ public void test63() throws Throwable {
+     ConfigurationManagement.getSubneti();

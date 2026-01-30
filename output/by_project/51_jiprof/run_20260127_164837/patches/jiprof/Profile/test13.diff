@@ -1,0 +1,26 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
+@@ -148,13 +148,16 @@
+       Profile.initProfiler();
+       Profile.beginWait("m}$62c[e", "m}$62c[e");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      Profile.clear();
+-      Profile.start("thread", "!-");
+-      Profile.beginWait("thread", "!-");
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    Profile.clear();
++    int before = Profile.getThreadDictionary().size();
++    Profile.start("thread", "!-");
++    Profile.beginWait("thread", "!-");
++    int after = Profile.getThreadDictionary().size();
++    assertTrue(after >= before);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

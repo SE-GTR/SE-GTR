@@ -1,0 +1,49 @@
+--- a/evosuite-tests/jigl/math/Matrix_ESTest.java
++++ b/evosuite-tests/jigl/math/Matrix_ESTest.java
+@@ -402,22 +402,30 @@
+          verifyException("jigl.math.Matrix", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      Matrix matrix0 = new Matrix(3, 3);
+-      // Undeclared exception!
+-      try { 
+-        matrix0.add(matrix0);
+-        fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // 3
+-         //
+-         verifyException("jigl.math.Matrix", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test28() throws Throwable {
++        Matrix matrix0 = new Matrix(3, 3);
++        // initialise matrix with distinct values
++        matrix0.mem[0][0] = 1.0;
++        matrix0.mem[1][1] = -2.5;
++        matrix0.mem[2][2] = 3.3;
++        Matrix result = matrix0.add(matrix0);
++        // verify dimensions are preserved
++        assertEquals(3, result.mem.length);
++        assertEquals(3, result.mem[0].length);
++        // verify element‑wise addition (values should be doubled)
++        assertEquals(2.0, result.mem[0][0], 1e-9);
++        assertEquals(-5.0, result.mem[1][1], 1e-9);
++        assertEquals(6.6, result.mem[2][2], 1e-9);
++        // verify other elements remain zero
++        assertEquals(0.0, result.mem[0][1], 1e-9);
++        assertEquals(0.0, result.mem[1][0], 1e-9);
++        assertEquals(0.0, result.mem[0][2], 1e-9);
++        assertEquals(0.0, result.mem[2][0], 1e-9);
++        assertEquals(0.0, result.mem[1][2], 1e-9);
++        assertEquals(0.0, result.mem[2][1], 1e-9);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test29()  throws Throwable  {

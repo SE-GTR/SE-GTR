@@ -1,0 +1,60 @@
+--- a/evosuite-tests/org/heal/servlet/search/SearchResultsAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/search/SearchResultsAction_ESTest.java
+@@ -141,35 +141,29 @@
+       searchResultsAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
+       assertFalse(searchResultsAction0.actionRequiresLogin());
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        searchResultsAction0 = new SearchResultsAction();
++        servlet0 = new Servlet();
++        SearchResultBean searchResultBean0 = new SearchResultBean();
++        HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++        doReturn(searchResultBean0).when(httpSession0).getAttribute(anyString());
++        TreeMap<Object, Object> treeMap0 = new TreeMap<Object, Object>();
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("LanguageType", "", "", "").when(httpServletRequest0).getParameter(anyString());
++        doReturn(treeMap0, treeMap0, treeMap0, treeMap0, treeMap0).when(httpServletRequest0).getParameterMap();
++        doReturn("").when(httpServletRequest0).getQueryString();
++        doReturn(httpSession0).when(httpServletRequest0).getSession();
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++        // Execute the action
++        searchResultsAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
++        // Verify that the session attribute was accessed and the request was populated with the expected bean
++        verify(httpSession0).getAttribute(anyString());
++        verify(httpServletRequest0).setAttribute(anyString(), eq(searchResultBean0));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    searchResultsAction0 = new SearchResultsAction();
+-    servlet0 = new Servlet();
+-      SearchResultBean searchResultBean0 = new SearchResultBean();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(searchResultBean0).when(httpSession0).getAttribute(anyString());
+-      TreeMap<Object, Object> treeMap0 = new TreeMap<Object, Object>();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("LanguageType", "", "", "").when(httpServletRequest0).getParameter(anyString());
+-      doReturn(treeMap0, treeMap0, treeMap0, treeMap0, treeMap0).when(httpServletRequest0).getParameterMap();
+-      doReturn("").when(httpServletRequest0).getQueryString();
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      // Undeclared exception!
+-      try { 
+-        searchResultsAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("javax.servlet.GenericServlet", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

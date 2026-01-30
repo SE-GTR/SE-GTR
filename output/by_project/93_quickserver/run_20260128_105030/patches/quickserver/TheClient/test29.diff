@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/quickserver/net/server/TheClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/TheClient_ESTest.java
+@@ -263,15 +263,24 @@
+     java.nio.channels.SocketChannel channel = theClient0.getSocketChannel();
+     assertNull(channel);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      TheClient theClient0 = new TheClient();
+-      theClient0.setSocketChannel((SocketChannel) null);
+-      assertFalse(theClient0.getTrusted());
+-      assertTrue(theClient0.getCommunicationLogging());
+-  }
++@Test(timeout = 4000)
++    public void test29() throws Throwable {
++        TheClient theClient0 = new TheClient();
++        // Verify default state
++        assertFalse(theClient0.getTrusted());
++        assertTrue(theClient0.getCommunicationLogging());
++
++        // Exercise a state‑changing operation and assert its effect
++        theClient0.setTrusted(true);
++        assertTrue(theClient0.getTrusted());
++
++        theClient0.setCommunicationLogging(false);
++        assertFalse(theClient0.getCommunicationLogging());
++
++        // Call a setter that does not affect the observed state directly
++        theClient0.setSocketChannel((SocketChannel) null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

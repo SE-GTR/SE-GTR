@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/heal/module/metadata/ContributorBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/ContributorBean_ESTest.java
+@@ -201,14 +201,18 @@
+     assertEquals(email, contributorBean0.getEmail());
+     assertNull(contributorBean0.getOrganization());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-    contributorBean0 = new ContributorBean();
+-      contributorBean0.setContributorId("");
+-      assertNull(contributorBean0.getMetadataId());
+-  }
++@Test(timeout = 4000)
++    public void test20() throws Throwable {
++        ContributorBean bean = new ContributorBean();
++        bean.setContributorId("id");
++        // Verify that the contributorId was set (observes side‑effect)
++        assertEquals("id", bean.getContributorId());
++        // Non‑trivial behavior: compareTo should return 0 when comparing the object to itself
++        assertEquals(0, bean.compareTo(bean));
++        // The metadataId is still null by default
++        assertNull(bean.getMetadataId());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

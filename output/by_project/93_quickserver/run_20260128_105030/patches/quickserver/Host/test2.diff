@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/quickserver/net/client/Host_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/Host_ESTest.java
+@@ -42,16 +42,24 @@
+         assertNull(nextCheck);
+         assertEquals(Host.UNKNOWN, host0.getStatus());
+     }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        host0 = new Host();
++        // Verify default status
++        assertEquals(Host.UNKNOWN, host0.getStatus());
+ 
++        // Verify default timeout and that it can be changed
++        int defaultTimeout = host0.getTimeout();
++        assertEquals(10000, defaultTimeout);
++        host0.setTimeout(5000);
++        assertEquals(5000, host0.getTimeout());
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    host0 = new Host();
+-      assertEquals('U', host0.getStatus());
+-      
+-      host0.setStatus('V');
+-      assertEquals('V', host0.getStatus());
+-  }
++        // Change status and verify the side‑effect does not affect timeout
++        host0.setStatus('V');
++        assertEquals('V', host0.getStatus());
++        assertEquals(5000, host0.getTimeout());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

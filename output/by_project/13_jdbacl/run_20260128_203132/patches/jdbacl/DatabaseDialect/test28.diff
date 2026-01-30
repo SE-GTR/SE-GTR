@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
+@@ -413,22 +413,12 @@
+       assertEquals("derby", derbyDialect0.getSystem());
+       assertFalse(derbyDialect0.isSequenceSupported());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      DerbyDialect derbyDialect0 = new DerbyDialect(true);
+-      // Undeclared exception!
+-      try { 
+-        derbyDialect0.getSequence("rV6#dEL7o+", (Connection) null);
+-        fail("Expecting exception: UnsupportedOperationException");
+-      
+-      } catch(UnsupportedOperationException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.DatabaseDialect", e);
+-      }
+-  }
++@Test(expected = UnsupportedOperationException.class)
++    public void test28() throws Throwable {
++        DerbyDialect derbyDialect0 = new DerbyDialect(true);
++        derbyDialect0.getSequence("rV6#dEL7o+", null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test29()  throws Throwable  {

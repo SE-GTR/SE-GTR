@@ -1,0 +1,42 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/DemonstrationRetrievalService_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/DemonstrationRetrievalService_ESTest.java
+@@ -120,24 +120,21 @@
+       ArrayList<AliasFilePath> arrayList0 = demonstrationRetrievalService0.getAliasFilePaths((User) null);
+       assertEquals(4, arrayList0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      SessionProperties sessionProperties0 = new SessionProperties();
+-      DemonstrationRetrievalService demonstrationRetrievalService0 = new DemonstrationRetrievalService(sessionProperties0);
+-      User user0 = new User();
+-      // Undeclared exception!
+-      try { 
+-        demonstrationRetrievalService0.getValueLabels(user0, "Vp:j%T y6mKbE07j");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("macaw.persistenceLayer.demo.InMemoryValueLabelManager", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    SessionProperties sessionProperties0 = new SessionProperties();
++    // Properly initialize the variable manager required by DemonstrationRetrievalService
++    InMemoryValueLabelManager variableManager = new InMemoryValueLabelManager();
++    sessionProperties0.setVariableManager(variableManager);
++    DemonstrationRetrievalService demonstrationRetrievalService0 = new DemonstrationRetrievalService(sessionProperties0);
++    User user0 = new User();
++    // Invoke the method under test with a valid setup
++    java.util.ArrayList<ValueLabel> result = demonstrationRetrievalService0.getValueLabels(user0, "Vp:j%T y6mKbE07j");
++    // Verify that a non‑null (possibly empty) list is returned
++    assertNotNull(result);
++    assertTrue(result.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

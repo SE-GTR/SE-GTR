@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DefaultDBColumn_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DefaultDBColumn_ESTest.java
+@@ -269,17 +269,22 @@
+       assertFalse(defaultDBColumn0.isVersionColumn());
+       assertNull(dBForeignKeyConstraint1);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable();
+-      DefaultDBColumn defaultDBColumn0 = new DefaultDBColumn("v;pWM'9=|/a", defaultDBTable0, 0, ":.>/2");
+-      assertTrue(defaultDBColumn0.isNullable());
+-      
+-      defaultDBColumn0.setNullable(false);
+-      defaultDBColumn0.setNullable(false);
+-      assertFalse(defaultDBColumn0.isNullable());
+-  }
++@Test(timeout = 4000)
++public void test23() throws Throwable {
++    DefaultDBTable defaultDBTable0 = new DefaultDBTable();
++    DefaultDBColumn defaultDBColumn0 = new DefaultDBColumn("v;pWM'9=|/a", defaultDBTable0, 0, ":.>/\u007f2");
++    assertTrue(defaultDBColumn0.isNullable());
++
++    // Change nullable flag to false and verify the effect
++    defaultDBColumn0.setNullable(false);
++    assertFalse(defaultDBColumn0.isNullable());
++
++    // Re-invoke with the same value and ensure the state remains unchanged
++    boolean before = defaultDBColumn0.isNullable();
++    defaultDBColumn0.setNullable(false);
++    assertEquals(before, defaultDBColumn0.isNullable());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

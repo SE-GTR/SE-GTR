@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -620,19 +620,27 @@
+       workProcess0.setNo(1983);
+       assertEquals(1983, workProcess0.getNo());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test39()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test39() throws Throwable {
+       WorkProcess workProcess0 = new WorkProcess();
+       workProcess0.setAction("_O1");
+-      WorkProcess workProcess1 = new WorkProcess();
+-      assertFalse(workProcess1.equals((Object)workProcess0));
+-      
++      // verify side‑effect of setAction on workProcess0
++      assertEquals("_O1", workProcess0.getAction());
++
++      WorkProcess workProcess1 = new WorkProcess();
++      // initially the actions differ (workProcess1 has no action set)
++      assertNotEquals("_O1", workProcess1.getAction());
++      assertFalse(workProcess1.equals((Object) workProcess0));
++
+       workProcess1.setAction("_O1");
++      // verify side‑effect of setAction on workProcess1
++      assertEquals("_O1", workProcess1.getAction());
++
+       boolean boolean0 = workProcess1.equals(workProcess0);
+-      assertTrue(workProcess1.equals((Object)workProcess0));
++      assertTrue(workProcess1.equals((Object) workProcess0));
+       assertTrue(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test40()  throws Throwable  {

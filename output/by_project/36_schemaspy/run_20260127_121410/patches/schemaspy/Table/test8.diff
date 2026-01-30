@@ -1,0 +1,43 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/Table_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/Table_ESTest.java
+@@ -154,31 +154,14 @@
+          verifyException("net.sourceforge.schemaspy.model.Table", e);
+       }
+   }
++public void test8() throws Throwable {
++    Table.ByColumnIdComparator comparator = new Table.ByColumnIdComparator();
++    Table mockTable = mock(Table.class);
++    TableColumnMeta meta = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
++    doReturn("col1").when(meta).getId();
++    TableColumn column = new TableColumn(mockTable, meta);
++    int result = comparator.compare(column, column);
++    assertEquals(0, result);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-    table_ByColumnIdComparator0 = new Table.ByColumnIdComparator();
+-    tableColumnMeta0 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(tableColumnMeta0).getComments();
+-      doReturn((String) null).when(tableColumnMeta0).getDefaultValue();
+-      doReturn(0).when(tableColumnMeta0).getDigits();
+-      doReturn((String) null).when(tableColumnMeta0).getId();
+-      doReturn((String) null).when(tableColumnMeta0).getName();
+-      doReturn(0).when(tableColumnMeta0).getSize();
+-      doReturn((String) null).when(tableColumnMeta0).getType();
+-      doReturn(false).when(tableColumnMeta0).isAutoUpdated();
+-      doReturn(false).when(tableColumnMeta0).isNullable();
+-      TableColumn tableColumn0 = new TableColumn((Table) null, tableColumnMeta0);
+-      // Undeclared exception!
+-      try { 
+-        table_ByColumnIdComparator0.compare(tableColumn0, tableColumn0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.schemaspy.model.Table$ByColumnIdComparator", e);
+-      }
+-  }
+ }

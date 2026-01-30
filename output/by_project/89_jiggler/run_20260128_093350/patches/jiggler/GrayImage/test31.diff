@@ -1,0 +1,81 @@
+--- a/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
+@@ -972,47 +972,37 @@
+     assertEquals(0L, img.sqrSum());
+     assertEquals(0, img.addSum());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test31()  throws Throwable  {
+-      InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(1, 1);
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      
+-      Integer integer0 = new Integer(1);
+-      assertEquals(1, (int)integer0);
+-      
+-      Image<Integer> image0 = interpolatedGrayImage0.clear(integer0);
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(1L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(1, interpolatedGrayImage0.addSum());
+-      assertEquals(1, interpolatedGrayImage0.absSum());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(1, image0.Y());
+-      assertEquals(1, image0.X());
+-      assertSame(interpolatedGrayImage0, image0);
+-      
+-      InterpolatedGrayImage interpolatedGrayImage1 = (InterpolatedGrayImage)interpolatedGrayImage0.divide((-1888));
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(0L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(0, interpolatedGrayImage0.absSum());
+-      assertEquals(0, interpolatedGrayImage0.addSum());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(1, interpolatedGrayImage1.Y());
+-      assertEquals(1, interpolatedGrayImage1.X());
+-      assertEquals(0, interpolatedGrayImage1.addSum());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage1.getInterpolationMethod());
+-      assertEquals(0, interpolatedGrayImage1.absSum());
+-      assertEquals(0L, interpolatedGrayImage1.sqrSum());
+-      assertSame(interpolatedGrayImage0, interpolatedGrayImage1);
+-      assertSame(interpolatedGrayImage0, image0);
+-      assertSame(interpolatedGrayImage1, image0);
+-      assertSame(interpolatedGrayImage1, interpolatedGrayImage0);
+-  }
++@Test(timeout = 4000)
++public void test31() throws Throwable {
++    InterpolatedGrayImage img = new InterpolatedGrayImage(1, 1);
++    // constructor defaults
++    assertEquals(1, img.X());
++    assertEquals(1, img.Y());
++    assertEquals(InterpolationMethod.NEIGHBOR, img.getInterpolationMethod());
++
++    Integer val = Integer.valueOf(1);
++    assertEquals(1, val.intValue());
++
++    Image<Integer> cleared = img.clear(val);
++    // clear should return the same instance
++    assertSame(img, cleared);
++    // clear sets sums based on the value
++    assertEquals(1L, img.sqrSum());
++    assertEquals(1, img.addSum());
++    assertEquals(1, img.absSum());
++
++    InterpolatedGrayImage afterDiv = (InterpolatedGrayImage) img.divide(-1888);
++    // divide should be in‑place
++    assertSame(img, afterDiv);
++    // dimensions remain unchanged
++    assertEquals(1, afterDiv.X());
++    assertEquals(1, afterDiv.Y());
++    // divide resets sums
++    assertEquals(0L, afterDiv.sqrSum());
++    assertEquals(0, afterDiv.addSum());
++    assertEquals(0, afterDiv.absSum());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test32()  throws Throwable  {

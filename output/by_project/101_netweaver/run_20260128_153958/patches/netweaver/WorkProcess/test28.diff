@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -488,18 +488,23 @@
+       assertEquals(0, workProcess1.getNo());
+       assertEquals(0, workProcess1.getPid());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
+-      WorkProcess workProcess1 = new WorkProcess();
+-      assertTrue(workProcess1.equals((Object)workProcess0));
+-      
+-      workProcess1.setReason("aU");
+-      boolean boolean0 = workProcess1.equals(workProcess0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test28() throws Throwable {
++    WorkProcess workProcess0 = new WorkProcess();
++    WorkProcess workProcess1 = new WorkProcess();
++    assertTrue(workProcess1.equals((Object) workProcess0));
++
++    // Verify initial state before setting reason
++    assertNull(workProcess1.getReason());
++
++    workProcess1.setReason("aU");
++    // Observe the side‑effect of setReason
++    assertEquals("aU", workProcess1.getReason());
++
++    boolean boolean0 = workProcess1.equals(workProcess0);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test29()  throws Throwable  {

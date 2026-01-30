@@ -1,0 +1,34 @@
+--- a/evosuite-tests/jahuwaldt/plot/PlotDatum_ESTest.java
++++ b/evosuite-tests/jahuwaldt/plot/PlotDatum_ESTest.java
+@@ -107,15 +107,24 @@
+         assertEquals(plotDatum0.connected(), clone.connected());
+         assertEquals(plotDatum0.hasErrorBar(), clone.hasErrorBar());
+     }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        thinRect2Symbol0 = new ThinRect2Symbol();
++        plotDatum0 = new PlotDatum(0.0, 0.0, false, thinRect2Symbol0);
++        plotDatum0.setX(-2689.9);
++        assertEquals(-2689.9, plotDatum0.x, 0.01);
+ 
++        // Verify cloning creates a distinct object with the same state
++        PlotDatum cloneDatum = (PlotDatum) plotDatum0.clone();
++        assertNotSame(plotDatum0, cloneDatum);
++        assertEquals(-2689.9, cloneDatum.x, 0.01);
+ 
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    thinRect2Symbol0 = new ThinRect2Symbol();
+-    plotDatum0 = new PlotDatum(0.0, 0.0, false, thinRect2Symbol0);
+-      plotDatum0.setX((-2689.9));
+-      assertEquals((-2689.9), plotDatum0.x, 0.01);
+-  }
++        // Changing the clone should not affect the original
++        cloneDatum.setX(100.0);
++        assertEquals(-2689.9, plotDatum0.x, 0.01);
++        assertEquals(100.0, cloneDatum.x, 0.01);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

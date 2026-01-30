@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/HeapInfo_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/HeapInfo_ESTest.java
+@@ -162,18 +162,26 @@
+       assertTrue(heapInfo1.equals((Object) heapInfo0));
+       assertTrue(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      HeapInfo heapInfo0 = new HeapInfo();
+-      HeapInfo heapInfo1 = new HeapInfo();
+-      assertTrue(heapInfo1.equals((Object)heapInfo0));
+-      
+-      heapInfo1.setProcessname("");
+-      boolean boolean0 = heapInfo0.equals(heapInfo1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    HeapInfo heapInfo0 = new HeapInfo();
++    HeapInfo heapInfo1 = new HeapInfo();
++    assertTrue(heapInfo1.equals((Object) heapInfo0));
++
++    // Capture initial process name (expected to be null)
++    String before = heapInfo1.getProcessname();
++
++    // Act: change the process name
++    heapInfo1.setProcessname("");
++
++    // Verify the side effect of setProcessname
++    assertEquals("", heapInfo1.getProcessname());
++    assertNotEquals(before, heapInfo1.getProcessname());
++
++    boolean boolean0 = heapInfo0.equals(heapInfo1);
++    assertFalse(boolean0);
++}
++
+ @Test(timeout = 4000)
+     public void test11() throws Throwable {
+         HeapInfo heapInfo0 = new HeapInfo();

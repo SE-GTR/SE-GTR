@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/DatabaseConnectionConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/DatabaseConnectionConfig_ESTest.java
+@@ -28,14 +28,19 @@
+       assertEquals("testPwd", databaseConnectionConfig0.getPassword());
+       assertEquals("", databaseConnectionConfig0.getUsername());
+   }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    DatabaseConnectionConfig config = new DatabaseConnectionConfig();
++    // Verify initial state (password should be empty string by default)
++    assertEquals("", config.getPassword());
++    // Act: set password to null
++    config.setPassword(null);
++    // Assert the side‑effect of setPassword is observable
++    assertNull(config.getPassword());
++    // Ensure other fields remain unchanged
++    assertEquals("", config.getUsername());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      DatabaseConnectionConfig databaseConnectionConfig0 = new DatabaseConnectionConfig();
+-      databaseConnectionConfig0.setPassword((String) null);
+-      assertEquals("", databaseConnectionConfig0.getUsername());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

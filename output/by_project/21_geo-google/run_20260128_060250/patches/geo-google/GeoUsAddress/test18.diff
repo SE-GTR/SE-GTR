@@ -1,0 +1,32 @@
+--- a/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
++++ b/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
+@@ -194,13 +194,22 @@
+       String string0 = geoUsAddress0.getPostalCode();
+       assertEquals("", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      GeoUsAddress geoUsAddress0 = new GeoUsAddress();
+-      geoUsAddress0.setCountry("");
+-      assertEquals("", geoUsAddress0.getAddressLine2());
+-  }
++@Test(timeout = 4000)
++    public void test18() throws Throwable {
++        GeoUsAddress address = new GeoUsAddress();
++        // Verify initial state
++        assertEquals("", address.getAddressLine2());
++        assertEquals("", address.getCountry());
++
++        // Change state and verify side‑effect
++        address.setCountry("USA");
++        assertEquals("USA", address.getCountry());
++
++        // Ensure the change is reflected in a non‑trivial behavior (toString)
++        String representation = address.toString();
++        assertTrue(representation.contains("USA"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

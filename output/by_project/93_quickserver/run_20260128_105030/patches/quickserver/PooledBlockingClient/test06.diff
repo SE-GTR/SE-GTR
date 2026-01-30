@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/PooledBlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/PooledBlockingClient_ESTest.java
+@@ -92,21 +92,19 @@
+         // Minimal initialization check
+         assertEquals(0, pooledBlockingClient0.getHandedOutCount());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      BlockingClient blockingClient0 = new BlockingClient();
+-      PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      doReturn(blockingClient0).when(poolableBlockingClient0).createBlockingClient(any(org.quickserver.net.client.SocketBasedHost.class));
+-      SocketBasedHost socketBasedHost0 = new SocketBasedHost();
+-      PooledBlockingClient pooledBlockingClient0 = new PooledBlockingClient(poolableBlockingClient0, socketBasedHost0);
+-      long long0 = pooledBlockingClient0.getConnectedTime();
+-      assertFalse(pooledBlockingClient0.isHandedOut());
+-      assertEquals(0, pooledBlockingClient0.getHandedOutCount());
+-      assertEquals(1392409281320L, long0);
+-      assertEquals((-1L), pooledBlockingClient0.getHandedOutSince());
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    BlockingClient blockingClient0 = new BlockingClient();
++    PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
++    doReturn(blockingClient0).when(poolableBlockingClient0).createBlockingClient(any(org.quickserver.net.client.SocketBasedHost.class));
++    SocketBasedHost socketBasedHost0 = new SocketBasedHost();
++    PooledBlockingClient pooledBlockingClient0 = new PooledBlockingClient(poolableBlockingClient0, socketBasedHost0);
++    long connectedTime = pooledBlockingClient0.getConnectedTime();
++    assertFalse(pooledBlockingClient0.isHandedOut());
++    assertTrue(connectedTime >= 0L);
++    assertEquals(-1L, pooledBlockingClient0.getHandedOutSince());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

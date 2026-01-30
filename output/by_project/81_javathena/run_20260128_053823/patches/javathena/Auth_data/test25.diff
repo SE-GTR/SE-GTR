@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/javathena/core/data/Auth_data_ESTest.java
++++ b/evosuite-tests/org/javathena/core/data/Auth_data_ESTest.java
+@@ -229,15 +229,27 @@
+     Auth_data auth_data0 = new Auth_data();
+     assertNotNull(auth_data0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      Auth_data auth_data0 = new Auth_data();
+-      auth_data0.setUserid("0\tnull\t{Xz,\t[\t{Xz,\t0\t100\t0\t0\t0\t0\t{Xz,\t");
+-      assertEquals("0\tnull\t{Xz,\t[\t{Xz,\t0\t100\t0\t0\t0\t0\t{Xz,\t", auth_data0.getUserid());
+-      assertEquals((-1), auth_data0.getCharserver());
+-  }
++@Test(timeout = 4000)
++public void test25() throws Throwable {
++    Auth_data auth_data0 = new Auth_data();
++    // Verify default state
++    assertEquals(-1, auth_data0.getCharserver());
++    assertNull(auth_data0.getUserid());
++
++    // First assignment and verification
++    String firstUser = "0\tnull\t{Xz,\t[\t{Xz,\t0\t100\t0\t0\t0\t0\t{Xz,\t";
++    auth_data0.setUserid(firstUser);
++    assertEquals(firstUser, auth_data0.getUserid());
++
++    // Second assignment and verification
++    String secondUser = "alternativeUser";
++    auth_data0.setUserid(secondUser);
++    assertEquals(secondUser, auth_data0.getUserid());
++
++    // Ensure unrelated field remains unchanged
++    assertEquals(-1, auth_data0.getCharserver());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
+@@ -217,13 +217,19 @@
+       iniWebConfiguration0.setPathMatcher(antPathMatcher0);
+       assertNull(iniWebConfiguration0.getConfig());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
+-      iniWebConfiguration0.setFilterConfig((FilterConfig) null);
+-      assertNull(iniWebConfiguration0.getConfig());
+-  }
++@Test(timeout = 4000)
++public void test17() throws Throwable {
++    IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
++    iniWebConfiguration0.setFilterConfig(null);
++    // Verify that the setter had the expected side‑effect
++    assertNull(iniWebConfiguration0.getFilterConfig());
++    // Existing assertion on configuration
++    assertNull(iniWebConfiguration0.getConfig());
++    // Exercise a non‑trivial behavior and assert its result
++    Object resolver = iniWebConfiguration0.getFilterChainResolver();
++    assertNotNull(resolver);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

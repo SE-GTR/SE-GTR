@@ -1,0 +1,29 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostBox_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostBox_ESTest.java
+@@ -28,14 +28,18 @@
+       List<Object> list1 = postBox0.getAny();
+       assertSame(list1, list0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      PostBox postBox0 = new PostBox();
+-      List<AddressLine> list0 = postBox0.getAddressLine();
+-      List<AddressLine> list1 = postBox0.getAddressLine();
+-      assertSame(list1, list0);
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        PostBox postBox0 = new PostBox();
++        List<AddressLine> addressLines = postBox0.getAddressLine();
++        assertNotNull(addressLines);
++        // Act: modify the list returned by the getter
++        AddressLine newLine = new AddressLine();
++        addressLines.add(newLine);
++        // Assert: the modification is reflected in the object's state
++        assertTrue(addressLines.contains(newLine));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

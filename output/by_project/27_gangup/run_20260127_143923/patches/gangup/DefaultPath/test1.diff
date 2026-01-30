@@ -1,0 +1,34 @@
+--- a/evosuite-tests/map/DefaultPath_ESTest.java
++++ b/evosuite-tests/map/DefaultPath_ESTest.java
+@@ -43,17 +43,22 @@
+ 
+     assertEquals(1, defaultPath0.length());
+ }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    DirtyNode dirtyNode1 = new DirtyNode((-297L), 2619, 2619);
++    dirtyNode0.parent = dirtyNode1;
++    // verify that the parent was set correctly
++    assertSame(dirtyNode1, dirtyNode0.parent);
+ 
++    DefaultNode defaultNode1 = new DefaultNode(defaultNode0, 1932L, 1189, 0);
++    DefaultPath defaultPath0 = new DefaultPath(defaultNode1);
++    int lengthBefore = defaultPath0.length();
++    defaultPath0.reconstruct();
++    int lengthAfter = defaultPath0.length();
++    assertEquals(3, lengthAfter);
++    assertTrue(lengthAfter >= lengthBefore);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      DirtyNode dirtyNode1 = new DirtyNode((-297L), 2619, 2619);
+-      dirtyNode0.parent = dirtyNode1;
+-      DefaultNode defaultNode1 = new DefaultNode(defaultNode0, 1932L, 1189, 0);
+-      DefaultPath defaultPath0 = new DefaultPath(defaultNode1);
+-      defaultPath0.reconstruct();
+-      assertEquals(3, defaultPath0.length());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

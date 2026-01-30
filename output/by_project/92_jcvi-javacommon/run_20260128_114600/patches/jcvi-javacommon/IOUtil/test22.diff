@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
+@@ -229,21 +229,17 @@
+       short[] shortArray0 = IOUtil.readShortArray((InputStream) null, 0);
+       assertArrayEquals(new short[] {}, shortArray0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      PipedInputStream pipedInputStream0 = new PipedInputStream();
+-      try { 
+-        IOUtil.readUnsignedByteArray(pipedInputStream0, 7);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Pipe not connected
+-         //
+-         verifyException("java.io.PipedInputStream", e);
+-      }
+-  }
++@Test(expected = IOException.class, timeout = 4000)
++    public void test22() throws Throwable {
++        java.io.InputStream throwingStream = new java.io.InputStream() {
++            @Override
++            public int read() throws java.io.IOException {
++                throw new java.io.IOException("forced exception");
++            }
++        };
++        IOUtil.readUnsignedByteArray(throwingStream, 7);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

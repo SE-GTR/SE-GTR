@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/quickserver/net/client/monitoring/HostMonitoringService_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/monitoring/HostMonitoringService_ESTest.java
+@@ -25,16 +25,25 @@
+     HostMonitoringService hostMonitoringService0 = new HostMonitoringService();
+     assertEquals(0, hostMonitoringService0.getIntervalInSec());
+ }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        HostMonitoringService hostMonitoringService0 = new HostMonitoringService();
++        LinkedList<Object> linkedList0 = new LinkedList<Object>();
+ 
++        // Capture size before any modification
++        int sizeBefore = hostMonitoringService0.getSize();
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      HostMonitoringService hostMonitoringService0 = new HostMonitoringService();
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      hostMonitoringService0.setListnersList(linkedList0);
+-      hostMonitoringService0.addHostStateListner((HostStateListener) null);
+-      //  // Unstable assertion: assertEquals(10, hostMonitoringService0.getSize());
+-  }
++        // Set an empty listeners list and verify the size reflects the empty list
++        hostMonitoringService0.setListnersList(linkedList0);
++        int sizeAfterSet = hostMonitoringService0.getSize();
++        assertEquals(0, sizeAfterSet);
++
++        // Add a (null) listener and ensure the size does not decrease
++        hostMonitoringService0.addHostStateListner((HostStateListener) null);
++        int sizeAfterAdd = hostMonitoringService0.getSize();
++        assertTrue(sizeAfterAdd >= sizeAfterSet);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

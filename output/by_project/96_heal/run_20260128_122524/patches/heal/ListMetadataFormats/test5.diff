@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/heal/module/oai/provider/verb/ListMetadataFormats_ESTest.java
++++ b/evosuite-tests/org/heal/module/oai/provider/verb/ListMetadataFormats_ESTest.java
+@@ -102,22 +102,32 @@
+     assertNotNull(output);
+     assertFalse(output.isEmpty());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      ListMetadataFormats listMetadataFormats0 = (ListMetadataFormats)OAIVerb.LIST_METADATA_FORMATS;
++@Test(timeout = 4000)
++  public void test5() throws Throwable {
++      ListMetadataFormats listMetadataFormats0 = (ListMetadataFormats) OAIVerb.LIST_METADATA_FORMATS;
+       StringWriter stringWriter0 = new StringWriter();
+       MockPrintWriter mockPrintWriter0 = new MockPrintWriter(stringWriter0);
+       ValidatedInput validatedInput0 = new ValidatedInput();
+       OAIMetadataFormat[] oAIMetadataFormatArray0 = new OAIMetadataFormat[2];
+       NSDL_DCMetadataFormat nSDL_DCMetadataFormat0 = new NSDL_DCMetadataFormat();
+-      oAIMetadataFormatArray0[0] = (OAIMetadataFormat) nSDL_DCMetadataFormat0;
+-      oAIMetadataFormatArray0[1] = (OAIMetadataFormat) nSDL_DCMetadataFormat0;
+-      HEALProviderConfig hEALProviderConfig0 = new HEALProviderConfig((String) null, 2147483645, (String) null, (String) null, (String) null, (String[]) null, (String[]) null, (String) null, (String[]) null, (String) null, "^&'f`sq9-a<@d5(}", oAIMetadataFormatArray0, (String) null);
+-      listMetadataFormats0.execute(validatedInput0, hEALProviderConfig0, (DataAccessor) null, mockPrintWriter0);
+-      assertEquals("<ListMetadataFormats>\n<metadataFormat><metadataPrefix>null</metadataPrefix>\n<schema>http://ns.nsdl.org/schemas/nsdl_dc/nsdl_dc_v1.02.xsd</schema>\n<metadataNamespace>http://ns.nsdl.org/schemas/nsdl_dc/</metadataNamespace>\n</metadataFormat><metadataFormat><metadataPrefix>null</metadataPrefix>\n<schema>http://ns.nsdl.org/schemas/nsdl_dc/nsdl_dc_v1.02.xsd</schema>\n<metadataNamespace>http://ns.nsdl.org/schemas/nsdl_dc/</metadataNamespace>\n</metadataFormat></ListMetadataFormats>\n", stringWriter0.toString());
++      oAIMetadataFormatArray0[0] = nSDL_DCMetadataFormat0;
++      oAIMetadataFormatArray0[1] = nSDL_DCMetadataFormat0;
++      HEALProviderConfig hEALProviderConfig0 = new HEALProviderConfig(null, 2147483645, null, null, null, null, null, null, null, null,
++              "^&'f`sq9-a<@d5(}", oAIMetadataFormatArray0, null);
++      // capture state before execution
++      int lengthBefore = stringWriter0.getBuffer().length();
++      listMetadataFormats0.execute(validatedInput0, hEALProviderConfig0, null, mockPrintWriter0);
++      String output = stringWriter0.toString();
++      // primary oracle
++      assertEquals("<ListMetadataFormats>\n<metadataFormat><metadataPrefix>null</metadataPrefix>\n<schema>http://ns.nsdl.org/schemas/nsdl_dc/nsdl_dc_v1.02.xsd</schema>\n<metadataNamespace>http://ns.nsdl.org/schemas/nsdl_dc/</metadataNamespace>\n</metadataFormat><metadataFormat><metadataPrefix>null</metadataPrefix>\n<schema>http://ns.nsdl.org/schemas/nsdl_dc/nsdl_dc_v1.02.xsd</schema>\n<metadataNamespace>http://ns.nsdl.org/schemas/nsdl_dc/</metadataNamespace>\n</metadataFormat></ListMetadataFormats>\n",
++              output);
++      // additional assertions to observe side‑effects and differentiate this test
++      assertEquals(0, lengthBefore);
++      assertTrue(output.contains("<metadataFormat>"));
++      // ensure that two metadataFormat elements were written
++      assertTrue(output.indexOf("<metadataFormat>") != output.lastIndexOf("<metadataFormat>"));
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

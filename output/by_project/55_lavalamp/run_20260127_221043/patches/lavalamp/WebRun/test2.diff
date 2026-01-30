@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/sf/lavalamp/application/WebRun_ESTest.java
++++ b/evosuite-tests/net/sf/lavalamp/application/WebRun_ESTest.java
+@@ -67,21 +67,27 @@
+       webRun0.initDevices(devicePropertiesArray0, linkedList0);
+       assertEquals(0, devicePropertiesArray0.length);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
+     buildChecker0 = new BuildChecker();
+     linkedList0 = new LinkedList<Device>();
+     deviceController0 = new DeviceController(linkedList0);
+     pause0 = new Pause();
+-      DummyDevice dummyDevice0 = new DummyDevice();
+-      Builds builds0 = new Builds();
+-      dummyDevice0.setBuilds(builds0);
+-      linkedList0.add((Device) dummyDevice0);
+-      WebRun webRun0 = new WebRun();
+-      UrlGetter urlGetter0 = new UrlGetter();
+-      webRun0.checkAllBuilds(buildChecker0, urlGetter0, deviceController0, pause0, (Console) null, 0L);
++    DummyDevice dummyDevice0 = new DummyDevice();
++    Builds builds0 = new Builds();
++    dummyDevice0.setBuilds(builds0);
++    // verify side‑effect of setBuilds
++    assertSame(builds0, dummyDevice0.getBuilds());
++    boolean added = linkedList0.add((Device) dummyDevice0);
++    // verify return value of add
++    assertTrue(added);
++    // also verify that the list now contains the device
++    assertTrue(linkedList0.contains(dummyDevice0));
++    WebRun webRun0 = new WebRun();
++    UrlGetter urlGetter0 = new UrlGetter();
++    webRun0.checkAllBuilds(buildChecker0, urlGetter0, deviceController0, pause0, (Console) null, 0L);
+   }
++
+ @Test(timeout = 4000)
+ public void test3() throws Throwable {
+     WebRun webRun0 = new WebRun();

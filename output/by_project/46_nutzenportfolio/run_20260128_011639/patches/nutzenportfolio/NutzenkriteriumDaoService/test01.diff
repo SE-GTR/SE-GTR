@@ -1,0 +1,45 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/nutzenkriterium/NutzenkriteriumDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/nutzenkriterium/NutzenkriteriumDaoService_ESTest.java
+@@ -59,27 +59,21 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      NutzenkriteriumDaoService nutzenkriteriumDaoService0 = new NutzenkriteriumDaoService((NutzenkriteriumDao) null);
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      Integer integer0 = new Integer(246);
+-      LinkedList<Kategorie> linkedList0 = new LinkedList<Kategorie>();
+-      // Undeclared exception!
+-      try { 
+-        nutzenkriteriumDaoService0.setStatus(httpServletRequestWrapper0, linkedList0, integer0, (Integer) null, true);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.service.nutzenkriterium.NutzenkriteriumDaoService", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    NutzenkriteriumDao daoMock = mock(NutzenkriteriumDao.class);
++    NutzenkriteriumDaoService nutzenkriteriumDaoService0 = new NutzenkriteriumDaoService(daoMock);
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class);
++    HttpSession httpSession0 = mock(HttpSession.class);
++    when(httpServletRequest0.getSession()).thenReturn(httpSession0);
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    Integer integer0 = Integer.valueOf(246);
++    LinkedList<Kategorie> linkedList0 = new LinkedList<>();
++    Integer naOpNuId = Integer.valueOf(1);
++    List<Nutzenkriterium> result = nutzenkriteriumDaoService0.setStatus(httpServletRequestWrapper0, linkedList0, integer0, naOpNuId, true);
++    assertNotNull(result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

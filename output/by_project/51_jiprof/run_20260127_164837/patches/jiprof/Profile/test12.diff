@@ -1,0 +1,26 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
+@@ -141,13 +141,16 @@
+     Profile.endWait("!-", "!-");
+     assertNotNull(Profile.class);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      Profile.initProfiler();
+-      Profile.beginWait("m}$62c[e", "m}$62c[e");
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        // Initialize the profiler, which should set up internal controller thread.
++        Profile.initProfiler();
++        // Verify that the side‑effect of initProfiler is observable via the public API.
++        assertNotNull(Profile.getControllerThread());
++        // Invoke beginWait with sample arguments; the call should complete without exception.
++        Profile.beginWait("m}$62c[e", "m}$62c[e");
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

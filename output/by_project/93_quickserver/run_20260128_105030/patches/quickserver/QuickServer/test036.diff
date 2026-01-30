@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -455,12 +455,16 @@
+       quickServer0.setLoggingLevel(level0);
+       assertEquals("FINE", quickServer0.getConsoleLoggingLevel());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test036()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test036() throws Throwable {
+       QuickServer quickServer0 = new QuickServer("Pg**z^");
+-      Level level0 = Level.INFO;
++      // Capture the initial console logging level
++      String beforeLevel = quickServer0.getConsoleLoggingLevel();
++      Level level0 = Level.FINE;
+       quickServer0.setLoggingLevel(level0);
++      // Verify that the logging level was actually changed
++      assertNotEquals(beforeLevel, quickServer0.getConsoleLoggingLevel());
++      assertEquals("FINE", quickServer0.getConsoleLoggingLevel());
+       assertEquals((-1), quickServer0.getServiceState());
+       assertEquals("-ERR Server Busy. Max Connection Reached", quickServer0.getMaxConnectionMsg());
+       assertTrue(quickServer0.getCommunicationLogging());
+@@ -472,8 +476,8 @@
+       assertEquals((-1L), quickServer0.getMaxConnection());
+       assertEquals("QuickServer", quickServer0.getName());
+       assertFalse(quickServer0.isRunningSecure());
+-      assertEquals("INFO", quickServer0.getConsoleLoggingLevel());
+-  }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test037()  throws Throwable  {

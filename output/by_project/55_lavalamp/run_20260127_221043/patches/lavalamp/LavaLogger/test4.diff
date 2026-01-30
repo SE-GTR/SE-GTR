@@ -1,0 +1,33 @@
+--- a/evosuite-tests/net/sf/lavalamp/LavaLogger_ESTest.java
++++ b/evosuite-tests/net/sf/lavalamp/LavaLogger_ESTest.java
+@@ -43,13 +43,24 @@
+       lavaLogger0.error((Throwable) mockThrowable0);
+       assertNull(mockThrowable0.getMessage());
+   }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    PrintStream originalOut = System.out;
++    ByteArrayOutputStream capturedOut = new ByteArrayOutputStream();
++    System.setOut(new PrintStream(capturedOut));
++    try {
++        LavaLogger lavaLogger0 = new LavaLogger();
++        LavaLogger.setDebug(true);
++        String message = "]AY.J.>7(q8.";
++        lavaLogger0.debug(message);
++        System.out.flush();
++        String output = capturedOut.toString();
++        assertTrue("Debug output should contain the logged message", output.contains(message));
++    } finally {
++        System.setOut(originalOut);
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      LavaLogger lavaLogger0 = new LavaLogger();
+-      LavaLogger.setDebug(true);
+-      lavaLogger0.debug("]AY.J.>7(q8.");
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

@@ -1,0 +1,26 @@
+--- a/evosuite-tests/com/browsersoft/aacs/SimpleUserMgr_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/SimpleUserMgr_ESTest.java
+@@ -118,12 +118,17 @@
+       SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
+       simpleUserMgr0.addUser("sn");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
+-      simpleUserMgr0.parseLine("ou");
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
++    // Before parsing, there should be no user associated with a dummy email
++    assertNull(simpleUserMgr0.getUser("dummy@example.com"));
++    // Act: parse a line that does not define a user (only an organizational unit)
++    simpleUserMgr0.parseLine("ou");
++    // After parsing the same line, the manager should still not contain that dummy user
++    assertNull(simpleUserMgr0.getUser("dummy@example.com"));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7ParserImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7ParserImpl_ESTest.java
+@@ -82,23 +82,19 @@
+          verifyException("com.browsersoft.openhre.hl7.impl.parser.HL7ParserImpl", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        HL7ParserImpl parser = new HL7ParserImpl(48);
++        HL7ParserHandler handler = (HL7ParserHandler) java.lang.reflect.Proxy.newProxyInstance(
++                HL7ParserHandler.class.getClassLoader(),
++                new Class<?>[]{HL7ParserHandler.class},
++                (proxy, method, args) -> null);
++        parser.setHandler(handler);
++        StringReader reader = new StringReader("MSH\r");
++        parser.readData(reader);
++        // Test passes if readData completes without throwing an exception
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      HL7ParserImpl hL7ParserImpl0 = new HL7ParserImpl(48);
+-      StringReader stringReader0 = new StringReader("MSH");
+-      // Undeclared exception!
+-      try { 
+-        hL7ParserImpl0.readData(stringReader0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.browsersoft.openhre.hl7.impl.parser.HL7ParserImpl", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+   public void test5() throws Throwable {
+       HL7ParserImpl parser = new HL7ParserImpl(47);

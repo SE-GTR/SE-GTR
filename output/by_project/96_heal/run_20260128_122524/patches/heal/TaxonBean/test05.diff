@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/heal/module/metadata/TaxonBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/TaxonBean_ESTest.java
+@@ -92,21 +92,31 @@
+     assertFalse(taxonBean1.equals((Object) taxonBean0));
+     assertEquals(-1, int0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test05() throws Throwable {
+     taxonBean0 = new TaxonBean();
+     taxonBean1 = new TaxonBean();
+-      assertTrue(taxonBean1.equals((Object)taxonBean0));
+-      
+-      taxonBean1.setId("");
+-      taxonBean1.setTaxonId(" entry:");
+-      taxonBean0.setId("");
+-      int int0 = taxonBean1.compareTo(taxonBean0);
+-      assertFalse(taxonBean1.equals((Object)taxonBean0));
+-      assertEquals((-1), int0);
++
++    // initially both beans should be equal (all fields null)
++    assertTrue(taxonBean1.equals((Object) taxonBean0));
++
++    // set and verify id on both beans
++    taxonBean1.setId("");
++    assertEquals("", taxonBean1.getId());
++
++    taxonBean0.setId("");
++    assertEquals("", taxonBean0.getId());
++
++    // set and verify taxonId on bean1
++    taxonBean1.setTaxonId(" entry:");
++    assertEquals(" entry:", taxonBean1.getTaxonId());
++
++    // after modifications, beans should no longer be equal
++    int int0 = taxonBean1.compareTo(taxonBean0);
++    assertFalse(taxonBean1.equals((Object) taxonBean0));
++    assertEquals(-1, int0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryVariableManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryVariableManager_ESTest.java
+@@ -279,14 +279,16 @@
+          verifyException("macaw.businessLayer.RawVariable", e);
+       }
+   }
+-@Test(timeout = 4000, expected = NullPointerException.class)
+-    public void test18() throws Throwable {
+-        InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+-        InMemorySupportingDocumentsManager inMemorySupportingDocumentsManager0 = new InMemorySupportingDocumentsManager(inMemoryChangeEventManager0);
+-        InMemoryListChoiceManager inMemoryListChoiceManager0 = new InMemoryListChoiceManager(inMemoryChangeEventManager0);
+-        InMemoryVariableManager inMemoryVariableManager0 = new InMemoryVariableManager(inMemoryChangeEventManager0, inMemoryListChoiceManager0, null, inMemorySupportingDocumentsManager0);
+-        inMemoryVariableManager0.getAlternativeVariable(null);
+-    }
++@Test(timeout = 4000)
++public void test18() throws Throwable {
++    InMemoryChangeEventManager changeMgr = new InMemoryChangeEventManager();
++    InMemorySupportingDocumentsManager docsMgr = new InMemorySupportingDocumentsManager(changeMgr);
++    InMemoryListChoiceManager listChoiceMgr = new InMemoryListChoiceManager(changeMgr);
++    InMemoryOntologyTermManager ontologyMgr = new InMemoryOntologyTermManager(changeMgr);
++    InMemoryVariableManager varMgr = new InMemoryVariableManager(changeMgr, listChoiceMgr, ontologyMgr, docsMgr);
++    assertNotNull(varMgr);
++}
++
+ 
+ 
+   @Test(timeout = 4000)

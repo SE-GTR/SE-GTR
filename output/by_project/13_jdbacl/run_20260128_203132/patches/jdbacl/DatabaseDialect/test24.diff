@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
+@@ -362,22 +362,12 @@
+       assertEquals("CREATE SEQUENCE \"n(=IS{{+,3\"_[(\".\"8Vt@_baX\"", string0);
+       assertTrue(oracleDialect0.quoteTableNames);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      // Undeclared exception!
+-      try { 
+-        oracleDialect0.createSequence("97%v", 1062L, (Connection) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.DBUtil", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class, timeout = 4000)
++    public void test24() throws Throwable {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        oracleDialect0.createSequence("97%v", 1062L, null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test25()  throws Throwable  {

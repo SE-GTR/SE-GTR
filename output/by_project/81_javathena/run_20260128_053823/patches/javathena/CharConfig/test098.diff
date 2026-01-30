@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/character/data/config/CharConfig_ESTest.java
++++ b/evosuite-tests/org/character/data/config/CharConfig_ESTest.java
+@@ -777,14 +777,16 @@
+         assertEquals(-1881, charConfig0.getAutosaveInterval());
+         assertNotEquals(initialInterval, charConfig0.getAutosaveInterval());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test098()  throws Throwable  {
+-      CharConfig charConfig0 = new CharConfig();
+-      charConfig0.setMaxConnectUser(1024);
+-      assertEquals(1024, charConfig0.getMaxConnectUser());
+-  }
++@Test(timeout = 4000)
++    public void test098() throws Throwable {
++        CharConfig charConfig0 = new CharConfig();
++        int defaultVal = charConfig0.getMaxConnectUser();
++        charConfig0.setMaxConnectUser(1024);
++        int newVal = charConfig0.getMaxConnectUser();
++        assertNotEquals("The value should change after setting a new maxConnectUser", defaultVal, newVal);
++        assertEquals("The getter should return the value set by the setter", 1024, newVal);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test099()  throws Throwable  {

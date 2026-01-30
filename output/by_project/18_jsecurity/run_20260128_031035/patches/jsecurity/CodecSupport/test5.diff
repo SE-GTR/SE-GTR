@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jsecurity/codec/CodecSupport_ESTest.java
++++ b/evosuite-tests/org/jsecurity/codec/CodecSupport_ESTest.java
+@@ -71,24 +71,20 @@
+   public void test4() throws Throwable {
+       CodecSupport.toString((byte[]) null);
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    Sha384CredentialsMatcher matcher = new Sha384CredentialsMatcher();
++    UsernamePasswordToken token = new UsernamePasswordToken("user", "pass");
++    // Provide a simple AuthenticationInfo with raw password bytes as credentials
++    AuthenticationInfo info = new org.jsecurity.authc.SimpleAuthenticationInfo(
++            token.getPrincipal(),
++            "pass".getBytes(),
++            "testRealm");
++    boolean match = matcher.doCredentialsMatch(token, info);
++    // The stored credentials are not hashed, so the matcher should return false
++    org.junit.Assert.assertFalse(match);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      Sha384CredentialsMatcher sha384CredentialsMatcher0 = new Sha384CredentialsMatcher();
+-      UsernamePasswordToken usernamePasswordToken0 = new UsernamePasswordToken("UTF-8", "UTF-8");
+-      // Undeclared exception!
+-      try { 
+-        sha384CredentialsMatcher0.doCredentialsMatch(usernamePasswordToken0, (AuthenticationInfo) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.authc.credential.HashedCredentialsMatcher", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

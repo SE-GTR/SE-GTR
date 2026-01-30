@@ -1,0 +1,37 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/SellerFeedback_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/SellerFeedback_ESTest.java
+@@ -25,22 +25,19 @@
+       String string0 = sellerFeedback0.toString();
+       assertEquals("null\n# of feedbacks = 1", string0);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        SellerFeedback sellerFeedback0 = new SellerFeedback();
++        // Properly initialize the internal list to avoid NPE
++        java.lang.reflect.Field feedbackField = SellerFeedback.class.getDeclaredField("feedbacks");
++        feedbackField.setAccessible(true);
++        feedbackField.set(sellerFeedback0, new java.util.ArrayList<>());
++        // Call the method under test
++        net.kencochrane.a4j.beans.FeedBack[] result = sellerFeedback0.getFeedback();
++        assertNotNull(result);
++        assertEquals(0, result.length);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      SellerFeedback sellerFeedback0 = new SellerFeedback();
+-      // Undeclared exception!
+-      try { 
+-        sellerFeedback0.getFeedback();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.kencochrane.a4j.beans.SellerFeedback", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

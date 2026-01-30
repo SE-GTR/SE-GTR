@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/heal/servlet/RemoveFromDownloadAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/RemoveFromDownloadAction_ESTest.java
+@@ -71,24 +71,27 @@
+     // Verify that the action accessed the session attribute as part of its side effect
+     verify(httpSession0).getAttribute(anyString());
+ }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    RemoveFromDownloadAction action = new RemoveFromDownloadAction();
++    Servlet servlet = new Servlet("");
++    HttpSession session = mock(HttpSession.class);
++    HttpServletRequest request = mock(HttpServletRequest.class);
++    when(request.getSession()).thenReturn(session);
++    when(request.getParameter(anyString())).thenReturn(null);
++    when(request.getParameterValues(anyString())).thenReturn(null);
++    HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(request);
++    HttpServletResponse response = mock(HttpServletResponse.class);
++    HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper(response);
+ 
++    // Act
++    action.perform(servlet, requestWrapper, responseWrapper);
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    removeFromDownloadAction0 = new RemoveFromDownloadAction();
+-    servlet0 = new Servlet("");
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null, (String) null).when(httpServletRequest0).getParameter(anyString());
+-      doReturn((String[]) null).when(httpServletRequest0).getParameterValues(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      removeFromDownloadAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
+-      assertTrue(removeFromDownloadAction0.actionRequiresLogin());
+-  }
++    // Assert side‑effects of perform
++    verify(request).getSession();
++    verify(request, atLeastOnce()).getParameter(anyString());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/TableIndex_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/TableIndex_ESTest.java
+@@ -109,19 +109,23 @@
+         int int0 = tableIndex0.compareTo(tableIndex1);
+         assertEquals(-1, int0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(resultSet0).getBoolean(anyString());
+-      doReturn("").when(resultSet0).getString(anyString());
+-      TableIndex tableIndex0 = new TableIndex(resultSet0);
+-      tableIndex0.setIsPrimaryKey(true);
+-      int int0 = tableIndex0.compareTo(tableIndex0);
+-      assertEquals("Primary key", tableIndex0.getType());
+-      assertEquals(0, int0);
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
++        doReturn(false).when(resultSet0).getBoolean(anyString());
++        doReturn("").when(resultSet0).getString(anyString());
++        TableIndex tableIndex0 = new TableIndex(resultSet0);
++        // Verify that setting the primary‑key flag changes the reported type
++        tableIndex0.setIsPrimaryKey(true);
++        assertEquals("Primary key", tableIndex0.getType());
++        // Reset the flag and ensure the type no longer reports as primary
++        tableIndex0.setIsPrimaryKey(false);
++        assertNotEquals("Primary key", tableIndex0.getType());
++        // Additional behavior check
++        int int0 = tableIndex0.compareTo(tableIndex0);
++        assertEquals(0, int0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

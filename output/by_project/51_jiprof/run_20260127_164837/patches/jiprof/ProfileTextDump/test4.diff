@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/output/ProfileTextDump_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/output/ProfileTextDump_ESTest.java
+@@ -81,14 +81,19 @@
+             assertTrue("Map size should not decrease after dump()", afterSize >= beforeSize);
+         }
+     }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("profile.txt");
++        FileSystemHandling.createFolder(evoSuiteFile0);
++        java.io.File file = new java.io.File("profile.txt");
++        if (file.exists()) {
++            file.delete();
++        }
++        ProfileTextDump.dump();
++        org.junit.Assert.assertTrue("Dump should create output file", file.exists());
++        org.junit.Assert.assertTrue("Output file should not be empty", file.length() > 0);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("profile.txt");
+-      FileSystemHandling.createFolder(evoSuiteFile0);
+-      ProfileTextDump.dump();
+-  }
+ @Test(timeout = 4000)
+     public void test5() throws Throwable {
+         ProfileTextDump profileTextDump0 = new ProfileTextDump();

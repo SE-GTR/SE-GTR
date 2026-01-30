@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/action/LoginAction_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/action/LoginAction_ESTest.java
+@@ -23,23 +23,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class LoginAction_ESTest extends LoginAction_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    LoginAction loginAction0 = new LoginAction();
++    DBDataForm dBDataForm0 = new DBDataForm();
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++    HttpSession httpSession0 = mock(HttpSession.class);
++    doReturn(httpSession0).when(httpServletRequest0).getSession();
++    ActionMapping actionMapping0 = new ActionMapping();
++    ActionForward result = loginAction0.execute(actionMapping0, dBDataForm0, httpServletRequest0, httpServletResponse0);
++    assertNotNull(result);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      LoginAction loginAction0 = new LoginAction();
+-      DBDataForm dBDataForm0 = new DBDataForm();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession();
+-      ActionMapping actionMapping0 = new ActionMapping();
+-      try { 
+-        loginAction0.execute(actionMapping0, (ActionForm) dBDataForm0, httpServletRequest0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.gbshape.dbe.struts.action.LoginAction", e);
+-      }
+-  }
+ }

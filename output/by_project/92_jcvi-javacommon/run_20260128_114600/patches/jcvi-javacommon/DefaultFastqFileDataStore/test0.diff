@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/DefaultFastqFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/DefaultFastqFileDataStore_ESTest.java
+@@ -22,23 +22,19 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DefaultFastqFileDataStore_ESTest extends DefaultFastqFileDataStore_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    java.io.File tempFile = java.io.File.createTempFile("fastq", ".fq");
++    tempFile.deleteOnExit();
++    java.nio.file.Files.write(
++            tempFile.toPath(),
++            java.util.Collections.singletonList("@SEQ_ID\nGATTA\n+\n!!!!!"));
++    FastqQualityCodec codec = FastqQualityCodec.ILLUMINA;
++    org.jcvi.jillion.core.datastore.DataStoreFilter filter = org.jcvi.jillion.core.datastore.DataStoreFilters.alwaysAccept();
++    org.jcvi.jillion.trace.fastq.FastqDataStore store = DefaultFastqFileDataStore.create(tempFile, filter, codec);
++    assertNotNull(store);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("");
+-      FastqQualityCodec fastqQualityCodec0 = FastqQualityCodec.ILLUMINA;
+-      // Undeclared exception!
+-      try { 
+-        DefaultFastqFileDataStore.create((File) mockFile0, (DataStoreFilter) null, fastqQualityCodec0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // filter can not be null
+-         //
+-         verifyException("org.jcvi.jillion.trace.fastq.DefaultFastqFileDataStore$DefaultFastqFileDataStoreBuilderVisitor2", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

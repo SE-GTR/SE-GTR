@@ -1,0 +1,41 @@
+--- a/evosuite-tests/corina/map/MapPanel_ESTest.java
++++ b/evosuite-tests/corina/map/MapPanel_ESTest.java
+@@ -37,26 +37,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class MapPanel_ESTest extends MapPanel_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      RootGraphicsNode rootGraphicsNode0 = new RootGraphicsNode();
+-      DebugGraphics debugGraphics0 = new DebugGraphics();
+-      LabelSet labelSet0 = new LabelSet(rootGraphicsNode0);
+-      MapPanel mapPanel0 = new MapPanel((MapFrame) null, labelSet0);
+-      mapPanel0.setSize(10, 10);
+-      // Undeclared exception!
+-      try { 
+-        mapPanel0.paintComponent(debugGraphics0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("javax.swing.DebugGraphics", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    RootGraphicsNode rootGraphicsNode0 = new RootGraphicsNode();
++    DebugGraphics debugGraphics0 = new DebugGraphics();
++    LabelSet labelSet0 = new LabelSet(rootGraphicsNode0);
++    MapFrame mapFrame = new MapFrame();
++    MapPanel mapPanel0 = new MapPanel(mapFrame, labelSet0);
++    mapPanel0.setSize(10, 10);
++    // Verify that painting does not throw an exception with a valid MapFrame
++    mapPanel0.paintComponent(debugGraphics0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

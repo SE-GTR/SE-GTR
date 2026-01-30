@@ -1,0 +1,63 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Hub2FedoraPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Hub2FedoraPackager_ESTest.java
+@@ -41,32 +41,36 @@
+       doReturn(uRI0).when(haSMETSProfile0).getBaseURIMinusFile();
+     haSMETSProfile1 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        hub2FedoraPackager0 = new Hub2FedoraPackager();
++        mETSProfile_PackageType0 = METSProfile.PackageType.AIP;
++        uRI0 = MockURI.aFileURI;
++        metsFileTypeArray0 = new MetsFileType[0];
++        haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
++        doReturn(mETSProfile_PackageType0).when(haSMETSProfile0).guessPackageType();
++        doReturn(uRI0).when(haSMETSProfile0).getBaseURIMinusFile();
++        haSMETSProfile1 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
++        doReturn(metsFileTypeArray0).when(haSMETSProfile1).getAllFiles();
++        HaSMasterMETSProfile haSMasterMETSProfile0 = mock(HaSMasterMETSProfile.class, new ViolatedAssumptionAnswer());
++        doReturn(haSMETSProfile0, haSMETSProfile1).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
+ 
++        // Verify that the stubs return the expected values
++        assertEquals(METSProfile.PackageType.AIP, haSMETSProfile0.guessPackageType());
++        assertEquals(uRI0, haSMETSProfile0.getBaseURIMinusFile());
++        assertArrayEquals(metsFileTypeArray0, haSMETSProfile1.getAllFiles());
++        assertEquals(haSMETSProfile0, haSMasterMETSProfile0.getMostRecentEchoDepMETS());
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    hub2FedoraPackager0 = new Hub2FedoraPackager();
+-    mETSProfile_PackageType0 = METSProfile.PackageType.AIP;
+-    uRI0 = MockURI.aFileURI;
+-    metsFileTypeArray0 = new MetsFileType[0];
+-    haSMETSProfile0 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(mETSProfile_PackageType0).when(haSMETSProfile0).guessPackageType();
+-      doReturn(uRI0).when(haSMETSProfile0).getBaseURIMinusFile();
+-    haSMETSProfile1 = mock(HaSMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(metsFileTypeArray0).when(haSMETSProfile1).getAllFiles();
+-      HaSMasterMETSProfile haSMasterMETSProfile0 = mock(HaSMasterMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(haSMETSProfile0, haSMETSProfile1).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
+-      try { 
+-        hub2FedoraPackager0.createRepositoryPackage(haSMasterMETSProfile0, (String) null, "http://hul.harvard.edu/ois/xml/ns/jhove");
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // The HS_HOME environment variable is not set.
+-         //
+-         verifyException("edu.uiuc.ndiipp.hubandspoke.packager.Hub2FedoraPackager", e);
+-      }
+-  }
++        try {
++            hub2FedoraPackager0.createRepositoryPackage(haSMasterMETSProfile0, (String) null,
++                    "http://hul.harvard.edu/ois/xml/ns/jhove");
++            fail("Expecting exception: Exception");
++        } catch (Exception e) {
++            // The HS_HOME environment variable is not set.
++            verifyException("edu.uiuc.ndiipp.hubandspoke.packager.Hub2FedoraPackager", e);
++        }
++    }
++
+ @Test(timeout = 4000, expected = NullPointerException.class)
+ public void test1() throws Throwable {
+     hub2FedoraPackager0 = new Hub2FedoraPackager();

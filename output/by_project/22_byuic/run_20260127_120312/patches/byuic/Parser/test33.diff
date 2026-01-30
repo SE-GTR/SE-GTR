@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/Parser_ESTest.java
+@@ -316,25 +316,14 @@
+             assertTrue(e.getMessage().contains("missing name after . operator"));
+         }
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test33()  throws Throwable  {
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
+-      Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+-      // Undeclared exception!
+-      try { 
+-        parser0.parse("OOC.YFpg,[6L<3+", "OOC.YFpg,[6L<3+", (-623));
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // -623
+-         //
+-         verifyException("org.mozilla.javascript.RhinoException", e);
+-      }
+-  }
++@Test(expected = IllegalArgumentException.class, timeout = 4000)
++    public void test33() throws Throwable {
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
++        Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
++        parser0.parse("OOC.YFpg,[6L<3+", "OOC.YFpg,[6L<3+", -623);
++    }
++
+ @Test(timeout = 4000)
+     public void test34() throws Throwable {
+         CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();

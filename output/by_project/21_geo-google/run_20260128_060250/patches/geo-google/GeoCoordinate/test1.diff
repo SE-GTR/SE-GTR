@@ -1,0 +1,31 @@
+--- a/evosuite-tests/geo/google/datamodel/GeoCoordinate_ESTest.java
++++ b/evosuite-tests/geo/google/datamodel/GeoCoordinate_ESTest.java
+@@ -24,13 +24,22 @@
+       assertEquals((-1.0), geoCoordinate0.getLongitude(), 0.01);
+       assertEquals((-1.0), geoCoordinate0.getLatitude(), 0.01);
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    GeoCoordinate geoCoordinate0 = new GeoCoordinate();
++    geoCoordinate0.setLatitude(-803.746);
++    assertEquals(-803.746, geoCoordinate0.getLatitude(), 0.01);
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      GeoCoordinate geoCoordinate0 = new GeoCoordinate();
+-      geoCoordinate0.setLatitude((-803.746));
+-      assertEquals((-803.746), geoCoordinate0.getLatitude(), 0.01);
+-  }
++    GeoCoordinate other = new GeoCoordinate();
++    // Verify that a different instance with default state is not equal
++    assertNotEquals(geoCoordinate0, other);
++
++    // Apply the same state to the second instance and verify equality and hash code consistency
++    other.setLatitude(-803.746);
++    assertEquals(geoCoordinate0, other);
++    assertEquals(geoCoordinate0.hashCode(), other.hashCode());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

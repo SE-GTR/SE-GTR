@@ -1,0 +1,30 @@
+--- a/evosuite-tests/net/sf/lavalamp/device/AbstractDevice_ESTest.java
++++ b/evosuite-tests/net/sf/lavalamp/device/AbstractDevice_ESTest.java
+@@ -49,15 +49,20 @@
+       dummyDevice0.setProperties(deviceProperties0);
+       assertNull(deviceProperties0.getPath());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++public void test2() throws Throwable {
+     dummyDevice0 = new DummyDevice();
+     deviceProperties0 = new DeviceProperties();
+-      deviceProperties0.setOnWhenSuccessful(true);
+-      dummyDevice0.setProperties(deviceProperties0);
+-      assertNull(deviceProperties0.getIdentity());
+-  }
++    deviceProperties0.setOnWhenSuccessful(true);
++    dummyDevice0.setProperties(deviceProperties0);
++    // Verify that the properties were correctly assigned to the device
++    assertSame(deviceProperties0, dummyDevice0.getProperties());
++    // The device's identity should reflect the (null) identity of the supplied properties
++    assertNull(dummyDevice0.getIdentity());
++    // Verify that the onWhenSuccessful flag was set on the properties object
++    assertTrue(dummyDevice0.getProperties().isOnWhenSuccessful());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/xml/XMLModelExporter_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/xml/XMLModelExporter_ESTest.java
+@@ -148,20 +148,24 @@
+       xMLModelExporter0.export(defaultDatabase0);
+       assertEquals(318L, mockFile0.length());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
++@Test(timeout = 4000)
++public void test6() throws Throwable {
+     xSQLVAR0 = new XSQLVAR();
+     time0 = xSQLVAR0.decodeTime((byte[]) null);
+     versionNumber0 = VersionNumber.valueOf("CeGH~hZo!");
+     defaultDatabase0 = new DefaultDatabase((String) null, (String) null, versionNumber0);
+-      defaultDatabase0.setImportDate(time0);
++    // Verify initial state before setting import date
++    assertNull(defaultDatabase0.getImportDate());
++    defaultDatabase0.setImportDate(time0);
++    // Verify side‑effect of setImportDate
++    assertEquals(time0, defaultDatabase0.getImportDate());
+     mockFile0 = new MockFile("CeGH~hZo!");
+     xMLModelExporter0 = new XMLModelExporter(mockFile0);
+-      DBCatalog dBCatalog0 = new DBCatalog((String) null, defaultDatabase0);
+-      DBSchema dBSchema0 = new DBSchema((String) null, dBCatalog0);
+-      DBTrigger dBTrigger0 = new DBTrigger((String) null, dBSchema0);
+-      xMLModelExporter0.export(defaultDatabase0);
+-      assertEquals(287L, mockFile0.length());
+-  }
++    DBCatalog dBCatalog0 = new DBCatalog((String) null, defaultDatabase0);
++    DBSchema dBSchema0 = new DBSchema((String) null, dBCatalog0);
++    DBTrigger dBTrigger0 = new DBTrigger((String) null, dBSchema0);
++    xMLModelExporter0.export(defaultDatabase0);
++    assertEquals(287L, mockFile0.length());
+ }
++
++}

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/heal/module/catalog/QueuedRecordBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/catalog/QueuedRecordBean_ESTest.java
+@@ -60,14 +60,25 @@
+         queuedRecordBean0.setQueuedRecordId(expectedId);
+         assertEquals(expectedId, queuedRecordBean0.getQueuedRecordId());
+     }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        QueuedRecordBean bean = new QueuedRecordBean();
++        bean.setComments("sample comment");
++        assertEquals("sample comment", bean.getComments());
+ 
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(bean);
++        oos.close();
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      QueuedRecordBean queuedRecordBean0 = new QueuedRecordBean();
+-      String string0 = queuedRecordBean0.getComments();
+-      assertNull(string0);
+-  }
++        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++        QueuedRecordBean deserialized = (QueuedRecordBean) ois.readObject();
++        ois.close();
++
++        assertEquals("sample comment", deserialized.getComments());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

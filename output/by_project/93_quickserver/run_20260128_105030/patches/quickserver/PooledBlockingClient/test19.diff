@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/PooledBlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/PooledBlockingClient_ESTest.java
+@@ -258,18 +258,21 @@
+     boolean boolean0 = pooledBlockingClient0.isHandedOut();
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      BlockingClient blockingClient0 = new BlockingClient();
+-      PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      doReturn(blockingClient0).when(poolableBlockingClient0).createBlockingClient(any(org.quickserver.net.client.SocketBasedHost.class));
+-      SocketBasedHost socketBasedHost0 = new SocketBasedHost();
+-      PooledBlockingClient pooledBlockingClient0 = new PooledBlockingClient(poolableBlockingClient0, socketBasedHost0);
+-      pooledBlockingClient0.setHandedOutCount(0);
+-      assertEquals((-1L), pooledBlockingClient0.getHandedOutSince());
+-      assertFalse(pooledBlockingClient0.isHandedOut());
+-      assertEquals(0, pooledBlockingClient0.getHandedOutCount());
+-  }
+-}
++@Test(timeout = 4000)
++public void test19() throws Throwable {
++    BlockingClient blockingClient0 = new BlockingClient();
++    PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
++    doReturn(blockingClient0).when(poolableBlockingClient0).createBlockingClient(any(org.quickserver.net.client.SocketBasedHost.class));
++    SocketBasedHost socketBasedHost0 = new SocketBasedHost();
++    PooledBlockingClient pooledBlockingClient0 = new PooledBlockingClient(poolableBlockingClient0, socketBasedHost0);
++    // Verify that the stubbed method returns the expected client
++    assertSame(blockingClient0, poolableBlockingClient0.createBlockingClient(socketBasedHost0));
++    // Observe side‑effect of setHandedOutCount
++    assertEquals(0, pooledBlockingClient0.getHandedOutCount());
++    pooledBlockingClient0.setHandedOutCount(5);
++    assertEquals(5, pooledBlockingClient0.getHandedOutCount());
++    assertEquals((-1L), pooledBlockingClient0.getHandedOutSince());
++    assertFalse(pooledBlockingClient0.isHandedOut());
++}
++
++}

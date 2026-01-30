@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/LargeFastqFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/LargeFastqFileDataStore_ESTest.java
+@@ -88,24 +88,15 @@
+       boolean boolean0 = ((LargeFastqFileDataStore) fastqDataStore0).isClosed();
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000, expected = IllegalStateException.class)
++public void test4() throws Throwable {
++    boolean created = mockFile0.mkdirs();
++    assertTrue("Directory should be created", created);
++    FastqDataStore fastqDataStore0 = LargeFastqFileDataStore.create((File) mockFile0, fastqQualityCodec0);
++    ((LargeFastqFileDataStore) fastqDataStore0).close();
++    ((LargeFastqFileDataStore) fastqDataStore0).idIterator();
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      mockFile0.mkdirs();
+-      FastqDataStore fastqDataStore0 = LargeFastqFileDataStore.create((File) mockFile0, fastqQualityCodec0);
+-      ((LargeFastqFileDataStore) fastqDataStore0).close();
+-      // Undeclared exception!
+-      try { 
+-        ((LargeFastqFileDataStore) fastqDataStore0).idIterator();
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // datastore is closed
+-         //
+-         verifyException("org.jcvi.jillion.trace.fastq.LargeFastqFileDataStore", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/corina/Element_ESTest.java
++++ b/evosuite-tests/corina/Element_ESTest.java
+@@ -147,21 +147,15 @@
+       assertEquals((-1L), element0.lastModified);
+       assertNotNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-    element0 = null;
+-      try {
+-        element0 = new Element("?:.VdnO&Y:vkthH.");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.Element", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        java.io.File tempFile = java.io.File.createTempFile("element_test", ".tmp");
++        tempFile.deleteOnExit();
++        element0 = new Element(tempFile.getAbsolutePath(), true);
++        assertNotNull("Element should be created successfully", element0);
++        assertEquals("Filename should be set correctly", tempFile.getAbsolutePath(), element0.getFilename());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

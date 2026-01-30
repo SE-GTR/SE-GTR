@@ -1,0 +1,35 @@
+--- a/evosuite-tests/nu/staldal/xtree/SequentialTreeBuilder_ESTest.java
++++ b/evosuite-tests/nu/staldal/xtree/SequentialTreeBuilder_ESTest.java
+@@ -31,18 +31,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SequentialTreeBuilder_ESTest extends SequentialTreeBuilder_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      ElementHandler elementHandler0 = mock(ElementHandler.class, new ViolatedAssumptionAnswer());
+-      SequentialTreeBuilder sequentialTreeBuilder0 = new SequentialTreeBuilder(elementHandler0);
+-      AttributesImpl attributesImpl0 = new AttributesImpl();
+-      sequentialTreeBuilder0.startElement("xS2", "xS2", "xS2", attributesImpl0);
+-      Attributes2Impl attributes2Impl0 = new Attributes2Impl();
+-      sequentialTreeBuilder0.startElement("xS2", "xS2", "xS2", attributes2Impl0);
+-      sequentialTreeBuilder0.skippedEntity("xS2");
+-      assertFalse(SequentialTreeBuilder.DEBUG);
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    ElementHandler elementHandler0 = mock(ElementHandler.class, new ViolatedAssumptionAnswer());
++    SequentialTreeBuilder sequentialTreeBuilder0 = new SequentialTreeBuilder(elementHandler0);
++    AttributesImpl attributesImpl0 = new AttributesImpl();
++    sequentialTreeBuilder0.startElement("xS2", "xS2", "xS2", attributesImpl0);
++    Attributes2Impl attributes2Impl0 = new Attributes2Impl();
++    sequentialTreeBuilder0.startElement("xS2", "xS2", "xS2", attributes2Impl0);
++    sequentialTreeBuilder0.skippedEntity("xS2");
++    // Verify that the handler received the expected startElement calls
++    Mockito.verify(elementHandler0, Mockito.times(2))
++           .startElement(Mockito.eq("xS2"), Mockito.eq("xS2"), Mockito.eq("xS2"), Mockito.any(Attributes.class));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

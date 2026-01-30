@@ -1,0 +1,40 @@
+--- a/evosuite-tests/umd/cs/shop/JSTerm_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSTerm_ESTest.java
+@@ -36,25 +36,21 @@
+          verifyException("umd.cs.shop.JSTerm", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test01() throws Throwable {
+       StringReader stringReader0 = new StringReader("(f.faJ)5%S");
+       StreamTokenizer streamTokenizer0 = new StreamTokenizer(stringReader0);
+       JSTerm jSTerm0 = new JSTerm(streamTokenizer0);
+-      jSTerm0.add((Object) "(f.faJ)5%S");
+-      // Undeclared exception!
+-      try { 
+-        jSTerm0.call();
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.lang.String cannot be cast to umd.cs.shop.JSTerm
+-         //
+-         verifyException("umd.cs.shop.JSTerm", e);
+-      }
+-  }
++      boolean added = jSTerm0.add((Object) "(f.faJ)5%S");
++      assertTrue("Element should be added to JSTerm", added);
++      try {
++          jSTerm0.call();
++          fail("Expecting exception: ClassCastException");
++      } catch (ClassCastException e) {
++          verifyException("umd.cs.shop.JSTerm", e);
++      }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -387,20 +387,27 @@
+         assertTrue(iCMProxyConnection0.equals(iCMProxyConnection1));
+         assertTrue(iCMProxyConnection1.equals((Object) iCMProxyConnection0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test22() throws Throwable {
+       ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+       iCMProxyConnection0.setInternalConvid("Dy");
++      // Verify that the internalConvid was set correctly
++      assertEquals("Dy", iCMProxyConnection0.getInternalConvid());
++
+       ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
+       boolean boolean0 = iCMProxyConnection1.equals(iCMProxyConnection0);
+-      assertEquals(0, iCMProxyConnection1.getSocket());
+-      assertFalse(boolean0);
+-      assertEquals(0, iCMProxyConnection1.getNihdl());
+-      assertEquals(0, iCMProxyConnection1.getPeerPort());
+-      assertEquals(0, iCMProxyConnection1.getLocalPort());
+-  }
++      assertFalse(boolean0);
++      assertEquals(0, iCMProxyConnection1.getSocket());
++      assertEquals(0, iCMProxyConnection1.getNihdl());
++      assertEquals(0, iCMProxyConnection1.getPeerPort());
++      assertEquals(0, iCMProxyConnection1.getLocalPort());
++
++      // Objects with the same internalConvid should be equal
++      ICMProxyConnection iCMProxyConnection2 = new ICMProxyConnection();
++      iCMProxyConnection2.setInternalConvid("Dy");
++      assertTrue(iCMProxyConnection0.equals(iCMProxyConnection2));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

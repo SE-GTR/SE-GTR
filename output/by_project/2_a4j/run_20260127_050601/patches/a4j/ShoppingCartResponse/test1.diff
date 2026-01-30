@@ -1,0 +1,30 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ShoppingCartResponse_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ShoppingCartResponse_ESTest.java
+@@ -21,11 +21,21 @@
+       ShoppingCartResponse shoppingCartResponse0 = new ShoppingCartResponse();
+       shoppingCartResponse0.setShoppingCart((ShoppingCart) null);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        ShoppingCartResponse response = new ShoppingCartResponse();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ShoppingCartResponse shoppingCartResponse0 = new ShoppingCartResponse();
+-      ShoppingCart shoppingCart0 = shoppingCartResponse0.getShoppingCart();
+-      assertNull(shoppingCart0);
+-  }
++        // Act: serialize and then deserialize the response object
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(response);
++        oos.flush();
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++                new java.io.ByteArrayInputStream(baos.toByteArray()));
++        ShoppingCartResponse deserialized = (ShoppingCartResponse) ois.readObject();
++
++        // Assert: the deserialized object should preserve the default state
++        assertNull(deserialized.getShoppingCart());
++    }
++
+ }

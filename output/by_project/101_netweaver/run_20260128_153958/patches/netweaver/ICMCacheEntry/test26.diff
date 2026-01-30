@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
+@@ -399,20 +399,28 @@
+         // Verify that the TypeDesc describes the ICMCacheEntry class
+         assertEquals("ICMCacheEntry", typeDesc0.getXmlType().getLocalPart());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
+-      iCMCacheEntry0.setCreationTime("*nf!ull*");
+-      ICMCacheEntry iCMCacheEntry1 = new ICMCacheEntry();
+-      assertFalse(iCMCacheEntry1.equals((Object)iCMCacheEntry0));
+-      
+-      iCMCacheEntry1.setCreationTime("*nf!ull*");
+-      boolean boolean0 = iCMCacheEntry0.equals(iCMCacheEntry1);
+-      assertTrue(iCMCacheEntry1.equals((Object)iCMCacheEntry0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
++        // Verify initial state before setting creation time
++        assertNull(iCMCacheEntry0.getCreationTime());
++        iCMCacheEntry0.setCreationTime("*nf!ull*");
++        // Assert side‑effect of setCreationTime
++        assertEquals("*nf!ull*", iCMCacheEntry0.getCreationTime());
++
++        ICMCacheEntry iCMCacheEntry1 = new ICMCacheEntry();
++        assertNull(iCMCacheEntry1.getCreationTime());
++        assertFalse(iCMCacheEntry1.equals((Object) iCMCacheEntry0));
++
++        iCMCacheEntry1.setCreationTime("*nf!ull*");
++        // Assert side‑effect for the second instance
++        assertEquals("*nf!ull*", iCMCacheEntry1.getCreationTime());
++
++        boolean boolean0 = iCMCacheEntry0.equals(iCMCacheEntry1);
++        assertTrue(iCMCacheEntry1.equals((Object) iCMCacheEntry0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

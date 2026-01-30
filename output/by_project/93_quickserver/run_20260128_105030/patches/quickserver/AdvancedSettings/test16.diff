@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/AdvancedSettings_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/AdvancedSettings_ESTest.java
+@@ -240,12 +240,11 @@
+ 
+         assertEquals(1, deserialized.getPerformancePreferencesBandwidth());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      AdvancedSettings advancedSettings0 = new AdvancedSettings();
+-      advancedSettings0.setPerformancePreferencesLatency(0);
++@Test(timeout = 4000)
++  public void test16() throws Throwable {
++      AdvancedSettings advancedSettings0 = new AdvancedSettings();
++      // Change a non‑default value to verify the setter’s side effect
++      advancedSettings0.setPerformancePreferencesLatency(5);
+       assertEquals("ISO-8859-1", advancedSettings0.getCharset());
+       assertEquals("org.quickserver.net.server.impl.OptimisticClientIdentifier", advancedSettings0.getClientIdentifier());
+       assertEquals(0, advancedSettings0.getBacklog());
+@@ -255,9 +254,11 @@
+       assertEquals(0, advancedSettings0.getPerformancePreferencesConnectionTime());
+       assertEquals(10, advancedSettings0.getMaxThreadsForNioWrite());
+       assertTrue(advancedSettings0.getUseDirectByteBuffer());
+-      assertEquals(0, advancedSettings0.getPerformancePreferencesLatency());
+-      assertFalse(advancedSettings0.getClientSocketTcpNoDelay());
+-  }
++      // Verify that the setter correctly updated the field
++      assertEquals(5, advancedSettings0.getPerformancePreferencesLatency());
++      assertFalse(advancedSettings0.getClientSocketTcpNoDelay());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

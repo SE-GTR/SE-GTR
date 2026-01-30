@@ -1,0 +1,32 @@
+--- a/evosuite-tests/jahuwaldt/plot/PlotYAxis_ESTest.java
++++ b/evosuite-tests/jahuwaldt/plot/PlotYAxis_ESTest.java
+@@ -148,15 +148,20 @@
+          verifyException("jahuwaldt.plot.PlotYAxis", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      PlotYAxis plotYAxis0 = new PlotYAxis();
+-      plotYAxis0.manualUpperBounds(true);
+-      PlotRunList plotRunList0 = new PlotRunList();
+-      plotYAxis0.setAxisBounds(plotRunList0);
+-      assertEquals((-1.0), plotYAxis0.getLowerBounds(), 0.01);
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        PlotYAxis plotYAxis0 = new PlotYAxis();
++        // Verify that manualUpperBounds correctly updates the internal flag
++        plotYAxis0.manualUpperBounds(true);
++        org.junit.Assert.assertTrue("manualUpperBounds should set the flag to true",
++                plotYAxis0.isManualUpperBounds());
++
++        PlotRunList plotRunList0 = new PlotRunList();
++        plotYAxis0.setAxisBounds(plotRunList0);
++        // Verify that setting axis bounds results in the expected lower bound
++        org.junit.Assert.assertEquals(-1.0, plotYAxis0.getLowerBounds(), 0.01);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

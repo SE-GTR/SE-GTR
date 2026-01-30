@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -139,23 +139,21 @@
+         QuickServer quickServer0 = new QuickServer();
+         quickServer0.getSSLSocketFactory();
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test009()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer();
+-      quickServer0.startService();
+-      try { 
+-        quickServer0.stopServer();
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // Server QuickServer is not running!
+-         //
+-         verifyException("org.quickserver.net.server.QuickServer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test009() throws Throwable {
++        QuickServer quickServer0 = new QuickServer();
++        boolean started = quickServer0.startService();
++        // The server should not start due to missing configuration
++        assertFalse(started);
++        try {
++            quickServer0.stopServer();
++            fail("Expecting exception: Exception");
++        } catch (Exception e) {
++            assertEquals("Server QuickServer is not running!", e.getMessage());
++            verifyException("org.quickserver.net.server.QuickServer", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test010()  throws Throwable  {

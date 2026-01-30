@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/CheckstylePlugin_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/CheckstylePlugin_ESTest.java
+@@ -34,23 +34,23 @@
+          verifyException("org.eclipse.core.resources.ResourcesPlugin", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
+       CheckstylePlugin checkstylePlugin0 = new CheckstylePlugin();
+       BundleContext bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+       doReturn((Bundle) null).when(bundleContext0).getBundle();
+-      try { 
+-        checkstylePlugin0.start(bundleContext0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.eclipse.core.runtime.Plugin", e);
++      // Verify that the stub returns null as expected
++      Bundle bundle = bundleContext0.getBundle();
++      assertNull(bundle);
++      try {
++          checkstylePlugin0.start(bundleContext0);
++          fail("Expecting exception: NullPointerException");
++      } catch (NullPointerException e) {
++          // no message in exception (getMessage() returned null)
++          verifyException("org.eclipse.core.runtime.Plugin", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

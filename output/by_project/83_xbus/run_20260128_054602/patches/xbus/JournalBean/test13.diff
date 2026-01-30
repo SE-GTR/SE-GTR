@@ -1,0 +1,30 @@
+--- a/evosuite-tests/net/sf/xbus/admin/html/JournalBean_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/admin/html/JournalBean_ESTest.java
+@@ -182,12 +182,21 @@
+       JournalBean journalBean0 = new JournalBean();
+       journalBean0.setRequestTimeMax("nRun=|1h");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      JournalBean journalBean0 = new JournalBean();
+-      journalBean0.setRequestTimeMax((String) null);
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        JournalBean journalBean0 = new JournalBean();
++        // Ensure the initial state is captured (could be null or a default value)
++        String initial = journalBean0.getRequestTimeMax();
++        // Act: set the request time max to null
++        journalBean0.setRequestTimeMax(null);
++        // Assert: the getter reflects the change
++        assertNull("requestTimeMax should be null after setting null", journalBean0.getRequestTimeMax());
++        // Optional sanity check: if there was a previous non‑null value, it should have changed
++        if (initial != null) {
++            assertNotEquals("requestTimeMax should have changed from its previous value", initial, journalBean0.getRequestTimeMax());
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

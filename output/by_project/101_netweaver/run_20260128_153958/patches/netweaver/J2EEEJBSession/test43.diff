@@ -1,0 +1,50 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -731,20 +731,33 @@
+       assertEquals((-2009), j2EEEJBSession0.getActiveRequests());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test43()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      j2EEEJBSession0.setBackingStore("%@#-6zCAFN*mPMj");
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      boolean boolean0 = j2EEEJBSession1.equals(j2EEEJBSession0);
+-      assertEquals(0, j2EEEJBSession1.getIdHash());
+-      assertFalse(j2EEEJBSession0.equals((Object)j2EEEJBSession1));
+-      assertEquals(0, j2EEEJBSession1.getTotalRequests());
+-      assertFalse(boolean0);
+-      assertEquals(0, j2EEEJBSession1.getActiveRequests());
+-      assertEquals(0, j2EEEJBSession1.getSize());
+-  }
++@Test(timeout = 4000)
++    public void test43() throws Throwable {
++        J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
++        // Capture initial state before setting backing store
++        int initIdHash0 = j2EEEJBSession0.getIdHash();
++        int initSize0 = j2EEEJBSession0.getSize();
++        int initActive0 = j2EEEJBSession0.getActiveRequests();
++        int initTotal0 = j2EEEJBSession0.getTotalRequests();
++
++        j2EEEJBSession0.setBackingStore("%@#-6zCAFN*mPMj");
++
++        // Verify that setting the backing store does not alter other fields
++        assertEquals(initIdHash0, j2EEEJBSession0.getIdHash());
++        assertEquals(initSize0, j2EEEJBSession0.getSize());
++        assertEquals(initActive0, j2EEEJBSession0.getActiveRequests());
++        assertEquals(initTotal0, j2EEEJBSession0.getTotalRequests());
++
++        J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
++        boolean boolean0 = j2EEEJBSession1.equals(j2EEEJBSession0);
++        assertEquals(0, j2EEEJBSession1.getIdHash());
++        assertFalse(j2EEEJBSession0.equals((Object) j2EEEJBSession1));
++        assertEquals(0, j2EEEJBSession1.getTotalRequests());
++        assertFalse(boolean0);
++        assertEquals(0, j2EEEJBSession1.getActiveRequests());
++        assertEquals(0, j2EEEJBSession1.getSize());
++    }
++
+ @Test(timeout = 4000)
+   public void test44() throws Throwable {
+       TypeDesc typeDesc0 = J2EEEJBSession.getTypeDesc();

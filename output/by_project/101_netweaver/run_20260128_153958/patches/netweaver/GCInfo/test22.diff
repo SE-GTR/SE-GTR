@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo_ESTest.java
+@@ -295,13 +295,36 @@
+       assertEquals(1L, gCInfo0.getObjBytesBefore());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-    gCInfo0 = new GCInfo();
+-      gCInfo0.setCpuTime((-2146325349));
+-      assertEquals((-2146325349), gCInfo0.getCpuTime());
+-  }
++@Test(timeout = 4000)
++    public void test22() throws Throwable {
++        gCInfo0 = new GCInfo();
++
++        // verify initial state of a newly created instance
++        assertNull(gCInfo0.getProcessname());
++        assertNull(gCInfo0.getType());
++        assertNull(gCInfo0.getReason());
++        assertNull(gCInfo0.getStartTime());
++        assertEquals(0, gCInfo0.getDuration());
++        assertEquals(0, gCInfo0.getCpuTime());
++        assertEquals(0L, gCInfo0.getObjBytesBefore());
++        assertEquals(0L, gCInfo0.getObjBytesAfter());
++        assertEquals(0L, gCInfo0.getObjBytesFreed());
++        assertEquals(0L, gCInfo0.getClsBytesBefore());
++        assertEquals(0L, gCInfo0.getClsBytesAfter());
++        assertEquals(0L, gCInfo0.getClsBytesFreed());
++        assertEquals(0L, gCInfo0.getHeapSize());
++        assertEquals(0, gCInfo0.getUnloadedClasses());
++
++        // exercise a state‑changing operation and verify its effect
++        gCInfo0.setCpuTime(-2146325349);
++        assertEquals(-2146325349, gCInfo0.getCpuTime());
++
++        // ensure that setting cpuTime does not unintentionally modify other fields
++        assertEquals(0, gCInfo0.getDuration());
++        assertNull(gCInfo0.getProcessname());
++        assertNull(gCInfo0.getType());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test23()  throws Throwable  {

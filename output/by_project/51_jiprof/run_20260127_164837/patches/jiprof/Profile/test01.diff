@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
+@@ -21,14 +21,28 @@
+         // Removed calls with unobservable side effects; retain a trivial assertion
+         assertTrue(true);
+     }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        // Initialize the profiler
++        Profile.initProfiler();
+ 
++        // Verify that start throws NullPointerException when given null arguments
++        try {
++            Profile.start(null, null);
++            org.junit.Assert.fail("Expected NullPointerException from Profile.start with null arguments");
++        } catch (NullPointerException e) {
++            // expected
++        }
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      Profile.initProfiler();
+-      Profile.start("<init>", "<init>");
+-      Profile.alloc("<init>");
+-  }
++        // Verify that alloc throws NullPointerException when given a null class name
++        try {
++            Profile.alloc(null);
++            org.junit.Assert.fail("Expected NullPointerException from Profile.alloc with null argument");
++        } catch (NullPointerException e) {
++            // expected
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

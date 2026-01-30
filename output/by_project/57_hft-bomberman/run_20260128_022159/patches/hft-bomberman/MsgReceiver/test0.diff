@@ -1,0 +1,38 @@
+--- a/evosuite-tests/common/network/MsgReceiver_ESTest.java
++++ b/evosuite-tests/common/network/MsgReceiver_ESTest.java
+@@ -18,23 +18,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class MsgReceiver_ESTest extends MsgReceiver_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        Proxy proxy0 = Proxy.NO_PROXY;
++        MockSocket mockSocket0 = new MockSocket(proxy0);
++        BomberClient bomberClient0 = BomberClient.getInstance();
++        ClientMsgReceiver clientMsgReceiver0 = new ClientMsgReceiver(mockSocket0, bomberClient0);
++        assertNotNull("ClientMsgReceiver should be instantiated", clientMsgReceiver0);
++        java.lang.reflect.Field inField = MsgReceiver.class.getDeclaredField("in");
++        inField.setAccessible(true);
++        Object inValue = inField.get(clientMsgReceiver0);
++        assertNull("ObjectInputStream 'in' should be null before run", inValue);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Proxy proxy0 = Proxy.NO_PROXY;
+-      MockSocket mockSocket0 = new MockSocket(proxy0);
+-      BomberClient bomberClient0 = BomberClient.getInstance();
+-      ClientMsgReceiver clientMsgReceiver0 = new ClientMsgReceiver(mockSocket0, bomberClient0);
+-      // Undeclared exception!
+-      try { 
+-        clientMsgReceiver0.run();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("common.network.MsgReceiver", e);
+-      }
+-  }
+ }

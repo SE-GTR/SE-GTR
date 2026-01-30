@@ -1,0 +1,37 @@
+--- a/evosuite-tests/jigl/signal/RealSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/RealSignal_ESTest.java
+@@ -326,19 +326,21 @@
+         // Verify that the median operation changes the minimum value
+         assertNotEquals(beforeMin, afterMin, 0.01F);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      float[] floatArray0 = new float[6];
+-      RealSignal realSignal0 = new RealSignal(floatArray0);
+-      RealSignal realSignal1 = realSignal0.addbuffer(446, (-1872));
+-      realSignal0.convolve(realSignal1);
+-      assertEquals((-1872.0F), realSignal1.min(), 0.01F);
+-      assertEquals(0.0F, realSignal1.max(), 0.01F);
+-      assertEquals(446, realSignal1.length());
+-      assertEquals(0.0F, realSignal0.min(), 0.01F);
+-  }
++@Test(timeout = 4000)
++public void test26() throws Throwable {
++    float[] floatArray0 = new float[6];
++    RealSignal realSignal0 = new RealSignal(floatArray0);
++    RealSignal realSignal1 = realSignal0.addbuffer(446, -1872);
++    realSignal0.convolve(realSignal1);
++    // Verify properties of the kernel signal
++    assertEquals(-1872.0F, realSignal1.min(), 0.01F);
++    assertEquals(0.0F, realSignal1.max(), 0.01F);
++    assertEquals(446, realSignal1.length());
++    // Verify effect of convolution on the original signal
++    assertEquals(0.0F, realSignal0.min(), 0.01F);
++    assertEquals(0.0F, realSignal0.max(), 0.01F);
++}
++
+ @Test(timeout = 4000)
+     public void test27() throws Throwable {
+         float[] floatArray0 = new float[4];

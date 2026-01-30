@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/hardware/missiles/Missile_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/hardware/missiles/Missile_ESTest.java
+@@ -85,17 +85,21 @@
+          verifyException("net.virtualinfinity.atrobots.hardware.missiles.Missile", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    Position position0 = Position.random(0, 0, 0, 0);
++    AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees(0);
++    Robot robot0 = new Robot("SXould be ou`side arena.", 0, (RobotScore) null);
++    Missile missile0 = robot0.createMissile(absoluteAngle0, position0, 0);
++    Duration duration0 = robot0.getLastDamageTaken();
++    // Verify initial age is zero (constructor default)
++    assertEquals(0, missile0.getAge().getCycles());
++    // Act: update missile with a duration
++    missile0.update(duration0);
++    // Assert that the missile's age has advanced, confirming the side‑effect of update
++    assertTrue(missile0.getAge().getCycles() > 0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      Position position0 = Position.random(0, 0, 0, 0);
+-      AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees(0);
+-      Robot robot0 = new Robot("SXould be ou`side arena.", 0, (RobotScore) null);
+-      Missile missile0 = robot0.createMissile(absoluteAngle0, position0, 0);
+-      Duration duration0 = robot0.getLastDamageTaken();
+-      missile0.update(duration0);
+-      assertEquals(0, duration0.getCycles());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

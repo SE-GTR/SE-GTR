@@ -1,0 +1,46 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/ValidationsImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/ValidationsImpl_ESTest.java
+@@ -82,24 +82,26 @@
+             // expected exception
+         }
+     }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        FormatterProvider provider = new FormatterProvider() {
++            @Override
++            public Formatter getFormatter() {
++                return null;
++            }
++        };
++        FactoryImpl factoryImpl0 = new FactoryImpl(provider);
++        ValidationsImpl validationsImpl0 = new ValidationsImpl(factoryImpl0);
++        Object[] objectArray0 = new Object[3];
++        try {
++            validationsImpl0.assertNotNull(objectArray0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            // Expected because the array contains null elements
++            verifyException("net.sf.xisemele.impl.ValidationsImpl", e);
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      FactoryImpl factoryImpl0 = new FactoryImpl((FormatterProvider) null);
+-      ValidationsImpl validationsImpl0 = new ValidationsImpl(factoryImpl0);
+-      Object[] objectArray0 = new Object[3];
+-      try { 
+-        validationsImpl0.assertNotNull(objectArray0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // N\u00E3o pode ser especificado o valor null para o par\u00E2metro \"null\"
+-         //
+-         verifyException("net.sf.xisemele.impl.ValidationsImpl", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+ public void test5() throws Throwable {
+     FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();

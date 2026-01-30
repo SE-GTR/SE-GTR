@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
+@@ -61,14 +61,18 @@
+     // Verify that toString returns a non‑null representation
+     assertNotNull(columnBean0.toString());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      ColumnBean columnBean0 = new ColumnBean();
+-      columnBean0.setDec(2479);
+-      assertEquals(2479, columnBean0.getDec());
+-  }
++public void test06() throws Throwable {
++    ColumnBean bean = new ColumnBean();
++    // Verify the default value before any mutation
++    assertEquals(0, bean.getDec());
++    // Set a value and verify the getter reflects it
++    bean.setDec(2479);
++    assertEquals(2479, bean.getDec());
++    // Change the value again to ensure the side‑effect is observable
++    bean.setDec(-10);
++    assertEquals(-10, bean.getDec());
++}
++
+ @Test(timeout = 4000)
+     public void test07() throws Throwable {
+         ColumnBean columnBean0 = new ColumnBean();

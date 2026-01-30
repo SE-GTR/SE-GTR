@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DefaultDBTable_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DefaultDBTable_ESTest.java
+@@ -131,24 +131,15 @@
+       DBUniqueConstraint dBUniqueConstraint0 = defaultDBTable0.getUniqueConstraint("H8B4% ");
+       assertTrue(dBUniqueConstraint0.isNameDeterministic());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable("RD;};y.ABDm'3t}`-4");
+-      defaultDBTable0.removeForeignKeyConstraint((DBForeignKeyConstraint) null);
+-      DBUniqueConstraint dBUniqueConstraint0 = new DBUniqueConstraint(defaultDBTable0, "RD;};y.ABDm'3t}`-4", true, (String[]) null);
+-      // Undeclared exception!
+-      try { 
+-        defaultDBTable0.getUniqueConstraint((String[]) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.commons.StringUtil", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    DefaultDBTable table = new DefaultDBTable("myTable");
++    String[] columnNames = new String[] { "col1" };
++    DBUniqueConstraint unique = new DBUniqueConstraint(table, "myUnique", true, columnNames);
++    DBUniqueConstraint retrieved = table.getUniqueConstraint(columnNames);
++    assertSame("The retrieved unique constraint should be the one added", unique, retrieved);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

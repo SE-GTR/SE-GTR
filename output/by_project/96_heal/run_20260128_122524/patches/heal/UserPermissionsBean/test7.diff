@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/heal/module/user/UserPermissionsBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserPermissionsBean_ESTest.java
+@@ -102,16 +102,34 @@
+     UserPermissionsBean bean = new UserPermissionsBean();
+     assertFalse(bean.isApprover());
+ }
++@Test(timeout = 4000)
++public void test7() throws Throwable {
++    UserPermissionsBean bean = new UserPermissionsBean();
++    assertFalse(bean.isMinor());
+ 
++    bean.setMinor(true);
++    assertTrue(bean.isMinor());
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      UserPermissionsBean userPermissionsBean0 = new UserPermissionsBean();
+-      assertFalse(userPermissionsBean0.isMinor());
+-      
+-      userPermissionsBean0.setMinor(true);
+-      assertTrue(userPermissionsBean0.isMinor());
+-  }
++    // Serialize the bean
++    byte[] serialized;
++    try (java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
++         java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(bos)) {
++        out.writeObject(bean);
++        out.flush();
++        serialized = bos.toByteArray();
++    }
++
++    // Deserialize the bean
++    UserPermissionsBean deserialized;
++    try (java.io.ByteArrayInputStream bis = new java.io.ByteArrayInputStream(serialized);
++         java.io.ObjectInputStream in = new java.io.ObjectInputStream(bis)) {
++        deserialized = (UserPermissionsBean) in.readObject();
++    }
++
++    // Verify that the state was preserved through serialization
++    assertTrue(deserialized.isMinor());
++}
++
+ @Test(timeout = 4000)
+     public void test8() throws Throwable {
+         UserPermissionsBean bean = new UserPermissionsBean();

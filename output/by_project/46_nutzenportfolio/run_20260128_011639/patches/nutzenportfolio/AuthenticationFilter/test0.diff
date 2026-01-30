@@ -1,0 +1,27 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/filter/AuthenticationFilter_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/filter/AuthenticationFilter_ESTest.java
+@@ -21,9 +21,8 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AuthenticationFilter_ESTest extends AuthenticationFilter_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       AuthenticationFilter authenticationFilter0 = new AuthenticationFilter();
+       HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+       doReturn(authenticationFilter0).when(httpSession0).getAttribute(anyString());
+@@ -33,7 +32,12 @@
+       HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+       FilterChain filterChain0 = mock(FilterChain.class, new ViolatedAssumptionAnswer());
+       authenticationFilter0.doFilter(httpServletRequest0, httpServletResponse0, filterChain0);
++      // Verify that the filter chain was invoked as a side‑effect
++      verify(filterChain0).doFilter(httpServletRequest0, httpServletResponse0);
++      // Assert the stubbed return value of getAttribute
++      assertSame(authenticationFilter0, httpSession0.getAttribute("anyKey"));
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

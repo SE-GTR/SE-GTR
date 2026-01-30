@@ -1,0 +1,39 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/FirmType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/FirmType_ESTest.java
+@@ -90,20 +90,22 @@
+         assertEquals(newType, firmType_FirmName0.getType());
+     }
+ @Test(timeout = 4000)
+-    public void test07() throws Throwable {
+-        // Verify initial state of FirmType's firmName list
+-        FirmType firmType = new FirmType();
+-        assertEquals(0, firmType.getFirmName().size());
+-
+-        // Create a FirmName, set its content to null, and add it to the list
+-        FirmType.FirmName firmName = new FirmType.FirmName();
+-        firmName.setContent(null);
+-        firmType.getFirmName().add(firmName);
+-
+-        // Verify that the side‑effect (addition) is observable
+-        assertEquals(1, firmType.getFirmName().size());
+-        assertNull(firmType.getFirmName().get(0).getContent());
+-    }
++public void test07() throws Throwable {
++    FirmType firmType = new FirmType();
++    assertEquals(0, firmType.getFirmName().size());
++
++    FirmType.FirmName firmName = new FirmType.FirmName();
++    firmName.setContent(null);
++    firmType.getFirmName().add(firmName);
++
++    assertEquals(1, firmType.getFirmName().size());
++    assertSame(firmName, firmType.getFirmName().get(0));
++    assertNull(firmType.getFirmName().get(0).getContent());
++
++    firmType.getFirmName().remove(0);
++    assertEquals(0, firmType.getFirmName().size());
++}
++
+ 
+ @Test(timeout = 4000)
+   public void test08() throws Throwable {

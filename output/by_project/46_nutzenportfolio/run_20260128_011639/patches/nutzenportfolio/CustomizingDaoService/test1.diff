@@ -1,0 +1,33 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/customizing/CustomizingDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/customizing/CustomizingDaoService_ESTest.java
+@@ -57,23 +57,13 @@
+          verifyException("ch.bfh.egov.nutzenportfolio.service.customizing.CustomizingDaoService", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    customizingIbatisDao0 = new CustomizingIbatisDao();
+-    customizingDaoService0 = new CustomizingDaoService(customizingIbatisDao0);
+-      // Undeclared exception!
+-      try { 
+-        customizingDaoService0.cascadeDelete((HttpServletRequest) null, (Customizing) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.service.customizing.CustomizingDaoService", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test1() throws Throwable {
++    customizingIbatisDao0 = new CustomizingIbatisDao();
++    customizingDaoService0 = new CustomizingDaoService(customizingIbatisDao0);
++    customizingDaoService0.cascadeDelete(null, null);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

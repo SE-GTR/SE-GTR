@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/heal/module/oai/heal/HEALNSDLQDCRecordAdapter_ESTest.java
++++ b/evosuite-tests/org/heal/module/oai/heal/HEALNSDLQDCRecordAdapter_ESTest.java
+@@ -125,24 +125,22 @@
+       hEALNSDLQDCRecordAdapter0.appendFormatElements((Element) null, (Document) null);
+       assertFalse(hEALNSDLQDCRecordAdapter0.hasNSDLAbout());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-    completeMetadataBean0 = new CompleteMetadataBean();
+-      completeMetadataBean0.setFileSize("dc:rights");
+-    hEALNSDLQDCRecordAdapter0 = new HEALNSDLQDCRecordAdapter(completeMetadataBean0, (HEALProviderConfig) null);
+-      // Undeclared exception!
+-      try { 
+-        hEALNSDLQDCRecordAdapter0.appendFormatElements((Element) null, (Document) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.module.oai.heal.HEALXMLHelper", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        CompleteMetadataBean bean = new CompleteMetadataBean();
++        bean.setFileSize("dc:rights");
++        HEALNSDLQDCRecordAdapter adapter = new HEALNSDLQDCRecordAdapter(bean, null);
++        // Prepare a minimal DOM document and element
++        javax.xml.parsers.DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
++        javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
++        Document doc = db.newDocument();
++        Element elem = doc.createElement("record");
++        // Invoke the method under test with valid arguments
++        adapter.appendFormatElements(elem, doc);
++        // Verify that the element is still usable (no exception was thrown)
++        assertNotNull(elem);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

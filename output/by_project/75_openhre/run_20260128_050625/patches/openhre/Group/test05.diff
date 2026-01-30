@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/browsersoft/aacs/Group_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/Group_ESTest.java
+@@ -89,13 +89,17 @@
+       assertEquals("cn=|$dSu>odg7,ou=groups,dc=arch,dc=org", group0.getDn());
+       assertEquals("|$dSu>odg7", group0.getCn());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      Group group0 = new Group();
+-      group0.addAllowedip("");
+-      assertNull(group0.getCn());
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    Group group0 = new Group();
++    int beforeSize = (group0.getAllowedips() == null) ? 0 : group0.getAllowedips().size();
++    group0.addAllowedip("127.0.0.1");
++    assertNotNull(group0.getAllowedips());
++    assertEquals(beforeSize + 1, group0.getAllowedips().size());
++    assertTrue(group0.getAllowedips().contains("127.0.0.1"));
++    assertNull(group0.getCn());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

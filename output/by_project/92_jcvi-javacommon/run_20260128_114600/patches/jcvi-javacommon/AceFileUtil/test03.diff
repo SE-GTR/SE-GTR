@@ -1,0 +1,69 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceFileUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceFileUtil_ESTest.java
+@@ -105,30 +105,42 @@
+         ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
+         AceFileUtil.writeAceContig(aceContig0, null, byteArrayOutputStream0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    iterator0 = (Iterator<Nucleotide>) mock(Iterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(iterator0).hasNext();
+-      Nucleotide nucleotide0 = Nucleotide.NotAdenine;
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(iterator0).when(nucleotideSequence0).iterator();
+-      doReturn(nucleotide0, nucleotide0).when(nucleotideSequence0).get(anyLong());
+-      doReturn(1748L, 670L, 670L, 1748L, (-32768L)).when(nucleotideSequence0).getLength();
+-      StreamingIterator<AceAssembledRead> streamingIterator0 = (StreamingIterator<AceAssembledRead>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(streamingIterator0).hasNext();
+-      AceContig aceContig0 = mock(AceContig.class, new ViolatedAssumptionAnswer());
+-      doReturn(nucleotideSequence0).when(aceContig0).getConsensusSequence();
+-      doReturn("Gp").when(aceContig0).getId();
+-      doReturn(1748L, 1748L).when(aceContig0).getNumberOfReads();
+-      doReturn(streamingIterator0).when(aceContig0).getReadIterator();
+-      doReturn(false).when(aceContig0).isComplemented();
+-      ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
+-      AceFileUtil.writeAceContig(aceContig0, (PhdDataStore) null, byteArrayOutputStream0);
+-      assertEquals("CO Gp 1748 1748 0 U\n\n\n\nBQ\n 90 90\n\n\n\n", byteArrayOutputStream0.toString());
+-      assertEquals(36, byteArrayOutputStream0.size());
+-  }
++@Test(timeout = 4000)
++  public void test03() throws Throwable {
++    iterator0 = (Iterator<Nucleotide>) mock(Iterator.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(iterator0).hasNext();
++    Nucleotide nucleotide0 = Nucleotide.NotAdenine;
++    NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++    doReturn(iterator0).when(nucleotideSequence0).iterator();
++    doReturn(nucleotide0, nucleotide0).when(nucleotideSequence0).get(anyLong());
++    doReturn(1748L, 670L, 670L, 1748L, (-32768L)).when(nucleotideSequence0).getLength();
++    StreamingIterator<AceAssembledRead> streamingIterator0 = (StreamingIterator<AceAssembledRead>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(streamingIterator0).hasNext();
++    AceContig aceContig0 = mock(AceContig.class, new ViolatedAssumptionAnswer());
++    doReturn(nucleotideSequence0).when(aceContig0).getConsensusSequence();
++    doReturn("Gp").when(aceContig0).getId();
++    doReturn(1748L, 1748L).when(aceContig0).getNumberOfReads();
++    doReturn(streamingIterator0).when(aceContig0).getReadIterator();
++    doReturn(false).when(aceContig0).isComplemented();
++
++    // Assert stubbed return values
++    assertFalse(iterator0.hasNext());
++    assertSame(iterator0, nucleotideSequence0.iterator());
++    assertEquals(nucleotide0, nucleotideSequence0.get(0L));
++    assertEquals(1748L, nucleotideSequence0.getLength());
++    assertFalse(streamingIterator0.hasNext());
++    assertSame(nucleotideSequence0, aceContig0.getConsensusSequence());
++    assertEquals("Gp", aceContig0.getId());
++    assertEquals(1748L, aceContig0.getNumberOfReads());
++    assertSame(streamingIterator0, aceContig0.getReadIterator());
++    assertFalse(aceContig0.isComplemented());
++
++    ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
++    AceFileUtil.writeAceContig(aceContig0, (PhdDataStore) null, byteArrayOutputStream0);
++    assertEquals("CO Gp 1748 1748 0 U\n\n\n\nBQ\n 90 90\n\n\n\n", byteArrayOutputStream0.toString());
++    assertEquals(36, byteArrayOutputStream0.size());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/ProxiedFilterChain_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/ProxiedFilterChain_ESTest.java
+@@ -22,25 +22,15 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ProxiedFilterChain_ESTest extends ProxiedFilterChain_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000, expected = NullPointerException.class)
++  public void test0() throws Throwable {
+       LinkedList<Filter> linkedList0 = new LinkedList<Filter>();
+       SpringJSecurityFilter springJSecurityFilter0 = new SpringJSecurityFilter();
+       linkedList0.add((Filter) springJSecurityFilter0);
+       ProxiedFilterChain proxiedFilterChain0 = new ProxiedFilterChain((FilterChain) null, linkedList0);
+-      // Undeclared exception!
+-      try { 
+-        proxiedFilterChain0.doFilter((ServletRequest) null, (ServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.servlet.OncePerRequestFilter", e);
+-      }
++      proxiedFilterChain0.doFilter((ServletRequest) null, (ServletResponse) null);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

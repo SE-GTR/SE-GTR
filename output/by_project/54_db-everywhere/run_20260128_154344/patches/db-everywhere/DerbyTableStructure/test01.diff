@@ -1,0 +1,49 @@
+--- a/evosuite-tests/com/gbshape/dbe/derby/DerbyTableStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/derby/DerbyTableStructure_ESTest.java
+@@ -53,29 +53,25 @@
+          verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      DerbyTableStructure derbyTableStructure0 = new DerbyTableStructure();
+-      DBDataBean dBDataBean0 = new DBDataBean();
+-      ColumnBean columnBean0 = new ColumnBean();
+-      ArrayList<Object> arrayList0 = new ArrayList<Object>();
+-      arrayList0.add((Object) columnBean0);
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      // Undeclared exception!
+-      try { 
++public void test01() throws Throwable {
++    DerbyTableStructure derbyTableStructure0 = new DerbyTableStructure();
++    DBDataBean dBDataBean0 = new DBDataBean();
++    ColumnBean columnBean0 = new ColumnBean();
++    ArrayList<Object> arrayList0 = new ArrayList<Object>();
++    boolean added = arrayList0.add((Object) columnBean0);
++    assertTrue(added);
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    HttpSession session = doReturn((HttpSession) null).when(httpServletRequest0).getSession();
++    assertNull(session);
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    try {
+         derbyTableStructure0.changePrimary(httpServletRequestWrapper0, dBDataBean0, "4R~no", arrayList0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        verifyException("com.gbshape.dbe.utils.DBEHelper", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

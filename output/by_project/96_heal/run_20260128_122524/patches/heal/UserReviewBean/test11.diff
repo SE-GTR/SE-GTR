@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/heal/servlet/userreview/UserReviewBean_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/userreview/UserReviewBean_ESTest.java
+@@ -143,14 +143,31 @@
+     assertEquals(123, bean.getReviewId());
+     assertEquals(5, bean.getUserRating());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      UserReviewBean userReviewBean0 = new UserReviewBean();
+-      userReviewBean0.setUserRating(1746);
+-      assertEquals(1746, userReviewBean0.getUserRating());
+-  }
++@Test(timeout = 4000)
++  public void test11() throws Throwable {
++      UserReviewBean bean = new UserReviewBean();
++      bean.setUserRating(1746);
++
++      // Serialize the bean
++      byte[] serialized;
++      try (java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
++           java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(bos)) {
++          out.writeObject(bean);
++          out.flush();
++          serialized = bos.toByteArray();
++      }
++
++      // Deserialize the bean
++      UserReviewBean deserialized;
++      try (java.io.ByteArrayInputStream bis = new java.io.ByteArrayInputStream(serialized);
++           java.io.ObjectInputStream in = new java.io.ObjectInputStream(bis)) {
++          deserialized = (UserReviewBean) in.readObject();
++      }
++
++      // Verify that the rating survived the round‑trip serialization
++      assertEquals(1746, deserialized.getUserRating());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

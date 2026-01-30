@@ -1,0 +1,37 @@
+--- a/evosuite-tests/umd/cs/shop/JSPredicateForm_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSPredicateForm_ESTest.java
+@@ -85,21 +85,29 @@
+     JSPredicateForm form = new JSPredicateForm();
+     assertEquals(0, form.size());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test07() throws Throwable {
+       StringReader stringReader0 = new StringReader("thW tokenizer is SOCE!");
+       StreamTokenizer streamTokenizer0 = new StreamTokenizer(stringReader0);
+       JSTerm jSTerm0 = new JSTerm(streamTokenizer0);
+-      jSTerm0.add((Object) jSTerm0);
++
++      int sizeBeforeAdd = jSTerm0.size();
++      boolean added = jSTerm0.add((Object) jSTerm0);
++      assertTrue("Element should be added successfully", added);
++      assertEquals("Vector size should increase by one after add", sizeBeforeAdd + 1, jSTerm0.size());
++
+       JSPredicateForm jSPredicateForm0 = jSTerm0.clonePF();
+       JSSubstitution jSSubstitution0 = new JSSubstitution();
++
+       jSTerm0.makeFunction();
++      // Verify side‑effects of makeFunction()
++      assertTrue("Term should be marked as a function after makeFunction()", jSTerm0.isFunction());
++
+       JSSubstitution jSSubstitution1 = jSTerm0.matches(jSPredicateForm0, jSSubstitution0);
+       assertEquals(2, jSPredicateForm0.size());
+       assertTrue(jSSubstitution1.fail());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/petsoar/pets/DefaultPetStore_ESTest.java
++++ b/evosuite-tests/org/petsoar/pets/DefaultPetStore_ESTest.java
+@@ -32,21 +32,33 @@
+     defaultPetStore0 = new DefaultPetStore();
+     defaultPetStore0.getCategory(190L);
+ }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    // Initialize required persistence manager to avoid NullPointerException
++    java.lang.reflect.Field pmField = DefaultPetStore.class.getDeclaredField("persistenceManager");
++    pmField.setAccessible(true);
++    PersistenceManager pm = (PersistenceManager) java.lang.reflect.Proxy.newProxyInstance(
++            PersistenceManager.class.getClassLoader(),
++            new Class<?>[]{PersistenceManager.class},
++            (proxy, method, args) -> {
++                Class<?> ret = method.getReturnType();
++                if (ret.isPrimitive()) {
++                    if (ret == boolean.class) return false;
++                    if (ret == char.class) return '\0';
++                    return 0;
++                }
++                return null;
++            });
++    pmField.set(defaultPetStore0, pm);
+ 
++    // Execute method under test; should not throw an exception
++    try {
++        defaultPetStore0.savePet(pet0);
++    } catch (Exception e) {
++        fail("Unexpected exception: " + e);
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      try { 
+-        defaultPetStore0.savePet(pet0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.petsoar.pets.DefaultPetStore", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

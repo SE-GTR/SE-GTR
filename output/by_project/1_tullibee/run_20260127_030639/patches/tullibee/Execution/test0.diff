@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/ib/client/Execution_ESTest.java
++++ b/evosuite-tests/com/ib/client/Execution_ESTest.java
+@@ -15,19 +15,16 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Execution_ESTest extends Execution_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        Execution exec1 = new Execution(1, 2, "execId", "12:00", "acct", "NYSE", "BUY", 100, 10.5, 3, 0, 0, 10.5);
++        Execution exec2 = new Execution(1, 2, "execId", "12:00", "acct", "NYSE", "BUY", 100, 10.5, 3, 0, 0, 10.5);
++        assertTrue(exec1.equals(exec2));
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Execution execution0 = new Execution();
+-      Execution execution1 = new Execution(252, 0, (String) null, "", (String) null, "", (String) null, (-300), (-300), (-1), 0, 0, 0.0);
+-      // Undeclared exception!
+-      try { 
+-        execution0.equals(execution1);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-      }
+-  }
++        Execution exec3 = new Execution(1, 2, "differentExecId", "12:00", "acct", "NYSE", "BUY", 100, 10.5, 3, 0, 0, 10.5);
++        assertFalse(exec1.equals(exec3));
++    }
++
+ @Test(timeout = 4000)
+ public void test1() throws Throwable {
+     Execution execution0 = new Execution();

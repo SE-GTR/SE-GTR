@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
+@@ -180,18 +180,29 @@
+       assertFalse(boolean0);
+       assertEquals(0, iCMCacheEntry1.getVersion());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
+-      ICMCacheEntry iCMCacheEntry1 = new ICMCacheEntry();
+-      assertTrue(iCMCacheEntry1.equals((Object)iCMCacheEntry0));
+-      
+-      iCMCacheEntry0.setExpirationTime(" ");
+-      boolean boolean0 = iCMCacheEntry0.equals(iCMCacheEntry1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    ICMCacheEntry entry0 = new ICMCacheEntry();
++    ICMCacheEntry entry1 = new ICMCacheEntry();
++
++    // Initially both entries are equal
++    assertTrue(entry1.equals(entry0));
++
++    // Verify initial expiration times are null (no side‑effect yet)
++    assertNull(entry0.getExpirationTime());
++    assertNull(entry1.getExpirationTime());
++
++    // Invoke the void method whose side effect we want to observe
++    entry0.setExpirationTime(" ");
++
++    // Assert the side effect via the public getter
++    assertEquals(" ", entry0.getExpirationTime());
++    assertNull(entry1.getExpirationTime());
++
++    // Changing expiration time should affect equality
++    assertFalse(entry0.equals(entry1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

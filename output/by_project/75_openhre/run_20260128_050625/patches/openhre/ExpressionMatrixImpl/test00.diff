@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/regular/ExpressionMatrixImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/regular/ExpressionMatrixImpl_ESTest.java
+@@ -17,16 +17,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ExpressionMatrixImpl_ESTest extends ExpressionMatrixImpl_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    ExpressionMatrixImpl cut = new ExpressionMatrixImpl();
++    cut.creatMatrix(256);
++    assertEquals(256, cut.getNumberOfElements());
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      ExpressionMatrixImpl expressionMatrixImpl0 = new ExpressionMatrixImpl();
+-      expressionMatrixImpl0.creatMatrix(256);
+-      expressionMatrixImpl0.addNewNode();
+-      expressionMatrixImpl0.setValue(0, 0, 256);
+-      expressionMatrixImpl0.toString();
+-      assertEquals(256, expressionMatrixImpl0.getNumberOfElements());
+-  }
++    int nodeIndex = cut.addNewNode();
++    assertTrue("addNewNode should return a non‑negative index", nodeIndex >= 0);
++
++    String before = cut.toString();
++    cut.setValue(0, 0, 256);
++    String after = cut.toString();
++    assertNotEquals("toString should reflect the set value", before, after);
++
++    assertEquals(256, cut.getNumberOfElements());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

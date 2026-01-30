@@ -1,0 +1,36 @@
+--- a/evosuite-tests/corina/site/Site_ESTest.java
++++ b/evosuite-tests/corina/site/Site_ESTest.java
+@@ -82,18 +82,21 @@
+       boolean boolean0 = site1.equals(site0);
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      Site site0 = new Site();
+-      Site site1 = new Site();
+-      assertTrue(site1.equals((Object)site0));
+-      
+-      Location location0 = new Location();
+-      site1.setLocation(location0);
+-      boolean boolean0 = site1.equals(site0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        Site site0 = new Site();
++        Site site1 = new Site();
++        assertTrue(site1.equals((Object) site0));
++
++        Location location0 = new Location();
++        // Verify that setting a location updates the internal state
++        site1.setLocation(location0);
++        assertEquals(location0, site1.getLocation());
++
++        // Changing the location should affect equality with a default-initialized site
++        assertFalse(site1.equals(site0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

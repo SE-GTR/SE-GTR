@@ -1,0 +1,27 @@
+--- a/evosuite-tests/net/sf/xbus/technical/ReceiverThreadBase_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/technical/ReceiverThreadBase_ESTest.java
+@@ -22,12 +22,17 @@
+         FileStreamReceiverThread fileStreamReceiverThread0 = new FileStreamReceiverThread((XBUSSystem) null);
+         fileStreamReceiverThread0.run();
+     }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    MQReceiverThread mQReceiverThread0 = new MQReceiverThread((XBUSSystem) null);
++    // Verify initial running state before interruption
++    assertTrue(mQReceiverThread0.isProceed());
++    // Perform the side‑effect operation
++    mQReceiverThread0.interruptThread();
++    // Assert that the side effect took place
++    assertFalse(mQReceiverThread0.isProceed());
++    // Existing behavior verification
++    assertEquals("Text", mQReceiverThread0.getType());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      MQReceiverThread mQReceiverThread0 = new MQReceiverThread((XBUSSystem) null);
+-      mQReceiverThread0.interruptThread();
+-      assertEquals("Text", mQReceiverThread0.getType());
+-  }
+ }

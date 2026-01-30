@@ -1,0 +1,24 @@
+--- a/evosuite-tests/MP3_ESTest.java
++++ b/evosuite-tests/MP3_ESTest.java
+@@ -12,11 +12,15 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class MP3_ESTest extends MP3_ESTest_scaffolding {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
++      MP3 mP3_0 = new MP3("");
++      boolean beforeInterrupted = mP3_0.isInterrupted();
++      mP3_0.run();
++      boolean afterInterrupted = mP3_0.isInterrupted();
++      assertFalse("Interrupted before run", beforeInterrupted);
++      assertFalse("Interrupted after run", afterInterrupted);
++      assertEquals(beforeInterrupted, afterInterrupted);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      MP3 mP3_0 = new MP3("");
+-      mP3_0.run();
+-      assertFalse(mP3_0.isInterrupted());
+-  }
+ }

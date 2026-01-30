@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/quickfixes/FixCheckstyleMarkersJob_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/quickfixes/FixCheckstyleMarkersJob_ESTest.java
+@@ -21,25 +21,25 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class FixCheckstyleMarkersJob_ESTest extends FixCheckstyleMarkersJob_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      IMarker[] iMarkerArray0 = new IMarker[10];
+-      IFile iFile0 = mock(IFile.class, new ViolatedAssumptionAnswer());
+-      doReturn(iMarkerArray0).when(iFile0).findMarkers(anyString() , anyBoolean() , anyInt());
+-      FixCheckstyleMarkersJob fixCheckstyleMarkersJob0 = new FixCheckstyleMarkersJob(iFile0);
+-      // Undeclared exception!
+-      try { 
++public void test0() throws Throwable {
++    IMarker[] iMarkerArray0 = new IMarker[10];
++    IFile iFile0 = mock(IFile.class, new ViolatedAssumptionAnswer());
++    doReturn(iMarkerArray0).when(iFile0).findMarkers(anyString(), anyBoolean(), anyInt());
++    // Verify that the stubbed method returns the expected array
++    IMarker[] result = iFile0.findMarkers("any", true, 0);
++    assertSame(iMarkerArray0, result);
++    FixCheckstyleMarkersJob fixCheckstyleMarkersJob0 = new FixCheckstyleMarkersJob(iFile0);
++    try {
+         fixCheckstyleMarkersJob0.runInUIThread((IProgressMonitor) null);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.atlassw.tools.eclipse.checkstyle.quickfixes.CheckstyleMarkerResolutionGenerator", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        //
++        // no message in exception (getMessage() returned null)
++        //
++        verifyException("com.atlassw.tools.eclipse.checkstyle.quickfixes.CheckstyleMarkerResolutionGenerator", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

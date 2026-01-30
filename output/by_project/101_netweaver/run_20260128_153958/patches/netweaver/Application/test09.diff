@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
+@@ -181,18 +181,27 @@
+     boolean boolean0 = application1.equals(application0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    application0 = new Application();
+-    application1 = new Application();
+-      assertTrue(application1.equals((Object)application0));
+-      
+-      application1.setLocation("R] ?9)fz6-Y)G#l{");
+-      boolean boolean0 = application0.equals(application1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        application0 = new Application();
++        application1 = new Application();
++        assertTrue(application1.equals((Object) application0));
++
++        // initial state: locations should be null
++        assertNull(application0.getLocation());
++        assertNull(application1.getLocation());
++
++        String newLocation = "R] ?9)fz6-Y)G#l{";
++        application1.setLocation(newLocation);
++        // verify the side‑effect of setLocation
++        assertEquals(newLocation, application1.getLocation());
++        // ensure the other instance remains unchanged
++        assertNull(application0.getLocation());
++
++        boolean boolean0 = application0.equals(application1);
++        assertFalse(boolean0);
++    }
++
+ @Test(timeout = 4000)
+   public void test10() throws Throwable {
+     application0 = new Application("", "", "", "", "", "");

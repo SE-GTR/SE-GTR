@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
+@@ -41,20 +41,24 @@
+       assertEquals(4430, alertNode0.getParent());
+       assertEquals("SAPControl-GREEN", alertNode0.getName());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      AlertNode alertNode0 = new AlertNode();
+-      alertNode0.setTid("3~6(?");
+-      AlertNode alertNode1 = new AlertNode();
+-      assertFalse(alertNode1.equals((Object)alertNode0));
+-      
+-      alertNode1.setTid("3~6(?");
+-      boolean boolean0 = alertNode0.equals(alertNode1);
+-      assertTrue(alertNode1.equals((Object)alertNode0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        AlertNode alertNode0 = new AlertNode();
++        AlertNode alertNode1 = new AlertNode();
++
++        // Both nodes start with default state and should be equal
++        assertTrue(alertNode0.equals(alertNode1));
++
++        // Changing tid on the first node should make them unequal
++        alertNode0.setTid("3~6(?");
++        assertFalse(alertNode0.equals(alertNode1));
++
++        // Setting the same tid on the second node restores equality
++        alertNode1.setTid("3~6(?");
++        assertTrue(alertNode0.equals(alertNode1));
++        assertTrue(alertNode1.equals(alertNode0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

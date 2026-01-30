@@ -1,0 +1,29 @@
+--- a/evosuite-tests/net/sf/xbus/base/xbussystem/FileAcceptor_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/xbussystem/FileAcceptor_ESTest.java
+@@ -48,22 +48,11 @@
+     boolean accepted = fileAcceptor0.accept(new File("."), "test|");
+     assertTrue("FileAcceptor should accept a filename ending with '|'", accepted);
+ }
++@Test(timeout = 4000, expected = System.SystemExitException.class)
++    public void test4() throws Throwable {
++        new FileAcceptor("L$WILDCARD$$WILDCARD$");
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      FileAcceptor fileAcceptor0 = null;
+-      try {
+-        fileAcceptor0 = new FileAcceptor("L$WILDCARD$$WILDCARD$");
+-        fail("Expecting exception: System.SystemExitException");
+-      
+-      } catch(System.SystemExitException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.System", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

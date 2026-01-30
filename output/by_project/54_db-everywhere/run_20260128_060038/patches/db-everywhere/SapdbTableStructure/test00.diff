@@ -1,0 +1,59 @@
+--- a/evosuite-tests/com/gbshape/dbe/sapdb/SapdbTableStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/sapdb/SapdbTableStructure_ESTest.java
+@@ -27,30 +27,32 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SapdbTableStructure_ESTest extends SapdbTableStructure_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      ColumnBean columnBean0 = new ColumnBean();
+-      columnBean0.setKey(true);
+-      ArrayList<Object> arrayList0 = new ArrayList<Object>();
+-      arrayList0.add((Object) columnBean0);
+-      SapdbTableStructure sapdbTableStructure0 = new SapdbTableStructure();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession();
+-      DBDataBean dBDataBean0 = new DBDataBean();
+-      arrayList0.add((Object) columnBean0);
+-      // Undeclared exception!
+-      try { 
+-        sapdbTableStructure0.changePrimary(httpServletRequest0, dBDataBean0, "'0pKU>A8dWa9#'", arrayList0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        ColumnBean columnBean0 = new ColumnBean();
++        columnBean0.setKey(true);
++        ArrayList<Object> arrayList0 = new ArrayList<Object>();
++        arrayList0.add((Object) columnBean0);
++        SapdbTableStructure sapdbTableStructure0 = new SapdbTableStructure();
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn((HttpSession) null).when(httpServletRequest0).getSession();
++        // Capture and assert the stubbed return value
++        javax.servlet.http.HttpSession session = httpServletRequest0.getSession();
++        assertNull(session);
++        DBDataBean dBDataBean0 = new DBDataBean();
++        arrayList0.add((Object) columnBean0);
++        // Undeclared exception!
++        try {
++            sapdbTableStructure0.changePrimary(httpServletRequest0, dBDataBean0, "'0pKU>A8dWa9#'", arrayList0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            //
++            // no message in exception (getMessage() returned null)
++            //
++            verifyException("com.gbshape.dbe.utils.DBEHelper", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

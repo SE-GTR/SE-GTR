@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DBConstraint_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DBConstraint_ESTest.java
+@@ -28,18 +28,22 @@
+     stringArray0 = new String[0];
+     dBUniqueConstraint0 = new DBUniqueConstraint(defaultDBTable0, "I^{M", false, stringArray0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
+     defaultDBTable0 = new DefaultDBTable((String) null);
+     stringArray0 = new String[0];
+     dBUniqueConstraint0 = new DBUniqueConstraint(defaultDBTable0, "I^{M", false, stringArray0);
+-      dBUniqueConstraint0.addColumnName("I^{M");
+-      DBUniqueConstraint dBUniqueConstraint1 = new DBUniqueConstraint(defaultDBTable0, "5;sqy1;v=>CN26,LVL", false, stringArray0);
+-      assertFalse(dBUniqueConstraint1.equals((Object)dBUniqueConstraint0));
+-      assertFalse(dBUniqueConstraint1.isNameDeterministic());
+-  }
++    // Verify that adding a column name updates the internal column list
++    int beforeSize = dBUniqueConstraint0.getColumnNames().length;
++    dBUniqueConstraint0.addColumnName("I^{M");
++    String[] afterNames = dBUniqueConstraint0.getColumnNames();
++    assertEquals(beforeSize + 1, afterNames.length);
++    assertTrue(java.util.Arrays.asList(afterNames).contains("I^{M"));
++    DBUniqueConstraint dBUniqueConstraint1 = new DBUniqueConstraint(defaultDBTable0, "5;sqy1;v=>CN26,LVL", false, stringArray0);
++    assertFalse(dBUniqueConstraint1.equals((Object) dBUniqueConstraint0));
++    assertFalse(dBUniqueConstraint1.isNameDeterministic());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,48 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/model/impl/SimpleCombatant_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/model/impl/SimpleCombatant_ESTest.java
+@@ -391,23 +391,28 @@
+       simpleCombatant0.move(simpleArea0);
+       assertEquals(435, simpleCombatant0._maxHealth());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      CharacterClass characterClass0 = CharacterClass.GREENHORN;
+-      SimpleSector simpleSector0 = new SimpleSector(29, false, true, 29, 29, false, 2947, characterClass0);
+-      SimpleArea simpleArea0 = new SimpleArea(416, 416, simpleSector0);
+-      CombatantState combatantState0 = new CombatantState(simpleArea0, 2947, simpleArea0, false);
+-      SimpleWeapon simpleWeapon0 = new SimpleWeapon(29, "s noZ ", 2947, 2947);
+-      CombatantSide combatantSide0 = CombatantSide.ATTACKER;
+-      SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState0, 2947, "s noZ ", characterClass0, simpleWeapon0, "s noZ ");
+-      simpleCombatant0.aimAt(simpleCombatant0);
+-      simpleCombatant0.shoot(2947);
+-      Stack<Combatant> stack0 = new Stack<Combatant>();
+-      CombatantEventDispatcher combatantEventDispatcher0 = new CombatantEventDispatcher(stack0);
+-      simpleCombatant0.addObserver(combatantEventDispatcher0);
+-      assertEquals(0, simpleCombatant0._health());
+-  }
++@Test(timeout = 4000)
++public void test24() throws Throwable {
++    CharacterClass characterClass0 = CharacterClass.GREENHORN;
++    SimpleSector simpleSector0 = new SimpleSector(29, false, true, 29, 29, false, 2947, characterClass0);
++    SimpleArea simpleArea0 = new SimpleArea(416, 416, simpleSector0);
++    CombatantState combatantState0 = new CombatantState(simpleArea0, 2947, simpleArea0, false);
++    SimpleWeapon simpleWeapon0 = new SimpleWeapon(29, "s noZ ", 2947, 2947);
++    CombatantSide combatantSide0 = CombatantSide.ATTACKER;
++    SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState0, 2947, "s noZ ", characterClass0, simpleWeapon0, "s noZ ");
++    // verify initial aiming target is null
++    assertNull(simpleCombatant0.getAimingAt());
++    simpleCombatant0.aimAt(simpleCombatant0);
++    // verify aimAt sets the target
++    assertSame(simpleCombatant0, simpleCombatant0.getAimingAt());
++    simpleCombatant0.shoot(2947);
++    Stack<Combatant> stack0 = new Stack<Combatant>();
++    CombatantEventDispatcher combatantEventDispatcher0 = new CombatantEventDispatcher(stack0);
++    simpleCombatant0.addObserver(combatantEventDispatcher0);
++    // original health assertion
++    assertEquals(0, simpleCombatant0._health());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test25()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
+@@ -46,15 +46,26 @@
+     int hash2 = entry.hashCode();
+     assertEquals(hash1, hash2);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
+-      iCMCacheEntry0.setLastAccessTime("");
+-      iCMCacheEntry0.hashCode();
+-      assertEquals(0, iCMCacheEntry0.getVersion());
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        ICMCacheEntry entry = new ICMCacheEntry();
++        // Capture initial hash code (optional, just to observe return value)
++        int initialHash = entry.hashCode();
++
++        // Act: set last access time
++        entry.setLastAccessTime("");
++
++        // Verify side effect of setLastAccessTime
++        assertEquals("", entry.getLastAccessTime());
++
++        // Verify that hashCode returns a consistent value
++        int hashAfter = entry.hashCode();
++        assertEquals(hashAfter, entry.hashCode());
++
++        // Additional existing assertion
++        assertEquals(0, entry.getVersion());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

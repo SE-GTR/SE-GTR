@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/HeapInfo_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/HeapInfo_ESTest.java
+@@ -72,19 +72,28 @@
+         boolean boolean0 = heapInfo0.equals(heapInfo1);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      HeapInfo heapInfo0 = new HeapInfo();
+-      HeapInfo heapInfo1 = new HeapInfo();
+-      assertTrue(heapInfo1.equals((Object)heapInfo0));
+-      
+-      STATECOLOR sTATECOLOR0 = STATECOLOR.value4;
+-      heapInfo0.setDispstatus(sTATECOLOR0);
+-      boolean boolean0 = heapInfo0.equals(heapInfo1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        HeapInfo heapInfo0 = new HeapInfo();
++        HeapInfo heapInfo1 = new HeapInfo();
++        // initially both objects are equal
++        assertTrue(heapInfo1.equals(heapInfo0));
++
++        // verify initial dispstatus is null for both instances
++        assertNull(heapInfo0.getDispstatus());
++        assertNull(heapInfo1.getDispstatus());
++
++        STATECOLOR sTATECOLOR0 = STATECOLOR.value4;
++        heapInfo0.setDispstatus(sTATECOLOR0);
++
++        // observe the side‑effect of setDispstatus
++        assertEquals(sTATECOLOR0, heapInfo0.getDispstatus());
++        assertNull(heapInfo1.getDispstatus());
++
++        // after the change the objects are no longer equal
++        assertFalse(heapInfo0.equals(heapInfo1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

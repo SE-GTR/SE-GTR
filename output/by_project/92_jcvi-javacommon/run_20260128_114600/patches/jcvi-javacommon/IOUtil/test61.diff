@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
+@@ -578,23 +578,23 @@
+       long long0 = IOUtil.readUnsignedInt(byteArray0);
+       assertEquals(0L, long0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test61()  throws Throwable  {
+-      Enumeration<InputStream> enumeration0 = (Enumeration<InputStream>) mock(Enumeration.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(enumeration0).hasMoreElements();
+-      SequenceInputStream sequenceInputStream0 = new SequenceInputStream(enumeration0);
+-      try { 
++@Test(timeout = 4000)
++public void test61() throws Throwable {
++    Enumeration<InputStream> enumeration0 = (Enumeration<InputStream>) mock(Enumeration.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(enumeration0).hasMoreElements();
++    assertFalse(enumeration0.hasMoreElements());
++    SequenceInputStream sequenceInputStream0 = new SequenceInputStream(enumeration0);
++    try {
+         IOUtil.readUnsignedInt((InputStream) sequenceInputStream0);
+         fail("Expecting exception: EOFException");
+-      
+-      } catch(EOFException e) {
+-         //
+-         // end of file after only 0 bytes read (expected 4)
+-         //
+-         verifyException("org.jcvi.jillion.core.io.IOUtil", e);
+-      }
+-  }
++    } catch (EOFException e) {
++        //
++        // end of file after only 0 bytes read (expected 4)
++        //
++        verifyException("org.jcvi.jillion.core.io.IOUtil", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test62()  throws Throwable  {

@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
+@@ -210,12 +210,17 @@
+ public void test22() throws Throwable {
+     nonBlockingClientHandler0 = new NonBlockingClientHandler();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      NonBlockingClientHandler.setWakeupSelectorAfterRegisterRead(false);
+-  }
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        // Set to true and verify the flag reflects the change
++        NonBlockingClientHandler.setWakeupSelectorAfterRegisterRead(true);
++        assertTrue(NonBlockingClientHandler.getWakeupSelectorAfterRegisterRead());
++
++        // Set to false and verify the side‑effect is observable
++        NonBlockingClientHandler.setWakeupSelectorAfterRegisterRead(false);
++        assertFalse(NonBlockingClientHandler.getWakeupSelectorAfterRegisterRead());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

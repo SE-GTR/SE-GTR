@@ -1,0 +1,18 @@
+--- a/evosuite-tests/com/gbshape/dbe/utils/DBEHelper_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/utils/DBEHelper_ESTest.java
+@@ -130,12 +130,14 @@
+     ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0, (byte) (-113), (-4202));
+     BufferedInputStream bufferedInputStream0 = new BufferedInputStream(byteArrayInputStream0);
+     ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
+-    doReturn(bufferedInputStream0).when(servletContext0).getResourceAsStream(anyString());
++    InputStream stubResult = doReturn(bufferedInputStream0).when(servletContext0).getResourceAsStream(anyString());
++    assertNull(stubResult);
+     InputStream resultStream = servletContext0.getResourceAsStream("any");
+     assertSame(bufferedInputStream0, resultStream);
+     String string0 = DBEHelper.getImplementationVersion(servletContext0);
+     assertNull(string0);
+ }
++
+ @Test(timeout = 4000)
+ public void test16() throws Throwable {
+     ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());

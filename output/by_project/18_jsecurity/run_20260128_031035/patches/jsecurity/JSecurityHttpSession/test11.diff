@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpSession_ESTest.java
+@@ -156,22 +156,14 @@
+       Enumeration enumeration0 = jSecurityHttpSession0.getAttributeNames();
+       assertNotNull(enumeration0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-    jSecurityHttpSession0 = new JSecurityHttpSession((Session) null, (HttpServletRequest) null, (ServletContext) null);
+-      // Undeclared exception!
+-      try { 
+-        jSecurityHttpSession0.getMaxInactiveInterval();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.servlet.JSecurityHttpSession", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    org.jsecurity.session.Session session = new org.jsecurity.session.SimpleSession();
++    JSecurityHttpSession jSecurityHttpSession0 = new JSecurityHttpSession(session, null, null);
++    int maxInactive = jSecurityHttpSession0.getMaxInactiveInterval();
++    assertTrue(maxInactive >= 0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

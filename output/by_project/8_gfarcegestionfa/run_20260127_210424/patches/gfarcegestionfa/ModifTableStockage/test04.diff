@@ -1,0 +1,32 @@
+--- a/evosuite-tests/fr/unice/gfarce/interGraph/ModifTableStockage_ESTest.java
++++ b/evosuite-tests/fr/unice/gfarce/interGraph/ModifTableStockage_ESTest.java
+@@ -89,9 +89,8 @@
+          verifyException("org.evosuite.runtime.System", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test04() throws Throwable {
+       String[] stringArray0 = new String[13];
+       stringArray0[0] = " O>n(uY-";
+       stringArray0[1] = "";
+@@ -99,10 +98,14 @@
+       objectArray0[0] = (Object[]) stringArray0;
+       TableStockage tableStockage0 = new TableStockage(stringArray0, objectArray0);
+       ModifTableStockage modifTableStockage0 = new ModifTableStockage(tableStockage0);
++      int originalColumns = tableStockage0.getColumnCount();
++      int originalRows = tableStockage0.getRowCount();
+       TableStockage tableStockage1 = modifTableStockage0.fusionnerColonnes(0);
+-      assertEquals(12, tableStockage1.getColumnCount());
+-      assertEquals(1, tableStockage1.getRowCount());
+-  }
++      assertNotSame(tableStockage0, tableStockage1);
++      assertEquals(originalColumns - 1, tableStockage1.getColumnCount());
++      assertEquals(originalRows, tableStockage1.getRowCount());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

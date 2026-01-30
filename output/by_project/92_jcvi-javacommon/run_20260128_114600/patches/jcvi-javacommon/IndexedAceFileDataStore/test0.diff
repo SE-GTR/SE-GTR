@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/IndexedAceFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/IndexedAceFileDataStore_ESTest.java
+@@ -26,22 +26,12 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class IndexedAceFileDataStore_ESTest extends IndexedAceFileDataStore_ESTest_scaffolding {
++@Test(timeout = 4000, expected = NullPointerException.class)
++  public void test0() throws Throwable {
++      File file0 = MockFile.createTempFile("closed", "closed");
++      IndexedAceFileDataStore.create(file0, (DataStoreFilter) null);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("closed", "closed");
+-      // Undeclared exception!
+-      try { 
+-        IndexedAceFileDataStore.create(file0, (DataStoreFilter) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // filter can not be null
+-         //
+-         verifyException("org.jcvi.jillion.assembly.consed.ace.IndexedAceFileDataStore", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

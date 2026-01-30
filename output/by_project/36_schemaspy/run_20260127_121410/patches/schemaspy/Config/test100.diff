@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -1446,24 +1446,19 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test100()  throws Throwable  {
+-      Config config0 = new Config();
+-      config0.setDb("*** ");
+-      config0.setSingleSignOn(true);
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-o' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test100() throws Throwable {
++        Config config0 = new Config();
++        config0.setDb("*** ");
++        config0.setSingleSignOn(true);
++        // Provide the required output directory to avoid the RuntimeException
++        java.io.File outDir = java.nio.file.Files.createTempDirectory("schemaspy_test").toFile();
++        outDir.deleteOnExit();
++        config0.setOutputDir(outDir.getAbsolutePath());
++        java.util.List<String> options = config0.asList();
++        org.junit.Assert.assertNotNull("asList should return a non‑null list", options);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test101()  throws Throwable  {

@@ -1,0 +1,62 @@
+--- a/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
+@@ -950,36 +950,29 @@
+     assertEquals(1, roi.Y());
+     assertEquals(1, roi.X());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(1, 1);
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      
+-      Image<Integer> image0 = interpolatedGrayImage0.clear();
+-      assertEquals(0, interpolatedGrayImage0.absSum());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(0L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(0, interpolatedGrayImage0.addSum());
+-      assertEquals(1, image0.Y());
+-      assertEquals(1, image0.X());
+-      assertSame(interpolatedGrayImage0, image0);
+-      
+-      int int0 = interpolatedGrayImage0.addSum();
+-      assertEquals(0, int0);
+-      assertEquals(0, interpolatedGrayImage0.absSum());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(0L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(0, interpolatedGrayImage0.addSum());
+-      assertSame(interpolatedGrayImage0, image0);
+-  }
++@Test(timeout = 4000)
++public void test30() throws Throwable {
++    InterpolatedGrayImage img = new InterpolatedGrayImage(1, 1);
++    // Verify construction defaults
++    assertEquals(InterpolationMethod.NEIGHBOR, img.getInterpolationMethod());
++    assertEquals(1, img.X());
++    assertEquals(1, img.Y());
++
++    Image<Integer> cleared = img.clear();
++    // clear should reset sums and return the same instance
++    assertSame(img, cleared);
++    assertEquals(0, img.absSum());
++    assertEquals(0L, img.sqrSum());
++    assertEquals(0, img.addSum());
++    assertEquals(1, cleared.X());
++    assertEquals(1, cleared.Y());
++
++    // Subsequent checks confirm the cleared state persists
++    assertEquals(0, img.absSum());
++    assertEquals(0L, img.sqrSum());
++    assertEquals(0, img.addSum());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

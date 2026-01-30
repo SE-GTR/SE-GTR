@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
+@@ -335,20 +335,28 @@
+     boolean boolean0 = j2EEThread2_0.equals(j2EEThread2_1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      J2EEThread2 j2EEThread2_0 = new J2EEThread2();
+-      j2EEThread2_0.setClassname("");
+-      J2EEThread2 j2EEThread2_1 = new J2EEThread2();
+-      assertFalse(j2EEThread2_1.equals((Object)j2EEThread2_0));
+-      
+-      j2EEThread2_1.setClassname("");
+-      boolean boolean0 = j2EEThread2_1.equals(j2EEThread2_0);
+-      assertTrue(j2EEThread2_1.equals((Object)j2EEThread2_0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        J2EEThread2 j2EEThread2_0 = new J2EEThread2();
++        // Verify initial state before setting classname
++        assertNull(j2EEThread2_0.getClassname());
++        j2EEThread2_0.setClassname("");
++        // Assert side‑effect of setClassname
++        assertEquals("", j2EEThread2_0.getClassname());
++
++        J2EEThread2 j2EEThread2_1 = new J2EEThread2();
++        assertFalse(j2EEThread2_1.equals((Object) j2EEThread2_0));
++
++        // Verify and assert side‑effect on the second instance
++        assertNull(j2EEThread2_1.getClassname());
++        j2EEThread2_1.setClassname("");
++        assertEquals("", j2EEThread2_1.getClassname());
++
++        boolean boolean0 = j2EEThread2_1.equals(j2EEThread2_0);
++        assertTrue(j2EEThread2_1.equals((Object) j2EEThread2_0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

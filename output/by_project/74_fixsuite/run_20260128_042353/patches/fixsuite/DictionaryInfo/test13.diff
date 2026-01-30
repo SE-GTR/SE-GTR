@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/fixsuite/message/info/DictionaryInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/DictionaryInfo_ESTest.java
+@@ -148,17 +148,24 @@
+         // Exercise the method; no specific state change to assert beyond successful invocation.
+         dictionaryInfo0.getComponents();
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      DictionaryInfo dictionaryInfo0 = new DictionaryInfo("G!72-+%DWX(U%");
+-      FieldInfo fieldInfo0 = new FieldInfo();
+-      fieldInfo0.setName("G!72-+%DWX(U%");
+-      dictionaryInfo0.addField(fieldInfo0);
+-      dictionaryInfo0.addField(fieldInfo0);
+-      assertNull(fieldInfo0.getBaseCategoryXmlName());
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        String name = "G!72-+%DWX(U%";
++        DictionaryInfo dictionaryInfo0 = new DictionaryInfo(name);
++        FieldInfo fieldInfo0 = new FieldInfo();
++        // Verify that setName correctly updates the field's name
++        fieldInfo0.setName(name);
++        assertEquals(name, fieldInfo0.getName());
++        // Add the field to the dictionary and verify it is stored
++        dictionaryInfo0.addField(fieldInfo0);
++        assertSame(fieldInfo0, dictionaryInfo0.getField(name));
++        // Adding the same field again should not replace the existing entry
++        dictionaryInfo0.addField(fieldInfo0);
++        assertSame(fieldInfo0, dictionaryInfo0.getField(name));
++        // Existing assertion retained
++        assertNull(fieldInfo0.getBaseCategoryXmlName());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

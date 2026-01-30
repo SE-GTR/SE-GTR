@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
+@@ -257,18 +257,24 @@
+         assertTrue(alertNode1.equals((Object) alertNode0));
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      AlertNode alertNode0 = new AlertNode();
+-      AlertNode alertNode1 = new AlertNode();
+-      assertTrue(alertNode1.equals((Object)alertNode0));
+-      
+-      alertNode0.setTime("?jdx(1rMj'\u0013]6w:sc");
+-      boolean boolean0 = alertNode1.equals(alertNode0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    AlertNode alertNode0 = new AlertNode();
++    AlertNode alertNode1 = new AlertNode();
++    assertTrue(alertNode1.equals((Object) alertNode0));
++
++    // Verify initial state before setting time
++    assertNull(alertNode0.getTime());
++
++    String newTime = "?jdx(1rMj'\u0013]6w:sc";
++    alertNode0.setTime(newTime);
++    // Observe the side‑effect of setTime
++    assertEquals(newTime, alertNode0.getTime());
++
++    // Objects should no longer be equal after the state change
++    assertFalse(alertNode1.equals(alertNode0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

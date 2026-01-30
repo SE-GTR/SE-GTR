@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/realm/text/TextConfigurationRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/text/TextConfigurationRealm_ESTest.java
+@@ -50,15 +50,18 @@
+       textConfigurationRealm0.processUserDefinitions();
+       assertEquals("org.jsecurity.realm.text.TextConfigurationRealm_0", textConfigurationRealm0.getName());
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    textConfigurationRealm0 = new TextConfigurationRealm();
++    int beforeRoles = textConfigurationRealm0.getRoles().size();
++    textConfigurationRealm0.setRoleDefinitions("7z53=N4?");
++    textConfigurationRealm0.afterAuthorizationCacheSet();
++    textConfigurationRealm0.processRoleDefinitions();
++    int afterRoles = textConfigurationRealm0.getRoles().size();
++    assertTrue("Roles should be added after processing role definitions", afterRoles > beforeRoles);
++    assertNull(textConfigurationRealm0.getAuthorizationCacheName());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    textConfigurationRealm0 = new TextConfigurationRealm();
+-      textConfigurationRealm0.setRoleDefinitions("7z53=N4?");
+-      textConfigurationRealm0.afterAuthorizationCacheSet();
+-      textConfigurationRealm0.processRoleDefinitions();
+-      assertNull(textConfigurationRealm0.getAuthorizationCacheName());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

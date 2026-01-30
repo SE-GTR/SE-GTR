@@ -1,0 +1,40 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
+@@ -279,24 +279,20 @@
+     webUIPlugin0 = new WebUIPlugin(bundleContext0);
+       webUIPlugin0.clearBMReports();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-    webUIPlugin0 = new WebUIPlugin(bundleContext0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        BundleContext bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++        doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString(), anyString());
++        WebUIPlugin webUIPlugin0 = new WebUIPlugin(bundleContext0);
++        // Provide a mock MFWClient to avoid NullPointerException during setProbeParameter
++        fi.vtt.noen.mfw.bundle.server.plugins.webui.mfwclient.MFWClient mfwClientMock = mock(fi.vtt.noen.mfw.bundle.server.plugins.webui.mfwclient.MFWClient.class);
++        java.lang.reflect.Field f = WebUIPlugin.class.getDeclaredField("mfwClient");
++        f.setAccessible(true);
++        f.set(webUIPlugin0, mfwClientMock);
++        // Execute the method under test; no exception is expected with proper setup
+         webUIPlugin0.setProbeParameter((-3309L), "_-#0`LOCYO", "_-#0`LOCYO");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("fi.vtt.noen.mfw.bundle.server.plugins.webui.WebUIPlugin", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

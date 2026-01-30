@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -588,14 +588,23 @@
+       simpleAccountRealm0.onLogout(simplePrincipalCollection0);
+       assertTrue(simplePrincipalCollection0.isEmpty());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test47()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      WildcardPermissionResolver wildcardPermissionResolver0 = new WildcardPermissionResolver();
+-      simpleAccountRealm0.setPermissionResolver(wildcardPermissionResolver0);
+-      assertNull(simpleAccountRealm0.getAuthorizationCacheName());
+-  }
++@Test(timeout = 4000)
++    public void test47() throws Throwable {
++        SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
++        WildcardPermissionResolver wildcardPermissionResolver0 = new WildcardPermissionResolver();
++        simpleAccountRealm0.setPermissionResolver(wildcardPermissionResolver0);
++        // configure a role with a permission and assign it to an account
++        simpleAccountRealm0.addRole("role1", "resource:action");
++        simpleAccountRealm0.addAccount("user1", "password", "role1");
++        // create a principal collection for the user
++        org.jsecurity.subject.SimplePrincipalCollection principals =
++                new org.jsecurity.subject.SimplePrincipalCollection("user1", simpleAccountRealm0.getName());
++        // verify that the permission resolver is used and the permission check succeeds
++        assertTrue(simpleAccountRealm0.isPermitted(principals, "resource:action"));
++        // original assertion retained
++        assertNull(simpleAccountRealm0.getAuthorizationCacheName());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test48()  throws Throwable  {

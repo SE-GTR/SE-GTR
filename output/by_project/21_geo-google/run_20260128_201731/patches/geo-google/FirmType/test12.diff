@@ -1,0 +1,46 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/FirmType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/FirmType_ESTest.java
+@@ -139,20 +139,32 @@
+     }
+ @Test(timeout = 4000)
+ public void test12() throws Throwable {
+-    FirmType firmType0 = new FirmType();
++    FirmType firm = new FirmType();
++
+     // Verify initial state
+-    assertNull(firmType0.getType());
+-    assertNull(firmType0.getPostalCode());
+-
+-    // Set a non‑null postal code and verify the side effect
++    assertTrue(firm.getAddressLine().isEmpty());
++    assertNull(firm.getType());
++    assertNull(firm.getPostalCode());
++
++    // Exercise non‑trivial behavior: modify the addressLine list
++    AddressLine addressLine = new AddressLine();
++    firm.getAddressLine().add(addressLine);
++    assertEquals(1, firm.getAddressLine().size());
++    assertSame(addressLine, firm.getAddressLine().get(0));
++
++    // Verify postalCode setter/getter side effect
+     PostalCode pc = new PostalCode();
+-    firmType0.setPostalCode(pc);
+-    assertSame(pc, firmType0.getPostalCode());
+-
+-    // Reset to null and verify again
+-    firmType0.setPostalCode(null);
+-    assertNull(firmType0.getPostalCode());
++    firm.setPostalCode(pc);
++    assertSame(pc, firm.getPostalCode());
++
++    firm.setPostalCode(null);
++    assertNull(firm.getPostalCode());
++
++    // Verify type setter/getter
++    firm.setType("exampleType");
++    assertEquals("exampleType", firm.getType());
+ }
++
+ 
+ @Test(timeout = 4000)
+   public void test13() throws Throwable {

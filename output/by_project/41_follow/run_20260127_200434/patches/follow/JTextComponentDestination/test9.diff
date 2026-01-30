@@ -1,0 +1,28 @@
+--- a/evosuite-tests/ghm/follow/io/JTextComponentDestination_ESTest.java
++++ b/evosuite-tests/ghm/follow/io/JTextComponentDestination_ESTest.java
+@@ -96,12 +96,19 @@
+       jTextComponentDestination0.removeFilteredView();
+       assertFalse(jTextComponentDestination0.autoPositionCaret());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test9()  throws Throwable  {
++@Test(timeout = 4000)
++public void test9() throws Throwable {
+     jTextField0 = new JTextField("J|Zrj&UmC/{I");
+     jTextComponentDestination0 = new JTextComponentDestination(jTextField0, true);
+-      jTextComponentDestination0.setAutoPositionCaret(true);
+-      assertTrue(jTextComponentDestination0.autoPositionCaret());
+-  }
++    jTextComponentDestination0.setAutoPositionCaret(true);
++    assertTrue(jTextComponentDestination0.autoPositionCaret());
++
++    // Exercise a non‑trivial behavior: write text and verify that it appears
++    // in the underlying component and that the caret is positioned at the end.
++    String added = "extra";
++    jTextComponentDestination0.write(added);
++    assertTrue(jTextField0.getText().contains(added));
++    assertEquals(jTextField0.getText().length(), jTextField0.getCaretPosition());
+ }
++
++}

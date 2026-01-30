@@ -1,0 +1,51 @@
+--- a/evosuite-tests/de/progra/charting/model/DefaultChartDataModel_ESTest.java
++++ b/evosuite-tests/de/progra/charting/model/DefaultChartDataModel_ESTest.java
+@@ -105,25 +105,29 @@
+         Object result = defaultChartDataModel0.getColumnValueAt(0, 1742);
+         assertNull(result);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      DataSet[] dataSetArray0 = new DataSet[1];
+-      DefaultDataSet defaultDataSet0 = new DefaultDataSet(dataSetArray0, dataSetArray0, (-764), "*=I,w;,iM].O`2%2_!");
+-      dataSetArray0[0] = (DataSet) defaultDataSet0;
+-      DefaultChartDataModel defaultChartDataModel0 = null;
+-      try {
+-        defaultChartDataModel0 = new DefaultChartDataModel(dataSetArray0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.util.TreeMap", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        // Create a simple, valid dataset
++        double[] xValues = new double[] { 1.0, 2.0, 3.0 };
++        double[] yValues = new double[] { 4.0, 5.0, 6.0 };
++        DefaultDataSet dataSet = new DefaultDataSet(xValues, yValues, 0, "testDataSet");
++        DataSet[] dataSets = new DataSet[] { dataSet };
++
++        // Construct the model with a non‑null, well‑formed dataset array
++        DefaultChartDataModel model = new DefaultChartDataModel(dataSets);
++
++        // Verify basic properties of the created model
++        assertNotNull(model);
++        assertEquals(1, model.getDataSetNumber());
++        assertEquals("testDataSet", model.getDataSetName(0));
++        assertEquals(3, model.getDataSetLength(0));
++        assertTrue(model.isColumnNumeric());
++
++        // Check that a value can be retrieved correctly
++        Number firstValue = model.getValueAt(0, 0);
++        assertEquals(1.0, firstValue.doubleValue(), 0.0001);
++    }
++
+ @Test(timeout = 4000)
+ public void test09() throws Throwable {
+     EditableDataSet[] editableDataSetArray0 = new EditableDataSet[1];

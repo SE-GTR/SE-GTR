@@ -1,0 +1,37 @@
+--- a/evosuite-tests/net/sf/sugar/fspath/FSPathResultModificationListImpl_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/fspath/FSPathResultModificationListImpl_ESTest.java
+@@ -94,17 +94,25 @@
+         assertEquals(1, list.size());
+         assertFalse(list.hasFailures());
+     }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        FSPathResultModificationListImpl fSPathResultModificationListImpl0 = new FSPathResultModificationListImpl();
++        FSPathResult fSPathResult0 = new FSPathResult("}!%mbMa/eA[@F=^|H");
++        int sizeBefore = fSPathResultModificationListImpl0.size();
++        boolean hasFailuresBefore = fSPathResultModificationListImpl0.hasFailures();
+ 
++        fSPathResultModificationListImpl0.addFailure(fSPathResult0);
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      FSPathResultModificationListImpl fSPathResultModificationListImpl0 = new FSPathResultModificationListImpl();
+-      FSPathResult fSPathResult0 = new FSPathResult("}!%mbMa/eA[@F=^|H");
+-      fSPathResultModificationListImpl0.addFailure(fSPathResult0);
+-      Callback callback0 = mock(Callback.class, new ViolatedAssumptionAnswer());
+-      fSPathResultModificationListImpl0.onFailure(callback0);
+-      assertTrue(fSPathResultModificationListImpl0.hasFailures());
+-  }
++        assertEquals(sizeBefore + 1, fSPathResultModificationListImpl0.size());
++        assertFalse(hasFailuresBefore);
++        assertTrue(fSPathResultModificationListImpl0.hasFailures());
++        assertTrue(fSPathResultModificationListImpl0.contains(fSPathResult0));
++
++        Callback callback0 = mock(Callback.class, new ViolatedAssumptionAnswer());
++        FSPathResultModificationList returned = fSPathResultModificationListImpl0.onFailure(callback0);
++        assertSame(fSPathResultModificationListImpl0, returned);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

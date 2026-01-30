@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
+@@ -591,18 +591,26 @@
+     assertEquals("Project not a prefix of Package", j2EEThread1.getTask());
+     assertEquals("org.apache.axis.utils.cache.MethodCache", j2EEThread1.getUser());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test38()  throws Throwable  {
+-      J2EEThread j2EEThread0 = new J2EEThread();
+-      J2EEThread j2EEThread1 = new J2EEThread();
+-      assertTrue(j2EEThread1.equals((Object)j2EEThread0));
+-      
+-      j2EEThread1.setStartTime("BwMrib");
+-      boolean boolean0 = j2EEThread1.equals(j2EEThread0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test38() throws Throwable {
++    J2EEThread j2EEThread0 = new J2EEThread();
++    J2EEThread j2EEThread1 = new J2EEThread();
++    assertTrue(j2EEThread1.equals((Object) j2EEThread0));
++
++    // Verify initial state before setting start time
++    assertNull(j2EEThread1.getStartTime());
++
++    // Act: set the start time
++    j2EEThread1.setStartTime("BwMrib");
++
++    // Assert: the side‑effect is observable via the getter
++    assertEquals("BwMrib", j2EEThread1.getStartTime());
++
++    // Ensure the equality semantics reflect the changed state
++    boolean boolean0 = j2EEThread1.equals(j2EEThread0);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test39()  throws Throwable  {

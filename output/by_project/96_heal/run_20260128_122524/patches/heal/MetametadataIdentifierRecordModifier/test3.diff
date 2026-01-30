@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/MetametadataIdentifierRecordModifier_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/MetametadataIdentifierRecordModifier_ESTest.java
+@@ -87,19 +87,21 @@
+     // Verify that the request parameters were accessed during the update
+     verify(httpServletRequest0, atLeastOnce()).getParameter(anyString());
+ }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    MetametadataIdentifierRecordModifier modifier = new MetametadataIdentifierRecordModifier();
++    CompleteMetadataBean bean = new CompleteMetadataBean();
++    HttpServletRequest request = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    when(request.getParameter(anyString())).thenAnswer(invocation -> {
++        String name = invocation.getArgument(0);
++        return "private".equals(name) ? "myPrivate" : null;
++    });
++    HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(request);
++    modifier.updateMetadata(bean, wrapper);
++    modifier.updateMetadata(bean, wrapper);
++    assertEquals("myPrivate", bean.getPrivate());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    metametadataIdentifierRecordModifier0 = new MetametadataIdentifierRecordModifier();
+-    completeMetadataBean0 = new CompleteMetadataBean();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null, (String) null, (String) null, (String) null, (String) null).when(httpServletRequest0).getParameter(anyString());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      metametadataIdentifierRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
+-      metametadataIdentifierRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
+-      assertNull(completeMetadataBean0.getPrivate());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

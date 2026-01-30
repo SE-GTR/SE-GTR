@@ -1,0 +1,45 @@
+--- a/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
+@@ -423,23 +423,25 @@
+     assertEquals(1, grayImage0.X());
+     assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(1, 1);
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      
+-      interpolatedGrayImage0.median(6);
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(0, interpolatedGrayImage0.addSum());
+-      assertEquals(0L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(0, interpolatedGrayImage0.absSum());
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    InterpolatedGrayImage img = new InterpolatedGrayImage(1, 1);
++    // Verify construction state
++    assertEquals(InterpolationMethod.NEIGHBOR, img.getInterpolationMethod());
++    assertEquals(1, img.Y());
++    assertEquals(1, img.X());
++
++    // Act
++    img.median(6);
++
++    // Verify that median does not alter interpolation method
++    assertEquals(InterpolationMethod.NEIGHBOR, img.getInterpolationMethod());
++    // Verify side‑effects on image statistics for a 1×1 zero image
++    assertEquals(0, img.addSum());
++    assertEquals(0L, img.sqrSum());
++    assertEquals(0, img.absSum());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

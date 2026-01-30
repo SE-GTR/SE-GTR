@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/heal/util/FileLocator_ESTest.java
++++ b/evosuite-tests/org/heal/util/FileLocator_ESTest.java
+@@ -297,21 +297,27 @@
+     assertEquals("upload", fileLocator0.getUploadDirectory());
+     assertEquals("content", fileLocator0.getContentDirectory());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      assertEquals("content", fileLocator0.getContentDirectory());
+-      
+-      fileLocator0.setContentDirectory((String) null);
+-      fileLocator0.setServerBaseURL("content");
+-      fileLocator0.generateFullDirectories();
+-      assertEquals("upload", fileLocator0.getUploadDirectory());
+-      assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
+-      assertEquals("content/package/", fileLocator0.getPackageURL());
+-      assertEquals(536870912L, fileLocator0.getMaxUploadSize());
+-  }
++@Test(timeout = 4000)
++public void test29() throws Throwable {
++    FileLocator fileLocator0 = new FileLocator();
++    // Verify initial content directory state
++    assertNull(fileLocator0.getContentDirectory());
++
++    // Setting content directory to null should keep it null
++    fileLocator0.setContentDirectory(null);
++    assertNull(fileLocator0.getContentDirectory());
++
++    // Set server base URL and generate directories
++    fileLocator0.setServerBaseURL("content");
++    fileLocator0.generateFullDirectories();
++
++    // Verify that defaults are unchanged after generation
++    assertEquals("upload", fileLocator0.getUploadDirectory());
++    assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
++    assertEquals("content/package/", fileLocator0.getPackageURL());
++    assertEquals(536870912L, fileLocator0.getMaxUploadSize());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

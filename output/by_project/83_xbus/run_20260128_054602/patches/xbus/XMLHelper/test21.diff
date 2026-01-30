@@ -1,0 +1,32 @@
+--- a/evosuite-tests/net/sf/xbus/base/xml/XMLHelper_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/base/xml/XMLHelper_ESTest.java
+@@ -231,13 +231,22 @@
+       String string0 = XMLHelper.getTagCDATA(document0, "n5xZV");
+       assertEquals("n5xZV", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      HTMLDocumentImpl hTMLDocumentImpl0 = new HTMLDocumentImpl();
+-      String string0 = XMLHelper.getTagCDATA(hTMLDocumentImpl0, "d");
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        HTMLDocumentImpl document = new HTMLDocumentImpl();
++        // Build a simple DOM with a CDATA section inside a <d> element
++        org.w3c.dom.Element root = document.createElement("root");
++        document.appendChild(root);
++        org.w3c.dom.Element dElement = document.createElement("d");
++        root.appendChild(dElement);
++        org.w3c.dom.CDATASection cdata = document.createCDATASection("sampleCDATA");
++        dElement.appendChild(cdata);
++        // Act
++        String result = XMLHelper.getTagCDATA(document, "d");
++        // Assert that the CDATA content is correctly retrieved
++        assertEquals("sampleCDATA", result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

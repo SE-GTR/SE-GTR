@@ -1,0 +1,36 @@
+--- a/evosuite-tests/Newzgrabber/BufferedCustomInputStream_ESTest.java
++++ b/evosuite-tests/Newzgrabber/BufferedCustomInputStream_ESTest.java
+@@ -85,13 +85,27 @@
+       BufferedCustomInputStream bufferedCustomInputStream0 = new BufferedCustomInputStream((InputStream) null, true);
+       bufferedCustomInputStream0.close();
+   }
++@Test(timeout = 4000)
++    public void test7() throws Throwable {
++        PipedInputStream pipedInputStream0 = new PipedInputStream();
++        PipedOutputStream pipedOutputStream0 = new PipedOutputStream(pipedInputStream0);
++        BufferedCustomInputStream bufferedCustomInputStream0 = new BufferedCustomInputStream(pipedInputStream0, false);
++        // Ensure the flag is set to false
++        bufferedCustomInputStream0.setRemoveCarriages(false);
++        byte[] data = "Line1\rLine2".getBytes("UTF-8");
++        pipedOutputStream0.write(data);
++        pipedOutputStream0.flush();
++        pipedOutputStream0.close(); // signal end of stream
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      PipedInputStream pipedInputStream0 = new PipedInputStream();
+-      BufferedCustomInputStream bufferedCustomInputStream0 = new BufferedCustomInputStream(pipedInputStream0, false);
+-      bufferedCustomInputStream0.setRemoveCarriages(false);
+-  }
++        ByteArrayOutputStream baos = new ByteArrayOutputStream();
++        int readByte;
++        while ((readByte = bufferedCustomInputStream0.read()) != -1) {
++            baos.write(readByte);
++        }
++        String result = baos.toString("UTF-8");
++        assertEquals("Line1\rLine2", result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

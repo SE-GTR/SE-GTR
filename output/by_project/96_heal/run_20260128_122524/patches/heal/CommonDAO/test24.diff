@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/heal/util/CommonDAO_ESTest.java
++++ b/evosuite-tests/org/heal/util/CommonDAO_ESTest.java
+@@ -356,16 +356,22 @@
+          verifyException("com.microsoft.jdbc.base.BaseConnection", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      CommonDAO commonDAO0 = new CommonDAO();
+-      TaxonPathBean taxonPathBean0 = new TaxonPathBean();
+-      taxonPathBean0.setTaxonPathId("");
+-      SQLServerConnection sQLServerConnection0 = new SQLServerConnection();
+-      commonDAO0.saveTaxonPath(taxonPathBean0, (Connection) sQLServerConnection0);
+-      assertNull(taxonPathBean0.getKeyword());
+-  }
++@Test(timeout = 4000)
++public void test24() throws Throwable {
++    CommonDAO commonDAO0 = new CommonDAO();
++    TaxonPathBean taxonPathBean0 = new TaxonPathBean();
++    taxonPathBean0.setTaxonPathId("");
++    // Verify that the setter correctly updates the field
++    assertEquals("", taxonPathBean0.getTaxonPathId());
++
++    SQLServerConnection sQLServerConnection0 = new SQLServerConnection();
++    commonDAO0.saveTaxonPath(taxonPathBean0, (Connection) sQLServerConnection0);
++    // Ensure the save operation does not unintentionally modify the identifier
++    assertEquals("", taxonPathBean0.getTaxonPathId());
++    // Confirm that the keyword remains null as expected
++    assertNull(taxonPathBean0.getKeyword());
++}
++
+ @Test(timeout = 4000)
+ public void test25() throws Throwable {
+     SQLServerConnection conn = new SQLServerConnection();

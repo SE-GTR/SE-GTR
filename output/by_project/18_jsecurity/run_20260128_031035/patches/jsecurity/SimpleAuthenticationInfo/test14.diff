@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jsecurity/authc/SimpleAuthenticationInfo_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/SimpleAuthenticationInfo_ESTest.java
+@@ -147,11 +147,17 @@
+       SimpleAccount simpleAccount0 = new SimpleAccount(simpleAuthenticationInfo0, simpleAuthenticationInfo0, "");
+       assertFalse(simpleAccount0.isLocked());
+   }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    simpleAuthenticationInfo0 = new SimpleAuthenticationInfo("yKk", "yKk", "yKk");
++    Object credentialsBefore = simpleAuthenticationInfo0.getCredentials();
++    PrincipalCollection principalsBefore = simpleAuthenticationInfo0.getPrincipals();
+ 
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-    simpleAuthenticationInfo0 = new SimpleAuthenticationInfo("yKk", "yKk", "yKk");
+-      simpleAuthenticationInfo0.merge(simpleAuthenticationInfo0);
+-      simpleAuthenticationInfo0.merge(simpleAuthenticationInfo0);
+-  }
++    simpleAuthenticationInfo0.merge(simpleAuthenticationInfo0);
++    simpleAuthenticationInfo0.merge(simpleAuthenticationInfo0);
++
++    assertSame(credentialsBefore, simpleAuthenticationInfo0.getCredentials());
++    assertEquals(principalsBefore, simpleAuthenticationInfo0.getPrincipals());
+ }
++
++}

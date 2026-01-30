@@ -1,0 +1,38 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -59,20 +59,21 @@
+     int highest = handballModel0.getHighestSequenceNumber();
+     assertEquals(243, highest);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Offender offender0 = new Offender(1532, 1532);
+-      PassEvent passEvent0 = new PassEvent(offender0, 1532, 1);
+-      Offender offender1 = new Offender(1532, 1532);
+-      passEvent0.setDestinationPlayer(offender1, true);
+-      handballModel0.addMoveEvent(passEvent0);
+-      handballModel0.removePlayer(offender1);
+-      assertEquals(0, Offender.counter);
+-      assertEquals(0, handballModel0.getAcutalSequenceNr());
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        Offender offender0 = new Offender(1532, 1532);
++        PassEvent passEvent0 = new PassEvent(offender0, 1532, 1);
++        Offender offender1 = new Offender(1532, 1532);
++        passEvent0.setDestinationPlayer(offender1, true);
++        handballModel0.addMoveEvent(passEvent0);
++        int seqBefore = handballModel0.getAcutalSequenceNr();
++        handballModel0.removePlayer(offender1);
++        int seqAfter = handballModel0.getAcutalSequenceNr();
++        assertEquals(seqBefore, seqAfter);
++        assertEquals(0, seqAfter);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

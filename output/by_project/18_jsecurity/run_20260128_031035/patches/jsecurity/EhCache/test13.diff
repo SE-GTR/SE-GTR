@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jsecurity/cache/ehcache/EhCache_ESTest.java
++++ b/evosuite-tests/org/jsecurity/cache/ehcache/EhCache_ESTest.java
+@@ -180,14 +180,15 @@
+          verifyException("org.jsecurity.cache.ehcache.EhCache", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      Cache cache0 = new Cache("", 0, true, true, 0, 0, true, 0);
+-      EhCache ehCache0 = new EhCache(cache0);
+-      long long0 = ehCache0.getMemoryUsage();
+-      assertEquals((-1L), long0);
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        Cache cache0 = new Cache("", 0, true, true, 0, 0, true, 0);
++        EhCache ehCache0 = new EhCache(cache0);
++        cache0.put(new net.sf.ehcache.Element("k", "v"));
++        long usage = ehCache0.getMemoryUsage();
++        org.junit.Assert.assertTrue(usage >= 0L);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

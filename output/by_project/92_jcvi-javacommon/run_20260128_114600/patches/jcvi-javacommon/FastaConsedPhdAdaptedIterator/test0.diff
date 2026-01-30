@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/FastaConsedPhdAdaptedIterator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/FastaConsedPhdAdaptedIterator_ESTest.java
+@@ -40,29 +40,22 @@
+     phredQuality0 = PhredQuality.valueOf(0);
+     streamingIterator0 = (StreamingIterator<NucleotideFastaRecord>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        streamingIterator0 = mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++        NucleotideFastaRecord record = mock(NucleotideFastaRecord.class);
++        when(record.getId()).thenReturn("test");
++        when(streamingIterator0.hasNext()).thenReturn(true);
++        when(streamingIterator0.next()).thenReturn(record);
++        mockFile0 = new MockFile("");
++        instant0 = MockInstant.ofEpochSecond(0L);
++        date0 = Date.from(instant0);
++        phredQuality0 = PhredQuality.valueOf(0);
++        FastaConsedPhdAdaptedIterator iterator = new FastaConsedPhdAdaptedIterator(streamingIterator0, mockFile0, date0, phredQuality0);
++        Object result = iterator.next();
++        assertNotNull(result);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    streamingIterator0 = (StreamingIterator<NucleotideFastaRecord>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(streamingIterator0).next();
+-    mockFile0 = new MockFile("");
+-    instant0 = MockInstant.ofEpochSecond(0L);
+-    date0 = Date.from(instant0);
+-    phredQuality0 = PhredQuality.valueOf(0);
+-      FastaConsedPhdAdaptedIterator fastaConsedPhdAdaptedIterator0 = new FastaConsedPhdAdaptedIterator(streamingIterator0, mockFile0, date0, phredQuality0);
+-      // Undeclared exception!
+-      try { 
+-        fastaConsedPhdAdaptedIterator0.next();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.assembly.clc.cas.consed.FastaConsedPhdAdaptedIterator", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

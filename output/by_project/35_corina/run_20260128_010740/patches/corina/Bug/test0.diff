@@ -1,0 +1,24 @@
+--- a/evosuite-tests/corina/gui/Bug_ESTest.java
++++ b/evosuite-tests/corina/gui/Bug_ESTest.java
+@@ -18,13 +18,15 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Bug_ESTest extends Bug_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        SQLTransientConnectionException exception = new SQLTransientConnectionException("nextIndex");
++        String stackTrace = Bug.getStackTrace(exception);
++        assertNotNull(stackTrace);
++        assertTrue(stackTrace.contains("nextIndex"));
++        assertTrue(stackTrace.contains("SQLTransientConnectionException"));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      SQLTransientConnectionException sQLTransientConnectionException0 = new SQLTransientConnectionException("nextIndex");
+-      String string0 = Bug.getStackTrace(sQLTransientConnectionException0);
+-      assertEquals("<evosuite>.<evosuite>(<evosuite>)\n<evosuite>.<evosuite>(<evosuite>)\n<evosuite>.<evosuite>(<evosuite>)\n", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

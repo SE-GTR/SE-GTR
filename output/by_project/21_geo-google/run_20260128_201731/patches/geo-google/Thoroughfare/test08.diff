@@ -1,0 +1,33 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Thoroughfare_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Thoroughfare_ESTest.java
+@@ -95,14 +95,22 @@
+       List<Object> list1 = thoroughfare0.getAny();
+       assertSame(list1, list0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      Thoroughfare thoroughfare0 = new Thoroughfare();
+-      List<ThoroughfareNameType> list0 = thoroughfare0.getThoroughfareName();
+-      List<ThoroughfareNameType> list1 = thoroughfare0.getThoroughfareName();
+-      assertSame(list1, list0);
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        Thoroughfare thoroughfare = new Thoroughfare();
++        List<ThoroughfareNameType> listBefore = thoroughfare.getThoroughfareName();
++        int initialSize = listBefore.size();
++
++        // Act: modify the list returned by the getter
++        ThoroughfareNameType newName = new ThoroughfareNameType();
++        listBefore.add(newName);
++
++        // Assert: the modification is reflected in subsequent calls
++        List<ThoroughfareNameType> listAfter = thoroughfare.getThoroughfareName();
++        assertEquals(initialSize + 1, listAfter.size());
++        assertSame(newName, listAfter.get(listAfter.size() - 1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

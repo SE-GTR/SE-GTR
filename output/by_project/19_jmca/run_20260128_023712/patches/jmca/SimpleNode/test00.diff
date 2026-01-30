@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
+@@ -18,15 +18,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SimpleNode_ESTest extends SimpleNode_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      SimpleNode simpleNode0 = new SimpleNode(37);
+-      simpleNode0.jjtAddChild(simpleNode0, 37);
+-      StringWriter stringWriter0 = new StringWriter();
+-      // Undeclared exception!
+-      simpleNode0.dump("NameList", stringWriter0);
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        SimpleNode simpleNode0 = new SimpleNode(37);
++        // Verify that adding a child updates the children structure
++        simpleNode0.jjtAddChild(simpleNode0, 37);
++        assertEquals(38, simpleNode0.jjtGetNumChildren());
++        assertSame(simpleNode0, simpleNode0.jjtGetChild(37));
++        // Verify that dump writes the provided prefix to the writer
++        StringWriter stringWriter0 = new StringWriter();
++        simpleNode0.dump("NameList", stringWriter0);
++        String dumpResult = stringWriter0.toString();
++        assertTrue(dumpResult.contains("NameList"));
++    }
++
+ @Test(timeout = 4000)
+     public void test01() throws Throwable {
+         SimpleNode simpleNode0 = new SimpleNode(0);

@@ -1,0 +1,89 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/probe/plugins/measurement/WatchDog_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/probe/plugins/measurement/WatchDog_ESTest.java
+@@ -76,38 +76,55 @@
+          verifyException("fi.vtt.noen.mfw.bundle.probe.plugins.measurement.WatchDog", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        HashMap<Long, WatchedTask> hashMap0 = new HashMap<Long, WatchedTask>();
++        Long long0 = Long.valueOf(0L);
++        Callable<WatchedTask> callable0 = (Callable<WatchedTask>) mock(Callable.class, new ViolatedAssumptionAnswer());
++        FutureTask<WatchedTask> futureTask0 = new FutureTask<WatchedTask>(callable0);
++        BundleContext bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++        doReturn((ServiceReference[]) null).when(bundleContext0).getServiceReferences(anyString(), anyString());
++        Boolean boolean0 = Boolean.valueOf(false);
++        ServerAgentImpl serverAgentImpl0 = new ServerAgentImpl(bundleContext0, 1142, boolean0);
++        TestProbe1 testProbe1_0 = new TestProbe1();
++        MeasurementRequest measurementRequest0 = new MeasurementRequest(serverAgentImpl0, "/s=", testProbe1_0, 0L, 1142);
++        measurementRequest0.toString();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      HashMap<Long, WatchedTask> hashMap0 = new HashMap<Long, WatchedTask>();
+-      Long long0 = new Long(0L);
+-      Callable<WatchedTask> callable0 = (Callable<WatchedTask>) mock(Callable.class, new ViolatedAssumptionAnswer());
+-      FutureTask<WatchedTask> futureTask0 = new FutureTask<WatchedTask>(callable0);
+-      BundleContext bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((ServiceReference[]) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-      Boolean boolean0 = Boolean.valueOf(false);
+-      ServerAgentImpl serverAgentImpl0 = new ServerAgentImpl(bundleContext0, 1142, boolean0);
+-      TestProbe1 testProbe1_0 = new TestProbe1();
+-      MeasurementRequest measurementRequest0 = new MeasurementRequest(serverAgentImpl0, "/s=", testProbe1_0, 0L, 1142);
+-      measurementRequest0.toString();
+-    blackboardImpl0 = new BlackboardImpl();
+-      Properties properties0 = new Properties();
+-      testProbe1_0.init(properties0);
+-      testProbe1_0.getInformation();
+-      blackboardImpl0.process(measurementRequest0);
+-      MeasurementTask measurementTask0 = new MeasurementTask(measurementRequest0, blackboardImpl0);
+-      measurementRequest0.toString();
+-      WatchedTask watchedTask0 = new WatchedTask(futureTask0, measurementTask0, hashMap0, false, serverAgentImpl0);
+-      hashMap0.put(long0, watchedTask0);
+-      BlackboardImpl blackboardImpl1 = new BlackboardImpl();
+-      blackboardImpl1.shutdown();
+-      WatchDog watchDog0 = new WatchDog(hashMap0, 0, blackboardImpl1);
+-      watchDog0.shutdown();
+-      watchDog0.run();
+-      watchDog0.run();
+-      watchDog0.run();
+-      watchDog0.run();
+-  }
++        BlackboardImpl blackboardImpl0 = new BlackboardImpl();
++        Properties properties0 = new Properties();
++        testProbe1_0.init(properties0);
++        // verify that init stored the properties (observable via getInformation)
++        Object info = testProbe1_0.getInformation();
++        assertNotNull(info);
++
++        blackboardImpl0.process(measurementRequest0);
++        MeasurementTask measurementTask0 = new MeasurementTask(measurementRequest0, blackboardImpl0);
++        measurementRequest0.toString();
++        WatchedTask watchedTask0 = new WatchedTask(futureTask0, measurementTask0, hashMap0, false, serverAgentImpl0);
++        hashMap0.put(long0, watchedTask0);
++
++        BlackboardImpl blackboardImpl1 = new BlackboardImpl();
++        blackboardImpl1.shutdown();
++        // observable side‑effect of shutdown (disabled flag)
++        assertTrue(blackboardImpl1.isDisabled());
++
++        WatchDog watchDog0 = new WatchDog(hashMap0, 0, blackboardImpl1);
++        watchDog0.shutdown();
++        // after shutdown the watchdog's executor should be shut down
++        assertTrue(watchDog0.isShutdown());
++
++        // run multiple times and verify that the subscription map is unchanged
++        int sizeBefore = hashMap0.size();
++        watchDog0.run();
++        assertEquals(sizeBefore, hashMap0.size());
++        watchDog0.run();
++        assertEquals(sizeBefore, hashMap0.size());
++        watchDog0.run();
++        assertEquals(sizeBefore, hashMap0.size());
++        watchDog0.run();
++        assertEquals(sizeBefore, hashMap0.size());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

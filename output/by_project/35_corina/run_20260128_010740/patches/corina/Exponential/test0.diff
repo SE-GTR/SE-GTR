@@ -1,0 +1,36 @@
+--- a/evosuite-tests/corina/index/Exponential_ESTest.java
++++ b/evosuite-tests/corina/index/Exponential_ESTest.java
+@@ -25,18 +25,22 @@
+     sample0 = new Sample();
+     exponential0 = new Exponential(sample0);
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        sample0 = new Sample();
++        LinkedList<Integer> linkedList0 = new LinkedList<Integer>();
++        sample0.data = (List) linkedList0;
++        exponential0 = new Exponential(sample0);
++        boolean added = linkedList0.add((Integer) sample0.MR);
++        assertTrue("LinkedList.add should return true", added);
++        exponential0.index();
++        // Verify that the index operation affected the internal state (p) and the undo name.
++        assertEquals("Undo Index", exponential0.getUndoPresentationName());
++        // Assuming Exponential (or its superclass) exposes the fitted parameter p.
++        double pValue = exponential0.getP();
++        assertTrue("Parameter p should be non‑negative after indexing", pValue >= 0.0);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    sample0 = new Sample();
+-      LinkedList<Integer> linkedList0 = new LinkedList<Integer>();
+-      sample0.data = (List) linkedList0;
+-    exponential0 = new Exponential(sample0);
+-      linkedList0.add((Integer) sample0.MR);
+-      exponential0.index();
+-      assertEquals("Undo Index", exponential0.getUndoPresentationName());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

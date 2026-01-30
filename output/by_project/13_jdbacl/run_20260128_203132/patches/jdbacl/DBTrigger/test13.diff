@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DBTrigger_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DBTrigger_ESTest.java
+@@ -127,14 +127,19 @@
+         // Verify that the trigger has a name assigned by the constructor
+         assertNotNull(dBTrigger0.getName());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      DBTrigger dBTrigger0 = new DBTrigger(". types = ", (DBSchema) null);
+-      dBTrigger0.setWhenClause(". types = ");
+-      assertEquals(". types = ", dBTrigger0.getWhenClause());
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        DBTrigger trigger = new DBTrigger(". types = ", null);
++        String initialClause = ". types = ";
++        trigger.setWhenClause(initialClause);
++        assertEquals(initialClause, trigger.getWhenClause());
++
++        // Verify that a subsequent change is reflected
++        String updatedClause = "UPDATED CLAUSE";
++        trigger.setWhenClause(updatedClause);
++        assertEquals(updatedClause, trigger.getWhenClause());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

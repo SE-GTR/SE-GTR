@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -750,23 +750,14 @@
+       assertFalse(config0.isDbHelpRequired());
+       assertFalse(config0.isHelpRequired());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test049()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.getCss();
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-u' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = RuntimeException.class)
++    public void test049() throws Throwable {
++        Config config0 = Config.getInstance();
++        String css = config0.getCss();
++        assertNull(css);
++        config0.asList();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test050()  throws Throwable  {

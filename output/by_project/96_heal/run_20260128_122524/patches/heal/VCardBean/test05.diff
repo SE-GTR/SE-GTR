@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/heal/util/VCardBean_ESTest.java
++++ b/evosuite-tests/org/heal/util/VCardBean_ESTest.java
+@@ -59,15 +59,21 @@
+         assertEquals(vCardString, vCardBean0.getVCard());
+         assertNull(vCardBean0.getFax());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      VCardBean vCardBean0 = new VCardBean();
+-      vCardBean0.setVCard("BEGIN:VCARD\nFN:qXw}nWJuW]P qXw}nWJuW]P qXw}nWJuW]P\nN:qXw}nWJuW]P;qXw}nWJuW]P;qXw}nWJuW]P;\nTITLE:BEGIN:VCARDBEGIN:VCARDBEGIN:VCARD\nFN:UBS9*7NHT  UBS9*7NT  ~BIN:{~B;UBS9*7HT ;UBS9*NHT ;\nTILE:;)HNVI~BA^T)\"S\nORG:5SK PFTM%R9,\"\"G\n!MAIL;TYPE=INERNE:3DC'-U\nTEL;:5SK`PMTM%9;\"\"GEND:VCARD\nORG:qXw}nWJuW]P\nEMAIL;TYPE=INTERNET:qXw}nWJuW]P\nEND:VCARD");
++@Test(timeout = 4000)
++  public void test05() throws Throwable {
++      VCardBean vCardBean0 = new VCardBean();
++      String vCard1 = "BEGIN:VCARD\nFN:qXw}nWJuW]P qXw}nWJuW]P qXw}nWJuW]P\nN:qXw}nWJuW]P;qXw}nWJuW]P;qXw}nWJuW]P;\nTITLE:BEGIN:VCARDBEGIN:VCARDBEGIN:VCARD\nFN:UBS9*7NHT  UBS9*7NT  ~BIN:{~B;UBS9*7HT ;UBS9*NHT ;\nTILE:;)HNVI~BA^T)\"S\nORG:qXw}nWJuW]P\nEMAIL;TYPE=INTERNET:qXw}nWJuW]P\nEND:VCARD";
++      vCardBean0.setVCard(vCard1);
+       assertEquals("qXw}nWJuW]P", vCardBean0.getOrganization());
+       assertEquals("qXw}nWJuW]P", vCardBean0.getEmail());
+-  }
++
++      // Verify that a subsequent call updates the fields accordingly
++      String vCard2 = "BEGIN:VCARD\nORG:MyOrg\nEMAIL:my@example.com\nEND:VCARD";
++      vCardBean0.setVCard(vCard2);
++      assertEquals("MyOrg", vCardBean0.getOrganization());
++      assertEquals("my@example.com", vCardBean0.getEmail());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/heal/module/oai/provider/basic/BasicResumptionToken_ESTest.java
++++ b/evosuite-tests/org/heal/module/oai/provider/basic/BasicResumptionToken_ESTest.java
+@@ -220,9 +220,19 @@
+       assertEquals(0L, basicResumptionToken0.getCompleteListSize());
+       assertTrue(basicResumptionToken0.queryCompleted());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      BasicResumptionToken.setDelimiter("YYYY-MM-DD");
+-  }
++@Test(timeout = 4000)
++    public void test22() throws Throwable {
++        // Preserve original delimiter to avoid affecting other tests
++        String originalDelimiter = BasicResumptionToken.getDelimiter();
++        try {
++            // Act: change the delimiter
++            BasicResumptionToken.setDelimiter("YYYY-MM-DD");
++            // Assert: the change is observable via the public getter
++            assertEquals("YYYY-MM-DD", BasicResumptionToken.getDelimiter());
++        } finally {
++            // Restore original state
++            BasicResumptionToken.setDelimiter(originalDelimiter);
++        }
++    }
++
+ }

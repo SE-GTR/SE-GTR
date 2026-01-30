@@ -1,0 +1,29 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -448,14 +448,18 @@
+     // Also ensure that their hash codes differ, reinforcing the state change observation.
+     assertNotEquals(data0.hashCode(), data1.hashCode());
+ }
+-
+-@Test(timeout = 4000)
+-  public void test042() throws Throwable {
+-      AddressDetails.PostalServiceElements.SupplementaryPostalServiceData data = new AddressDetails.PostalServiceElements.SupplementaryPostalServiceData();
+-      data.setType("postal");
+-      String result = data.getType();
+-      assertEquals("postal", result);
+-  }
++@Test(timeout = 4000)
++public void test042() throws Throwable {
++    AddressDetails.PostalServiceElements elements = new AddressDetails.PostalServiceElements();
++    AddressDetails.PostalServiceElements.SupplementaryPostalServiceData data =
++            new AddressDetails.PostalServiceElements.SupplementaryPostalServiceData();
++    data.setType("postal");
++    elements.getSupplementaryPostalServiceData().add(data);
++    AddressDetails.PostalServiceElements.SupplementaryPostalServiceData retrieved =
++            elements.getSupplementaryPostalServiceData().get(0);
++    assertEquals("postal", retrieved.getType());
++}
++
+ @Test(timeout = 4000)
+     public void test043() throws Throwable {
+         AddressDetails.PostalServiceElements.SupplementaryPostalServiceData data = new AddressDetails.PostalServiceElements.SupplementaryPostalServiceData();

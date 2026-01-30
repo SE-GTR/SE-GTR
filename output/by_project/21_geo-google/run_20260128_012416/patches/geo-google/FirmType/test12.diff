@@ -1,0 +1,34 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/FirmType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/FirmType_ESTest.java
+@@ -137,14 +137,23 @@
+         assertEquals("fA", firmName.getCode());
+         assertNull(firmName.getType());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      FirmType firmType0 = new FirmType();
+-      firmType0.setPostalCode((PostalCode) null);
+-      assertNull(firmType0.getType());
+-  }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    FirmType firmType0 = new FirmType();
++    // Verify initial state
++    assertNull(firmType0.getType());
++    assertNull(firmType0.getPostalCode());
++
++    // Set a non‑null postal code and verify the side effect
++    PostalCode pc = new PostalCode();
++    firmType0.setPostalCode(pc);
++    assertSame(pc, firmType0.getPostalCode());
++
++    // Reset to null and verify again
++    firmType0.setPostalCode(null);
++    assertNull(firmType0.getPostalCode());
++}
++
+ @Test(timeout = 4000)
+   public void test13() throws Throwable {
+       FirmType firmType = new FirmType();

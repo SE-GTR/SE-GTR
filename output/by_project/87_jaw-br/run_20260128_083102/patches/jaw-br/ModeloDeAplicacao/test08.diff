@@ -1,0 +1,33 @@
+--- a/evosuite-tests/jaw/template/ModeloDeAplicacao_ESTest.java
++++ b/evosuite-tests/jaw/template/ModeloDeAplicacao_ESTest.java
+@@ -86,15 +86,23 @@
+         int comparisonResult = modeloDeAplicacao0.compareTo(modeloDeAplicacao1);
+         assertEquals(0, comparisonResult);
+     }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        ModeloDeAplicacao modeloDeAplicacao0 = new ModeloDeAplicacao();
++        // Observe the initial templates list
++        List<TemplateJaw> list0 = modeloDeAplicacao0.getTemplates();
++        // Set the same list back and verify the side‑effect is observable
++        modeloDeAplicacao0.setTemplates(list0);
++        assertSame(list0, modeloDeAplicacao0.getTemplates());
+ 
++        // Verify default name
++        assertEquals("", modeloDeAplicacao0.getNome());
+ 
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      ModeloDeAplicacao modeloDeAplicacao0 = new ModeloDeAplicacao();
+-      List<TemplateJaw> list0 = modeloDeAplicacao0.getTemplates();
+-      modeloDeAplicacao0.setTemplates(list0);
+-      assertEquals("", modeloDeAplicacao0.getNome());
+-  }
++        // Exercise non‑trivial behavior: compareTo should consider two default instances equal
++        ModeloDeAplicacao other = new ModeloDeAplicacao();
++        assertEquals(0, modeloDeAplicacao0.compareTo(other));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

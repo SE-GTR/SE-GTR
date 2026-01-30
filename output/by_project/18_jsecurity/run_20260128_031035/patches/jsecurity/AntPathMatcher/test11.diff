@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jsecurity/util/AntPathMatcher_ESTest.java
++++ b/evosuite-tests/org/jsecurity/util/AntPathMatcher_ESTest.java
+@@ -98,15 +98,18 @@
+     boolean different = antPathMatcher0.matchStart("pattern", "other");
+     assertFalse(different);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-    antPathMatcher0 = new AntPathMatcher();
+-      antPathMatcher0.setPathSeparator("");
+-      boolean boolean0 = antPathMatcher0.match("/!*/", "/");
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        AntPathMatcher matcher = new AntPathMatcher();
++        // Verify default separator behavior
++        boolean before = matcher.match("/test/*", "/test/file");
++        assertTrue(before);
++        // Change separator to empty string and verify the effect on matching
++        matcher.setPathSeparator("");
++        boolean after = matcher.match("/test/*", "/test/file");
++        assertFalse(after);
++    }
++
+ @Test(timeout = 4000)
+ public void test12() throws Throwable {
+     AntPathMatcher matcher = new AntPathMatcher();

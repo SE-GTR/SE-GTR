@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
+@@ -106,16 +106,20 @@
+                  output.contains(identifier));
+       assertFalse("Dump output should not be empty", output.isEmpty());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      SimpleNode simpleNode0 = new SimpleNode(21);
+-      simpleNode0.setIdentifier(">");
+-      StringWriter stringWriter0 = new StringWriter();
+-      simpleNode0.dump(">", stringWriter0);
+-      assertEquals("<MethodDeclaration>\n  <identifier>*gt</identifier>\n</MethodDeclaration>\n", stringWriter0.toString());
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        SimpleNode simpleNode0 = new SimpleNode(21);
++        simpleNode0.setIdentifier(">");
++        StringWriter stringWriter0 = new StringWriter();
++        // Verify writer is initially empty (before side‑effect)
++        assertEquals("", stringWriter0.toString());
++        // Perform the void operation whose side‑effect we want to observe
++        simpleNode0.dump(">", stringWriter0);
++        // Verify the side‑effect on the writer
++        assertEquals("<MethodDeclaration>\n  <identifier>*gt</identifier>\n</MethodDeclaration>\n",
++                stringWriter0.toString());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

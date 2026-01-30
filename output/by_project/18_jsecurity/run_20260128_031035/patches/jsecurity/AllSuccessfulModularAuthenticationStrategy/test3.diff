@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jsecurity/authc/pam/AllSuccessfulModularAuthenticationStrategy_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/pam/AllSuccessfulModularAuthenticationStrategy_ESTest.java
+@@ -81,12 +81,33 @@
+       } catch(RuntimeException e) {
+       }
+   }
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
++      Realm stubRealm = new Realm() {
++          @Override
++          public String getName() {
++              return "stubRealm";
++          }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      AuthenticationInfo authenticationInfo0 = allSuccessfulModularAuthenticationStrategy0.afterAttempt(simpleAccountRealm0, (AuthenticationToken) null, simpleAuthenticationInfo0, simpleAuthenticationInfo0, (Throwable) null);
+-      assertSame(simpleAuthenticationInfo0, authenticationInfo0);
++          @Override
++          public AuthenticationInfo getAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
++              return null;
++          }
++
++          @Override
++          public org.jsecurity.authz.AuthorizationInfo getAuthorizationInfo(org.jsecurity.subject.PrincipalCollection principals) {
++              return null;
++          }
++      };
++      AuthenticationInfo result = allSuccessfulModularAuthenticationStrategy0.afterAttempt(
++              stubRealm,
++              null,
++              simpleAuthenticationInfo0,
++              simpleAuthenticationInfo0,
++              null);
++      assertNotNull(result);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

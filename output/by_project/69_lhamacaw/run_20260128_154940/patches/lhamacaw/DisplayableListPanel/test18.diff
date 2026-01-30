@@ -1,0 +1,35 @@
+--- a/evosuite-tests/macaw/util/DisplayableListPanel_ESTest.java
++++ b/evosuite-tests/macaw/util/DisplayableListPanel_ESTest.java
+@@ -239,17 +239,21 @@
+     // Verify that unrelated keys are not present, strengthening the test's oracle
+     assertNull(sessionProperties0.getProperty("nonexistentKey"));
+ }
+-
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      SessionProperties sessionProperties0 = new SessionProperties();
+-      User user0 = new User();
+-      sessionProperties0.setProperty("currentUser", user0);
+-      DisplayableListPanel displayableListPanel0 = new DisplayableListPanel(sessionProperties0, (DisplayableListParentForm) null, "securityService", false, false);
+-      displayableListPanel0.setListOwnerName("database");
+-  }
++@Test(timeout = 4000)
++public void test18() throws Throwable {
++    SessionProperties sessionProperties0 = new SessionProperties();
++    User user0 = new User();
++    sessionProperties0.setProperty("currentUser", user0);
++    // verify that the property was stored correctly
++    assertSame(user0, sessionProperties0.getProperty("currentUser"));
++    DisplayableListPanel displayableListPanel0 = new DisplayableListPanel(sessionProperties0, (DisplayableListParentForm) null, "securityService", false, false);
++    // initially the owner name should be null
++    assertNull(displayableListPanel0.getListOwnerName());
++    displayableListPanel0.setListOwnerName("database");
++    // verify that the owner name was updated
++    assertEquals("database", displayableListPanel0.getListOwnerName());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

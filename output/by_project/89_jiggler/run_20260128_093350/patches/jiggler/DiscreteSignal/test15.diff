@@ -1,0 +1,33 @@
+--- a/evosuite-tests/jigl/signal/DiscreteSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/DiscreteSignal_ESTest.java
+@@ -158,15 +158,21 @@
+     // Verify that the underlying data array length remains unchanged after the call
+     assertEquals(5, shortArray0.length);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      ROI rOI0 = new ROI();
+-      short[] shortArray0 = new short[13];
+-      DiscreteSignal discreteSignal0 = new DiscreteSignal(shortArray0);
+-      discreteSignal0.byteSize(rOI0);
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        ROI rOI0 = new ROI();
++        short[] shortArray0 = new short[13];
++        DiscreteSignal discreteSignal0 = new DiscreteSignal(shortArray0);
++        // capture observable state before the call
++        int beforeLength = discreteSignal0.length;
++        short[] beforeData = discreteSignal0.data;
++        // act
++        discreteSignal0.byteSize(rOI0);
++        // verify that the call does not unexpectedly modify the observable state
++        assertEquals(beforeLength, discreteSignal0.length);
++        assertSame(beforeData, discreteSignal0.data);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

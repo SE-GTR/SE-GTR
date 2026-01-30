@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DBSequence_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DBSequence_ESTest.java
+@@ -126,23 +126,15 @@
+         BigInteger bigInteger1 = dBSequence0.getStartIfNotDefault();
+         assertEquals(bigInteger0, bigInteger1);
+     }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        DBSchema schema = new DBSchema("my_schema");
++        DBSequence seq = new DBSequence("seq1", schema);
++        assertEquals(java.math.BigInteger.ONE, seq.getStart());
++        assertEquals(java.math.BigInteger.ONE, seq.getIncrement());
++        assertNull(seq.getCatalogName());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      DBSchema dBSchema0 = new DBSchema("drop sequence ");
+-    dBSequence0 = null;
+-      try {
+-        dBSequence0 = new DBSequence("<?L;)HNvi(z~ba", dBSchema0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.model.DBSequence", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+     public void test14() throws Throwable {
+         dBSequence0 = new DBSequence("", "", "");

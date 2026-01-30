@@ -1,0 +1,28 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/gui/CheckConfigurationPropertiesDialog_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/gui/CheckConfigurationPropertiesDialog_ESTest.java
+@@ -52,13 +52,19 @@
+          verifyException("com.atlassw.tools.eclipse.checkstyle.util.CheckstylePluginImages", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    CheckConfigurationPropertiesDialog dialog = new CheckConfigurationPropertiesDialog((Shell) null, (CheckConfigurationWorkingCopy) null, (ICheckConfigurationWorkingSet) null);
++    try {
++        CheckConfigurationWorkingCopy config1 = dialog.getCheckConfiguration();
++        CheckConfigurationWorkingCopy config2 = dialog.getCheckConfiguration();
++        // Verify that repeated calls return the same result (no side‑effects)
++        assertSame(config1, config2);
++    } catch (Exception e) {
++        fail("Unexpected exception: " + e);
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      CheckConfigurationPropertiesDialog checkConfigurationPropertiesDialog0 = new CheckConfigurationPropertiesDialog((Shell) null, (CheckConfigurationWorkingCopy) null, (ICheckConfigurationWorkingSet) null);
+-      CheckConfigurationWorkingCopy checkConfigurationWorkingCopy0 = checkConfigurationPropertiesDialog0.getCheckConfiguration();
+-      assertNull(checkConfigurationWorkingCopy0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

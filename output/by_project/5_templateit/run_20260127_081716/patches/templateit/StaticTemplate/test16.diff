@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/templateit/StaticTemplate_ESTest.java
++++ b/evosuite-tests/org/templateit/StaticTemplate_ESTest.java
+@@ -213,20 +213,15 @@
+       staticTemplate0.setStartReference((Reference) null);
+       assertEquals(0, staticTemplate0.getParametersNumber());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      StaticTemplate staticTemplate0 = new StaticTemplate(",", (HSSFSheet) null);
+-      // Undeclared exception!
+-      try { 
+-        staticTemplate0.isRowBroken((-1));
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.templateit.StaticTemplate", e);
+-      }
+-  }
++@Test(timeout = 4000)
++  public void test16() throws Throwable {
++      org.apache.poi.hssf.usermodel.HSSFWorkbook workbook = new org.apache.poi.hssf.usermodel.HSSFWorkbook();
++      HSSFSheet sheet = workbook.createSheet("sheet");
++      StaticTemplate staticTemplate0 = new StaticTemplate(",", sheet);
++      // Verify that calling isRowBroken on a valid (empty) sheet does not throw
++      boolean broken = staticTemplate0.isRowBroken(0);
++      // For an empty sheet the row should not be considered broken
++      assertFalse(broken);
++  }
++
+ }

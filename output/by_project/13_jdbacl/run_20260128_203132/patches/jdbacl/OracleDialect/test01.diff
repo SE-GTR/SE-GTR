@@ -1,0 +1,55 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
+@@ -52,28 +52,30 @@
+          verifyException("org.databene.jdbacl.dialect.OracleDialect", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      Result result0 = new Result(335544346);
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      result0.setParameterData((Object[]) null);
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      DBSchema dBSchema0 = new DBSchema("jG)I");
+-      // Undeclared exception!
+-      try { 
+-        oracleDialect0.queryPackages(dBSchema0, jdbcConnection0);
+-        fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // 0
+-         //
+-         verifyException("org.databene.jdbacl.dialect.OracleDialect", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test01()  throws Throwable  {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        Result result0 = new Result(335544346);
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
++        result0.setParameterData((Object[]) null);
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++        DBSchema dBSchema0 = new DBSchema("jG)I");
++        // Undeclared exception!
++        try { 
++            oracleDialect0.queryPackages(dBSchema0, jdbcConnection0);
++            fail("Expecting exception: ArrayIndexOutOfBoundsException");
++
++        } catch(ArrayIndexOutOfBoundsException e) {
++            //
++            // 0
++            //
++            verifyException("org.databene.jdbacl.dialect.OracleDialect", e);
++            // Assert that the stubbed result is not null to cover its return value
++            assertNotNull(result0);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

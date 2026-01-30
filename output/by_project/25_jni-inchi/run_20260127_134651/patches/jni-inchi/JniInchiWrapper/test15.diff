@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sf/jniinchi/JniInchiWrapper_ESTest.java
++++ b/evosuite-tests/net/sf/jniinchi/JniInchiWrapper_ESTest.java
+@@ -108,21 +108,17 @@
+         JniInchiInput jniInchiInput0 = new JniInchiInput();
+         JniInchiWrapper.getInchi(jniInchiInput0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      try { 
+-        JniInchiWrapper.checkOptions("/P>~`x");
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // Unrecognised InChI option
+-         //
+-         verifyException("net.sf.jniinchi.JniInchiWrapper", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        try {
++            JniInchiWrapper.checkOptions("/P>~`x");
++            fail("Expected an exception to be thrown");
++        } catch (Exception e) {
++            assertTrue("Exception message should indicate an unrecognised option",
++                       e.getMessage() != null && e.getMessage().contains("Unrecognised InChI option"));
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

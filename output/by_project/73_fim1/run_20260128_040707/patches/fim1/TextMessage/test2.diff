@@ -1,0 +1,29 @@
+--- a/evosuite-tests/osa/ora/server/beans/TextMessage_ESTest.java
++++ b/evosuite-tests/osa/ora/server/beans/TextMessage_ESTest.java
+@@ -28,13 +28,20 @@
+       textMessage0.setFromUserId(2599);
+       assertEquals(2599, textMessage0.getFromUserId());
+   }
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
++      TextMessage original = new TextMessage();
++      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++      oos.writeObject(original);
++      oos.flush();
++      byte[] bytes = baos.toByteArray();
++      java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(bytes);
++      java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++      TextMessage deserialized = (TextMessage) ois.readObject();
++      assertEquals(0, deserialized.getToUserId());
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      TextMessage textMessage0 = new TextMessage();
+-      int int0 = textMessage0.getToUserId();
+-      assertEquals(0, int0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

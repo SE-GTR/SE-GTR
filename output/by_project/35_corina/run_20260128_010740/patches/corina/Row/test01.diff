@@ -1,0 +1,45 @@
+--- a/evosuite-tests/corina/browser/Row_ESTest.java
++++ b/evosuite-tests/corina/browser/Row_ESTest.java
+@@ -34,28 +34,20 @@
+       Object object0 = row0.getField("?");
+       assertNull(object0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      Element element0 = new Element("?");
+-      Row row0 = new Row(element0, (Browser) null);
+-      Hashtable<Object, Range> hashtable0 = new Hashtable<Object, Range>();
+-      element0.details = (Map) hashtable0;
+-      Year year0 = new Year();
+-      Range range0 = new Range(year0, year0);
+-      hashtable0.put("?", range0);
+-      // Undeclared exception!
+-      try { 
+-        row0.getField("?");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.MetadataTemplate", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test01() throws Throwable {
++    Element element0 = new Element("?");
++    Row row0 = new Row(element0, (Browser) null);
++    Hashtable<Object, Range> hashtable0 = new Hashtable<>();
++    element0.details = (Map) hashtable0;
++    Year year0 = new Year();
++    Range range0 = new Range(year0, year0);
++    Object previous = hashtable0.put("?", range0);
++    assertNull(previous);
++    // This call is expected to throw NullPointerException because the Browser is null
++    row0.getField("?");
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

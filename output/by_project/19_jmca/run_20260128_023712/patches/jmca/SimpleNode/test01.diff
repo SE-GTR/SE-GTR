@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/SimpleNode_ESTest.java
+@@ -27,16 +27,19 @@
+       // Undeclared exception!
+       simpleNode0.dump("NameList", stringWriter0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      SimpleNode simpleNode0 = new SimpleNode(0);
+-      StringWriter stringWriter0 = new StringWriter(0);
+-      SimpleNode simpleNode1 = new SimpleNode(0);
+-      simpleNode0.jjtAddChild(simpleNode1, 0);
+-      simpleNode0.dump("Annotation", stringWriter0);
+-      assertEquals(1, simpleNode0.jjtGetNumChildren());
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        SimpleNode simpleNode0 = new SimpleNode(0);
++        StringWriter stringWriter0 = new StringWriter(0);
++        SimpleNode simpleNode1 = new SimpleNode(0);
++        int before = simpleNode0.jjtGetNumChildren();
++        simpleNode0.jjtAddChild(simpleNode1, 0);
++        int after = simpleNode0.jjtGetNumChildren();
++        assertTrue(after > before);
++        simpleNode0.dump("Annotation", stringWriter0);
++        assertFalse(stringWriter0.toString().isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

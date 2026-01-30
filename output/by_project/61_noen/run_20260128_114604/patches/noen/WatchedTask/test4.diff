@@ -1,0 +1,37 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/probe/plugins/measurement/WatchedTask_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/probe/plugins/measurement/WatchedTask_ESTest.java
+@@ -107,25 +107,18 @@
+       ServerAgent serverAgent0 = watchedTask0.getServerAgent();
+       assertSame(serverAgent0, serverAgentImpl0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test4() throws Throwable {
+     callable0 = (Callable<WatchedTask>) mock(Callable.class, new ViolatedAssumptionAnswer());
+     futureTask0 = new FutureTask<WatchedTask>(callable0);
+-      HashMap<Long, WatchedTask> hashMap0 = new HashMap<Long, WatchedTask>();
+-      WatchedTask watchedTask0 = new WatchedTask(futureTask0, (MeasurementTask) null, hashMap0, true, (ServerAgent) null);
+-      // Undeclared exception!
+-      try { 
+-        watchedTask0.cancel();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("fi.vtt.noen.mfw.bundle.probe.plugins.measurement.WatchedTask", e);
+-      }
++    HashMap<Long, WatchedTask> hashMap0 = new HashMap<Long, WatchedTask>();
++    MeasurementTask measurementTask0 = mock(MeasurementTask.class);
++    ServerAgent serverAgent0 = mock(ServerAgent.class);
++    WatchedTask watchedTask0 = new WatchedTask(futureTask0, measurementTask0, hashMap0, true, serverAgent0);
++    watchedTask0.cancel();
++    assertTrue(futureTask0.isCancelled());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

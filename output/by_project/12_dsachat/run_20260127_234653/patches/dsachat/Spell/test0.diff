@@ -1,0 +1,30 @@
+--- a/evosuite-tests/dsachat/share/hero/Spell_ESTest.java
++++ b/evosuite-tests/dsachat/share/hero/Spell_ESTest.java
+@@ -14,10 +14,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Spell_ESTest extends Spell_ESTest_scaffolding {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
++      Spell spell0 = new Spell("dsachat.share.hero.Spell", 2, "dsachat.share.hero.Spell");
++      // Serialize the object
++      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++      oos.writeObject(spell0);
++      oos.flush();
++      byte[] serialized = baos.toByteArray();
++      // Deserialize the object
++      java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(serialized));
++      Spell deserialized = (Spell) ois.readObject();
++      // Verify that the deserialized object retains the same name
++      assertEquals(spell0.getName(), deserialized.getName());
++      // Ensure a new instance was created during deserialization
++      assertNotSame(spell0, deserialized);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Spell spell0 = new Spell("dsachat.share.hero.Spell", 2, "dsachat.share.hero.Spell");
+-      assertEquals("dsachat.share.hero.Spell", spell0.getName());
+-  }
+ }

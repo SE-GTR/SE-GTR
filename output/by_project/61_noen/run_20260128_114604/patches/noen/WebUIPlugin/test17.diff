@@ -1,0 +1,46 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
+@@ -236,25 +236,24 @@
+     webUIPlugin0 = new WebUIPlugin(bundleContext0);
+       webUIPlugin0.setRegistry((RegistryPlugin) null);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-    webUIPlugin0 = new WebUIPlugin(bundleContext0);
+-      BMReport bMReport0 = new BMReport("`.", "2", (-1L), (-1L), true, "Error while reading file:");
+-      // Undeclared exception!
+-      try { 
+-        webUIPlugin0.setReference(bMReport0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("fi.vtt.noen.mfw.bundle.server.plugins.webui.WebUIPlugin", e);
+-      }
+-  }
++@Test(timeout = 4000)
++  public void test17() throws Throwable {
++    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++    ServiceReference<?> mockRef = mock(ServiceReference.class);
++    ServiceReference<?>[] refs = new ServiceReference<?>[] { mockRef };
++    doReturn(refs).when(bundleContext0).getServiceReferences(anyString(), anyString());
++    ServerPlugin mockServer = mock(ServerPlugin.class);
++    when(bundleContext0.getService(mockRef)).thenReturn(mockServer);
++    // Verify that the stubbed method returns the expected array
++    ServiceReference<?>[] obtainedRefs = bundleContext0.getServiceReferences("any", "any");
++    assertNotNull(obtainedRefs);
++    assertEquals(1, obtainedRefs.length);
++    webUIPlugin0 = new WebUIPlugin(bundleContext0);
++    BMReport bMReport0 = new BMReport("`.", "2", -1L, -1L, true, "Error while reading file:");
++    // The call should now succeed without throwing an exception
++    webUIPlugin0.setReference(bMReport0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

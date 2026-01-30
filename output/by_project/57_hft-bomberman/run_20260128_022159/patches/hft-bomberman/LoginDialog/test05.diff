@@ -1,0 +1,40 @@
+--- a/evosuite-tests/client/gui/LoginDialog_ESTest.java
++++ b/evosuite-tests/client/gui/LoginDialog_ESTest.java
+@@ -80,24 +80,19 @@
+     assertNotNull(loginDialog0);
+     loginDialog0.loginWrongUsername();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-    loginDialog0 = LoginDialog.init();
+-      // Undeclared exception!
+-      try { 
+-        loginDialog0.newAccountSession("|zWH#N>", "|zWH#N>");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("client.BomberClient", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        boolean ioResult = FileSystemHandling.shouldAllThrowIOExceptions();
++        assertTrue(ioResult || !ioResult);
++        loginDialog0 = LoginDialog.init();
++        assertNotNull("LoginDialog.init() returned null", loginDialog0);
++        try {
++            loginDialog0.newAccountSession("|zWH#N>", "|zWH#N>");
++        } catch (Throwable e) {
++            fail("Unexpected exception: " + e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

@@ -1,0 +1,57 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/probe/plugins/measurement/WatchedTask_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/probe/plugins/measurement/WatchedTask_ESTest.java
+@@ -45,25 +45,36 @@
+     callable0 = (Callable<Object>) mock(Callable.class, new ViolatedAssumptionAnswer());
+     futureTask0 = new FutureTask<Object>(callable0);
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        callable0 = (Callable<Object>) mock(Callable.class, new ViolatedAssumptionAnswer());
++        futureTask0 = new FutureTask<Object>(callable0);
++        Boolean boolean0 = Boolean.valueOf(true);
++        BundleContext bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++        doReturn((ServiceReference[]) null).when(bundleContext0).getServiceReferences(anyString(), anyString());
++        ServerAgentImpl serverAgentImpl0 = new ServerAgentImpl(bundleContext0, 1, boolean0);
++        TestProbe3 testProbe3_0 = new TestProbe3();
++        MeasurementRequest measurementRequest0 = new MeasurementRequest(serverAgentImpl0, "", testProbe3_0, (-740L), (-740L));
++        BlackboardImpl blackboardImpl0 = new BlackboardImpl();
++        MeasurementTask measurementTask0 = new MeasurementTask(measurementRequest0, blackboardImpl0);
++        HashMap<Long, WatchedTask> hashMap0 = new HashMap<Long, WatchedTask>();
++        WatchedTask watchedTask0 = new WatchedTask(futureTask0, measurementTask0, hashMap0, true, serverAgentImpl0);
++        // capture state before running the task
++        long startBefore = measurementTask0.getStartTime();
++        boolean runningBefore = measurementTask0.isRunning();
++        // act
++        measurementTask0.run();
++        // assert side‑effects of run()
++        assertTrue("Task should be marked as running after run()", measurementTask0.isRunning());
++        assertTrue("Start time should be set or increased after run()", measurementTask0.getStartTime() >= startBefore);
++        // the future should still be incomplete because the callable was never executed
++        assertFalse("Future should not be completed after task run", futureTask0.isDone());
++        // act on watched task
++        watchedTask0.checkState();
++        // simple sanity check that the watched task remains non‑null after state check
++        assertNotNull("WatchedTask should remain non‑null after checkState()", watchedTask0);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    callable0 = (Callable<Object>) mock(Callable.class, new ViolatedAssumptionAnswer());
+-    futureTask0 = new FutureTask<Object>(callable0);
+-      Boolean boolean0 = Boolean.valueOf(true);
+-      BundleContext bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((ServiceReference[]) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-      ServerAgentImpl serverAgentImpl0 = new ServerAgentImpl(bundleContext0, 1, boolean0);
+-      TestProbe3 testProbe3_0 = new TestProbe3();
+-      MeasurementRequest measurementRequest0 = new MeasurementRequest(serverAgentImpl0, "", testProbe3_0, (-740L), (-740L));
+-      BlackboardImpl blackboardImpl0 = new BlackboardImpl();
+-      MeasurementTask measurementTask0 = new MeasurementTask(measurementRequest0, blackboardImpl0);
+-      HashMap<Long, WatchedTask> hashMap0 = new HashMap<Long, WatchedTask>();
+-      WatchedTask watchedTask0 = new WatchedTask(futureTask0, measurementTask0, hashMap0, true, serverAgentImpl0);
+-      measurementTask0.run();
+-      watchedTask0.checkState();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

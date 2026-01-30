@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/CIMAttribute_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/CIMAttribute_ESTest.java
+@@ -40,18 +40,25 @@
+     int secondHash = cIMAttribute0.hashCode();
+     assertEquals(firstHash, secondHash);
+   }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        cIMAttribute0 = new CIMAttribute();
++        cIMAttribute1 = new CIMAttribute();
++        assertTrue(cIMAttribute1.equals((Object) cIMAttribute0));
+ 
++        // Verify initial state before mutation
++        assertNull(cIMAttribute1.getMValue());
++        assertNull(cIMAttribute0.getMValue());
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-    cIMAttribute0 = new CIMAttribute();
+-    cIMAttribute1 = new CIMAttribute();
+-      assertTrue(cIMAttribute1.equals((Object)cIMAttribute0));
+-      
+-      cIMAttribute1.setMValue("YJz%`");
+-      boolean boolean0 = cIMAttribute1.equals(cIMAttribute0);
+-      assertFalse(boolean0);
+-  }
++        // Exercise the void method and assert its side‑effect
++        cIMAttribute1.setMValue("YJz%`");
++        assertEquals("YJz%`", cIMAttribute1.getMValue());
++
++        // Equality should now reflect the changed state
++        boolean boolean0 = cIMAttribute1.equals(cIMAttribute0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

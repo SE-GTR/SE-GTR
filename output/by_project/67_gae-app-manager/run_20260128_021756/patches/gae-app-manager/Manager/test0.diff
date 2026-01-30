@@ -1,0 +1,77 @@
+--- a/evosuite-tests/net/sf/gaeappmanager/google/appengine/Manager_ESTest.java
++++ b/evosuite-tests/net/sf/gaeappmanager/google/appengine/Manager_ESTest.java
+@@ -19,58 +19,29 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Manager_ESTest extends Manager_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    Future<?> future = executor.submit(new Runnable(){ 
+-            @Override public void run() { 
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
++    Future<?> future = executor.submit(new Runnable() {
++      @Override
++      public void run() {
+         try {
+-          try { 
++          try {
+             Manager.retrieveAppQuotaDetails((String) null, (String) null, ":>w:8?=e<%z^y^#", ":>w:8?=e<%z^y^#");
+             fail("Expecting exception: SecurityException");
+-          
+-          } catch(SecurityException e) {
+-             //
+-             // Security manager blocks (\"java.net.SocketPermission\" \"200.42.42.0:443\" \"connect,resolve\")
+-             // java.lang.Thread.getStackTrace(Thread.java:1564)
+-             // org.evosuite.runtime.sandbox.MSecurityManager.checkPermission(MSecurityManager.java:424)
+-             // java.lang.SecurityManager.checkConnect(SecurityManager.java:1051)
+-             // java.net.Socket.connect(Socket.java:602)
+-             // sun.security.ssl.SSLSocketImpl.connect(SSLSocketImpl.java:293)
+-             // org.apache.http.conn.ssl.SSLSocketFactory.connectSocket(SSLSocketFactory.java:333)
+-             // org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:123)
+-             // org.apache.http.impl.conn.AbstractPoolEntry.open(AbstractPoolEntry.java:147)
+-             // org.apache.http.impl.conn.AbstractPooledConnAdapter.open(AbstractPooledConnAdapter.java:108)
+-             // org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:415)
+-             // org.apache.http.impl.client.AbstractHttpClient.execute(AbstractHttpClient.java:641)
+-             // org.apache.http.impl.client.AbstractHttpClient.execute(AbstractHttpClient.java:576)
+-             // org.apache.http.impl.client.AbstractHttpClient.execute(AbstractHttpClient.java:554)
+-             // net.sf.gaeappmanager.google.LogonHelper.loginToGoogleAppEngine(LogonHelper.java:62)
+-             // net.sf.gaeappmanager.google.appengine.Manager.retrieveAppQuotaDetails(Manager.java:34)
+-             // sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+-             // sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+-             // sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+-             // java.lang.reflect.Method.invoke(Method.java:498)
+-             // org.evosuite.testcase.statements.MethodStatement$1.execute(MethodStatement.java:256)
+-             // org.evosuite.testcase.statements.AbstractStatement.exceptionHandler(AbstractStatement.java:165)
+-             // org.evosuite.testcase.statements.MethodStatement.execute(MethodStatement.java:219)
+-             // org.evosuite.testcase.execution.TestRunnable.executeStatements(TestRunnable.java:286)
+-             // org.evosuite.testcase.execution.TestRunnable.call(TestRunnable.java:192)
+-             // org.evosuite.testcase.execution.TestRunnable.call(TestRunnable.java:49)
+-             // java.util.concurrent.FutureTask.run(FutureTask.java:266)
+-             // java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+-             // java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+-             // java.lang.Thread.run(Thread.java:750)
+-             //
+-             verifyException("org.evosuite.runtime.sandbox.MSecurityManager", e);
++          } catch (SecurityException e) {
++            // Security manager blocks ("java.net.SocketPermission" "200.42.42.0:443" "connect,resolve")
++            // ... (stack trace omitted for brevity)
++            verifyException("org.evosuite.runtime.sandbox.MSecurityManager", e);
+           }
+-        } catch(Throwable t) {
+-            // Need to catch declared exceptions
++        } catch (Throwable t) {
++          // Need to catch declared exceptions
+         }
+-      } 
++      }
+     });
+-    future.get(4000, TimeUnit.MILLISECONDS);
++    Object result = future.get(4000, TimeUnit.MILLISECONDS);
++    assertNull(result);
+   }
++
+ @Test(timeout = 4000)
+ public void test1() throws Throwable {
+     Manager manager0 = new Manager();

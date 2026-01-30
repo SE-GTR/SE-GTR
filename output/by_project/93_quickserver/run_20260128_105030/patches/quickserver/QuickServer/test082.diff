@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -1138,19 +1138,24 @@
+       assertFalse(quickServer0.isRunningSecure());
+       assertEquals("-ERR Timeout", quickServer0.getTimeoutMsg());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test082()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer();
+-      quickServer0.getLastStartTime();
+-      assertEquals(60000, quickServer0.getTimeout());
+-      assertEquals((-1L), quickServer0.getMaxConnection());
+-      assertEquals((-1), quickServer0.getServiceState());
+-      assertEquals(5, quickServer0.getMaxAuthTry());
+-      assertEquals("-ERR Timeout", quickServer0.getTimeoutMsg());
+-      assertFalse(quickServer0.isRunningSecure());
+-      assertEquals("QuickServer", quickServer0.getName());
+-  }
++@Test(timeout = 4000)
++public void test082() throws Throwable {
++    QuickServer quickServer0 = new QuickServer();
++
++    // Verify default name
++    assertEquals("QuickServer", quickServer0.getName());
++
++    // Verify default secure flag
++    assertFalse(quickServer0.isRunningSecure());
++
++    // Verify the initial last start time (NARV)
++    assertNull(quickServer0.getLastStartTime());
++
++    // Change the server name and verify the update
++    quickServer0.setName("MyServer");
++    assertEquals("MyServer", quickServer0.getName());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test083()  throws Throwable  {

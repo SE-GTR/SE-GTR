@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EERemoteObject_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EERemoteObject_ESTest.java
+@@ -432,14 +432,18 @@
+     int hash2 = obj.hashCode();
+     assertEquals(hash1, hash2);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      J2EERemoteObject j2EERemoteObject0 = new J2EERemoteObject();
+-      j2EERemoteObject0.setStubs(668);
+-      assertEquals(668, j2EERemoteObject0.getStubs());
+-  }
++@Test(timeout = 4000)
++    public void test30() throws Throwable {
++        J2EERemoteObject obj = new J2EERemoteObject();
++        int initialStubs = obj.getStubs();
++        // Ensure the initial value is different from the test value
++        assertNotEquals(668, initialStubs);
++        obj.setStubs(668);
++        // Verify that the setter changed the internal state
++        assertEquals(668, obj.getStubs());
++        assertNotEquals(initialStubs, obj.getStubs());
++    }
++
+ @Test(timeout = 4000)
+   public void test31() throws Throwable {
+       J2EERemoteObject j2EERemoteObject0 = new J2EERemoteObject();

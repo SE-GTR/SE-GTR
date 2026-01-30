@@ -1,0 +1,60 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/gui/battlefield/PlayerDrawing_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/gui/battlefield/PlayerDrawing_ESTest.java
+@@ -356,34 +356,29 @@
+          verifyException("de.outstare.fortbattleplayer.gui.battlefield.CellContent", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      Point point0 = new Point();
+-      CharacterClass characterClass0 = CharacterClass.ADVENTURER;
+-      SimpleSector simpleSector0 = new SimpleSector(0, false, false, 35, 35, false, 35, characterClass0);
+-      SimpleArea simpleArea0 = new SimpleArea(point0, simpleSector0);
+-      CombatantState combatantState0 = new CombatantState(simpleArea0, 35, simpleArea0, false);
+-      CombatantSide combatantSide0 = CombatantSide.ATTACKER;
+-      SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState0, 0, ",qZOqg{z:b-_6N`u", characterClass0, (Weapon) null, ",qZOqg{z:b-_6N`u");
+-      AreaStatistic areaStatistic0 = mock(AreaStatistic.class, new ViolatedAssumptionAnswer());
+-      BattlefieldCell battlefieldCell0 = new BattlefieldCell(simpleArea0, areaStatistic0);
+-      BattlefieldDrawing battlefieldDrawing0 = mock(BattlefieldDrawing.class, new ViolatedAssumptionAnswer());
+-      doReturn(battlefieldCell0, battlefieldCell0).when(battlefieldDrawing0).getCell(any(java.awt.Point.class));
+-      PlayerDrawing playerDrawing0 = new PlayerDrawing(simpleCombatant0, battlefieldDrawing0);
+-      playerDrawing0.mark();
+-      // Undeclared exception!
+-      try { 
+-        playerDrawing0.paintComponent((Graphics) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.outstare.fortbattleplayer.gui.battlefield.PlayerDrawing", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    Point point0 = new Point();
++    CharacterClass characterClass0 = CharacterClass.ADVENTURER;
++    SimpleSector simpleSector0 = new SimpleSector(0, false, false, 35, 35, false, 35, characterClass0);
++    SimpleArea simpleArea0 = new SimpleArea(point0, simpleSector0);
++    CombatantState combatantState0 = new CombatantState(simpleArea0, 35, simpleArea0, false);
++    CombatantSide combatantSide0 = CombatantSide.ATTACKER;
++    SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState0, 0,
++            ",qZOqg{z:b-_6N`u", characterClass0, mock(Weapon.class), ",qZOqg{z:b-_6N`u");
++    AreaStatistic areaStatistic0 = mock(AreaStatistic.class, new ViolatedAssumptionAnswer());
++    BattlefieldCell battlefieldCell0 = new BattlefieldCell(simpleArea0, areaStatistic0);
++    BattlefieldDrawing battlefieldDrawing0 = mock(BattlefieldDrawing.class, new ViolatedAssumptionAnswer());
++    doReturn(battlefieldCell0, battlefieldCell0).when(battlefieldDrawing0).getCell(any(java.awt.Point.class));
++    PlayerDrawing playerDrawing0 = new PlayerDrawing(simpleCombatant0, battlefieldDrawing0);
++    playerDrawing0.mark();
++
++    Graphics graphics0 = mock(Graphics.class);
++    playerDrawing0.paintComponent(graphics0);
++
++    verify(battlefieldDrawing0, atLeastOnce()).getCell(any(java.awt.Point.class));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

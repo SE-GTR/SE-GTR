@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
+@@ -505,18 +505,23 @@
+       assertEquals(0, alertNode1.getParent());
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test33()  throws Throwable  {
+-      AlertNode alertNode0 = new AlertNode();
+-      STATECOLOR sTATECOLOR0 = STATECOLOR.value4;
+-      alertNode0.setHighAlertValue(sTATECOLOR0);
+-      AlertNode alertNode1 = new AlertNode();
+-      boolean boolean0 = alertNode1.equals(alertNode0);
+-      assertFalse(boolean0);
+-      assertEquals(0, alertNode1.getParent());
+-  }
++@Test(timeout = 4000)
++public void test33() throws Throwable {
++    AlertNode alertNode0 = new AlertNode();
++    STATECOLOR sTATECOLOR0 = STATECOLOR.value4;
++    // Verify initial state (highAlertValue should be null or default)
++    assertNull(alertNode0.getHighAlertValue());
++    // Act
++    alertNode0.setHighAlertValue(sTATECOLOR0);
++    // Assert side‑effect of setHighAlertValue
++    assertEquals(sTATECOLOR0, alertNode0.getHighAlertValue());
++    // Ensure other fields remain at their defaults
++    assertEquals(0, alertNode0.getParent());
++    AlertNode alertNode1 = new AlertNode();
++    assertFalse(alertNode1.equals(alertNode0));
++    assertEquals(0, alertNode1.getParent());
++}
++
+ @Test(timeout = 4000)
+ public void test34() throws Throwable {
+     Class<Object> class0 = Object.class;

@@ -1,0 +1,48 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/statistics/BattleStatistics_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/statistics/BattleStatistics_ESTest.java
+@@ -54,23 +54,28 @@
+     List<Combatant> list0 = battleStatistics0.turnOrder(CombatantSide.ATTACKER);
+     assertTrue(list0.isEmpty());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      BattleStatistics battleStatistics0 = new BattleStatistics(0, 0);
+-      battleStatistics0.setRound(0);
+-      CombatantSide combatantSide0 = CombatantSide.DEFENDER;
+-      CharacterClass characterClass0 = CharacterClass.DUELANT;
+-      SimpleSector simpleSector0 = new SimpleSector(0, false, false, 0, 0, false, 0, characterClass0);
+-      SimpleArea simpleArea0 = new SimpleArea(0, 0, simpleSector0);
+-      CombatantState combatantState0 = new CombatantState(simpleArea0, 0, simpleArea0, false);
+-      SimpleWeapon simpleWeapon0 = new SimpleWeapon(0, "C\"uyAvC+! :1#", 0, 0);
+-      SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState0, 0, "C\"uyAvC+! :1#", characterClass0, simpleWeapon0, "C\"uyAvC+! :1#");
+-      battleStatistics0.isOnline(simpleCombatant0, false);
+-      List<Combatant> list0 = battleStatistics0.turnOrder((CombatantSide) null);
+-      assertFalse(list0.isEmpty());
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        BattleStatistics battleStatistics0 = new BattleStatistics(0, 0);
++        // Capture the round number before setting it
++        int roundBefore = battleStatistics0.getCurrentRoundNo();
++        battleStatistics0.setRound(0);
++        // Verify that the round number was updated
++        assertEquals(0, battleStatistics0.getCurrentRoundNo());
++        // Ensure that the round number actually changed (if it was not already 0)
++        assertNotEquals(roundBefore, battleStatistics0.getCurrentRoundNo());
++        CombatantSide combatantSide0 = CombatantSide.DEFENDER;
++        CharacterClass characterClass0 = CharacterClass.DUELANT;
++        SimpleSector simpleSector0 = new SimpleSector(0, false, false, 0, 0, false, 0, characterClass0);
++        SimpleArea simpleArea0 = new SimpleArea(0, 0, simpleSector0);
++        CombatantState combatantState0 = new CombatantState(simpleArea0, 0, simpleArea0, false);
++        SimpleWeapon simpleWeapon0 = new SimpleWeapon(0, "C\"uyAvC+! :1#", 0, 0);
++        SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState0, 0, "C\"uyAvC+! :1#", characterClass0, simpleWeapon0, "C\"uyAvC+! :1#");
++        battleStatistics0.isOnline(simpleCombatant0, false);
++        List<Combatant> list0 = battleStatistics0.turnOrder((CombatantSide) null);
++        assertFalse(list0.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

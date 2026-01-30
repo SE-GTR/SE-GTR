@@ -1,0 +1,42 @@
+--- a/evosuite-tests/de/progra/charting/model/DefaultChartDataModelConstraints_ESTest.java
++++ b/evosuite-tests/de/progra/charting/model/DefaultChartDataModelConstraints_ESTest.java
+@@ -18,21 +18,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DefaultChartDataModelConstraints_ESTest extends DefaultChartDataModelConstraints_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      double[] doubleArray0 = new double[3];
+-      String[] stringArray0 = new String[2];
+-      Number[][] numberArray0 = new Number[1][7];
+-      Number[] numberArray1 = new Number[1];
+-      numberArray1[0] = (Number) (-841.0);
+-      numberArray0[0] = numberArray1;
+-      EditableChartDataModel editableChartDataModel0 = new EditableChartDataModel(numberArray0, doubleArray0, stringArray0);
+-      editableChartDataModel0.setAutoScale(true);
+-      DefaultChartDataModelConstraints defaultChartDataModelConstraints0 = new DefaultChartDataModelConstraints(editableChartDataModel0, 0);
+-      // Undeclared exception!
+-      defaultChartDataModelConstraints0.getMaximumColumnValue();
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        double[] doubleArray0 = new double[3];
++        String[] stringArray0 = new String[2];
++        Number[][] numberArray0 = new Number[1][7];
++        Number[] numberArray1 = new Number[1];
++        numberArray1[0] = (Number) (-841.0);
++        numberArray0[0] = numberArray1;
++        EditableChartDataModel editableChartDataModel0 = new EditableChartDataModel(numberArray0, doubleArray0, stringArray0);
++        editableChartDataModel0.setAutoScale(true);
++        // verify side‑effect of setAutoScale
++        assertTrue(editableChartDataModel0.isAutoScale());
++        DefaultChartDataModelConstraints defaultChartDataModelConstraints0 = new DefaultChartDataModelConstraints(editableChartDataModel0, 0);
++        double maxValue = defaultChartDataModelConstraints0.getMaximumColumnValue();
++        // verify return value is a valid finite number
++        assertTrue(Double.isFinite(maxValue));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

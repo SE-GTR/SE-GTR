@@ -1,0 +1,48 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -426,20 +426,31 @@
+     boolean boolean0 = j2EEEJBSession1.equals(j2EEEJBSession0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      j2EEEJBSession1.setStartTime("A&j");
+-      assertFalse(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      
+-      j2EEEJBSession0.setStartTime("A&j");
+-      boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
+-      assertTrue(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
++        J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
++
++        // initial state should have no start time
++        assertNull(j2EEEJBSession1.getStartTime());
++
++        // set and verify start time on the first instance
++        j2EEEJBSession1.setStartTime("A&j");
++        assertEquals("A&j", j2EEEJBSession1.getStartTime());
++
++        // objects differ because only one has the start time set
++        assertFalse(j2EEEJBSession1.equals((Object) j2EEEJBSession0));
++
++        // set and verify start time on the second instance
++        j2EEEJBSession0.setStartTime("A&j");
++        assertEquals("A&j", j2EEEJBSession0.getStartTime());
++
++        // now both objects should be equal
++        boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
++        assertTrue(j2EEEJBSession1.equals((Object) j2EEEJBSession0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

@@ -1,0 +1,93 @@
+--- a/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
+@@ -201,61 +201,35 @@
+     assertEquals(0, roi.uy());
+     assertEquals(0, roi.ux());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(1, 1);
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      
+-      ROI rOI0 = new ROI();
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(1, rOI0.Y());
+-      
+-      Integer integer0 = JLayeredPane.DRAG_LAYER;
+-      assertEquals(400, (int)integer0);
+-      
+-      Image<Integer> image0 = interpolatedGrayImage0.clear(integer0);
+-      assertEquals(400, interpolatedGrayImage0.addSum());
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(160000L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(400, interpolatedGrayImage0.absSum());
+-      assertEquals(1, image0.X());
+-      assertEquals(1, image0.Y());
+-      assertSame(interpolatedGrayImage0, image0);
+-      
+-      InterpolatedGrayImage interpolatedGrayImage1 = (InterpolatedGrayImage)interpolatedGrayImage0.divide(6, rOI0);
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(4356L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(66, interpolatedGrayImage0.absSum());
+-      assertEquals(66, interpolatedGrayImage0.addSum());
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage1.getInterpolationMethod());
+-      assertEquals(1, interpolatedGrayImage1.X());
+-      assertEquals(1, interpolatedGrayImage1.Y());
+-      assertEquals(4356L, interpolatedGrayImage1.sqrSum());
+-      assertEquals(66, interpolatedGrayImage1.addSum());
+-      assertEquals(66, interpolatedGrayImage1.absSum());
+-      assertSame(interpolatedGrayImage0, interpolatedGrayImage1);
+-      assertSame(interpolatedGrayImage0, image0);
+-      assertSame(interpolatedGrayImage1, interpolatedGrayImage0);
+-      assertSame(interpolatedGrayImage1, image0);
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    InterpolatedGrayImage img = new InterpolatedGrayImage(1, 1);
++    assertEquals(1, img.X());
++    assertEquals(1, img.Y());
++    assertEquals(InterpolationMethod.NEIGHBOR, img.getInterpolationMethod());
++
++    ROI roi = new ROI();
++    assertEquals(0, roi.ly());
++    assertEquals(0, roi.lx());
++    assertEquals(0, roi.ux());
++    assertEquals(0, roi.uy());
++
++    Integer layer = JLayeredPane.DRAG_LAYER;
++    assertEquals(400, (int) layer);
++
++    Image<Integer> cleared = img.clear(layer);
++    assertEquals(400, img.addSum());
++    assertEquals(160000L, img.sqrSum());
++    assertEquals(400, img.absSum());
++    assertSame(img, cleared);
++
++    InterpolatedGrayImage divided = (InterpolatedGrayImage) img.divide(6, roi);
++    assertEquals(66, divided.addSum());
++    assertEquals(66, divided.absSum());
++    assertEquals(4356L, divided.sqrSum());
++    assertSame(img, divided);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

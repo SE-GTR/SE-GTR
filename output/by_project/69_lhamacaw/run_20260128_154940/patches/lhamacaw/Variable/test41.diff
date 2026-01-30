@@ -1,0 +1,27 @@
+--- a/evosuite-tests/macaw/businessLayer/Variable_ESTest.java
++++ b/evosuite-tests/macaw/businessLayer/Variable_ESTest.java
+@@ -522,11 +522,13 @@
+       assertEquals("0", rawVariable0.getDisplayItemIdentifier());
+       assertFalse(rawVariable0.isCoded());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test41()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test41() throws Throwable {
+       RawVariable rawVariable0 = new RawVariable();
+       rawVariable0.setAlternativeVariable(rawVariable0);
++      // Verify that the alternative variable was set correctly
++      assertSame(rawVariable0, rawVariable0.getAlternativeVariable());
++
+       User user0 = new User();
+       MacawChangeEvent macawChangeEvent0 = Variable.detectChangesInAlternativeVariable(user0, rawVariable0, rawVariable0);
+       assertEquals("Changed variable \"Alternative Variable\", field \"\", from \"\" to \"{3}\".", macawChangeEvent0.getChangeMessage());
+@@ -536,6 +538,7 @@
+       assertFalse(rawVariable0.isCoded());
+       assertEquals(0, macawChangeEvent0.getChangedObjectIdentifier());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test42()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
++++ b/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
+@@ -165,13 +165,23 @@
+       assertEquals("l*`k$Ej]ko4`Xgk#<|", geoUsAddress0.getAddressLine1());
+       assertEquals("", geoUsAddress0.getCounty());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      GeoUsAddress geoUsAddress0 = new GeoUsAddress();
+-      String string0 = geoUsAddress0.getAddressLine1();
+-      assertEquals("", string0);
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        // Use a non‑default constructor to give the object meaningful state
++        geo.google.datamodel.GeoCoordinate coord = new geo.google.datamodel.GeoCoordinate(0.0, 0.0);
++        geo.google.datamodel.GeoUsAddress addr1 = new geo.google.datamodel.GeoUsAddress(
++                "123 Main St", "Apt 4", "Springfield", "County", "IL", "62704", "USA", coord,
++                geo.google.datamodel.GeoAddressAccuracy.UNKNOWN_LOCATION);
++        geo.google.datamodel.GeoUsAddress addr2 = new geo.google.datamodel.GeoUsAddress(
++                "123 Main St", "Apt 4", "Springfield", "County", "IL", "62704", "USA", coord,
++                geo.google.datamodel.GeoAddressAccuracy.UNKNOWN_LOCATION);
++        // Verify that the getter returns the value supplied via the constructor
++        assertEquals("123 Main St", addr1.getAddressLine1());
++        // Verify logical behavior: objects with identical data are equal and have same hash code
++        assertEquals(addr1, addr2);
++        assertEquals(addr1.hashCode(), addr2.hashCode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

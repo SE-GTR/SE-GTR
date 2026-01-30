@@ -1,0 +1,40 @@
+--- a/evosuite-tests/osa/ora/server/beans/BinaryMessage_ESTest.java
++++ b/evosuite-tests/osa/ora/server/beans/BinaryMessage_ESTest.java
+@@ -129,14 +129,31 @@
+         }
+         assertEquals(-1, deserialized.getFromUserId());
+     }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        BinaryMessage binaryMessage0 = new BinaryMessage();
++        binaryMessage0.setTargetType(-26);
++        assertEquals(-26, binaryMessage0.getTargetType());
+ 
++        // Serialize the object
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(binaryMessage0);
++        oos.flush();
++        byte[] serialized = baos.toByteArray();
++        oos.close();
+ 
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      BinaryMessage binaryMessage0 = new BinaryMessage();
+-      binaryMessage0.setTargetType((-26));
+-      assertEquals((-26), binaryMessage0.getTargetType());
+-  }
++        // Deserialize the object
++        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(serialized);
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++        Object deserializedObj = ois.readObject();
++        ois.close();
++
++        assertTrue(deserializedObj instanceof BinaryMessage);
++        BinaryMessage deserialized = (BinaryMessage) deserializedObj;
++        assertEquals(-26, deserialized.getTargetType());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

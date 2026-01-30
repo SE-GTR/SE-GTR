@@ -1,0 +1,44 @@
+--- a/evosuite-tests/osa/ora/server/beans/Group_ESTest.java
++++ b/evosuite-tests/osa/ora/server/beans/Group_ESTest.java
+@@ -24,24 +24,26 @@
+         Group group0 = new Group();
+         assertNull(group0.getUsers());
+     }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        Group group0 = new Group();
++        // Initialize required fields to avoid NullPointerException inside writeToFile
++        group0.setId(1);
++        group0.setName("testGroup");
++        group0.setUsers(new Vector<User>());
+ 
++        StringWriter stringWriter0 = new StringWriter();
++        BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0);
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Group group0 = new Group();
+-      StringWriter stringWriter0 = new StringWriter(0);
+-      BufferedWriter bufferedWriter0 = new BufferedWriter(stringWriter0);
+-      try { 
++        // The method should complete without throwing an exception
+         group0.writeToFile(bufferedWriter0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("osa.ora.server.utils.XMLParser", e);
+-      }
+-  }
++        bufferedWriter0.flush();
++
++        String output = stringWriter0.toString();
++        assertNotNull(output);
++        assertFalse(output.isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

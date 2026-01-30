@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/DateUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/DateUtil_ESTest.java
+@@ -69,9 +69,20 @@
+       Date date1 = DateUtil.getCurrentDate();
+       assertTrue(date1.equals((Object)date0));
+   }
++@Test(timeout = 4000)
++    public void test7() throws Throwable {
++        // Arrange: fix the date to a known value
++        long fixedTime = 123456789L;
++        DateUtil.setDate(new Date(fixedTime));
++        assertEquals(fixedTime, DateUtil.getCurrentTimeMillis());
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      DateUtil.restoreDate();
+-  }
++        // Act: restore to use the system clock
++        DateUtil.restoreDate();
++
++        // Assert: the util now reflects the current system time (within a small tolerance)
++        long utilTime = DateUtil.getCurrentTimeMillis();
++        long systemTime = System.currentTimeMillis();
++        assertTrue(Math.abs(utilTime - systemTime) < 1000L);
++    }
++
+ }

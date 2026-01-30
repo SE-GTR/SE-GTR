@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/util/SWTUtil_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/util/SWTUtil_ESTest.java
+@@ -20,21 +20,25 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SWTUtil_ESTest extends SWTUtil_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        Display display = Display.getDefault();
++        Shell shell = new Shell(display);
++        Text text = null;
++        try {
++            text = new Text(shell, SWT.NONE);
++            SWTUtil.addOnlyDigitInputSupport(text);
++            assertFalse(text.isDisposed());
++        } finally {
++            if (text != null && !text.isDisposed()) {
++                text.dispose();
++            }
++            if (!shell.isDisposed()) {
++                shell.dispose();
++            }
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        SWTUtil.addOnlyDigitInputSupport((Text) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.atlassw.tools.eclipse.checkstyle.util.SWTUtil", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/client/gui/LoginDialog_ESTest.java
++++ b/evosuite-tests/client/gui/LoginDialog_ESTest.java
+@@ -72,23 +72,15 @@
+     loginDialog0 = LoginDialog.init();
+       assertFalse(loginDialog0.getIgnoreRepaint());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-    loginDialog0 = LoginDialog.init();
+-      // Undeclared exception!
+-      try { 
+-        loginDialog0.loginWrongUsername();
+-        fail("Expecting exception: HeadlessException");
+-      
+-      } catch(HeadlessException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.awt.GraphicsEnvironment", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = HeadlessException.class)
++public void test04() throws Throwable {
++    boolean allThrow = FileSystemHandling.shouldAllThrowIOExceptions();
++    assertTrue(allThrow || !allThrow);
++    loginDialog0 = LoginDialog.init();
++    assertNotNull(loginDialog0);
++    loginDialog0.loginWrongUsername();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

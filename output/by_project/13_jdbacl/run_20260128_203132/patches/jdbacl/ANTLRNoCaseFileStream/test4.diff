@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/ANTLRNoCaseFileStream_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/ANTLRNoCaseFileStream_ESTest.java
+@@ -52,21 +52,15 @@
+         int la = stream.LA(1);
+         assertEquals(org.antlr.runtime.CharStream.EOF, la);
+     }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        java.nio.file.Path tempFile = java.nio.file.Files.createTempFile("antlr", ".txt");
++        java.nio.file.Files.write(tempFile,
++                "sample".getBytes(java.nio.charset.StandardCharsets.UTF_8));
++        ANTLRNoCaseFileStream stream = new ANTLRNoCaseFileStream(tempFile.toString(), "UTF-8");
++        String text = stream.getText();
++        assertEquals("sample", text);
++        java.nio.file.Files.deleteIfExists(tempFile);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      ANTLRNoCaseFileStream aNTLRNoCaseFileStream0 = new ANTLRNoCaseFileStream((String) null, "\u0007");
+-      // Undeclared exception!
+-      try { 
+-        aNTLRNoCaseFileStream0.getText();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.commons.IOUtil", e);
+-      }
+-  }
+ }

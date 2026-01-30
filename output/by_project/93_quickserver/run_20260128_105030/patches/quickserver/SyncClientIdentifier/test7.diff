@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/SyncClientIdentifier_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/SyncClientIdentifier_ESTest.java
+@@ -114,14 +114,20 @@
+     syncClientIdentifier0.clientHandlerPool = (QSObjectPool) makeQSObjectPool0;
+     syncClientIdentifier0.findFirstClientById("`");
+ }
++@Test(timeout = 4000)
++    public void test7() throws Throwable {
++        SyncClientIdentifier syncClientIdentifier0 = new SyncClientIdentifier();
++        // Verify initial state before setting the pool
++        assertNull(syncClientIdentifier0.getClientHandlerPool());
+ 
++        BasicObjectPool basicObjectPool0 = new BasicObjectPool();
++        syncClientIdentifier0.setClientHandlerPool(basicObjectPool0);
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      SyncClientIdentifier syncClientIdentifier0 = new SyncClientIdentifier();
+-      BasicObjectPool basicObjectPool0 = new BasicObjectPool();
+-      syncClientIdentifier0.setClientHandlerPool(basicObjectPool0);
+-      ClientHandler clientHandler0 = syncClientIdentifier0.findFirstClientById("");
+-      assertNull(clientHandler0);
+-  }
++        // Assert that the side‑effect of setClientHandlerPool is observable
++        assertSame(basicObjectPool0, syncClientIdentifier0.getClientHandlerPool());
++
++        ClientHandler clientHandler0 = syncClientIdentifier0.findFirstClientById("");
++        assertNull(clientHandler0);
++    }
++
+ }

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/fixsuite/message/info/ComponentInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/ComponentInfo_ESTest.java
+@@ -41,16 +41,25 @@
+     // Verify that the object was created successfully
+     assertNotNull(messageInfo0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      MessageInfo messageInfo0 = new MessageInfo();
+-      messageInfo0.setName(";");
+-      messageInfo0.addComponent(messageInfo0, (-1.0));
+-      messageInfo0.addComponent(messageInfo0, (-1.0));
+-      assertEquals(0, messageInfo0.getId());
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        MessageInfo messageInfo0 = new MessageInfo();
++
++        // Verify that setName actually changes the name field
++        assertNull(messageInfo0.getName());
++        messageInfo0.setName(";");
++        assertEquals(";", messageInfo0.getName());
++
++        // Verify that addComponent registers the component
++        int beforeSize = messageInfo0.getComponents().size();
++        messageInfo0.addComponent(messageInfo0, -1.0);
++        messageInfo0.addComponent(messageInfo0, -1.0);
++        assertEquals(beforeSize + 2, messageInfo0.getComponents().size());
++
++        // Existing assertion retained
++        assertEquals(0, messageInfo0.getId());
++    }
++
+ @Test(timeout = 4000)
+ public void test03() throws Throwable {
+     MessageInfo messageInfo0 = new MessageInfo();

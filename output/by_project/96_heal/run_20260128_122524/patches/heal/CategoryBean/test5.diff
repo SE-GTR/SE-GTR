@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/heal/module/browse/CategoryBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/browse/CategoryBean_ESTest.java
+@@ -47,11 +47,20 @@
+       categoryBean0.setCount(1457);
+       assertEquals(1457, categoryBean0.getCount());
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        CategoryBean categoryBean0 = new CategoryBean();
++        // Verify the initial count is a non‑negative value
++        assertTrue(categoryBean0.getCount() >= 0);
++        // Serialize and deserialize the bean to ensure its state is preserved
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(categoryBean0);
++        oos.flush();
++        byte[] data = baos.toByteArray();
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++        CategoryBean deserialized = (CategoryBean) ois.readObject();
++        assertEquals(categoryBean0.getCount(), deserialized.getCount());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      CategoryBean categoryBean0 = new CategoryBean();
+-      int int0 = categoryBean0.getCount();
+-      assertEquals(0, int0);
+-  }
+ }

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/TableColumn_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/TableColumn_ESTest.java
+@@ -310,26 +310,17 @@
+       assertTrue(tableColumn0.allowsImpliedParents());
+       assertEquals("0", tableColumn0.getDetailedSize());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
+-      doReturn(1, (-1040), 1, 1).when(resultSet0).getInt(anyString());
+-      doReturn((Object) null).when(resultSet0).getObject(anyString());
+-      doReturn("", "", (String) null, "").when(resultSet0).getString(anyString());
+-      TableColumn tableColumn0 = null;
+-      try {
+-        tableColumn0 = new TableColumn((Table) null, resultSet0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.schemaspy.model.TableColumn", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
++        doReturn(1, -1040, 1, 1).when(resultSet0).getInt(anyString());
++        doReturn((Object) null).when(resultSet0).getObject(anyString());
++        doReturn("", "", (String) null, "").when(resultSet0).getString(anyString());
++        Table tableMock = mock(Table.class);
++        TableColumn tableColumn0 = new TableColumn(tableMock, resultSet0);
++        assertNotNull(tableColumn0);
++    }
++
+ public void test17() throws Throwable {
+     TableColumnMeta tableColumnMeta0 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
+     doReturn("").when(tableColumnMeta0).getComments();

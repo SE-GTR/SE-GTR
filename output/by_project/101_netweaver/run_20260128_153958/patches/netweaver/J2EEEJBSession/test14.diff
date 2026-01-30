@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -270,20 +270,25 @@
+     // after modification, sessions should no longer be equal
+     assertFalse(session0.equals(session1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      j2EEEJBSession0.setTransaction("L>{Ks:8!");
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      assertFalse(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      
+-      j2EEEJBSession1.setTransaction("L>{Ks:8!");
+-      boolean boolean0 = j2EEEJBSession1.equals(j2EEEJBSession0);
+-      assertTrue(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
++    assertNull(j2EEEJBSession0.getTransaction());
++    String tx = "L>{Ks:8!";
++    j2EEEJBSession0.setTransaction(tx);
++    assertEquals(tx, j2EEEJBSession0.getTransaction());
++
++    J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
++    assertFalse(j2EEEJBSession1.equals((Object) j2EEEJBSession0));
++
++    j2EEEJBSession1.setTransaction(tx);
++    assertEquals(tx, j2EEEJBSession1.getTransaction());
++
++    boolean boolean0 = j2EEEJBSession1.equals(j2EEEJBSession0);
++    assertTrue(j2EEEJBSession1.equals((Object) j2EEEJBSession0));
++    assertTrue(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

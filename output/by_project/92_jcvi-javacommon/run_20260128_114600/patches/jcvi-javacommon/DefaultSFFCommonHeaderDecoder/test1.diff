@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/DefaultSFFCommonHeaderDecoder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/DefaultSFFCommonHeaderDecoder_ESTest.java
+@@ -43,22 +43,17 @@
+          verifyException("org.jcvi.jillion.trace.sff.DefaultSFFCommonHeaderDecoder", e);
+       }
+   }
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
++    defaultSFFCommonHeaderDecoder0 = DefaultSFFCommonHeaderDecoder.INSTANCE;
++    byte[] byteArray0 = new byte[4];
++    DataInputStream dataInputStream0 = new DataInputStream(new ByteArrayInputStream(byteArray0));
++    try {
++      defaultSFFCommonHeaderDecoder0.decodeHeader(dataInputStream0);
++      fail("Expected SffDecoderException");
++    } catch (SffDecoderException e) {
++      assertTrue(e.getCause() instanceof IOException);
++    }
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    defaultSFFCommonHeaderDecoder0 = DefaultSFFCommonHeaderDecoder.INSTANCE;
+-    byteArray0 = new byte[4];
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      DataInputStream dataInputStream0 = new DataInputStream(byteArrayInputStream0);
+-      try { 
+-        defaultSFFCommonHeaderDecoder0.decodeHeader(dataInputStream0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // error decoding sff file
+-         //
+-         verifyException("org.jcvi.jillion.trace.sff.DefaultSFFCommonHeaderDecoder", e);
+-      }
+-  }
+ }

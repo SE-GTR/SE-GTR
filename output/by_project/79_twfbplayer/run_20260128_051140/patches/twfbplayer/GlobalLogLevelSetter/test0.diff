@@ -1,0 +1,34 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/logging/GlobalLogLevelSetter_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/logging/GlobalLogLevelSetter_ESTest.java
+@@ -17,21 +17,15 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class GlobalLogLevelSetter_ESTest extends GlobalLogLevelSetter_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    Level level0 = Level.FINE;
++    GlobalLogLevelSetter globalLogLevelSetter0 = new GlobalLogLevelSetter(level0);
++    Logger logger = Logger.getLogger("testLogger");
++    // Set an initial level different from the target to ensure the method changes it
++    logger.setLevel(Level.SEVERE);
++    globalLogLevelSetter0.doWithLogger(logger);
++    assertEquals(level0, logger.getLevel());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Level level0 = Level.FINE;
+-      GlobalLogLevelSetter globalLogLevelSetter0 = new GlobalLogLevelSetter(level0);
+-      // Undeclared exception!
+-      try { 
+-        globalLogLevelSetter0.doWithLogger((Logger) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.outstare.fortbattleplayer.logging.GlobalLogLevelSetter", e);
+-      }
+-  }
+ }

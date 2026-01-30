@@ -1,0 +1,30 @@
+--- a/evosuite-tests/mygrid/web/Job_ESTest.java
++++ b/evosuite-tests/mygrid/web/Job_ESTest.java
+@@ -56,16 +56,17 @@
+     assertTrue(hashBefore != hashAfter);
+     assertEquals(0, job0.getProgress());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      Job job0 = new Job();
+-      ArrayOfDependency arrayOfDependency0 = new ArrayOfDependency();
+-      job0.setDependencies(arrayOfDependency0);
+-      job0.hashCode();
+-      assertEquals(0, job0.getProgress());
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        Job job0 = new Job();
++        int hashBefore = job0.hashCode();
++        ArrayOfDependency arrayOfDependency0 = new ArrayOfDependency();
++        job0.setDependencies(arrayOfDependency0);
++        int hashAfter = job0.hashCode();
++        assertNotEquals("Hash code should change after setting dependencies", hashBefore, hashAfter);
++        assertEquals(0, job0.getProgress());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

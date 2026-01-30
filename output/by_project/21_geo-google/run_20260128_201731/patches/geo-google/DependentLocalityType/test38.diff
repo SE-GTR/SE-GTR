@@ -1,0 +1,30 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
+@@ -403,13 +403,20 @@
+     assertSame(postBox, retrieved);
+ }
+ @Test(timeout = 4000)
+-    public void test38() throws Throwable {
+-        DependentLocalityType.DependentLocalityNumber number = new DependentLocalityType.DependentLocalityNumber();
+-        DependentLocalityType dep = new DependentLocalityType();
+-        dep.setDependentLocalityNumber(number);
+-        assertSame(number, dep.getDependentLocalityNumber());
+-        assertNull(dep.getUsageType());
+-    }
++public void test38() throws Throwable {
++    DependentLocalityType.DependentLocalityNumber number = new DependentLocalityType.DependentLocalityNumber();
++    DependentLocalityType dep = new DependentLocalityType();
++    dep.setDependentLocalityNumber(number);
++    assertSame(number, dep.getDependentLocalityNumber());
++    assertNull(dep.getUsageType());
++
++    // Verify mutable list handling
++    AddressLine addressLine = new AddressLine();
++    dep.getAddressLine().add(addressLine);
++    assertTrue(dep.getAddressLine().contains(addressLine));
++    assertEquals(1, dep.getAddressLine().size());
++}
++
+ 
+ @Test(timeout = 4000)
+   public void test39() throws Throwable {

@@ -1,0 +1,47 @@
+--- a/evosuite-tests/macaw/businessLayer/Variable_ESTest.java
++++ b/evosuite-tests/macaw/businessLayer/Variable_ESTest.java
+@@ -24,21 +24,29 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Variable_ESTest extends Variable_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      DerivedVariable derivedVariable0 = new DerivedVariable();
+-      RawVariable rawVariable0 = new RawVariable();
+-      rawVariable0.setAlternativeVariable(derivedVariable0);
+-      RawVariable rawVariable1 = (RawVariable)rawVariable0.clone();
+-      assertFalse(rawVariable1.isCoded());
+-      assertEquals("Unknown", rawVariable1.getCleaningStatus());
+-      assertEquals("Unknown", rawVariable1.getAvailability());
+-      assertFalse(rawVariable1.isNewRecord());
+-      assertEquals("Unknown", rawVariable1.getCategory());
+-      assertEquals(0, rawVariable1.getIdentifier());
+-      assertFalse(rawVariable1.isCleaned());
+-  }
++public void test00() throws Throwable {
++    DerivedVariable derivedVariable0 = new DerivedVariable();
++    RawVariable rawVariable0 = new RawVariable();
++    // Verify initial state before setting alternative variable
++    assertNull(rawVariable0.getAlternativeVariable());
++    // Act
++    rawVariable0.setAlternativeVariable(derivedVariable0);
++    // Assert side‑effect on the original object
++    assertSame(derivedVariable0, rawVariable0.getAlternativeVariable());
++
++    RawVariable rawVariable1 = (RawVariable) rawVariable0.clone();
++    // Assert side‑effect propagated to the clone
++    assertSame(derivedVariable0, rawVariable1.getAlternativeVariable());
++
++    assertFalse(rawVariable1.isCoded());
++    assertEquals("Unknown", rawVariable1.getCleaningStatus());
++    assertEquals("Unknown", rawVariable1.getAvailability());
++    assertFalse(rawVariable1.isNewRecord());
++    assertEquals("Unknown", rawVariable1.getCategory());
++    assertEquals(0, rawVariable1.getIdentifier());
++    assertFalse(rawVariable1.isCleaned());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

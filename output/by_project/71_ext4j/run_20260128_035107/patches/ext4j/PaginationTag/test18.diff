@@ -1,0 +1,41 @@
+--- a/evosuite-tests/net/sourceforge/ext4j/taglib/tag/PaginationTag_ESTest.java
++++ b/evosuite-tests/net/sourceforge/ext4j/taglib/tag/PaginationTag_ESTest.java
+@@ -217,24 +217,20 @@
+       assertEquals("from", paginationTag0.getFromParamName());
+       assertEquals("to", paginationTag0.getToParamName());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-    paginationTag0 = new PaginationTag();
+-      paginationTag0.setUseFromToOnFirstPage(true);
+-      paginationTag0.setTotal(1);
+-      // Undeclared exception!
+-      try { 
+-        paginationTag0.getPagination();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.ext4j.taglib.tag.PaginationTag", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test18() throws Throwable {
++        paginationTag0 = new PaginationTag();
++        paginationTag0.setUseFromToOnFirstPage(true);
++        paginationTag0.setTotal(1);
++        paginationTag0.setUrl("http://example.com");
++        paginationTag0.setByPage(1);
++        paginationTag0.setPages(1);
++        paginationTag0.setFrom(0);
++        Pagination pagination = paginationTag0.getPagination();
++        assertNotNull(pagination);
++        assertEquals(1, pagination.getTotal());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

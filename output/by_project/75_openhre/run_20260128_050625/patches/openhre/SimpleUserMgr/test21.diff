@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/browsersoft/aacs/SimpleUserMgr_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/SimpleUserMgr_ESTest.java
+@@ -172,11 +172,19 @@
+       SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
+       simpleUserMgr0.addUsers();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      SimpleUserMgr.setUserfile("");
+-  }
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        // Preserve the original value to avoid affecting other tests
++        String originalUserfile = SimpleUserMgr.getUserfile();
++        try {
++            SimpleUserMgr.setUserfile("");
++            assertEquals("", SimpleUserMgr.getUserfile());
++        } finally {
++            // Restore original state
++            SimpleUserMgr.setUserfile(originalUserfile);
++        }
++    }
++
+ @Test(timeout = 4000, expected = NullPointerException.class)
+ public void test22() throws Throwable {
+     SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();

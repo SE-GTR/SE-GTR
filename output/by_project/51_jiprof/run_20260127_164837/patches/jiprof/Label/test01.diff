@@ -1,0 +1,48 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
+@@ -34,19 +34,32 @@
+         assertSame(label0, edge0.successor);
+         assertTrue((label1.status & Label.SUBROUTINE) != 0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      Label label0 = new Label();
+-      Label label1 = new Label();
+-      Edge edge0 = new Edge();
+-      edge0.next = edge0;
+-      label1.status = (-2855);
+-      label1.successors = edge0;
+-      // Undeclared exception!
+-      label1.visitSubroutine(label0, (-2514), (-2514));
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        Label label0 = new Label();
++        Label label1 = new Label();
++        Edge edge0 = new Edge();
++        edge0.next = edge0;
++        label1.status = -2855;
++        label1.successors = edge0;
++
++        int beforeStatus = label1.status;
++        Label beforeSuccessor = label1.successor;
++        Object beforeInfo = label1.info;
++
++        label1.visitSubroutine(label0, -2514L, -2514);
++
++        // Verify that the method produced observable side‑effects
++        assertNotEquals("status should change after visitSubroutine", beforeStatus, label1.status);
++        assertTrue("SUBROUTINE flag must be set", (label1.status & Label.SUBROUTINE) != 0);
++        assertEquals("successor should be set to the provided label", label0, label1.successor);
++        assertNotNull("info should be initialized", label1.info);
++        // Ensure that the successors list is still non‑null (it may have been updated)
++        assertNotNull("successors should remain non‑null", label1.successors);
++        // The edge we created should still point to itself
++        assertSame(edge0, edge0.next);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

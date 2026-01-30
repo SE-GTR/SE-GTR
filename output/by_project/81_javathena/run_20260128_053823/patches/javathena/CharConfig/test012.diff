@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/character/data/config/CharConfig_ESTest.java
++++ b/evosuite-tests/org/character/data/config/CharConfig_ESTest.java
+@@ -106,14 +106,18 @@
+     int startWeapon = charConfig0.getStartWeapon();
+     assertTrue(startWeapon >= 0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test012()  throws Throwable  {
+-      CharConfig charConfig0 = new CharConfig();
+-      charConfig0.setStartZeny(3537);
+-      assertEquals(3537, charConfig0.getStartZeny());
+-  }
++@Test(timeout = 4000)
++    public void test012() throws Throwable {
++        CharConfig charConfig0 = new CharConfig();
++        int initialZeny = charConfig0.getStartZeny();
++        charConfig0.setStartZeny(3537);
++        assertEquals(3537, charConfig0.getStartZeny());
++        assertNotEquals(initialZeny, charConfig0.getStartZeny());
++        // Verify that the setter can change the value again
++        charConfig0.setStartZeny(100);
++        assertEquals(100, charConfig0.getStartZeny());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test013()  throws Throwable  {

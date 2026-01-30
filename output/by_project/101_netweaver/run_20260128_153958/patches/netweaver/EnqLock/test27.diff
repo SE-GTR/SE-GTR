@@ -1,0 +1,51 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -426,21 +426,33 @@
+       boolean boolean0 = enqLock1.equals(enqLock0);
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
+-      EnqLock enqLock1 = new EnqLock();
+-      enqLock0.setLockArg("MkL-Hi<<-)qa");
+-      assertFalse(enqLock0.equals((Object)enqLock1));
+-      
+-      enqLock1.setLockArg("MkL-Hi<<-)qa");
+-      boolean boolean0 = enqLock1.equals(enqLock0);
+-      assertTrue(enqLock1.equals((Object)enqLock0));
+-      assertTrue(enqLock0.equals((Object)enqLock1));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test27() throws Throwable {
++    EnqLock enqLock0 = new EnqLock();
++    EnqLock enqLock1 = new EnqLock();
++
++    // Verify initial state of lockArg
++    assertNull(enqLock0.getLockArg());
++
++    // Set lockArg on first instance and assert side‑effect
++    String arg = "MkL-Hi<<-)qa";
++    enqLock0.setLockArg(arg);
++    assertEquals(arg, enqLock0.getLockArg());
++
++    // Objects with different lockArg should not be equal
++    assertFalse(enqLock0.equals((Object) enqLock1));
++
++    // Set same lockArg on second instance and assert side‑effect
++    enqLock1.setLockArg(arg);
++    assertEquals(arg, enqLock1.getLockArg());
++
++    // Now both objects should be equal
++    assertTrue(enqLock0.equals((Object) enqLock1));
++    assertTrue(enqLock1.equals((Object) enqLock0));
++    assertTrue(enqLock0.equals(enqLock1));
++    assertTrue(enqLock1.equals(enqLock0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test28()  throws Throwable  {

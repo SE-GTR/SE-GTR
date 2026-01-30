@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/DefaultChannelGroup_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/DefaultChannelGroup_ESTest.java
+@@ -203,25 +203,27 @@
+          verifyException("org.jcvi.jillion.internal.trace.chromat.DefaultChannelGroup", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test12() throws Throwable {
+       QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+       doReturn((-861L), 3264L).when(qualitySequence0).getLength();
+       PositionSequence positionSequence0 = mock(PositionSequence.class, new ViolatedAssumptionAnswer());
+       DefaultChannel defaultChannel0 = new DefaultChannel(qualitySequence0, positionSequence0);
+       DefaultChannelGroup defaultChannelGroup0 = null;
+       try {
+-        defaultChannelGroup0 = new DefaultChannelGroup(defaultChannel0, defaultChannel0, defaultChannel0, defaultChannel0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // confidences must all have the same length
+-         //
+-         verifyException("org.jcvi.jillion.internal.trace.chromat.DefaultChannelGroup", e);
+-      }
+-  }
++          defaultChannelGroup0 = new DefaultChannelGroup(defaultChannel0, defaultChannel0, defaultChannel0, defaultChannel0);
++          fail("Expecting exception: IllegalArgumentException");
++      } catch (IllegalArgumentException e) {
++          //
++          // confidences must all have the same length
++          //
++          verifyException("org.jcvi.jillion.internal.trace.chromat.DefaultChannelGroup", e);
++          // Assert the stubbed return value to address NARV
++          long length = qualitySequence0.getLength();
++          assertEquals(3264L, length);
++      }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

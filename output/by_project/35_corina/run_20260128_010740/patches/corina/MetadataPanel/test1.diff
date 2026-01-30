@@ -1,0 +1,49 @@
+--- a/evosuite-tests/corina/editor/MetadataPanel_ESTest.java
++++ b/evosuite-tests/corina/editor/MetadataPanel_ESTest.java
+@@ -39,26 +39,27 @@
+       metadataPanel0.sampleMetadataChanged((SampleEvent) null);
+       assertTrue(metadataPanel0.getFocusTraversalKeysEnabled());
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        sample0 = new Sample();
++        Hashtable<Object, String> hashtable0 = new Hashtable<Object, String>();
++        HashMap<Object, String> hashMap0 = new HashMap<Object, String>(hashtable0);
++        sample0.meta = (Map) hashMap0;
++        String previous = hashMap0.put("type", "type");
++        assertNull(previous);
++        assertEquals("type", hashMap0.get("type"));
++        metadataPanel0 = null;
++        try {
++            metadataPanel0 = new MetadataPanel(sample0);
++            fail("Expecting exception: HeadlessException");
++        } catch (HeadlessException e) {
++            //
++            // no message in exception (getMessage() returned null)
++            //
++            verifyException("java.awt.GraphicsEnvironment", e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    sample0 = new Sample();
+-      Hashtable<Object, String> hashtable0 = new Hashtable<Object, String>();
+-      HashMap<Object, String> hashMap0 = new HashMap<Object, String>(hashtable0);
+-      sample0.meta = (Map) hashMap0;
+-      hashMap0.put("type", "type");
+-    metadataPanel0 = null;
+-      try {
+-        metadataPanel0 = new MetadataPanel(sample0);
+-        fail("Expecting exception: HeadlessException");
+-      
+-      } catch(HeadlessException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.awt.GraphicsEnvironment", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

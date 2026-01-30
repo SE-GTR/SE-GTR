@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -216,20 +216,29 @@
+     boolean boolean0 = iCMProxyConnection1.equals(iCMProxyConnection0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+-      iCMProxyConnection0.setDisconnectTime("@esU2KR0");
+-      ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
+-      assertFalse(iCMProxyConnection1.equals((Object)iCMProxyConnection0));
+-      
+-      iCMProxyConnection1.setDisconnectTime("@esU2KR0");
+-      boolean boolean0 = iCMProxyConnection0.equals(iCMProxyConnection1);
+-      assertTrue(iCMProxyConnection1.equals((Object)iCMProxyConnection0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
++        // verify initial state
++        assertNull(iCMProxyConnection0.getDisconnectTime());
++
++        // set and verify disconnect time
++        iCMProxyConnection0.setDisconnectTime("@esU2KR0");
++        assertEquals("@esU2KR0", iCMProxyConnection0.getDisconnectTime());
++
++        ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
++        assertFalse(iCMProxyConnection1.equals((Object) iCMProxyConnection0));
++
++        // set same disconnect time on the second instance and verify
++        iCMProxyConnection1.setDisconnectTime("@esU2KR0");
++        assertEquals("@esU2KR0", iCMProxyConnection1.getDisconnectTime());
++
++        // now both objects should be equal
++        boolean boolean0 = iCMProxyConnection0.equals(iCMProxyConnection1);
++        assertTrue(iCMProxyConnection1.equals((Object) iCMProxyConnection0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

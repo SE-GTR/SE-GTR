@@ -1,0 +1,37 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -657,18 +657,22 @@
+     assertNotNull(item);
+     assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test52()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Defender defender0 = new Defender(1218, 1218);
+-      PassEvent passEvent0 = new PassEvent(defender0, 1218, 1218);
+-      passEvent0.setControlPoint(1218, 1218, false);
+-      handballModel0.setActualMoveEvent(passEvent0);
+-      handballModel0.getNearestHighlightableItem(1218, 1);
+-      assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
+-  }
++@Test(timeout = 4000)
++    public void test52() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        Defender defender0 = new Defender(1218, 1218);
++        PassEvent passEvent0 = new PassEvent(defender0, 1218, 1218);
++        passEvent0.setControlPoint(1218, 1218, false);
++        handballModel0.setActualMoveEvent(passEvent0);
++        // Verify that the control point was registered by checking the nearest highlightable item at that location
++        HighlightableItem nearControl = handballModel0.getNearestHighlightableItem(1218, 1218);
++        assertNotNull(nearControl);
++        // Capture the original call's return value and assert its expected state
++        HighlightableItem result = handballModel0.getNearestHighlightableItem(1218, 1);
++        assertNull(result);
++        assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test53()  throws Throwable  {

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/runtime/Metrics_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/runtime/Metrics_ESTest.java
+@@ -14,14 +14,19 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Metrics_ESTest extends Metrics_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        Metrics metrics0 = new Metrics();
++        // Verify initial state
++        assertEquals(0L, metrics0.getTotalTime());
++        assertEquals(0L, metrics0.getCount());
++        // Exercise behavior
++        metrics0.adjust(2068L);
++        // Verify side‑effects of adjust
++        assertEquals(2068L, metrics0.getTotalTime());
++        assertEquals(1L, metrics0.getCount());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Metrics metrics0 = new Metrics();
+-      metrics0.adjust(2068L);
+-      assertEquals(0L, metrics0.getTotalTime());
+-      assertEquals(0L, metrics0.getCount());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

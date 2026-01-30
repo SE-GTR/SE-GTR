@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/sourceforge/ext4j/taglib/tag/Functions_ESTest.java
++++ b/evosuite-tests/net/sourceforge/ext4j/taglib/tag/Functions_ESTest.java
+@@ -449,20 +449,17 @@
+       int int0 = Functions.length("");
+       assertEquals(0, int0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test63()  throws Throwable  {
+-      try { 
+-        Functions.setParam("V{`[@H{-h", "V{`[@H{-h", (IRequest) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.ext4j.taglib.tag.Functions", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test63() throws Throwable {
++        IRequest request = (IRequest) java.lang.reflect.Proxy.newProxyInstance(
++                IRequest.class.getClassLoader(),
++                new Class<?>[] { IRequest.class },
++                (proxy, method, args) -> null);
++        IRequest result = Functions.setParam("V{`[@H{-h", "V{`[@H{-h", request);
++        assertNotNull(result);
++        assertSame(request, result);
++    }
++
+ @Test(timeout = 4000)
+   public void test64() throws Throwable {
+       Functions functions0 = new Functions();

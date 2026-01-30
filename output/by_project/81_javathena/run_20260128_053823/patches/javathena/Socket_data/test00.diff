@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/javathena/core/data/Socket_data_ESTest.java
++++ b/evosuite-tests/org/javathena/core/data/Socket_data_ESTest.java
+@@ -24,14 +24,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Socket_data_ESTest extends Socket_data_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      MockSocket mockSocket0 = new MockSocket();
+-      Socket_data socket_data0 = new Socket_data(mockSocket0);
+-      socket_data0.setClient_addr(mockSocket0);
+-      assertNull(socket_data0.getMd5key());
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    MockSocket mockSocket0 = new MockSocket();
++    Socket_data socket_data0 = new Socket_data(mockSocket0);
++    // Verify that the constructor (or initial state) sets the client address
++    assertSame(mockSocket0, socket_data0.getClient_addr());
++    // Invoke the setter to exercise the void method
++    socket_data0.setClient_addr(mockSocket0);
++    // Assert that the side‑effect of setClient_addr is observable
++    assertSame(mockSocket0, socket_data0.getClient_addr());
++    // Existing check retained
++    assertNull(socket_data0.getMd5key());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

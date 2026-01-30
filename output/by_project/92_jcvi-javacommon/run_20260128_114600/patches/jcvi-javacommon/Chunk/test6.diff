@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/ztr/chunk/Chunk_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/trace/chromat/ztr/chunk/Chunk_ESTest.java
+@@ -119,20 +119,17 @@
+          verifyException("org.jcvi.jillion.internal.trace.chromat.ztr.chunk.Chunk", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        Chunk chunk0 = Chunk.SMP4;
++        java.io.InputStream in = new java.io.ByteArrayInputStream(new byte[0]);
++        try {
++            chunk0.decodeChunk(in, 0);
++            fail("Expecting exception: IOException");
++        } catch (IOException e) {
++            // expected exception when decoding with insufficient data
++            verifyException("org.jcvi.jillion.internal.trace.chromat.ztr.chunk.Chunk", e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      Chunk chunk0 = Chunk.SMP4;
+-      PipedInputStream pipedInputStream0 = new PipedInputStream();
+-      try { 
+-        chunk0.decodeChunk(pipedInputStream0, 0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // error decoding chunk
+-         //
+-         verifyException("org.jcvi.jillion.internal.trace.chromat.ztr.chunk.Chunk", e);
+-      }
+-  }
+ }

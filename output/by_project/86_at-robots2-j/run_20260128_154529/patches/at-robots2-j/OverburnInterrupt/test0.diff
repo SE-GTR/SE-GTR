@@ -1,0 +1,45 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/interrupts/OverburnInterrupt_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/interrupts/OverburnInterrupt_ESTest.java
+@@ -21,26 +21,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class OverburnInterrupt_ESTest extends OverburnInterrupt_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        Memory memory0 = new Memory();
++        MemoryCell memoryCell0 = new MemoryCell(memory0, 2196);
++        HasOverburner hasOverburner = (HasOverburner) java.lang.reflect.Proxy.newProxyInstance(
++                HasOverburner.class.getClassLoader(),
++                new Class<?>[]{HasOverburner.class},
++                (proxy, method, args) -> null);
++        OverburnInterrupt overburnInterrupt0 = new OverburnInterrupt(hasOverburner, memoryCell0);
++        DebugInfo debugInfo0 = new DebugInfo();
++        Computer computer0 = new Computer(memory0, 2196, 2196, debugInfo0);
++        ComputerErrorHandler computerErrorHandler0 = computer0.getErrorHandler();
++        memory0.setErrorHandler(computerErrorHandler0);
++        // Act – ensure handleInterrupt does not throw when a valid HasOverburner is supplied
++        overburnInterrupt0.handleInterrupt();
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Memory memory0 = new Memory();
+-      MemoryCell memoryCell0 = new MemoryCell(memory0, 2196);
+-      OverburnInterrupt overburnInterrupt0 = new OverburnInterrupt((HasOverburner) null, memoryCell0);
+-      DebugInfo debugInfo0 = new DebugInfo();
+-      Computer computer0 = new Computer(memory0, 2196, 2196, debugInfo0);
+-      ComputerErrorHandler computerErrorHandler0 = computer0.getErrorHandler();
+-      memory0.setErrorHandler(computerErrorHandler0);
+-      // Undeclared exception!
+-      try { 
+-        overburnInterrupt0.handleInterrupt();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.virtualinfinity.atrobots.interrupts.OverburnInterrupt", e);
+-      }
+-  }
+ }

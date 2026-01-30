@@ -1,0 +1,32 @@
+--- a/evosuite-tests/corina/index/Index_ESTest.java
++++ b/evosuite-tests/corina/index/Index_ESTest.java
+@@ -138,14 +138,21 @@
+       horizontal0.setProxy((Sample) null);
+       assertTrue(horizontal0.canUndo());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      Horizontal horizontal0 = new Horizontal(sample0);
+-      horizontal0.setProxy(horizontal0.source);
+-      assertTrue(horizontal0.canUndo());
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        Sample originalSample = new Sample();
++        Horizontal horizontal = new Horizontal(originalSample);
++        // capture the initial source reference
++        Sample beforeSource = horizontal.source;
++        // use a different sample as proxy to observe the side‑effect
++        Sample newProxy = new Sample();
++        horizontal.setProxy(newProxy);
++        // verify that setProxy indeed changed the source field
++        assertSame("setProxy should update the source field", newProxy, horizontal.source);
++        // ensure the object still reports undo capability
++        assertTrue(horizontal.canUndo());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jsecurity/authc/credential/HashedCredentialsMatcher_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/credential/HashedCredentialsMatcher_ESTest.java
+@@ -66,17 +66,19 @@
+          verifyException("org.jsecurity.codec.Hex", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        Sha512CredentialsMatcher sha512CredentialsMatcher0 = new Sha512CredentialsMatcher();
++        assertFalse(sha512CredentialsMatcher0.isHashSalted());
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      Sha512CredentialsMatcher sha512CredentialsMatcher0 = new Sha512CredentialsMatcher();
+-      assertFalse(sha512CredentialsMatcher0.isHashSalted());
+-      
+-      sha512CredentialsMatcher0.setHashSalted(true);
+-      UsernamePasswordToken usernamePasswordToken0 = new UsernamePasswordToken("UTF-8", "UTF-8");
+-      sha512CredentialsMatcher0.getCredentials(usernamePasswordToken0);
+-      assertTrue(sha512CredentialsMatcher0.isHashSalted());
+-  }
++        sha512CredentialsMatcher0.setHashSalted(true);
++        assertTrue(sha512CredentialsMatcher0.isHashSalted());
++
++        UsernamePasswordToken usernamePasswordToken0 = new UsernamePasswordToken("UTF-8", "UTF-8");
++        Object credentials = sha512CredentialsMatcher0.getCredentials(usernamePasswordToken0);
++        assertNotNull(credentials);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

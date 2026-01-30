@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/tigr/contig/TigrContigFileDataStoreBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/tigr/contig/TigrContigFileDataStoreBuilder_ESTest.java
+@@ -26,17 +26,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class TigrContigFileDataStoreBuilder_ESTest extends TigrContigFileDataStoreBuilder_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
+       File file0 = MockFile.createTempFile("org.jcvi.jillion.assembly.tigr.contig.TigrContigFileDataStoreBuilder$1", "org.jcvi.jillion.assembly.tigr.contig.TigrContigFileDataStoreBuilder$1");
+       NucleotideSequenceDataStore nucleotideSequenceDataStore0 = mock(NucleotideSequenceDataStore.class, new ViolatedAssumptionAnswer());
+       TigrContigFileDataStoreBuilder tigrContigFileDataStoreBuilder0 = new TigrContigFileDataStoreBuilder(file0, nucleotideSequenceDataStore0);
+       DataStoreProviderHint dataStoreProviderHint0 = DataStoreProviderHint.RANDOM_ACCESS_OPTIMIZE_MEMORY;
+       TigrContigFileDataStoreBuilder tigrContigFileDataStoreBuilder1 = tigrContigFileDataStoreBuilder0.hint(dataStoreProviderHint0);
+       TigrContigDataStore tigrContigDataStore0 = tigrContigFileDataStoreBuilder1.build();
+-      assertFalse(tigrContigDataStore0.isClosed());
+-  }
++      tigrContigDataStore0.close();
++      assertTrue(tigrContigDataStore0.isClosed());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

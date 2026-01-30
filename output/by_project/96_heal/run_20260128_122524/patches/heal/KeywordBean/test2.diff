@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/heal/module/metadata/KeywordBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/KeywordBean_ESTest.java
+@@ -29,14 +29,26 @@
+       String actualId = keywordBean0.getMetadataId();
+       assertEquals(expectedId, actualId);
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    KeywordBean bean = new KeywordBean();
+ 
++    // Serialize the bean
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(bean);
++    oos.flush();
++    byte[] serialized = baos.toByteArray();
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      KeywordBean keywordBean0 = new KeywordBean();
+-      String string0 = keywordBean0.getKeyword();
+-      assertNull(string0);
+-  }
++    // Deserialize the bean
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++            new java.io.ByteArrayInputStream(serialized));
++    KeywordBean deserialized = (KeywordBean) ois.readObject();
++
++    // Verify that the keyword remains null after a serialization round‑trip
++    assertNull(deserialized.getKeyword());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,25 @@
+--- a/evosuite-tests/httpanalyzer/HeaderSettings_ESTest.java
++++ b/evosuite-tests/httpanalyzer/HeaderSettings_ESTest.java
+@@ -76,10 +76,17 @@
+       Header[] headerArray0 = HeaderSettings.setHeaders();
+       assertNull(headerArray0);
+   }
++@Test(timeout = 4000)
++    public void test8() throws Throwable {
++        // Verify that setting an empty cookie updates the internal state
++        HeaderSettings.setCookie("");
++        assertEquals("", HeaderSettings.getPresetCookie());
+ 
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-      HeaderSettings.setCookie("");
+-      HeaderSettings.initHeaders(0, "X9_v4[`k");
+-  }
++        // Verify that initializing headers populates the internal header array
++        HeaderSettings.initHeaders(0, "X9_v4[`k");
++        Header[] headers = HeaderSettings.getHeadersSet();
++        assertNotNull(headers);
++        assertTrue(headers.length > 0);
++    }
++
+ }

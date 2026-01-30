@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
+@@ -543,25 +543,18 @@
+          verifyException("org.mozilla.javascript.DefaultErrorReporter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test038()  throws Throwable  {
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      ErrorReporter errorReporter0 = compilerEnvirons0.getErrorReporter();
+-      Parser parser0 = new Parser(compilerEnvirons0, errorReporter0);
+-      TokenStream tokenStream0 = new TokenStream(parser0, (Reader) null, "\"]n\u0004`/*l-", 97);
+-      // Undeclared exception!
+-      try { 
+-        tokenStream0.getToken();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.mozilla.javascript.Parser", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test038() throws Throwable {
++    CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++    ErrorReporter errorReporter0 = compilerEnvirons0.getErrorReporter();
++    Parser parser0 = new Parser(compilerEnvirons0, errorReporter0);
++    Reader reader = new StringReader("");
++    TokenStream tokenStream0 = new TokenStream(parser0, reader, "\"]n\u0004`/*l-", 97);
++    int token = tokenStream0.getToken();
++    // Verify that getToken() returns a valid token value (EOF is -1)
++    assertTrue(token == -1 || token >= 0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test039()  throws Throwable  {

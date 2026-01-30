@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/heal/servlet/tagcloud/TagBean_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/tagcloud/TagBean_ESTest.java
+@@ -41,14 +41,24 @@
+         // verify that the logical state is preserved after the round‑trip
+         assertEquals("sampleTag", deserialized.getTag());
+     }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        TagBean tagBean0 = new TagBean();
++        tagBean0.setTagId(0);
++        assertEquals(0, tagBean0.getTagId());
+ 
++        // Verify that the state is preserved through serialization
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(tagBean0);
++        oos.flush();
++        byte[] serialized = baos.toByteArray();
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      TagBean tagBean0 = new TagBean();
+-      tagBean0.setTagId(0);
+-      assertEquals(0, tagBean0.getTagId());
+-  }
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(serialized));
++        TagBean deserialized = (TagBean) ois.readObject();
++        assertEquals(0, deserialized.getTagId());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

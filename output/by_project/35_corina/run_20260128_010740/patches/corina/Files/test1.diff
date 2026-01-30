@@ -1,0 +1,38 @@
+--- a/evosuite-tests/corina/io/Files_ESTest.java
++++ b/evosuite-tests/corina/io/Files_ESTest.java
+@@ -36,22 +36,20 @@
+          verifyException("corina.io.Files", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        java.io.File tempFile = java.io.File.createTempFile("test", ".tmp");
++        String filename = tempFile.getAbsolutePath();
++        // Ensure the file does not exist to trigger an IOException on load
++        tempFile.delete();
++        try {
++            Files.load(filename);
++            fail("Expecting exception: IOException");
++        } catch (IOException e) {
++            // Expected exception
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      Files.save(sample0, "Ll<d8f+8{w");
+-      try { 
+-        Files.load("Ll<d8f+8{w");
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Corina: End-of-file reached in data section
+-         //
+-         verifyException("corina.io.Files", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

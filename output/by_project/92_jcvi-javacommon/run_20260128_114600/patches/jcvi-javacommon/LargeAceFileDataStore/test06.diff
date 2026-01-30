@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/LargeAceFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/LargeAceFileDataStore_ESTest.java
+@@ -114,22 +114,22 @@
+          verifyException("org.jcvi.jillion.assembly.consed.ace.LargeAceFileDataStore", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    File file0 = MockFile.createTempFile("ace", ".ace");
++    // Write a minimal, syntactically valid ACE file to avoid parsing errors.
++    String minimalAce = "AS 0 0\n";
++    java.nio.file.Files.write(file0.toPath(),
++            minimalAce.getBytes(java.nio.charset.StandardCharsets.UTF_8));
++    AceFileContigDataStore aceFileContigDataStore0 = LargeAceFileDataStore.create(file0);
++    try {
++        aceFileContigDataStore0.get("nonexistent");
++        fail("Expecting DataStoreException");
++    } catch (org.jcvi.jillion.core.datastore.DataStoreException e) {
++        // Expected exception due to missing contig in the ACE file.
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("B@rbj}x/iS90l%", "B@rbj}x/iS90l%");
+-      AceFileContigDataStore aceFileContigDataStore0 = LargeAceFileDataStore.create(file0);
+-      // Undeclared exception!
+-      try { 
+-        ((LargeAceFileDataStore) aceFileContigDataStore0).get("B@rbj}x/iS90l%");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

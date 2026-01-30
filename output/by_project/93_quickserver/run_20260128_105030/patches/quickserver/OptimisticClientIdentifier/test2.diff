@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/OptimisticClientIdentifier_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/OptimisticClientIdentifier_ESTest.java
+@@ -51,18 +51,22 @@
+       ClientHandler clientHandler0 = optimisticClientIdentifier0.findClientByKey("d5RoX");
+       assertNull(clientHandler0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        optimisticClientIdentifier0 = new OptimisticClientIdentifier();
++        clientHandlerObjectFactory0 = new ClientHandlerObjectFactory(true);
++        genericObjectPool0 = new GenericObjectPool(clientHandlerObjectFactory0, 2033);
++        makeQSObjectPool0 = new MakeQSObjectPool(genericObjectPool0);
++        makeQSObjectPool0.borrowObject();
++        optimisticClientIdentifier0.setClientHandlerPool(makeQSObjectPool0);
++        // Verify that the client handler pool was set correctly (NASE)
++        assertSame(makeQSObjectPool0, optimisticClientIdentifier0.getClientHandlerPool());
++        // Verify the return value of findAllClientById (NARV) and that it is empty
++        Iterator<?> iterator0 = optimisticClientIdentifier0.findAllClientById("ib8Yw");
++        assertNotNull(iterator0);
++        assertFalse(iterator0.hasNext());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    optimisticClientIdentifier0 = new OptimisticClientIdentifier();
+-    clientHandlerObjectFactory0 = new ClientHandlerObjectFactory(true);
+-    genericObjectPool0 = new GenericObjectPool(clientHandlerObjectFactory0, 2033);
+-    makeQSObjectPool0 = new MakeQSObjectPool(genericObjectPool0);
+-      makeQSObjectPool0.borrowObject();
+-      optimisticClientIdentifier0.setClientHandlerPool(makeQSObjectPool0);
+-      Iterator iterator0 = optimisticClientIdentifier0.findAllClientById("ib8Yw");
+-      assertNotNull(iterator0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

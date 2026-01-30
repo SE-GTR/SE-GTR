@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/jsecurity/mgt/SessionsSecurityManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/mgt/SessionsSecurityManager_ESTest.java
+@@ -79,27 +79,28 @@
+       defaultWebSecurityManager1.setRememberMeEncryptionCipherKeyBase64("");
+       ((SessionsSecurityManager)defaultWebSecurityManager0).ensureSessionManager();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager();
+-      defaultSecurityManager0.createSessionManager();
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("/tmp");
+-      FileSystemHandling.createFolder(evoSuiteFile0);
+-      PrincipalCollection principalCollection0 = null;
+-      String string0 = "jQ3M&x5;\";?aZD,JqK";
+-      try { 
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
++    DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager();
++    Object sessionManager0 = defaultSecurityManager0.createSessionManager();
++    assertNotNull(sessionManager0);
++    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("/tmp");
++    boolean folderCreated = FileSystemHandling.createFolder(evoSuiteFile0);
++    assertTrue(folderCreated);
++    PrincipalCollection principalCollection0 = null;
++    String string0 = "jQ3M&x5;\";?aZD,JqK";
++    try {
+         defaultSecurityManager0.getSession(3600000L);
+         fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Specified id [3600000] does not correspond to a valid Session  It either does not exist or the corresponding session has been stopped or expired.
+-         //
+-         verifyException("org.jsecurity.mgt.SessionsSecurityManager", e);
+-      }
+-  }
++    } catch (RuntimeException e) {
++        //
++        // Specified id [3600000] does not correspond to a valid Session  It either does not exist or the corresponding session has been stopped or expired.
++        //
++        verifyException("org.jsecurity.mgt.SessionsSecurityManager", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

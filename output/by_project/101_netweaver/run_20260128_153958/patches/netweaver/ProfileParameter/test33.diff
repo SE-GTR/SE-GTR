@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
+@@ -539,20 +539,29 @@
+     assertTrue(profileParameter1.equals((Object) profileParameter0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test33()  throws Throwable  {
+-      ProfileParameter profileParameter0 = new ProfileParameter();
+-      profileParameter0.setValue("Q-27r");
+-      ProfileParameter profileParameter1 = new ProfileParameter();
+-      assertFalse(profileParameter1.equals((Object)profileParameter0));
+-      
+-      profileParameter1.setValue("Q-27r");
+-      boolean boolean0 = profileParameter1.equals(profileParameter0);
+-      assertTrue(profileParameter1.equals((Object)profileParameter0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test33() throws Throwable {
++        ProfileParameter profileParameter0 = new ProfileParameter();
++        // Verify initial state before setting value
++        assertNull(profileParameter0.getValue());
++
++        profileParameter0.setValue("Q-27r");
++        // Assert side‑effect of setValue
++        assertEquals("Q-27r", profileParameter0.getValue());
++
++        ProfileParameter profileParameter1 = new ProfileParameter();
++        // Different objects with different values should not be equal
++        assertFalse(profileParameter1.equals((Object) profileParameter0));
++
++        profileParameter1.setValue("Q-27r");
++        // Both objects now have the same value, should be equal
++        assertTrue(profileParameter1.equals((Object) profileParameter0));
++        assertTrue(profileParameter0.equals((Object) profileParameter1));
++
++        // Verify that the getter reflects the same value on both instances
++        assertEquals(profileParameter0.getValue(), profileParameter1.getValue());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test34()  throws Throwable  {

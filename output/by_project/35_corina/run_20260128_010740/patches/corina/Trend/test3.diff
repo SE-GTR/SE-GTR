@@ -1,0 +1,30 @@
+--- a/evosuite-tests/corina/cross/Trend_ESTest.java
++++ b/evosuite-tests/corina/cross/Trend_ESTest.java
+@@ -46,14 +46,24 @@
+          verifyException("corina.cross.Trend", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
+       Sample sample0 = new Sample();
+       Trend trend0 = new Trend(sample0, sample0);
++      // Verify initial state before invoking preamble
++      assertTrue(trend0.getMovingData().isEmpty());
++      assertTrue(trend0.getFixedData().isEmpty());
++
+       trend0.preamble();
++
++      // Observe the side‑effects of preamble on the internal data collections
++      assertTrue(trend0.getMovingData().isEmpty());
++      assertTrue(trend0.getFixedData().isEmpty());
++
++      // Existing assertion retained
+       assertEquals(0, trend0.getSignifigant());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

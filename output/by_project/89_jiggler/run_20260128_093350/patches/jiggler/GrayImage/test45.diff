@@ -1,0 +1,30 @@
+--- a/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
+@@ -1185,12 +1185,21 @@
+       } catch(NullPointerException e) {
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test45()  throws Throwable  {
+-      GrayImage grayImage0 = new GrayImage(0, 0, (int[]) null);
+-      assertEquals(0, grayImage0.X());
+-  }
++@Test(timeout = 4000)
++    public void test45() throws Throwable {
++        // Use an empty array to avoid NPE in the constructor
++        GrayImage grayImage0 = new GrayImage(0, 0, new int[0]);
++        // Verify the width reported by the image
++        assertEquals(0, grayImage0.X());
++        // Exercise a non‑trivial operation: accessing a pixel should fail for a zero‑size image
++        try {
++            grayImage0.getPixel(0, 0);
++            fail("Expected IndexOutOfBoundsException when accessing pixel in zero‑size image");
++        } catch (IndexOutOfBoundsException e) {
++            // expected behavior
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test46()  throws Throwable  {

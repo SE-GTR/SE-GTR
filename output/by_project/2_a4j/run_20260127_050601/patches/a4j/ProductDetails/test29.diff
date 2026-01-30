@@ -1,0 +1,29 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ProductDetails_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ProductDetails_ESTest.java
+@@ -279,14 +279,18 @@
+         assertEquals(price, productDetails0.getThirdPartyNewPrice());
+         assertNull(productDetails0.getMpn());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      ProductDetails productDetails0 = new ProductDetails();
+-      productDetails0.setMpaaRating("");
+-      assertNull(productDetails0.getNumberOfItems());
+-  }
++@Test(timeout = 4000)
++    public void test29() throws Throwable {
++        ProductDetails productDetails0 = new ProductDetails();
++        // initial state verification
++        assertNull(productDetails0.getNumberOfItems());
++        // exercise setter and verify its effect via the corresponding getter
++        productDetails0.setMpaaRating("PG-13");
++        assertEquals("PG-13", productDetails0.getMpaaRating());
++        // ensure unrelated property remains unchanged
++        assertNull(productDetails0.getNumberOfItems());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/gui/RuleConfigurationEditDialog_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/gui/RuleConfigurationEditDialog_ESTest.java
+@@ -67,22 +67,26 @@
+          verifyException("org.eclipse.swt.SWT", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        org.eclipse.swt.widgets.Display display = new org.eclipse.swt.widgets.Display();
++        org.eclipse.swt.widgets.Shell shell = new org.eclipse.swt.widgets.Shell(display);
++        try {
++            RuleConfigurationEditDialog dialog = new RuleConfigurationEditDialog(shell, null, true, "");
++            // invoke with a valid shell – the method should not throw NPE
++            dialog.configureShell(shell);
++            // basic sanity check: the dialog should have an associated shell after configuration
++            org.junit.Assert.assertNotNull("Dialog shell should not be null after configureShell", dialog.getShell());
++        } finally {
++            if (!shell.isDisposed()) {
++                shell.dispose();
++            }
++            if (!display.isDisposed()) {
++                display.dispose();
++            }
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    ruleConfigurationEditDialog0 = new RuleConfigurationEditDialog((Shell) null, (Module) null, true, "");
+-      // Undeclared exception!
+-      try { 
+-        ruleConfigurationEditDialog0.configureShell((Shell) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.eclipse.jface.window.Window", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

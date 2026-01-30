@@ -1,0 +1,28 @@
+--- a/evosuite-tests/jigl/signal/RealSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/RealSignal_ESTest.java
+@@ -16,14 +16,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class RealSignal_ESTest extends RealSignal_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      RealSignal realSignal0 = new RealSignal(689);
+-      ROI rOI0 = new ROI();
+-      rOI0.m_lbound = 689;
+-      realSignal0.median(689, rOI0);
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        RealSignal realSignal0 = new RealSignal(689);
++        ROI rOI0 = new ROI();
++        rOI0.m_lbound = 689;
++        int beforeLength = realSignal0.length;
++        realSignal0.median(689, rOI0);
++        org.junit.Assert.assertEquals("Length should remain unchanged after median", beforeLength, realSignal0.length);
++        org.junit.Assert.assertNotNull("Data array should not be null after median", realSignal0.data);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

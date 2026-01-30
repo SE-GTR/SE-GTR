@@ -1,0 +1,41 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/persistence/detailziele/DetailzieleIbatisDao_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/persistence/detailziele/DetailzieleIbatisDao_ESTest.java
+@@ -209,23 +209,21 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-    detailzieleIbatisDao0 = new DetailzieleIbatisDao();
+-    detailziel0 = new Detailziel();
+-      // Undeclared exception!
+-      try { 
+-        detailzieleIbatisDao0.insert(detailziel0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++@Test(timeout = 4000)
++  public void test11() throws Throwable {
++    // Arrange: create DAO and inject a mock SqlMapClient to avoid IllegalArgumentException
++    DetailzieleIbatisDao dao = new DetailzieleIbatisDao();
++    com.ibatis.sqlmap.client.SqlMapClient mockClient = org.mockito.Mockito.mock(com.ibatis.sqlmap.client.SqlMapClient.class);
++    dao.setSqlMapClient(mockClient);
++    Detailziel dz = new Detailziel();
++
++    // Act: invoke insert; should not throw an exception
++    dao.insert(dz);
++
++    // Assert: verify that the mock client was used for the insert operation
++    org.mockito.Mockito.verify(mockClient).insert(org.mockito.Matchers.anyString(), org.mockito.Matchers.eq(dz));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

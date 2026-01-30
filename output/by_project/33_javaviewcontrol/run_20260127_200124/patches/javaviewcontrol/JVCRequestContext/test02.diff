@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/pmdesigns/jvc/JVCRequestContext_ESTest.java
++++ b/evosuite-tests/com/pmdesigns/jvc/JVCRequestContext_ESTest.java
+@@ -43,14 +43,24 @@
+         String result2 = JVCRequestContext.getCachedBlock(JVCRequestContext.BINARY_VALUE);
+         assertSame(result1, result2);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      JVCRequestContext.setCachedBlock("%Gd{?ojk'$:tDsmt3", "%Gd{?ojk'$:tDsmt3");
+-      String string0 = JVCRequestContext.getCachedBlock("pkg_prefix");
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++  public void test02() throws Throwable {
++      // Arrange
++      String key = "%Gd{?ojk'$:tDsmt3";
++      String value = "%Gd{?ojk'$:tDsmt3";
++
++      // Act
++      JVCRequestContext.setCachedBlock(key, value);
++
++      // Assert side‑effect of setCachedBlock
++      String cached = JVCRequestContext.getCachedBlock(key);
++      assertEquals(value, cached);
++
++      // Additional original assertion (different key should be absent)
++      String other = JVCRequestContext.getCachedBlock("pkg_prefix");
++      assertNull(other);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

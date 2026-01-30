@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/MultipleFileFilter_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/MultipleFileFilter_ESTest.java
+@@ -28,21 +28,19 @@
+       boolean boolean0 = multipleFileFilter1.accept((File) null);
+       assertTrue(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        FileFilter alwaysAccept = new FileFilter() {
++            @Override
++            public boolean accept(File pathname) {
++                return true;
++            }
++        };
++        FileFilter[] fileFilterArray0 = new FileFilter[] { alwaysAccept };
++        MultipleFileFilter multipleFileFilter0 = new MultipleFileFilter(fileFilterArray0);
++        File file = new File("dummy.txt");
++        boolean result = multipleFileFilter0.accept(file);
++        assertTrue(result);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      FileFilter[] fileFilterArray0 = new FileFilter[5];
+-      MultipleFileFilter multipleFileFilter0 = new MultipleFileFilter(fileFilterArray0);
+-      // Undeclared exception!
+-      try { 
+-        multipleFileFilter0.accept((File) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.core.util.MultipleFileFilter", e);
+-      }
+-  }
+ }

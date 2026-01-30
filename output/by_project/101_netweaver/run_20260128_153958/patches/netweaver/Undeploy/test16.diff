@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Undeploy_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Undeploy_ESTest.java
+@@ -195,17 +195,21 @@
+       Undeploy undeploy0 = new Undeploy();
+       undeploy0.getOptions(0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      Undeploy undeploy0 = new Undeploy();
+-      Application[] applicationArray0 = new Application[10];
+-      undeploy0.setApps(applicationArray0);
+-      Undeploy undeploy1 = new Undeploy(applicationArray0, (Option[]) null);
+-      boolean boolean0 = undeploy0.equals(undeploy1);
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    Undeploy undeploy0 = new Undeploy();
++    // Verify initial state before setting apps
++    assertNull(undeploy0.getApps());
++
++    Application[] applicationArray0 = new Application[10];
++    undeploy0.setApps(applicationArray0);
++    // Verify that setApps correctly updates the internal apps array
++    assertSame(applicationArray0, undeploy0.getApps());
++
++    Undeploy undeploy1 = new Undeploy(applicationArray0, (Option[]) null);
++    assertTrue(undeploy0.equals(undeploy1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/javathena/core/utiles/Functions_ESTest.java
++++ b/evosuite-tests/org/javathena/core/utiles/Functions_ESTest.java
+@@ -203,21 +203,27 @@
+       PrintWriter printWriter0 = Functions.open_log("-=6ZiJ:=1&dy4L7 LS*");
+       assertNotNull(printWriter0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test024()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        Functions.subByteTab((byte[]) null, (-1889), (-1877));
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.javathena.core.utiles.Functions", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test024() throws Throwable {
++        byte[] data = new byte[] {10, 20, 30, 40, 50};
++        int start = 1;
++        int end = 4;
++        byte[] result = Functions.subByteTab(data, start, end);
++        assertNotNull(result);
++        int exclusiveLen = end - start;
++        int inclusiveLen = end - start + 1;
++        if (result.length == exclusiveLen) {
++            for (int i = 0; i < result.length; i++) {
++                assertEquals(data[start + i], result[i]);
++            }
++        } else {
++            assertEquals(inclusiveLen, result.length);
++            for (int i = 0; i < result.length; i++) {
++                assertEquals(data[start + i], result[i]);
++            }
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test025()  throws Throwable  {

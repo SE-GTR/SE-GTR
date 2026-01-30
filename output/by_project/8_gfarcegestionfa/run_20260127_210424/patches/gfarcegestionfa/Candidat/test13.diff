@@ -1,0 +1,38 @@
+--- a/evosuite-tests/fr/unice/gfarce/identity/Candidat_ESTest.java
++++ b/evosuite-tests/fr/unice/gfarce/identity/Candidat_ESTest.java
+@@ -202,14 +202,27 @@
+     // Verify a constructor‑initialized field (single relevant assertion)
+     assertEquals(-1949, candidat0.getAcceptation());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-    candidat0 = new Candidat();
+-      Calendar calendar0 = candidat0.getDateNaissance();
+-      assertNull(calendar0);
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    Calendar expected = Calendar.getInstance();
++    expected.set(1990, Calendar.JANUARY, 1);
++    Candidat candidat0 = new Candidat(
++            "Doe",               // nom
++            "John",              // prenom
++            "M",                 // sex
++            "john.doe@example.com", // email
++            expected,            // date_naissance
++            "Diploma",           // diplome
++            "",                  // photo (empty to avoid file handling issues)
++            "FR",                // nationalite
++            0,                   // bourse
++            0,                   // acceptation
++            null);               // formation
++    Calendar actual = candidat0.getDateNaissance();
++    assertNotNull(actual);
++    assertEquals(expected.getTimeInMillis(), actual.getTimeInMillis());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

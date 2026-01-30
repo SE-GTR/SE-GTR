@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/nav/ConsensusNavigationElement_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/nav/ConsensusNavigationElement_ESTest.java
+@@ -51,17 +51,20 @@
+          verifyException("org.jcvi.jillion.assembly.consed.nav.ConsensusNavigationElement", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test1()  throws Throwable  {
+       NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+       doReturn(0, 0).when(nucleotideSequence0).getUngappedOffsetFor(anyInt());
++      // Verify that the stubbed method returns the expected value
++      int stubbedResult = nucleotideSequence0.getUngappedOffsetFor(123);
++      assertEquals(0, stubbedResult);
+       LinkedHashSet<AssembledRead> linkedHashSet0 = new LinkedHashSet<AssembledRead>();
+       DefaultContig<AssembledRead> defaultContig0 = new DefaultContig<AssembledRead>("", nucleotideSequence0, linkedHashSet0);
+-    range0 = Range.of(3347L);
++      range0 = Range.of(3347L);
+       ConsensusNavigationElement consensusNavigationElement0 = ConsensusNavigationElement.buildConsensusNavigationElement(defaultContig0, range0, ")n=x");
+       assertEquals(NavigationElement.Type.CONSENSUS, consensusNavigationElement0.getType());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

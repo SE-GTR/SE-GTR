@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
+@@ -278,17 +278,19 @@
+          verifyException("org.databene.jdbacl.DatabaseDialect", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      DBSequence dBSequence0 = new DBSequence("K+OJq3Z<JW", "xg}_ OOC|*\"w+-~", (String) null);
+-      dBSequence0.setCycle((Boolean) oracleDialect0.quoteTableNames);
+-      String string0 = oracleDialect0.renderCreateSequence(dBSequence0);
+-      assertEquals("oracle", oracleDialect0.getSystem());
+-      assertEquals("CREATE SEQUENCE \"K+OJq3Z<JW\" CYCLE", string0);
+-      assertTrue(oracleDialect0.isSequenceSupported());
+-  }
++@Test(timeout = 4000)
++    public void test17() throws Throwable {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        DBSequence dBSequence0 = new DBSequence("K+OJq3Z<JW", "xg}_ OOC|*\"w+-~", (String) null);
++        // Verify that setCycle correctly updates the sequence's cycle flag
++        dBSequence0.setCycle((Boolean) oracleDialect0.quoteTableNames);
++        assertEquals(oracleDialect0.quoteTableNames, dBSequence0.getCycle());
++        String string0 = oracleDialect0.renderCreateSequence(dBSequence0);
++        assertEquals("oracle", oracleDialect0.getSystem());
++        assertEquals("CREATE SEQUENCE \"K+OJq3Z<JW\" CYCLE", string0);
++        assertTrue(oracleDialect0.isSequenceSupported());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

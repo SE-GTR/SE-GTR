@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
+@@ -242,18 +242,28 @@
+     boolean boolean0 = j2EESession0.equals(j2EESession1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      J2EESession j2EESession0 = new J2EESession();
+-      J2EESession j2EESession1 = new J2EESession();
+-      assertTrue(j2EESession1.equals((Object)j2EESession0));
+-      
+-      j2EESession1.setUpdateTime("javax.xml.namespace.QName");
+-      boolean boolean0 = j2EESession0.equals(j2EESession1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        J2EESession j2EESession0 = new J2EESession();
++        J2EESession j2EESession1 = new J2EESession();
++        assertTrue(j2EESession1.equals((Object) j2EESession0));
++
++        // Verify initial state of updateTime
++        assertNull(j2EESession0.getUpdateTime());
++        assertNull(j2EESession1.getUpdateTime());
++
++        // Exercise the void method and assert its side‑effect
++        String newTime = "javax.xml.namespace.QName";
++        j2EESession1.setUpdateTime(newTime);
++        assertEquals(newTime, j2EESession1.getUpdateTime());
++
++        // Ensure the other instance remains unchanged
++        assertNull(j2EESession0.getUpdateTime());
++
++        boolean boolean0 = j2EESession0.equals(j2EESession1);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/jigl/gui/JImageCanvas_ESTest.java
++++ b/evosuite-tests/jigl/gui/JImageCanvas_ESTest.java
+@@ -197,23 +197,16 @@
+       jImageCanvas0.setSelectionBoxAnchor(2794, 2794);
+       assertEquals((-1), jImageCanvas0.getSelectionBoxAnchorX());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      BinaryImage binaryImage0 = new BinaryImage();
+-      JImageCanvas jImageCanvas0 = new JImageCanvas(binaryImage0);
+-      // Undeclared exception!
+-      try { 
+-        jImageCanvas0.setOffScreen(0.0, 0.0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.gui.JImageCanvas", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test16() throws Throwable {
++        BinaryImage binaryImage0 = new BinaryImage();
++        JImageCanvas jImageCanvas0 = new JImageCanvas(binaryImage0);
++        // Ensure the canvas has a non‑zero size so that an off‑screen image can be created.
++        jImageCanvas0.setSize(100, 100);
++        Graphics graphics = jImageCanvas0.setOffScreen(1.0, 1.0);
++        assertNotNull("Graphics returned by setOffScreen should not be null", graphics);
++    }
++
+ @Test(timeout = 4000)
+ public void test17() throws Throwable {
+     JImageCanvas jImageCanvas0 = new JImageCanvas();

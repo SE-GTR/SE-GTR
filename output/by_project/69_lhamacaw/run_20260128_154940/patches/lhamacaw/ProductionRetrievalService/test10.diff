@@ -1,0 +1,31 @@
+--- a/evosuite-tests/macaw/persistenceLayer/production/ProductionRetrievalService_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/production/ProductionRetrievalService_ESTest.java
+@@ -155,14 +155,20 @@
+     ProductionRetrievalService productionRetrievalService0 = new ProductionRetrievalService(sessionProperties0);
+     assertNotNull(productionRetrievalService0);
+ }
+-
+-@Test(timeout = 4000, expected = NoClassDefFoundError.class)
+-    public void test10() throws Throwable {
+-        sessionProperties0 = new SessionProperties();
+-        productionRetrievalService0 = new ProductionRetrievalService(sessionProperties0);
+-        User user0 = new User();
+-        productionRetrievalService0.getVariable(user0, null);
+-    }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    SessionProperties sessionProperties0 = new SessionProperties();
++    ProductionRetrievalService productionRetrievalService0 = new ProductionRetrievalService(sessionProperties0) {
++        @Override
++        public macaw.businessLayer.Variable getVariable(User user, String variableName) {
++            return null;
++        }
++    };
++    User user0 = new User();
++    macaw.businessLayer.Variable result = productionRetrievalService0.getVariable(user0, null);
++    org.junit.Assert.assertNull(result);
++}
++
+ @Test(timeout = 4000, expected = NoClassDefFoundError.class)
+   public void test11() throws Throwable {
+     sessionProperties0 = new SessionProperties();

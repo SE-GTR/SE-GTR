@@ -1,0 +1,112 @@
+--- a/evosuite-tests/jigl/image/utils/LocalDifferentialGeometry_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/LocalDifferentialGeometry_ESTest.java
+@@ -39,63 +39,52 @@
+         // expected
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      RealGrayImage realGrayImage0 = new RealGrayImage(1, 0, (float[]) null);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(1, realGrayImage0.X());
+-      assertEquals(0, realGrayImage0.Y());
+-      
+-      LocalDifferentialGeometry localDifferentialGeometry0 = new LocalDifferentialGeometry(realGrayImage0);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevAbsKappa, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.stdDevKappaSquare, 0.01);
+-      assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(1, realGrayImage0.X());
+-      assertEquals(0, realGrayImage0.Y());
+-      
+-      RealGrayImage realGrayImage1 = realGrayImage0.addbuffer(0, 1, 0, 0, (float) 0);
+-      assertFalse(realGrayImage1.equals((Object)realGrayImage0));
+-      assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
+-      assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
+-      assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
+-      assertEquals(1, realGrayImage0.X());
+-      assertEquals(0, realGrayImage0.Y());
+-      assertEquals(32767.0F, realGrayImage1.min(), 0.01F);
+-      assertEquals((-32768.0F), realGrayImage1.max(), 0.01F);
+-      assertEquals(0.0, realGrayImage1.sqrSum(), 0.01);
+-      assertEquals(0.0F, realGrayImage1.addSum(), 0.01F);
+-      assertEquals(0.0F, realGrayImage1.absSum(), 0.01F);
+-      assertEquals(1, realGrayImage1.Y());
+-      assertEquals(0, realGrayImage1.X());
+-      assertNotSame(realGrayImage0, realGrayImage1);
+-      assertNotSame(realGrayImage1, realGrayImage0);
+-      
+-      // Undeclared exception!
+-      try { 
+-        localDifferentialGeometry0.calcIx(realGrayImage1, realGrayImage0, (-1), (-1), 1, 2117);
+-        fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // 0
+-         //
+-         verifyException("jigl.image.types.RealGrayImage", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        RealGrayImage realGrayImage0 = new RealGrayImage(1, 0, (float[]) null);
++        // verify initial state of the image
++        assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
++        assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
++        assertEquals((-32768.0F), realGrayImage0.max(), 0.01F);
++        assertEquals(32767.0F, realGrayImage0.min(), 0.01F);
++        assertEquals(1, realGrayImage0.X());
++        assertEquals(0, realGrayImage0.Y());
++
++        LocalDifferentialGeometry localDifferentialGeometry0 = new LocalDifferentialGeometry(realGrayImage0);
++        // default statistical fields should be zero
++        assertEquals(0.0, localDifferentialGeometry0.stdDevAbsKappa, 0.01);
++        assertEquals(0.0, localDifferentialGeometry0.avgKappaSquare, 0.01);
++        assertEquals(0.0, localDifferentialGeometry0.stdDevKappaSquare, 0.01);
++        assertEquals(0.0, localDifferentialGeometry0.avgAbsKappa, 0.01);
++
++        RealGrayImage realGrayImage1 = realGrayImage0.addbuffer(0, 1, 0, 0, (float) 0);
++        // a new image instance should be created and not equal to the original
++        assertNotSame(realGrayImage0, realGrayImage1);
++        assertFalse(realGrayImage1.equals((Object) realGrayImage0));
++
++        // verify dimensions of the new image (addbuffer swaps X/Y in this case)
++        assertEquals(0, realGrayImage1.X());
++        assertEquals(1, realGrayImage1.Y());
++
++        // verify that min/max and statistical values remain unchanged
++        assertEquals(32767.0F, realGrayImage1.min(), 0.01F);
++        assertEquals((-32768.0F), realGrayImage1.max(), 0.01F);
++        assertEquals(0.0, realGrayImage0.sqrSum(), 0.01);
++        assertEquals(0.0, realGrayImage1.sqrSum(), 0.01);
++        assertEquals(0.0F, realGrayImage0.addSum(), 0.01F);
++        assertEquals(0.0F, realGrayImage1.addSum(), 0.01F);
++        assertEquals(0.0F, realGrayImage0.absSum(), 0.01F);
++        assertEquals(0.0F, realGrayImage1.absSum(), 0.01F);
++
++        // expect exception when calling calcIx with out‑of‑bounds coordinates
++        try {
++            localDifferentialGeometry0.calcIx(realGrayImage1, realGrayImage0, -1, -1, 1, 2117);
++            fail("Expecting exception: ArrayIndexOutOfBoundsException");
++        } catch (ArrayIndexOutOfBoundsException e) {
++            verifyException("jigl.image.types.RealGrayImage", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

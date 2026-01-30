@@ -1,0 +1,37 @@
+--- a/evosuite-tests/jigl/image/utils/ImageOps_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/ImageOps_ESTest.java
+@@ -45,16 +45,26 @@
+         assertEquals("-clear", args[0]);
+         assertEquals(1, args.length);
+     }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    String[] stringArray0 = new String[5];
++    stringArray0[0] = "-divideconst";
++    stringArray0[4] = "-addconst";
+ 
++    PrintStream originalOut = System.out;
++    ByteArrayOutputStream baos = new ByteArrayOutputStream();
++    System.setOut(new PrintStream(baos));
++    try {
++        ImageOps.main(stringArray0);
++    } finally {
++        System.setOut(originalOut);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      String[] stringArray0 = new String[5];
+-      stringArray0[0] = "-divideconst";
+-      stringArray0[4] = "-addconst";
+-      ImageOps.main(stringArray0);
+-      assertEquals(5, stringArray0.length);
+-  }
++    String output = baos.toString();
++    assertTrue("Expected some output from ImageOps.main", output.length() > 0);
++    assertEquals(5, stringArray0.length);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

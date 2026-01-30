@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/ArchiveFile_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/ArchiveFile_ESTest.java
+@@ -48,18 +48,25 @@
+     assertTrue(archiveFile0.equals(archiveFile1));
+     assertTrue(archiveFile1.equals(archiveFile0));
+ }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    ArchiveFile archiveFile0 = new ArchiveFile();
++    ArchiveFile archiveFile1 = new ArchiveFile();
++    assertTrue(archiveFile1.equals((Object) archiveFile0));
+ 
++    // Verify initial state before mutation
++    assertNull(archiveFile1.getFileName());
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      ArchiveFile archiveFile0 = new ArchiveFile();
+-      ArchiveFile archiveFile1 = new ArchiveFile();
+-      assertTrue(archiveFile1.equals((Object)archiveFile0));
+-      
+-      archiveFile1.setFileName("4MdS9imq>3");
+-      boolean boolean0 = archiveFile0.equals(archiveFile1);
+-      assertFalse(boolean0);
+-  }
++    // Act: change file name
++    archiveFile1.setFileName("4MdS9imq>3");
++
++    // Assert side‑effect of setFileName
++    assertEquals("4MdS9imq>3", archiveFile1.getFileName());
++
++    boolean boolean0 = archiveFile0.equals(archiveFile1);
++    assertFalse(boolean0);
++}
++
+ @Test(timeout = 4000)
+   public void test04() throws Throwable {
+       byte[] byteArray0 = new byte[1];

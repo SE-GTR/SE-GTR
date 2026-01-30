@@ -1,0 +1,33 @@
+--- a/evosuite-tests/macaw/persistenceLayer/production/ProductionCurationService_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/production/ProductionCurationService_ESTest.java
+@@ -743,23 +743,13 @@
+          verifyException("com.mysql.jdbc.Connection", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test38()  throws Throwable  {
+-      SessionProperties sessionProperties0 = new SessionProperties();
+-      ProductionCurationService productionCurationService0 = new ProductionCurationService(sessionProperties0);
+-      // Undeclared exception!
+-      try { 
+-        productionCurationService0.commitDatabaseChanges((Connection) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("macaw.persistenceLayer.production.ProductionCurationService", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class)
++    public void test38() throws Throwable {
++        SessionProperties sessionProperties0 = new SessionProperties();
++        ProductionCurationService productionCurationService0 = new ProductionCurationService(sessionProperties0);
++        productionCurationService0.commitDatabaseChanges(null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test39()  throws Throwable  {

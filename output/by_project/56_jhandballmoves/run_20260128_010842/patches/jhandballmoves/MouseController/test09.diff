@@ -1,0 +1,36 @@
+--- a/evosuite-tests/visu/handball/moves/controller/MouseController_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/controller/MouseController_ESTest.java
+@@ -136,17 +136,22 @@
+     // existing check on the event's modifiers
+     assertEquals(53, mouseEvent0.getModifiers());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      HandballModel.State handballModel_State0 = HandballModel.State.FULL_ANIMATION_ENDED;
+-      handballModel0.setState(handballModel_State0);
+-      JInternalFrame jInternalFrame0 = new JInternalFrame();
+-      MouseController mouseController0 = new MouseController(handballModel0, jInternalFrame0);
+-      mouseController0.mouseClicked((MouseEvent) null);
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        HandballModel.State handballModel_State0 = HandballModel.State.FULL_ANIMATION_ENDED;
++        // Verify that the state changes as expected
++        handballModel0.setState(handballModel_State0);
++        assertEquals(handballModel_State0, handballModel0.getState());
++        JInternalFrame jInternalFrame0 = new JInternalFrame();
++        MouseController mouseController0 = new MouseController(handballModel0, jInternalFrame0);
++        // Capture state before the click
++        HandballModel.State beforeClick = handballModel0.getState();
++        mouseController0.mouseClicked((MouseEvent) null);
++        // Ensure the click does not unintentionally modify the model state
++        assertEquals(beforeClick, handballModel0.getState());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

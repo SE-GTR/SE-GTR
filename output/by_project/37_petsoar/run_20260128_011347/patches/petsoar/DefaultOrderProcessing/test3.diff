@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/petsoar/order/DefaultOrderProcessing_ESTest.java
++++ b/evosuite-tests/org/petsoar/order/DefaultOrderProcessing_ESTest.java
+@@ -64,22 +64,32 @@
+          verifyException("org.petsoar.order.DefaultOrderProcessing", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        defaultOrderProcessing0 = new DefaultOrderProcessing();
++        // Initialize required PersistenceManager to avoid NullPointerException
++        PersistenceManager pm = (PersistenceManager) java.lang.reflect.Proxy.newProxyInstance(
++                PersistenceManager.class.getClassLoader(),
++                new Class[]{PersistenceManager.class},
++                (proxy, method, args) -> {
++                    Class<?> ret = method.getReturnType();
++                    if (ret.isPrimitive()) {
++                        if (ret == boolean.class) return false;
++                        if (ret == char.class) return '\0';
++                        if (ret == byte.class) return (byte) 0;
++                        if (ret == short.class) return (short) 0;
++                        if (ret == int.class) return 0;
++                        if (ret == long.class) return 0L;
++                        if (ret == float.class) return 0f;
++                        if (ret == double.class) return 0d;
++                    }
++                    return null;
++                });
++        ((PersistenceAware) defaultOrderProcessing0).setPersistenceManager(pm);
++        Order order = defaultOrderProcessing0.getOrder(0L);
++        assertNull(order);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    defaultOrderProcessing0 = new DefaultOrderProcessing();
+-      // Undeclared exception!
+-      try { 
+-        defaultOrderProcessing0.getOrder(0L);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.petsoar.order.DefaultOrderProcessing", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

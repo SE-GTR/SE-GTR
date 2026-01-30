@@ -1,0 +1,28 @@
+--- a/evosuite-tests/com/browsersoft/aacs/Role_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/Role_ESTest.java
+@@ -85,15 +85,16 @@
+     // The purpose of this test is to ensure that bind with a null name does not throw
+     // and does not unintentionally modify the role's namespace name.
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      Role role0 = new Role("/KrbLdap");
+-      role0.modifyAttributes("/KrbLdap", (ModificationItem[]) null);
+-      assertEquals("/KrbLdap", role0.getCn());
+-      assertEquals("cn=/KrbLdap,ou=roles,dc=arch,dc=org", role0.getDn());
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    Role role0 = new Role("/KrbLdap");
++    String originalCn = role0.getCn();
++    String originalDn = role0.getDn();
++    role0.modifyAttributes("/KrbLdap", (ModificationItem[]) null);
++    assertEquals(originalCn, role0.getCn());
++    assertEquals(originalDn, role0.getDn());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
+@@ -289,18 +289,20 @@
+       assertEquals("CREATE SEQUENCE \"K+OJq3Z<JW\" CYCLE", string0);
+       assertTrue(oracleDialect0.isSequenceSupported());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      PostgreSQLDialect postgreSQLDialect0 = new PostgreSQLDialect();
+-      DBSequence dBSequence0 = new DBSequence("m*dbwvq.Ag1XX`", "m*dbwvq.Ag1XX`", "m*dbwvq.Ag1XX`");
+-      BigInteger bigInteger0 = BigInteger.TEN;
+-      dBSequence0.setMinValue(bigInteger0);
+-      String string0 = postgreSQLDialect0.renderCreateSequence(dBSequence0);
+-      assertFalse(postgreSQLDialect0.quoteTableNames);
+-      assertEquals("postgres", postgreSQLDialect0.getSystem());
+-      assertEquals("CREATE SEQUENCE m*dbwvq.Ag1XX` MINVALUE 10", string0);
+-  }
++@Test(timeout = 4000)
++public void test18() throws Throwable {
++    PostgreSQLDialect postgreSQLDialect0 = new PostgreSQLDialect();
++    DBSequence dBSequence0 = new DBSequence("m*dbwvq.Ag1XX`", "m*dbwvq.Ag1XX`", "m*dbwvq.Ag1XX`");
++    BigInteger bigInteger0 = BigInteger.TEN;
++    dBSequence0.setMinValue(bigInteger0);
++    // Verify that the minValue was set correctly
++    assertEquals(bigInteger0, dBSequence0.getMinValue());
++    String string0 = postgreSQLDialect0.renderCreateSequence(dBSequence0);
++    assertFalse(postgreSQLDialect0.quoteTableNames);
++    assertEquals("postgres", postgreSQLDialect0.getSystem());
++    assertEquals("CREATE SEQUENCE m*dbwvq.Ag1XX` MINVALUE 10", string0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

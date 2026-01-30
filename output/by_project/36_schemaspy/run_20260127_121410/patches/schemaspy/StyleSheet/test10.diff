@@ -1,0 +1,36 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/view/StyleSheet_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/view/StyleSheet_ESTest.java
+@@ -150,24 +150,15 @@
+       String string0 = styleSheet0.getIndexedColumnBackground();
+       assertEquals("#f4f7da", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-    evoSuiteFile0 = new EvoSuiteFile("schemaSpy.css");
+-      FileSystemHandling.appendLineToFile(evoSuiteFile0, "&Xt\"zQU");
+-    styleSheet0 = StyleSheet.getInstance();
+-      // Undeclared exception!
+-      try { 
+-        styleSheet0.getPrimaryKeyBackground();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required property 'background' was not found for the definition of '.primaryKey' in schemaSpy.css
+-         //
+-         verifyException("net.sourceforge.schemaspy.view.StyleSheet", e);
+-      }
+-  }
++@Test(timeout = 4000)
++  public void test10() throws Throwable {
++    evoSuiteFile0 = new EvoSuiteFile("schemaSpy.css");
++    FileSystemHandling.appendLineToFile(evoSuiteFile0, ".primaryKey { background: #ff0000; }");
++    styleSheet0 = StyleSheet.getInstance();
++    String primaryKeyBg = styleSheet0.getPrimaryKeyBackground();
++    assertEquals("#ff0000", primaryKeyBg);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

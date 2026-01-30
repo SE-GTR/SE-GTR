@@ -1,0 +1,41 @@
+--- a/evosuite-tests/macaw/presentationLayer/CleaningStatePanel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/CleaningStatePanel_ESTest.java
+@@ -49,20 +49,25 @@
+       ArrayList<MacawChangeEvent> arrayList0 = cleaningStatePanel0.getChangeEvents();
+       assertEquals(0, arrayList0.size());
+   }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    SessionProperties sessionProperties0 = new SessionProperties();
++    String[] stringArray0 = new String[24];
++    User user0 = new User("currentUser", "startupOptions");
++    sessionProperties0.setProperty("currentUser", user0);
++    // verify that the property was set correctly
++    assertEquals(user0, sessionProperties0.getProperty("currentUser"));
++    DerivedVariable derivedVariable0 = new DerivedVariable();
++    derivedVariable0.setCleaned(true);
++    CleaningStatePanel cleaningStatePanel0 = new CleaningStatePanel(sessionProperties0, stringArray0, false);
++    cleaningStatePanel0.initialise(derivedVariable0);
++    // capture state before restore
++    String beforeRestore = cleaningStatePanel0.getCleaningDescription();
++    cleaningStatePanel0.restore();
++    // verify that restore does not unintentionally change the description
++    assertEquals(beforeRestore, cleaningStatePanel0.getCleaningDescription());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      SessionProperties sessionProperties0 = new SessionProperties();
+-      String[] stringArray0 = new String[24];
+-      User user0 = new User("currentUser", "startupOptions");
+-      sessionProperties0.setProperty("currentUser", user0);
+-      DerivedVariable derivedVariable0 = new DerivedVariable();
+-      derivedVariable0.setCleaned(true);
+-      CleaningStatePanel cleaningStatePanel0 = new CleaningStatePanel(sessionProperties0, stringArray0, false);
+-      cleaningStatePanel0.initialise(derivedVariable0);
+-      cleaningStatePanel0.restore();
+-      assertEquals("", cleaningStatePanel0.getCleaningDescription());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

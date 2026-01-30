@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ParameterRestriction_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ParameterRestriction_ESTest.java
+@@ -294,18 +294,28 @@
+         assertNotNull("Serializer should not be null", serializer0);
+         assertNotNull("Mechanism type should not be null", serializer0.getMechanismType());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      ParameterRestriction parameterRestriction0 = new ParameterRestriction();
+-      Long long0 = Long.valueOf((-2795L));
+-      parameterRestriction0.setIntMin(long0);
+-      ParameterRestriction parameterRestriction1 = new ParameterRestriction();
+-      boolean boolean0 = parameterRestriction0.equals(parameterRestriction1);
+-      assertFalse(parameterRestriction1.equals((Object)parameterRestriction0));
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test20() throws Throwable {
++    ParameterRestriction parameterRestriction0 = new ParameterRestriction();
++    Long long0 = Long.valueOf((-2795L));
++    // initial state should have no minimum value
++    assertNull(parameterRestriction0.getIntMin());
++    // act: set the minimum integer value
++    parameterRestriction0.setIntMin(long0);
++    // verify side‑effect of setIntMin
++    assertEquals(long0, parameterRestriction0.getIntMin());
++
++    ParameterRestriction parameterRestriction1 = new ParameterRestriction();
++    // objects differ because only one has intMin set
++    assertFalse(parameterRestriction0.equals(parameterRestriction1));
++    assertFalse(parameterRestriction1.equals((Object) parameterRestriction0));
++
++    // make the second object match the first and verify equality
++    parameterRestriction1.setIntMin(long0);
++    assertTrue(parameterRestriction0.equals(parameterRestriction1));
++    assertTrue(parameterRestriction1.equals((Object) parameterRestriction0));
++}
++
+ @Test(timeout = 4000)
+   public void test21() throws Throwable {
+       TypeDesc typeDesc0 = ParameterRestriction.getTypeDesc();

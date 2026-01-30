@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
+@@ -354,19 +354,28 @@
+       assertEquals(124, j2EEWebSession1.getActiveRequests());
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      J2EEWebSession j2EEWebSession0 = new J2EEWebSession();
+-      J2EEWebSession j2EEWebSession1 = new J2EEWebSession();
+-      assertTrue(j2EEWebSession1.equals((Object)j2EEWebSession0));
+-      
+-      j2EEWebSession0.setProcessname("pWi+Gj!q%L`J*T");
+-      boolean boolean0 = j2EEWebSession0.equals(j2EEWebSession1);
+-      assertFalse(j2EEWebSession1.equals((Object)j2EEWebSession0));
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test20() throws Throwable {
++        J2EEWebSession j2EEWebSession0 = new J2EEWebSession();
++        J2EEWebSession j2EEWebSession1 = new J2EEWebSession();
++        assertTrue(j2EEWebSession1.equals((Object) j2EEWebSession0));
++
++        // Verify initial state before mutation
++        assertNull(j2EEWebSession0.getProcessname());
++        assertNull(j2EEWebSession1.getProcessname());
++
++        String name = "pWi+Gj!q%L`J*T";
++        j2EEWebSession0.setProcessname(name);
++
++        // Observe the side‑effect of setProcessname
++        assertEquals(name, j2EEWebSession0.getProcessname());
++        assertNull(j2EEWebSession1.getProcessname());
++
++        boolean boolean0 = j2EEWebSession0.equals(j2EEWebSession1);
++        assertFalse(j2EEWebSession1.equals((Object) j2EEWebSession0));
++        assertFalse(boolean0);
++    }
++
+ @Test(timeout = 4000)
+   public void test21() throws Throwable {
+       J2EEWebSession session = new J2EEWebSession();

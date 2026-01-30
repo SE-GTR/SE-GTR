@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/runtime/Profile_ESTest.java
+@@ -92,15 +92,28 @@
+         Profile.unwind("<init>", "Ef6=#'jSd=<C-/czZ", " : ");
+         assertTrue("Controller debug flag should remain true after profiling calls", Controller._debug);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      Profile.clear();
+-      Profile.start("!-", "!-");
+-      Profile.start("thread", "!-");
+-      Profile.end("thread", "<T|qUi`%%RnuDRw");
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        // Clear any existing profiling data and verify the state is empty
++        Profile.clear();
++        assertTrue(Profile.getFrameList().isEmpty());
++
++        // First start should add a frame
++        int sizeBefore = Profile.getFrameList().size();
++        Profile.start("!-", "!-");
++        assertEquals(sizeBefore + 1, Profile.getFrameList().size());
++
++        // Second start should add another frame
++        sizeBefore = Profile.getFrameList().size();
++        Profile.start("thread", "!-");
++        assertEquals(sizeBefore + 1, Profile.getFrameList().size());
++
++        // End should remove (or at least not increase) the frame count for the thread
++        sizeBefore = Profile.getFrameList().size();
++        Profile.end("thread", "<T|qUi`%%RnuDRw");
++        assertTrue(Profile.getFrameList().size() <= sizeBefore);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/character/data/map/MapIndex_ESTest.java
++++ b/evosuite-tests/org/character/data/map/MapIndex_ESTest.java
+@@ -36,22 +36,21 @@
+         // Invoke the method to ensure it handles a null key without throwing an exception.
+         MapIndex.get((Integer) null);
+     }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    // Prepare a dummy PersistenteData instance to satisfy the static field requirement.
++    java.lang.reflect.Field persistenceField = MapIndex.class.getDeclaredField("persistenceMethod");
++    persistenceField.setAccessible(true);
++    Object dummyPersistenteData = java.lang.reflect.Proxy.newProxyInstance(
++            MapIndex.class.getClassLoader(),
++            new Class<?>[]{org.javathena.core.data.PersistenteData.class},
++            (proxy, method, args) -> null);
++    persistenceField.set(null, dummyPersistenteData);
+ 
++    // Invoke the method under test; it should no longer throw a NullPointerException.
++    MapIndex.load();
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        MapIndex.load();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.character.data.map.MapIndex", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

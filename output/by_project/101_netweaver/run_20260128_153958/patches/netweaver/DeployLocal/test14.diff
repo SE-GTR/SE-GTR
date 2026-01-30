@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/DeployLocal_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/DeployLocal_ESTest.java
+@@ -142,23 +142,17 @@
+         deployLocal0 = new DeployLocal(archivePaths, options);
+         assertEquals("archive1", deployLocal0.getArchivePaths(0));
+     }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        // Initialize DeployLocal with a sufficiently sized archivePaths array
++        String[] archiveArray = new String[400];
++        deployLocal0 = new DeployLocal(archiveArray, null);
++        String expectedPath = "GW n_eQ:N";
++        // Set a valid index and verify the value is stored correctly
++        deployLocal0.setArchivePaths(379, expectedPath);
++        assertEquals(expectedPath, deployLocal0.getArchivePaths(379));
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-    deployLocal0 = new DeployLocal();
+-      // Undeclared exception!
+-      try { 
+-        deployLocal0.setArchivePaths(379, "GW n_eQ:N");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.sap.engine.services.dc.wsgate.DeployLocal", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

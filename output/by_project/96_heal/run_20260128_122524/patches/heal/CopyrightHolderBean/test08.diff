@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/heal/module/metadata/CopyrightHolderBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/CopyrightHolderBean_ESTest.java
+@@ -77,14 +77,25 @@
+         bean.setEmail(email);
+         assertEquals(email, bean.getEmail());
+     }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        CopyrightHolderBean bean = new CopyrightHolderBean();
++        // set a non‑default value to exercise state change
++        bean.setMetadataId("meta123");
++        // serialize the bean
++        java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(bos);
++        out.writeObject(bean);
++        out.flush();
++        byte[] serialized = bos.toByteArray();
++        // deserialize the bean
++        java.io.ByteArrayInputStream bis = new java.io.ByteArrayInputStream(serialized);
++        java.io.ObjectInputStream in = new java.io.ObjectInputStream(bis);
++        CopyrightHolderBean deserialized = (CopyrightHolderBean) in.readObject();
++        // verify that the serialized state is preserved
++        assertEquals("meta123", deserialized.getMetadataId());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      CopyrightHolderBean copyrightHolderBean0 = new CopyrightHolderBean();
+-      String string0 = copyrightHolderBean0.getMetadataId();
+-      assertNull(string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

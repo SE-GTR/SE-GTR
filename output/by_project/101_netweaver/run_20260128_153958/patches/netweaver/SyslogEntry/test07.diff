@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SyslogEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SyslogEntry_ESTest.java
+@@ -125,18 +125,25 @@
+         boolean boolean0 = syslogEntry1.equals(syslogEntry0);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      SyslogEntry syslogEntry0 = new SyslogEntry();
+-      SyslogEntry syslogEntry1 = new SyslogEntry();
+-      assertTrue(syslogEntry1.equals((Object)syslogEntry0));
+-      
+-      syslogEntry1.setMNo("client");
+-      boolean boolean0 = syslogEntry1.equals(syslogEntry0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        SyslogEntry syslogEntry0 = new SyslogEntry();
++        SyslogEntry syslogEntry1 = new SyslogEntry();
++        assertTrue(syslogEntry1.equals((Object) syslogEntry0));
++
++        // Verify initial state before mutation
++        assertNull(syslogEntry1.getMNo());
++
++        // Mutate state
++        syslogEntry1.setMNo("client");
++
++        // Observe the side‑effect of setMNo
++        assertEquals("client", syslogEntry1.getMNo());
++
++        // Ensure the mutation affects equality as expected
++        assertFalse(syslogEntry1.equals(syslogEntry0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

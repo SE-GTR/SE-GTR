@@ -1,0 +1,36 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Department_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Department_ESTest.java
+@@ -169,15 +169,24 @@
+         assertSame(postalCode, department0.getPostalCode());
+     }
+ @Test(timeout = 4000)
+-    public void test13() throws Throwable {
+-        Department department0 = new Department();
+-        MailStopType mailStopType0 = new MailStopType();
+-        department0.setMailStop(mailStopType0);
+-        // Verify that the mailStop was correctly set
+-        assertSame(mailStopType0, department0.getMailStop());
+-        // The type field should remain null as it was never set
+-        assertNull(department0.getType());
+-    }
++public void test13() throws Throwable {
++    Department department0 = new Department();
++    MailStopType mailStopType0 = new MailStopType();
++    // exercise a state‑changing setter
++    department0.setMailStop(mailStopType0);
++    assertSame(mailStopType0, department0.getMailStop());
++
++    // verify that an unrelated field remains untouched
++    assertNull(department0.getType());
++
++    // add a non‑trivial interaction with the live list returned by a getter
++    int beforeSize = department0.getAddressLine().size();
++    AddressLine addressLine0 = new AddressLine();
++    department0.getAddressLine().add(addressLine0);
++    assertEquals(beforeSize + 1, department0.getAddressLine().size());
++    assertSame(addressLine0, department0.getAddressLine().get(beforeSize));
++}
++
+ 
+ @Test(timeout = 4000)
+ public void test14() throws Throwable {

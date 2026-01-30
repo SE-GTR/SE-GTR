@@ -1,0 +1,82 @@
+--- a/evosuite-tests/org/heal/module/notice/NotificationServicesBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/notice/NotificationServicesBean_ESTest.java
+@@ -54,63 +54,31 @@
+         notificationServicesBean0.setUserRegistry(userRegistryBean0);
+         notificationServicesBean0.addUserToList(" 0faultSting: ");
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-    Future<?> future = executor.submit(new Runnable(){ 
+-            @Override public void run() { 
++@Test(timeout = 4000)
++  public void test04() throws Throwable {
++    Future<?> future = executor.submit(new Runnable() {
++      @Override
++      public void run() {
+         try {
+           NotificationServicesBean notificationServicesBean0 = new NotificationServicesBean();
+           notificationServicesBean0.setMailhost("");
+           // Undeclared exception!
+-          try { 
++          try {
+             notificationServicesBean0.sendUserNotice("", "");
+             fail("Expecting exception: SecurityException");
+-          
+-          } catch(SecurityException e) {
+-             //
+-             // Security manager blocks (\"java.net.SocketPermission\" \"localhost\" \"resolve\")
+-             // java.lang.Thread.getStackTrace(Thread.java:1564)
+-             // org.evosuite.runtime.sandbox.MSecurityManager.checkPermission(MSecurityManager.java:424)
+-             // java.lang.SecurityManager.checkConnect(SecurityManager.java:1048)
+-             // java.net.InetAddress.getAllByName0(InetAddress.java:1239)
+-             // java.net.InetAddress.getAllByName(InetAddress.java:1144)
+-             // java.net.InetAddress.getAllByName(InetAddress.java:1065)
+-             // java.net.InetAddress.getByName(InetAddress.java:1015)
+-             // java.net.InetSocketAddress.<init>(InetSocketAddress.java:220)
+-             // java.net.Socket.<init>(Socket.java:229)
+-             // com.sun.mail.util.SocketFetcher.getSocket0(SocketFetcher.java:131)
+-             // com.sun.mail.util.SocketFetcher.getSocket(SocketFetcher.java:113)
+-             // com.sun.mail.smtp.SMTPTransport.openServer(SMTPTransport.java:836)
+-             // com.sun.mail.smtp.SMTPTransport.protocolConnect(SMTPTransport.java:156)
+-             // javax.mail.Service.connect(Service.java:234)
+-             // javax.mail.Service.connect(Service.java:135)
+-             // org.heal.module.notice.NotificationServicesBean.sendEmail(NotificationServicesBean.java:354)
+-             // org.heal.module.notice.NotificationServicesBean.sendUserNotice(NotificationServicesBean.java:157)
+-             // sun.reflect.GeneratedMethodAccessor137.invoke(Unknown Source)
+-             // sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+-             // java.lang.reflect.Method.invoke(Method.java:498)
+-             // org.evosuite.testcase.statements.MethodStatement$1.execute(MethodStatement.java:256)
+-             // org.evosuite.testcase.statements.AbstractStatement.exceptionHandler(AbstractStatement.java:165)
+-             // org.evosuite.testcase.statements.MethodStatement.execute(MethodStatement.java:219)
+-             // org.evosuite.testcase.execution.TestRunnable.executeStatements(TestRunnable.java:286)
+-             // org.evosuite.testcase.execution.TestRunnable.call(TestRunnable.java:192)
+-             // org.evosuite.testcase.execution.TestRunnable.call(TestRunnable.java:49)
+-             // java.util.concurrent.FutureTask.run(FutureTask.java:266)
+-             // java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+-             // java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+-             // java.lang.Thread.run(Thread.java:750)
+-             //
+-             verifyException("org.evosuite.runtime.sandbox.MSecurityManager", e);
++          } catch (SecurityException e) {
++            // Security manager blocks ("java.net.SocketPermission" "localhost" "resolve")
++            verifyException("org.evosuite.runtime.sandbox.MSecurityManager", e);
+           }
+-        } catch(Throwable t) {
+-            // Need to catch declared exceptions
++        } catch (Throwable t) {
++          // Need to catch declared exceptions
+         }
+-      } 
++      }
+     });
+-    future.get(4000, TimeUnit.MILLISECONDS);
+-  }
++    Object result = future.get(4000, TimeUnit.MILLISECONDS);
++    assertNull(result);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

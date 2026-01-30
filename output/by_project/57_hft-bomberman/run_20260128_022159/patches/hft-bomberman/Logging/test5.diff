@@ -1,0 +1,53 @@
+--- a/evosuite-tests/logging/Logging_ESTest.java
++++ b/evosuite-tests/logging/Logging_ESTest.java
+@@ -67,15 +67,43 @@
+     assertNotNull(logging0);
+     assertEquals(10000, level0.toInt());
+ }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        // Arrange
++        logging0 = Logging.getInstance();
++        level0 = Level.ERROR;
+ 
++        // Capture logging events using a temporary in‑memory appender
++        final java.util.List<org.apache.log4j.spi.LoggingEvent> events = new java.util.ArrayList<>();
++        org.apache.log4j.Appender appender = new org.apache.log4j.AppenderSkeleton() {
++            @Override
++            protected void append(org.apache.log4j.spi.LoggingEvent event) {
++                events.add(event);
++            }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    logging0 = Logging.getInstance();
+-    level0 = Level.ERROR;
+-      logging0.log(level0, "", "");
+-      assertEquals(Integer.MIN_VALUE, Priority.ALL_INT);
+-  }
++            @Override
++            public void close() {
++                // no resources to release
++            }
++
++            @Override
++            public boolean requiresLayout() {
++                return false;
++            }
++        };
++        org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger("Logging");
++        logger.addAppender(appender);
++
++        // Act
++        logging0.log(level0, "", "");
++
++        // Assert – verify that a logging event was produced
++        assertFalse("Expected at least one logging event to be recorded", events.isEmpty());
++
++        // Clean up the temporary appender
++        logger.removeAppender(appender);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

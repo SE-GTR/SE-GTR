@@ -1,0 +1,48 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -489,20 +489,31 @@
+         boolean boolean0 = j2EEEJBSession1.equals(j2EEEJBSession0);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      j2EEEJBSession0.setProcessname("t!Ks:86");
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      assertFalse(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      
+-      j2EEEJBSession1.setProcessname("t!Ks:86");
+-      boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
+-      assertTrue(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test26() throws Throwable {
++    J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
++    // Verify initial state before setting process name
++    assertNull(j2EEEJBSession0.getProcessname());
++
++    j2EEEJBSession0.setProcessname("t!Ks:86");
++    // Verify side‑effect of setProcessname
++    assertEquals("t!Ks:86", j2EEEJBSession0.getProcessname());
++
++    J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
++    assertFalse(j2EEEJBSession1.equals((Object) j2EEEJBSession0));
++
++    // Verify initial state of the second instance
++    assertNull(j2EEEJBSession1.getProcessname());
++
++    j2EEEJBSession1.setProcessname("t!Ks:86");
++    // Verify side‑effect on the second instance
++    assertEquals("t!Ks:86", j2EEEJBSession1.getProcessname());
++
++    boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
++    assertTrue(j2EEEJBSession1.equals((Object) j2EEEJBSession0));
++    assertTrue(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

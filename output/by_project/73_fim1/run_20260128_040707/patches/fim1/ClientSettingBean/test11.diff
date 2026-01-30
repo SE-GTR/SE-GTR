@@ -1,0 +1,34 @@
+--- a/evosuite-tests/osa/ora/server/beans/ClientSettingBean_ESTest.java
++++ b/evosuite-tests/osa/ora/server/beans/ClientSettingBean_ESTest.java
+@@ -99,14 +99,23 @@
+         clientSettingBean0.setServerPort("8080");
+         assertEquals("8080", clientSettingBean0.getServerPort());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      ClientSettingBean clientSettingBean0 = new ClientSettingBean("");
+-      clientSettingBean0.setSourceFontStyle((String) null);
+-      assertNull(clientSettingBean0.getSourceFontName());
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    ClientSettingBean clientSettingBean0 = new ClientSettingBean("");
++    // Capture the original style (may be null or a default value)
++    String originalStyle = clientSettingBean0.getSourceFontStyle();
++    // Apply the side‑effect
++    clientSettingBean0.setSourceFontStyle(null);
++    // Verify that the side‑effect is observable through the public getter
++    assertNull(clientSettingBean0.getSourceFontStyle());
++    // Preserve the original assertion about the font name
++    assertNull(clientSettingBean0.getSourceFontName());
++    // Optional sanity check: the style changed from its original value (if it was non‑null)
++    if (originalStyle != null) {
++        assertNotEquals(originalStyle, clientSettingBean0.getSourceFontStyle());
++    }
++}
++
+ @Test(timeout = 4000)
+ public void test12() throws Throwable {
+     ClientSettingBean clientSettingBean0 = new ClientSettingBean("");

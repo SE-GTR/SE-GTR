@@ -1,0 +1,49 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -110,19 +110,33 @@
+         assertEquals(0, session.getResponseTime());
+         assertEquals(0, session.getSize());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      j2EEEJBSession0.setState("");
+-      j2EEEJBSession0.hashCode();
+-      assertEquals(0, j2EEEJBSession0.getSize());
+-      assertEquals(0, j2EEEJBSession0.getResponseTime());
+-      assertEquals(0, j2EEEJBSession0.getActiveRequests());
+-      assertEquals(0, j2EEEJBSession0.getTotalRequests());
+-      assertEquals(0, j2EEEJBSession0.getIdHash());
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        J2EEEJBSession session = new J2EEEJBSession();
++
++        // capture initial observable state
++        int initSize = session.getSize();
++        int initResponse = session.getResponseTime();
++        int initActive = session.getActiveRequests();
++        int initTotal = session.getTotalRequests();
++        int initIdHash = session.getIdHash();
++
++        // act: modify the internal state via setState
++        session.setState("");
++
++        // verify that hashCode is stable after the state change
++        int hashAfterFirst = session.hashCode();
++        int hashAfterSecond = session.hashCode();
++        assertEquals(hashAfterFirst, hashAfterSecond);
++
++        // verify that other observable fields remain unchanged
++        assertEquals(initSize, session.getSize());
++        assertEquals(initResponse, session.getResponseTime());
++        assertEquals(initActive, session.getActiveRequests());
++        assertEquals(initTotal, session.getTotalRequests());
++        assertEquals(initIdHash, session.getIdHash());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

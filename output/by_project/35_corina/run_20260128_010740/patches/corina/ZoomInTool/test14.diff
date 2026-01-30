@@ -1,0 +1,46 @@
+--- a/evosuite-tests/corina/map/tools/ZoomInTool_ESTest.java
++++ b/evosuite-tests/corina/map/tools/ZoomInTool_ESTest.java
+@@ -213,22 +213,25 @@
+       assertEquals(260, keyStroke0.getModifiers());
+       assertEquals(' ', keyStroke0.getKeyChar());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-    view0 = new View();
+-    mapPanel0 = new MapPanel((MapFrame) null, (LabelSet) null);
+-    zoomInTool0 = new ZoomInTool(mapPanel0, view0, (ToolBox) null);
+-      // Undeclared exception!
+-      try { 
+-        zoomInTool0.mousePressed((MouseEvent) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.map.tools.ZoomInTool", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        // Create non‑null dependencies required by ZoomInTool
++        View view0 = new View();
++        MapFrame mapFrame0 = new MapFrame();
++        LabelSet labelSet0 = new LabelSet();
++        MapPanel mapPanel0 = new MapPanel(mapFrame0, labelSet0);
++        ToolBox toolBox0 = new ToolBox();
++
++        // Instantiate the tool under test
++        ZoomInTool zoomInTool0 = new ZoomInTool(mapPanel0, view0, toolBox0);
++
++        // Create a valid MouseEvent (source component must be non‑null)
++        java.awt.Button source = new java.awt.Button();
++        MouseEvent event = new MouseEvent(source, MouseEvent.MOUSE_PRESSED,
++                System.currentTimeMillis(), 0, 10, 10, 1, false);
++
++        // Invoke the method; any unexpected exception will cause the test to fail
++        zoomInTool0.mousePressed(event);
++    }
++
+ }

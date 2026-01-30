@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/quickserver/util/pool/thread/app/AppThreadPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/thread/app/AppThreadPool_ESTest.java
+@@ -76,16 +76,23 @@
+       assertTrue("Default keep-alive time should be positive", keepAlive > 0);
+       assertTrue("Default keep-alive time should be within a reasonable range", keepAlive <= 3600);
+   }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    // Verify the initial default values
++    int defaultCore = AppThreadPool.getDefaultCorePoolSize();
++    int defaultKeepAlive = AppThreadPool.getDefaultKeepAliveTime();
++    assertEquals(10, defaultCore);
++    assertEquals(120, defaultKeepAlive);
+ 
++    // Initialise the pool with specific parameters
++    TimeUnit timeUnit0 = TimeUnit.MICROSECONDS;
++    AppThreadPool.initPool("SJ0 ", 1872, 1872, 0, timeUnit0);
+ 
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      AppThreadPool.getDefaultCorePoolSize();
+-      AppThreadPool.getDefaultKeepAliveTime();
+-      TimeUnit timeUnit0 = TimeUnit.MICROSECONDS;
+-      AppThreadPool.initPool("SJ0 ", 1872, 1872, 0, timeUnit0);
+-      AppThreadPool.setDefaultMaximumPoolSize(0);
+-  }
++    // Change the default maximum pool size and assert the side‑effect
++    AppThreadPool.setDefaultMaximumPoolSize(0);
++    assertEquals(0, AppThreadPool.getDefaultMaximumPoolSize());
++}
++
+ @Test(timeout = 4000)
+ public void test10() throws Throwable {
+     int maxSize = AppThreadPool.getDefaultMaximumPoolSize();

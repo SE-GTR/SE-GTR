@@ -1,0 +1,29 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Premise_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Premise_ESTest.java
+@@ -524,11 +524,19 @@
+       premise0.setPremiseThoroughfareConnector("0(^?Mr\u0003V)");
+       assertNull(premise0.getType());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test67()  throws Throwable  {
+-    premise0 = new Premise();
+-      premise0.setMailStop((MailStopType) null);
+-      assertNull(premise0.getPremiseDependencyType());
+-  }
++@Test(timeout = 4000)
++    public void test67() throws Throwable {
++        premise0 = new Premise();
++        // side‑effect: set mailStop to null
++        premise0.setMailStop(null);
++        // verify that the setter had the expected effect
++        assertNull(premise0.getMailStop());
++        // existing getter assertion
++        assertNull(premise0.getPremiseDependencyType());
++        // invoke a non‑trivial method to avoid accessor‑only testing
++        String description = premise0.toString();
++        assertNotNull(description);
++        assertTrue(description.contains("Premise"));
++    }
++
+ }

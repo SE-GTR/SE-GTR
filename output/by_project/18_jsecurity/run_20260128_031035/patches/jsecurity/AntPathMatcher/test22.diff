@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/util/AntPathMatcher_ESTest.java
++++ b/evosuite-tests/org/jsecurity/util/AntPathMatcher_ESTest.java
+@@ -163,15 +163,17 @@
+     boolean result = antPathMatcher0.match("/foo/**", "/bar");
+     assertFalse(result);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-    antPathMatcher0 = new AntPathMatcher();
+-      antPathMatcher0.setPathSeparator("");
+-      boolean boolean0 = antPathMatcher0.match("**", "");
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test22() throws Throwable {
++        antPathMatcher0 = new AntPathMatcher();
++        String beforeSeparator = antPathMatcher0.getPathSeparator();
++        antPathMatcher0.setPathSeparator("");
++        assertEquals("", antPathMatcher0.getPathSeparator());
++        assertNotEquals("", beforeSeparator);
++        boolean matchResult = antPathMatcher0.match("**", "");
++        assertTrue(matchResult);
++    }
++
+ @Test(timeout = 4000)
+   public void test23() throws Throwable {
+     antPathMatcher0 = new AntPathMatcher();

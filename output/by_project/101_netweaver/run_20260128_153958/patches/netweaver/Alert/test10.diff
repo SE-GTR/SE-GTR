@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/Alert_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/Alert_ESTest.java
+@@ -185,18 +185,26 @@
+     assertTrue(alert1.equals((Object) alert0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      Alert alert0 = new Alert();
+-      Alert alert1 = new Alert();
+-      assertTrue(alert1.equals((Object)alert0));
+-      
+-      alert1.setDescription("x)8hZ/4],{?+");
+-      boolean boolean0 = alert0.equals(alert1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        Alert alert0 = new Alert();
++        Alert alert1 = new Alert();
++        assertTrue(alert1.equals((Object) alert0));
++
++        // Verify initial state before mutation
++        assertNull(alert1.getDescription());
++
++        // Act: change description
++        alert1.setDescription("x)8hZ/4],{?+");
++
++        // Assert side‑effect of setDescription
++        assertEquals("x)8hZ/4],{?+", alert1.getDescription());
++
++        // Ensure objects are now different
++        boolean boolean0 = alert0.equals(alert1);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

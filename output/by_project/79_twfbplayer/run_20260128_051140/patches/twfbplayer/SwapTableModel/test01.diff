@@ -1,0 +1,47 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/gui/statistics/SwapTableModel_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/gui/statistics/SwapTableModel_ESTest.java
+@@ -32,29 +32,22 @@
+       Object object0 = swapTableModel0.getValueAt(0, 1265);
+       assertNull(object0);
+   }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        ArrayList<PositionSwitch> list = new ArrayList<>();
++        PositionSwitch ps0 = mock(PositionSwitch.class, new ViolatedAssumptionAnswer());
++        doReturn(0).when(ps0).compareTo(any(PositionSwitch.class));
++        // stub fields that the model may access to avoid NullPointerException
++        when(ps0.getName()).thenReturn("first");
++        when(ps0.getFrom()).thenReturn(1);
++        when(ps0.getTo()).thenReturn(2);
++        when(ps0.getCount()).thenReturn(3);
++        list.add(ps0);
++        SwapTableModel model = new SwapTableModel(list);
++        Object value = model.getValueAt(0, 0);
++        assertNotNull(value);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      ArrayList<PositionSwitch> arrayList0 = new ArrayList<PositionSwitch>();
+-      PositionSwitch positionSwitch0 = mock(PositionSwitch.class, new ViolatedAssumptionAnswer());
+-      doReturn(2537).when(positionSwitch0).compareTo(any(de.outstare.fortbattleplayer.statistics.PositionSwitch.class));
+-      arrayList0.add(positionSwitch0);
+-      PositionSwitch positionSwitch1 = mock(PositionSwitch.class, new ViolatedAssumptionAnswer());
+-      doReturn(2537).when(positionSwitch1).compareTo(any(de.outstare.fortbattleplayer.statistics.PositionSwitch.class));
+-      arrayList0.add(positionSwitch1);
+-      SwapTableModel swapTableModel0 = new SwapTableModel(arrayList0);
+-      // Undeclared exception!
+-      try { 
+-        swapTableModel0.getValueAt(1, 4);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.outstare.fortbattleplayer.gui.statistics.SwapTableModel", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

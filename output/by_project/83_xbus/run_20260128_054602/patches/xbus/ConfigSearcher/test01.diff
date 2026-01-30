@@ -1,0 +1,46 @@
+--- a/evosuite-tests/net/sf/xbus/tools/ConfigSearcher_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/tools/ConfigSearcher_ESTest.java
+@@ -41,25 +41,26 @@
+          verifyException("org.evosuite.runtime.System", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile((File) null, ".java");
+-      File file0 = MockFile.createTempFile(".java", "q>gXVv%I0J{c{qCVS.java", (File) mockFile0);
+-      file0.setReadable(false);
+-      ConfigSearcher configSearcher0 = new ConfigSearcher();
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    MockFile mockFile0 = new MockFile((File) null, ".java");
++    File file0 = MockFile.createTempFile(".java", "q>gXVv%I0J{c{qCVS.java", (File) mockFile0);
++    boolean readableSet = file0.setReadable(false);
++    assertTrue(readableSet);
++    assertFalse(file0.canRead());
++    ConfigSearcher configSearcher0 = new ConfigSearcher();
++    // Undeclared exception!
++    try {
+         configSearcher0.getEntriesFromDirectory(mockFile0);
+         fail("Expecting exception: System.SystemExitException");
+-      
+-      } catch(System.SystemExitException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.System", e);
+-      }
+-  }
++    } catch (System.SystemExitException e) {
++        //
++        // no message in exception (getMessage() returned null)
++        //
++        verifyException("org.evosuite.runtime.System", e);
++    }
++}
++
+ @Test(timeout = 4000)
+ public void test02() throws Throwable {
+     EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("Process/null/configuration.csv0mntCVS.java");

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
+@@ -549,17 +549,22 @@
+     assertEquals(-2004946857, conn.getLocalPort());
+     assertEquals(">1}nF95K<V];_K", conn.getRole());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      ICMConnection iCMConnection0 = new ICMConnection();
+-      iCMConnection0.setProtocol("");
+-      ICMConnection iCMConnection1 = new ICMConnection();
+-      boolean boolean0 = iCMConnection0.equals(iCMConnection1);
+-      assertFalse(boolean0);
+-      assertFalse(iCMConnection1.equals((Object)iCMConnection0));
+-  }
++@Test(timeout = 4000)
++  public void test34() throws Throwable {
++      ICMConnection iCMConnection0 = new ICMConnection();
++      // verify initial state
++      assertNull(iCMConnection0.getProtocol());
++
++      // exercise the void method and observe its effect
++      iCMConnection0.setProtocol("http");
++      assertEquals("http", iCMConnection0.getProtocol());
++
++      ICMConnection iCMConnection1 = new ICMConnection();
++      // the two connections should now be different because the protocol differs
++      assertFalse(iCMConnection0.equals(iCMConnection1));
++      assertFalse(iCMConnection1.equals((Object) iCMConnection0));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test35()  throws Throwable  {

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/net/sf/sugar/scl/SCLParser_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/scl/SCLParser_ESTest.java
+@@ -163,24 +163,19 @@
+     SCLParser.namespaceName_return ret = sCLParser0.namespaceName();
+     assertNotNull(ret);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      RecognizerSharedState recognizerSharedState0 = new RecognizerSharedState();
+-      SCLParser sCLParser0 = new SCLParser((TokenStream) null, recognizerSharedState0);
+-      // Undeclared exception!
+-      try { 
+-        sCLParser0.varValue();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.sugar.scl.SCLParser", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        RecognizerSharedState recognizerSharedState0 = new RecognizerSharedState();
++        // Prepare a minimal valid input for the varValue rule.
++        org.antlr.runtime.ANTLRStringStream input = new org.antlr.runtime.ANTLRStringStream("\"test\"");
++        net.sf.sugar.scl.SCLLexer lexer = new net.sf.sugar.scl.SCLLexer(input);
++        org.antlr.runtime.CommonTokenStream tokens = new org.antlr.runtime.CommonTokenStream(lexer);
++        SCLParser sCLParser0 = new SCLParser(tokens, recognizerSharedState0);
++        // Execute the rule and verify a non‑null result.
++        SCLParser.varValue_return result = sCLParser0.varValue();
++        assertNotNull(result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

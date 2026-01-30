@@ -1,0 +1,48 @@
+--- a/evosuite-tests/geo/google/GeoAddressStandardizer_ESTest.java
++++ b/evosuite-tests/geo/google/GeoAddressStandardizer_ESTest.java
+@@ -118,26 +118,27 @@
+          verifyException("geo.google.GeoAddressStandardizer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      GeoAddressStandardizer geoAddressStandardizer0 = new GeoAddressStandardizer("\"3c");
+-      geoAddressStandardizer0.getHttpClientParams();
+-      geoAddressStandardizer0.setHttpClientParams((HttpClientParams) null);
+-      geoAddressStandardizer0.getApiKey();
+-      MultiThreadedHttpConnectionManager multiThreadedHttpConnectionManager0 = new MultiThreadedHttpConnectionManager();
+-      GeoAddressStandardizer.setConnectionManager(multiThreadedHttpConnectionManager0);
+-      try { 
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    GeoAddressStandardizer geoAddressStandardizer0 = new GeoAddressStandardizer("\"3c");
++    HttpClientParams params = geoAddressStandardizer0.getHttpClientParams();
++    assertNull(params);
++    geoAddressStandardizer0.setHttpClientParams((HttpClientParams) null);
++    String apiKey = geoAddressStandardizer0.getApiKey();
++    assertNull(apiKey);
++    MultiThreadedHttpConnectionManager multiThreadedHttpConnectionManager0 = new MultiThreadedHttpConnectionManager();
++    GeoAddressStandardizer.setConnectionManager(multiThreadedHttpConnectionManager0);
++    try {
+         geoAddressStandardizer0.standardizeToGeoAddress("http.protocol.allow-circular-redirects");
+         fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // Remote address/port is not opened: org.evosuite.runtime.vnet.EndPointInfo@403d2e12
+-         //
+-         verifyException("geo.google.GeoAddressStandardizer", e);
+-      }
+-  }
++    } catch (Exception e) {
++        //
++        // Remote address/port is not opened: org.evosuite.runtime.vnet.EndPointInfo@403d2e12
++        //
++        verifyException("geo.google.GeoAddressStandardizer", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

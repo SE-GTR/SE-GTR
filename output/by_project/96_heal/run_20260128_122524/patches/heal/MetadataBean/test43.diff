@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/heal/module/metadata/MetadataBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/MetadataBean_ESTest.java
+@@ -363,14 +363,20 @@
+     // Existing assertion retained
+     assertNull(bean.getSourceCollectionId());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test43()  throws Throwable  {
+-    metadataBean0 = new MetadataBean();
+-      metadataBean0.setOrientation("Source:SourceId:");
+-      assertNull(metadataBean0.getFormat());
+-  }
++@Test(timeout = 4000)
++    public void test43() throws Throwable {
++        metadataBean0 = new MetadataBean();
++        // initial state assertions
++        assertNull(metadataBean0.getFormat());
++        assertNull(metadataBean0.getOrientation());
++        // act: change orientation
++        metadataBean0.setOrientation("Source:SourceId:");
++        // verify the side‑effect is observable
++        assertEquals("Source:SourceId:", metadataBean0.getOrientation());
++        // ensure unrelated fields remain unchanged
++        assertNull(metadataBean0.getFormat());
++    }
++
+ @Test(timeout = 4000)
+   public void test44() throws Throwable {
+     MetadataBean metadataBean0 = new MetadataBean();

@@ -1,0 +1,49 @@
+--- a/evosuite-tests/jigl/math/Matrix_ESTest.java
++++ b/evosuite-tests/jigl/math/Matrix_ESTest.java
+@@ -305,23 +305,29 @@
+       assertEquals(4.0, matrix1.mem[1][0], 0.0);
+       assertEquals(0.0, matrix1.mem[1][1], 0.0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      double[][] doubleArray0 = new double[1][8];
+-      Matrix matrix0 = new Matrix(doubleArray0);
+-      try { 
+-        matrix0.mult(matrix0);
+-        fail("Expecting exception: ArithmeticException");
+-      
+-      } catch(ArithmeticException e) {
+-         //
+-         // Matrices not of the correct size
+-         //
+-         verifyException("jigl.math.Matrix", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test22() throws Throwable {
++    double[][] a = new double[1][8];
++    for (int i = 0; i < 8; i++) {
++        a[0][i] = i + 1;
++    }
++    double[][] b = new double[8][1];
++    for (int i = 0; i < 8; i++) {
++        b[i][0] = i + 1;
++    }
++    Matrix mA = new Matrix(a);
++    Matrix mB = new Matrix(b);
++    Matrix result = mA.mult(mB);
++    assertNotNull(result);
++    assertEquals(1, result.mem.length);
++    assertEquals(1, result.mem[0].length);
++    double expected = 0.0;
++    for (int i = 0; i < 8; i++) {
++        expected += (i + 1) * (i + 1);
++    }
++    assertEquals(expected, result.mem[0][0], 1e-10);
++}
++
+ @Test(timeout = 4000)
+ public void test23() throws Throwable {
+     double[][] doubleArray0 = new double[1][8];

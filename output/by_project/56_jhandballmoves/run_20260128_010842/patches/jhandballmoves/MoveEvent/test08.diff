@@ -1,0 +1,56 @@
+--- a/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
+@@ -170,23 +170,36 @@
+         assertEquals(0, moveEvent0.getDelay());
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      Defender defender0 = new Defender((-228), 1098);
+-      MoveEvent moveEvent0 = new MoveEvent(defender0, (-228), 1041);
+-      MoveEvent moveEvent1 = new MoveEvent(defender0, 1);
+-      Offender offender0 = new Offender((-721), (-2091));
+-      moveEvent1.setPlayer(offender0);
+-      moveEvent0.setDestinationPoint(756, 1, false);
+-      moveEvent1.setDestinationPoint(756, 1, false);
+-      moveEvent0.setDelay(0);
+-      boolean boolean0 = moveEvent0.equals(moveEvent1);
+-      assertEquals(0, moveEvent0.getDelay());
+-      assertTrue(moveEvent1.isDestinationPointSet());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    Defender defender0 = new Defender((-228), 1098);
++    MoveEvent moveEvent0 = new MoveEvent(defender0, (-228), 1041);
++    MoveEvent moveEvent1 = new MoveEvent(defender0, 1);
++    Offender offender0 = new Offender((-721), (-2091));
++
++    // verify initial player is the defender
++    assertEquals(defender0, moveEvent0.getPlayer());
++    assertEquals(defender0, moveEvent1.getPlayer());
++
++    // set a new player and assert the change
++    moveEvent1.setPlayer(offender0);
++    assertEquals(offender0, moveEvent1.getPlayer());
++
++    // set destination points and assert they are recorded
++    moveEvent0.setDestinationPoint(756, 1, false);
++    moveEvent1.setDestinationPoint(756, 1, false);
++    assertTrue(moveEvent0.isDestinationPointSet());
++    assertTrue(moveEvent1.isDestinationPointSet());
++
++    // set delay and assert the value
++    moveEvent0.setDelay(0);
++    assertEquals(0, moveEvent0.getDelay());
++
++    // verify inequality due to different players
++    boolean boolean0 = moveEvent0.equals(moveEvent1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

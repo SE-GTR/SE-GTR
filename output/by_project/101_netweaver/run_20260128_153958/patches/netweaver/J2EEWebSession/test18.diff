@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEWebSession_ESTest.java
+@@ -321,20 +321,31 @@
+     assertEquals(0, j2EEWebSession1.getTimeout());
+     assertFalse(j2EEWebSession1.equals((Object) j2EEWebSession0));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      J2EEWebSession j2EEWebSession0 = new J2EEWebSession();
+-      J2EEWebSession j2EEWebSession1 = new J2EEWebSession();
++@Test(timeout = 4000)
++  public void test18() throws Throwable {
++      J2EEWebSession j2EEWebSession0 = new J2EEWebSession();
++      J2EEWebSession j2EEWebSession1 = new J2EEWebSession();
++
++      // Verify initial state before setting process name
++      assertNull(j2EEWebSession0.getProcessname());
++
++      // Set process name and assert the side‑effect
+       j2EEWebSession0.setProcessname("pWi+Gj!q%L`J*T");
+-      assertFalse(j2EEWebSession0.equals((Object)j2EEWebSession1));
+-      
++      assertEquals("pWi+Gj!q%L`J*T", j2EEWebSession0.getProcessname());
++
++      // Objects with different process names are not equal
++      assertFalse(j2EEWebSession0.equals((Object) j2EEWebSession1));
++
++      // Set the same process name on the second instance
+       j2EEWebSession1.setProcessname("pWi+Gj!q%L`J*T");
+-      boolean boolean0 = j2EEWebSession0.equals(j2EEWebSession1);
+-      assertTrue(j2EEWebSession0.equals((Object)j2EEWebSession1));
++      assertEquals("pWi+Gj!q%L`J*T", j2EEWebSession1.getProcessname());
++
++      // Now both instances should be equal
++      boolean boolean0 = j2EEWebSession0.equals(j2EEWebSession1);
++      assertTrue(j2EEWebSession0.equals((Object) j2EEWebSession1));
+       assertTrue(boolean0);
+   }
++
+ @Test(timeout = 4000)
+   public void test19() throws Throwable {
+       J2EEWebSession j2EEWebSession0 = new J2EEWebSession();

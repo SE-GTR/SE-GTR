@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
+@@ -313,18 +313,28 @@
+       assertEquals("oracle", oracleDialect0.getSystem());
+       assertTrue(oracleDialect0.isSequenceBoundarySupported());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      DBSequence dBSequence0 = new DBSequence("org.databene.jdbacl.dialect.OracleDialect@1", "org.databene.jdbacl.dialect.OracleDialect@1", "org.databene.jdbacl.dialect.OracleDialect@1");
+-      BigInteger bigInteger0 = BigInteger.ZERO;
+-      dBSequence0.setIncrement(bigInteger0);
+-      oracleDialect0.renderCreateSequence(dBSequence0);
+-      assertTrue(oracleDialect0.quoteTableNames);
+-      assertTrue(oracleDialect0.isSequenceSupported());
+-      assertEquals("oracle", oracleDialect0.getSystem());
+-  }
++@Test(timeout = 4000)
++    public void test20() throws Throwable {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        DBSequence dBSequence0 = new DBSequence("org.databene.jdbacl.dialect.OracleDialect@1",
++                "org.databene.jdbacl.dialect.OracleDialect@1",
++                "org.databene.jdbacl.dialect.OracleDialect@1");
++        BigInteger bigInteger0 = BigInteger.ZERO;
++        // Verify initial increment is not the test value (optional, defensive)
++        // Perform the side‑effect operation
++        dBSequence0.setIncrement(bigInteger0);
++        // Observe the side effect via the public getter
++        assertEquals(bigInteger0, dBSequence0.getIncrement());
++        // Capture and assert the return value of the non‑void method
++        String sql = oracleDialect0.renderCreateSequence(dBSequence0);
++        assertNotNull(sql);
++        assertFalse(sql.isEmpty());
++        // Existing assertions about the dialect configuration
++        assertTrue(oracleDialect0.quoteTableNames);
++        assertTrue(oracleDialect0.isSequenceSupported());
++        assertEquals("oracle", oracleDialect0.getSystem());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

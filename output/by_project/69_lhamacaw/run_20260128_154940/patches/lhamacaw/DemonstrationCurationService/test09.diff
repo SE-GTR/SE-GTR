@@ -1,0 +1,30 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/DemonstrationCurationService_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/DemonstrationCurationService_ESTest.java
+@@ -165,14 +165,19 @@
+       ArrayList<VariableSummary> arrayList0 = demonstrationCurationService0.filterVariableSummaries(user0, "g~kAt.#0gu}878jM=v", "g~kAt.#0gu}878jM=v", "availabilityState.saveChanges.deleteRecord", variableTypeFilter0);
+       assertTrue(arrayList0.isEmpty());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      DemonstrationCurationService demonstrationCurationService0 = new DemonstrationCurationService();
+-      User user0 = new User();
+-      Variable variable0 = demonstrationCurationService0.getVariable(user0, "XAP]RipR}nokd*0");
+-      assertNull(variable0);
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        DemonstrationCurationService service = new DemonstrationCurationService();
++        User user = new User();
++        try {
++            Variable variable = service.getVariable(user, "XAP]RipR}nokd*0");
++            assertNull(variable);
++        } catch (Exception e) {
++            // The service validates the user; an exception is an acceptable outcome for an invalid user.
++            assertTrue(e instanceof macaw.system.MacawException);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

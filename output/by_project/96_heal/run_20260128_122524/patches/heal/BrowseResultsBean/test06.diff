@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/heal/module/browse/BrowseResultsBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/browse/BrowseResultsBean_ESTest.java
+@@ -66,14 +66,33 @@
+         java.util.Vector trail = bean.getTrail();
+         assertNull(trail);
+     }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        BrowseResultsBean bean = new BrowseResultsBean();
+ 
++        // Serialize the bean
++        byte[] serialized;
++        try (java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
++             java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(bos)) {
++            out.writeObject(bean);
++            out.flush();
++            serialized = bos.toByteArray();
++        }
++        assertTrue("Serialized data should not be empty", serialized.length > 0);
+ 
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      BrowseResultsBean browseResultsBean0 = new BrowseResultsBean();
+-      browseResultsBean0.getShortMetadataBeans();
+-      assertEquals(0, browseResultsBean0.getCount());
+-  }
++        // Deserialize the bean
++        BrowseResultsBean deserialized;
++        try (java.io.ByteArrayInputStream bis = new java.io.ByteArrayInputStream(serialized);
++             java.io.ObjectInputStream in = new java.io.ObjectInputStream(bis)) {
++            deserialized = (BrowseResultsBean) in.readObject();
++        }
++        assertNotNull("Deserialized bean should not be null", deserialized);
++
++        // Verify that state is preserved through serialization
++        assertEquals(bean.getCount(), deserialized.getCount());
++        assertEquals(bean.getShortMetadataBeans(), deserialized.getShortMetadataBeans());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

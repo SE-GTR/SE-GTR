@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SubProfileParameter_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SubProfileParameter_ESTest.java
+@@ -59,14 +59,27 @@
+         int hash2 = subProfileParameter0.hashCode();
+         assertEquals(hash1, hash2);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      SubProfileParameter subProfileParameter0 = new SubProfileParameter();
+-      subProfileParameter0.setDescription("Ptxj}><QXHxR9d}[");
+-      subProfileParameter0.hashCode();
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        SubProfileParameter subProfileParameter0 = new SubProfileParameter();
++        // initial state
++        assertNull(subProfileParameter0.getDescription());
++        int hashBefore = subProfileParameter0.hashCode();
++
++        String desc = "Ptxj}><QXHxR9d}[";
++        subProfileParameter0.setDescription(desc);
++
++        // verify side‑effect of setDescription
++        assertEquals(desc, subProfileParameter0.getDescription());
++
++        // verify return value of hashCode is observable and consistent
++        int hashAfter = subProfileParameter0.hashCode();
++        assertEquals(hashAfter, subProfileParameter0.hashCode());
++        // optional: ensure hash may have changed after setting description
++        // (not a strict requirement, but provides an additional check)
++        // assertNotEquals(hashBefore, hashAfter);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

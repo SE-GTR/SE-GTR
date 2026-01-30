@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BasicClientHandler_ESTest.java
+@@ -325,16 +325,21 @@
+ public void test28() throws Throwable {
+     BasicClientHandler.getClientIdentifiable((ClientHandler) null);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      MockSocket mockSocket0 = new MockSocket();
+-      nonBlockingClientHandler0.setSocket(mockSocket0);
+-      nonBlockingClientHandler0.info();
+-      assertFalse(nonBlockingClientHandler0.isClosed());
+-  }
++@Test(timeout = 4000)
++    public void test29() throws Throwable {
++        NonBlockingClientHandler handler = new NonBlockingClientHandler();
++        MockSocket socket = new MockSocket();
++        handler.setSocket(socket);
++        // Verify that the socket was set correctly (NASE)
++        assertSame(socket, handler.getSocket());
++        // Capture and assert the return value of info() (NARV)
++        String info = handler.info();
++        assertNotNull(info);
++        assertFalse(info.isEmpty());
++        // Existing behavior check
++        assertFalse(handler.isClosed());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

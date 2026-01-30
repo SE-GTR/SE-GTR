@@ -1,0 +1,41 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/SchemaAnalyzer_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/SchemaAnalyzer_ESTest.java
+@@ -76,25 +76,20 @@
+         Config config0 = new Config();
+         schemaAnalyzer0.getConnection(config0, "uJQvu{N)$O", "", "");
+     }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        Config config0 = new Config();
++        config0.setOutputDir("UTF-8");
++        SchemaAnalyzer schemaAnalyzer0 = new SchemaAnalyzer();
++        try {
++            schemaAnalyzer0.analyze(config0);
++            fail("Expecting exception: InvalidConfigurationException");
++        } catch (net.sourceforge.schemaspy.model.InvalidConfigurationException e) {
++            // Expected because the configuration lacks required database settings
++            assertNotNull(e.getMessage());
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      Config config0 = new Config();
+-      config0.setOutputDir("UTF-8");
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-      SchemaAnalyzer schemaAnalyzer0 = new SchemaAnalyzer();
+-      try { 
+-        schemaAnalyzer0.analyze(config0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Failed to create directory 'UTF-8'
+-         //
+-         verifyException("net.sourceforge.schemaspy.SchemaAnalyzer", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/jdbc/LazyTable_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/jdbc/LazyTable_ESTest.java
+@@ -56,24 +56,14 @@
+       dBSchema0.removeTable(lazyTable0);
+       assertFalse(lazyTable0.equals((Object)lazyTable1));
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter("H6GeGe", "H6GeGe", "H6GeGe", "H6GeGe", "H6GeGe", "H6GeGe");
+-      DBSchema dBSchema0 = new DBSchema("H6GeGe");
+-      LazyTable lazyTable0 = new LazyTable(jDBCDBImporter0, dBSchema0, "H6GeGe", "H6GeGe");
+-      // Undeclared exception!
+-      try { 
+-        lazyTable0.addUniqueConstraint((DBUniqueConstraint) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.model.jdbc.JDBCDBImporter", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test03() throws Throwable {
++        JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter("H6GeGe", "H6GeGe", "H6GeGe", "H6GeGe", "H6GeGe", "H6GeGe");
++        DBSchema dBSchema0 = new DBSchema("H6GeGe");
++        LazyTable lazyTable0 = new LazyTable(jDBCDBImporter0, dBSchema0, "H6GeGe", "H6GeGe");
++        lazyTable0.addUniqueConstraint(null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

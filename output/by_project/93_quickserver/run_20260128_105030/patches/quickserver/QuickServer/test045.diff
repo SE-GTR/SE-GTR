@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -548,16 +548,17 @@
+         quickServer0.setLoggingLevel(level0);
+         quickServer0.configQuickServer((QSAdminServerConfig) null);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test045()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer("");
+-      QuickServerConfig quickServerConfig0 = quickServer0.getConfig();
+-      quickServerConfig0.setConsoleLoggingLevel("SEVERE");
+-      quickServer0.configQuickServer(quickServerConfig0);
+-      assertEquals("SEVERE", quickServer0.getConsoleLoggingLevel());
+-  }
++public void test045() throws Throwable {
++    QuickServer quickServer0 = new QuickServer("");
++    QuickServerConfig quickServerConfig0 = quickServer0.getConfig();
++    quickServerConfig0.setConsoleLoggingLevel("SEVERE");
++    // Verify that the config reflects the new logging level
++    assertEquals("SEVERE", quickServerConfig0.getConsoleLoggingLevel());
++    quickServer0.configQuickServer(quickServerConfig0);
++    // Verify that the server has adopted the config's logging level
++    assertEquals("SEVERE", quickServer0.getConsoleLoggingLevel());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test046()  throws Throwable  {

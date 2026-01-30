@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/heal/module/metadata/TaxonBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/TaxonBean_ESTest.java
+@@ -22,18 +22,25 @@
+     taxonBean0 = new TaxonBean();
+     taxonBean1 = new TaxonBean();
+   }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        // initial equality based on default state
++        assertTrue(taxonBean1.equals((Object) taxonBean0));
+ 
++        // exercise setId on both beans
++        taxonBean1.setId("a/ez5,kK?");
++        taxonBean0.setId("");
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      assertTrue(taxonBean1.equals((Object)taxonBean0));
+-      
+-      taxonBean1.setId("a/ez5,kK?");
+-      taxonBean0.setId("");
+-      int int0 = taxonBean1.compareTo(taxonBean0);
+-      assertFalse(taxonBean1.equals((Object)taxonBean0));
+-      assertEquals(9, int0);
+-  }
++        // verify that the side‑effects of setId are observable
++        assertEquals("a/ez5,kK?", taxonBean1.getId());
++        assertEquals("", taxonBean0.getId());
++
++        // compareTo should reflect the new ids
++        int int0 = taxonBean1.compareTo(taxonBean0);
++        assertFalse(taxonBean1.equals((Object) taxonBean0));
++        assertEquals(9, int0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

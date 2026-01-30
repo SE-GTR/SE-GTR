@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/heal/servlet/DelimitedFileWriterAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/DelimitedFileWriterAction_ESTest.java
+@@ -63,23 +63,21 @@
+          verifyException("org.heal.servlet.DelimitedFileWriterAction", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    // Stub request to return a non‑null value for any parameter name
++    when(httpServletRequest0.getParameter(anyString())).thenReturn("value");
++    // Provide a non‑null response mock
++    HttpServletResponse response = mock(HttpServletResponse.class);
++    Servlet servlet0 = new Servlet();
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      doReturn((String) null, (String) null, (String) null, (String) null, (String) null).when(httpServletRequest0).getParameter(anyString());
+-      Servlet servlet0 = new Servlet();
+-      // Undeclared exception!
+-      try { 
+-        submitPeerReviewSurveyAction0.perform(servlet0, httpServletRequest0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("javax.servlet.GenericServlet", e);
+-      }
+-  }
++    // Execute the action
++    submitPeerReviewSurveyAction0.perform(servlet0, httpServletRequest0, response);
++
++    // Verify that the request was queried for parameters
++    verify(httpServletRequest0, atLeastOnce()).getParameter(anyString());
++}
++
+ @Test(timeout = 4000)
+     public void test4() throws Throwable {
+         SubmitPeerReviewSurveyAction action = new SubmitPeerReviewSurveyAction();

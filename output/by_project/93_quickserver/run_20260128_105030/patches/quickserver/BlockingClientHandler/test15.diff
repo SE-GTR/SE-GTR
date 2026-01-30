@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BlockingClientHandler_ESTest.java
+@@ -191,22 +191,12 @@
+       blockingClientHandler0.run();
+       assertTrue(blockingClientHandler0.getWillClean());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
+-      // Undeclared exception!
+-      try { 
+-        blockingClientHandler0.registerForRead();
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // Can't register in blocking mode!
+-         //
+-         verifyException("org.quickserver.net.server.impl.BlockingClientHandler", e);
+-      }
+-  }
++@Test(expected = IllegalStateException.class, timeout = 4000)
++  public void test15() throws Throwable {
++      BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
++      blockingClientHandler0.registerForRead();
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

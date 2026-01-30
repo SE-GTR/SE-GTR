@@ -1,0 +1,34 @@
+--- a/evosuite-tests/macaw/system/MacawChangeEvent_ESTest.java
++++ b/evosuite-tests/macaw/system/MacawChangeEvent_ESTest.java
+@@ -26,15 +26,23 @@
+     macawChangeEvent0.setChangedObjectIdentifier(newId);
+     assertEquals(newId, macawChangeEvent0.getChangedObjectIdentifier());
+ }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    MacawChangeEvent event = new MacawChangeEvent();
++    // Verify initial state
++    assertNull(event.getVariableOwnerID());
+ 
+-@Test(timeout = 4000)
+-  public void test01() throws Throwable {
+-      MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent();
+-      ChangeEventType changeEventType0 = ChangeEventType.VARIABLE;
+-      macawChangeEvent0.setChangeType(changeEventType0);
+-      assertEquals(changeEventType0, macawChangeEvent0.getChangeType());
+-      assertNull(macawChangeEvent0.getVariableOwnerID());
+-  }
++    // Set a non‑null change type and verify
++    event.setChangeType(ChangeEventType.VARIABLE);
++    assertEquals(ChangeEventType.VARIABLE, event.getChangeType());
++    assertNull(event.getVariableOwnerID());
++
++    // Set the change type to null and verify that the getter reflects it
++    event.setChangeType(null);
++    assertNull(event.getChangeType());
++    assertNull(event.getVariableOwnerID());
++}
++
+ @Test(timeout = 4000)
+ public void test02() throws Throwable {
+     ChangeEventType changeEventType0 = ChangeEventType.LIST_CHOICE;

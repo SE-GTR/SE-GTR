@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
+@@ -267,14 +267,14 @@
+     blockingClient0.makeSSLSocketFactory();
+     assertEquals("ISO-8859-1", blockingClient0.getCharset());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      BlockingClient blockingClient0 = new BlockingClient();
+-      blockingClient0.setUseDummyTrustManager(false);
+-      assertFalse(blockingClient0.isUseDummyTrustManager());
+-  }
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        BlockingClient blockingClient0 = new BlockingClient();
++        boolean original = blockingClient0.isUseDummyTrustManager();
++        blockingClient0.setUseDummyTrustManager(!original);
++        assertEquals(!original, blockingClient0.isUseDummyTrustManager());
++    }
++
+ @Test(expected = NullPointerException.class, timeout = 4000)
+ public void test24() throws Throwable {
+     BlockingClient blockingClient0 = new BlockingClient();

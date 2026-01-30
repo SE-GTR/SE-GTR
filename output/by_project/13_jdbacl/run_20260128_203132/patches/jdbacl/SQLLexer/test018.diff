@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -205,23 +205,16 @@
+         int firstChar = stream.LA(1);
+         assertEquals('S', firstChar);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test018()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mT__102();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test018() throws Throwable {
++        org.antlr.runtime.ANTLRStringStream input = new org.antlr.runtime.ANTLRStringStream(";");
++        SQLLexer lexer = new SQLLexer(input);
++        // The lexer should be properly initialized; invoking the token rule must not throw NPE
++        lexer.mT__102();
++        // Verify that lexer state is reachable after the call
++        assertTrue(lexer.getCharPositionInLine() >= 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test019()  throws Throwable  {

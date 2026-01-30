@@ -1,0 +1,33 @@
+--- a/evosuite-tests/Newzgrabber/Downloader_ESTest.java
++++ b/evosuite-tests/Newzgrabber/Downloader_ESTest.java
+@@ -85,15 +85,21 @@
+     assertEquals(-1, downloader0.getTimeout());
+     assertFalse(downloader0.ABORT);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-    downloader0 = new Downloader();
+-      downloader0.setPassword("");
+-      assertEquals((-1), downloader0.getTimeout());
+-      assertFalse(downloader0.ABORT);
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        downloader0 = new Downloader();
++        // Verify initial state
++        assertFalse(downloader0.ABORT);
++        int timeoutBefore = downloader0.getTimeout();
++        assertEquals(-1, timeoutBefore);
++        // Exercise setter (side‑effect) and ensure it does not alter timeout
++        downloader0.setPassword("");
++        int timeoutAfter = downloader0.getTimeout();
++        assertEquals(timeoutBefore, timeoutAfter);
++        // Confirm timeout remains the expected default
++        assertEquals(-1, timeoutAfter);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

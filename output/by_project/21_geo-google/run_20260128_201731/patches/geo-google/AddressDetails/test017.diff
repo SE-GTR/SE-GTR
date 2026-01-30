@@ -1,0 +1,34 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -208,17 +208,29 @@
+     // Verify initial state of the additional attribute map (non‑trivial behavior)
+     assertTrue(addressDetails_PostalServiceElements_AddressLatitude0.getOtherAttributes().isEmpty());
+ 
++    // Add a custom attribute and verify it is stored
++    javax.xml.namespace.QName customKey = new javax.xml.namespace.QName("custom");
++    addressDetails_PostalServiceElements_AddressLatitude0.getOtherAttributes().put(customKey, "value");
++    assertEquals("value", addressDetails_PostalServiceElements_AddressLatitude0.getOtherAttributes().get(customKey));
++
++    // Capture hash code before setting code
++    int hashBefore = addressDetails_PostalServiceElements_AddressLatitude0.hashCode();
++
+     // Set code and verify the getter reflects the change
+     addressDetails_PostalServiceElements_AddressLatitude0.setCode("CN");
+     assertEquals("CN", addressDetails_PostalServiceElements_AddressLatitude0.getCode());
+ 
+-    // Ensure that setting the code does not affect other attributes
+-    assertTrue(addressDetails_PostalServiceElements_AddressLatitude0.getOtherAttributes().isEmpty());
++    // Ensure that setting the code does not clear other attributes
++    assertEquals("value", addressDetails_PostalServiceElements_AddressLatitude0.getOtherAttributes().get(customKey));
++
++    // Verify that hash code reflects the state change
++    assertNotEquals(hashBefore, addressDetails_PostalServiceElements_AddressLatitude0.hashCode());
+ 
+     // Change the code again to confirm the setter updates the internal state
+     addressDetails_PostalServiceElements_AddressLatitude0.setCode("US");
+     assertEquals("US", addressDetails_PostalServiceElements_AddressLatitude0.getCode());
+ }
++
+ 
+ @Test(timeout = 4000)
+   public void test018() throws Throwable {

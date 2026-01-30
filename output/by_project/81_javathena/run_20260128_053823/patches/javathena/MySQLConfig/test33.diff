@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/sql/MySQLConfig_ESTest.java
+@@ -228,12 +228,18 @@
+   public void test32()  throws Throwable  {
+       MySQLConfig.setLogin_gm_read(false);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test33()  throws Throwable  {
+-      int int0 = MySQLConfig.getDynamic_account_ban_class();
+-      assertEquals(0, int0);
+-  }
++@Test(timeout = 4000)
++    public void test33() throws Throwable {
++        int original = MySQLConfig.getDynamic_account_ban_class();
++        try {
++            MySQLConfig.setDynamic_account_ban_class(2);
++            int result = MySQLConfig.getDynamic_account_ban_class();
++            assertEquals(2, result);
++        } finally {
++            MySQLConfig.setDynamic_account_ban_class(original);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test34()  throws Throwable  {

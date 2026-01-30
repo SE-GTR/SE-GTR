@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/heal/module/oai/heal/HEALXMLHelper_ESTest.java
++++ b/evosuite-tests/org/heal/module/oai/heal/HEALXMLHelper_ESTest.java
+@@ -32,21 +32,21 @@
+   public void test02()  throws Throwable  {
+       HEALXMLHelper.appendTextElemWithDescriptor((String) null, (String) null, (String) null, (Element) null, (Document) null);
+   }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        // Prepare a valid DOM document and parent element
++        javax.xml.parsers.DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
++        javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
++        Document doc = db.newDocument();
++        Element parent = doc.createElement("parent");
++        doc.appendChild(parent);
++        // Invoke the method with valid arguments
++        HEALXMLHelper.appendTextElemWithDescriptor("heal", "desc", "value", parent, doc);
++        // Verify that the parent element now contains a child node (the method should have added one)
++        assertNotNull(parent.getFirstChild());
++        assertTrue(parent.getChildNodes().getLength() > 0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        HEALXMLHelper.appendTextElemWithDescriptor("A", "A", "A", (Element) null, (Document) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.module.oai.heal.HEALXMLHelper", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

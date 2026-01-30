@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/heal/module/download/DownloadDAO_ESTest.java
++++ b/evosuite-tests/org/heal/module/download/DownloadDAO_ESTest.java
+@@ -21,24 +21,15 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DownloadDAO_ESTest extends DownloadDAO_ESTest_scaffolding {
++@Test(expected = IOException.class, timeout = 4000)
++public void test0() throws Throwable {
++    DownloadDAO downloadDAO0 = new DownloadDAO();
++    DownloadQueueBean downloadQueueBean0 = new DownloadQueueBean();
++    FileLocator fileLocator0 = new FileLocator();
++    downloadDAO0.setFileLocator(fileLocator0);
++    downloadDAO0.createPackage(downloadQueueBean0, "application/x-gzip");
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      DownloadDAO downloadDAO0 = new DownloadDAO();
+-      DownloadQueueBean downloadQueueBean0 = new DownloadQueueBean();
+-      FileLocator fileLocator0 = new FileLocator();
+-      downloadDAO0.setFileLocator(fileLocator0);
+-      try { 
+-        downloadDAO0.createPackage(downloadQueueBean0, "application/x-gzip");
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Could not get File representation of package directory from FileLocator.
+-         //
+-         verifyException("org.heal.module.download.DownloadDAO", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

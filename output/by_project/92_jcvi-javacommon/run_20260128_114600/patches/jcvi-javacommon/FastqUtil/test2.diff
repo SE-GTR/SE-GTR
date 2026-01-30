@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/FastqUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/FastqUtil_ESTest.java
+@@ -27,21 +27,11 @@
+   public void test1()  throws Throwable  {
+       FastqUtil.guessQualityCodecUsed(";\";d&^k\"6SX;#2(rC");
+   }
++@Test(timeout = 4000, expected = IllegalArgumentException.class)
++  public void test2() throws Throwable {
++      FastqUtil.guessQualityCodecUsed("unable to mkdirs for ");
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        FastqUtil.guessQualityCodecUsed("unable to mkdirs for ");
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // invalid encoded qualities has out of range ascii value 32 : 'unable to mkdirs for '
+-         //
+-         verifyException("org.jcvi.jillion.trace.fastq.FastqUtil", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/nu/staldal/lagoon/LagoonCLI_ESTest.java
++++ b/evosuite-tests/nu/staldal/lagoon/LagoonCLI_ESTest.java
+@@ -35,13 +35,20 @@
+       LagoonCLI.main(stringArray0);
+       assertEquals(1, stringArray0.length);
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    FileSystemHandling.shouldAllThrowIOExceptions();
++    java.util.Properties beforeProps = LagoonCLI.getProperties();
++    int beforeSize = (beforeProps == null) ? 0 : beforeProps.size();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-      LagoonCLI.main(stringArray0);
+-      assertEquals(1, stringArray0.length);
+-  }
++    LagoonCLI.main(stringArray0);
++
++    java.util.Properties afterProps = LagoonCLI.getProperties();
++    assertNotNull("Properties should not be null after main", afterProps);
++    assertTrue("Properties size should not decrease", afterProps.size() >= beforeSize);
++    assertEquals(1, stringArray0.length);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

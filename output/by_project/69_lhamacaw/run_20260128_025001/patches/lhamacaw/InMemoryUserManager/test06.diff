@@ -1,0 +1,35 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryUserManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryUserManager_ESTest.java
+@@ -92,20 +92,19 @@
+     ArrayList<User> users = inMemoryUserManager0.getUsers(null);
+     assertNotNull("User list should not be null", users);
+ }
+-
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test06()  throws Throwable  {
+       InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+       Log log0 = new Log();
+       User user0 = new User();
+       ArrayList<User> arrayList0 = new ArrayList<User>();
+-      arrayList0.add(user0);
++      boolean added = arrayList0.add(user0);
++      assertTrue(added);
+       InMemoryUserManager inMemoryUserManager0 = new InMemoryUserManager(inMemoryChangeEventManager0, log0, user0);
+       try { 
+         inMemoryUserManager0.deleteUsers(user0, arrayList0);
+         fail("Expecting exception: Exception");
+-      
++
+       } catch(Exception e) {
+          //
+          // \"\" does not exist.
+@@ -113,6 +112,7 @@
+          verifyException("macaw.persistenceLayer.demo.InMemoryUserManager", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

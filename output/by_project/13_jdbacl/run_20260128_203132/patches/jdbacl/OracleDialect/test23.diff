@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
+@@ -314,17 +314,20 @@
+          verifyException("org.hsqldb.jdbc.jdbcResultSet", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      Result result0 = new Result((-109));
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      DBSequence[] dBSequenceArray0 = oracleDialect0.querySequences(jdbcConnection0);
+-      assertEquals(0, dBSequenceArray0.length);
+-  }
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        Result result0 = new Result((-109));
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
++        // Verify that the stubbed execute method returns the expected result
++        Result execResult = session0.execute(new Result(0));
++        assertSame(result0, execResult);
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++        DBSequence[] dBSequenceArray0 = oracleDialect0.querySequences(jdbcConnection0);
++        assertEquals(0, dBSequenceArray0.length);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
+@@ -112,18 +112,30 @@
+     assertTrue(oSProcess1.equals((Object) oSProcess0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      OSProcess oSProcess0 = new OSProcess();
+-      OSProcess oSProcess1 = new OSProcess();
+-      assertTrue(oSProcess1.equals((Object)oSProcess0));
+-      
+-      oSProcess1.setElapsedtime("|&'E2");
+-      boolean boolean0 = oSProcess0.equals(oSProcess1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        OSProcess oSProcess0 = new OSProcess();
++        OSProcess oSProcess1 = new OSProcess();
++        // initially both objects have default state, they should be equal
++        assertTrue(oSProcess1.equals((Object) oSProcess0));
++
++        // capture the initial elapsedtime (expected to be null)
++        String beforeElapsed = oSProcess1.getElapsedtime();
++
++        // invoke the method under test
++        oSProcess1.setElapsedtime("|&'E2");
++
++        // verify that the side‑effect is observable via the getter
++        assertEquals("|&'E2", oSProcess1.getElapsedtime());
++        assertNotEquals(beforeElapsed, oSProcess1.getElapsedtime());
++
++        // the other instance should remain unchanged
++        assertNull(oSProcess0.getElapsedtime());
++
++        // equality should now reflect the state change
++        assertFalse(oSProcess0.equals(oSProcess1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

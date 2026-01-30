@@ -1,0 +1,38 @@
+--- a/evosuite-tests/jigl/gui/JImageCanvas_ESTest.java
++++ b/evosuite-tests/jigl/gui/JImageCanvas_ESTest.java
+@@ -357,16 +357,25 @@
+          verifyException("jigl.gui.JImageCanvas", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      JImageCanvas jImageCanvas0 = new JImageCanvas();
+-      jImageCanvas0.setActiveColor((Color) null);
+-      assertEquals(0, jImageCanvas0.getSelectionBoxExtentY());
+-      assertEquals(0, jImageCanvas0.getSelectionBoxExtentX());
+-      assertEquals(0, jImageCanvas0.getSelectionBoxAnchorY());
+-      assertEquals(0, jImageCanvas0.getSelectionBoxAnchorX());
+-  }
++@Test(timeout = 4000)
++    public void test29() throws Throwable {
++        JImageCanvas canvas = new JImageCanvas();
++        // Verify initial selection box state
++        assertEquals(0, canvas.getSelectionBoxExtentY());
++        assertEquals(0, canvas.getSelectionBoxExtentX());
++        assertEquals(0, canvas.getSelectionBoxAnchorY());
++        assertEquals(0, canvas.getSelectionBoxAnchorX());
++
++        // Observe side‑effect of setActiveColor with null
++        canvas.setActiveColor(null);
++        assertNull(canvas.getActiveColor());
++
++        // Observe side‑effect of setActiveColor with a concrete color
++        Color blue = Color.BLUE;
++        canvas.setActiveColor(blue);
++        assertEquals(blue, canvas.getActiveColor());
++    }
++
+ @Test(timeout = 4000)
+     public void test30() throws Throwable {
+         ComplexImage complexImage0 = new ComplexImage(0, 2063);

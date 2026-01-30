@@ -1,0 +1,30 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/tos/NaOpNu_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/tos/NaOpNu_ESTest.java
+@@ -93,13 +93,20 @@
+       Boolean boolean0 = naOpNu0.getOperativerNutzen();
+       assertNull(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-    naOpNu0 = new NaOpNu();
+-      String string0 = naOpNu0.getEmail();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    NaOpNu naOpNu0 = new NaOpNu();
++    naOpNu0.setEmail("test@example.com");
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(naOpNu0);
++    oos.close();
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++        new java.io.ByteArrayInputStream(baos.toByteArray()));
++    NaOpNu deserialized = (NaOpNu) ois.readObject();
++    assertEquals("test@example.com", deserialized.getEmail());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

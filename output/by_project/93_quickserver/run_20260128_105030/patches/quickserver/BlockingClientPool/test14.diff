@@ -1,0 +1,73 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/BlockingClientPool_ESTest.java
+@@ -258,35 +258,42 @@
+          verifyException("org.quickserver.net.client.pool.BlockingClientPool", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      HostList hostList0 = mock(HostList.class, new ViolatedAssumptionAnswer());
+-      doReturn((List) null).when(hostList0).getFullList();
+-      LoadDistributor loadDistributor0 = mock(LoadDistributor.class, new ViolatedAssumptionAnswer());
+-      doReturn(hostList0, hostList0).when(loadDistributor0).getHostList();
+-      HostMonitor hostMonitor0 = mock(HostMonitor.class, new ViolatedAssumptionAnswer());
+-      PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null, (String) null, (String) null).when(poolableBlockingClient0).toString();
+-      doReturn(hostMonitor0).when(poolableBlockingClient0).getHostMonitor();
+-      doReturn(1094, 1149).when(poolableBlockingClient0).getHostMonitoringIntervalInSec();
+-      doReturn(loadDistributor0).when(poolableBlockingClient0).getLoadDistributor();
+-      doReturn(3929).when(poolableBlockingClient0).getMaxIntervalForBorrowInSec();
+-      doReturn((long)3929).when(poolableBlockingClient0).getNoOpTimeIntervalMiliSec();
+-      BlockingClientPool blockingClientPool0 = new BlockingClientPool("poolToReturn was null.. will close", poolableBlockingClient0);
+-      blockingClientPool0.setLogPoolStatsTimeInMinute(1149);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        // Prepare a non‑null host list
++        HostList hostList0 = mock(HostList.class, new ViolatedAssumptionAnswer());
++        List<Host> hosts = new ArrayList<>();
++        hosts.add(mock(Host.class));
++        doReturn(hosts).when(hostList0).getFullList();
++
++        // LoadDistributor returns the prepared host list
++        LoadDistributor loadDistributor0 = mock(LoadDistributor.class, new ViolatedAssumptionAnswer());
++        doReturn(hostList0).when(loadDistributor0).getHostList();
++
++        // HostMonitor mock (no specific behavior needed)
++        HostMonitor hostMonitor0 = mock(HostMonitor.class, new ViolatedAssumptionAnswer());
++
++        // Configure the PoolableBlockingClient mock with realistic values
++        PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class,
++                new ViolatedAssumptionAnswer());
++        doReturn("client").when(poolableBlockingClient0).toString();
++        doReturn(hostMonitor0).when(poolableBlockingClient0).getHostMonitor();
++        doReturn(10).when(poolableBlockingClient0).getHostMonitoringIntervalInSec();
++        doReturn(loadDistributor0).when(poolableBlockingClient0).getLoadDistributor();
++        doReturn(30).when(poolableBlockingClient0).getMaxIntervalForBorrowInSec();
++        doReturn(5000L).when(poolableBlockingClient0).getNoOpTimeIntervalMiliSec();
++
++        // Create the pool and initialise it
++        BlockingClientPool blockingClientPool0 = new BlockingClientPool("testPool", poolableBlockingClient0);
++        blockingClientPool0.setLogPoolStatsTimeInMinute(5);
+         blockingClientPool0.init();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.net.client.pool.BlockingClientPool", e);
+-      }
+-  }
++
++        // Verify that the expected interactions occurred
++        verify(hostList0).getFullList();
++        verify(loadDistributor0).getHostList();
++        verify(poolableBlockingClient0).getLoadDistributor();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

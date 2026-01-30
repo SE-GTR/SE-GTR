@@ -1,0 +1,46 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/TableIndex_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/TableIndex_ESTest.java
+@@ -90,23 +90,26 @@
+       assertEquals("Primary key", tableIndex0.getType());
+       assertEquals(1, int0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(resultSet0).getBoolean(anyString());
+-      doReturn("").when(resultSet0).getString(anyString());
+-      TableIndex tableIndex0 = new TableIndex(resultSet0);
+-      ResultSet resultSet1 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
+-      doReturn(true).when(resultSet1).getBoolean(anyString());
+-      doReturn("Failed to determine auto increment status: ").when(resultSet1).getString(anyString());
+-      tableIndex0.setIsPrimaryKey(true);
+-      TableIndex tableIndex1 = new TableIndex(resultSet1);
+-      int int0 = tableIndex0.compareTo(tableIndex1);
+-      assertEquals("Primary key", tableIndex0.getType());
+-      assertEquals((-1), int0);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
++        doReturn(false).when(resultSet0).getBoolean(anyString());
++        doReturn("").when(resultSet0).getString(anyString());
++        TableIndex tableIndex0 = new TableIndex(resultSet0);
++        String typeBefore = tableIndex0.getType();
++
++        tableIndex0.setIsPrimaryKey(true);
++        assertEquals("Primary key", tableIndex0.getType());
++        assertNotEquals(typeBefore, tableIndex0.getType());
++
++        ResultSet resultSet1 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
++        doReturn(true).when(resultSet1).getBoolean(anyString());
++        doReturn("Failed to determine auto increment status: ").when(resultSet1).getString(anyString());
++        TableIndex tableIndex1 = new TableIndex(resultSet1);
++        int int0 = tableIndex0.compareTo(tableIndex1);
++        assertEquals(-1, int0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

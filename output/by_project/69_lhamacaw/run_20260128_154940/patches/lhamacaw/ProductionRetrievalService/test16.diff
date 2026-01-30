@@ -1,0 +1,26 @@
+--- a/evosuite-tests/macaw/persistenceLayer/production/ProductionRetrievalService_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/production/ProductionRetrievalService_ESTest.java
+@@ -247,12 +247,14 @@
+          verifyException("com.mysql.jdbc.Connection", e);
+       }
+   }
+-@Test(expected = NoClassDefFoundError.class, timeout = 4000)
+-  public void test16() throws Throwable {
+-    SessionProperties sessionProperties0 = new SessionProperties();
+-    ProductionRetrievalService productionRetrievalService0 = new ProductionRetrievalService(sessionProperties0);
+-    User user0 = new User();
+-    productionRetrievalService0.getValueLabels(user0, "startupOptions");
+-  }
+-
+-}
++@Test(expected = IllegalArgumentException.class, timeout = 4000)
++public void test16() throws Throwable {
++    SessionProperties sessionProperties = new SessionProperties();
++    ProductionRetrievalService service = new ProductionRetrievalService(sessionProperties);
++    User user = new User();
++    // Pass a null variable name to trigger argument validation before any DB access.
++    service.getValueLabels(user, null);
++}
++
++
++}

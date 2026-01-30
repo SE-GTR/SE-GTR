@@ -1,0 +1,40 @@
+--- a/evosuite-tests/br/com/jnfe/base/util/SecurityUtils_ESTest.java
++++ b/evosuite-tests/br/com/jnfe/base/util/SecurityUtils_ESTest.java
+@@ -54,20 +54,24 @@
+          verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    // Create a temporary keystore file with a known password
++    java.io.File tempFile = java.io.File.createTempFile("testTrustStore", ".jks");
++    tempFile.deleteOnExit();
++    char[] password = "changeit".toCharArray();
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      try { 
+-        SecurityUtils.openTrustStore((char[]) null);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
++    java.security.KeyStore ks = java.security.KeyStore.getInstance(java.security.KeyStore.getDefaultType());
++    ks.load(null, password);
++    try (java.io.FileOutputStream fos = new java.io.FileOutputStream(tempFile)) {
++        ks.store(fos, password);
++    }
++
++    // Invoke the method under test with the valid keystore path
++    java.security.KeyStore result = SecurityUtils.openTrustStore(tempFile.getAbsolutePath(), password);
++    org.junit.Assert.assertNotNull("KeyStore should be loaded successfully", result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

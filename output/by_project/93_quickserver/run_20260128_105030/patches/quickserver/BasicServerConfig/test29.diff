@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/BasicServerConfig_ESTest.java
+@@ -519,14 +519,17 @@
+         assertEquals((-1L), quickServerConfig0.getMaxConnection());
+         assertEquals("INFO", quickServerConfig0.getConsoleLoggingLevel());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      QSAdminServerConfig qSAdminServerConfig0 = new QSAdminServerConfig();
+-      qSAdminServerConfig0.setTimeoutMsg("Writing not possible during handshake!");
+-      assertEquals("Writing not possible during handshake!", qSAdminServerConfig0.getTimeoutMsg());
+-  }
++@Test(timeout = 4000)
++public void test29() throws Throwable {
++    QSAdminServerConfig config = new QSAdminServerConfig();
++    String defaultMsg = config.getTimeoutMsg();
++    assertEquals("-ERR Timeout", defaultMsg);
++    String newMsg = "Writing not possible during handshake!";
++    config.setTimeoutMsg(newMsg);
++    assertEquals(newMsg, config.getTimeoutMsg());
++    assertNotEquals(defaultMsg, config.getTimeoutMsg());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/lotus/core/decision/DeclareBlockerDecision_ESTest.java
++++ b/evosuite-tests/lotus/core/decision/DeclareBlockerDecision_ESTest.java
+@@ -15,20 +15,14 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DeclareBlockerDecision_ESTest extends DeclareBlockerDecision_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    DeclareBlockerDecision decision = new DeclareBlockerDecision();
++    // Initialize required fields to avoid NullPointerException
++    decision.attacker = new lotus.core.card.Creature() {};
++    decision.blocker = new lotus.core.card.Creature() {};
++    // Execute the decision; the test will fail if an exception is thrown
++    decision.applyDecision();
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      DeclareBlockerDecision declareBlockerDecision0 = new DeclareBlockerDecision();
+-      // Undeclared exception!
+-      try { 
+-        declareBlockerDecision0.applyDecision();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("lotus.core.effect.BecomeBlocker", e);
+-      }
+-  }
+ }

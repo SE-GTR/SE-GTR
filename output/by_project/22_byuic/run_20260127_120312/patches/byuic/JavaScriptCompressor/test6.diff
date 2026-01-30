@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/yahoo/platform/yui/compressor/JavaScriptCompressor_ESTest.java
++++ b/evosuite-tests/com/yahoo/platform/yui/compressor/JavaScriptCompressor_ESTest.java
+@@ -85,17 +85,18 @@
+         Context ctx = Context.getCurrentContext();
+         assertNull("Current context should be null when not entered", ctx);
+     }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        ToolErrorReporter toolErrorReporter0 = new ToolErrorReporter(true);
++        StringReader stringReader0 = new StringReader("eval");
++        StringWriter stringWriter0 = new StringWriter();
++        JavaScriptCompressor javaScriptCompressor0 = new JavaScriptCompressor(stringReader0, toolErrorReporter0);
++        javaScriptCompressor0.compress(stringWriter0, 639, true, true, true, true);
++        assertEquals("eval;", stringWriter0.toString());
++        // Verify that the compression produced the expected output length
++        assertEquals(5, stringWriter0.toString().length());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      ToolErrorReporter toolErrorReporter0 = new ToolErrorReporter(true);
+-      StringReader stringReader0 = new StringReader("eval");
+-      StringWriter stringWriter0 = new StringWriter();
+-      JavaScriptCompressor javaScriptCompressor0 = new JavaScriptCompressor(stringReader0, toolErrorReporter0);
+-      javaScriptCompressor0.compress(stringWriter0, 639, true, true, true, true);
+-      assertEquals("eval;", stringWriter0.toString());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

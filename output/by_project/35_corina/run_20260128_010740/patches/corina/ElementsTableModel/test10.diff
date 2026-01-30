@@ -1,0 +1,36 @@
+--- a/evosuite-tests/corina/gui/ElementsTableModel_ESTest.java
++++ b/evosuite-tests/corina/gui/ElementsTableModel_ESTest.java
+@@ -139,24 +139,15 @@
+          verifyException("corina.gui.ElementsTableModel", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      ArrayList<ElementsTableModel> arrayList0 = new ArrayList<ElementsTableModel>();
+-      arrayList0.add((ElementsTableModel) null);
+-      ElementsTableModel elementsTableModel0 = new ElementsTableModel(arrayList0, arrayList0, 0);
+-      // Undeclared exception!
+-      try { 
+-        elementsTableModel0.getValueAt(0, 1);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.gui.ElementsTableModel", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test10() throws Throwable {
++    ArrayList<ElementsTableModel> arrayList0 = new ArrayList<ElementsTableModel>();
++    boolean added = arrayList0.add((ElementsTableModel) null);
++    assertTrue(added);
++    ElementsTableModel elementsTableModel0 = new ElementsTableModel(arrayList0, arrayList0, 0);
++    elementsTableModel0.getValueAt(0, 1);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

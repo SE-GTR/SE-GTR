@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
+@@ -301,18 +301,23 @@
+       assertEquals("postgres", postgreSQLDialect0.getSystem());
+       assertEquals("CREATE SEQUENCE m*dbwvq.Ag1XX` MINVALUE 10", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      DBSequence dBSequence0 = new DBSequence("org.databene.jdbacl.dialect.OracleDialect@1", "org.databene.jdbacl.dialect.OracleDialect@1", "org.databene.jdbacl.dialect.OracleDialect@1");
+-      BigInteger bigInteger0 = BigInteger.valueOf(765L);
+-      dBSequence0.setMaxValue(bigInteger0);
+-      oracleDialect0.renderCreateSequence(dBSequence0);
+-      assertTrue(oracleDialect0.quoteTableNames);
+-      assertEquals("oracle", oracleDialect0.getSystem());
+-      assertTrue(oracleDialect0.isSequenceBoundarySupported());
+-  }
++@Test(timeout = 4000)
++public void test19() throws Throwable {
++    OracleDialect oracleDialect0 = new OracleDialect();
++    DBSequence dBSequence0 = new DBSequence("org.databene.jdbacl.dialect.OracleDialect@1",
++                                            "org.databene.jdbacl.dialect.OracleDialect@1",
++                                            "org.databene.jdbacl.dialect.OracleDialect@1");
++    BigInteger bigInteger0 = BigInteger.valueOf(765L);
++    dBSequence0.setMaxValue(bigInteger0);
++    assertEquals(bigInteger0, dBSequence0.getMaxValue());
++    String sql = oracleDialect0.renderCreateSequence(dBSequence0);
++    assertNotNull(sql);
++    assertTrue(sql.length() > 0);
++    assertTrue(oracleDialect0.quoteTableNames);
++    assertEquals("oracle", oracleDialect0.getSystem());
++    assertTrue(oracleDialect0.isSequenceBoundarySupported());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

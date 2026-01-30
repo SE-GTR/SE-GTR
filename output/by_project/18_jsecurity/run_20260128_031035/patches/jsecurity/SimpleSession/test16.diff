@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
+@@ -164,14 +164,25 @@
+          verifyException("org.jsecurity.session.mgt.SimpleSession", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      SimpleSession simpleSession0 = new SimpleSession();
+-      Date date0 = simpleSession0.getStartTimestamp();
+-      simpleSession0.setStartTimestamp(date0);
+-      assertEquals(1800000L, simpleSession0.getTimeout());
+-  }
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    SimpleSession simpleSession0 = new SimpleSession();
++
++    // Verify that setting the start timestamp is reflected by the getter
++    Date now = new Date();
++    simpleSession0.setStartTimestamp(now);
++    assertEquals(now, simpleSession0.getStartTimestamp());
++
++    // Verify the default timeout value
++    assertEquals(1800000L, simpleSession0.getTimeout());
++
++    // Exercise non‑trivial behavior: attribute storage
++    String key = "testKey";
++    String value = "testValue";
++    simpleSession0.setAttribute(key, value);
++    assertEquals(value, simpleSession0.getAttribute(key));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

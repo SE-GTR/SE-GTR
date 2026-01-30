@@ -1,0 +1,29 @@
+--- a/evosuite-tests/corina/index/Floating_ESTest.java
++++ b/evosuite-tests/corina/index/Floating_ESTest.java
+@@ -38,12 +38,19 @@
+       String string0 = floating0.getName();
+       assertEquals("Floating (11-pt)", string0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        sample0 = new Sample();
++        floating0 = new Floating(sample0);
++        // Capture the data state before indexing
++        double[] beforeData = floating0.getData().clone();
++        // Perform the indexing operation which mutates internal data
++        floating0.index();
++        // Verify that the data has changed as a result of the side‑effect
++        double[] afterData = floating0.getData();
++        assertFalse(java.util.Arrays.equals(beforeData, afterData));
++        // Existing assertion on the ID remains
++        assertEquals(8, floating0.getID());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    sample0 = new Sample();
+-    floating0 = new Floating(sample0);
+-      floating0.index();
+-      assertEquals(8, floating0.getID());
+-  }
+ }

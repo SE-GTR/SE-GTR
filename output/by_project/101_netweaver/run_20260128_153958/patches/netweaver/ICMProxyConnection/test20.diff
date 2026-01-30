@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMProxyConnection_ESTest.java
+@@ -347,18 +347,27 @@
+         assertTrue(iCMProxyConnection1.equals((Object) iCMProxyConnection0));
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
+-      ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
+-      assertTrue(iCMProxyConnection1.equals((Object)iCMProxyConnection0));
+-      
+-      iCMProxyConnection1.setExternalConvid(")5");
+-      boolean boolean0 = iCMProxyConnection0.equals(iCMProxyConnection1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test20() throws Throwable {
++        ICMProxyConnection iCMProxyConnection0 = new ICMProxyConnection();
++        ICMProxyConnection iCMProxyConnection1 = new ICMProxyConnection();
++        assertTrue(iCMProxyConnection1.equals((Object) iCMProxyConnection0));
++
++        // Verify initial state of externalConvid
++        assertNull(iCMProxyConnection0.getExternalConvid());
++        assertNull(iCMProxyConnection1.getExternalConvid());
++
++        // Act: change externalConvid on the second instance
++        iCMProxyConnection1.setExternalConvid(")5");
++
++        // Assert side‑effect of setExternalConvid
++        assertEquals(")5", iCMProxyConnection1.getExternalConvid());
++        assertNull(iCMProxyConnection0.getExternalConvid());
++
++        // Equality should now reflect the changed state
++        assertFalse(iCMProxyConnection0.equals(iCMProxyConnection1));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

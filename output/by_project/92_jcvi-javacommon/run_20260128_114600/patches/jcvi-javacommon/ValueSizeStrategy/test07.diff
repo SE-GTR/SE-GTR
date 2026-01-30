@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/io/ValueSizeStrategy_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/io/ValueSizeStrategy_ESTest.java
+@@ -78,22 +78,16 @@
+          verifyException("org.jcvi.jillion.internal.core.io.ValueSizeStrategy$2", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        ValueSizeStrategy strategy = ValueSizeStrategy.BYTE;
++        ByteBuffer buffer = ByteBuffer.allocate(1);
++        int value = 0x7F; // a representative byte value
++        strategy.put(buffer, value);
++        buffer.flip();
++        assertEquals((byte) value, buffer.get());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      ValueSizeStrategy valueSizeStrategy0 = ValueSizeStrategy.BYTE;
+-      // Undeclared exception!
+-      try { 
+-        valueSizeStrategy0.put((ByteBuffer) null, 1);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.internal.core.io.ValueSizeStrategy$2", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

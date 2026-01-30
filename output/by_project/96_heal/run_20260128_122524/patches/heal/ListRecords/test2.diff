@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/heal/module/oai/provider/verb/ListRecords_ESTest.java
++++ b/evosuite-tests/org/heal/module/oai/provider/verb/ListRecords_ESTest.java
+@@ -59,23 +59,18 @@
+       listRecords0.validateInput(validatedInput0, hashMap0);
+       assertEquals("ListRecords", listRecords0.toString());
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        StringWriter stringWriter0 = new StringWriter();
++        MockPrintWriter mockPrintWriter0 = new MockPrintWriter(stringWriter0);
++        OAIProviderConfig config = org.mockito.Mockito.mock(OAIProviderConfig.class);
++        DataAccessor dataAccessor = org.mockito.Mockito.mock(DataAccessor.class);
++        // Execute should complete without throwing an exception
++        listRecords0.execute(validatedInput0, config, dataAccessor, mockPrintWriter0);
++        // Verify that some output was produced
++        org.junit.Assert.assertTrue(stringWriter0.getBuffer().length() > 0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      StringWriter stringWriter0 = new StringWriter();
+-      MockPrintWriter mockPrintWriter0 = new MockPrintWriter(stringWriter0);
+-      // Undeclared exception!
+-      try { 
+-        listRecords0.execute(validatedInput0, (OAIProviderConfig) null, (DataAccessor) null, mockPrintWriter0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.module.oai.provider.verb.ListRecords", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

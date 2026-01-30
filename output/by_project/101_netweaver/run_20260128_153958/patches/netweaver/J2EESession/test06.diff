@@ -1,0 +1,50 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
+@@ -103,23 +103,30 @@
+     boolean boolean0 = j2EESession0.equals(j2EESession1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      J2EESession j2EESession0 = new J2EESession();
+-      j2EESession0.setStartTime("nullFieldDesc");
+-      j2EESession0.setBackingStore("J2EESession");
+-      J2EESession j2EESession1 = new J2EESession();
+-      j2EESession1.setStartTime("nullFieldDesc");
+-      boolean boolean0 = j2EESession0.equals(j2EESession1);
+-      assertFalse(j2EESession1.equals((Object)j2EESession0));
+-      assertEquals(0, j2EESession1.getIdHash());
+-      assertEquals(0, j2EESession1.getActiveRequests());
+-      assertEquals(0, j2EESession1.getSize());
+-      assertEquals(0, j2EESession1.getTimeout());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        J2EESession j2EESession0 = new J2EESession();
++        j2EESession0.setStartTime("nullFieldDesc");
++        j2EESession0.setBackingStore("J2EESession");
++
++        J2EESession j2EESession1 = new J2EESession();
++        j2EESession1.setStartTime("nullFieldDesc");
++
++        boolean equal01 = j2EESession0.equals(j2EESession1);
++        assertFalse(equal01);
++        assertFalse(j2EESession1.equals((Object) j2EESession0));
++
++        assertEquals(0, j2EESession1.getIdHash());
++        assertEquals(0, j2EESession1.getActiveRequests());
++        assertEquals(0, j2EESession1.getSize());
++        assertEquals(0, j2EESession1.getTimeout());
++
++        // Verify that the startTime set on a different instance affects equality
++        J2EESession j2EESession2 = new J2EESession();
++        j2EESession2.setStartTime("differentStart");
++        assertFalse(j2EESession0.equals(j2EESession2));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

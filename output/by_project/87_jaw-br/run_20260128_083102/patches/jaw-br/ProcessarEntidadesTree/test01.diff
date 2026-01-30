@@ -1,0 +1,29 @@
+--- a/evosuite-tests/jaw/gui/ProcessarEntidadesTree_ESTest.java
++++ b/evosuite-tests/jaw/gui/ProcessarEntidadesTree_ESTest.java
+@@ -43,14 +43,20 @@
+     processarEntidadesTree0 = new ProcessarEntidadesTree(vector0);
+       assertTrue(processarEntidadesTree0.getFocusTraversalKeysEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
++@Test(timeout = 4000)
++public void test01() throws Throwable {
+     linkedList0 = new LinkedList<Entidade>();
+     processarEntidadesTree0 = new ProcessarEntidadesTree(linkedList0);
+-      processarEntidadesTree0.setEntidades(linkedList0);
+-      assertFalse(processarEntidadesTree0.isFocusCycleRoot());
+-  }
++    // Verify that the initial list of entities is empty
++    assertTrue(processarEntidadesTree0.getEntidades().isEmpty());
++    // Act: set the entities list
++    processarEntidadesTree0.setEntidades(linkedList0);
++    // Assert that the side‑effect is observable via the public getter
++    assertEquals(linkedList0, processarEntidadesTree0.getEntidades());
++    // Existing assertion retained
++    assertFalse(processarEntidadesTree0.isFocusCycleRoot());
++}
++
+ @Test(expected = UnsupportedOperationException.class)
+     public void test02() throws Throwable {
+         ProcessarEntidadesTree processarEntidadesTree0 = new ProcessarEntidadesTree();

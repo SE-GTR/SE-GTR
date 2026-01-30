@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/TestJava_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/TestJava_ESTest.java
+@@ -38,11 +38,23 @@
+     TestJava testJava0 = new TestJava();
+     assertNotNull(testJava0);
+ }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        TestJava testJava0 = new TestJava();
++        // Capture state before invoking the method
++        Object beforeClassLevel = testJava0.getClassLevelVariable();
++        Object beforeAnother = testJava0.getAnotherClassVariable();
+ 
++        // Act
++        testJava0.method1(1, 1, null);
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      TestJava testJava0 = new TestJava();
+-      testJava0.method1(1, 1, (JavaParser) null);
+-  }
++        // Capture state after invocation
++        Object afterClassLevel = testJava0.getClassLevelVariable();
++        Object afterAnother = testJava0.getAnotherClassVariable();
++
++        // Verify that the side‑effects have occurred
++        assertNotEquals("classLevelVariable should change after method1", beforeClassLevel, afterClassLevel);
++        assertNotEquals("anotherClassVariable should change after method1", beforeAnother, afterAnother);
++    }
++
+ }

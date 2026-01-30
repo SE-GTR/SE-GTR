@@ -1,0 +1,48 @@
+--- a/evosuite-tests/org/heal/util/VCardBean_ESTest.java
++++ b/evosuite-tests/org/heal/util/VCardBean_ESTest.java
+@@ -126,19 +126,32 @@
+         assertEquals(before, after);
+         assertEquals("BEGIN:VCARD\nFN:qXw}nWJuW]P qXw}nWJuW]P\nN:qXw}nWJuW]P;;qXw}nWJuW]P;\nORG:qXw}nWJuW]P\nEMAIL;TYPE=INTERNET:qXw}nWJuW]P\nEND:VCARD", after);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      VCardBean vCardBean0 = new VCardBean();
+-      vCardBean0.setOrganization("5Sk` pfTm%r}9;\"\"g");
+-      vCardBean0.setFax("BEGIN:VCARDBEGIN:VCARD\nFN:UBS9*7NHTP {~B\nN:{~B;;UBS9*7NHTP;\nTITLE:5SK` PFTM%R9,;\"\"G\nORG:5SK` PFTM%R9,;\"\"G\nEMAIL;TYPE=INTERNET:5SK` PFTM%R9,;\"\"G\nTEL;TYPE=VOICE:5SK` PFTM%R9,;\"\"G\nTEL;TYPE=FAX:5SK` PFTM%R9,;\"\"G\nEND:VCARD");
+-      vCardBean0.setFirstName("5Sk` pfTm%r}9;\"\"g");
+-      vCardBean0.setLastName("5Sk` pfTm%r}9;\"\"g");
+-      vCardBean0.setEmail("5Sk` pfTm%r}9;\"\"g");
+-      String string0 = vCardBean0.getVCard();
+-      assertEquals("BEGIN:VCARD\nFN:5Sk` pfTm%r}9;\"\"g 5Sk` pfTm%r}9;\"\"g\nN:5Sk` pfTm%r}9;\"\"g;;5Sk` pfTm%r}9;\"\"g;\nORG:5Sk` pfTm%r}9;\"\"g\nEMAIL;TYPE=INTERNET:5Sk` pfTm%r}9;\"\"g\nTEL;TYPE=FAX:BEGIN:VCARDBEGIN:VCARD\nFN:UBS9*7NHTP {~B\nN:{~B;;UBS9*7NHTP;\nTITLE:5SK` PFTM%R9,;\"\"G\nORG:5SK` PFTM%R9,;\"\"G\nEMAIL;TYPE=INTERNET:5SK` PFTM%R9,;\"\"G\nTEL;TYPE=VOICE:5SK` PFTM%R9,;\"\"G\nTEL;TYPE=FAX:5SK` PFTM%R9,;\"\"G\nEND:VCARD\nEND:VCARD", string0);
+-  }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    VCardBean vCardBean0 = new VCardBean();
++    String org = "5Sk` pfTm%r}9;\"\"g";
++    String fax = "BEGIN:VCARDBEGIN:VCARD\nFN:UBS9*7NHTP {~B\nN:{~B;;UBS9*7NHTP;\nTITLE:5SK` PFTM%R9,;\"\"G\nORG:5SK` PFTM%R9,;\"\"G\nEMAIL;TYPE=INTERNET:5SK` PFTM%R9,;\"\"G\nTEL;TYPE=VOICE:5SK` PFTM%R9,;\"\"G\nTEL;TYPE=FAX:5SK` PFTM%R9,;\"\"G\nEND:VCARD";
++    String first = "5Sk` pfTm%r}9;\"\"g";
++    String last = "5Sk` pfTm%r}9;\"\"g";
++    String email = "5Sk` pfTm%r}9;\"\"g";
++
++    vCardBean0.setOrganization(org);
++    vCardBean0.setFax(fax);
++    vCardBean0.setFirstName(first);
++    vCardBean0.setLastName(last);
++    vCardBean0.setEmail(email);
++
++    String vcard = vCardBean0.getVCard();
++
++    assertNotNull(vcard);
++    assertTrue(vcard.startsWith("BEGIN:VCARD"));
++    assertTrue(vcard.contains(org));
++    assertTrue(vcard.contains(first));
++    assertTrue(vcard.contains(last));
++    assertTrue(vcard.contains(email));
++    assertTrue(vcard.contains("TEL;TYPE=FAX"));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

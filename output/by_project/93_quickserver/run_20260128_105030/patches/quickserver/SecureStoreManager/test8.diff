@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/quickserver/security/SecureStoreManager_ESTest.java
++++ b/evosuite-tests/org/quickserver/security/SecureStoreManager_ESTest.java
+@@ -117,12 +117,15 @@
+       } catch(NoSuchAlgorithmException e) {
+       }
+   }
++@Test(timeout = 4000)
++    public void test8() throws Throwable {
++        SecureStoreManager secureStoreManager0 = new SecureStoreManager();
++        SSLContext sSLContext0 = SSLContext.getDefault();
++        SSLSocketFactory sSLSocketFactory0 = secureStoreManager0.getSocketFactory(sSLContext0);
++        assertNotNull("SocketFactory should not be null", sSLSocketFactory0);
++        String[] cipherSuites = sSLSocketFactory0.getDefaultCipherSuites();
++        assertNotNull("Default cipher suites should not be null", cipherSuites);
++        assertTrue("There should be at least one default cipher suite", cipherSuites.length > 0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-    secureStoreManager0 = new SecureStoreManager();
+-      SSLContext sSLContext0 = SSLContext.getDefault();
+-      SSLSocketFactory sSLSocketFactory0 = secureStoreManager0.getSocketFactory(sSLContext0);
+-      assertNotNull(sSLSocketFactory0);
+-  }
+ }

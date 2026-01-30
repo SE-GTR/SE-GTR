@@ -1,0 +1,36 @@
+--- a/evosuite-tests/corina/util/SimpleLog_ESTest.java
++++ b/evosuite-tests/corina/util/SimpleLog_ESTest.java
+@@ -199,16 +199,23 @@
+       simpleLog0.fatal(object0);
+       assertTrue(simpleLog0.isTraceEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      SimpleLog.showShortName = false;
+-      SimpleLog simpleLog0 = new SimpleLog("'qw>?v#T>$BZGHV^DPV");
+-      simpleLog0.fatal((Object) "'qw>?v#T>$BZGHV^DPV");
+-      assertFalse(simpleLog0.isDebugEnabled());
+-      assertTrue(simpleLog0.isFatalEnabled());
+-      assertTrue(simpleLog0.isInfoEnabled());
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        SimpleLog.showShortName = false;
++        SimpleLog simpleLog0 = new SimpleLog("'qw>?v#T>$BZGHV^DPV");
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.PrintStream originalErr = System.err;
++        System.setErr(new java.io.PrintStream(baos));
++        try {
++            simpleLog0.fatal((Object) "'qw>?v#T>$BZGHV^DPV");
++        } finally {
++            System.setErr(originalErr);
++        }
++        String output = baos.toString();
++        assertTrue(output.contains("FATAL"));
++        assertTrue(output.contains("'qw>?v#T>$BZGHV^DPV"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

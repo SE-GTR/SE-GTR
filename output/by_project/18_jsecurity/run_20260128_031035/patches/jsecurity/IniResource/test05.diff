@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jsecurity/io/IniResource_ESTest.java
++++ b/evosuite-tests/org/jsecurity/io/IniResource_ESTest.java
+@@ -58,14 +58,17 @@
+       iniResource0.load(scanner0);
+       assertEquals("java.util.Scanner[delimiters=\\p{javaWhitespace}+][position=1][match valid=false][need input=false][source closed=true][skipped=false][group separator=\\x{2c}][decimal separator=\\x{2e}][positive prefix=][negative prefix=\\Q-\\E][positive suffix=][negative suffix=][NaN string=\\Q\uFFFD\\E][infinity string=\\Q\u221E\\E]", scanner0.toString());
+   }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    IniResource iniResource0 = new IniResource();
++    Scanner scanner0 = new Scanner("#");
++    iniResource0.load(scanner0);
++    // Verify that the load operation consumed the scanner input
++    assertFalse(scanner0.hasNext());
++    // Retain the original radix check
++    assertEquals(10, scanner0.radix());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      IniResource iniResource0 = new IniResource();
+-      Scanner scanner0 = new Scanner("#");
+-      iniResource0.load(scanner0);
+-      assertEquals(10, scanner0.radix());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

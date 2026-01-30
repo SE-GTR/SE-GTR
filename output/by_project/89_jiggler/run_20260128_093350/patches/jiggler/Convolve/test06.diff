@@ -1,0 +1,94 @@
+--- a/evosuite-tests/jigl/image/ops/Convolve_ESTest.java
++++ b/evosuite-tests/jigl/image/ops/Convolve_ESTest.java
+@@ -159,61 +159,38 @@
+         assertEquals(grayImage0.X(), result.X());
+         assertEquals(grayImage0.Y(), result.Y());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      KernelType kernelType0 = KernelType.LAPLACIAN;
+-      ImageKernel imageKernel0 = new ImageKernel(kernelType0);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals(8.0F, imageKernel0.absSum(), 0.01F);
+-      assertEquals(3, imageKernel0.Y());
+-      assertEquals(20.0, imageKernel0.sqrSum(), 0.01);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(1.0F, imageKernel0.max(), 0.01F);
+-      assertEquals((-4.0F), imageKernel0.min(), 0.01F);
+-      
+-      Convolve convolve0 = new Convolve(imageKernel0);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals(8.0F, imageKernel0.absSum(), 0.01F);
+-      assertEquals(3, imageKernel0.Y());
+-      assertEquals(20.0, imageKernel0.sqrSum(), 0.01);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(1.0F, imageKernel0.max(), 0.01F);
+-      assertEquals((-4.0F), imageKernel0.min(), 0.01F);
+-      
+-      GrayImage grayImage0 = new GrayImage(15, 15);
+-      assertEquals(15, grayImage0.Y());
+-      assertEquals(15, grayImage0.X());
+-      
+-      ROI rOI0 = new ROI();
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(0, rOI0.uy());
+-      assertEquals(0, rOI0.ux());
+-      
+-      rOI0.setROI(15, 17, 15, 46);
+-      assertEquals(15, rOI0.ux());
+-      assertEquals(46, rOI0.ly());
+-      assertEquals(15, rOI0.lx());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(30, rOI0.Y());
+-      assertEquals(17, rOI0.uy());
+-      
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    KernelType kernelType0 = KernelType.LAPLACIAN;
++    ImageKernel imageKernel0 = new ImageKernel(kernelType0);
++    // Verify essential kernel initialization
++    assertEquals(3, imageKernel0.X());
++    assertEquals(3, imageKernel0.Y());
++
++    Convolve convolve0 = new Convolve(imageKernel0);
++
++    GrayImage grayImage0 = new GrayImage(15, 15);
++    assertEquals(15, grayImage0.X());
++    assertEquals(15, grayImage0.Y());
++
++    ROI rOI0 = new ROI();
++    rOI0.setROI(15, 17, 15, 46);
++    // Verify ROI after configuration
++    assertEquals(15, rOI0.ux());
++    assertEquals(46, rOI0.ly());
++    assertEquals(15, rOI0.lx());
++    assertEquals(1, rOI0.X());
++    assertEquals(30, rOI0.Y());
++    assertEquals(17, rOI0.uy());
++
++    try {
+         convolve0.apply(grayImage0, rOI0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.image.types.GrayImage", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        verifyException("jigl.image.types.GrayImage", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

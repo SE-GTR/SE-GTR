@@ -1,0 +1,43 @@
+--- a/evosuite-tests/corina/Sample_ESTest.java
++++ b/evosuite-tests/corina/Sample_ESTest.java
+@@ -218,25 +218,21 @@
+          verifyException("corina.Sample", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      LinkedList<ArrayList<Object>> linkedList0 = new LinkedList<ArrayList<Object>>();
+-      sample0.count = (List) linkedList0;
+-      linkedList0.add((ArrayList<Object>) null);
+-      // Undeclared exception!
+-      try { 
+-        sample0.countRings();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.Sample", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    Sample sample0 = new Sample();
++    // Minimal valid initialization of fields used by countRings()
++    sample0.data = new ArrayList<>();
++    sample0.meta = new HashMap<>();
++    // Prepare a non‑null count list
++    LinkedList<ArrayList<Object>> linkedList0 = new LinkedList<>();
++    linkedList0.add(new ArrayList<>());
++    sample0.count = linkedList0;
++    // Invoke the method under test and assert a sensible result
++    int rings = sample0.countRings();
++    assertTrue("countRings should return a non‑negative value", rings >= 0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -108,12 +108,21 @@
+     public void test10() {
+         ConfigurationManagement.login_config_readTXT(null);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      ConfigurationManagement.addGMMax(35);
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    // Capture the current GMMax value (if any)
++    int before = ConfigurationManagement.getGMMax();
++    // Apply the operation under test
++    ConfigurationManagement.addGMMax(35);
++    // Verify the side‑effect through the public getter
++    int after = ConfigurationManagement.getGMMax();
++    assertEquals(35, after);
++    // If the value changed, make sure the change is observable
++    if (before != after) {
++        assertNotEquals(before, after);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

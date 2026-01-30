@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
+@@ -152,17 +152,18 @@
+       iniWebConfiguration0.createChains(hashMap0, map0);
+       assertEquals(6, map0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
+-      HashMap<String, List<Filter>> hashMap0 = new HashMap<String, List<Filter>>();
+-      LinkedList<Filter> linkedList0 = new LinkedList<Filter>();
+-      hashMap0.put("urls", linkedList0);
+-      iniWebConfiguration0.chains = (Map<String, List<Filter>>) hashMap0;
+-      iniWebConfiguration0.initFilters(iniWebConfiguration0.chains);
+-      assertNull(iniWebConfiguration0.getConfig());
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
++    HashMap<String, List<Filter>> hashMap0 = new HashMap<String, List<Filter>>();
++    LinkedList<Filter> linkedList0 = new LinkedList<Filter>();
++    List<Filter> previous = hashMap0.put("urls", linkedList0);
++    assertNull(previous);
++    iniWebConfiguration0.chains = (Map<String, List<Filter>>) hashMap0;
++    iniWebConfiguration0.initFilters(iniWebConfiguration0.chains);
++    assertSame(linkedList0, iniWebConfiguration0.chains.get("urls"));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

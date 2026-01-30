@@ -1,0 +1,64 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/TableColumn_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/TableColumn_ESTest.java
+@@ -367,33 +367,34 @@
+     TableColumn tableColumn0 = new TableColumn((Table) null, tableColumnMeta0);
+     assertEquals("0", tableColumn0.getDetailedSize());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      TableColumnMeta tableColumnMeta0 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(tableColumnMeta0).getComments();
+-      doReturn((String) null).when(tableColumnMeta0).getDefaultValue();
+-      doReturn(0).when(tableColumnMeta0).getDigits();
+-      doReturn((String) null).when(tableColumnMeta0).getId();
+-      doReturn((String) null).when(tableColumnMeta0).getName();
+-      doReturn(0).when(tableColumnMeta0).getSize();
+-      doReturn((String) null).when(tableColumnMeta0).getType();
+-      doReturn(false).when(tableColumnMeta0).isAutoUpdated();
+-      doReturn(false).when(tableColumnMeta0).isNullable();
+-      TableColumn tableColumn0 = new TableColumn((Table) null, tableColumnMeta0);
+-      // Undeclared exception!
+-      try { 
+-        tableColumn0.addChild(tableColumn0, (ForeignKeyConstraint) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.schemaspy.model.TableColumn$ColumnComparator", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test20() throws Throwable {
++    // Create a mock Table to satisfy the constructor requirement
++    Table mockTable = mock(Table.class);
++
++    // Prepare a TableColumnMeta mock with realistic, non‑null values
++    TableColumnMeta meta = mock(TableColumnMeta.class);
++    when(meta.getComments()).thenReturn(null);
++    when(meta.getDefaultValue()).thenReturn(null);
++    when(meta.getDigits()).thenReturn(0);
++    when(meta.getId()).thenReturn("colId");
++    when(meta.getName()).thenReturn("colName");
++    when(meta.getSize()).thenReturn(10);
++    when(meta.getType()).thenReturn("VARCHAR");
++    when(meta.isAutoUpdated()).thenReturn(false);
++    when(meta.isNullable()).thenReturn(true);
++
++    // Instantiate parent and child TableColumn objects
++    TableColumn parent = new TableColumn(mockTable, meta);
++    TableColumn child = new TableColumn(mockTable, meta);
++
++    // Use a non‑null ForeignKeyConstraint mock
++    ForeignKeyConstraint constraint = mock(ForeignKeyConstraint.class);
++
++    // Exercise the method under test; no exception should be thrown
++    parent.addChild(child, constraint);
++}
++
+ public void test21() throws Throwable {
+     TableColumnMeta tableColumnMeta0 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
+     doReturn((String) null).when(tableColumnMeta0).getComments();

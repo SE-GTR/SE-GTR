@@ -1,0 +1,37 @@
+--- a/evosuite-tests/state/GameState_ESTest.java
++++ b/evosuite-tests/state/GameState_ESTest.java
+@@ -158,18 +158,22 @@
+         // Existing unrelated assertion retained
+         assertEquals(0L, gameState0.getGamestart());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      GameState gameState0 = new GameState();
+-      Player player0 = new Player(107, (String) null, 4);
+-      Player player1 = new Player(123, "", 244);
+-      player1.boss = (Party) player0;
+-      gameState0.removePlayer(player1);
+-      assertTrue(player1.isBoss());
+-      assertEquals(1, gameState0.getCurrentRound());
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        GameState gameState0 = new GameState();
++        Player player0 = new Player(107, null, 4);
++        Player player1 = new Player(123, "", 244);
++        player1.boss = (Party) player0;
++        // Ensure the player is part of the game state before removal
++        gameState0.addPlayer(player1);
++        int before = gameState0.getNumOfPlayers();
++        gameState0.removePlayer(player1);
++        int after = gameState0.getNumOfPlayers();
++        assertEquals(before - 1, after);
++        assertTrue(player1.isBoss());
++        assertEquals(1, gameState0.getCurrentRound());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

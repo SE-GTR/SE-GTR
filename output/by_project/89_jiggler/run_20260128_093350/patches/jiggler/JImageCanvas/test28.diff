@@ -1,0 +1,36 @@
+--- a/evosuite-tests/jigl/gui/JImageCanvas_ESTest.java
++++ b/evosuite-tests/jigl/gui/JImageCanvas_ESTest.java
+@@ -340,23 +340,16 @@
+     // Verify that selection box extents remain at their default values after the act
+     assertEquals(0, jImageCanvas0.getSelectionBoxExtentX());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      JImageCanvas jImageCanvas0 = new JImageCanvas();
+-      // Undeclared exception!
+-      try { 
+-        jImageCanvas0.setOffScreen();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.gui.JImageCanvas", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test28() throws Throwable {
++        JImageCanvas canvas = new JImageCanvas();
++        // Prepare a minimal valid image to avoid NPE in setOffScreen
++        jigl.image.types.GrayImage img = new jigl.image.types.GrayImage(1, 1);
++        canvas.setImage(img);
++        java.awt.Graphics offScreenGraphics = canvas.setOffScreen();
++        assertNotNull("Off‑screen graphics should not be null after proper setup", offScreenGraphics);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test29()  throws Throwable  {

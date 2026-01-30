@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/AbstractSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/AbstractSessionManager_ESTest.java
+@@ -117,29 +117,29 @@
+        verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+     }
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
++@Test(timeout = 4000)
++public void test04() throws Throwable {
+     defaultSessionManager0 = new DefaultSessionManager();
+     inetAddress0 = MockInetAddress.getByName("");
+-      Session session0 = defaultSessionManager0.createSession(inetAddress0);
+-      defaultSessionManager0.stop(session0);
+-      SessionListener sessionListener0 = mock(SessionListener.class, new ViolatedAssumptionAnswer());
+-      defaultSessionManager0.add(sessionListener0);
+-      defaultSessionManager0.getActiveSessions();
+-      // Undeclared exception!
+-      try { 
++    Session session0 = defaultSessionManager0.createSession(inetAddress0);
++    defaultSessionManager0.stop(session0);
++    SessionListener sessionListener0 = mock(SessionListener.class, new ViolatedAssumptionAnswer());
++    defaultSessionManager0.add(sessionListener0);
++    java.util.Collection<Session> activeSessions = defaultSessionManager0.getActiveSessions();
++    assertNotNull(activeSessions);
++    assertTrue(activeSessions.isEmpty());
++    // Undeclared exception!
++    try {
+         defaultSessionManager0.getLastAccessTime(inetAddress0);
+         fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // There is no session with id [/127.0.0.1]
+-         //
+-         verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
+-      }
+-  }
++    } catch (RuntimeException e) {
++        //
++        // There is no session with id [/127.0.0.1]
++        //
++        verifyException("org.jsecurity.session.mgt.eis.CachingSessionDAO", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

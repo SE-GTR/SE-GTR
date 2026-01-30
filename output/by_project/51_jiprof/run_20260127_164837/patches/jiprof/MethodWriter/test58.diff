@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -846,14 +846,17 @@
+       AnnotationVisitor annotationVisitor0 = methodWriter0.visitAnnotation("4{KC,`<?XzYHnL", false);
+       assertNotNull(annotationVisitor0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test58()  throws Throwable  {
+-      ClassReader classReader0 = new ClassReader("org.objectweb.asm.jip.ClassWriter");
+-      ClassWriter classWriter0 = new ClassWriter(classReader0, (-3));
+-      classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 32);
+-      assertEquals(8096, classReader0.header);
+-  }
++@Test(timeout = 4000)
++public void test58() throws Throwable {
++    ClassReader classReader0 = new ClassReader("org.objectweb.asm.jip.ClassWriter");
++    ClassWriter classWriter0 = new ClassWriter(classReader0, -3);
++    int beforeLength = classWriter0.toByteArray().length;
++    classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 32);
++    int afterLength = classWriter0.toByteArray().length;
++    assertTrue("Bytecode should be generated after accept", afterLength > beforeLength);
++    assertEquals(8096, classReader0.header);
++}
++
+ @Test(timeout = 4000)
+ public void test59() throws Throwable {
+     ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");

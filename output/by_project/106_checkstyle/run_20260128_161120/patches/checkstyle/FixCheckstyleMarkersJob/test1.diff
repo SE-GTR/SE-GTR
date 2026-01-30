@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/quickfixes/FixCheckstyleMarkersJob_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/quickfixes/FixCheckstyleMarkersJob_ESTest.java
+@@ -40,14 +40,15 @@
+          verifyException("com.atlassw.tools.eclipse.checkstyle.quickfixes.CheckstyleMarkerResolutionGenerator", e);
+       }
+   }
++public void test1() throws Throwable {
++    IMarker[] iMarkerArray0 = new IMarker[0];
++    IFile iFile0 = mock(IFile.class, new ViolatedAssumptionAnswer());
++    doReturn(iMarkerArray0).when(iFile0).findMarkers(anyString(), anyBoolean(), anyInt());
++    FixCheckstyleMarkersJob fixCheckstyleMarkersJob0 = new FixCheckstyleMarkersJob(iFile0);
++    IStatus iStatus0 = fixCheckstyleMarkersJob0.runInUIThread((IProgressMonitor) null);
++    assertEquals("org.eclipse.core.runtime", iStatus0.getPlugin());
++    IMarker[] result = iFile0.findMarkers("any", true, 0);
++    assertSame(iMarkerArray0, result);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      IMarker[] iMarkerArray0 = new IMarker[0];
+-      IFile iFile0 = mock(IFile.class, new ViolatedAssumptionAnswer());
+-      doReturn(iMarkerArray0).when(iFile0).findMarkers(anyString() , anyBoolean() , anyInt());
+-      FixCheckstyleMarkersJob fixCheckstyleMarkersJob0 = new FixCheckstyleMarkersJob(iFile0);
+-      IStatus iStatus0 = fixCheckstyleMarkersJob0.runInUIThread((IProgressMonitor) null);
+-      assertEquals("org.eclipse.core.runtime", iStatus0.getPlugin());
+-  }
+ }

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
+@@ -116,17 +116,20 @@
+         // Ensure objects are no longer equal after the change
+         assertFalse(j2EEProcess1.equals(j2EEProcess0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      J2EEProcess j2EEProcess0 = new J2EEProcess();
+-      J2EEProcess j2EEProcess1 = new J2EEProcess();
+-      j2EEProcess1.setErrorCount(1);
+-      boolean boolean0 = j2EEProcess0.equals(j2EEProcess1);
+-      assertEquals(1, j2EEProcess1.getErrorCount());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        J2EEProcess j2EEProcess0 = new J2EEProcess();
++        J2EEProcess j2EEProcess1 = new J2EEProcess();
++        // Verify initial state before the side‑effect
++        assertEquals(0, j2EEProcess1.getErrorCount());
++        // Side‑effect under test
++        j2EEProcess1.setErrorCount(1);
++        // Observe the side‑effect via the public getter
++        assertEquals(1, j2EEProcess1.getErrorCount());
++        boolean boolean0 = j2EEProcess0.equals(j2EEProcess1);
++        assertFalse(boolean0);
++    }
++
+ @Test(timeout = 4000)
+     public void test06() throws Throwable {
+         J2EEProcess j2EEProcess0 = new J2EEProcess();

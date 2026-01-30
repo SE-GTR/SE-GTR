@@ -1,0 +1,48 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/gui/widgets/ConfigPropertyWidgetSingleSelect_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/gui/widgets/ConfigPropertyWidgetSingleSelect_ESTest.java
+@@ -45,25 +45,27 @@
+          verifyException("com.atlassw.tools.eclipse.checkstyle.config.gui.widgets.ConfigPropertyWidgetSingleSelect", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    ConfigPropertyType configPropertyType0 = ConfigPropertyType.MULTI_CHECK;
++    ConfigPropertyMetadata configPropertyMetadata0 = new ConfigPropertyMetadata(
++            configPropertyType0, "name", "description", "defaultValue");
++    ConfigProperty configProperty0 = new ConfigProperty(configPropertyMetadata0);
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ConfigPropertyType configPropertyType0 = ConfigPropertyType.MULTI_CHECK;
+-    configPropertyMetadata0 = new ConfigPropertyMetadata(configPropertyType0, (String) null, (String) null, (String) null);
+-    configProperty0 = new ConfigProperty(configPropertyMetadata0);
+-    configPropertyWidgetSingleSelect0 = new ConfigPropertyWidgetSingleSelect((Composite) null, configProperty0);
+-      // Undeclared exception!
+-      try { 
+-        configPropertyWidgetSingleSelect0.restorePropertyDefault();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.atlassw.tools.eclipse.checkstyle.config.gui.widgets.ConfigPropertyWidgetSingleSelect", e);
+-      }
+-  }
++    org.eclipse.swt.widgets.Display display = new org.eclipse.swt.widgets.Display();
++    try {
++        org.eclipse.swt.widgets.Shell shell = new org.eclipse.swt.widgets.Shell(display);
++        org.eclipse.swt.widgets.Composite parent = new org.eclipse.swt.widgets.Composite(shell, org.eclipse.swt.SWT.NONE);
++        ConfigPropertyWidgetSingleSelect widget = new ConfigPropertyWidgetSingleSelect(parent, configProperty0);
++        widget.restorePropertyDefault();
++        assertNotNull(widget);
++    } finally {
++        if (!display.isDisposed()) {
++            display.dispose();
++        }
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

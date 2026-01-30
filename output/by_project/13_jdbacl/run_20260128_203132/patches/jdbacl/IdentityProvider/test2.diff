@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/databene/jdbacl/identity/IdentityProvider_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/identity/IdentityProvider_ESTest.java
+@@ -46,13 +46,21 @@
+       IdentityModel identityModel0 = identityProvider0.getIdentity("h*");
+       assertSame(identityModel0, uniqueKeyIdentity0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        IdentityProvider identityProvider0 = new IdentityProvider();
++        // When the identity is not required, a missing entry should result in null
++        IdentityModel identityModel0 = identityProvider0.getIdentity("h*", false);
++        assertNull(identityModel0);
++        // When the identity is required, a missing entry should trigger an exception
++        try {
++            identityProvider0.getIdentity("h*", true);
++            fail("Expected ObjectNotFoundException");
++        } catch (ObjectNotFoundException expected) {
++            // expected behavior
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      IdentityProvider identityProvider0 = new IdentityProvider();
+-      IdentityModel identityModel0 = identityProvider0.getIdentity("h*", false);
+-      assertNull(identityModel0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

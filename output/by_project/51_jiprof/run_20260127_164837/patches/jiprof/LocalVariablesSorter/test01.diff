@@ -1,0 +1,48 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/LocalVariablesSorter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/LocalVariablesSorter_ESTest.java
+@@ -38,28 +38,23 @@
+         // Verify that the underlying MethodVisitor received a call, confirming the side‑effect of visitVarInsn
+         verify(methodVisitor0).visitVarInsn(anyInt(), anyInt());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-    methodVisitor0 = mock(MethodVisitor.class, new ViolatedAssumptionAnswer());
+-    methodAdapter0 = new MethodAdapter(methodVisitor0);
+-      LocalVariablesSorter localVariablesSorter0 = new LocalVariablesSorter(49, "K)]*8-%hk,p_XHi7;f", methodAdapter0);
+-      localVariablesSorter0.visitVarInsn((-1432), 49);
+-      Object[] objectArray0 = new Object[4];
+-      objectArray0[0] = (Object) "K)U^8-%zhk4,p_oiH;f";
+-      // Undeclared exception!
+-      try { 
+-        localVariablesSorter0.visitFrame((-1), 9, objectArray0, (-29), objectArray0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.Type", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    methodVisitor0 = mock(MethodVisitor.class, new ViolatedAssumptionAnswer());
++    methodAdapter0 = new MethodAdapter(methodVisitor0);
++    LocalVariablesSorter localVariablesSorter0 = new LocalVariablesSorter(49, "K)]*8-%hk,p_XHi7;f", methodAdapter0);
++    // Use a valid opcode for visitVarInsn to keep internal state consistent
++    localVariablesSorter0.visitVarInsn(Opcodes.ASTORE, 49);
++    // Prepare minimal, non‑null frame data
++    Object[] emptyLocals = new Object[0];
++    Object[] emptyStack = new Object[0];
++    // Call visitFrame with a valid frame type to avoid NullPointerException
++    localVariablesSorter0.visitFrame(Opcodes.F_FULL, 0, emptyLocals, 0, emptyStack);
++    // Verify that the underlying MethodVisitor received the call
++    verify(methodVisitor0).visitFrame(Mockito.anyInt(), Mockito.anyInt(),
++            Mockito.any(Object[].class), Mockito.anyInt(), Mockito.any(Object[].class));
++}
++
+ @Test(timeout = 4000)
+     public void test02() throws Throwable {
+         LocalVariablesSorter localVariablesSorter0 = new LocalVariablesSorter(3969, "K)3*8-%hP,p_XIi7;U", (MethodVisitor) null);

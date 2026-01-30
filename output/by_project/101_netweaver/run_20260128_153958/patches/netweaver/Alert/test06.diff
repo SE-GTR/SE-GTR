@@ -1,0 +1,50 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/Alert_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/Alert_ESTest.java
+@@ -108,20 +108,33 @@
+         boolean boolean0 = alert1.equals(alert0);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      Alert alert0 = new Alert();
+-      Alert alert1 = new Alert();
+-      alert1.setTime("5}[-9*}$lsUPa");
+-      assertFalse(alert1.equals((Object)alert0));
+-      
+-      alert0.setTime("5}[-9*}$lsUPa");
+-      boolean boolean0 = alert0.equals(alert1);
+-      assertTrue(alert1.equals((Object)alert0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    Alert alert0 = new Alert();
++    Alert alert1 = new Alert();
++
++    // Verify initial state of the time field
++    assertNull(alert0.getTime());
++    assertNull(alert1.getTime());
++
++    String timeValue = "5}[-9*}$lsUPa";
++
++    // Set time on alert1 and assert the side‑effect
++    alert1.setTime(timeValue);
++    assertEquals(timeValue, alert1.getTime());
++
++    // Alerts differ because only alert1 has time set
++    assertFalse(alert1.equals((Object) alert0));
++
++    // Set the same time on alert0 and assert the side‑effect
++    alert0.setTime(timeValue);
++    assertEquals(timeValue, alert0.getTime());
++
++    // Now both alerts have identical state and should be equal
++    assertTrue(alert1.equals((Object) alert0));
++    assertTrue(alert0.equals(alert1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

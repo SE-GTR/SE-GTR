@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/ClassWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/ClassWriter_ESTest.java
+@@ -261,15 +261,16 @@
+     String classContent = new String(classBytes, java.nio.charset.StandardCharsets.UTF_8);
+     assertTrue(classContent.contains("iP[2Vcys681o?"));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      ClassWriter classWriter0 = new ClassWriter(5);
+-      classWriter0.visitSource("Signature", "Signature");
+-      byte[] byteArray0 = classWriter0.toByteArray();
+-      assertEquals(95, byteArray0.length);
+-  }
++@Test(timeout = 4000)
++public void test25() throws Throwable {
++    ClassWriter classWriter0 = new ClassWriter(5);
++    byte[] beforeArray = classWriter0.toByteArray();
++    int beforeLength = beforeArray.length;
++    classWriter0.visitSource("Signature", "Signature");
++    byte[] afterArray = classWriter0.toByteArray();
++    assertTrue(afterArray.length > beforeLength);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

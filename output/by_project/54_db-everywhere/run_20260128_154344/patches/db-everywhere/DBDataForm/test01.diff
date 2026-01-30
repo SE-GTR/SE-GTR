@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/form/DBDataForm_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/form/DBDataForm_ESTest.java
+@@ -20,13 +20,23 @@
+     assertEquals("FR", dBDataForm0.getLanguage());
+     assertEquals("ISO-8859-1", dBDataForm0.getEncoding());
+ }
+-
+ @Test(timeout = 4000)
+ public void test01() throws Throwable {
+-    DBDataForm dBDataForm0 = new DBDataForm();
+-    assertEquals("", dBDataForm0.getUrl());
+-    assertEquals("ISO-8859-1", dBDataForm0.getEncoding());
++    DBDataForm form = new DBDataForm();
++    // Verify default encoding (single initialization check)
++    assertEquals("ISO-8859-1", form.getEncoding());
++
++    // Modify fields and assert the getters reflect the changes
++    form.setUrl("jdbc:test");
++    assertEquals("jdbc:test", form.getUrl());
++
++    form.setEncoding("UTF-8");
++    assertEquals("UTF-8", form.getEncoding());
++
++    form.setLanguage("EN");
++    assertEquals("EN", form.getLanguage());
+ }
++
+ @Test(timeout = 4000)
+ public void test02() throws Throwable {
+     DBDataForm dBDataForm0 = new DBDataForm();

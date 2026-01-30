@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/TableColumn_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/TableColumn_ESTest.java
+@@ -455,10 +455,8 @@
+     assertTrue(tableColumn0.allowsImpliedChildren());
+     assertEquals("0", tableColumn0.getDetailedSize());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test25() throws Throwable {
+       TableColumnMeta tableColumnMeta0 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
+       doReturn((String) null).when(tableColumnMeta0).getComments();
+       doReturn((String) null).when(tableColumnMeta0).getDefaultValue();
+@@ -470,13 +468,18 @@
+       doReturn(false).when(tableColumnMeta0).isAutoUpdated();
+       doReturn(false).when(tableColumnMeta0).isNullable();
+       TableColumn tableColumn0 = new TableColumn((Table) null, tableColumnMeta0);
++      // Verify initial type is null (or default) before mutation
++      assertNull(tableColumn0.getType());
+       tableColumn0.setType("xVfXcH5ZQe%_N[b[1M");
++      // Observe the side‑effect of setType
++      assertEquals("xVfXcH5ZQe%_N[b[1M", tableColumn0.getType());
+       assertFalse(tableColumn0.isExcluded());
+       assertTrue(tableColumn0.allowsImpliedParents());
+       assertTrue(tableColumn0.allowsImpliedChildren());
+       assertEquals("0", tableColumn0.getDetailedSize());
+       assertFalse(tableColumn0.isAllExcluded());
+   }
++
+ @Test(timeout = 4000)
+   public void test26() throws Throwable {
+       TableColumnMeta tableColumnMeta0 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());

@@ -1,0 +1,49 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
+@@ -221,20 +221,32 @@
+         // Equality should now differ because of the modified field
+         assertFalse(j2EEProcess1.equals(j2EEProcess0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      J2EEProcess j2EEProcess0 = new J2EEProcess();
+-      J2EEProcess j2EEProcess1 = new J2EEProcess();
+-      j2EEProcess0.setStatetext("(/5 9x*[W");
+-      assertFalse(j2EEProcess0.equals((Object)j2EEProcess1));
+-      
+-      j2EEProcess1.setStatetext("(/5 9x*[W");
+-      boolean boolean0 = j2EEProcess1.equals(j2EEProcess0);
+-      assertTrue(j2EEProcess0.equals((Object)j2EEProcess1));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        J2EEProcess j2EEProcess0 = new J2EEProcess();
++        J2EEProcess j2EEProcess1 = new J2EEProcess();
++
++        // Verify initial state before setting statetext
++        assertNull(j2EEProcess0.getStatetext());
++        assertNull(j2EEProcess1.getStatetext());
++
++        // Set statetext on first instance and verify side‑effect
++        j2EEProcess0.setStatetext("(/5 9x*[W");
++        assertEquals("(/5 9x*[W", j2EEProcess0.getStatetext());
++
++        // Objects differ because other fields are still default
++        assertFalse(j2EEProcess0.equals((Object) j2EEProcess1));
++
++        // Set same statetext on second instance and verify side‑effect
++        j2EEProcess1.setStatetext("(/5 9x*[W");
++        assertEquals("(/5 9x*[W", j2EEProcess1.getStatetext());
++
++        // Now both instances should be equal
++        boolean boolean0 = j2EEProcess1.equals(j2EEProcess0);
++        assertTrue(j2EEProcess0.equals((Object) j2EEProcess1));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

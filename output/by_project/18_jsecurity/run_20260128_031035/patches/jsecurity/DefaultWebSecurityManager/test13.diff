@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jsecurity/web/DefaultWebSecurityManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/DefaultWebSecurityManager_ESTest.java
+@@ -183,22 +183,12 @@
+          verifyException("org.jsecurity.web.DefaultWebSecurityManager", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-    defaultWebSecurityManager0 = new DefaultWebSecurityManager();
+-      // Undeclared exception!
+-      try { 
+-        defaultWebSecurityManager0.createSubject();
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // No ServletRequest found in ThreadContext. Make sure WebUtils.bind() is being called. (typically called by JSecurityFilter)  This could also happen when running integration tests that don't properly call WebUtils.bind().
+-         //
+-         verifyException("org.jsecurity.web.WebUtils", e);
+-      }
+-  }
++@Test(expected = IllegalStateException.class, timeout = 4000)
++public void test13() {
++    defaultWebSecurityManager0 = new DefaultWebSecurityManager();
++    defaultWebSecurityManager0.createSubject();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

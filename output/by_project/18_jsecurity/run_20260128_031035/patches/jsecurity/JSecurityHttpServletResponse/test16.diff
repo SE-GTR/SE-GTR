@@ -1,0 +1,66 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
+@@ -302,36 +302,33 @@
+       boolean boolean0 = jSecurityHttpServletResponse0.isEncodeable("#6Z7mz:(LC?l\"DlR6");
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
+-      Enumeration<Integer> enumeration0 = (Enumeration<Integer>) mock(Enumeration.class, new ViolatedAssumptionAnswer());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(enumeration0).when(httpServletRequest0).getHeaderNames();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      httpServletRequestWrapper0.getHeaderNames();
+-      ServletContext servletContext1 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
+-      JSecurityHttpSession jSecurityHttpSession0 = new JSecurityHttpSession((Session) null, httpServletRequestWrapper0, servletContext1);
+-      HttpServletRequest httpServletRequest1 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("https", (String) null).when(httpServletRequest1).getScheme();
+-      doReturn("https").when(httpServletRequest1).getServerName();
+-      doReturn(134).when(httpServletRequest1).getServerPort();
+-      doReturn(jSecurityHttpSession0).when(httpServletRequest1).getSession(anyBoolean());
+-      doReturn(false).when(httpServletRequest1).isRequestedSessionIdFromCookie();
+-      JSecurityHttpServletRequest jSecurityHttpServletRequest0 = new JSecurityHttpServletRequest(httpServletRequest1, servletContext0, true);
+-      ServletContext servletContext2 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
+-      JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(httpServletResponseWrapper0, servletContext2, jSecurityHttpServletRequest0);
+-      // Undeclared exception!
+-      try { 
+-        jSecurityHttpServletResponse0.encodeURL("/;");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-      }
+-  }
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++    HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++    ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
++    Enumeration<Integer> enumeration0 = (Enumeration<Integer>) mock(Enumeration.class, new ViolatedAssumptionAnswer());
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    when(httpServletRequest0.getHeaderNames()).thenReturn(enumeration0);
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    httpServletRequestWrapper0.getHeaderNames();
++    ServletContext servletContext1 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
++    org.jsecurity.session.Session session0 = mock(org.jsecurity.session.Session.class, new ViolatedAssumptionAnswer());
++    JSecurityHttpSession jSecurityHttpSession0 = new JSecurityHttpSession(session0, httpServletRequestWrapper0, servletContext1);
++    HttpServletRequest httpServletRequest1 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    when(httpServletRequest1.getScheme()).thenReturn("https");
++    when(httpServletRequest1.getServerName()).thenReturn("https");
++    when(httpServletRequest1.getServerPort()).thenReturn(134);
++    when(httpServletRequest1.getSession(anyBoolean())).thenReturn(jSecurityHttpSession0);
++    when(httpServletRequest1.isRequestedSessionIdFromCookie()).thenReturn(false);
++    JSecurityHttpServletRequest jSecurityHttpServletRequest0 = new JSecurityHttpServletRequest(httpServletRequest1, servletContext0, true);
++    ServletContext servletContext2 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
++    JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(httpServletResponseWrapper0, servletContext2, jSecurityHttpServletRequest0);
++    String result = jSecurityHttpServletResponse0.encodeURL("/;");
++    org.junit.Assert.assertNotNull(result);
++    org.junit.Assert.assertTrue(result.contains("/;"));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

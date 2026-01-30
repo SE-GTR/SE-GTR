@@ -1,0 +1,38 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -476,14 +476,27 @@
+       administrativeArea0.setPostalCode(postalCode0);
+       assertSame(postalCode0, administrativeArea0.getPostalCode());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test42()  throws Throwable  {
+-      AdministrativeArea administrativeArea0 = new AdministrativeArea();
+-      administrativeArea0.setSubAdministrativeArea((AdministrativeArea.SubAdministrativeArea) null);
+-      assertNull(administrativeArea0.getUsageType());
+-  }
++@Test(timeout = 4000)
++    public void test42() throws Throwable {
++        AdministrativeArea administrativeArea0 = new AdministrativeArea();
++
++        // Verify that the list of administrative area names can be modified
++        java.util.List<AdministrativeArea.AdministrativeAreaName> nameList = administrativeArea0.getAdministrativeAreaName();
++        assertNotNull(nameList);
++        int initialSize = nameList.size();
++
++        AdministrativeArea.AdministrativeAreaName name = new AdministrativeArea.AdministrativeAreaName();
++        nameList.add(name);
++        assertEquals(initialSize + 1, nameList.size());
++
++        // Verify side‑effect of setting sub‑administrative area to null
++        administrativeArea0.setSubAdministrativeArea(null);
++        assertNull(administrativeArea0.getSubAdministrativeArea());
++
++        // Verify default value of usageType
++        assertNull(administrativeArea0.getUsageType());
++    }
++
+ @Test(timeout = 4000)
+ public void test43() throws Throwable {
+     AdministrativeArea administrativeArea0 = new AdministrativeArea();

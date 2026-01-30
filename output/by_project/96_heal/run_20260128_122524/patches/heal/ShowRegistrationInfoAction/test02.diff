@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/heal/servlet/ShowRegistrationInfoAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/ShowRegistrationInfoAction_ESTest.java
+@@ -70,19 +70,24 @@
+       showRegistrationInfoAction0.setUserAttributes(httpServletRequestWrapper0, userBean0);
+       assertTrue(showRegistrationInfoAction0.actionRequiresLogin());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      UserBean userBean0 = new UserBean();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      ShowRegistrationInfoAction showRegistrationInfoAction0 = new ShowRegistrationInfoAction();
+-      ProfessionalRoleBean professionalRoleBean0 = new ProfessionalRoleBean();
+-      professionalRoleBean0.setProfessionalRole("Dean or Other Administrator");
+-      userBean0.addProfessionalRole(professionalRoleBean0);
+-      showRegistrationInfoAction0.setUserAttributes(httpServletRequestWrapper0, userBean0);
+-      assertFalse(userBean0.isApprover());
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    UserBean userBean0 = new UserBean();
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    ShowRegistrationInfoAction showRegistrationInfoAction0 = new ShowRegistrationInfoAction();
++    ProfessionalRoleBean professionalRoleBean0 = new ProfessionalRoleBean();
++    professionalRoleBean0.setProfessionalRole("Dean or Other Administrator");
++    // verify that the professional role was set correctly
++    assertEquals("Dean or Other Administrator", professionalRoleBean0.getProfessionalRole());
++    userBean0.addProfessionalRole(professionalRoleBean0);
++    showRegistrationInfoAction0.setUserAttributes(httpServletRequestWrapper0, userBean0);
++    // verify that the action stored the user bean as a request attribute
++    verify(httpServletRequest0).setAttribute(anyString(), eq(userBean0));
++    // original assertion about approver status
++    assertFalse(userBean0.isApprover());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

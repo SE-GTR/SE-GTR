@@ -1,0 +1,40 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryListChoiceManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryListChoiceManager_ESTest.java
+@@ -277,24 +277,19 @@
+          verifyException("macaw.persistenceLayer.demo.InMemoryListChoiceManager", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      InMemoryListChoiceManager inMemoryListChoiceManager0 = new InMemoryListChoiceManager((InMemoryChangeEventManager) null);
+-      User user0 = new User();
+-      ArrayList<AliasFilePath> arrayList0 = inMemoryListChoiceManager0.getAliasFilePaths(user0);
+-      // Undeclared exception!
+-      try { 
+-        inMemoryListChoiceManager0.deleteAliasFilePaths(user0, arrayList0, (ArrayList<Variable>) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("macaw.persistenceLayer.demo.InMemoryCurationConceptManager", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    InMemoryChangeEventManager changeEventManager0 = new InMemoryChangeEventManager();
++    InMemoryListChoiceManager manager = new InMemoryListChoiceManager(changeEventManager0);
++    User user0 = new User();
++    ArrayList<AliasFilePath> aliasList = manager.getAliasFilePaths(user0);
++    ArrayList<Variable> variables = new ArrayList<>();
++    // The method should execute without throwing an exception
++    manager.deleteAliasFilePaths(user0, aliasList, variables);
++    // After deletion, the list of alias file paths for the user should be empty
++    assertTrue(manager.getAliasFilePaths(user0).isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

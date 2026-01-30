@@ -1,0 +1,28 @@
+--- a/evosuite-tests/corina/map/PngEncoder_ESTest.java
++++ b/evosuite-tests/corina/map/PngEncoder_ESTest.java
+@@ -71,14 +71,17 @@
+       assertEquals(0, pngEncoder0.getFilter());
+       assertEquals(0, pngEncoder0.getCompressionLevel());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      PngEncoder pngEncoder0 = new PngEncoder((Image) null, true, 876);
+-      assertEquals(0, pngEncoder0.getCompressionLevel());
+-      assertEquals(0, pngEncoder0.getFilter());
+-      assertTrue(pngEncoder0.getEncodeAlpha());
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        PngEncoder pngEncoder0 = new PngEncoder((Image) null, true, 876);
++        // Verify a constructor‑derived property
++        assertTrue(pngEncoder0.getEncodeAlpha());
++        // Exercise a non‑trivial behavior of the encoder
++        byte[] pngData = pngEncoder0.encode();
++        assertNotNull(pngData);
++        assertTrue(pngData.length > 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

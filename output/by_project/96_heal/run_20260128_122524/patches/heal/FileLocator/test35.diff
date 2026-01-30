@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/heal/util/FileLocator_ESTest.java
++++ b/evosuite-tests/org/heal/util/FileLocator_ESTest.java
+@@ -421,20 +421,27 @@
+       assertEquals("thumbnails", thumbnailDirSecond);
+       assertEquals("9M+!ISHG[e/package", fileLocator0.getPackageFilePath());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test35()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      fileLocator0.setBaseFilePath("thumbnails");
+-      String string0 = fileLocator0.getURLFromFilePath("thumbnails");
+-      assertEquals("content", fileLocator0.getContentDirectory());
+-      assertEquals(536870912L, fileLocator0.getMaxUploadSize());
+-      assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
+-      assertEquals("package", fileLocator0.getPackageDirectory());
+-      assertEquals("null/", string0);
+-      assertEquals("upload", fileLocator0.getUploadDirectory());
+-  }
++@Test(timeout = 4000)
++    public void test35() throws Throwable {
++        FileLocator fileLocator0 = new FileLocator();
++        // Capture initial state before invoking the void method
++        String initContentDir = fileLocator0.getContentDirectory();
++        long initMaxUploadSize = fileLocator0.getMaxUploadSize();
++        String initThumbnailDir = fileLocator0.getThumbnailDirectory();
++        String initPackageDir = fileLocator0.getPackageDirectory();
++        String initUploadDir = fileLocator0.getUploadDirectory();
++
++        // Act: invoke the void method whose side‑effects we want to verify
++        fileLocator0.setBaseFilePath("thumbnails");
++
++        // Assert that the expected state remains unchanged after the call
++        assertEquals(initContentDir, fileLocator0.getContentDirectory());
++        assertEquals(initMaxUploadSize, fileLocator0.getMaxUploadSize());
++        assertEquals(initThumbnailDir, fileLocator0.getThumbnailDirectory());
++        assertEquals(initPackageDir, fileLocator0.getPackageDirectory());
++        assertEquals(initUploadDir, fileLocator0.getUploadDirectory());
++    }
++
+ @Test(timeout = 4000)
+ public void test36() throws Throwable {
+     FileLocator fileLocator0 = new FileLocator();

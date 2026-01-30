@@ -1,0 +1,36 @@
+--- a/evosuite-tests/framework/util/FileUtils_ESTest.java
++++ b/evosuite-tests/framework/util/FileUtils_ESTest.java
+@@ -46,14 +46,25 @@
+       FileUtils.zipFile("Ignoring configuration file [");
+       FileUtils.replacePatternInFile("", "org.apache.log4j.helpers.Loader", false, (Map) null, false);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      FileUtils.zipFile("{0pEWA4=(B||");
+-      HashMap<Object, Object> hashMap0 = new HashMap<Object, Object>();
+-      FileUtils.replacePatternInFile("", "", false, (Map) hashMap0, false);
+-      assertEquals(0, hashMap0.size());
+-  }
++public void test02() throws Throwable {
++    // Prepare a temporary directory with a file to be zipped
++    java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("testzip");
++    java.nio.file.Path file = tempDir.resolve("test.txt");
++    java.nio.file.Files.write(file, "content".getBytes(java.nio.charset.StandardCharsets.UTF_8));
++
++    // Act: zip the directory
++    FileUtils.zipFile(tempDir.toString());
++
++    // Assert: a zip file with the expected name was created
++    java.nio.file.Path zipPath = java.nio.file.Paths.get(tempDir.toString() + ".zip");
++    assertTrue(java.nio.file.Files.exists(zipPath) && java.nio.file.Files.isRegularFile(zipPath));
++
++    // Additional verification for replacePatternInFile
++    java.util.HashMap<Object, Object> hashMap0 = new java.util.HashMap<Object, Object>();
++    FileUtils.replacePatternInFile("", "", false, (java.util.Map) hashMap0, false);
++    assertEquals(0, hashMap0.size());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

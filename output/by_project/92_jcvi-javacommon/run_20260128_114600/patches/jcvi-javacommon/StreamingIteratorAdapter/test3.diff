@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/iter/StreamingIteratorAdapter_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/iter/StreamingIteratorAdapter_ESTest.java
+@@ -68,16 +68,23 @@
+       Consumer<Object> consumer0 = (Consumer<Object>) mock(Consumer.class, new ViolatedAssumptionAnswer());
+       streamingIteratorAdapter0.forEachRemaining(consumer0);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        LinkedList<Object> linkedList0 = new LinkedList<Object>();
++        Iterator<Object> iterator0 = linkedList0.descendingIterator();
++        StreamingIteratorAdapter<Object> streamingIteratorAdapter0 = StreamingIteratorAdapter.adapt(iterator0);
++        StreamingIteratorAdapter<Object> streamingIteratorAdapter1 = StreamingIteratorAdapter.adapt((Iterator<Object>) streamingIteratorAdapter0);
++        // verify initial state before closing
++        assertFalse(streamingIteratorAdapter0.isClosed());
++        assertFalse(streamingIteratorAdapter1.isClosed());
++        // act: close the second adapter
++        streamingIteratorAdapter1.close();
++        // verify side‑effect of close()
++        assertTrue(streamingIteratorAdapter1.isClosed());
++        // original assertion
++        assertFalse(streamingIteratorAdapter0.equals((Object) streamingIteratorAdapter1));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      Iterator<Object> iterator0 = linkedList0.descendingIterator();
+-      StreamingIteratorAdapter<Object> streamingIteratorAdapter0 = StreamingIteratorAdapter.adapt(iterator0);
+-      StreamingIteratorAdapter<Object> streamingIteratorAdapter1 = StreamingIteratorAdapter.adapt((Iterator<Object>) streamingIteratorAdapter0);
+-      streamingIteratorAdapter1.close();
+-      assertFalse(streamingIteratorAdapter0.equals((Object)streamingIteratorAdapter1));
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

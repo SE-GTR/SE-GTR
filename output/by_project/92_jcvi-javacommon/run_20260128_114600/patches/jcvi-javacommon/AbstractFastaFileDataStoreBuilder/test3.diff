@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/fasta/AbstractFastaFileDataStoreBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/fasta/AbstractFastaFileDataStoreBuilder_ESTest.java
+@@ -50,24 +50,24 @@
+       DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
+       aminoAcidFastaFileDataStoreBuilder0.filter(dataStoreFilter0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("VCQb5,M+QLvC", "VCQb5,M+QLvC");
+-      file0.setReadable(false);
+-      NucleotideFastaFileDataStoreBuilder nucleotideFastaFileDataStoreBuilder0 = null;
+-      try {
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    File file0 = MockFile.createTempFile("VCQb5,M+QLvC", "VCQb5,M+QLvC");
++    boolean readableSet = file0.setReadable(false);
++    assertTrue("Failed to set file unreadable", readableSet);
++    assertFalse("File should not be readable", file0.canRead());
++    NucleotideFastaFileDataStoreBuilder nucleotideFastaFileDataStoreBuilder0 = null;
++    try {
+         nucleotideFastaFileDataStoreBuilder0 = new NucleotideFastaFileDataStoreBuilder(file0);
+         fail("Expecting exception: IOException");
+-      
+-      } catch(Throwable e) {
+-         //
+-         // fasta file is not readable
+-         //
+-         verifyException("org.jcvi.jillion.internal.fasta.AbstractFastaFileDataStoreBuilder", e);
+-      }
+-  }
++    } catch (Throwable e) {
++        //
++        // fasta file is not readable
++        //
++        verifyException("org.jcvi.jillion.internal.fasta.AbstractFastaFileDataStoreBuilder", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

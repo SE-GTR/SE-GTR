@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/residue/nt/DefaultNucleotideSequence_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/residue/nt/DefaultNucleotideSequence_ESTest.java
+@@ -143,15 +143,21 @@
+          verifyException("org.jcvi.jillion.core.residue.nt.TwoBitEncodedNucleotideCodec", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      byte[] byteArray0 = new byte[6];
+-      ACGTNNucloetideCodec aCGTNNucloetideCodec0 = ACGTNNucloetideCodec.INSTANCE;
+-      DefaultNucleotideSequence defaultNucleotideSequence0 = new DefaultNucleotideSequence(aCGTNNucloetideCodec0, byteArray0);
+-      List<Integer> list0 = defaultNucleotideSequence0.getGapOffsets();
+-      assertTrue(list0.isEmpty());
+-  }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    byte[] byteArray0 = new byte[6];
++    ACGTNNucloetideCodec aCGTNNucloetideCodec0 = ACGTNNucloetideCodec.INSTANCE;
++    DefaultNucleotideSequence defaultNucleotideSequence0 = new DefaultNucleotideSequence(aCGTNNucloetideCodec0, byteArray0);
++    List<Integer> list0 = defaultNucleotideSequence0.getGapOffsets();
++    assertTrue(list0.isEmpty());
++    try {
++        list0.add(1);
++        fail("Expected UnsupportedOperationException when modifying gap offsets list");
++    } catch (UnsupportedOperationException e) {
++        // expected behavior
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

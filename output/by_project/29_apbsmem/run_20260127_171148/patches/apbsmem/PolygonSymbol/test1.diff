@@ -1,0 +1,46 @@
+--- a/evosuite-tests/jahuwaldt/plot/PolygonSymbol_ESTest.java
++++ b/evosuite-tests/jahuwaldt/plot/PolygonSymbol_ESTest.java
+@@ -33,17 +33,32 @@
+         assertEquals(sizeBefore, boxLRSymbol0.getSize());
+         assertEquals(8, boxLRSymbol0.getSize());
+     }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    BoxLRSymbol boxLRSymbol0 = new BoxLRSymbol();
++    DefaultTreeCellRenderer defaultTreeCellRenderer0 = new DefaultTreeCellRenderer();
++    Color color0 = defaultTreeCellRenderer0.getTextNonSelectionColor();
+ 
++    // Verify that setFillColor actually changes the fill color
++    boxLRSymbol0.setFillColor(color0);
++    assertEquals(color0, boxLRSymbol0.getFillColor());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      BoxLRSymbol boxLRSymbol0 = new BoxLRSymbol();
+-      DefaultTreeCellRenderer defaultTreeCellRenderer0 = new DefaultTreeCellRenderer();
+-      Color color0 = defaultTreeCellRenderer0.getTextNonSelectionColor();
+-      boxLRSymbol0.setFillColor(color0);
+-      BufferedImage bufferedImage0 = new BufferedImage(1377, 3304, 1);
+-      Graphics2D graphics2D0 = bufferedImage0.createGraphics();
+-      boxLRSymbol0.draw(graphics2D0, 1, 1);
+-      assertEquals(8, boxLRSymbol0.getSize());
+-  }
++    BufferedImage bufferedImage0 = new BufferedImage(1377, 3304, BufferedImage.TYPE_INT_RGB);
++    Graphics2D graphics2D0 = bufferedImage0.createGraphics();
++
++    // Capture state before drawing
++    int sizeBefore = boxLRSymbol0.getSize();
++    Color fillBefore = boxLRSymbol0.getFillColor();
++
++    // Exercise the draw method
++    boxLRSymbol0.draw(graphics2D0, 1, 1);
++
++    // Ensure draw does not alter observable state
++    assertEquals(sizeBefore, boxLRSymbol0.getSize());
++    assertEquals(fillBefore, boxLRSymbol0.getFillColor());
++
++    // Original assertion retained
++    assertEquals(8, boxLRSymbol0.getSize());
+ }
++
++}

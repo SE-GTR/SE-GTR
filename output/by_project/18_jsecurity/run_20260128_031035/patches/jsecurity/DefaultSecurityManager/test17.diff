@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/jsecurity/mgt/DefaultSecurityManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/mgt/DefaultSecurityManager_ESTest.java
+@@ -352,25 +352,24 @@
+          verifyException("org.jsecurity.mgt.DefaultSecurityManager", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager(simpleAccountRealm0);
+-      defaultSecurityManager0.createSubject();
+-      String string0 = null;
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test17() throws Throwable {
++    SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
++    DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager(simpleAccountRealm0);
++    org.jsecurity.subject.Subject subject = defaultSecurityManager0.createSubject();
++    assertNotNull(subject);
++    // Undeclared exception!
++    try {
+         defaultSecurityManager0.setRememberMeCipherKeyBase64((String) null);
+         fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // The convenience passthrough methods for setting remember me cipher attributes are only available when the underlying RememberMeManager implementation is a subclass of org.jsecurity.subject.AbstractRememberMeManager.
+-         //
+-         verifyException("org.jsecurity.mgt.DefaultSecurityManager", e);
+-      }
+-  }
++    } catch (IllegalStateException e) {
++        //
++        // The convenience passthrough methods for setting remember me cipher attributes are only available when the underlying RememberMeManager implementation is a subclass of org.jsecurity.subject.AbstractRememberMeManager.
++        //
++        verifyException("org.jsecurity.mgt.DefaultSecurityManager", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

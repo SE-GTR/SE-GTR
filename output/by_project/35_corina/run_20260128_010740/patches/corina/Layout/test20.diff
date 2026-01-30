@@ -1,0 +1,40 @@
+--- a/evosuite-tests/corina/gui/Layout_ESTest.java
++++ b/evosuite-tests/corina/gui/Layout_ESTest.java
+@@ -250,22 +250,21 @@
+       JPanel jPanel0 = Layout.boxLayoutY((Component) jInternalFrame_JDesktopIcon0, (Component) defaultTableCellRenderer_UIResource0, (Component) defaultTableCellRenderer_UIResource0);
+       assertFalse(jPanel0.isFocusTraversalPolicySet());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      Object object0 = new Object();
+-      // Undeclared exception!
+-      try { 
+-        Layout.flowLayoutL(object0, object0, object0, object0);
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.lang.Object cannot be cast to java.awt.Component
+-         //
+-         verifyException("corina.gui.Layout", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test20() throws Throwable {
++        // Provide valid components to avoid ClassCastException
++        JLabel label1 = new JLabel("label1");
++        JLabel label2 = new JLabel("label2");
++        JLabel label3 = new JLabel("label3");
++        JLabel label4 = new JLabel("label4");
++        // Call the method with proper arguments (remaining slots can be null)
++        JPanel panel = Layout.flowLayoutL(label1, label2, label3, label4, null, null, null);
++        // Verify normal behavior
++        assertNotNull("Returned panel should not be null", panel);
++        assertTrue("Panel should use FlowLayout", panel.getLayout() instanceof FlowLayout);
++        assertEquals("Panel should contain the provided components", 4, panel.getComponentCount());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

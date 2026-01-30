@@ -1,0 +1,58 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/action/TableLoadDataAction_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/action/TableLoadDataAction_ESTest.java
+@@ -58,32 +58,31 @@
+          verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     tableLoadDataAction0 = new TableLoadDataAction();
+     dynaActionForm0 = new DynaActionForm();
+-    httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((ActionMapping) null, (ActionMapping) null, "0").when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession(anyBoolean());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpSession httpSession1 = httpServletRequestWrapper0.getSession(false);
+-      HttpServletRequest httpServletRequest1 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("0", "0", "0", "0", "0").when(httpServletRequest1).getParameter(anyString());
+-      doReturn(httpSession1).when(httpServletRequest1).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper1 = new HttpServletRequestWrapper(httpServletRequest1);
+-      try { 
+-        tableLoadDataAction0.execute((ActionMapping) null, (ActionForm) dynaActionForm0, (HttpServletRequest) httpServletRequestWrapper1, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+-      }
+-  }
++
++    HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    doReturn(null, null, "0").when(httpSession0).getAttribute(anyString());
++
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn(httpSession0).when(httpServletRequest0).getSession(anyBoolean());
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    HttpSession httpSession1 = httpServletRequestWrapper0.getSession(false);
++
++    HttpServletRequest httpServletRequest1 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn("0", "0", "0", "0", "0").when(httpServletRequest1).getParameter(anyString());
++    doReturn(httpSession1).when(httpServletRequest1).getSession();
++    HttpServletRequestWrapper httpServletRequestWrapper1 = new HttpServletRequestWrapper(httpServletRequest1);
++
++    ActionMapping mapping = mock(ActionMapping.class);
++    HttpServletResponse response = mock(HttpServletResponse.class);
++
++    ActionForward forward = tableLoadDataAction0.execute(mapping, dynaActionForm0, httpServletRequestWrapper1, response);
++    assertNotNull(forward);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

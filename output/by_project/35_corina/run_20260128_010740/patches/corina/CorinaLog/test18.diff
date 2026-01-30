@@ -1,0 +1,33 @@
+--- a/evosuite-tests/corina/logging/CorinaLog_ESTest.java
++++ b/evosuite-tests/corina/logging/CorinaLog_ESTest.java
+@@ -219,10 +219,23 @@
+       corinaLog0.log(1, (Object) null, sQLIntegrityConstraintViolationException0);
+       assertEquals(3, corinaLog0.getLevel());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      ListModel listModel0 = CorinaLog.getLogListModel();
+-      assertNotNull(listModel0);
+-  }
+-}
++@Test(timeout = 4000)
++    public void test18() throws Throwable {
++        // Capture the initial state of the log model
++        ListModel initialModel = CorinaLog.getLogListModel();
++        int initialSize = initialModel.getSize();
++
++        // Log a message using a CorinaLog instance
++        CorinaLog logger = new CorinaLog("testLogger");
++        String testMessage = "TestMessage";
++        logger.info(testMessage);
++
++        // Verify that the model reflects the new log entry
++        ListModel updatedModel = CorinaLog.getLogListModel();
++        int updatedSize = updatedModel.getSize();
++        assertEquals(initialSize + 1, updatedSize);
++        Object lastEntry = updatedModel.getElementAt(updatedSize - 1);
++        assertTrue(lastEntry.toString().contains(testMessage));
++    }
++
++}

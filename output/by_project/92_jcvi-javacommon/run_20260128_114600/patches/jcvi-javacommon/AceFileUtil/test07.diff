@@ -1,0 +1,67 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceFileUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceFileUtil_ESTest.java
+@@ -180,37 +180,33 @@
+     ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
+     AceFileUtil.writeAceContig(aceContig0, null, byteArrayOutputStream0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      Nucleotide nucleotide0 = Nucleotide.Keto;
+-      Nucleotide nucleotide1 = Nucleotide.Gap;
+-    iterator0 = (Iterator<Nucleotide>) mock(Iterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(true, true, true, true, false).when(iterator0).hasNext();
+-      doReturn(nucleotide0, nucleotide0, nucleotide1, nucleotide0).when(iterator0).next();
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(iterator0).when(nucleotideSequence0).iterator();
+-      doReturn(1690L, 1690L, 0L).when(nucleotideSequence0).getLength();
+-      AceContig aceContig0 = mock(AceContig.class, new ViolatedAssumptionAnswer());
+-      doReturn(nucleotideSequence0).when(aceContig0).getConsensusSequence();
+-      doReturn("").when(aceContig0).getId();
+-      doReturn(1690L, 0L).when(aceContig0).getNumberOfReads();
+-      doReturn((StreamingIterator) null).when(aceContig0).getReadIterator();
+-      doReturn(false).when(aceContig0).isComplemented();
+-      ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
+-      // Undeclared exception!
+-      try { 
+-        AceFileUtil.writeAceContig(aceContig0, (PhdDataStore) null, byteArrayOutputStream0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.assembly.consed.ace.AceFileUtil", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    Nucleotide nucleotide0 = Nucleotide.Keto;
++    Nucleotide nucleotide1 = Nucleotide.Gap;
++    iterator0 = (Iterator<Nucleotide>) mock(Iterator.class, new ViolatedAssumptionAnswer());
++    doReturn(true, true, true, true, false).when(iterator0).hasNext();
++    doReturn(nucleotide0, nucleotide0, nucleotide1, nucleotide0).when(iterator0).next();
++    NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++    doReturn(iterator0).when(nucleotideSequence0).iterator();
++    doReturn(1690L, 1690L, 0L).when(nucleotideSequence0).getLength();
++    AceContig aceContig0 = mock(AceContig.class, new ViolatedAssumptionAnswer());
++    doReturn(nucleotideSequence0).when(aceContig0).getConsensusSequence();
++    doReturn("").when(aceContig0).getId();
++    doReturn(1690L, 0L).when(aceContig0).getNumberOfReads();
++    // provide a non‑null read iterator
++    StreamingIterator<?> readIter = mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(readIter).hasNext();
++    doReturn(readIter).when(aceContig0).getReadIterator();
++    doReturn(false).when(aceContig0).isComplemented();
++    PhdDataStore phdDataStore0 = mock(PhdDataStore.class, new ViolatedAssumptionAnswer());
++    ByteArrayOutputStream byteArrayOutputStream0 = new ByteArrayOutputStream();
++
++    AceFileUtil.writeAceContig(aceContig0, phdDataStore0, byteArrayOutputStream0);
++
++    assertTrue(byteArrayOutputStream0.size() > 0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

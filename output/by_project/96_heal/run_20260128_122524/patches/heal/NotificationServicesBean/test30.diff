@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/heal/module/notice/NotificationServicesBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/notice/NotificationServicesBean_ESTest.java
+@@ -386,13 +386,25 @@
+       notificationServicesBean0.setMailUser("");
+       assertNull(notificationServicesBean0.getMailhost());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      NotificationServicesBean notificationServicesBean0 = new NotificationServicesBean();
+-      InternetAddress internetAddress0 = notificationServicesBean0.getHealAddress();
+-      assertNull(internetAddress0);
+-  }
++@Test(timeout = 4000)
++  public void test30() throws Throwable {
++      NotificationServicesBean bean = new NotificationServicesBean();
++
++      // Act: serialize and then deserialize the bean
++      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++      oos.writeObject(bean);
++      oos.flush();
++      byte[] serialized = baos.toByteArray();
++
++      java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++              new java.io.ByteArrayInputStream(serialized));
++      NotificationServicesBean deserialized = (NotificationServicesBean) ois.readObject();
++
++      // Assert: the heal address remains null after the round‑trip
++      assertNull(deserialized.getHealAddress());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

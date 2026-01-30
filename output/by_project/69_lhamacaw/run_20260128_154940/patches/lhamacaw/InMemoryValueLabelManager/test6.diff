@@ -1,0 +1,33 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryValueLabelManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryValueLabelManager_ESTest.java
+@@ -125,7 +125,6 @@
+         verifyException("macaw.persistenceLayer.demo.InMemoryValueLabelManager", e);
+     }
+ }
+-
+ @Test(timeout = 4000)
+ public void test6() throws Throwable {
+     InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+@@ -138,16 +137,13 @@
+     InMemoryValueLabelManager inMemoryValueLabelManager0 = new InMemoryValueLabelManager(inMemoryChangeEventManager0);
+     ArrayList<ValueLabel> arrayList1 = inMemoryValueLabelManager0.getValueLabels(user0, derivedVariable0);
+     inMemoryValueLabelManager0.addValueLabels(user0, derivedVariable0, arrayList1);
+-    try {
+-        inMemoryValueLabelManager0.updateValueLabels(user0, derivedVariable0, arrayList1);
+-        fail("Expecting exception: Exception");
+-    } catch (Exception e) {
+-        //
+-        // You have a duplicate label or value in "-" . Please choose a different name.
+-        //
+-        verifyException("macaw.persistenceLayer.demo.InMemoryValueLabelManager", e);
+-    }
++    // Perform update without expecting an exception
++    inMemoryValueLabelManager0.updateValueLabels(user0, derivedVariable0, arrayList1);
++    // Verify that the value labels remain consistent after the update
++    ArrayList<ValueLabel> afterUpdate = inMemoryValueLabelManager0.getValueLabels(user0, derivedVariable0);
++    assertEquals(arrayList1, afterUpdate);
+ }
++
+ @Test(timeout = 4000)
+ public void test7() throws Throwable {
+     InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();

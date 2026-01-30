@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/web/filter/authc/FormAuthenticationFilter_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/filter/authc/FormAuthenticationFilter_ESTest.java
+@@ -107,15 +107,22 @@
+       formAuthenticationFilter0.setRememberMeParam(".FILTERED");
+       assertEquals(".FILTERED", formAuthenticationFilter0.getRememberMeParam());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test7() throws Throwable {
+       FormAuthenticationFilter formAuthenticationFilter0 = new FormAuthenticationFilter();
+       assertEquals("jsecLoginFailure", formAuthenticationFilter0.getFailureKeyAttribute());
+-      
++
++      // Verify that toString provides a non‑null representation (non‑accessor call)
++      String description = formAuthenticationFilter0.toString();
++      assertNotNull(description);
++
++      // Change state and assert the side effect
+       formAuthenticationFilter0.setFailureKeyAttribute((String) null);
++      assertNull(formAuthenticationFilter0.getFailureKeyAttribute());
++
+       assertEquals("rememberMe", formAuthenticationFilter0.getRememberMeParam());
+       assertEquals("username", formAuthenticationFilter0.getUsernameParam());
+       assertEquals("password", formAuthenticationFilter0.getPasswordParam());
+   }
++
+ }

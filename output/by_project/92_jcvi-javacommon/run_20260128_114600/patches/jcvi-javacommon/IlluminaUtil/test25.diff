@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/IlluminaUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/IlluminaUtil_ESTest.java
+@@ -372,19 +372,12 @@
+          verifyException("org.jcvi.jillion.trace.fastq.IlluminaUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        IlluminaUtil.getFlowcellId("\u0000:0:\u0000:0:0#/0");
+-       //  fail("Expecting exception: IllegalStateException");
+-       // Unstable assertion
+-      } catch(IllegalStateException e) {
+-         //
+-         // No match found
+-         //
+-         verifyException("java.util.regex.Matcher", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        // Use a valid Illumina read identifier to verify normal behavior
++        String readId = "HWUSI-EAS100R:6:73:941:1973#0/1";
++        String flowcellId = IlluminaUtil.getFlowcellId(readId);
++        assertEquals("HWUSI-EAS100R", flowcellId);
++    }
++
+ }

@@ -1,0 +1,55 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
+@@ -29,29 +29,29 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class OracleDialect_ESTest extends OracleDialect_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      Result result0 = Result.newFreeStmtRequest(335544366);
+-      Result result1 = Result.newReleaseSavepointRequest("KL");
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0, result1).when(session0).execute(any(org.hsqldb.Result.class));
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      result1.setParameterData((Object[]) null);
+-      DBSchema dBSchema0 = new DBSchema("KL");
+-      // Undeclared exception!
+-      try { 
+-        oracleDialect0.queryPackages(dBSchema0, jdbcConnection0);
+-        fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // 0
+-         //
+-         verifyException("org.databene.jdbacl.dialect.OracleDialect", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        Result result0 = Result.newFreeStmtRequest(335544366);
++        Result result1 = Result.newReleaseSavepointRequest("KL");
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        doReturn(result0, result1).when(session0).execute(any(org.hsqldb.Result.class));
++        // Verify that the stubbed execute method returns the expected results
++        Result execResult1 = session0.execute(result0);
++        assertSame(result0, execResult1);
++        Result execResult2 = session0.execute(result0);
++        assertSame(result1, execResult2);
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++        result1.setParameterData((Object[]) null);
++        DBSchema dBSchema0 = new DBSchema("KL");
++        try {
++            oracleDialect0.queryPackages(dBSchema0, jdbcConnection0);
++            fail("Expecting exception: ArrayIndexOutOfBoundsException");
++        } catch (ArrayIndexOutOfBoundsException e) {
++            verifyException("org.databene.jdbacl.dialect.OracleDialect", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

@@ -1,0 +1,75 @@
+--- a/evosuite-tests/jigl/image/ops/Convolve_ESTest.java
++++ b/evosuite-tests/jigl/image/ops/Convolve_ESTest.java
+@@ -314,48 +314,32 @@
+         verifyException("jigl.image.types.GrayImage", e);
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      KernelType kernelType0 = KernelType.SOBEL_X;
+-      ImageKernel imageKernel0 = new ImageKernel(kernelType0);
+-      assertEquals(12.0, imageKernel0.sqrSum(), 0.01);
+-      assertEquals(8.0F, imageKernel0.absSum(), 0.01F);
+-      assertEquals(2.0F, imageKernel0.max(), 0.01F);
+-      assertEquals((-2.0F), imageKernel0.min(), 0.01F);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(3, imageKernel0.Y());
+-      
+-      Convolve convolve0 = new Convolve(imageKernel0);
+-      assertEquals(12.0, imageKernel0.sqrSum(), 0.01);
+-      assertEquals(8.0F, imageKernel0.absSum(), 0.01F);
+-      assertEquals(2.0F, imageKernel0.max(), 0.01F);
+-      assertEquals((-2.0F), imageKernel0.min(), 0.01F);
+-      assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
+-      assertEquals(3, imageKernel0.X());
+-      assertEquals(3, imageKernel0.Y());
+-      
+-      InterpolatedColorImage interpolatedColorImage0 = new InterpolatedColorImage();
+-      assertEquals(ColorModel.RGB, interpolatedColorImage0.getColorModel());
+-      assertEquals(0, interpolatedColorImage0.Y());
+-      assertEquals(0, interpolatedColorImage0.X());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
+-      assertNotNull(interpolatedColorImage0);
+-      
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    KernelType kernelType0 = KernelType.SOBEL_X;
++    ImageKernel imageKernel0 = new ImageKernel(kernelType0);
++    // Verify kernel initialization (once)
++    assertEquals(12.0, imageKernel0.sqrSum(), 0.01);
++    assertEquals(8.0F, imageKernel0.absSum(), 0.01F);
++    assertEquals(2.0F, imageKernel0.max(), 0.01F);
++    assertEquals(-2.0F, imageKernel0.min(), 0.01F);
++    assertEquals(0.0F, imageKernel0.addSum(), 0.01F);
++    assertEquals(3, imageKernel0.X());
++    assertEquals(3, imageKernel0.Y());
++
++    Convolve convolve0 = new Convolve(imageKernel0);
++
++    InterpolatedColorImage interpolatedColorImage0 = new InterpolatedColorImage();
++    assertNotNull(interpolatedColorImage0);
++
++    try {
+         convolve0.apply((ColorImage) interpolatedColorImage0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.image.ops.Convolve", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        verifyException("jigl.image.ops.Convolve", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

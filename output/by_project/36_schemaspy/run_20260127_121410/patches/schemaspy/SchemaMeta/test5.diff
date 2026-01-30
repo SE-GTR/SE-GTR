@@ -1,0 +1,38 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/xml/SchemaMeta_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/xml/SchemaMeta_ESTest.java
+@@ -104,16 +104,26 @@
+          verifyException("net.sourceforge.schemaspy.model.xml.SchemaMeta", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    // Capture the previous instance (may be null)
++    Config previousInstance = Config.getInstance();
++    // Prepare a mock Config
++    config0 = mock(Config.class, new ViolatedAssumptionAnswer());
++    doReturn(true).when(config0).isOneOfMultipleSchemas();
++    // Set the mock as the current Config instance
++    Config.setInstance(config0);
++    // Verify that the side‑effect of setInstance is observable
++    assertSame("Config instance should be the mock we set", config0, Config.getInstance());
++    if (previousInstance != null) {
++        assertNotSame("New instance should differ from the previous one", previousInstance, Config.getInstance());
++    }
++    // Existing behavior verification for SchemaMeta
++    schemaMeta0 = new SchemaMeta("", "", "");
++    File file0 = schemaMeta0.getFile();
++    assertNull(file0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    config0 = mock(Config.class, new ViolatedAssumptionAnswer());
+-      doReturn(true).when(config0).isOneOfMultipleSchemas();
+-      Config.setInstance(config0);
+-    schemaMeta0 = new SchemaMeta("", "", "");
+-      File file0 = schemaMeta0.getFile();
+-      assertNull(file0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

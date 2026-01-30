@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/character/data/map/TXTMapPersistence_ESTest.java
++++ b/evosuite-tests/org/character/data/map/TXTMapPersistence_ESTest.java
+@@ -72,17 +72,21 @@
+       IndexedFastMap<Integer, String> indexedFastMap1 = tXTMapPersistence0.load();
+       assertFalse(indexedFastMap1.equals((Object)indexedFastMap0));
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        TXTMapPersistence persistence = new TXTMapPersistence();
++        IndexedFastMap<Integer, String> original = new IndexedFastMap<>();
++        Integer key = Integer.valueOf(7);
++        String value = "1[A// 4";
++        original.put(key, value);
++        persistence.save(original);
++        IndexedFastMap<Integer, String> loaded = persistence.load();
++        // Verify that the saved entry is correctly persisted and retrieved
++        assertEquals(value, loaded.get(key));
++        // Ensure a new map instance is returned after loading
++        assertNotSame(original, loaded);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    tXTMapPersistence0 = new TXTMapPersistence();
+-      IndexedFastMap<Integer, String> indexedFastMap0 = new IndexedFastMap<Integer, String>();
+-      Integer integer0 = new Integer(7);
+-      indexedFastMap0.put(integer0, "1[A// 4");
+-      tXTMapPersistence0.save(indexedFastMap0);
+-      IndexedFastMap<Integer, String> indexedFastMap1 = tXTMapPersistence0.load();
+-      assertFalse(indexedFastMap1.equals((Object)indexedFastMap0));
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

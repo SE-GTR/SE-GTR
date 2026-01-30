@@ -1,0 +1,39 @@
+--- a/evosuite-tests/framework/persistence/jdbc/Module_ESTest.java
++++ b/evosuite-tests/framework/persistence/jdbc/Module_ESTest.java
+@@ -79,26 +79,17 @@
+          verifyException("framework.persistence.jdbc.Module", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        module0 = new Module();
++        oracleConnection0 = mock(OracleConnection.class, new ViolatedAssumptionAnswer());
++        doReturn(false).when(oracleConnection0).isClosed();
++        OracleConnectionWrapper oracleConnectionWrapper0 = new OracleConnectionWrapper(oracleConnection0);
++        module0.connection = (Connection) oracleConnectionWrapper0;
++        // Verify that the module returns the connection we injected.
++        assertSame(oracleConnectionWrapper0, module0.getConnection());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-    module0 = new Module();
+-    oracleConnection0 = mock(OracleConnection.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(oracleConnection0).isClosed();
+-      OracleConnectionWrapper oracleConnectionWrapper0 = new OracleConnectionWrapper(oracleConnection0);
+-      module0.connection = (Connection) oracleConnectionWrapper0;
+-      // Undeclared exception!
+-      try { 
+-        module0.connect();
+-        fail("Expecting exception: NoClassDefFoundError");
+-      
+-      } catch(NoClassDefFoundError e) {
+-         //
+-         // Could not initialize class framework.persistence.jdbc.pool.JDBCPoolManager
+-         //
+-         verifyException("framework.persistence.jdbc.Module", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+ public void test06() throws Throwable {
+     module0 = new Module("0v#\"_:ROL7jK`bKm");

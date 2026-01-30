@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/databene/jdbacl/proxy/LoggingStatementHandler_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/proxy/LoggingStatementHandler_ESTest.java
+@@ -52,22 +52,16 @@
+          verifyException("org.databene.jdbacl.proxy.LoggingStatementHandler", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      LoggingStatementHandler loggingStatementHandler0 = new LoggingStatementHandler((Statement) null, false);
+-      // Undeclared exception!
+-      try { 
+-        loggingStatementHandler0.executeUpdate("K:", (-1439));
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.proxy.LoggingStatementHandler", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    java.sql.Statement mockStatement = org.mockito.Mockito.mock(java.sql.Statement.class);
++    org.mockito.Mockito.when(mockStatement.executeUpdate(org.mockito.Mockito.anyString(),
++            org.mockito.Mockito.anyInt())).thenReturn(42);
++    LoggingStatementHandler handler = new LoggingStatementHandler(mockStatement, false);
++    int result = handler.executeUpdate("K:", java.sql.Statement.RETURN_GENERATED_KEYS);
++    org.junit.Assert.assertEquals(42, result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

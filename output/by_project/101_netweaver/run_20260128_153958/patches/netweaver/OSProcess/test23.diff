@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/OSProcess_ESTest.java
+@@ -345,16 +345,22 @@
+     assertTrue(oSProcess1.equals((Object) oSProcess0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      OSProcess oSProcess0 = new OSProcess();
+-      STATECOLOR sTATECOLOR0 = STATECOLOR.value1;
+-      oSProcess0.setDispstatus(sTATECOLOR0);
+-      oSProcess0.hashCode();
+-      assertEquals(0, oSProcess0.getPid());
+-  }
++@Test(timeout = 4000)
++public void test23() throws Throwable {
++    OSProcess oSProcess0 = new OSProcess();
++    // Verify initial state before setting dispstatus
++    assertNull(oSProcess0.getDispstatus());
++    STATECOLOR sTATECOLOR0 = STATECOLOR.value1;
++    oSProcess0.setDispstatus(sTATECOLOR0);
++    // Assert the side‑effect of setDispstatus
++    assertEquals(sTATECOLOR0, oSProcess0.getDispstatus());
++    // Assert the return value of hashCode
++    int hash = oSProcess0.hashCode();
++    assertEquals(hash, oSProcess0.hashCode());
++    // Existing behavior check
++    assertEquals(0, oSProcess0.getPid());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

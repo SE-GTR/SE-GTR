@@ -1,0 +1,33 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostBox_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostBox_ESTest.java
+@@ -296,13 +296,23 @@
+       PostBox.PostBoxNumberExtension postBox_PostBoxNumberExtension0 = postBox0.getPostBoxNumberExtension();
+       assertNull(postBox_PostBoxNumberExtension0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test39()  throws Throwable  {
+-      PostBox postBox0 = new PostBox();
+-      postBox0.setPostalCode((PostalCode) null);
+-      assertNull(postBox0.getIndicator());
+-  }
++@Test(timeout = 4000)
++    public void test39() throws Throwable {
++        PostBox postBox0 = new PostBox();
++        // Verify initial state
++        assertNull(postBox0.getPostalCode());
++        assertNull(postBox0.getIndicator());
++
++        // Apply a side‑effecting operation
++        PostalCode pc = new PostalCode();
++        postBox0.setPostalCode(pc);
++
++        // Observe the side effect
++        assertSame(pc, postBox0.getPostalCode());
++        // Indicator should remain unchanged (still null)
++        assertNull(postBox0.getIndicator());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test40()  throws Throwable  {

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -129,18 +129,26 @@
+       handballModel0.removeEventsAfter();
+       assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Offender offender0 = new Offender(2146905779, 56);
+-      PassEvent passEvent0 = new PassEvent(offender0, 7, (-2010));
+-      handballModel0.addMoveEvent(passEvent0);
+-      PassEvent passEvent1 = new PassEvent(offender0, 1, 56);
+-      handballModel0.setActualMoveEvent(passEvent1);
+-      handballModel0.removeEventsAfter();
+-      assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        Offender offender0 = new Offender(2146905779, 56);
++        PassEvent passEvent0 = new PassEvent(offender0, 7, -2010);
++        // verify that adding a move event changes the internal events collection
++        int eventsBefore = handballModel0.getEvents().size();
++        handballModel0.addMoveEvent(passEvent0);
++        assertEquals(eventsBefore + 1, handballModel0.getEvents().size());
++
++        PassEvent passEvent1 = new PassEvent(offender0, 1, 56);
++        // verify that setting the actual move event updates the observable state
++        handballModel0.setActualMoveEvent(passEvent1);
++        assertSame(passEvent1, handballModel0.getActualMoveEvent());
++
++        // remove events after the current one and verify final state
++        handballModel0.removeEventsAfter();
++        assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
++    }
++
+ @Test(timeout = 4000)
+     public void test09() throws Throwable {
+         HandballModel handballModel0 = new HandballModel();

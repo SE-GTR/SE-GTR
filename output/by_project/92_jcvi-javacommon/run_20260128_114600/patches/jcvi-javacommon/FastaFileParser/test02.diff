@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/fasta/FastaFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/fasta/FastaFileParser_ESTest.java
+@@ -80,21 +80,17 @@
+          verifyException("org.jcvi.jillion.fasta.FastaFileParser$FileFastaParser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("org.jcvi.jillion.fasta.FastaFileParser$FileFastaParser", "org.jcvi.jillion.fasta.FastaFileParser$FileFastaParser");
+-      try { 
+-        FastaFileParser.create((File) mockFile0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // fasta file /PATH/TO/SF110-20130704-src/92_jcvi-javacommon/org.jcvi.jillion.fasta.FastaFileParser$FileFastaParser/org.jcvi.jillion.fasta.FastaFileParser$FileFastaParser does not exist
+-         //
+-         verifyException("org.jcvi.jillion.fasta.FastaFileParser$FileFastaParser", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        java.io.File tempFile = java.io.File.createTempFile("fasta_test", ".fasta");
++        tempFile.deleteOnExit();
++        java.nio.file.Files.write(
++                tempFile.toPath(),
++                java.util.Collections.singletonList(">seq1\nATGC"));
++        FastaFileParser parser = FastaFileParser.create(tempFile);
++        org.junit.Assert.assertNotNull(parser);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/character/data/config/TXTCharConfig_ESTest.java
++++ b/evosuite-tests/org/character/data/config/TXTCharConfig_ESTest.java
+@@ -203,25 +203,15 @@
+     TXTCharConfig tXTCharConfig0 = new TXTCharConfig();
+     tXTCharConfig0.load();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("conf/char_athena.conf");
+-      FileSystemHandling.appendStringToFile(evoSuiteFile0, "char_port");
+-      TXTCharConfig tXTCharConfig0 = new TXTCharConfig();
+-      // Undeclared exception!
+-      try { 
+-        tXTCharConfig0.load();
+-        fail("Expecting exception: NumberFormatException");
+-      
+-      } catch(NumberFormatException e) {
+-         //
+-         // For input string: \"char_port\"
+-         //
+-         verifyException("java.lang.NumberFormatException", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NumberFormatException.class)
++    public void test21() throws Throwable {
++        EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("conf/char_athena.conf");
++        boolean appended = FileSystemHandling.appendStringToFile(evoSuiteFile0, "char_port");
++        assertTrue(appended);
++        TXTCharConfig tXTCharConfig0 = new TXTCharConfig();
++        tXTCharConfig0.load();
++    }
++
+ @Test(timeout = 4000)
+     public void test22() throws Throwable {
+         EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("conf/char_athena.conf");

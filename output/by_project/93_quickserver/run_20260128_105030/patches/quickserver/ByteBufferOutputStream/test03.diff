@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/quickserver/util/io/ByteBufferOutputStream_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/io/ByteBufferOutputStream_ESTest.java
+@@ -61,18 +61,28 @@
+       ByteBufferOutputStream byteBufferOutputStream0 = new ByteBufferOutputStream(serverHooks0, nonBlockingClientHandler0);
+       byteBufferOutputStream0.forceNotify();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      ServerHooks serverHooks0 = new ServerHooks();
+-      NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      Object object0 = new Object();
+-      serverHooks0.add(object0);
+-      ByteBufferOutputStream byteBufferOutputStream0 = new ByteBufferOutputStream(serverHooks0, nonBlockingClientHandler0);
+-      byteBufferOutputStream0.isDataAvailableForWrite(object0);
+-      byteBufferOutputStream0.forceNotify();
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:77>", nonBlockingClientHandler0.getName());
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    ServerHooks serverHooks0 = new ServerHooks();
++    NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
++    Object object0 = new Object();
++
++    int sizeBefore = serverHooks0.size();
++    boolean added = serverHooks0.add(object0);
++    assertTrue(added);
++    assertEquals(sizeBefore + 1, serverHooks0.size());
++    assertTrue(serverHooks0.contains(object0));
++
++    ByteBufferOutputStream byteBufferOutputStream0 = new ByteBufferOutputStream(serverHooks0, nonBlockingClientHandler0);
++    boolean canWriteBefore = byteBufferOutputStream0.isDataAvailableForWrite(object0);
++    assertTrue(canWriteBefore);
++
++    byteBufferOutputStream0.forceNotify();
++
++    boolean canWriteAfter = byteBufferOutputStream0.isDataAvailableForWrite(object0);
++    assertTrue(canWriteAfter);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

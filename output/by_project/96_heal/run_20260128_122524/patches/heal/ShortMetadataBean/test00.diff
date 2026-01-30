@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/heal/module/metadata/ShortMetadataBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/ShortMetadataBean_ESTest.java
+@@ -16,15 +16,25 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ShortMetadataBean_ESTest extends ShortMetadataBean_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
+       ShortMetadataBean shortMetadataBean0 = new ShortMetadataBean();
+       ThumbnailBean thumbnailBean0 = new ThumbnailBean();
++
++      // Verify initial state before setting thumbnail
++      assertNull(shortMetadataBean0.getThumbnail());
++
++      // Act: set the thumbnail
+       shortMetadataBean0.setThumbnail(thumbnailBean0);
++
++      // Verify side‑effect via public getter
++      assertSame(thumbnailBean0, shortMetadataBean0.getThumbnail());
++
++      // Existing behavior verification
+       String string0 = shortMetadataBean0.toString();
+       assertEquals("Basic metadata:\nmetadataId: null\ntitle: null\ndescription: null\nlocation: null\ncontributeName: null\ncontributeUserId: null\nfileName: null\nfileExtension: null\nfileHeight: null\nfileWidth: null\nformat: null\nglobalId: null\nsourceCollection: null\nthumbnail: Thumbnail: ThumbnailId:null MetadataId:null location:null fileWidth:null fileHeight:null\nsourcecollections: null\n", string0);
+   }
++
+ @Test(timeout = 4000)
+   public void test01() throws Throwable {
+       ShortMetadataBean shortMetadataBean0 = new ShortMetadataBean();

@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/chromat/scf/ScfChromatogramBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/chromat/scf/ScfChromatogramBuilder_ESTest.java
+@@ -80,14 +80,15 @@
+       ScfChromatogramBuilder scfChromatogramBuilder1 = scfChromatogramBuilder0.insertionConfidence((byte[]) null);
+       assertSame(scfChromatogramBuilder0, scfChromatogramBuilder1);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-    scfChromatogramBuilder0 = new ScfChromatogramBuilder("");
+-      byte[] byteArray0 = new byte[1];
+-      ScfChromatogramBuilder scfChromatogramBuilder1 = scfChromatogramBuilder0.insertionConfidence(byteArray0);
+-      assertSame(scfChromatogramBuilder1, scfChromatogramBuilder0);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        ScfChromatogramBuilder builder = new ScfChromatogramBuilder("");
++        byte[] confidence = new byte[] { 42 };
++        builder.insertionConfidence(confidence);
++        ScfChromatogram chrom = builder.build();
++        assertEquals(confidence[0] & 0xFF, chrom.getInsertionConfidence().get(0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

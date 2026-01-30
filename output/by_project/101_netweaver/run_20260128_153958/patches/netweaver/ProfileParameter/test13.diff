@@ -1,0 +1,50 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
+@@ -246,21 +246,32 @@
+       boolean boolean0 = profileParameter1.equals(profileParameter0);
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      ProfileParameter profileParameter0 = new ProfileParameter();
+-      ProfileParameter profileParameter1 = new ProfileParameter();
+-      SubProfileParameter[] subProfileParameterArray0 = new SubProfileParameter[1];
+-      profileParameter0.setSubPara(subProfileParameterArray0);
+-      assertFalse(profileParameter0.equals((Object)profileParameter1));
+-      
+-      profileParameter1.setSubPara(subProfileParameterArray0);
+-      boolean boolean0 = profileParameter0.equals(profileParameter1);
+-      assertTrue(profileParameter0.equals((Object)profileParameter1));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    ProfileParameter profileParameter0 = new ProfileParameter();
++    ProfileParameter profileParameter1 = new ProfileParameter();
++    SubProfileParameter[] subProfileParameterArray0 = new SubProfileParameter[1];
++
++    // Verify initial state before setting sub-parameters
++    assertNull(profileParameter0.getSubPara());
++
++    // Exercise the void method and assert its side‑effect
++    profileParameter0.setSubPara(subProfileParameterArray0);
++    assertSame(subProfileParameterArray0, profileParameter0.getSubPara());
++
++    // Equality should be false when only one object has the sub‑parameter set
++    assertFalse(profileParameter0.equals((Object) profileParameter1));
++
++    // Set the same sub‑parameter array on the second object and verify side‑effect
++    profileParameter1.setSubPara(subProfileParameterArray0);
++    assertSame(subProfileParameterArray0, profileParameter1.getSubPara());
++
++    // Now both objects have identical state; equality should be true
++    boolean boolean0 = profileParameter0.equals(profileParameter1);
++    assertTrue(boolean0);
++    assertTrue(profileParameter0.equals((Object) profileParameter1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

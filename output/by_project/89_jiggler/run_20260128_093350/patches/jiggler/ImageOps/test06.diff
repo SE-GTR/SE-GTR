@@ -1,0 +1,39 @@
+--- a/evosuite-tests/jigl/image/utils/ImageOps_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/ImageOps_ESTest.java
+@@ -64,15 +64,28 @@
+       ImageOps.main(stringArray0);
+       assertEquals(2, stringArray0.length);
+   }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        String[] args = new String[4];
++        args[0] = "-subtractconst";
++        args[3] = "-bytesize";
+ 
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      String[] stringArray0 = new String[4];
+-      stringArray0[0] = "-subtractconst";
+-      stringArray0[3] = "-bytesize";
+-      ImageOps.main(stringArray0);
+-      assertEquals(4, stringArray0.length);
+-  }
++        // capture initial static state
++        boolean debugBefore = ImageOps.debug;
++        String[] paramBefore = ImageOps.param;
++
++        ImageOps.main(args);
++
++        // verify that the static debug flag was not unintentionally changed
++        assertEquals(debugBefore, ImageOps.debug);
++
++        // verify that the static param array reflects the arguments passed to main
++        assertNotNull(ImageOps.param);
++        assertEquals(args.length, ImageOps.param.length);
++        // ensure the original argument array remains unchanged
++        assertEquals(4, args.length);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

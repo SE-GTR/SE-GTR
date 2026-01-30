@@ -1,0 +1,50 @@
+--- a/evosuite-tests/org/jsecurity/spring/remoting/SecureRemoteInvocationExecutor_ESTest.java
++++ b/evosuite-tests/org/jsecurity/spring/remoting/SecureRemoteInvocationExecutor_ESTest.java
+@@ -62,31 +62,23 @@
+          verifyException("org.jsecurity.mgt.SessionsSecurityManager", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    SecureRemoteInvocationExecutor executor = new SecureRemoteInvocationExecutor();
++    RemoteInvocation invocation = new RemoteInvocation();
++    // Provide a non‑null SecurityManager
++    executor.setSecurityManager(new org.jsecurity.web.DefaultWebSecurityManager());
++    // Prepare principal collections
++    SimplePrincipalCollection principal0 = new SimplePrincipalCollection();
++    SimplePrincipalCollection principal1 = new SimplePrincipalCollection(principal0, "");
++    // Provide a non‑null Session instance
++    org.jsecurity.session.Session session = new org.jsecurity.session.mgt.SimpleSession();
++    // Invoke the method under test and assert its return value
++    boolean authenticated = executor.isAuthenticated(invocation, principal1, session, principal0);
++    // No subject has been bound, so authentication is expected to be false
++    org.junit.Assert.assertFalse(authenticated);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    secureRemoteInvocationExecutor0 = new SecureRemoteInvocationExecutor();
+-    remoteInvocation0 = new RemoteInvocation();
+-      Session session0 = null;
+-      SecureRemoteInvocationExecutor secureRemoteInvocationExecutor1 = new SecureRemoteInvocationExecutor();
+-      secureRemoteInvocationExecutor1.setSecurityManager((SecurityManager) null);
+-      Object object0 = new Object();
+-      Object object1 = new Object();
+-      secureRemoteInvocationExecutor1.getInetAddress(remoteInvocation0, object1);
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
+-      SimplePrincipalCollection simplePrincipalCollection1 = new SimplePrincipalCollection(simplePrincipalCollection0, "");
+-      // Undeclared exception!
+-      try { 
+-        secureRemoteInvocationExecutor1.isAuthenticated(remoteInvocation0, simplePrincipalCollection1, (Session) null, simplePrincipalCollection0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.spring.remoting.SecureRemoteInvocationExecutor", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

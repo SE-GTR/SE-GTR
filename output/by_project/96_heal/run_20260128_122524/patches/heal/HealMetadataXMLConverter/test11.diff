@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
+@@ -171,25 +171,17 @@
+         HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, baos);
+         org.junit.Assert.assertTrue("Output should not be empty", baos.size() > 0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      completeMetadataBean0.setLocation("upload");
+-      completeMetadataBean0.setTaxonPaths((ArrayList) null);
+-      try { 
+-        HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, (OutputStream) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // javax.xml.transform.TransformerException: Result object passed to ''{0}'' is invalid.
+-         //
+-         verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        FileLocator fileLocator0 = new FileLocator();
++        CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++        completeMetadataBean0.setLocation("upload");
++        completeMetadataBean0.setTaxonPaths((ArrayList) null);
++        ByteArrayOutputStream output = new ByteArrayOutputStream();
++        HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, output);
++        assertTrue("The generated XML should produce output", output.size() > 0);
++    }
++
+ @Test(timeout = 4000)
+ public void test12() throws Throwable {
+     FileLocator fileLocator0 = new FileLocator();

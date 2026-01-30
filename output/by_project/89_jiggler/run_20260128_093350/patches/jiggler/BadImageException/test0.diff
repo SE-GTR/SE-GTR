@@ -1,0 +1,24 @@
+--- a/evosuite-tests/jigl/image/exceptions/BadImageException_ESTest.java
++++ b/evosuite-tests/jigl/image/exceptions/BadImageException_ESTest.java
+@@ -14,9 +14,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class BadImageException_ESTest extends BadImageException_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    BadImageException exception = new BadImageException();
++    try {
++        throw exception;
++    } catch (BadImageException caught) {
++        // Verify that the caught exception is the same instance that was thrown
++        assertSame(exception, caught);
++        // Verify the exception type
++        assertEquals(BadImageException.class, caught.getClass());
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      BadImageException badImageException0 = new BadImageException();
+-  }
+ }

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Eprints2HubPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Eprints2HubPackager_ESTest.java
+@@ -22,25 +22,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class Eprints2HubPackager_ESTest extends Eprints2HubPackager_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Eprints2HubPackager eprints2HubPackager0 = new Eprints2HubPackager();
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("eprints.xml/mastermets.xml");
+-      FileSystemHandling.createFolder(evoSuiteFile0);
+-      MockFile mockFile0 = new MockFile("eprints.xml");
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    Eprints2HubPackager eprints2HubPackager0 = new Eprints2HubPackager();
++    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("eprints.xml/mastermets.xml");
++    boolean folderCreated = FileSystemHandling.createFolder(evoSuiteFile0);
++    assertTrue(folderCreated);
++    MockFile mockFile0 = new MockFile("eprints.xml");
++    try {
+         eprints2HubPackager0.createHubPackage((File) mockFile0, "eprints.xml");
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.apache.xmlbeans.impl.schema.SchemaTypeLoaderBase", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        verifyException("org.apache.xmlbeans.impl.schema.SchemaTypeLoaderBase", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

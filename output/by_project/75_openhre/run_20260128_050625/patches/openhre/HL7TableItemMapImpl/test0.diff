@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/config/HL7TableItemMapImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/config/HL7TableItemMapImpl_ESTest.java
+@@ -24,15 +24,22 @@
+     hL7TableItemMapImpl0 = new HL7TableItemMapImpl();
+     hL7TableItemImpl0 = new HL7TableItemImpl();
+   }
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    // Verify that setValue correctly updates the item's value
++    hL7TableItemImpl0.setValue("\n");
++    assertEquals("\n", hL7TableItemImpl0.getValue());
+ 
++    // Add the item and check that the map size increases
++    int sizeBeforeAdd = hL7TableItemMapImpl0.size();
++    hL7TableItemMapImpl0.addItem(hL7TableItemImpl0);
++    assertEquals(sizeBeforeAdd + 1, hL7TableItemMapImpl0.size());
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      hL7TableItemImpl0.setValue("\n");
+-      hL7TableItemMapImpl0.addItem(hL7TableItemImpl0);
+-      hL7TableItemMapImpl0.removeItem("\n");
+-      assertEquals(0, hL7TableItemMapImpl0.size());
+-  }
++    // Remove the item and verify that the map size returns to the original value
++    hL7TableItemMapImpl0.removeItem("\n");
++    assertEquals(sizeBeforeAdd, hL7TableItemMapImpl0.size());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

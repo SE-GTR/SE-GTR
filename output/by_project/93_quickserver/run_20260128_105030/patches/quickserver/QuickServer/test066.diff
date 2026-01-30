@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -799,22 +799,12 @@
+       assertEquals("QuickServer", quickServer0.getName());
+       assertEquals((-1), quickServer0.getServiceState());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test066()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer();
+-      // Undeclared exception!
+-      try { 
+-        quickServer0.startQSAdminServer((-583), "UnrecoverableKeyException : ");
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // Port number can not be less than 0!
+-         //
+-         verifyException("org.quickserver.net.server.QuickServer", e);
+-      }
+-  }
++@Test(expected = IllegalArgumentException.class, timeout = 4000)
++  public void test066() throws Throwable {
++      QuickServer quickServer0 = new QuickServer();
++      quickServer0.startQSAdminServer(-583, "UnrecoverableKeyException : ");
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test067()  throws Throwable  {

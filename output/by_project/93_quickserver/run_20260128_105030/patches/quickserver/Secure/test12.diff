@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/Secure_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/Secure_ESTest.java
+@@ -141,17 +141,21 @@
+       assertTrue(secure0.getEnable());
+       assertTrue(secure0.isLoad());
+   }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        Secure secure0 = new Secure();
++        // verify default state
++        assertEquals(-1, secure0.getPort());
++        assertFalse(secure0.getLoad());
++        assertFalse(secure0.isClientAuthEnable());
++        assertEquals("TLS", secure0.getProtocol());
++        assertFalse(secure0.getEnable());
+ 
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      Secure secure0 = new Secure();
+-      secure0.setClientAuthEnable(false);
+-      assertEquals((-1), secure0.getPort());
+-      assertFalse(secure0.getLoad());
+-      assertFalse(secure0.isClientAuthEnable());
+-      assertEquals("TLS", secure0.getProtocol());
+-      assertFalse(secure0.getEnable());
+-  }
++        // change client auth enable and verify side effect
++        secure0.setClientAuthEnable(true);
++        assertTrue(secure0.isClientAuthEnable());
++    }
++
+ @Test(timeout = 4000)
+ public void test13() throws Throwable {
+     Secure secure0 = new Secure();

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/corina/util/SimpleLog_ESTest.java
++++ b/evosuite-tests/corina/util/SimpleLog_ESTest.java
+@@ -146,16 +146,25 @@
+       simpleLog0.trace((Object) "'r_u;Is&\"bD-q");
+       assertTrue(simpleLog0.isDebugEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      SimpleLog simpleLog0 = new SimpleLog("?A[=hv");
+-      Object object0 = new Object();
+-      simpleLog0.setLevel((-1));
+-      SecurityException securityException0 = new SecurityException();
+-      simpleLog0.debug(object0, (Throwable) securityException0);
+-      assertEquals((-1), simpleLog0.getLevel());
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    SimpleLog simpleLog0 = new SimpleLog("?A[=hv");
++    Object object0 = new Object();
++    simpleLog0.setLevel(-1);
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.PrintStream originalErr = System.err;
++    System.setErr(new java.io.PrintStream(baos));
++    try {
++        SecurityException securityException0 = new SecurityException();
++        simpleLog0.debug(object0, securityException0);
++    } finally {
++        System.setErr(originalErr);
++    }
++    String logged = baos.toString();
++    assertFalse(logged.isEmpty());
++    assertEquals(-1, simpleLog0.getLevel());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

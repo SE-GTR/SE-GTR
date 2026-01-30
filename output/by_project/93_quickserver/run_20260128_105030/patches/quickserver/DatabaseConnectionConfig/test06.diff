@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/DatabaseConnectionConfig_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/DatabaseConnectionConfig_ESTest.java
+@@ -58,14 +58,19 @@
+     databaseConnectionConfig0.setUrl("jdbc:mysql://localhost");
+     assertEquals("jdbc:mysql://localhost", databaseConnectionConfig0.getUrl());
+ }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    DatabaseConnectionConfig config = new DatabaseConnectionConfig();
++    // Verify initial state (url should be empty by default)
++    assertEquals("", config.getUrl());
++    // Act: set URL to null (should leave it as empty string)
++    config.setUrl((String) null);
++    // Assert side‑effect of setUrl
++    assertEquals("", config.getUrl());
++    // Additional unrelated assertion to keep original intent
++    assertEquals("", config.getUsername());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      DatabaseConnectionConfig databaseConnectionConfig0 = new DatabaseConnectionConfig();
+-      databaseConnectionConfig0.setUrl((String) null);
+-      assertEquals("", databaseConnectionConfig0.getUsername());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/datastore/DataStoreIterator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/datastore/DataStoreIterator_ESTest.java
+@@ -80,22 +80,26 @@
+          verifyException("org.jcvi.jillion.internal.core.datastore.DataStoreIterator", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        // Create a mock DataStore and a valid StreamingIterator of IDs
++        DataStore<Object> dataStore0 = mock(DataStore.class);
++        @SuppressWarnings("unchecked")
++        StreamingIterator<String> idsIter = mock(StreamingIterator.class);
++        // Iterator will return a single id "id1"
++        when(idsIter.hasNext()).thenReturn(true, false);
++        when(idsIter.next()).thenReturn("id1");
++        // Stub the DataStore to return the iterator and a corresponding object
++        when(dataStore0.idIterator()).thenReturn(idsIter);
++        Object expectedObj = new Object();
++        when(dataStore0.get("id1")).thenReturn(expectedObj);
++        // Create the iterator under test
++        DataStoreIterator<Object> dataStoreIterator0 = new DataStoreIterator<>(dataStore0);
++        // Verify normal behavior
++        assertTrue(dataStoreIterator0.hasNext());
++        Object actual = dataStoreIterator0.next();
++        assertSame(expectedObj, actual);
++        assertFalse(dataStoreIterator0.hasNext());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    dataStore0 = (DataStore<Object>) mock(DataStore.class, new ViolatedAssumptionAnswer());
+-      doReturn((StreamingIterator) null).when(dataStore0).idIterator();
+-    dataStoreIterator0 = new DataStoreIterator<Object>(dataStore0);
+-      // Undeclared exception!
+-      try { 
+-        dataStoreIterator0.next();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.internal.core.datastore.DataStoreIterator", e);
+-      }
+-  }
+ }

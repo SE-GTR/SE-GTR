@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jcvi/jillion/fasta/FastaFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/fasta/FastaFileParser_ESTest.java
+@@ -119,20 +119,22 @@
+          verifyException("org.jcvi.jillion.internal.core.util.GrowableByteArray", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      PipedInputStream pipedInputStream0 = new PipedInputStream();
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    PipedInputStream pipedInputStream0 = new PipedInputStream();
+     fastaFileParser0 = FastaFileParser.create((InputStream) pipedInputStream0);
+-      DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
+-      doReturn(true).when(dataStoreFilter0).accept(anyString());
++    DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
++    doReturn(true).when(dataStoreFilter0).accept(anyString());
++    boolean acceptResult = dataStoreFilter0.accept("dummy");
++    assertTrue(acceptResult);
+     defaultQualityFastaFileDataStoreBuilder0 = new DefaultQualityFastaFileDataStoreBuilder(dataStoreFilter0);
+-      AtomicBoolean atomicBoolean0 = new AtomicBoolean();
+-      FastaVisitorCallback fastaVisitorCallback0 = mock(FastaVisitorCallback.class, new ViolatedAssumptionAnswer());
+-      FastaRecordVisitor fastaRecordVisitor0 = defaultQualityFastaFileDataStoreBuilder0.visitDefline(fastaVisitorCallback0, "8-+/]tQHUXN=fLQN", (String) null);
+-      fastaFileParser0.handleEndOfFile(defaultQualityFastaFileDataStoreBuilder0, atomicBoolean0, fastaRecordVisitor0);
+-      assertEquals("false", atomicBoolean0.toString());
+-  }
++    AtomicBoolean atomicBoolean0 = new AtomicBoolean();
++    FastaVisitorCallback fastaVisitorCallback0 = mock(FastaVisitorCallback.class, new ViolatedAssumptionAnswer());
++    FastaRecordVisitor fastaRecordVisitor0 = defaultQualityFastaFileDataStoreBuilder0.visitDefline(fastaVisitorCallback0, "8-+/]tQHUXN=fLQN", (String) null);
++    fastaFileParser0.handleEndOfFile(defaultQualityFastaFileDataStoreBuilder0, atomicBoolean0, fastaRecordVisitor0);
++    assertEquals("false", atomicBoolean0.toString());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

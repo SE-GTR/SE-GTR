@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/LogFile_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/LogFile_ESTest.java
+@@ -111,17 +111,21 @@
+     assertTrue(logFile1.equals((Object) logFile0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      LogFile logFile0 = new LogFile();
+-      logFile0.setFilename("");
+-      LogFile logFile1 = new LogFile();
+-      boolean boolean0 = logFile1.equals(logFile0);
+-      assertFalse(logFile0.equals((Object)logFile1));
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        LogFile logFile0 = new LogFile();
++        // Verify initial state before setting filename
++        assertNull(logFile0.getFilename());
++        // Act: set filename to empty string
++        logFile0.setFilename("");
++        // Assert side‑effect observable via getter
++        assertEquals("", logFile0.getFilename());
++        LogFile logFile1 = new LogFile();
++        boolean boolean0 = logFile1.equals(logFile0);
++        assertFalse(logFile0.equals((Object) logFile1));
++        assertFalse(boolean0);
++    }
++
+ @Test(timeout = 4000)
+     public void test07() throws Throwable {
+         LogFile logFile0 = new LogFile("test.log", 100L, "2022-01-01T00:00:00", "txt");

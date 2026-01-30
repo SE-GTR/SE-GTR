@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Stop_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Stop_ESTest.java
+@@ -167,16 +167,20 @@
+          verifyException("com.sap.engine.services.dc.wsgate.Stop", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      Stop stop0 = new Stop();
+-      Application[] applicationArray0 = new Application[0];
+-      stop0.setApps(applicationArray0);
+-      Stop stop1 = new Stop();
+-      boolean boolean0 = stop0.equals(stop1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    Stop stop0 = new Stop();
++    Application[] applicationArray0 = new Application[0];
++    // Observe the side‑effect of setApps
++    stop0.setApps(applicationArray0);
++    Application[] afterApps = stop0.getApps();
++    assertNotNull(afterApps);
++    assertEquals(0, afterApps.length);
++    Stop stop1 = new Stop();
++    boolean boolean0 = stop0.equals(stop1);
++    assertFalse(boolean0);
++}
++
+ @Test(timeout = 4000)
+     public void test13() throws Throwable {
+         TypeDesc typeDesc0 = Stop.getTypeDesc();

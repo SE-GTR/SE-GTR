@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Option_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Option_ESTest.java
+@@ -58,18 +58,23 @@
+     Option option1 = new Option((Object) null, option0);
+     assertFalse(option0.equals(option1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
++@Test(timeout = 4000)
++public void test05() throws Throwable {
+     option0 = new Option();
+     option1 = new Option(option0, option0);
+-      Option option2 = new Option(option0, option0);
+-      option0.setKey(option2);
+-      boolean boolean0 = option0.equals(option1);
+-      assertTrue(option1.equals((Object)option2));
+-      assertFalse(boolean0);
+-  }
++    Option option2 = new Option(option0, option0);
++    // Verify initial state before setting the key
++    assertNull(option0.getKey());
++    // Act: set the key
++    option0.setKey(option2);
++    // Assert side‑effect of setKey
++    assertSame(option2, option0.getKey());
++    // Additional behavior checks
++    boolean boolean0 = option0.equals(option1);
++    assertTrue(option1.equals((Object) option2));
++    assertFalse(boolean0);
++}
++
+ @Test(timeout = 4000)
+ public void test06() throws Throwable {
+     Class<Option> class0 = Option.class;

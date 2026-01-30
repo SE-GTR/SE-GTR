@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/heal/servlet/AuthenticateAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/AuthenticateAction_ESTest.java
+@@ -88,28 +88,26 @@
+          verifyException("javax.servlet.GenericServlet", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
+     authenticateAction0 = new AuthenticateAction();
+     servlet0 = new Servlet();
+     httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+     httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("8(WpxBgB&\"J)j%Oy$o", "", "").when(httpServletRequest0).getParameter(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      // Undeclared exception!
+-      try { 
+-        authenticateAction0.perform(servlet0, httpServletRequestWrapper0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.AuthenticateAction", e);
+-      }
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++
++    doReturn("8(WpxBgB&\"J)j%Oy$o", "", "").when(httpServletRequest0).getParameter(anyString());
++    doReturn(httpSession0).when(httpServletRequest0).getSession();
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++
++    // Execute the action with a valid (mocked) response
++    authenticateAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponse0);
++
++    // Verify that the request was used as expected
++    verify(httpServletRequest0, atLeastOnce()).getParameter(anyString());
++    verify(httpServletRequest0).getSession();
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

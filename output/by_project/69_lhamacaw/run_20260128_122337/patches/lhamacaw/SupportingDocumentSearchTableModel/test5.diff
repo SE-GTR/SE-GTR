@@ -1,0 +1,38 @@
+--- a/evosuite-tests/macaw/presentationLayer/SupportingDocumentSearchTableModel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/SupportingDocumentSearchTableModel_ESTest.java
+@@ -79,17 +79,27 @@
+          verifyException("java.util.ArrayList", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
++@Test(timeout = 4000)
++public void test5() throws Throwable {
+     supportingDocumentSearchTableModel0 = new SupportingDocumentSearchTableModel((MacawCurationAPI) null);
+     arrayList0 = new ArrayList<SupportingDocument>();
+-      supportingDocumentSearchTableModel0.setData(arrayList0);
++    // Verify initial row count is zero
++    int initialRowCount = supportingDocumentSearchTableModel0.getRowCount();
++    assertEquals(0, initialRowCount);
++    // Set empty data and verify the model reflects it
++    supportingDocumentSearchTableModel0.setData(arrayList0);
++    assertEquals(0, supportingDocumentSearchTableModel0.getRowCount());
++    // Add a document to the underlying list and assert the addition succeeded
+     supportingDocument0 = new SupportingDocument();
+-      arrayList0.add(supportingDocument0);
+-      Object object0 = supportingDocumentSearchTableModel0.getValueAt(0, 1);
+-      assertEquals("", object0);
+-  }
++    boolean added = arrayList0.add(supportingDocument0);
++    assertTrue(added);
++    // The model should now report one row
++    assertEquals(1, supportingDocumentSearchTableModel0.getRowCount());
++    // Verify the value at the expected cell
++    Object object0 = supportingDocumentSearchTableModel0.getValueAt(0, 1);
++    assertEquals("", object0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/IndexedTasmFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/IndexedTasmFileDataStore_ESTest.java
+@@ -24,17 +24,19 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class IndexedTasmFileDataStore_ESTest extends IndexedTasmFileDataStore_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    File file0 = MockFile.createTempFile(
++            "org.jcvi.jillion.assembly.tigr.tasm.IndexedTasmFileDataStore$SingleContigVisitor$1",
++            "org.jcvi.jillion.assembly.tigr.tasm.IndexedTasmFileDataStore$SingleContigVisitor$1");
++    DataStore<Long> dataStore0 = (DataStore<Long>) mock(DataStore.class, new ViolatedAssumptionAnswer());
++    DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(dataStoreFilter0).accept(anyString());
++    TasmContigDataStore tasmContigDataStore0 = IndexedTasmFileDataStore.create(file0, dataStore0, dataStoreFilter0);
++    assertNotNull(tasmContigDataStore0);
++    assertTrue(tasmContigDataStore0 instanceof IndexedTasmFileDataStore);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("org.jcvi.jillion.assembly.tigr.tasm.IndexedTasmFileDataStore$SingleContigVisitor$1", "org.jcvi.jillion.assembly.tigr.tasm.IndexedTasmFileDataStore$SingleContigVisitor$1");
+-      DataStore<Long> dataStore0 = (DataStore<Long>) mock(DataStore.class, new ViolatedAssumptionAnswer());
+-      DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(dataStoreFilter0).accept(anyString());
+-      TasmContigDataStore tasmContigDataStore0 = IndexedTasmFileDataStore.create(file0, dataStore0, dataStoreFilter0);
+-      boolean boolean0 = ((IndexedTasmFileDataStore) tasmContigDataStore0).contains("org.jcvi.jillion.assembly.tigr.tasm.IndexedTasmFileDataStore$SingleContigVisitor$1");
+-      assertFalse(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

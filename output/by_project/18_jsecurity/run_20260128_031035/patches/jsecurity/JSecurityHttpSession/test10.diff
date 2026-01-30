@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpSession_ESTest.java
+@@ -145,17 +145,21 @@
+          verifyException("org.jsecurity.web.servlet.JSecurityHttpSession", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
++@Test(timeout = 4000)
++public void test10() throws Throwable {
+     session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(session0).toString();
+-      doReturn((Collection) null).when(session0).getAttributeKeys();
++    doReturn((String) null).when(session0).toString();
++    doReturn((Collection) null).when(session0).getAttributeKeys();
+     servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
+     jSecurityHttpSession0 = new JSecurityHttpSession(session0, (HttpServletRequest) null, servletContext0);
+-      Enumeration enumeration0 = jSecurityHttpSession0.getAttributeNames();
+-      assertNotNull(enumeration0);
+-  }
++    String toStringResult = session0.toString();
++    assertNull(toStringResult);
++    Collection<?> attributeKeysResult = session0.getAttributeKeys();
++    assertNull(attributeKeysResult);
++    Enumeration enumeration0 = jSecurityHttpSession0.getAttributeNames();
++    assertNotNull(enumeration0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

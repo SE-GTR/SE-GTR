@@ -1,0 +1,41 @@
+--- a/evosuite-tests/fr/unice/gfarce/identity/Candidat_ESTest.java
++++ b/evosuite-tests/fr/unice/gfarce/identity/Candidat_ESTest.java
+@@ -114,26 +114,18 @@
+          verifyException("java.io.RandomAccessFile", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    identite_TypeIdentite0 = Identite.TypeIdentite.FORMATEUR;
+-      ZoneOffset zoneOffset0 = ZoneOffset.MAX;
+-      ZonedDateTime zonedDateTime0 = MockZonedDateTime.now((ZoneId) zoneOffset0);
+-      GregorianCalendar gregorianCalendar0 = MockGregorianCalendar.from(zonedDateTime0);
+-    candidat0 = new Candidat("3#q?db8w8M", "", "!o`u", "!o`u", identite_TypeIdentite0, gregorianCalendar0, "", "!o`u", "", 0, 0, (Formation) null);
+-      // Undeclared exception!
+-      try { 
+-        candidat0.setPhoto((String) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.io.File", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test03() throws Throwable {
++        identite_TypeIdentite0 = Identite.TypeIdentite.FORMATEUR;
++        ZoneOffset zoneOffset0 = ZoneOffset.MAX;
++        ZonedDateTime zonedDateTime0 = MockZonedDateTime.now((ZoneId) zoneOffset0);
++        GregorianCalendar gregorianCalendar0 = MockGregorianCalendar.from(zonedDateTime0);
++        Formation formation = new Formation();
++        candidat0 = new Candidat("3#q?db8w8M", "", "!o`u", "!o`u", identite_TypeIdentite0,
++                gregorianCalendar0, "", "!o`u", "", 0, 0, formation);
++        candidat0.setPhoto(null);
++    }
++
+ @Test(timeout = 4000)
+ public void test04() throws Throwable {
+     candidat0.afficherPhoto();

@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
+@@ -270,12 +270,16 @@
+       nonBlockingClientHandler0.setClientWriteHandler((ClientWriteHandler) null);
+       //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:51>", nonBlockingClientHandler0.getName());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      boolean boolean0 = NonBlockingClientHandler.getWakeupSelectorAfterRegisterWrite();
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        // Act: change the static flag
++        NonBlockingClientHandler.setWakeupSelectorAfterRegisterWrite(false);
++        // Assert: getter reflects the change
++        assertFalse(NonBlockingClientHandler.getWakeupSelectorAfterRegisterWrite());
++        // Cleanup: restore original value for other tests
++        NonBlockingClientHandler.setWakeupSelectorAfterRegisterWrite(true);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

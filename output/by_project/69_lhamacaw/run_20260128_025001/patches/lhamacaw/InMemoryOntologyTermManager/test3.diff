@@ -1,0 +1,48 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermManager_ESTest.java
+@@ -78,22 +78,33 @@
+     assertEquals(1, id);
+     assertEquals("SUPPORTING_DOCUMENT", term.getTerm());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
+     inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+     ontologyTerm0 = new OntologyTerm();
+     inMemoryOntologyTermManager0 = new InMemoryOntologyTermManager(inMemoryChangeEventManager0);
+-      ontologyTerm0.setTerm("ontologyTerm.error.duplicateExiAts");
+-      User user0 = new User();
+-      inMemoryOntologyTermManager0.addOntologyTerm(user0, ontologyTerm0);
+-      assertFalse(ontologyTerm0.isNewRecord());
+-      
+-      ArrayList<OntologyTerm> arrayList0 = inMemoryOntologyTermManager0.getAllOntologyTerms(user0);
+-      inMemoryOntologyTermManager0.deleteOntologyTerms(user0, arrayList0);
+-      assertFalse(arrayList0.isEmpty());
++    User user0 = new User();
++
++    // Verify initial state before adding
++    int sizeBefore = inMemoryOntologyTermManager0.getAllOntologyTerms(user0).size();
++
++    // Side‑effect to be observed
++    ontologyTerm0.setTerm("ontologyTerm.error.duplicateExiAts");
++    assertEquals("ontologyTerm.error.duplicateExiAts", ontologyTerm0.getTerm());
++
++    // Add term and verify manager state change
++    inMemoryOntologyTermManager0.addOntologyTerm(user0, ontologyTerm0);
++    assertFalse(ontologyTerm0.isNewRecord());
++    int sizeAfterAdd = inMemoryOntologyTermManager0.getAllOntologyTerms(user0).size();
++    assertEquals(sizeBefore + 1, sizeAfterAdd);
++
++    // Retrieve terms, delete them, and verify deletion
++    ArrayList<OntologyTerm> arrayList0 = inMemoryOntologyTermManager0.getAllOntologyTerms(user0);
++    inMemoryOntologyTermManager0.deleteOntologyTerms(user0, arrayList0);
++    ArrayList<OntologyTerm> afterDelete = inMemoryOntologyTermManager0.getAllOntologyTerms(user0);
++    assertTrue(afterDelete.isEmpty());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

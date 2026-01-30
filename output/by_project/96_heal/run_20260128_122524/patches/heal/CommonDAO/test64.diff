@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/heal/util/CommonDAO_ESTest.java
++++ b/evosuite-tests/org/heal/util/CommonDAO_ESTest.java
+@@ -788,23 +788,13 @@
+          verifyException("com.ora.jsp.sql.SQLCommandBean", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test64()  throws Throwable  {
+-      CommonDAO commonDAO0 = new CommonDAO();
+-      SQLServerConnection sQLServerConnection0 = new SQLServerConnection();
+-      // Undeclared exception!
+-      try { 
+-        commonDAO0.updateMetadataBooleanProperty("", false, "", sQLServerConnection0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.microsoft.jdbc.base.BaseConnection", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class)
++    public void test64() throws Throwable {
++        CommonDAO commonDAO = new CommonDAO();
++        // Trigger NullPointerException by providing a null property name
++        commonDAO.updateMetadataBooleanProperty(null, false, "metadataId", null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test65()  throws Throwable  {

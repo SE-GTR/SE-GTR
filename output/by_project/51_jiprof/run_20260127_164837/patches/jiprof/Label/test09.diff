@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Label_ESTest.java
+@@ -156,13 +156,19 @@
+          verifyException("org.objectweb.asm.jip.Label", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      Label label0 = new Label();
+-      label0.visitSubroutine((Label) null, 190, 190);
+-      label0.visitSubroutine((Label) null, 0L, (-1538));
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        Label label0 = new Label();
++        // initially no subroutine information
++        assertNull(label0.info);
++        // first subroutine registration
++        label0.visitSubroutine((Label) null, 190L, 190);
++        assertEquals(Long.valueOf(190L), label0.info);
++        // second subroutine registration with different id
++        label0.visitSubroutine((Label) null, 0L, -1538);
++        assertEquals(Long.valueOf(0L), label0.info);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

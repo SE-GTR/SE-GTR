@@ -1,0 +1,29 @@
+--- a/evosuite-tests/jigl/signal/DiscreteSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/DiscreteSignal_ESTest.java
+@@ -26,16 +26,21 @@
+         discreteSignal0.median(8, rOI0);
+         org.junit.Assert.assertArrayEquals("Data should remain unchanged when ROI is empty", before, shortArray0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test01() throws Throwable {
+       ROI rOI0 = new ROI();
+       short[] shortArray0 = new short[4];
+       shortArray0[0] = (short) (-859);
+       DiscreteSignal discreteSignal0 = new DiscreteSignal(shortArray0);
++      short[] before = discreteSignal0.getData();
+       discreteSignal0.convolve(discreteSignal0, rOI0);
+-  }
++      short[] after = discreteSignal0.getData();
++      // The convolve operation should produce a new data array (different instance)
++      assertNotSame("Data array should be replaced after convolve", before, after);
++      // Length of the signal should stay the same
++      assertEquals("Signal length should remain unchanged after convolve", before.length, after.length);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/corina/prefs/components/SpinnerComboBox_ESTest.java
++++ b/evosuite-tests/corina/prefs/components/SpinnerComboBox_ESTest.java
+@@ -53,14 +53,22 @@
+          verifyException("javax.swing.JSpinner$DateEditor", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    MessageFormat messageFormat0 = new MessageFormat("");
++    DecimalFormat decimalFormat0 = new DecimalFormat();
++    // first setFormats call
++    spinnerComboBox0.setFormats(messageFormat0, messageFormat0);
++    assertSame(messageFormat0, spinnerComboBox0.getInputFormat());
++    assertSame(messageFormat0, spinnerComboBox0.getOutputFormat());
++    // second setFormats call with a different output format
++    spinnerComboBox0.setFormats(messageFormat0, decimalFormat0);
++    assertSame(messageFormat0, spinnerComboBox0.getInputFormat());
++    assertSame(decimalFormat0, spinnerComboBox0.getOutputFormat());
++    // verify that the DecimalFormat pattern remains unchanged
++    assertEquals("#,##0.###", decimalFormat0.toLocalizedPattern());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      MessageFormat messageFormat0 = new MessageFormat("");
+-      spinnerComboBox0.setFormats(messageFormat0, messageFormat0);
+-      spinnerComboBox0.setFormats(messageFormat0, decimalFormat0);
+-      assertEquals("#,##0.###", decimalFormat0.toLocalizedPattern());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

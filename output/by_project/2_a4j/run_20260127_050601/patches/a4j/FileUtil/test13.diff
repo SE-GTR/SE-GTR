@@ -1,0 +1,36 @@
+--- a/evosuite-tests/net/kencochrane/a4j/file/FileUtil_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/file/FileUtil_ESTest.java
+@@ -121,13 +121,28 @@
+             // expected exception, test passes
+         }
+     }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    // Setup a temporary directory and files
++    java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("fileutil_test13");
++    java.io.File oldFile = new java.io.File(tempDir.toFile(), "old.txt");
++    java.io.File newFile = new java.io.File(tempDir.toFile(), "new.txt");
++    // Ensure the old file exists before renaming
++    assertTrue("Failed to create the source file", oldFile.createNewFile());
+ 
++    // Act: rename the file using FileUtil
++    FileUtil fileUtil0 = new FileUtil();
++    fileUtil0.renameFile(oldFile.getAbsolutePath(), newFile.getAbsolutePath());
+ 
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      FileUtil fileUtil0 = new FileUtil();
+-      fileUtil0.renameFile("", "");
+-  }
++    // Assert: the new file should exist and the old file should be gone
++    assertTrue("Renamed file should exist", newFile.exists());
++    assertFalse("Original file should no longer exist", oldFile.exists());
++
++    // Cleanup temporary resources
++    newFile.delete();
++    java.nio.file.Files.deleteIfExists(tempDir);
++}
++
+ @Test(timeout = 4000)
+ public void test14() throws Throwable {
+     FileUtil fileUtil0 = new FileUtil();

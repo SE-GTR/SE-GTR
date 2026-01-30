@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -584,23 +584,18 @@
+          verifyException("java.util.Collections$EmptyIterator", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test50()  throws Throwable  {
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      // Undeclared exception!
+-      try { 
+-        simpleAccountRealm0.isPermitted((PrincipalCollection) simplePrincipalCollection0, "}t.l~L'`x?f$'[dX9");
+-        fail("Expecting exception: NoSuchElementException");
+-      
+-      } catch(NoSuchElementException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.util.Collections$EmptyIterator", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test50() throws Throwable {
++        SimpleAccountRealm realm = new SimpleAccountRealm();
++        // Create a user with no permissions
++        realm.addAccount("testUser", "testPassword");
++        // Build a principal collection for the created user
++        SimplePrincipalCollection principals = new SimplePrincipalCollection("testUser", realm.getName());
++        // Verify that a permission which was never granted is denied (returns false)
++        boolean permitted = realm.isPermitted(principals, "nonexistent:action");
++        assertFalse(permitted);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test51()  throws Throwable  {

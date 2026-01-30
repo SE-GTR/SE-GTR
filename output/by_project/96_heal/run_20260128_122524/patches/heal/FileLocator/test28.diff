@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/heal/util/FileLocator_ESTest.java
++++ b/evosuite-tests/org/heal/util/FileLocator_ESTest.java
+@@ -280,21 +280,24 @@
+         String string0 = fileLocator0.getUploadURL("content");
+         assertEquals("nullcontent", string0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
+-      
+-      fileLocator0.setThumbnailDirectory((String) null);
+-      fileLocator0.setServerBaseURL("thumbnails");
+-      fileLocator0.generateFullDirectories();
+-      assertEquals(536870912L, fileLocator0.getMaxUploadSize());
+-      assertEquals("thumbnails/package/", fileLocator0.getPackageURL());
+-      assertEquals("upload", fileLocator0.getUploadDirectory());
+-      assertEquals("content", fileLocator0.getContentDirectory());
+-  }
++@Test(timeout = 4000)
++public void test28() throws Throwable {
++    FileLocator fileLocator0 = new FileLocator();
++    assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
++
++    // Verify that setting the thumbnail directory to null changes the internal state
++    fileLocator0.setThumbnailDirectory(null);
++    assertNull(fileLocator0.getThumbnailDirectory());
++
++    fileLocator0.setServerBaseURL("thumbnails");
++    fileLocator0.generateFullDirectories();
++
++    assertEquals(536870912L, fileLocator0.getMaxUploadSize());
++    assertEquals("thumbnails/package/", fileLocator0.getPackageURL());
++    assertEquals("upload", fileLocator0.getUploadDirectory());
++    assertEquals("content", fileLocator0.getContentDirectory());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test29()  throws Throwable  {

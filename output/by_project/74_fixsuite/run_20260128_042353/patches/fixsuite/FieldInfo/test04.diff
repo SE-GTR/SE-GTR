@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/fixsuite/message/info/FieldInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/FieldInfo_ESTest.java
+@@ -82,17 +82,27 @@
+          verifyException("java.util.TreeMap", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        FieldInfo fieldInfo0 = new FieldInfo();
++        TreeMap<String, ValueInfo> treeMap0 = new TreeMap<String, ValueInfo>();
++        // Act: set empty valid values map
++        fieldInfo0.setValidValues(treeMap0);
++        // Verify side‑effect of setValidValues
++        assertNotNull(fieldInfo0.getValidValues());
++        assertTrue(fieldInfo0.getValidValues().isEmpty());
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      FieldInfo fieldInfo0 = new FieldInfo();
+-      TreeMap<String, ValueInfo> treeMap0 = new TreeMap<String, ValueInfo>();
+-      fieldInfo0.setValidValues(treeMap0);
+-      GroupInfo groupInfo0 = new GroupInfo(fieldInfo0);
+-      groupInfo0.getValidValues();
+-      assertEquals(0, groupInfo0.getTagNumber());
+-      assertEquals(0, groupInfo0.getLength());
+-  }
++        GroupInfo groupInfo0 = new GroupInfo(fieldInfo0);
++        // Capture and verify return value of getValidValues()
++        List<ValueInfo> groupValidValues = groupInfo0.getValidValues();
++        assertNotNull(groupValidValues);
++        assertTrue(groupValidValues.isEmpty());
++
++        // Existing assertions
++        assertEquals(0, groupInfo0.getTagNumber());
++        assertEquals(0, groupInfo0.getLength());
++    }
++
+ @Test(timeout = 4000)
+     public void test05() throws Throwable {
+         FieldInfo fieldInfo0 = new FieldInfo();

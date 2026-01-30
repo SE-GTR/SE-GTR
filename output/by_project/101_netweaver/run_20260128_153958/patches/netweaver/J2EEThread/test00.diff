@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
+@@ -18,14 +18,19 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class J2EEThread_ESTest extends J2EEThread_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      J2EEThread j2EEThread0 = new J2EEThread();
+-      STATECOLOR sTATECOLOR0 = new STATECOLOR("ML[\"`v~r|");
+-      j2EEThread0.setDispstatus(sTATECOLOR0);
+-      j2EEThread0.hashCode();
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        J2EEThread j2EEThread0 = new J2EEThread();
++        STATECOLOR sTATECOLOR0 = new STATECOLOR("ML[\"`v~r|");
++        int hashBefore = j2EEThread0.hashCode();
++        j2EEThread0.setDispstatus(sTATECOLOR0);
++        int hashAfter = j2EEThread0.hashCode();
++        // Verify that the side‑effect of setDispstatus influences the observable state
++        assertNotEquals("hashCode should reflect the updated dispstatus", hashBefore, hashAfter);
++        // Verify the return value of hashCode is consistent
++        assertEquals(hashAfter, j2EEThread0.hashCode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

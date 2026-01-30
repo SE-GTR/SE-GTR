@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
+@@ -432,11 +432,16 @@
+       JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(httpServletResponse0, servletContext0, (JSecurityHttpServletRequest) null);
+       jSecurityHttpServletResponse0.setRequest((JSecurityHttpServletRequest) null);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(httpServletResponse0, (ServletContext) null, (JSecurityHttpServletRequest) null);
+-      jSecurityHttpServletResponse0.setContext((ServletContext) null);
+-  }
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
++        JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(httpServletResponse0, null, null);
++        // Verify initial context is null
++        assertNull(jSecurityHttpServletResponse0.getServletContext());
++        // Set a new context and verify the side‑effect
++        jSecurityHttpServletResponse0.setContext(servletContext0);
++        assertSame(servletContext0, jSecurityHttpServletResponse0.getServletContext());
++    }
++
+ }

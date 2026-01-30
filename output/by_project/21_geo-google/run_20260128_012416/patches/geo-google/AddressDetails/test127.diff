@@ -1,0 +1,37 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -1256,14 +1256,26 @@
+         Locality actualLocality = addressDetails0.getLocality();
+         assertSame(expectedLocality, actualLocality);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test127()  throws Throwable  {
+-      AddressDetails addressDetails0 = new AddressDetails();
+-      addressDetails0.setAdministrativeArea((AdministrativeArea) null);
+-      assertNull(addressDetails0.getValidToDate());
+-  }
++@Test(timeout = 4000)
++public void test127() throws Throwable {
++    AddressDetails addressDetails0 = new AddressDetails();
++
++    // Verify initial state of the administrative area
++    assertNull(addressDetails0.getAdministrativeArea());
++
++    // Set the administrative area to null and verify the side‑effect
++    addressDetails0.setAdministrativeArea(null);
++    assertNull(addressDetails0.getAdministrativeArea());
++
++    // Set a non‑null administrative area and verify it is stored correctly
++    AdministrativeArea adminArea = new AdministrativeArea();
++    addressDetails0.setAdministrativeArea(adminArea);
++    assertSame(adminArea, addressDetails0.getAdministrativeArea());
++
++    // Ensure that unrelated fields remain unchanged
++    assertNull(addressDetails0.getValidToDate());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test128()  throws Throwable  {

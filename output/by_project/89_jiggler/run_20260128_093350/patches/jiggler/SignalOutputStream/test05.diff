@@ -1,0 +1,35 @@
+--- a/evosuite-tests/jigl/signal/io/SignalOutputStream_ESTest.java
++++ b/evosuite-tests/jigl/signal/io/SignalOutputStream_ESTest.java
+@@ -83,14 +83,25 @@
+          verifyException("jigl.signal.io.SignalOutputStream", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        SignalOutputStream signalOutputStream0 = new SignalOutputStream();
++        SignalOutputStream signalOutputStream1 = new SignalOutputStream(signalOutputStream0);
++        assertEquals(0, signalOutputStream1.ndims());
++        assertEquals(0, signalOutputStream1.X());
+ 
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      SignalOutputStream signalOutputStream0 = new SignalOutputStream();
+-      SignalOutputStream signalOutputStream1 = new SignalOutputStream(signalOutputStream0);
+-      assertEquals(0, signalOutputStream1.ndims());
+-      assertEquals(0, signalOutputStream1.X());
+-  }
++        // Exercise a non‑trivial behavior: open and close a temporary file.
++        java.io.File tempFile = java.io.File.createTempFile("signal", ".dat");
++        tempFile.deleteOnExit();
++        try {
++            signalOutputStream1.open(tempFile.getAbsolutePath());
++            // Verify state after opening (dimensions should remain unchanged).
++            assertEquals(0, signalOutputStream1.ndims());
++        } finally {
++            signalOutputStream1.close();
++        }
++    }
++
+ @Test(timeout = 4000)
+ public void test06() throws Throwable {
+     SignalOutputStream signalOutputStream0 = new SignalOutputStream("=*'a8[M&ELi2sff,");

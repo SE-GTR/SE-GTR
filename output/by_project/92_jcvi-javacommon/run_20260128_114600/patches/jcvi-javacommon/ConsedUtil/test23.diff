@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ConsedUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ConsedUtil_ESTest.java
+@@ -245,19 +245,18 @@
+       String string0 = ConsedUtil.convertContigGapstoAceGaps("FileIteratr$RecursiveFileIterator$DiectoryFileFilter");
+       assertEquals("FileIteratr$RecursiveFileIterator$DiectoryFileFilter", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        ConsedUtil.getChromatDirFor((File) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // consedDir can not be null
+-         //
+-         verifyException("org.jcvi.jillion.assembly.consed.ConsedUtil", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("consedDir");
++        try {
++            java.io.File consedDir = tempDir.toFile();
++            java.io.File chromatDir = ConsedUtil.getChromatDirFor(consedDir);
++            assertNotNull(chromatDir);
++            assertEquals("chromat", chromatDir.getName());
++            assertEquals(consedDir.getParentFile(), chromatDir.getParentFile());
++        } finally {
++            java.nio.file.Files.deleteIfExists(tempDir);
++        }
++    }
++
+ }

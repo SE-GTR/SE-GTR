@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
+@@ -430,18 +430,26 @@
+     boolean boolean0 = j2EEThread1.equals(j2EEThread0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      J2EEThread j2EEThread0 = new J2EEThread();
+-      J2EEThread j2EEThread1 = new J2EEThread();
+-      assertTrue(j2EEThread1.equals((Object)j2EEThread0));
+-      
+-      j2EEThread1.setTask("4Yn");
+-      boolean boolean0 = j2EEThread1.equals(j2EEThread0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test29() throws Throwable {
++    J2EEThread j2EEThread0 = new J2EEThread();
++    J2EEThread j2EEThread1 = new J2EEThread();
++    assertTrue(j2EEThread1.equals((Object) j2EEThread0));
++
++    // Verify initial state before setting the task
++    assertNull(j2EEThread1.getTask());
++
++    // Act: set the task
++    j2EEThread1.setTask("4Yn");
++
++    // Assert: the side‑effect of setTask is observable via the getter
++    assertEquals("4Yn", j2EEThread1.getTask());
++
++    // Additional behavior verification
++    boolean boolean0 = j2EEThread1.equals(j2EEThread0);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

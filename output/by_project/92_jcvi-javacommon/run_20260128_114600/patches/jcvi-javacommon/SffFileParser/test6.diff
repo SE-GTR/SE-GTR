@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/SffFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/SffFileParser_ESTest.java
+@@ -127,23 +127,21 @@
+          verifyException("org.jcvi.jillion.trace.sff.SffFileParser$InputStreamBasedSffParser", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        // Use an in‑memory stream to avoid any file‑system dependency.
++        InputStream emptyStream = new java.io.ByteArrayInputStream(new byte[0]);
++        SffFileParser parser = SffFileParser.create(emptyStream);
++        assertNotNull(parser);
++        SffFileVisitor visitor = mock(SffFileVisitor.class, new ViolatedAssumptionAnswer());
++        try {
++            parser.accept(visitor);
++            fail("Expecting IOException due to empty input");
++        } catch (IOException e) {
++            // Expected outcome for an empty/invalid SFF stream.
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("");
+-      SffFileParser sffFileParser0 = SffFileParser.create((File) mockFile0);
+-      SffFileVisitor sffFileVisitor0 = mock(SffFileVisitor.class, new ViolatedAssumptionAnswer());
+-      try { 
+-        sffFileParser0.accept(sffFileVisitor0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

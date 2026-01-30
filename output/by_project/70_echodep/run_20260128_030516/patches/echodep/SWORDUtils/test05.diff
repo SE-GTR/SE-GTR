@@ -1,0 +1,34 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/workflow/SWORDUtils_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/workflow/SWORDUtils_ESTest.java
+@@ -104,17 +104,21 @@
+     // Invoke with a valid JEditorPane; expect normal execution without exception
+     sWORDUtils0.showEntry(sWORDEntry0, editorPane);
+ }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    SWORDUtils sWORDUtils0 = new SWORDUtils();
++    Collection collection0 = new Collection();
++    collection0.addAccepts("href");
++    JEditorPane jEditorPane0 = new JEditorPane("href", "href");
++    String beforeText = jEditorPane0.getText();
++    sWORDUtils0.showCollection(collection0, jEditorPane0);
++    String afterText = jEditorPane0.getText();
++    assertNull(collection0.getLocation());
++    assertNotEquals("JEditorPane text should change after showCollection", beforeText, afterText);
++    assertNotNull(afterText);
++    assertFalse(afterText.isEmpty());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      SWORDUtils sWORDUtils0 = new SWORDUtils();
+-      Collection collection0 = new Collection();
+-      collection0.addAccepts("href");
+-      JEditorPane jEditorPane0 = new JEditorPane("href", "href");
+-      sWORDUtils0.showCollection(collection0, jEditorPane0);
+-      assertNull(collection0.getLocation());
+-  }
+ @Test(timeout = 4000, expected = NullPointerException.class)
+     public void test06() throws Throwable {
+         SWORDUtils sWORDUtils0 = new SWORDUtils();

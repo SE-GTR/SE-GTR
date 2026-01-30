@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/SffFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/SffFileParser_ESTest.java
+@@ -62,21 +62,16 @@
+          verifyException("org.jcvi.jillion.trace.sff.SffFileParser$FileBasesSffParser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("parser has not yet been initialized, must call accept(visitor) method first");
+-      try { 
+-        SffFileParser.create((File) mockFile0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // sff file /PATH/TO/SF110-20130704-src/92_jcvi-javacommon/parser has not yet been initialized, must call accept(visitor) method first does not exist
+-         //
+-         verifyException("org.jcvi.jillion.trace.sff.SffFileParser$FileBasesSffParser", e);
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
++      try {
++          SffFileParser.create((java.io.InputStream) null);
++          fail("Expecting exception: NullPointerException");
++      } catch (NullPointerException e) {
++          // expected exception for null input stream
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

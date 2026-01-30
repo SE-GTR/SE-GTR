@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/heal/module/metadata/ThumbnailBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/ThumbnailBean_ESTest.java
+@@ -35,13 +35,24 @@
+       } catch(NullPointerException e) {
+       }
+   }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    ThumbnailBean bean = new ThumbnailBean();
++    bean.setMetadataId("meta123");
++    // Serialize the bean
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(bean);
++    oos.flush();
++    byte[] serialized = baos.toByteArray();
++    // Deserialize the bean
++    java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(serialized);
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++    ThumbnailBean deserialized = (ThumbnailBean) ois.readObject();
++    // Verify that the metadataId survived the round‑trip
++    assertEquals("meta123", deserialized.getMetadataId());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      ThumbnailBean thumbnailBean0 = new ThumbnailBean();
+-      thumbnailBean0.setMetadataId((String) null);
+-      assertNull(thumbnailBean0.getMetadataId());
+-  }
+ @Test(timeout = 4000)
+   public void test03() throws Throwable {
+       ThumbnailBean thumbnailBean0 = new ThumbnailBean();

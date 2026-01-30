@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/heal/module/metadata/ThumbnailBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/ThumbnailBean_ESTest.java
+@@ -69,13 +69,27 @@
+       String string0 = thumbnailBean0.toString();
+       assertEquals("Thumbnail: ThumbnailId:null MetadataId:null location:null fileWidth:null fileHeight:null", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test05() throws Throwable {
+       ThumbnailBean thumbnailBean0 = new ThumbnailBean();
+       thumbnailBean0.setLocation("BI8o%u+*n9p}");
+-      assertEquals("BI8o%u+*n9p}", thumbnailBean0.getLocation());
++
++      // Serialize the object
++      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++      oos.writeObject(thumbnailBean0);
++      oos.flush();
++      byte[] serialized = baos.toByteArray();
++
++      // Deserialize the object
++      java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++              new java.io.ByteArrayInputStream(serialized));
++      ThumbnailBean deserializedBean = (ThumbnailBean) ois.readObject();
++
++      // Verify that the location field is preserved after serialization
++      assertEquals("BI8o%u+*n9p}", deserializedBean.getLocation());
+   }
++
+ @Test(timeout = 4000)
+   public void test06() throws Throwable {
+       ThumbnailBean thumbnailBean0 = new ThumbnailBean();

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/SffFileDataStoreBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/SffFileDataStoreBuilder_ESTest.java
+@@ -148,22 +148,14 @@
+          verifyException("org.jcvi.jillion.trace.sff.SffFileDataStoreBuilder", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test8() throws Throwable {
++        MockFile mockFile0 = new MockFile("");
++        SffFileDataStoreBuilder builder = new SffFileDataStoreBuilder(mockFile0);
++        DataStoreProviderHint hint = DataStoreProviderHint.RANDOM_ACCESS_OPTIMIZE_MEMORY;
++        SffFileDataStoreBuilder hintedBuilder = builder.hint(hint);
++        // Verify that the hint method returns the same builder instance (fluent API)
++        assertSame(builder, hintedBuilder);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("");
+-      SffFileDataStoreBuilder sffFileDataStoreBuilder0 = new SffFileDataStoreBuilder(mockFile0);
+-      DataStoreProviderHint dataStoreProviderHint0 = DataStoreProviderHint.RANDOM_ACCESS_OPTIMIZE_MEMORY;
+-      SffFileDataStoreBuilder sffFileDataStoreBuilder1 = sffFileDataStoreBuilder0.hint(dataStoreProviderHint0);
+-      try { 
+-        sffFileDataStoreBuilder1.build();
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
+ }

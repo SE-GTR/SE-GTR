@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/Alert_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/Alert_ESTest.java
+@@ -256,18 +256,24 @@
+         // After changing one alert, they should no longer be equal
+         assertFalse(alert1.equals(alert0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      Alert alert0 = new Alert();
+-      Alert alert1 = new Alert();
+-      assertTrue(alert1.equals((Object)alert0));
+-      
+-      alert1.setAttribute("Vwi\"/Lk0aq!^dQ^I");
+-      boolean boolean0 = alert1.equals(alert0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        Alert alert0 = new Alert();
++        Alert alert1 = new Alert();
++        // Both alerts start with default state and should be equal
++        assertTrue(alert1.equals(alert0));
++
++        // Change attribute of the first alert
++        alert1.setAttribute("Vwi\"/Lk0aq!^dQ^I");
++        // The change should make the alerts unequal
++        assertFalse(alert1.equals(alert0));
++
++        // Apply the same attribute to the second alert
++        alert0.setAttribute("Vwi\"/Lk0aq!^dQ^I");
++        // Now the alerts should be equal again, confirming the side‑effect
++        assertTrue(alert1.equals(alert0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

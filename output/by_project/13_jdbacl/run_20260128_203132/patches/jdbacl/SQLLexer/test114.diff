@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -1296,23 +1296,21 @@
+         // Verify that the stream length corresponds to the input string length
+         assertEquals(18, stream.size());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test114()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mT__132();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test114() throws Throwable {
++    // Properly initialize the lexer with a (possibly empty) input stream to avoid NPEs
++    org.antlr.runtime.ANTLRStringStream input = new org.antlr.runtime.ANTLRStringStream("");
++    SQLLexer lexer = new SQLLexer(input);
++    try {
++        lexer.mT__132();
++    } catch (NullPointerException e) {
++        fail("NullPointerException should not be thrown when the lexer is correctly initialized");
++    } catch (org.antlr.runtime.RecognitionException e) {
++        // Expected when the input does not match the token pattern; test passes
++    }
++    assertNotNull(lexer);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test115()  throws Throwable  {

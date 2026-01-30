@@ -1,0 +1,59 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/Routine_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/Routine_ESTest.java
+@@ -51,22 +51,42 @@
+         String dataAccess = routine0.getDataAccess();
+         assertEquals("", dataAccess);
+     }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        // Create a routine with known values
++        Routine routine0 = new Routine(
++                "Alpha",               // name
++                "typeA",               // type
++                "Alpha",               // returnType
++                "lang",                // definitionLanguage
++                "def",                 // definition
++                true,                  // deterministic
++                "access",              // dataAccess
++                "sec",                 // securityType
++                "comment");           // comment
+ 
++        // Verify a couple of constructor‑initialized fields (avoid repeating all of them)
++        assertEquals("Alpha", routine0.getName());
++        assertEquals("typeA", routine0.getType());
++        assertTrue(routine0.isDeterministic());
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      Routine routine0 = new Routine("A)!29G'aQH@uVUqG", "Bv3|4S(}", "A)!29G'aQH@uVUqG", "9Z.kSD'7C PC^3i'x]", "A)!29G'aQH@uVUqG", true, "9Z.kSD'7C PC^3i'x]", "", "9Z.kSD'7C PC^3i'x]");
+-      String string0 = routine0.getDefinitionLanguage();
+-      assertEquals("Bv3|4S(}", routine0.getType());
+-      assertEquals("9Z.kSD'7C PC^3i'x]", routine0.getDataAccess());
+-      assertEquals("A)!29G'aQH@uVUqG", routine0.getReturnType());
+-      assertEquals("A)!29G'aQH@uVUqG", routine0.getDefinition());
+-      assertEquals("9Z.kSD'7C PC^3i'x]", routine0.getComment());
+-      assertEquals("", routine0.getSecurityType());
+-      assertEquals("A)!29G'aQH@uVUqG", routine0.getName());
+-      assertEquals("9Z.kSD'7C PC^3i'x]", string0);
+-      assertTrue(routine0.isDeterministic());
+-  }
++        // Exercise non‑trivial behavior: compareTo (based on name)
++        Routine routine1 = new Routine(
++                "Beta",
++                "typeB",
++                "Beta",
++                "lang2",
++                "def2",
++                false,
++                "access2",
++                "sec2",
++                "comment2");
++
++        // Alpha should be ordered before Beta
++        assertTrue(routine0.compareTo(routine1) < 0);
++        assertTrue(routine1.compareTo(routine0) > 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryVariableFilter_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryVariableFilter_ESTest.java
+@@ -85,20 +85,28 @@
+     ArrayList<VariableSummary> arrayList1 = inMemoryVariableFilter0.filterVariableSummaries(user0, "ogGc", "ogGc", "ogGc", variableTypeFilter0);
+     assertEquals(0, arrayList1.size());
+ }
+-
+ @Test(timeout = 4000)
+-  public void test3() throws Throwable {
++public void test3() throws Throwable {
+     inMemoryVariableFilter0 = new InMemoryVariableFilter();
+     user0 = new User();
+-    arrayList0 = new ArrayList<Variable>();
++    ArrayList<Variable> arrayList0 = new ArrayList<>();
+     DerivedVariable derivedVariable0 = new DerivedVariable();
+     arrayList0.add(derivedVariable0);
++    VariableTypeFilter variableTypeFilter0 = VariableTypeFilter.DERIVED;
++
++    // Verify that before setting variables the filter yields no results
++    ArrayList<VariableSummary> beforeList = inMemoryVariableFilter0.filterVariableSummaries(user0, "", "", "", variableTypeFilter0);
++    assertTrue(beforeList.isEmpty());
++
++    // Act: set the variables
+     inMemoryVariableFilter0.setVariables(arrayList0);
+-    VariableTypeFilter variableTypeFilter0 = VariableTypeFilter.DERIVED;
+-    ArrayList<VariableSummary> arrayList1 = inMemoryVariableFilter0.filterVariableSummaries(user0, "", "", "", variableTypeFilter0);
+-    assertFalse(arrayList1.isEmpty());
+-    assertEquals(1, arrayList1.size());
+-  }
++
++    // Verify that after setting variables the filter returns the expected result
++    ArrayList<VariableSummary> afterList = inMemoryVariableFilter0.filterVariableSummaries(user0, "", "", "", variableTypeFilter0);
++    assertFalse(afterList.isEmpty());
++    assertEquals(1, afterList.size());
++}
++
+ 
+ 
+   @Test(timeout = 4000)

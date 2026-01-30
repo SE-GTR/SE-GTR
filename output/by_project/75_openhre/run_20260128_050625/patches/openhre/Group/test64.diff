@@ -1,0 +1,29 @@
+--- a/evosuite-tests/com/browsersoft/aacs/Group_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/Group_ESTest.java
+@@ -559,12 +559,17 @@
+     CompoundName compoundName0 = new CompoundName("", properties0);
+     group0.getSchema((Name) compoundName0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test64()  throws Throwable  {
+-      Group group0 = new Group();
+-      Hashtable hashtable0 = group0.getEnvironment();
+-      assertNull(hashtable0);
+-  }
+-}
++@Test(timeout = 4000)
++public void test64() throws Throwable {
++    Group group0 = new Group();
++    Hashtable env = group0.getEnvironment();
++    assertNull(env);
++    try {
++        group0.getAttributes("cn");
++        fail("Expected NameNotFoundException");
++    } catch (NameNotFoundException e) {
++        // expected behavior for a newly created Group
++    }
++}
++
++}

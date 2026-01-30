@@ -1,0 +1,30 @@
+--- a/evosuite-tests/corina/util/GZIP_ESTest.java
++++ b/evosuite-tests/corina/util/GZIP_ESTest.java
+@@ -36,20 +36,14 @@
+          verifyException("org.evosuite.runtime.vfs.VirtualFileSystem", e);
+       }
+   }
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
++      java.io.File temp = java.io.File.createTempFile("test", ".tmp");
++      temp.deleteOnExit();
++      boolean compressed = GZIP.isCompressed(temp.getAbsolutePath());
++      org.junit.Assert.assertFalse(compressed);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      try { 
+-        GZIP.isCompressed("");
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

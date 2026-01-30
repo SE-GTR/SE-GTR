@@ -1,0 +1,41 @@
+--- a/evosuite-tests/nu/staldal/lagoon/filestorage/LocalFileStorage_ESTest.java
++++ b/evosuite-tests/nu/staldal/lagoon/filestorage/LocalFileStorage_ESTest.java
+@@ -150,25 +150,19 @@
+         }
+         assertTrue(secondOpenSucceeded);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      LocalFileStorage localFileStorage0 = new LocalFileStorage();
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("'eh^@h?r=}<mFP2");
+-      byte[] byteArray0 = new byte[8];
+-      FileSystemHandling.appendDataToFile(evoSuiteFile0, byteArray0);
+-      try { 
+-        localFileStorage0.open("'eh^@h?r=}<mFP2", (LagoonContext) null, "");
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Location exists but is not a directory
+-         //
+-         verifyException("nu.staldal.lagoon.filestorage.LocalFileStorage", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        LocalFileStorage storage = new LocalFileStorage();
++        java.io.File tempFile = java.io.File.createTempFile("test12", ".tmp");
++        tempFile.deleteOnExit();
++        try {
++            storage.open(tempFile.getAbsolutePath(), null, "");
++            fail("Expected IOException");
++        } catch (IOException e) {
++            // Expected exception because the path points to a file, not a directory.
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

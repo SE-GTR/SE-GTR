@@ -1,0 +1,67 @@
+--- a/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
+@@ -475,38 +475,32 @@
+     // ensure the sum remains non‑negative after median
+     assertTrue(interpolatedGrayImage0.addSum() >= 0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(1, 1);
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      
+-      Integer integer0 = new Integer(1);
+-      assertEquals(1, (int)integer0);
+-      
+-      Image<Integer> image0 = interpolatedGrayImage0.clear(integer0);
+-      assertEquals(1, interpolatedGrayImage0.absSum());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(1L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(1, interpolatedGrayImage0.addSum());
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertEquals(1, image0.Y());
+-      assertEquals(1, image0.X());
+-      assertSame(interpolatedGrayImage0, image0);
+-      
+-      interpolatedGrayImage0.clip(Integer.MIN_VALUE, 2);
+-      assertEquals(1, interpolatedGrayImage0.absSum());
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedGrayImage0.getInterpolationMethod());
+-      assertEquals(1L, interpolatedGrayImage0.sqrSum());
+-      assertEquals(1, interpolatedGrayImage0.addSum());
+-      assertEquals(1, interpolatedGrayImage0.X());
+-      assertEquals(1, interpolatedGrayImage0.Y());
+-      assertSame(interpolatedGrayImage0, image0);
+-  }
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    InterpolatedGrayImage img = new InterpolatedGrayImage(1, 1);
++    // verify construction defaults
++    assertEquals(InterpolationMethod.NEIGHBOR, img.getInterpolationMethod());
++    assertEquals(1, img.X());
++    assertEquals(1, img.Y());
++
++    Integer val = Integer.valueOf(1);
++    Image<Integer> cleared = img.clear(val);
++    // side effects of clear
++    assertEquals(1, img.absSum());
++    assertEquals(1L, img.sqrSum());
++    assertEquals(1, img.addSum());
++    assertSame(img, cleared);
++    assertEquals(1, cleared.X());
++    assertEquals(1, cleared.Y());
++
++    // clip should not change sums for this range
++    img.clip(Integer.MIN_VALUE, 2);
++    assertEquals(1, img.absSum());
++    assertEquals(1L, img.sqrSum());
++    assertEquals(1, img.addSum());
++    assertSame(img, cleared);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

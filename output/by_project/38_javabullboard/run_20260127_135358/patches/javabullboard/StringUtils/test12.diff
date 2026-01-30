@@ -1,0 +1,25 @@
+--- a/evosuite-tests/framework/util/StringUtils_ESTest.java
++++ b/evosuite-tests/framework/util/StringUtils_ESTest.java
+@@ -110,12 +110,16 @@
+       Object object0 = new Object();
+       String string0 = StringUtils.valueOf(object0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      boolean boolean0 = StringUtils.isJavaPackageName("");
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        // Empty string is considered a valid package name by the current implementation
++        assertTrue(StringUtils.isJavaPackageName(""));
++        // Typical valid package name
++        assertTrue(StringUtils.isJavaPackageName("org.example"));
++        // Invalid package name (contains a hyphen)
++        assertFalse(StringUtils.isJavaPackageName("org.example-foo"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

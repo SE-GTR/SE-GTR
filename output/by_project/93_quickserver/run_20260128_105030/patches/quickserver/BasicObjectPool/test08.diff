@@ -1,0 +1,58 @@
+--- a/evosuite-tests/org/quickserver/util/pool/BasicObjectPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/BasicObjectPool_ESTest.java
+@@ -109,23 +109,40 @@
+     int after = basicObjectPool0.getNumActive();
+     assertEquals(before, after);
+ }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    basicObjectPool0 = new BasicObjectPool();
++    basicObjectPool0.setFactory(new org.apache.commons.pool.PoolableObjectFactory() {
++        @Override
++        public Object makeObject() {
++            return new Object();
++        }
+ 
++        @Override
++        public void destroyObject(Object obj) {
++            // no-op
++        }
+ 
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-    basicObjectPool0 = new BasicObjectPool();
+-      Object object0 = basicObjectPool0.getObjectToSynchronize();
+-      try { 
+-        basicObjectPool0.invalidateObject(object0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.util.pool.BasicObjectPool", e);
+-      }
+-  }
++        @Override
++        public boolean validateObject(Object obj) {
++            return true;
++        }
++
++        @Override
++        public void activateObject(Object obj) {
++            // no-op
++        }
++
++        @Override
++        public void passivateObject(Object obj) {
++            // no-op
++        }
++    });
++    Object obj = new Object();
++    // The call should complete without throwing an exception
++    basicObjectPool0.invalidateObject(obj);
++}
++
+ @Test(timeout = 4000)
+ public void test09() throws Throwable {
+     byteBufferObjectFactory0 = new ByteBufferObjectFactory(360, false);

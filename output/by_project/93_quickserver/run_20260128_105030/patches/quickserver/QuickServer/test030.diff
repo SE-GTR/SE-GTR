@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -401,17 +401,21 @@
+       assertFalse(quickServer0.isRunningSecure());
+       assertEquals("QuickServer", quickServer0.getName());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test030()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer((String) null);
+-      assertEquals((-1), quickServer0.getServiceState());
+-      
+-      quickServer0.setServiceState(5);
+-      boolean boolean0 = quickServer0.startService();
+-      assertEquals(5, quickServer0.getServiceState());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test030() throws Throwable {
++    QuickServer quickServer0 = new QuickServer((String) null);
++    assertEquals(-1, quickServer0.getServiceState());
++
++    quickServer0.setServiceState(5);
++    // Verify that the service state was updated by setServiceState
++    assertEquals(5, quickServer0.getServiceState());
++
++    boolean started = quickServer0.startService();
++    // The state should remain unchanged after attempting to start the service
++    assertEquals(5, quickServer0.getServiceState());
++    assertFalse(started);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test031()  throws Throwable  {

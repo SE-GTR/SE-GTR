@@ -1,0 +1,38 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -575,23 +575,18 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test040()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.setEncodeCommentsEnabled(true);
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-u' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test040() throws Throwable {
++        Config config0 = Config.getInstance();
++        config0.setEncodeCommentsEnabled(true);
++        // Provide the required '-u' (user) parameter so that asList() executes normally
++        config0.setUser("testUser");
++        java.util.List<String> list = config0.asList();
++        assertNotNull("asList() should not return null", list);
++        assertTrue("Option list should contain the user flag '-u'", list.contains("-u"));
++        assertTrue("Option list should contain the supplied user value", list.contains("testUser"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test041()  throws Throwable  {

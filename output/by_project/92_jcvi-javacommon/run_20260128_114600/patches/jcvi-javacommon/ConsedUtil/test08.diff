@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ConsedUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ConsedUtil_ESTest.java
+@@ -113,13 +113,19 @@
+          verifyException("java.util.regex.Matcher", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("", "");
+-      File file0 = ConsedUtil.getLatestAceFile(mockFile0, "");
+-      assertNull(file0);
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        java.nio.file.Path tempDirPath = java.nio.file.Files.createTempDirectory("consedutil_test");
++        java.io.File tempDir = tempDirPath.toFile();
++        try {
++            java.io.File result = ConsedUtil.getLatestAceFile(tempDir, "");
++            assertNull(result);
++        } finally {
++            // clean up the temporary directory
++            tempDir.delete();
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

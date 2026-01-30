@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ConsedUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ConsedUtil_ESTest.java
+@@ -127,12 +127,31 @@
+       File file0 = ConsedUtil.getLatestAceFile(mockFile0, "</C0t&q1Wxraup&(6");
+       assertNull(file0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      File file0 = ConsedUtil.getLatestAceFile((File) null, "m");
+-      assertNull(file0);
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        // Create a temporary directory to act as the edit directory
++        java.nio.file.Path tempDirPath = java.nio.file.Files.createTempDirectory("consedUtilTest");
++        java.io.File editDir = tempDirPath.toFile();
++        editDir.deleteOnExit();
++
++        // Create two ace files with the same prefix but different modification times
++        java.io.File olderFile = new java.io.File(editDir, "m_old.ace");
++        java.io.File newerFile = new java.io.File(editDir, "m_new.ace");
++        java.nio.file.Files.createFile(olderFile.toPath());
++        java.nio.file.Files.createFile(newerFile.toPath());
++
++        // Ensure deterministic timestamps
++        olderFile.setLastModified(1000L);
++        newerFile.setLastModified(2000L);
++
++        // Exercise the method under test
++        java.io.File result = ConsedUtil.getLatestAceFile(editDir, "m");
++
++        // Verify that the latest (newest) file is returned
++        org.junit.Assert.assertNotNull(result);
++        org.junit.Assert.assertEquals(newerFile, result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

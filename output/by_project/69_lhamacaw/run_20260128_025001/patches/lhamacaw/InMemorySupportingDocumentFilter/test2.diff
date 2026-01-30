@@ -1,0 +1,40 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemorySupportingDocumentFilter_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemorySupportingDocumentFilter_ESTest.java
+@@ -46,18 +46,26 @@
+     arrayList0 = inMemorySupportingDocumentFilter0.filterSupportingDocuments(user0, "spportingDocument.filePath.saveChanges", "");
+       assertEquals(0, arrayList0.size());
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        inMemorySupportingDocumentFilter0 = new InMemorySupportingDocumentFilter();
++        arrayList0 = new ArrayList<SupportingDocument>();
++        supportingDocument0 = new SupportingDocument();
++        // verify initial state is empty
++        assertTrue(inMemorySupportingDocumentFilter0.getSupportingDocuments().isEmpty());
++        arrayList0.add(supportingDocument0);
++        inMemorySupportingDocumentFilter0.setSupportingDocuments(arrayList0);
++        // assert that the side‑effect of setSupportingDocuments is observable
++        assertEquals(1, inMemorySupportingDocumentFilter0.getSupportingDocuments().size());
++        User user0 = new User();
++        ArrayList<SupportingDocument> arrayList1 = inMemorySupportingDocumentFilter0.filterSupportingDocuments(user0,
++                "R-Dh<pd", "R-Dh<pd");
++        // verify filter result does not contain the document
++        assertFalse(arrayList1.contains(supportingDocument0));
++        // ensure the internal list remains unchanged after filtering
++        assertEquals(1, inMemorySupportingDocumentFilter0.getSupportingDocuments().size());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    inMemorySupportingDocumentFilter0 = new InMemorySupportingDocumentFilter();
+-    arrayList0 = new ArrayList<SupportingDocument>();
+-    supportingDocument0 = new SupportingDocument();
+-      arrayList0.add(supportingDocument0);
+-      inMemorySupportingDocumentFilter0.setSupportingDocuments(arrayList0);
+-      User user0 = new User();
+-      ArrayList<SupportingDocument> arrayList1 = inMemorySupportingDocumentFilter0.filterSupportingDocuments(user0, "R-Dh<pd", "R-Dh<pd");
+-      assertFalse(arrayList1.contains(supportingDocument0));
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

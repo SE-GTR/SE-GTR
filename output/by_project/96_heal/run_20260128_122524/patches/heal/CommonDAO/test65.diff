@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/heal/util/CommonDAO_ESTest.java
++++ b/evosuite-tests/org/heal/util/CommonDAO_ESTest.java
+@@ -777,14 +777,15 @@
+         // Trigger NullPointerException by providing a null property name
+         commonDAO.updateMetadataBooleanProperty(null, false, "metadataId", null);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test65()  throws Throwable  {
+-      CommonDAO commonDAO0 = new CommonDAO();
+-      BaseXADataSource baseXADataSource0 = new BaseXADataSource();
+-      commonDAO0.setDataSource(baseXADataSource0);
+-      boolean boolean0 = commonDAO0.deleteMetadata("4h6aBc4BCl=k'|\"i(<");
+-      assertFalse(boolean0);
+-  }
+-}
++@Test(timeout = 4000)
++    public void test65() throws Throwable {
++        CommonDAO commonDAO0 = new CommonDAO();
++        try {
++            commonDAO0.deleteMetadata("4h6aBc4BCl=k'|\"i(<");
++            org.junit.Assert.fail("Expected NullPointerException");
++        } catch (NullPointerException e) {
++            // expected exception
++        }
++    }
++
++}

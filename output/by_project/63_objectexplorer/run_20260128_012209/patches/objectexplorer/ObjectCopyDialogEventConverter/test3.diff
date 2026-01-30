@@ -1,0 +1,60 @@
+--- a/evosuite-tests/de/paragon/explorer/event/ObjectCopyDialogEventConverter_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/event/ObjectCopyDialogEventConverter_ESTest.java
+@@ -64,24 +64,40 @@
+          verifyException("java.awt.GraphicsEnvironment", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    ExplorerFigure explorerFigure0 = new ExplorerFigure();
++    ActionEvent actionEvent0 = new ActionEvent("ok", -48, "ok", -48, -48);
++    ObjectCopyDialogEventConverter objectCopyDialogEventConverter0 = new ObjectCopyDialogEventConverter(explorerFigure0);
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    explorerFigure0 = new ExplorerFigure();
+-      ActionEvent actionEvent0 = new ActionEvent("ok", (-48), "ok", (-48), (-48));
+-    objectCopyDialogEventConverter0 = new ObjectCopyDialogEventConverter(explorerFigure0);
+-      // Undeclared exception!
+-      try { 
+-        objectCopyDialogEventConverter0.actionPerformed(actionEvent0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.paragon.explorer.event.ObjectCopyDialogEventConverter", e);
+-      }
+-  }
++    // Initialize required private fields to avoid NullPointerException
++    java.lang.reflect.Field selectedObjectField = ObjectCopyDialogEventConverter.class
++            .getDeclaredField("selectedObject");
++    selectedObjectField.setAccessible(true);
++    selectedObjectField.set(objectCopyDialogEventConverter0, new Object());
++
++    java.lang.reflect.Field objectToCopyField = ObjectCopyDialogEventConverter.class
++            .getDeclaredField("objectToCopy");
++    objectToCopyField.setAccessible(true);
++    objectToCopyField.set(objectCopyDialogEventConverter0, new ListBoxFigure());
++
++    java.lang.reflect.Field copyDialogField = ObjectCopyDialogEventConverter.class
++            .getDeclaredField("copyDialog");
++    copyDialogField.setAccessible(true);
++    copyDialogField.set(objectCopyDialogEventConverter0, new ObjectCopyDialog());
++
++    java.lang.reflect.Field enumerationField = ObjectCopyDialogEventConverter.class
++            .getDeclaredField("enumeration");
++    enumerationField.setAccessible(true);
++    enumerationField.set(objectCopyDialogEventConverter0, new StandardEnumeration());
++
++    // Execute the method under test
++    objectCopyDialogEventConverter0.actionPerformed(actionEvent0);
++
++    // Verify that the setup fields remain non‑null after execution
++    assertNotNull(copyDialogField.get(objectCopyDialogEventConverter0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
+@@ -280,14 +280,22 @@
+       simpleAuthorizingAccount0.addAll(set0);
+       assertFalse(simpleAuthorizingAccount0.isCredentialsExpired());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection("c[e,zrH}f?TKP", "c[e,zrH}f?TKP");
+-      SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount(simplePrincipalCollection0, simplePrincipalCollection0, "c[e,zrH}f?TKP");
+-      simpleAuthorizingAccount0.addAll((Collection<SimpleRole>) null);
+-      assertFalse(simpleAuthorizingAccount0.isCredentialsExpired());
+-  }
++@Test(timeout = 4000)
++public void test26() throws Throwable {
++    SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection("c[e,zrH}f?TKP", "c[e,zrH}f?TKP");
++    SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount(simplePrincipalCollection0, simplePrincipalCollection0, "c[e,zrH}f?TKP");
++    // capture initial role count
++    int before = simpleAuthorizingAccount0.getRoles().size();
++    // add a concrete role and verify the side‑effect
++    SimpleRole testRole = new SimpleRole("testRole");
++    java.util.Collection<SimpleRole> roles = java.util.Collections.singletonList(testRole);
++    simpleAuthorizingAccount0.addAll(roles);
++    assertEquals(before + 1, simpleAuthorizingAccount0.getRoles().size());
++    assertTrue(simpleAuthorizingAccount0.getRoles().contains("testRole"));
++    // existing assertion retained
++    assertFalse(simpleAuthorizingAccount0.isCredentialsExpired());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/util/FileChangeMonitor_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/FileChangeMonitor_ESTest.java
+@@ -39,12 +39,22 @@
+       FileChangeMonitor.stopMonitoring();
+       FileChangeMonitor.stopMonitoring();
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        // Ensure monitoring is stopped before starting the test
++        FileChangeMonitor.stopMonitoring();
++        // Verify that the monitor is not running
++        assertFalse(FileChangeMonitor.isRunning());
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      FileChangeMonitor.stopMonitoring();
+-      FileChangeMonitor.startMonitoring();
+-  }
++        // Start monitoring and verify the side‑effect
++        FileChangeMonitor.startMonitoring();
++        assertTrue(FileChangeMonitor.isRunning());
++
++        // Clean up: stop monitoring and verify again
++        FileChangeMonitor.stopMonitoring();
++        assertFalse(FileChangeMonitor.isRunning());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

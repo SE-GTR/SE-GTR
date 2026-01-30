@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
+@@ -50,21 +50,20 @@
+          verifyException("org.jsecurity.web.config.IniWebConfiguration", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
+-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
+-      hashMap0.put("classpath:jsecurity.ini", "Parsing [");
++@Test(timeout = 4000)
++  public void test01() throws Throwable {
++      IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
++      HashMap<String, String> hashMap0 = new HashMap<String, String>();
++      String previousValue = hashMap0.put("classpath:jsecurity.ini", "Parsing [");
++      assertNull(previousValue);
+       Map<String, Filter> map0 = iniWebConfiguration0.createDefaultFilters();
+-      // Undeclared exception!
+-      try { 
+-        iniWebConfiguration0.createChains(hashMap0, map0);
+-        fail("Expecting exception: StringIndexOutOfBoundsException");
+-      
+-      } catch(StringIndexOutOfBoundsException e) {
+-      }
+-  }
++      try {
++          iniWebConfiguration0.createChains(hashMap0, map0);
++          fail("Expecting exception: StringIndexOutOfBoundsException");
++      } catch (StringIndexOutOfBoundsException e) {
++      }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

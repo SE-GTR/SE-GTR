@@ -1,0 +1,33 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -453,14 +453,22 @@
+         PostOffice retrieved = administrativeArea0.getPostOffice();
+         assertSame(postOffice0, retrieved);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test40()  throws Throwable  {
+-      AdministrativeArea administrativeArea0 = new AdministrativeArea();
+-      administrativeArea0.setPostalCode((PostalCode) null);
+-      assertNull(administrativeArea0.getIndicator());
+-  }
++@Test(timeout = 4000)
++    public void test40() throws Throwable {
++        AdministrativeArea administrativeArea0 = new AdministrativeArea();
++        // Verify initial state of postalCode
++        assertNull(administrativeArea0.getPostalCode());
++        // Set null and assert the side‑effect is observed
++        administrativeArea0.setPostalCode((PostalCode) null);
++        assertNull(administrativeArea0.getPostalCode());
++        // Existing check for indicator
++        assertNull(administrativeArea0.getIndicator());
++        // Additional meaningful interaction: set a non‑null PostalCode and verify
++        PostalCode pc = new PostalCode();
++        administrativeArea0.setPostalCode(pc);
++        assertSame(pc, administrativeArea0.getPostalCode());
++    }
++
+ @Test(timeout = 4000)
+   public void test41() throws Throwable {
+       AdministrativeArea administrativeArea0 = new AdministrativeArea();

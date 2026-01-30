@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
+@@ -499,22 +499,12 @@
+          verifyException("org.databene.jdbacl.DBUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test35()  throws Throwable  {
+-      ErrorHandler errorHandler0 = new ErrorHandler("select count(*) from ");
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test35() throws Throwable {
++        ErrorHandler errorHandler0 = new ErrorHandler("select count(*) from ");
+         DBUtil.runScript("select count(*) from ", (Connection) null, true, errorHandler0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.DBUtil", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test36()  throws Throwable  {

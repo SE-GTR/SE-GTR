@@ -1,0 +1,35 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/action/KategorieAction_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/action/KategorieAction_ESTest.java
+@@ -76,26 +76,17 @@
+          verifyException("ch.bfh.egov.nutzenportfolio.service.kategorie.KategorieDaoService", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(expected = NullPointerException.class, timeout = 4000)
++public void test2() throws Throwable {
+     kategorieIbatisDao0 = new KategorieIbatisDao();
+     nutzenkriteriumIbatisDao0 = new NutzenkriteriumIbatisDao();
+     actionMapping0 = new ActionMapping();
+     kategorieDaoService0 = new KategorieDaoService(kategorieIbatisDao0);
+     nutzenkriteriumDaoService0 = new NutzenkriteriumDaoService(nutzenkriteriumIbatisDao0);
+-    kategorieAction0 = new KategorieAction(kategorieDaoService0, (CommonService) null, (CustomizingService) null, nutzenkriteriumDaoService0);
+-      try { 
+-        kategorieAction0.prepare(actionMapping0, (ActionForm) null, (HttpServletRequest) null, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.service.kategorie.KategorieDaoService", e);
+-      }
+-  }
++    kategorieAction0 = new KategorieAction(kategorieDaoService0, null, null, nutzenkriteriumDaoService0);
++    kategorieAction0.prepare(actionMapping0, null, null, null);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/SAXEvents2HL7Impl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/SAXEvents2HL7Impl_ESTest.java
+@@ -74,18 +74,21 @@
+     cut.processText("m]Y6");
+     assertEquals(initialFieldSeparator, cut.getFieldSeparator());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      SAXEvents2HL7Impl sAXEvents2HL7Impl0 = new SAXEvents2HL7Impl();
+-      StringWriter stringWriter0 = new StringWriter();
++@Test(timeout = 4000)
++  public void test05() throws Throwable {
++      SAXEvents2HL7Impl sAXEvents2HL7Impl0 = new SAXEvents2HL7Impl();
++      StringWriter stringWriter0 = new StringWriter();
++      int beforeLength = stringWriter0.getBuffer().length();
+       sAXEvents2HL7Impl0.setWriter(stringWriter0);
+       sAXEvents2HL7Impl0.processStartTag("MSH");
+       sAXEvents2HL7Impl0.processStartTag("MSH");
+       sAXEvents2HL7Impl0.processStartTag("MS.1");
+       sAXEvents2HL7Impl0.processEndTag("MS.1");
+       sAXEvents2HL7Impl0.processStartTag("MS.1");
++      int afterLength = stringWriter0.getBuffer().length();
++      assertTrue(afterLength > beforeLength);
++      String content = stringWriter0.toString();
++      assertTrue(content.contains("MSH"));
+       assertEquals('^', sAXEvents2HL7Impl0.getComponentSeparator());
+       assertEquals('\\', sAXEvents2HL7Impl0.getEscapeCharacter());
+       assertEquals('~', sAXEvents2HL7Impl0.getRepeatableSeparator());
+@@ -93,6 +96,7 @@
+       assertEquals('&', sAXEvents2HL7Impl0.getSubComponentSeparator());
+       assertEquals('|', sAXEvents2HL7Impl0.getFieldSeparator());
+   }
++
+ @Test(timeout = 4000)
+ public void test06() throws Throwable {
+     SAXEvents2HL7Impl cut = new SAXEvents2HL7Impl();

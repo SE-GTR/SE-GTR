@@ -1,0 +1,24 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryUserManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryUserManager_ESTest.java
+@@ -144,11 +144,15 @@
+       inMemoryUserManager0.validateUser(user0);
+       assertEquals(0, user0.getIdentifier());
+   }
+-@Test(timeout = 4000, expected = NullPointerException.class)
+-    public void test10() throws Throwable {
+-        Log log0 = new Log();
+-        InMemoryUserManager inMemoryUserManager0 = new InMemoryUserManager((InMemoryChangeEventManager) null, log0, (User) null);
+-        inMemoryUserManager0.addUser((User) null, (User) null);
+-    }
++@Test
++public void test10() throws Throwable {
++    Log log = new Log();
++    InMemoryChangeEventManager changeMgr = new InMemoryChangeEventManager();
++    User admin = new User();
++    InMemoryUserManager manager = new InMemoryUserManager(changeMgr, log, admin);
++    User newUser = new User();
++    manager.addUser(admin, newUser);
++}
++
+ 
+ }

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/EncodedSequence_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/EncodedSequence_ESTest.java
+@@ -196,20 +196,21 @@
+       LinkedList<Integer> linkedList0 = new LinkedList<Integer>();
+       EncodedSequence<Integer> encodedSequence0 = new EncodedSequence<Integer>(glyphCodec0, linkedList0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      GlyphCodec<EncodedSequence<Integer>> glyphCodec0 = (GlyphCodec<EncodedSequence<Integer>>) mock(GlyphCodec.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(glyphCodec0).decode(any(byte[].class) , anyLong());
+-      doReturn(46, 46).when(glyphCodec0).decodedLengthOf(any(byte[].class));
+-      byte[] byteArray0 = new byte[8];
+-      Integer integer0 = new Integer(46);
+-      GlyphCodec<Object> glyphCodec1 = (GlyphCodec<Object>) mock(GlyphCodec.class, new ViolatedAssumptionAnswer());
+-      doReturn(integer0).when(glyphCodec1).decode(any(byte[].class) , anyLong());
+-      doReturn(46, 46).when(glyphCodec1).decodedLengthOf(any(byte[].class));
+-      EncodedSequence<Object> encodedSequence0 = new EncodedSequence<Object>(glyphCodec1, byteArray0);
+-      EncodedSequence<EncodedSequence<Integer>> encodedSequence1 = new EncodedSequence<EncodedSequence<Integer>>(glyphCodec0, byteArray0);
+-      boolean boolean0 = encodedSequence0.equals(encodedSequence1);
+-      assertFalse(boolean0);
+-  }
++public void test12() throws Throwable {
++    GlyphCodec<EncodedSequence<Integer>> glyphCodec0 = mock(GlyphCodec.class, new ViolatedAssumptionAnswer());
++    doReturn(null).when(glyphCodec0).decode(any(byte[].class), anyLong());
++    doReturn(46, 46).when(glyphCodec0).decodedLengthOf(any(byte[].class));
++
++    byte[] byteArray0 = new byte[8];
++
++    GlyphCodec<Object> glyphCodec1 = mock(GlyphCodec.class, new ViolatedAssumptionAnswer());
++    doReturn(46).when(glyphCodec1).decode(any(byte[].class), anyLong());
++    doReturn(46, 46).when(glyphCodec1).decodedLengthOf(any(byte[].class));
++
++    EncodedSequence<Object> encodedSequence0 = new EncodedSequence<>(glyphCodec1, byteArray0);
++    EncodedSequence<EncodedSequence<Integer>> encodedSequence1 = new EncodedSequence<>(glyphCodec0, byteArray0);
++
++    assertFalse(encodedSequence0.equals(encodedSequence1));
+ }
++
++}

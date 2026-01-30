@@ -1,0 +1,39 @@
+--- a/evosuite-tests/fr/unice/gfarce/identity/RespFormation_ESTest.java
++++ b/evosuite-tests/fr/unice/gfarce/identity/RespFormation_ESTest.java
+@@ -53,19 +53,24 @@
+     // Verify that the title was set correctly (side‑effect of setTitre_formation)
+     assertEquals("2X", formation1.getTitre_formation());
+ }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        identite_TypeIdentite0 = Identite.TypeIdentite.CANDIDAT;
++        respFormation0 = new RespFormation("{l", "fr.unice.gfarce.identity.Formation", "fr.unice.gfarce.identity.Formation", "", identite_TypeIdentite0, "");
++        formation0 = new Formation();
++        formation0.setTitre_formation("");
++        // Verify that adding a formation changes the internal collection
++        int sizeBefore = respFormation0.getFormations().size();
++        respFormation0.ajouterFormation(formation0);
++        assertEquals(sizeBefore + 1, respFormation0.getFormations().size());
++        assertTrue(respFormation0.getFormations().contains(formation0));
++        // Verify that modifying a formation updates the collection accordingly
++        Formation formation1 = new Formation();
++        respFormation0.modifierFormation(formation1);
++        assertEquals(1, respFormation0.getFormations().size());
++        assertTrue(respFormation0.getFormations().contains(formation1));
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    identite_TypeIdentite0 = Identite.TypeIdentite.CANDIDAT;
+-    respFormation0 = new RespFormation("{l", "fr.unice.gfarce.identity.Formation", "fr.unice.gfarce.identity.Formation", "", identite_TypeIdentite0, "");
+-    formation0 = new Formation();
+-      formation0.setTitre_formation("");
+-      respFormation0.ajouterFormation(formation0);
+-      Formation formation1 = new Formation();
+-      respFormation0.modifierFormation(formation1);
+-      assertEquals("", respFormation0.getTelephone());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

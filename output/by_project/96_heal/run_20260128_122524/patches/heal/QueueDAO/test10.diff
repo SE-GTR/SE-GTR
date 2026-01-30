@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/heal/module/catalog/QueueDAO_ESTest.java
++++ b/evosuite-tests/org/heal/module/catalog/QueueDAO_ESTest.java
+@@ -90,16 +90,19 @@
+     QueueDAO queueDAO0 = new QueueDAO();
+     queueDAO0.enqueue("approval", "approval");
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      QueueDAO queueDAO0 = new QueueDAO();
+-      SQLServerDataSource sQLServerDataSource0 = new SQLServerDataSource();
+-      queueDAO0.setDataSource(sQLServerDataSource0);
+-      boolean boolean0 = queueDAO0.enqueue("approval", "approval");
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        QueueDAO queueDAO0 = new QueueDAO();
++        // Verify that the data source is initially unset
++        assertNull(queueDAO0.getDataSource());
++        SQLServerDataSource sQLServerDataSource0 = new SQLServerDataSource();
++        queueDAO0.setDataSource(sQLServerDataSource0);
++        // Ensure the setter correctly stored the data source
++        assertSame(sQLServerDataSource0, queueDAO0.getDataSource());
++        boolean boolean0 = queueDAO0.enqueue("approval", "approval");
++        assertFalse(boolean0);
++    }
++
+ @Test(timeout = 4000, expected = NullPointerException.class)
+   public void test11() throws Throwable {
+       QueuedRecordBean queuedRecordBean0 = new QueuedRecordBean();

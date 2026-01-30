@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/IndexedAceFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/IndexedAceFileDataStore_ESTest.java
+@@ -98,20 +98,21 @@
+       AceContigVisitor aceContigVisitor0 = indexedAceFileDataStore_SingleAceFileVisitor0.visitContig((AceFileVisitorCallback) null, "*J7/MQw77<", 3564, 3564, 3564, false);
+       assertNotNull(aceContigVisitor0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test9()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("");
++@Test(timeout = 4000)
++  public void test9() throws Throwable {
++      java.io.File tempFile = java.io.File.createTempFile("temp", ".ace");
++      // Ensure the file does not exist to trigger the expected exception
++      if (!tempFile.delete()) {
++          // If deletion fails, the test cannot proceed reliably
++          fail("Could not delete temporary file to simulate missing file");
++      }
+       DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
+-      try { 
+-        IndexedAceFileDataStore.create(mockFile0, dataStoreFilter0);
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.io.MockFileInputStream", e);
++      try {
++          IndexedAceFileDataStore.create(tempFile, dataStoreFilter0);
++          fail("Expecting exception: FileNotFoundException");
++      } catch (FileNotFoundException e) {
++          // Expected exception for non‑existent file
+       }
+   }
++
+ }

@@ -1,0 +1,56 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
+@@ -125,16 +125,43 @@
+         // End the element; should not throw any exception
+         contentHandlerFixer0.endElement("", "", "test");
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
+-      ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0, true);
+-      contentHandlerFixer0.startPrefixMapping("", "0");
+-      Attributes2Impl attributes2Impl0 = new Attributes2Impl();
+-      contentHandlerFixer0.startElement("0", "rv6+PaoKG3vf2s!5#JU", "", attributes2Impl0);
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    class RecordingHandler extends org.xml.sax.helpers.DefaultHandler {
++        String lastPrefix;
++        String lastUri;
++        String lastNamespaceURI;
++        String lastLocalName;
++        String lastQName;
++
++        @Override
++        public void startPrefixMapping(String prefix, String uri) throws org.xml.sax.SAXException {
++            this.lastPrefix = prefix;
++            this.lastUri = uri;
++        }
++
++        @Override
++        public void startElement(String uri, String localName, String qName, org.xml.sax.Attributes attributes)
++                throws org.xml.sax.SAXException {
++            this.lastNamespaceURI = uri;
++            this.lastLocalName = localName;
++            this.lastQName = qName;
++        }
++    }
++
++    RecordingHandler recorder = new RecordingHandler();
++    ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(recorder, true);
++    contentHandlerFixer0.startPrefixMapping("", "0");
++    Attributes2Impl attributes2Impl0 = new Attributes2Impl();
++    contentHandlerFixer0.startElement("0", "rv6+PaoKG3vf2s!5#JU", "", attributes2Impl0);
++
++    org.junit.Assert.assertEquals("", recorder.lastPrefix);
++    org.junit.Assert.assertEquals("0", recorder.lastUri);
++    org.junit.Assert.assertEquals("0", recorder.lastNamespaceURI);
++    org.junit.Assert.assertEquals("rv6+PaoKG3vf2s!5#JU", recorder.lastLocalName);
++    org.junit.Assert.assertEquals("", recorder.lastQName);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

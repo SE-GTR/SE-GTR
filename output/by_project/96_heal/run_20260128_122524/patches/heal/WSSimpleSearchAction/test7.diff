@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/heal/servlet/WSSimpleSearchAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/WSSimpleSearchAction_ESTest.java
+@@ -134,22 +134,28 @@
+          verifyException("org.heal.servlet.WSSimpleSearchAction", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test7() throws Throwable {
++        ShortMetadataResultBean shortMetadataResultBean0 = new ShortMetadataResultBean();
++        CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++        shortMetadataResultBean0.setShortMetadata(completeMetadataBean0);
++        // verify that setShortMetadata actually stored the value
++        assertSame(completeMetadataBean0, shortMetadataResultBean0.getShortMetadata());
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      ShortMetadataResultBean shortMetadataResultBean0 = new ShortMetadataResultBean();
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      shortMetadataResultBean0.setShortMetadata(completeMetadataBean0);
+-      SearchResultBean searchResultBean0 = new SearchResultBean();
+-      ShortMetadataResultBean[] shortMetadataResultBeanArray0 = new ShortMetadataResultBean[2];
+-      shortMetadataResultBeanArray0[0] = shortMetadataResultBean0;
+-      shortMetadataResultBeanArray0[1] = shortMetadataResultBean0;
+-      searchResultBean0.setShortRecords(shortMetadataResultBeanArray0);
+-      InterfaceUtilitiesBean interfaceUtilitiesBean0 = new InterfaceUtilitiesBean();
+-      WSSimpleSearchAction wSSimpleSearchAction0 = new WSSimpleSearchAction();
+-      SearchResultBean searchResultBean1 = wSSimpleSearchAction0.prepareForInterface(searchResultBean0, interfaceUtilitiesBean0);
+-      assertFalse(searchResultBean1.isSimple());
+-  }
++        SearchResultBean searchResultBean0 = new SearchResultBean();
++        ShortMetadataResultBean[] shortMetadataResultBeanArray0 = new ShortMetadataResultBean[2];
++        shortMetadataResultBeanArray0[0] = shortMetadataResultBean0;
++        shortMetadataResultBeanArray0[1] = shortMetadataResultBean0;
++        searchResultBean0.setShortRecords(shortMetadataResultBeanArray0);
++        // verify that setShortRecords stored the array correctly
++        assertArrayEquals(shortMetadataResultBeanArray0, searchResultBean0.getShortRecords());
++
++        InterfaceUtilitiesBean interfaceUtilitiesBean0 = new InterfaceUtilitiesBean();
++        WSSimpleSearchAction wSSimpleSearchAction0 = new WSSimpleSearchAction();
++        SearchResultBean searchResultBean1 = wSSimpleSearchAction0.prepareForInterface(searchResultBean0, interfaceUtilitiesBean0);
++        assertFalse(searchResultBean1.isSimple());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

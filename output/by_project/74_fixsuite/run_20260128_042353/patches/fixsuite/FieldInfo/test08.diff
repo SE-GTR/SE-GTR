@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/fixsuite/message/info/FieldInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/FieldInfo_ESTest.java
+@@ -143,18 +143,24 @@
+         // Now the field should be required for the registered component
+         assertTrue(fieldInfo.isRequiredInComponent(component));
+     }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        FieldInfo fieldInfo0 = new FieldInfo();
++        GroupInfo groupInfo0 = new GroupInfo(fieldInfo0);
++        // capture the size before adding the component
++        int sizeBefore = groupInfo0.getRequiringComponents().size();
++        // add a null component (the method under test)
++        groupInfo0.addRequiringComponent((ComponentInfo) null);
++        // verify that the side‑effect is observable
++        int sizeAfter = groupInfo0.getRequiringComponents().size();
++        assertEquals(sizeBefore + 1, sizeAfter);
++        // the added (null) component should be reported as required
++        assertTrue(groupInfo0.isRequiredInComponent((ComponentInfo) null));
++        // other properties remain unchanged
++        assertEquals(0, groupInfo0.getTagNumber());
++        assertEquals(0, groupInfo0.getLength());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      FieldInfo fieldInfo0 = new FieldInfo();
+-      GroupInfo groupInfo0 = new GroupInfo(fieldInfo0);
+-      groupInfo0.addRequiringComponent((ComponentInfo) null);
+-      boolean boolean0 = groupInfo0.isRequiredInComponent((ComponentInfo) null);
+-      assertTrue(boolean0);
+-      assertEquals(0, groupInfo0.getTagNumber());
+-      assertEquals(0, groupInfo0.getLength());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

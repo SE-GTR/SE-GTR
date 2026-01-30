@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jsecurity/realm/text/TextConfigurationRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/text/TextConfigurationRealm_ESTest.java
+@@ -34,14 +34,17 @@
+       Map<String, String> map0 = TextConfigurationRealm.toMap((Collection<String>) null);
+       assertNull(map0);
+   }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    textConfigurationRealm0.setUserDefinitions(" does not have a constructor which takes one string parameter");
++    textConfigurationRealm0.processUserDefinitions();
++    textConfigurationRealm0.processUserDefinitions();
++    // Verify that the malformed definition did not create any accounts
++    assertNull(textConfigurationRealm0.getAccount("nonexistent"));
++    // Verify cache name remains the default
++    assertEquals("org.jsecurity.realm.text.TextConfigurationRealm-0-authorization", textConfigurationRealm0.getAuthorizationCacheName());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      textConfigurationRealm0.setUserDefinitions(" does not have a constructor which takes one string parameter");
+-      textConfigurationRealm0.processUserDefinitions();
+-      textConfigurationRealm0.processUserDefinitions();
+-      assertEquals("org.jsecurity.realm.text.TextConfigurationRealm-0-authorization", textConfigurationRealm0.getAuthorizationCacheName());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

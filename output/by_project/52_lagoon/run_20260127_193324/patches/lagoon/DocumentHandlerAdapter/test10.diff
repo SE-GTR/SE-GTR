@@ -1,0 +1,36 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/DocumentHandlerAdapter_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/DocumentHandlerAdapter_ESTest.java
+@@ -130,16 +130,23 @@
+     assertEquals(before + 1, attributes2Impl0.getLength());
+     documentHandlerAdapter0.startElement("", "", "org.apache.log.output.io.rotate.BaseFileNameFilter", attributes2Impl0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      HandlerBase handlerBase0 = new HandlerBase();
+-      DocumentHandlerAdapter documentHandlerAdapter0 = new DocumentHandlerAdapter(handlerBase0);
+-      Attributes2Impl attributes2Impl0 = new Attributes2Impl();
+-      attributes2Impl0.addAttribute("", "$Q#aT!-lAciGfp^", "$Q#aT!-lAciGfp^", "$Q#aT!-lAciGfp^", "$Q#aT!-lAciGfp^");
+-      documentHandlerAdapter0.startElement("", "r\":bopP_J|B4KK", "$Q#aT!-lAciGfp^", attributes2Impl0);
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        HandlerBase handlerBase0 = new HandlerBase();
++        DocumentHandlerAdapter documentHandlerAdapter0 = new DocumentHandlerAdapter(handlerBase0);
++        Attributes2Impl attributes2Impl0 = new Attributes2Impl();
++        attributes2Impl0.addAttribute("", "$Q#aT!-lAciGfp^", "$Q#aT!-lAciGfp^", "$Q#aT!-lAciGfp^", "$Q#aT!-lAciGfp^");
++        // Capture the state before invoking startElement
++        boolean before = documentHandlerAdapter0.isContextPushed();
++        documentHandlerAdapter0.startElement("", "r\":bopP_J|B4KK", "$Q#aT!-lAciGfp^", attributes2Impl0);
++        // Verify that the startElement call has the expected side‑effect
++        assertTrue(documentHandlerAdapter0.isContextPushed());
++        // Ensure the state actually changed if it was initially false
++        if (!before) {
++            assertTrue(documentHandlerAdapter0.isContextPushed());
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

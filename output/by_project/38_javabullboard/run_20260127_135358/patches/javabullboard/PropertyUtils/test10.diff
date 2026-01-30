@@ -1,0 +1,41 @@
+--- a/evosuite-tests/framework/util/PropertyUtils_ESTest.java
++++ b/evosuite-tests/framework/util/PropertyUtils_ESTest.java
+@@ -75,22 +75,22 @@
+         Object object0 = new Object();
+         PropertyUtils.setMappedProperty(object0, "X}8Z56d80XhMu/n", (Object) "X}8Z56d80XhMu/n");
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        PropertyUtils.setIndexedProperty((Object) "q=3B[ ~", (String) null, 82, (Object) "q=3B[ ~");
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No name specified
+-         //
+-         verifyException("framework.util.PropertyUtils", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        class Bean {
++            private int[] values = new int[1];
++            public int[] getValues() {
++                return values;
++            }
++            public void setValues(int[] values) {
++                this.values = values;
++            }
++        }
++        Bean bean = new Bean();
++        PropertyUtils.setIndexedProperty(bean, "values", 0, 99);
++        assertEquals(99, bean.getValues()[0]);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

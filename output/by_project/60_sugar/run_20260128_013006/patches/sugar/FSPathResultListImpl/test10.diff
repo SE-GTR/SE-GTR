@@ -1,0 +1,44 @@
+--- a/evosuite-tests/net/sf/sugar/fspath/FSPathResultListImpl_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/fspath/FSPathResultListImpl_ESTest.java
+@@ -175,21 +175,26 @@
+          verifyException("net.sf.sugar.fspath.FSPathResultListImpl", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        fSPathResultListImpl0.each((Callback) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.sugar.fspath.FSPathResultListImpl", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        // Verify that adding an element returns true
++        boolean added = fSPathResultListImpl0.add(fSPathResult0);
++        assertTrue(added);
++
++        // Provide a non‑null Callback implementation
++        Callback cb = new Callback() {
++            @Override
++            public void call(FSPathResult result) {
++                // no‑op for testing
++            }
++        };
++
++        // Invoke each with a valid callback and assert normal behavior
++        FSPathResultList result = fSPathResultListImpl0.each(cb);
++        assertNotNull(result);
++        assertSame(fSPathResultListImpl0, result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/nu/staldal/xodus/XMLCharacterEncoder_ESTest.java
++++ b/evosuite-tests/nu/staldal/xodus/XMLCharacterEncoder_ESTest.java
+@@ -156,22 +156,15 @@
+       xMLCharacterEncoder0.write(2522);
+       assertEquals("\u09DA", stringWriter0.toString());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-    xMLCharacterEncoder0 = new XMLCharacterEncoder((Writer) null);
+-      // Undeclared exception!
+-      try { 
+-        xMLCharacterEncoder0.write(1246);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("nu.staldal.xodus.XMLCharacterEncoder", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        StringWriter sw = new StringWriter();
++        XMLCharacterEncoder encoder = new XMLCharacterEncoder(sw);
++        encoder.write(1246);
++        encoder.flush();
++        assertEquals(String.valueOf((char) 1246), sw.toString());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

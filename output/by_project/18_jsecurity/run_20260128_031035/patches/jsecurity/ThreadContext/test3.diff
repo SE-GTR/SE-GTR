@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jsecurity/util/ThreadContext_ESTest.java
++++ b/evosuite-tests/org/jsecurity/util/ThreadContext_ESTest.java
+@@ -37,17 +37,20 @@
+   public void test2()  throws Throwable  {
+       ThreadContext.clear();
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        Object object0 = new Object();
++        boolean contains = ThreadContext.containsKey(object0);
++        assertFalse(contains);
++        Object removed = ThreadContext.remove(object0);
++        assertNull(removed);
++        SecurityManager securityManager0 = ThreadContext.getSecurityManager();
++        ThreadContext.bind(securityManager0);
++        Locale locale0 = new Locale("W}*");
++        assertNotNull(locale0);
++        System.setCurrentTimeMillis(4L);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      Object object0 = new Object();
+-      ThreadContext.containsKey(object0);
+-      ThreadContext.remove(object0);
+-      SecurityManager securityManager0 = ThreadContext.getSecurityManager();
+-      ThreadContext.bind(securityManager0);
+-      Locale locale0 = new Locale("W}*");
+-      System.setCurrentTimeMillis(4L);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

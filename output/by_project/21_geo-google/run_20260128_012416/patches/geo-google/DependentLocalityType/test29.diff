@@ -1,0 +1,36 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
+@@ -306,14 +306,25 @@
+         Premise retrieved = dependentLocalityType0.getPremise();
+         assertSame(premise, retrieved);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-    dependentLocalityType0 = new DependentLocalityType();
+-      dependentLocalityType0.setPremise((Premise) null);
+-      assertNull(dependentLocalityType0.getType());
+-  }
++@Test(timeout = 4000)
++public void test29() throws Throwable {
++    dependentLocalityType0 = new DependentLocalityType();
++    // initial state assertions
++    assertNull(dependentLocalityType0.getPremise());
++    assertNull(dependentLocalityType0.getType());
++
++    // side‑effect verification for setPremise
++    dependentLocalityType0.setPremise(null);
++    assertNull(dependentLocalityType0.getPremise());
++
++    // exercise non‑trivial collection behavior
++    assertTrue(dependentLocalityType0.getAddressLine().isEmpty());
++    AddressLine line = new AddressLine();
++    dependentLocalityType0.getAddressLine().add(line);
++    assertEquals(1, dependentLocalityType0.getAddressLine().size());
++    assertSame(line, dependentLocalityType0.getAddressLine().get(0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

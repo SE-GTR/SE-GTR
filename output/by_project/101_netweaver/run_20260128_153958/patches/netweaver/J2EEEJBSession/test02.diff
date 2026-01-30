@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -57,19 +57,24 @@
+     int hash2 = j2EEEJBSession0.hashCode();
+     assertEquals(hash1, hash2);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      j2EEEJBSession0.setUpdateTime("$3$NUnO7#ri1WG&");
+-      j2EEEJBSession0.hashCode();
+-      assertEquals(0, j2EEEJBSession0.getActiveRequests());
+-      assertEquals(0, j2EEEJBSession0.getResponseTime());
+-      assertEquals(0, j2EEEJBSession0.getSize());
+-      assertEquals(0, j2EEEJBSession0.getIdHash());
+-      assertEquals(0, j2EEEJBSession0.getTotalRequests());
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    J2EEEJBSession session = new J2EEEJBSession();
++    int hashBefore = session.hashCode();
++    String update = "$3$NUnO7#ri1WG&";
++    session.setUpdateTime(update);
++    int hashAfter = session.hashCode();
++    // Verify that the update time was set correctly
++    assertEquals(update, session.getUpdateTime());
++    // Verify that hashCode produces a deterministic, observable result
++    assertNotEquals(hashBefore, hashAfter);
++    assertEquals(0, session.getActiveRequests());
++    assertEquals(0, session.getResponseTime());
++    assertEquals(0, session.getSize());
++    assertEquals(0, session.getIdHash());
++    assertEquals(0, session.getTotalRequests());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

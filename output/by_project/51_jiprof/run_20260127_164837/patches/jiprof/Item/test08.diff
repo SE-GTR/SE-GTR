@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
+@@ -142,15 +142,22 @@
+       boolean boolean0 = item1.isEqualTo(item0);
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      Item item0 = new Item(4);
+-      Item item1 = new Item(4, item0);
+-      item0.set(4);
+-      boolean boolean0 = item0.isEqualTo(item1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        Item item0 = new Item(4);
++        Item item1 = new Item(4, item0);
++        int beforeIntVal = item0.intVal;
++        int beforeHash = item0.hashCode;
++        int beforeType = item0.type;
++        item0.set(4);
++        // Verify that the set call produced a state change
++        assertTrue(item0.intVal != beforeIntVal ||
++                   item0.hashCode != beforeHash ||
++                   item0.type != beforeType);
++        boolean boolean0 = item0.isEqualTo(item1);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

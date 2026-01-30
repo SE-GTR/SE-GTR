@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jsecurity/mgt/AuthorizingSecurityManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/mgt/AuthorizingSecurityManager_ESTest.java
+@@ -212,16 +212,17 @@
+     assertNotNull(authorizer);
+     assertTrue(authorizer instanceof org.jsecurity.authz.ModularRealmAuthorizer);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager(simpleAccountRealm0);
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
+-      Class<Permission> class0 = Permission.class;
+-      Collection<Permission> collection0 = simplePrincipalCollection0.byType(class0);
+-      boolean boolean0 = defaultSecurityManager0.isPermittedAll((PrincipalCollection) simplePrincipalCollection0, collection0);
+-      assertTrue(boolean0);
+-  }
+-}
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
++    DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager(simpleAccountRealm0);
++    SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
++    Class<Permission> class0 = Permission.class;
++    Collection<Permission> collection0 = simplePrincipalCollection0.byType(class0);
++    // Verify that the principal collection does not contain any permissions of the given type
++    assertTrue(collection0.isEmpty());
++    // Exercise isPermittedAll with an empty permission collection (should not throw)
++    defaultSecurityManager0.isPermittedAll((PrincipalCollection) simplePrincipalCollection0, collection0);
++}
++
++}

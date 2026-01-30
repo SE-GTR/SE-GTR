@@ -1,0 +1,31 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
+@@ -91,14 +91,20 @@
+          verifyException("org.xml.sax.helpers.NamespaceSupport", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
+-      ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0);
+-      contentHandlerFixer0.startPrefixMapping("T", "T");
+-      contentHandlerFixer0.endElement("T", "T", "");
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
++    ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0);
++    // Verify initial state before any prefix mapping
++    assertFalse(contentHandlerFixer0.isContextPushed());
++    // Invoke the method under test and assert its side‑effect
++    contentHandlerFixer0.startPrefixMapping("T", "T");
++    assertTrue(contentHandlerFixer0.isContextPushed());
++    // End the element and ensure the context is correctly cleared
++    contentHandlerFixer0.endElement("T", "T", "");
++    assertFalse(contentHandlerFixer0.isContextPushed());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

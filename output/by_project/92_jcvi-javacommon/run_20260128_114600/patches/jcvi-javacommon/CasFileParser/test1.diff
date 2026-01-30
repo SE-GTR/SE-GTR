@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/CasFileParser_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/CasFileParser_ESTest.java
+@@ -35,23 +35,19 @@
+          verifyException("org.jcvi.jillion.assembly.clc.cas.CasFileParser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("} Z-<DASCj");
+-      CasFileParser casFileParser0 = new CasFileParser(mockFile0);
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("} Z-<DASCj");
+-      FileSystemHandling.appendStringToFile(evoSuiteFile0, "} Z-<DASCj");
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    MockFile mockFile0 = new MockFile("} Z-<DASCj");
++    CasFileParser casFileParser0 = new CasFileParser(mockFile0);
++    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("} Z-<DASCj");
++    boolean result = FileSystemHandling.appendStringToFile(evoSuiteFile0, "} Z-<DASCj");
++    assertTrue(result);
++    try {
+         casFileParser0.accept((CasFileVisitor) null);
+         fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // input stream not a valid cas file wrong magic number
+-         //
+-         verifyException("org.jcvi.jillion.assembly.clc.cas.CasFileParser", e);
+-      }
+-  }
++    } catch (IllegalArgumentException e) {
++        verifyException("org.jcvi.jillion.assembly.clc.cas.CasFileParser", e);
++    }
+ }
++
++}

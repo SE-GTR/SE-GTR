@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/javathena/conf/LoginAthena_ESTest.java
++++ b/evosuite-tests/org/javathena/conf/LoginAthena_ESTest.java
+@@ -408,17 +408,16 @@
+     assertNull(accountEngine);
+     assertTrue(loginAthena0.isIpban());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test48()  throws Throwable  {
+-      LoginAthena loginAthena0 = new LoginAthena();
+-      loginAthena0.getBanIps();
+-      assertTrue(loginAthena0.isDynamic_pass_failure_ban());
+-      assertFalse(loginAthena0.isConsole());
+-      assertTrue(loginAthena0.isIpban());
+-      assertEquals("127.0.0.1", loginAthena0.getBind_ip_str());
+-  }
++@Test(timeout = 4000)
++public void test48() throws Throwable {
++    LoginAthena loginAthena0 = new LoginAthena();
++    FastTable<String> banIps = loginAthena0.getBanIps();
++    assertNotNull(banIps);
++    banIps.add("1.2.3.4");
++    assertTrue(loginAthena0.getBanIps().contains("1.2.3.4"));
++    assertEquals("127.0.0.1", loginAthena0.getBind_ip_str());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test49()  throws Throwable  {

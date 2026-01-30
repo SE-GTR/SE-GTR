@@ -1,0 +1,22 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Department_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Department_ESTest.java
+@@ -130,7 +130,18 @@
+     department_DepartmentName0.setCode(code);
+     assertEquals(code, department_DepartmentName0.getCode());
+     assertNull(department_DepartmentName0.getContent());
+-}
++
++    // Verify that the equals and hashCode contract reflects the code field
++    Department.DepartmentName other = new Department.DepartmentName();
++    other.setCode(code);
++    assertEquals(department_DepartmentName0, other);
++    assertEquals(department_DepartmentName0.hashCode(), other.hashCode());
++
++    // Changing the code should break equality
++    other.setCode("differentCode");
++    assertNotEquals(department_DepartmentName0, other);
++}
++
+ 
+ @Test(timeout = 4000)
+ public void test10() throws Throwable {

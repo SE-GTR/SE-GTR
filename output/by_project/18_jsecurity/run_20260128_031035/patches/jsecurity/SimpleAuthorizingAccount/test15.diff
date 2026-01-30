@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
+@@ -168,14 +168,20 @@
+       boolean boolean0 = simpleAuthorizingAccount0.hasAllRoles((Collection<String>) null);
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount("<6l^d8", "<6l^d8", "<6l^d8");
+-      LinkedList<String> linkedList0 = new LinkedList<String>();
+-      boolean[] booleanArray0 = simpleAuthorizingAccount0.hasRoles(linkedList0);
+-      assertEquals(0, booleanArray0.length);
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    Set<String> roleNames = new HashSet<String>();
++    roleNames.add("admin");
++    SimpleAuthorizingAccount account = new SimpleAuthorizingAccount("<6l^d8", "<6l^d8", "<6l^d8", roleNames, null);
++    List<String> rolesToCheck = new LinkedList<String>();
++    rolesToCheck.add("admin");
++    rolesToCheck.add("user");
++    boolean[] result = account.hasRoles(rolesToCheck);
++    assertEquals(2, result.length);
++    assertTrue(result[0]);
++    assertFalse(result[1]);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

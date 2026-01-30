@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
+@@ -154,23 +154,18 @@
+     JavaParser javaParser0 = new JavaParser(new java.io.StringReader(""));
+     javaParser0.MemberValuePairs();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test011()  throws Throwable  {
+-      StringReader stringReader0 = new StringReader("u>ta+)n");
+-      JavaParser javaParser0 = new JavaParser(stringReader0);
+-      try { 
+-        javaParser0.MemberValuePairs();
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // Parse error at line 1, column 2.  Encountered: >
+-         //
+-         verifyException("com.soops.CEN4010.JMCA.JParser.JavaParser", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test011() throws Throwable {
++        StringReader stringReader0 = new StringReader("u>ta+)n");
++        JavaParser javaParser0 = new JavaParser(stringReader0);
++        try {
++            javaParser0.MemberValuePairs();
++            fail("Expected ParseException");
++        } catch (ParseException e) {
++            assertTrue(e.getMessage().contains("Parse error"));
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test012()  throws Throwable  {

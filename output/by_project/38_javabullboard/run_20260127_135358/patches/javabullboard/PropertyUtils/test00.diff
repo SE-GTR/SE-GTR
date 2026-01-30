@@ -1,0 +1,35 @@
+--- a/evosuite-tests/framework/util/PropertyUtils_ESTest.java
++++ b/evosuite-tests/framework/util/PropertyUtils_ESTest.java
+@@ -21,20 +21,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class PropertyUtils_ESTest extends PropertyUtils_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      try { 
+-        PropertyUtils.setProperty("canonicalname", "canonicalname", "canonicalname");
+-        fail("Expecting exception: NoSuchMethodException");
+-      
+-      } catch(NoSuchMethodException e) {
+-         //
+-         // Unknown property 'canonicalname'
+-         //
+-         verifyException("framework.util.PropertyUtils", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    class Bean {
++        private String canonicalname;
++        public String getCanonicalname() { return canonicalname; }
++        public void setCanonicalname(String canonicalname) { this.canonicalname = canonicalname; }
++    }
++    Bean bean = new Bean();
++    PropertyUtils.setProperty(bean, "canonicalname", "canonicalname");
++    org.junit.Assert.assertEquals("canonicalname", bean.getCanonicalname());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

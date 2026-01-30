@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
+@@ -104,14 +104,21 @@
+         int hashAfter = j2EEThread0.hashCode();
+         assertEquals(hashBefore, hashAfter);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      J2EEThread j2EEThread0 = new J2EEThread();
+-      j2EEThread0.setTask("RBX2!r }tf");
+-      j2EEThread0.hashCode();
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        J2EEThread thread = new J2EEThread();
++        // initial state should have no task
++        assertNull(thread.getTask());
++        // set a specific task and verify the side‑effect
++        String taskValue = "RBX2!r }tf";
++        thread.setTask(taskValue);
++        assertEquals(taskValue, thread.getTask());
++        // verify hashCode is deterministic
++        int firstHash = thread.hashCode();
++        int secondHash = thread.hashCode();
++        assertEquals(firstHash, secondHash);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

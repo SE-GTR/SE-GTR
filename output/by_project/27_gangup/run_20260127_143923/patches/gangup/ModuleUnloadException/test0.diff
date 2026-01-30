@@ -1,0 +1,25 @@
+--- a/evosuite-tests/module/ModuleUnloadException_ESTest.java
++++ b/evosuite-tests/module/ModuleUnloadException_ESTest.java
+@@ -20,13 +20,16 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ModuleUnloadException_ESTest extends ModuleUnloadException_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        SQLIntegrityConstraintViolationException sQLIntegrityConstraintViolationException0 = new SQLIntegrityConstraintViolationException();
++        SQLRecoverableException sQLRecoverableException0 = new SQLRecoverableException("", sQLIntegrityConstraintViolationException0);
++        ModuleUnloadException moduleUnloadException0 = new ModuleUnloadException("module.ModuleUnloadException", sQLRecoverableException0);
++        assertEquals("module.ModuleUnloadException", moduleUnloadException0.getMessage());
++        assertSame(sQLRecoverableException0, moduleUnloadException0.getCause());
++        assertSame(sQLIntegrityConstraintViolationException0, moduleUnloadException0.getCause().getCause());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      SQLIntegrityConstraintViolationException sQLIntegrityConstraintViolationException0 = new SQLIntegrityConstraintViolationException();
+-      SQLRecoverableException sQLRecoverableException0 = new SQLRecoverableException("", sQLIntegrityConstraintViolationException0);
+-      ModuleUnloadException moduleUnloadException0 = new ModuleUnloadException("module.ModuleUnloadException", sQLRecoverableException0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

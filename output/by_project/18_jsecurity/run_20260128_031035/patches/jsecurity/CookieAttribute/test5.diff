@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jsecurity/web/attr/CookieAttribute_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/attr/CookieAttribute_ESTest.java
+@@ -81,23 +81,13 @@
+       assertFalse(cookieAttribute0.isSecure());
+       assertEquals((-1), cookieAttribute0.getMaxAge());
+   }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test5() throws Throwable {
++        cookieAttribute0 = new CookieAttribute<PropertyEditorSupport>();
++        cookieAttribute1 = new CookieAttribute<Object>("name", "name");
++        cookieAttribute1.onStoreValue(cookieAttribute0, null, null);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    cookieAttribute0 = new CookieAttribute<PropertyEditorSupport>();
+-    cookieAttribute1 = new CookieAttribute<Object>("name", "name");
+-      // Undeclared exception!
+-      try { 
+-        cookieAttribute1.onStoreValue(cookieAttribute0, (ServletRequest) null, (ServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.attr.CookieAttribute", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

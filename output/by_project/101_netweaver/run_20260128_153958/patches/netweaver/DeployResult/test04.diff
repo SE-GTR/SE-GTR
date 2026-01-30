@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/DeployResult_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/DeployResult_ESTest.java
+@@ -62,19 +62,29 @@
+     // The two objects should no longer be equal after the change
+     assertFalse(deployResult0.equals(deployResult1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      DeployResult deployResult0 = new DeployResult();
+-      DeployResult deployResult1 = new DeployResult();
+-      assertTrue(deployResult1.equals((Object)deployResult0));
+-      
+-      deployResult1.setStatus("[-^");
+-      boolean boolean0 = deployResult1.equals(deployResult0);
+-      assertFalse(deployResult1.equals((Object)deployResult0));
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        DeployResult deployResult0 = new DeployResult();
++        DeployResult deployResult1 = new DeployResult();
++        assertTrue(deployResult1.equals((Object) deployResult0));
++
++        // Observe initial status (expected to be null)
++        String statusBefore = deployResult1.getStatus();
++        assertNull(statusBefore);
++
++        // Change status
++        deployResult1.setStatus("[-^");
++
++        // Verify that status was updated
++        String statusAfter = deployResult1.getStatus();
++        assertEquals("[-^", statusAfter);
++
++        // Equality should now reflect the changed state
++        boolean boolean0 = deployResult1.equals(deployResult0);
++        assertFalse(deployResult1.equals((Object) deployResult0));
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

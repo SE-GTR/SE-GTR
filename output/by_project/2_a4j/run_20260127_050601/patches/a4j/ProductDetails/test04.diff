@@ -1,0 +1,33 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ProductDetails_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ProductDetails_ESTest.java
+@@ -62,16 +62,20 @@
+     reviews0.avgCustomerRating = "864.00000";
+     assertEquals("864.00000", reviews0.avgCustomerRating);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      ProductDetails productDetails0 = new ProductDetails();
+-      Reviews reviews0 = productDetails0.reviews;
+-      reviews0.setAvgCustomerRating("+.0000");
+-      String string0 = productDetails0.getRecommendation();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        ProductDetails productDetails0 = new ProductDetails();
++        Reviews reviews0 = productDetails0.reviews;
++        // Observe the initial state (expected to be null or empty)
++        String before = reviews0.getAvgCustomerRating();
++        // Act: set a specific average customer rating
++        reviews0.setAvgCustomerRating("+.0000");
++        // Verify that the side‑effect is observable via the getter
++        assertEquals("+.0000", reviews0.getAvgCustomerRating());
++        // Existing behavior check remains
++        assertNull(productDetails0.getRecommendation());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/macaw/system/MacawChangeEvent_ESTest.java
++++ b/evosuite-tests/macaw/system/MacawChangeEvent_ESTest.java
+@@ -53,18 +53,17 @@
+     Integer variableOwnerID = macawChangeEvent0.getVariableOwnerID();
+     assertNull(variableOwnerID);
+ }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    ChangeEventType changeEventType0 = ChangeEventType.VALUE_LABEL;
++    MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent(changeEventType0, "0;},v#Ld", "n14J~");
++    String originalMessage = macawChangeEvent0.getChangeMessage();
+ 
+-@Test(timeout = 4000)
+-    public void test05() throws Throwable {
+-        ChangeEventType changeEventType0 = ChangeEventType.VALUE_LABEL;
+-        MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent(changeEventType0, "0;},v#Ld", "n14J~");
+-        // Verify the message supplied via the constructor
+-        assertEquals("0;},v#Ld", macawChangeEvent0.getChangeMessage());
++    macawChangeEvent0.setUserID("newUser");
++    assertEquals("newUser", macawChangeEvent0.getUserID());
++    assertEquals(originalMessage, macawChangeEvent0.getChangeMessage());
++}
+ 
+-        // Change the user ID and verify that the setter updates the internal state
+-        macawChangeEvent0.setUserID("newUser");
+-        assertEquals("newUser", macawChangeEvent0.getUserID());
+-    }
+ @Test(timeout = 4000)
+     public void test06() throws Throwable {
+         MacawChangeEvent macawChangeEvent0 = new MacawChangeEvent(null, "change message", "user123");

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingUDPClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingUDPClient_ESTest.java
+@@ -55,23 +55,21 @@
+         BlockingUDPClient blockingUDPClient0 = new BlockingUDPClient();
+         blockingUDPClient0.sendBytes(null, null);
+     }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        // Enable debug mode and verify the internal flag is set correctly.
++        BlockingUDPClient.setDebug(true);
++        java.lang.reflect.Field debugField = BlockingUDPClient.class.getDeclaredField("debug");
++        debugField.setAccessible(true);
++        boolean debugEnabled = debugField.getBoolean(null);
++        assertTrue("Debug flag should be true after enabling", debugEnabled);
+ 
++        // Disable debug mode and verify the flag is cleared.
++        BlockingUDPClient.setDebug(false);
++        boolean debugDisabled = debugField.getBoolean(null);
++        assertFalse("Debug flag should be false after disabling", debugDisabled);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      BlockingUDPClient blockingUDPClient0 = new BlockingUDPClient();
+-      BlockingUDPClient.setDebug(true);
+-      try { 
+-        blockingUDPClient0.sendAndReceiveBytes("muS[1W=$6tGv.!A} ", 1115, "muS[1W=$6tGv.!A} ");
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Simulated IO exception
+-         //
+-         verifyException("org.evosuite.runtime.mock.java.net.EvoDatagramSocketImpl", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+   public void test04() throws Throwable {
+     evoSuiteLocalAddress0 = new EvoSuiteLocalAddress("192.168.1.42", 40000);

@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/quickserver/util/pool/thread/ClientThread_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/thread/ClientThread_ESTest.java
+@@ -79,16 +79,31 @@
+       String string0 = clientThread0.toString();
+       //  // Unstable assertion: assertEquals("Thread[<ClientThread-Pool#-1-ID:2>,5,Test_Execution_Group] - U - Client null", string0);
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    ThreadObjectPoolConfig threadObjectPoolConfig0 = new ThreadObjectPoolConfig();
++    ByteBufferObjectPoolConfig byteBufferObjectPoolConfig0 = new ByteBufferObjectPoolConfig(threadObjectPoolConfig0);
++    ClientPool clientPool0 = new ClientPool((QSObjectPool) null, byteBufferObjectPoolConfig0);
++    ClientThread clientThread0 = new ClientThread(clientPool0);
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      ThreadObjectPoolConfig threadObjectPoolConfig0 = new ThreadObjectPoolConfig();
+-      ByteBufferObjectPoolConfig byteBufferObjectPoolConfig0 = new ByteBufferObjectPoolConfig(threadObjectPoolConfig0);
+-      ClientPool clientPool0 = new ClientPool((QSObjectPool) null, byteBufferObjectPoolConfig0);
+-      ClientThread clientThread0 = new ClientThread(clientPool0);
+-      clientThread0.clean();
+-      //  // Unstable assertion: assertEquals(2, clientThread0.getInstanceId());
+-  }
++    // Capture observable state before invoking clean()
++    Thread.State stateBefore = clientThread0.getState();
++    boolean aliveBefore = clientThread0.isAlive();
++    int idBefore = clientThread0.getInstanceId();
++
++    // Act: invoke the method that has a side effect
++    clientThread0.clean();
++
++    // Verify that the thread's observable state remains consistent
++    assertEquals(Thread.State.NEW, clientThread0.getState());
++    assertFalse(clientThread0.isAlive());
++
++    // Ensure that clean() did not unintentionally alter other observable properties
++    assertEquals(stateBefore, clientThread0.getState());
++    assertEquals(aliveBefore, clientThread0.isAlive());
++    assertEquals(idBefore, clientThread0.getInstanceId());
++}
++
+ @Test(timeout = 4000)
+ public void test6() throws Throwable {
+     ClientThread clientThread0 = new ClientThread((ClientPool) null);

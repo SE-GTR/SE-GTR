@@ -1,0 +1,49 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ShoppingCart_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ShoppingCart_ESTest.java
+@@ -92,21 +92,31 @@
+ 
+     assertEquals("1", shoppingCart0.getNumItems());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-    shoppingCart0 = new ShoppingCart();
+-    items0 = new Items();
+-      Item item0 = new Item();
+-      item0.setItemId("zlnhLaxkK");
+-      Item[] itemArray0 = new Item[1];
+-      itemArray0[0] = item0;
+-      items0.setItem(itemArray0);
+-      shoppingCart0.setItems(items0);
+-      shoppingCart0.getItem("!2L4^twp5c/!F$b");
+-      assertEquals("1", shoppingCart0.getNumItems());
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    shoppingCart0 = new ShoppingCart();
++    items0 = new Items();
++    Item item0 = new Item();
++    item0.setItemId("zlnhLaxkK");
++    // verify that setItemId actually stored the id
++    assertEquals("zlnhLaxkK", item0.getItemId());
++
++    Item[] itemArray0 = new Item[1];
++    itemArray0[0] = item0;
++    items0.setItem(itemArray0);
++    // verify that setItem stored the array
++    assertArrayEquals(itemArray0, items0.getItem());
++
++    shoppingCart0.setItems(items0);
++    // verify that the cart now contains the item via its public API
++    Item retrieved = shoppingCart0.getItem("zlnhLaxkK");
++    assertNotNull(retrieved);
++    assertEquals("zlnhLaxkK", retrieved.getItemId());
++
++    // original behavior check
++    assertEquals("1", shoppingCart0.getNumItems());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

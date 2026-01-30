@@ -1,0 +1,55 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -442,20 +442,38 @@
+         // The equality relationship should now differ
+         assertFalse(workProcess0.equals(workProcess1));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
+-      WorkProcess workProcess1 = new WorkProcess();
+-      workProcess1.setReason("aU");
+-      assertFalse(workProcess1.equals((Object)workProcess0));
+-      
+-      workProcess0.setReason("aU");
+-      boolean boolean0 = workProcess1.equals(workProcess0);
+-      assertTrue(workProcess1.equals((Object)workProcess0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        WorkProcess workProcess0 = new WorkProcess();
++        WorkProcess workProcess1 = new WorkProcess();
++
++        // Verify initial state before setting reason
++        assertNull(workProcess1.getReason());
++
++        // Act & assert side‑effect of setReason
++        workProcess1.setReason("aU");
++        assertEquals("aU", workProcess1.getReason());
++
++        // Equality checks with only workProcess1 having the reason set
++        assertFalse(workProcess1.equals((Object) workProcess0));
++
++        // Verify initial state of the second instance
++        assertNull(workProcess0.getReason());
++
++        // Set same reason on the second instance and assert side‑effect
++        workProcess0.setReason("aU");
++        assertEquals("aU", workProcess0.getReason());
++
++        boolean boolean0 = workProcess1.equals(workProcess0);
++        assertTrue(workProcess1.equals((Object) workProcess0));
++        assertTrue(boolean0);
++
++        // Additional distinct scenario to differentiate this test from others
++        workProcess1.setReason("different");
++        assertEquals("different", workProcess1.getReason());
++        assertFalse(workProcess1.equals(workProcess0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

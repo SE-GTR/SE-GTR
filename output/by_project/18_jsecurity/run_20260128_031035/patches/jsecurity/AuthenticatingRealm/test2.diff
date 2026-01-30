@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthenticatingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthenticatingRealm_ESTest.java
+@@ -33,13 +33,21 @@
+       boolean boolean0 = simpleAccountRealm0.supports(usernamePasswordToken0);
+       assertTrue(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        SimpleAccountRealm realm = new SimpleAccountRealm();
++        // Arrange: add a known account to the realm
++        String username = "user";
++        String password = "secret";
++        realm.addAccount(username, password);
++        // Act: retrieve authentication info using a token
++        org.jsecurity.authc.UsernamePasswordToken token = new org.jsecurity.authc.UsernamePasswordToken(username, password);
++        org.jsecurity.authc.AuthenticationInfo info = realm.getAuthenticationInfo(token);
++        // Assert: authentication info should be present and contain the correct principal
++        assertNotNull(info);
++        assertEquals(username, info.getPrincipals().getPrimaryPrincipal());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      CredentialsMatcher credentialsMatcher0 = simpleAccountRealm0.getCredentialsMatcher();
+-      assertNotNull(credentialsMatcher0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

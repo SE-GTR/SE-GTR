@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/yahoo/platform/yui/compressor/JavaScriptCompressor_ESTest.java
++++ b/evosuite-tests/com/yahoo/platform/yui/compressor/JavaScriptCompressor_ESTest.java
+@@ -33,17 +33,18 @@
+         assertTrue(stringWriter0.toString().endsWith(";"));
+         assertEquals(1, afterLength - beforeLength);
+     }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        ToolErrorReporter toolErrorReporter0 = new ToolErrorReporter(false);
++        StringReader stringReader0 = new StringReader("t0\u007f&KC_");
++        StringWriter stringWriter0 = new StringWriter();
++        JavaScriptCompressor javaScriptCompressor0 = new JavaScriptCompressor(stringReader0, toolErrorReporter0);
++        javaScriptCompressor0.compress(stringWriter0, -1, false, false, false, false);
++        String result = stringWriter0.toString();
++        assertTrue("Result should start with the original input", result.startsWith("t0\u007f&KC_"));
++        assertTrue("Result should end with a semicolon", result.endsWith(";"));
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ToolErrorReporter toolErrorReporter0 = new ToolErrorReporter(false);
+-      StringReader stringReader0 = new StringReader("t0&KC_");
+-      StringWriter stringWriter0 = new StringWriter();
+-      JavaScriptCompressor javaScriptCompressor0 = new JavaScriptCompressor(stringReader0, toolErrorReporter0);
+-      javaScriptCompressor0.compress(stringWriter0, (-1), false, false, false, false);
+-      assertEquals("t0&KC_;", stringWriter0.toString());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

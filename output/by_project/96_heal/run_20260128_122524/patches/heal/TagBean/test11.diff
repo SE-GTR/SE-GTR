@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/heal/servlet/tagcloud/TagBean_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/tagcloud/TagBean_ESTest.java
+@@ -130,14 +130,22 @@
+     assertEquals(5, tagBean0.getTagCount());
+     assertTrue(initialCount != tagBean0.getTagCount());
+ }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    TagBean tagBean0 = new TagBean();
++    // initial state verification
++    assertNull(tagBean0.getMetadataId());
+ 
++    // side‑effect verification for setTag(null)
++    tagBean0.setTag(null);
++    assertNull(tagBean0.getTag());
+ 
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      TagBean tagBean0 = new TagBean();
+-      tagBean0.setTag((String) null);
+-      assertNull(tagBean0.getMetadataId());
+-  }
++    // additional non‑trivial interaction
++    String expectedTag = "health";
++    tagBean0.setTag(expectedTag);
++    assertEquals(expectedTag, tagBean0.getTag());
++}
++
+ @Test(timeout = 4000)
+   public void test12() throws Throwable {
+       TagBean tagBean0 = new TagBean();

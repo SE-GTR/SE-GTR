@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ViewColumnBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ViewColumnBean_ESTest.java
+@@ -28,13 +28,21 @@
+       String string0 = viewColumnBean0.getName();
+       assertEquals("", string0);
+   }
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
++      ViewColumnBean bean = new ViewColumnBean();
++      bean.setTableName("tbl");
++      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++      oos.writeObject(bean);
++      oos.flush();
++      byte[] data = baos.toByteArray();
++      java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(data);
++      java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++      ViewColumnBean deserialized = (ViewColumnBean) ois.readObject();
++      assertEquals("tbl", deserialized.getTableName());
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      ViewColumnBean viewColumnBean0 = new ViewColumnBean();
+-      viewColumnBean0.setTableName("");
+-      assertEquals("", viewColumnBean0.getTableName());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

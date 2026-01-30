@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/heal/util/FileLocator_ESTest.java
++++ b/evosuite-tests/org/heal/util/FileLocator_ESTest.java
+@@ -449,20 +449,24 @@
+     assertNull(url);
+     assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test37()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      fileLocator0.setServerBaseURL("");
+-      String string0 = fileLocator0.getFilePathFromURL("");
+-      assertEquals("package", fileLocator0.getPackageDirectory());
+-      assertEquals("upload", fileLocator0.getUploadDirectory());
+-      assertEquals("null/", string0);
+-      assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
+-      assertEquals("content", fileLocator0.getContentDirectory());
+-      assertEquals(536870912L, fileLocator0.getMaxUploadSize());
+-  }
++@Test(timeout = 4000)
++    public void test37() throws Throwable {
++        FileLocator fileLocator0 = new FileLocator();
++        String baseURL = "http://example.com/";
++        fileLocator0.setServerBaseURL(baseURL);
++        String url = baseURL + "resource/file.txt";
++        String filePath = fileLocator0.getFilePathFromURL(url);
++        // Verify side‑effect of setServerBaseURL via observable behavior
++        assertNotNull(filePath);
++        assertTrue(!filePath.contains(baseURL));
++        // Existing default‑directory assertions
++        assertEquals("package", fileLocator0.getPackageDirectory());
++        assertEquals("upload", fileLocator0.getUploadDirectory());
++        assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
++        assertEquals("content", fileLocator0.getContentDirectory());
++        assertEquals(536870912L, fileLocator0.getMaxUploadSize());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test38()  throws Throwable  {

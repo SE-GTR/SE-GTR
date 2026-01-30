@@ -1,0 +1,36 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -447,24 +447,15 @@
+       assertFalse(config0.hasOrphans());
+       assertFalse(config0.hasRoutines());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test032()  throws Throwable  {
+-      Config config0 = new Config();
+-      config0.setSingleSignOn(true);
+-      config0.getTableExclusions();
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-o' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = RuntimeException.class)
++    public void test032() throws Throwable {
++        Config config0 = new Config();
++        config0.setSingleSignOn(true);
++        java.util.regex.Pattern tableExclusions = config0.getTableExclusions();
++        assertNull(tableExclusions);
++        config0.asList();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test033()  throws Throwable  {

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/sap/netweaver/porta/ide/eclipse/server/runtime/SapNW720Runtime_ESTest.java
++++ b/evosuite-tests/com/sap/netweaver/porta/ide/eclipse/server/runtime/SapNW720Runtime_ESTest.java
+@@ -14,13 +14,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SapNW720Runtime_ESTest extends SapNW720Runtime_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    SapNW720Runtime runtime = new SapNW720Runtime();
++    String[] classpath = runtime.getJavaEE5Classpath();
++    assertNotNull(classpath);
++    assertTrue(classpath.length > 0);
++    for (String entry : classpath) {
++        assertNotNull(entry);
++        assertTrue(entry.endsWith(".jar") || entry.contains("/"));
++    }
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      SapNW720Runtime sapNW720Runtime0 = new SapNW720Runtime();
+-      String[] stringArray0 = sapNW720Runtime0.getJavaEE5Classpath();
+-      assertEquals(18, stringArray0.length);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,45 @@
+--- a/evosuite-tests/macaw/persistenceLayer/production/SQLUtilities_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/production/SQLUtilities_ESTest.java
+@@ -27,9 +27,8 @@
+   public void test0()  throws Throwable  {
+       SQLUtilities.closeStatementsWithCatch((Statement) null, (ResultSet) null);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
+       Field[] fieldArray0 = new Field[4];
+       ArrayList<Integer> arrayList0 = new ArrayList<Integer>();
+       RowDataStatic rowDataStatic0 = new RowDataStatic(arrayList0);
+@@ -49,11 +48,30 @@
+       doReturn(false).when(connection0).getUseFastDateParsing();
+       doReturn(false).when(connection0).getUseUnicode();
+       doReturn(false, false).when(connection0).getUseUsageAdvisor();
++
++      // Assert the stubbed return values to avoid NARV
++      assertFalse(connection0.isClosed());
++      assertFalse(connection0.getAutoGenerateTestcaseScript());
++      assertFalse(connection0.getContinueBatchOnError());
++      assertEquals(0, connection0.getDefaultFetchSize());
++      assertFalse(connection0.getDontTrackOpenResources());
++      assertFalse(connection0.getGatherPerformanceMetrics());
++      assertEquals(0, connection0.getMaxRows());
++      assertFalse(connection0.getPadCharsWithSpace());
++      assertFalse(connection0.getPedantic());
++      assertFalse(connection0.getProfileSql());
++      assertFalse(connection0.getRetainStatementAfterResultSetClose());
++      assertFalse(connection0.getStrictFloatingPoint());
++      assertFalse(connection0.getUseFastDateParsing());
++      assertFalse(connection0.getUseUnicode());
++      assertFalse(connection0.getUseUsageAdvisor());
++
+       com.mysql.jdbc.Statement statement0 = new com.mysql.jdbc.Statement(connection0, "?Lv.(U/zbJyXq");
+       com.mysql.jdbc.ResultSet resultSet0 = new com.mysql.jdbc.ResultSet((String) null, fieldArray0, rowDataStatic0, connection0, statement0);
+       SQLUtilities.closeStatementsWithCatch(statement0, resultSet0);
+       assertEquals(1007, resultSet0.getConcurrency());
+   }
++
+ @Test(timeout = 4000)
+   public void test2() throws Throwable {
+       SQLUtilities sQLUtilities0 = new SQLUtilities();

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DefaultDBTable_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DefaultDBTable_ESTest.java
+@@ -329,25 +329,16 @@
+       defaultDBTable0.addCheckConstraint(dBCheckConstraint0);
+       assertEquals("table", defaultDBTable0.getObjectType());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable();
+-      String[] stringArray0 = new String[6];
+-      DBUniqueConstraint dBUniqueConstraint0 = new DBUniqueConstraint(defaultDBTable0, "+G^A@*eMKBr)'JY?\"iX", true, stringArray0);
+-      defaultDBTable0.removeUniqueConstraint(dBUniqueConstraint0);
+-      // Undeclared exception!
+-      try { 
+-        defaultDBTable0.getUniqueConstraint("");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.model.DefaultDBTable", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        DefaultDBTable table = new DefaultDBTable();
++        String[] columns = new String[0];
++        DBUniqueConstraint constraint = new DBUniqueConstraint(table, "myConstraint", true, columns);
++        DBUniqueConstraint retrieved = table.getUniqueConstraint("myConstraint");
++        assertNotNull(retrieved);
++        assertSame(constraint, retrieved);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

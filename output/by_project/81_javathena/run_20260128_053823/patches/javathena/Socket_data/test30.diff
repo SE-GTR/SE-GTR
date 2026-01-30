@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/javathena/core/data/Socket_data_ESTest.java
++++ b/evosuite-tests/org/javathena/core/data/Socket_data_ESTest.java
+@@ -327,15 +327,18 @@
+     Socket socket0 = socket_data0.getClient_addr();
+     assertSame(mockSocket0, socket0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      MockSocket mockSocket0 = new MockSocket();
+-      Socket_data socket_data0 = new Socket_data(mockSocket0);
+-      socket_data0.setListenPort(0);
+-      assertEquals(0, socket_data0.getListenPort());
+-  }
++@Test(timeout = 4000)
++    public void test30() throws Throwable {
++        MockSocket mockSocket0 = new MockSocket();
++        Socket_data socket_data0 = new Socket_data(mockSocket0);
++        int defaultPort = socket_data0.getListenPort();
++        socket_data0.setListenPort(0);
++        assertEquals(0, socket_data0.getListenPort());
++        socket_data0.setListenPort(8080);
++        assertEquals(8080, socket_data0.getListenPort());
++        assertNotEquals(defaultPort, socket_data0.getListenPort());
++    }
++
+ @Test(timeout = 4000)
+ public void test31() throws Throwable {
+     MockSocket mockSocket0 = new MockSocket();

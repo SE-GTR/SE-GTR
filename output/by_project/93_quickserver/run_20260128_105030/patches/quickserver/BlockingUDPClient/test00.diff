@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingUDPClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingUDPClient_ESTest.java
+@@ -28,24 +28,23 @@
+     evoSuiteLocalAddress0 = new EvoSuiteLocalAddress("192.168.1.42", 40000);
+     evoSuiteRemoteAddress0 = new EvoSuiteRemoteAddress("200.42.42.0", 1309);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      byte[] byteArray0 = new byte[0];
+-      NetworkHandling.sendUdpPacket(evoSuiteLocalAddress0, evoSuiteRemoteAddress0, byteArray0);
+-      BlockingUDPClient blockingUDPClient0 = new BlockingUDPClient();
+-      try { 
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    byte[] byteArray0 = new byte[0];
++    boolean sent = NetworkHandling.sendUdpPacket(evoSuiteLocalAddress0, evoSuiteRemoteAddress0, byteArray0);
++    assertTrue("UDP packet should be sent successfully", sent);
++    BlockingUDPClient blockingUDPClient0 = new BlockingUDPClient();
++    try {
+         blockingUDPClient0.sendAndReceiveObject("9CJ%UHH'", 951, evoSuiteRemoteAddress0);
+         fail("Expecting exception: EOFException");
+-      
+-      } catch(EOFException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.io.ObjectInputStream$PeekInputStream", e);
+-      }
+-  }
++    } catch (EOFException e) {
++        //
++        // no message in exception (getMessage() returned null)
++        //
++        verifyException("java.io.ObjectInputStream$PeekInputStream", e);
++    }
++}
++
+ @Test(expected = IOException.class, timeout = 4000)
+     public void test01() throws Throwable {
+         BlockingUDPClient blockingUDPClient0 = new BlockingUDPClient();

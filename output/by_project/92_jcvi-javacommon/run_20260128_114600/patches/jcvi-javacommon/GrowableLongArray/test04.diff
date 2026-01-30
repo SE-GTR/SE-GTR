@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/core/util/GrowableLongArray_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/core/util/GrowableLongArray_ESTest.java
+@@ -59,14 +59,21 @@
+          verifyException("org.jcvi.jillion.internal.core.util.GrowableLongArray", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      GrowableLongArray growableLongArray0 = new GrowableLongArray(6);
+-      Range range0 = Range.ofLength(0L);
+-      growableLongArray0.remove(range0);
+-      assertEquals(0, growableLongArray0.getCurrentLength());
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        GrowableLongArray growableLongArray0 = new GrowableLongArray(6);
++        // Populate the array with two elements
++        growableLongArray0.add(10L);
++        growableLongArray0.add(20L);
++        int lengthBefore = growableLongArray0.getCurrentLength();
++        // Remove a range covering the first element
++        Range range0 = Range.ofLength(1L);
++        growableLongArray0.remove(range0);
++        int lengthAfter = growableLongArray0.getCurrentLength();
++        // Verify that the length decreased by one
++        assertEquals(lengthBefore - 1, lengthAfter);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

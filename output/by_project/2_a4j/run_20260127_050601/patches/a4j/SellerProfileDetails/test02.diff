@@ -1,0 +1,36 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/SellerProfileDetails_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/SellerProfileDetails_ESTest.java
+@@ -28,13 +28,28 @@
+       String string0 = sellerProfileDetails0.toString();
+       assertEquals("NickName = null\nOverallRating = null\n# of feedbacks = null\n# of Canceled Auctions = null\nStoreId = null\nStoreName = null\nFeedBack = \nfeedbacks is null \n", string0);
+   }
++@Test(timeout = 4000)
++  public void test02() throws Throwable {
++      SellerProfileDetails sellerProfileDetails0 = new SellerProfileDetails();
++      sellerProfileDetails0.setStoreName("TestStore");
++      assertEquals("TestStore", sellerProfileDetails0.getStoreName());
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      SellerProfileDetails sellerProfileDetails0 = new SellerProfileDetails();
+-      String string0 = sellerProfileDetails0.getStoreName();
+-      assertNull(string0);
++      // Serialize the object
++      java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++      java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++      oos.writeObject(sellerProfileDetails0);
++      oos.close();
++
++      // Deserialize the object
++      java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++      java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++      SellerProfileDetails deserialized = (SellerProfileDetails) ois.readObject();
++      ois.close();
++
++      // Verify that the state is preserved after serialization
++      assertEquals("TestStore", deserialized.getStoreName());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

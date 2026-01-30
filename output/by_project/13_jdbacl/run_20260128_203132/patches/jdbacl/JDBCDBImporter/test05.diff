@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
+@@ -74,25 +74,21 @@
+       assertFalse(jDBCDBImporter0.isImportingPackages());
+       assertTrue(jDBCDBImporter0.isImportingIndexes());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter("org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact");
+-      DBCatalog dBCatalog0 = new DBCatalog();
+-      DBSchema dBSchema0 = new DBSchema((String) null, dBCatalog0);
+-      DBSchema dBSchema1 = new DBSchema("org.apache.derby.iapi.store.access.GlobalXact", dBCatalog0);
+-      // Undeclared exception!
+-      try { 
+-        jDBCDBImporter0.importTable(dBCatalog0, dBSchema0, (String) null, "sn|XTX}]$RET");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.model.jdbc.JDBCDBImporter", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class, timeout = 4000)
++public void test05() throws Throwable {
++    JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter(
++            "org.apache.derby.iapi.store.access.GlobalXact",
++            "org.apache.derby.iapi.store.access.GlobalXact",
++            "org.apache.derby.iapi.store.access.GlobalXact",
++            "org.apache.derby.iapi.store.access.GlobalXact",
++            "org.apache.derby.iapi.store.access.GlobalXact",
++            "org.apache.derby.iapi.store.access.GlobalXact");
++    DBCatalog dBCatalog0 = new DBCatalog();
++    DBSchema dBSchema0 = new DBSchema("schema", dBCatalog0);
++    // Expect NullPointerException because tableName is null
++    jDBCDBImporter0.importTable(dBCatalog0, dBSchema0, null, "sn|XTX}]$RET");
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

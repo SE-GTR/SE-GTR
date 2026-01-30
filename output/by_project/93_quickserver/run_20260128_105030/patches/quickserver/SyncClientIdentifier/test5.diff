@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/SyncClientIdentifier_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/SyncClientIdentifier_ESTest.java
+@@ -93,16 +93,18 @@
+         syncClientIdentifier0.clientHandlerPool = (QSObjectPool) makeQSObjectPool0;
+         syncClientIdentifier0.findAllClientById("");
+     }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    SyncClientIdentifier syncClientIdentifier0 = new SyncClientIdentifier();
++    BasicObjectPool basicObjectPool0 = new BasicObjectPool();
++    // Verify that the client handler pool is set correctly
++    syncClientIdentifier0.setClientHandlerPool(basicObjectPool0);
++    assertSame("clientHandlerPool should be set to the provided pool",
++               basicObjectPool0, syncClientIdentifier0.getClientHandlerPool());
++    Iterator iterator0 = syncClientIdentifier0.findAllClientById("");
++    assertNotNull(iterator0);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      SyncClientIdentifier syncClientIdentifier0 = new SyncClientIdentifier();
+-      BasicObjectPool basicObjectPool0 = new BasicObjectPool();
+-      syncClientIdentifier0.setClientHandlerPool(basicObjectPool0);
+-      Iterator iterator0 = syncClientIdentifier0.findAllClientById("");
+-      assertNotNull(iterator0);
+-  }
+ @Test(timeout = 4000, expected = ClassCastException.class)
+ public void test6() throws Throwable {
+     SyncClientIdentifier syncClientIdentifier0 = new SyncClientIdentifier();

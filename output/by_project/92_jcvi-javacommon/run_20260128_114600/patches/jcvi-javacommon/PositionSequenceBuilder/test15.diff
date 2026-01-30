@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/pos/PositionSequenceBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/pos/PositionSequenceBuilder_ESTest.java
+@@ -189,22 +189,16 @@
+       PositionSequenceBuilder positionSequenceBuilder1 = positionSequenceBuilder0.prepend(positionSequenceBuilder0);
+       assertSame(positionSequenceBuilder0, positionSequenceBuilder1);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      PositionSequenceBuilder positionSequenceBuilder0 = new PositionSequenceBuilder();
+-      // Undeclared exception!
+-      try { 
+-        positionSequenceBuilder0.delete((Range) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.internal.core.util.GrowableShortArray", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        PositionSequenceBuilder builder = new PositionSequenceBuilder();
++        // use a valid non‑null range; the exact values are not important for an empty builder
++        Range range = Range.of(0, 0);
++        PositionSequenceBuilder result = builder.delete(range);
++        // the delete method should return the same builder instance for fluent usage
++        assertSame(builder, result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

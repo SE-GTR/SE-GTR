@@ -1,0 +1,41 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -160,20 +160,24 @@
+         assertEquals(1, list0.size());
+         assertTrue(list0.contains(passEvent0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Defender defender0 = new Defender(2146454173, 2146454173);
+-      PassEvent passEvent0 = new PassEvent(defender0, (-500), 2146454173);
+-      handballModel0.addMoveEvent(passEvent0);
+-      assertEquals(1, Defender.counter);
+-      
+-      List<MoveEvent> list0 = handballModel0.getActualMoveEvents();
+-      assertEquals(0, handballModel0.getAcutalSequenceNr());
+-      assertTrue(list0.isEmpty());
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    HandballModel handballModel0 = new HandballModel();
++    Defender defender0 = new Defender(2146454173, 2146454173);
++    PassEvent passEvent0 = new PassEvent(defender0, -500, 2146454173);
++
++    List<MoveEvent> beforeList = handballModel0.getActualMoveEvents();
++    int beforeSize = beforeList.size();
++
++    handballModel0.addMoveEvent(passEvent0);
++
++    List<MoveEvent> afterList = handballModel0.getActualMoveEvents();
++    assertEquals(beforeSize + 1, afterList.size());
++    assertTrue(afterList.contains(passEvent0));
++
++    assertEquals(0, handballModel0.getAcutalSequenceNr());
++}
++
+ @Test(timeout = 4000)
+ public void test11() throws Throwable {
+     HandballModel handballModel0 = new HandballModel();

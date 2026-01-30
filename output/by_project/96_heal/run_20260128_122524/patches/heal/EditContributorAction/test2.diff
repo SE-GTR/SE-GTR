@@ -1,0 +1,48 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/EditContributorAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/EditContributorAction_ESTest.java
+@@ -77,27 +77,25 @@
+          verifyException("org.heal.servlet.cataloger.EditContributorAction", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    doReturn((Object) null).when(httpSession0).getAttribute(anyString());
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn((String) null).when(httpServletRequest0).getParameter(anyString());
++    doReturn(httpSession0).when(httpServletRequest0).getSession();
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(httpServletRequest0).getParameter(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      // Undeclared exception!
+-      try { 
+-        editContributorAction0.perform(servlet0, httpServletRequestWrapper0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.cataloger.EditContributorAction", e);
+-      }
+-  }
++    // Execute method under test with a non‑null response
++    editContributorAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponse0);
++
++    // Verify that expected interactions occurred
++    verify(httpServletRequest0).getSession();
++    verify(httpSession0).getAttribute(anyString());
++    verify(httpServletRequest0).getParameter(anyString());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
+@@ -276,23 +276,20 @@
+       DBCheckConstraint[] dBCheckConstraintArray0 = oracleDialect0.queryCheckConstraints(jdbcConnection0, "45fTLII+d]@3LGH<k");
+       assertEquals(0, dBCheckConstraintArray0.length);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      jdbcConnection jdbcConnection0 = new jdbcConnection((Session) null);
+-      // Undeclared exception!
+-      try { 
+-        oracleDialect0.queryCheckConstraints(jdbcConnection0, (String) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.hsqldb.jdbc.jdbcStatement", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        // Ensure the HSQLDB driver is loaded
++        Class.forName("org.hsqldb.jdbc.JDBCDriver");
++        java.sql.Connection connection = java.sql.DriverManager.getConnection("jdbc:hsqldb:mem:testdb", "SA", "");
++        try {
++            OracleDialect oracleDialect0 = new OracleDialect();
++            org.databene.jdbacl.model.DBCheckConstraint[] constraints = oracleDialect0.queryCheckConstraints(connection, "PUBLIC");
++            assertNotNull(constraints);
++        } finally {
++            connection.close();
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

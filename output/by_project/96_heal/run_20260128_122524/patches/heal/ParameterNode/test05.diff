@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/heal/module/search/ParameterNode_ESTest.java
++++ b/evosuite-tests/org/heal/module/search/ParameterNode_ESTest.java
+@@ -52,16 +52,27 @@
+     parameterNode0.setExact(true);
+     assertTrue(parameterNode0.getExact());
+ }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        ParameterNode parameterNode0 = new ParameterNode("", "");
++        assertFalse(parameterNode0.getExact());
+ 
++        parameterNode0.setExact(true);
++        assertTrue(parameterNode0.getExact());
+ 
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      ParameterNode parameterNode0 = new ParameterNode("", "");
+-      assertFalse(parameterNode0.getExact());
+-      
+-      parameterNode0.setExact(true);
+-      assertTrue(parameterNode0.getExact());
+-  }
++        // Verify that the state is preserved through serialization/deserialization
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(parameterNode0);
++        oos.flush();
++        byte[] serialized = baos.toByteArray();
++
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(serialized));
++        ParameterNode deserialized = (ParameterNode) ois.readObject();
++
++        assertTrue(deserialized.getExact());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

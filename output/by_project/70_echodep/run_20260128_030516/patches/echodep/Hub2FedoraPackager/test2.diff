@@ -1,0 +1,49 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Hub2FedoraPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Hub2FedoraPackager_ESTest.java
+@@ -92,21 +92,30 @@
+          verifyException("edu.uiuc.ndiipp.hubandspoke.packager.FromHubPackager", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        // Prepare a mock master profile that returns a mock METS profile
++        HaSMasterMETSProfile haSMasterMETSProfile0 = mock(HaSMasterMETSProfile.class,
++                new ViolatedAssumptionAnswer());
++        HaSMETSProfile haSMETSProfile0 = mock(HaSMETSProfile.class,
++                new ViolatedAssumptionAnswer());
++        doReturn(haSMETSProfile0).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      HaSMasterMETSProfile haSMasterMETSProfile0 = mock(HaSMasterMETSProfile.class, new ViolatedAssumptionAnswer());
+-      doReturn(haSMETSProfile0, (HaSMETSProfile) null).when(haSMasterMETSProfile0).getMostRecentEchoDepMETS();
+-      // Undeclared exception!
+-      try { 
+-        hub2FedoraPackager0.createRepositoryPackage(haSMasterMETSProfile0, (String) null, "");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("edu.uiuc.ndiipp.hubandspoke.packager.FromHubPackager", e);
+-      }
+-  }
++        // Use a real temporary directory instead of a null argument
++        java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("repoTest");
++        try {
++            File result = hub2FedoraPackager0.createRepositoryPackage(
++                    haSMasterMETSProfile0,
++                    tempDir.toString(),
++                    "testId");
++            org.junit.Assert.assertNotNull("Resulting file should not be null", result);
++        } finally {
++            // Clean up the temporary directory and any files it may contain
++            java.nio.file.Files.walk(tempDir)
++                    .sorted(java.util.Comparator.reverseOrder())
++                    .map(java.nio.file.Path::toFile)
++                    .forEach(java.io.File::delete);
++        }
++    }
++
+ }

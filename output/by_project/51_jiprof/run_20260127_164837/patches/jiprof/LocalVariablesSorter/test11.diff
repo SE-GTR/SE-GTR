@@ -1,0 +1,45 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/LocalVariablesSorter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/LocalVariablesSorter_ESTest.java
+@@ -145,24 +145,24 @@
+     verify(methodVisitor0).visitVarInsn(anyInt(), anyInt());
+     verify(methodVisitor0).visitFrame(anyInt(), anyInt(), any(Object[].class), anyInt(), any(Object[].class));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-    methodVisitor0 = mock(MethodVisitor.class, new ViolatedAssumptionAnswer());
+-    methodAdapter0 = new MethodAdapter(methodVisitor0);
+-      LocalVariablesSorter localVariablesSorter0 = new LocalVariablesSorter(49, "K)]*8-%hk,p_XHi7;f", methodAdapter0);
+-      Class<Object> class0 = Object.class;
+-      Type type0 = Type.getType(class0);
+-      localVariablesSorter0.newLocal(type0);
+-      LocalVariablesSorter localVariablesSorter1 = new LocalVariablesSorter(49, "K)]*8-%hk,p_XHi7;f", localVariablesSorter0);
+-      localVariablesSorter1.visitVarInsn((-3), 23);
+-      Object[] objectArray0 = new Object[4];
+-      Type type1 = Type.LONG_TYPE;
+-      localVariablesSorter1.newLocal(type1);
+-      localVariablesSorter1.visitFrame((-1), (-1), objectArray0, 49, objectArray0);
+-      assertNotSame(localVariablesSorter1, localVariablesSorter0);
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        methodVisitor0 = mock(MethodVisitor.class);
++        methodAdapter0 = new MethodAdapter(methodVisitor0);
++        LocalVariablesSorter localVariablesSorter0 = new LocalVariablesSorter(49, "K)]*8-%hk,p_XHi7;f", methodAdapter0);
++        Type type0 = Type.getType(Object.class);
++        int idx0 = localVariablesSorter0.newLocal(type0);
++        LocalVariablesSorter localVariablesSorter1 = new LocalVariablesSorter(49, "K)]*8-%hk,p_XHi7;f", localVariablesSorter0);
++        localVariablesSorter1.visitVarInsn(-3, 23);
++        Object[] objectArray0 = new Object[4];
++        Type type1 = Type.LONG_TYPE;
++        int idx1 = localVariablesSorter1.newLocal(type1);
++        localVariablesSorter1.visitFrame(-1, -1, objectArray0, 49, objectArray0);
++        assertNotEquals(idx0, idx1);
++        verify(methodVisitor0).visitVarInsn(anyInt(), anyInt());
++        verify(methodVisitor0).visitFrame(anyInt(), anyInt(), any(Object[].class), anyInt(), any(Object[].class));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

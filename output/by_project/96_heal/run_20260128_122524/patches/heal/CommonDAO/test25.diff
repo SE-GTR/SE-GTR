@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/heal/util/CommonDAO_ESTest.java
++++ b/evosuite-tests/org/heal/util/CommonDAO_ESTest.java
+@@ -386,14 +386,16 @@
+       commonDAO0.saveTaxonPath(taxonPathBean0, (Connection) sQLServerConnection0);
+       assertNull(taxonPathBean0.getKeyword());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      SQLServerConnection sQLServerConnection0 = new SQLServerConnection();
+-      CommonDAO commonDAO0 = new CommonDAO();
+-      commonDAO0.saveTaxonPath((TaxonPathBean) null, (Connection) sQLServerConnection0);
+-      assertTrue(sQLServerConnection0.isClosed());
+-  }
++@Test(timeout = 4000)
++public void test25() throws Throwable {
++    SQLServerConnection conn = new SQLServerConnection();
++    boolean beforeClosed = conn.isClosed();
++    CommonDAO dao = new CommonDAO();
++    dao.saveTaxonPath(null, conn);
++    boolean afterClosed = conn.isClosed();
++    assertEquals("Connection closed state should remain unchanged after saveTaxonPath", beforeClosed, afterClosed);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

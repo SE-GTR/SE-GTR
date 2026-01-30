@@ -1,0 +1,21 @@
+--- a/evosuite-tests/org/jsecurity/session/ProxiedSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/ProxiedSession_ESTest.java
+@@ -143,12 +143,13 @@
+       Object object1 = proxiedSession0.getAttribute(object0);
+       assertNull(object1);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test12() throws Throwable {
+     session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+     proxiedSession0 = new ProxiedSession(session0);
+-      proxiedSession0.touch();
+-      assertEquals(0L, proxiedSession0.getTimeout());
++    proxiedSession0.touch();
++    // Verify that ProxiedSession correctly delegates the touch call to the underlying session
++    Mockito.verify(session0).touch();
+   }
++
+ }

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/map/DirtyNode_ESTest.java
++++ b/evosuite-tests/map/DirtyNode_ESTest.java
+@@ -311,16 +311,21 @@
+     assertEquals((-1L), dirtyNode0.bits);
+     assertNull(dirtyNode0.parent);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-    dirtyNode0 = new DirtyNode((-1L));
+-      assertEquals(0.0F, dirtyNode0.y, 0.01F);
+-      
+-      dirtyNode0.setY((-1L));
+-      assertEquals((-1.0F), dirtyNode0.y, 0.01F);
+-  }
++@Test(timeout = 4000)
++public void test30() throws Throwable {
++    dirtyNode0 = new DirtyNode((-1L));
++    // Verify initial state via accessor
++    assertEquals(0.0F, dirtyNode0.getY(), 0.01F);
++    // Modify state using the setter and observe through the getter
++    dirtyNode0.setY((-1L));
++    assertEquals(-1.0F, dirtyNode0.getY(), 0.01F);
++    // Additional state change to ensure side‑effect is observed
++    float previous = dirtyNode0.getY();
++    dirtyNode0.setY(5L);
++    assertEquals(5.0F, dirtyNode0.getY(), 0.01F);
++    assertNotEquals(previous, dirtyNode0.getY());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

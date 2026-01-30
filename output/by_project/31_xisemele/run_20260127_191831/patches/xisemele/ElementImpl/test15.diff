@@ -1,0 +1,146 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/ElementImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/ElementImpl_ESTest.java
+@@ -205,78 +205,76 @@
+         assertNotNull(elementImpl0);
+         assertTrue(childCount >= 0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
++        FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
++        // Create a minimal DOM node with an attribute
++        javax.xml.parsers.DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
++        javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
++        org.w3c.dom.Document doc = db.newDocument();
++        org.w3c.dom.Element domElement = doc.createElement("test");
++        domElement.setAttribute("attr", "value");
++        ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, domElement);
++        // Verify that the existing attribute is detected
++        assertTrue(elementImpl0.containsAttribute("attr"));
++        // Verify that a non‑existing attribute returns false
++        assertFalse(elementImpl0.containsAttribute("missing"));
++    }
++
++
++  @Test(timeout = 4000)
++  public void test16()  throws Throwable  {
++      FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
++      FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
++      IIOMetadataNode iIOMetadataNode0 = new IIOMetadataNode();
++      ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, iIOMetadataNode0);
++      ValueList valueList0 = elementImpl0.childrenValue("");
++      assertNotNull(valueList0);
++  }
++
++  @Test(timeout = 4000)
++  public void test17()  throws Throwable  {
++      FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
++      FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
++      IIOMetadataNode iIOMetadataNode0 = new IIOMetadataNode();
++      ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, iIOMetadataNode0);
++      // Undeclared exception!
++      try { 
++        elementImpl0.path();
++        fail("Expecting exception: NullPointerException");
++      
++      } catch(NullPointerException e) {
++      }
++  }
++@Test(timeout = 4000)
++public void test18() throws Throwable {
++    FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
++    FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
++    IIOMetadataNode iIOMetadataNode0 = new IIOMetadataNode();
++    ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, iIOMetadataNode0);
++    int count = elementImpl0.numberOfChildren("3G?E=PgiKgzj#$");
++    assertTrue("Number of children should be non-negative", count >= 0);
++}
++
++
++  @Test(timeout = 4000)
++  public void test19()  throws Throwable  {
++      IIOMetadataNode iIOMetadataNode0 = new IIOMetadataNode();
++      FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
++      FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
++      ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, iIOMetadataNode0);
++      List<Element> list0 = elementImpl0.children();
++      assertEquals(0, list0.size());
++  }
++
++  @Test(timeout = 4000)
++  public void test20()  throws Throwable  {
+       FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
+       FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+       ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, (Node) null);
+       // Undeclared exception!
+       try { 
+-        elementImpl0.containsAttribute((String) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.xisemele.impl.OperationsImpl", e);
+-      }
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
+-      FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+-      IIOMetadataNode iIOMetadataNode0 = new IIOMetadataNode();
+-      ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, iIOMetadataNode0);
+-      ValueList valueList0 = elementImpl0.childrenValue("");
+-      assertNotNull(valueList0);
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
+-      FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+-      IIOMetadataNode iIOMetadataNode0 = new IIOMetadataNode();
+-      ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, iIOMetadataNode0);
+-      // Undeclared exception!
+-      try { 
+-        elementImpl0.path();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-      }
+-  }
+-@Test(timeout = 4000)
+-public void test18() throws Throwable {
+-    FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
+-    FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+-    IIOMetadataNode iIOMetadataNode0 = new IIOMetadataNode();
+-    ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, iIOMetadataNode0);
+-    int count = elementImpl0.numberOfChildren("3G?E=PgiKgzj#$");
+-    assertTrue("Number of children should be non-negative", count >= 0);
+-}
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      IIOMetadataNode iIOMetadataNode0 = new IIOMetadataNode();
+-      FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
+-      FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+-      ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, iIOMetadataNode0);
+-      List<Element> list0 = elementImpl0.children();
+-      assertEquals(0, list0.size());
+-  }
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      FormatterProviderImpl formatterProviderImpl0 = new FormatterProviderImpl();
+-      FactoryImpl factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+-      ElementImpl elementImpl0 = new ElementImpl(factoryImpl0, (Node) null);
+-      // Undeclared exception!
+-      try { 
+         elementImpl0.containsChildren();
+         fail("Expecting exception: NullPointerException");
+       

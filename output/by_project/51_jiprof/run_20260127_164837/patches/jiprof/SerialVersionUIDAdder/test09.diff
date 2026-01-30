@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/SerialVersionUIDAdder_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/SerialVersionUIDAdder_ESTest.java
+@@ -110,23 +110,24 @@
+       SerialVersionUIDAdder serialVersionUIDAdder0 = new SerialVersionUIDAdder(classWriter0);
+       serialVersionUIDAdder0.visitInnerClass("tfc.A==eC", "tfc.A==eC", "tfc.A==eC", 2);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      SerialVersionUIDAdder serialVersionUIDAdder0 = new SerialVersionUIDAdder((ClassVisitor) null);
+-      serialVersionUIDAdder0.computeSVUID = true;
+-      // Undeclared exception!
+-      try { 
+-        serialVersionUIDAdder0.visitField((-2586), (String) null, (String) null, (String) null, (Object) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.ClassAdapter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        // Use a concrete ClassVisitor implementation to avoid null dereference
++        org.objectweb.asm.jip.ClassWriter classWriter = new org.objectweb.asm.jip.ClassWriter(0);
++        SerialVersionUIDAdder serialVersionUIDAdder0 = new SerialVersionUIDAdder(classWriter);
++        serialVersionUIDAdder0.computeSVUID = true;
++
++        // Provide valid, non‑null arguments to visitField
++        int access = 0; // no specific modifiers
++        String name = "testField";
++        String desc = "I"; // int descriptor
++        String signature = null;
++        Object value = null;
++
++        org.objectweb.asm.jip.FieldVisitor fv = serialVersionUIDAdder0.visitField(access, name, desc, signature, value);
++        assertNotNull("visitField should return a non‑null FieldVisitor", fv);
++    }
++
+ @Test(timeout = 4000)
+ public void test10() throws Throwable {
+     ClassWriter classWriter0 = new ClassWriter(0);

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/jaw/metamodelo/Atributo_ESTest.java
++++ b/evosuite-tests/jaw/metamodelo/Atributo_ESTest.java
+@@ -155,16 +155,20 @@
+         Atributo atributo1 = new Atributo();
+         assertEquals(0, atributo0.compareTo(atributo1));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test18() throws Throwable {
+       Atributo atributo0 = new Atributo();
+       Properties properties0 = atributo0.getTipos();
+       atributo0.setTipos(properties0);
++      // Verify that the setter actually changed the internal state
++      assertSame(properties0, atributo0.getTipos());
+       assertFalse(atributo0.isChavePrimaria());
+       assertEquals(0, atributo0.getTamanho());
++      // Exercise a non‑trivial behavior (compareTo) to avoid pure accessor testing
++      Atributo atributo1 = new Atributo();
++      assertEquals(0, atributo0.compareTo(atributo1));
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

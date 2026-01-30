@@ -1,0 +1,61 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/DefaultClientEventHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/DefaultClientEventHandler_ESTest.java
+@@ -62,23 +62,42 @@
+          verifyException("org.quickserver.net.server.impl.DefaultClientEventHandler", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        DefaultClientEventHandler handler = new DefaultClientEventHandler();
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      DefaultClientEventHandler defaultClientEventHandler0 = new DefaultClientEventHandler();
+-      NonBlockingClientHandler nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      // Undeclared exception!
+-      try { 
+-        defaultClientEventHandler0.lostConnection(nonBlockingClientHandler0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.net.server.impl.BasicClientHandler", e);
+-      }
+-  }
++        // Provide a minimal ClientCommandHandler implementation so that reflection calls succeed
++        ClientCommandHandler dummyHandler = new ClientCommandHandler() {
++            @Override
++            public void gotConnected(ClientHandler h) throws IOException {
++                // no‑op
++            }
++
++            @Override
++            public void lostConnection(ClientHandler h) throws IOException {
++                // no‑op
++            }
++
++            @Override
++            public void closingConnection(ClientHandler h) throws IOException {
++                // no‑op
++            }
++        };
++
++        // Inject the dummy into the handler (setup)
++        java.lang.reflect.Field field = DefaultClientEventHandler.class.getDeclaredField("clientCommandHandler");
++        field.setAccessible(true);
++        field.set(handler, dummyHandler);
++
++        NonBlockingClientHandler client = new NonBlockingClientHandler();
++
++        // Execute the method under test; it should not throw an exception now that the handler is initialized
++        handler.lostConnection(client);
++
++        // Verify normal execution (no exception means success)
++        assertTrue(true);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

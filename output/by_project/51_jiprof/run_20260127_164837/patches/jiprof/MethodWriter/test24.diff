@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -335,16 +335,31 @@
+     String[] stringArray0 = new String[4];
+     assertEquals(4, stringArray0.length);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
+-      ClassWriter classWriter0 = new ClassWriter(181);
+-      classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 181);
+-      MethodWriter methodWriter0 = classWriter0.lastMethod;
+-      methodWriter0.visitMultiANewArrayInsn("org.yasl.jars.JarFileFilter", 1);
+-  }
++@Test(timeout = 4000)
++public void test24() throws Throwable {
++    ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
++    ClassWriter classWriter0 = new ClassWriter(181);
++    classReader0.accept((ClassVisitor) classWriter0, (Attribute[]) null, 181);
++    MethodWriter methodWriter0 = classWriter0.lastMethod;
++
++    byte[] before = classWriter0.toByteArray();
++    methodWriter0.visitMultiANewArrayInsn("org.yasl.jars.JarFileFilter", 1);
++    byte[] after = classWriter0.toByteArray();
++
++    // The generated class bytecode should not shrink after adding an instruction
++    assertTrue(after.length >= before.length);
++
++    // The MULTIANEWARRAY opcode (0xC5) should be present in the resulting bytecode
++    boolean containsMultiANewArray = false;
++    for (byte b : after) {
++        if ((b & 0xFF) == 0xC5) {
++            containsMultiANewArray = true;
++            break;
++        }
++    }
++    assertTrue("Bytecode should contain MULTIANEWARRAY opcode", containsMultiANewArray);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test25()  throws Throwable  {

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/workflow/SWORDUtils_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/workflow/SWORDUtils_ESTest.java
+@@ -59,18 +59,28 @@
+         // Existing check retained
+         assertNull(sWORDEntry0.getVerboseDescription());
+     }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        SWORDUtils sWORDUtils0 = new SWORDUtils();
++        SWORDEntry sWORDEntry0 = new SWORDEntry();
++        JTextPane jTextPane0 = new JTextPane();
++        Generator generator0 = new Generator();
++        sWORDEntry0.setGenerator(generator0);
++        // Capture state before invoking the method under test
++        Generator beforeGenerator = sWORDEntry0.getGenerator();
++        String beforeText = jTextPane0.getText();
++        // Act
++        sWORDUtils0.showEntry(sWORDEntry0, jTextPane0);
++        // Verify that the entry's generator was not altered by showEntry
++        assertSame(beforeGenerator, sWORDEntry0.getGenerator());
++        // Verify that the text pane now contains a non‑null value (showEntry should affect the UI component)
++        assertNotNull(jTextPane0.getText());
++        // Verify that the text content has changed (or at least differs from the initial empty state)
++        assertNotEquals(beforeText, jTextPane0.getText());
++        // Existing assertion retained
++        assertNull(sWORDEntry0.getPublished());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      SWORDUtils sWORDUtils0 = new SWORDUtils();
+-      SWORDEntry sWORDEntry0 = new SWORDEntry();
+-      JTextPane jTextPane0 = new JTextPane();
+-      Generator generator0 = new Generator();
+-      sWORDEntry0.setGenerator(generator0);
+-      sWORDUtils0.showEntry(sWORDEntry0, jTextPane0);
+-      assertNull(sWORDEntry0.getPublished());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

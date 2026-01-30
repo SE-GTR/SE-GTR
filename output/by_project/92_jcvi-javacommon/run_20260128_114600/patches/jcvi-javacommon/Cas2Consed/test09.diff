@@ -1,0 +1,55 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/Cas2Consed_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/Cas2Consed_ESTest.java
+@@ -191,30 +191,30 @@
+     cas2Consed0.afterVisitMatch("prefix can not be null", casPlacedRead0, phd0, phdInfo0);
+     verifyNoInteractions(casPlacedRead0, phd0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    mockFile0 = new MockFile("prefix can not be null");
+-    streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(streamingIterator0).hasNext();
+-      StreamingIterator<NucleotideSequence> streamingIterator1 = (StreamingIterator<NucleotideSequence>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
+-      doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
+-      doReturn(streamingIterator1).when(casGappedReferenceDataStore0).iterator();
+-      Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "prefix can not be null");
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    mockFile0 = new MockFile("prefix can not be null");
++    streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(streamingIterator0).hasNext();
++    StreamingIterator<NucleotideSequence> streamingIterator1 = (StreamingIterator<NucleotideSequence>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++    CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
++    doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
++    doReturn(streamingIterator1).when(casGappedReferenceDataStore0).iterator();
++
++    // Verify stubbed return values
++    assertFalse(streamingIterator0.hasNext());
++    assertSame(streamingIterator0, casGappedReferenceDataStore0.idIterator());
++    assertSame(streamingIterator1, casGappedReferenceDataStore0.iterator());
++
++    Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "prefix can not be null");
++    try {
+         cas2Consed0.createFastqIterator(mockFile0);
+         fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // fastq file no longer exists! : /PATH/TO/SF110-20130704-src/92_jcvi-javacommon/prefix can not be null
+-         //
+-         verifyException("org.jcvi.jillion.assembly.clc.cas.consed.Cas2Consed", e);
+-      }
+-  }
++    } catch (IllegalStateException e) {
++        verifyException("org.jcvi.jillion.assembly.clc.cas.consed.Cas2Consed", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

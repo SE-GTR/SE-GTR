@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/javathena/core/data/Auth_data_ESTest.java
++++ b/evosuite-tests/org/javathena/core/data/Auth_data_ESTest.java
+@@ -57,16 +57,19 @@
+         // Ensure that the state actually changed from its initial value
+         assertNotEquals(initialState, auth_data0.getState());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      Auth_data auth_data0 = new Auth_data();
+-      auth_data0.resetLogincount = true;
+-      auth_data0.setLogincount(3127);
+-      assertEquals((-1), auth_data0.getCharserver());
+-      assertEquals(0, auth_data0.getLogincount());
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        Auth_data auth_data0 = new Auth_data();
++        auth_data0.resetLogincount = true;
++        int beforeCount = auth_data0.getLogincount();
++        auth_data0.setLogincount(3127);
++        int afterCount = auth_data0.getLogincount();
++        assertEquals(-1, auth_data0.getCharserver());
++        assertEquals(0, beforeCount);
++        assertEquals(0, afterCount);
++        assertEquals(beforeCount, afterCount);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

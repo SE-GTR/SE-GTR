@@ -1,0 +1,54 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/DefaultSffCommonHeader_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/DefaultSffCommonHeader_ESTest.java
+@@ -20,27 +20,30 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DefaultSffCommonHeader_ESTest extends DefaultSffCommonHeader_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      DefaultSffCommonHeader.Builder defaultSffCommonHeader_Builder0 = new DefaultSffCommonHeader.Builder();
+-      DefaultSffCommonHeader.Builder defaultSffCommonHeader_Builder1 = defaultSffCommonHeader_Builder0.numberOfFlowsPerRead(32);
+-      BigInteger bigInteger0 = BigInteger.TEN;
+-      Iterator<Nucleotide> iterator0 = (Iterator<Nucleotide>) mock(Iterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(iterator0).hasNext();
+-      NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(iterator0).when(nucleotideSequence0).iterator();
+-      doReturn((String) null, (String) null).when(nucleotideSequence0).toString();
+-      doReturn(3479L).when(nucleotideSequence0).getLength();
+-      DefaultSffCommonHeader defaultSffCommonHeader0 = new DefaultSffCommonHeader(bigInteger0, 0L, 32, 32, nucleotideSequence0, nucleotideSequence0);
+-      NucleotideSequence nucleotideSequence1 = defaultSffCommonHeader0.getKeySequence();
+-      defaultSffCommonHeader_Builder0.keySequence(nucleotideSequence1);
+-      assertEquals(32L, defaultSffCommonHeader0.getNumberOfReads());
+-      assertEquals(0L, defaultSffCommonHeader0.getIndexLength());
+-      
+-      DefaultSffCommonHeader defaultSffCommonHeader1 = defaultSffCommonHeader_Builder1.build();
+-      assertEquals(32, defaultSffCommonHeader1.getNumberOfFlowsPerRead());
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    DefaultSffCommonHeader.Builder builder0 = new DefaultSffCommonHeader.Builder();
++    DefaultSffCommonHeader.Builder builder1 = builder0.numberOfFlowsPerRead(32);
++    BigInteger bigInteger0 = BigInteger.TEN;
++    Iterator<Nucleotide> iterator0 = mock(Iterator.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(iterator0).hasNext();
++    NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
++    doReturn(iterator0).when(nucleotideSequence0).iterator();
++    doReturn((String) null, (String) null).when(nucleotideSequence0).toString();
++    doReturn(3479L).when(nucleotideSequence0).getLength();
++
++    DefaultSffCommonHeader header0 = new DefaultSffCommonHeader(bigInteger0, 0L, 32, 32, nucleotideSequence0, nucleotideSequence0);
++    NucleotideSequence keySeq = header0.getKeySequence();
++    assertSame(nucleotideSequence0, keySeq);
++
++    builder0.keySequence(keySeq);
++    assertEquals(32L, header0.getNumberOfReads());
++
++    DefaultSffCommonHeader header1 = builder1.build();
++    assertEquals(32, header1.getNumberOfFlowsPerRead());
++    assertSame(keySeq, header1.getKeySequence());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

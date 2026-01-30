@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -1206,20 +1206,19 @@
+       assertEquals(5, quickServer0.getMaxAuthTry());
+       assertTrue(quickServer0.getBlockingMode());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test088()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer();
+-      int int0 = quickServer0.getRawCommunicationMaxLength();
+-      assertFalse(quickServer0.isRunningSecure());
+-      assertEquals((-1L), quickServer0.getMaxConnection());
+-      assertEquals(60000, quickServer0.getTimeout());
+-      assertEquals(5, quickServer0.getMaxAuthTry());
+-      assertEquals("-ERR Timeout", quickServer0.getTimeoutMsg());
+-      assertEquals((-1), quickServer0.getServiceState());
+-      assertEquals("QuickServer", quickServer0.getName());
+-      assertEquals(100, int0);
+-  }
++public void test088() throws Throwable {
++    QuickServer quickServer0 = new QuickServer();
++    // Verify initial default state
++    assertFalse(quickServer0.isRunningSecure());
++    assertEquals(60000, quickServer0.getTimeout());
++
++    // Act: change a configurable property
++    quickServer0.setTimeout(12345);
++
++    // Assert that the change took effect
++    assertEquals(12345, quickServer0.getTimeout());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test089()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -362,19 +362,22 @@
+         assertFalse(boolean0);
+         assertTrue(seqAfter >= 0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Defender defender0 = new Defender((-364), (-364));
+-      MoveEvent moveEvent0 = new MoveEvent(defender0, (-364));
+-      handballModel0.addMoveEvent(moveEvent0);
+-      handballModel0.setActualMoveEvent(moveEvent0);
+-      boolean boolean0 = handballModel0.passEventDefined();
+-      assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        Defender defender0 = new Defender((-364), (-364));
++        MoveEvent moveEvent0 = new MoveEvent(defender0, (-364));
++        int sizeBefore = handballModel0.getEvents().size();
++        handballModel0.addMoveEvent(moveEvent0);
++        int sizeAfter = handballModel0.getEvents().size();
++        assertEquals(sizeBefore + 1, sizeAfter);
++        handballModel0.setActualMoveEvent(moveEvent0);
++        assertSame(moveEvent0, handballModel0.getActualMoveEvent());
++        boolean boolean0 = handballModel0.passEventDefined();
++        assertEquals(HandballModel.State.EDIT_EVENT, handballModel0.getState());
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

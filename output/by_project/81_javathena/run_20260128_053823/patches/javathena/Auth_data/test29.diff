@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/javathena/core/data/Auth_data_ESTest.java
++++ b/evosuite-tests/org/javathena/core/data/Auth_data_ESTest.java
+@@ -255,14 +255,26 @@
+       assertEquals("", auth_data0.getLast_ip());
+       assertEquals((-1), auth_data0.getCharserver());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      Auth_data auth_data0 = new Auth_data();
+-      auth_data0.setLastlogin();
+-      auth_data0.toString();
+-      assertEquals(1, auth_data0.getLogincount());
+-  }
++@Test(timeout = 4000)
++public void test29() throws Throwable {
++    Auth_data auth_data0 = new Auth_data();
++    // verify initial state of lastlogin
++    assertNull(auth_data0.getLastlogin());
++    // capture string representation before setting lastlogin
++    String before = auth_data0.toString();
++    assertNotNull(before);
++    // act: set last login
++    auth_data0.setLastlogin();
++    // assert side‑effect observable via getter
++    assertNotNull(auth_data0.getLastlogin());
++    // capture string representation after setting lastlogin
++    String after = auth_data0.toString();
++    assertNotNull(after);
++    assertNotEquals(before, after);
++    // existing behavior check
++    assertEquals(1, auth_data0.getLogincount());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test30()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/CopyrightHolderRecordModifier_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/CopyrightHolderRecordModifier_ESTest.java
+@@ -30,16 +30,22 @@
+     completeMetadataBean0 = new CompleteMetadataBean();
+     servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+   }
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    // Stub request parameters to return null for any name
++    doReturn(null, null, null, null).when(servletRequest0).getParameter(anyString());
+ 
++    // Verify initial state (pre‑condition)
++    assertNull(completeMetadataBean0.getFileName());
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      doReturn((String) null, (String) null, (String) null, (String) null).when(servletRequest0).getParameter(anyString());
+-      ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
+-      copyrightHolderRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
+-      copyrightHolderRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
+-      assertNull(completeMetadataBean0.getFileName());
+-  }
++    // Exercise the method under test
++    ServletRequestWrapper wrapper = new ServletRequestWrapper(servletRequest0);
++    copyrightHolderRecordModifier0.updateMetadata(completeMetadataBean0, wrapper);
++
++    // Verify that the method leaves the fileName unchanged (side‑effect observation)
++    assertNull(completeMetadataBean0.getFileName());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/FastqFileDataStoreBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/FastqFileDataStoreBuilder_ESTest.java
+@@ -110,23 +110,13 @@
+       FastqFileDataStoreBuilder fastqFileDataStoreBuilder1 = fastqFileDataStoreBuilder0.filter(dataStoreFilter0);
+       assertSame(fastqFileDataStoreBuilder0, fastqFileDataStoreBuilder1);
+   }
++@Test(expected = NullPointerException.class, timeout = 4000)
++    public void test06() throws Throwable {
++        File file0 = MockFile.createTempFile("fastq file is not readable", "fastq file is not readable");
++        FastqFileDataStoreBuilder fastqFileDataStoreBuilder0 = new FastqFileDataStoreBuilder(file0);
++        fastqFileDataStoreBuilder0.qualityCodec((FastqQualityCodec) null);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("fastq file is not readable", "fastq file is not readable");
+-      FastqFileDataStoreBuilder fastqFileDataStoreBuilder0 = new FastqFileDataStoreBuilder(file0);
+-      // Undeclared exception!
+-      try { 
+-        fastqFileDataStoreBuilder0.qualityCodec((FastqQualityCodec) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // quality codec can not be null
+-         //
+-         verifyException("org.jcvi.jillion.trace.fastq.FastqFileDataStoreBuilder", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

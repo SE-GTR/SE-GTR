@@ -1,0 +1,32 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ShoppingCart_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ShoppingCart_ESTest.java
+@@ -241,15 +241,20 @@
+       shoppingCart0.setHMAC("W#U`|");
+       assertNull(shoppingCart0.getCartId());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-    shoppingCart0 = new ShoppingCart();
+-    items0 = new Items();
+-      shoppingCart0.setItems(items0);
+-      String string0 = shoppingCart0.getTotalCartCost();
+-      assertEquals("0", string0);
+-  }
++@Test(timeout = 4000)
++public void test19() throws Throwable {
++    shoppingCart0 = new ShoppingCart();
++    items0 = new Items();
++    // Verify that the cart initially has no items
++    assertNull(shoppingCart0.getItems());
++    // Set items and assert the side‑effect
++    shoppingCart0.setItems(items0);
++    assertSame(items0, shoppingCart0.getItems());
++    // Verify total cost reflects the (empty) items collection
++    String string0 = shoppingCart0.getTotalCartCost();
++    assertEquals("0", string0);
++}
++
+ @Test(timeout = 4000)
+   public void test20() throws Throwable {
+     ShoppingCart shoppingCart0 = new ShoppingCart();

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DefaultDBTable_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DefaultDBTable_ESTest.java
+@@ -167,23 +167,19 @@
+       Set<DBUniqueConstraint> set0 = defaultDBTable0.getUniqueConstraints(true);
+       assertEquals(1, set0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable();
+-      DBDataType.getInstance(2036, "derby.ntorage.pageRCservedSpace");
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    DefaultDBTable defaultDBTable0 = new DefaultDBTable();
++    DBDataType dataType = DBDataType.getInstance(2036, "derby.ntorage.pageRCservedSpace");
++    assertNotNull(dataType);
++    try {
+         defaultDBTable0.getColumn("derby.ntorage.pageRCservedSpace");
+         fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Column 'derby.ntorage.pageRCservedSpace' not found in table 'null'
+-         //
+-         verifyException("org.databene.jdbacl.model.DefaultDBTable", e);
+-      }
+-  }
++    } catch (RuntimeException e) {
++        verifyException("org.databene.jdbacl.model.DefaultDBTable", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

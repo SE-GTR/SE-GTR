@@ -1,0 +1,47 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/DemonstrationCurationService_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/DemonstrationCurationService_ESTest.java
+@@ -737,22 +737,28 @@
+          verifyException("macaw.persistenceLayer.demo.InMemoryVariableManager", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test52()  throws Throwable  {
+-      DemonstrationCurationService demonstrationCurationService0 = new DemonstrationCurationService();
+-      User user0 = new User("z41;0\"ii", "z41;0\"ii");
+-      // Undeclared exception!
+-      try { 
+-        demonstrationCurationService0.updateOntologyTerm(user0, (OntologyTerm) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test52() throws Throwable {
++        DemonstrationCurationService demonstrationCurationService0 = new DemonstrationCurationService();
++
++        // Properly initialise the internal managers required by updateOntologyTerm
++        demonstrationCurationService0.ontologyTermManager = new InMemoryOntologyTermManager();
++        demonstrationCurationService0.userManager = new InMemoryUserManager();
++        demonstrationCurationService0.supportingDocumentsManager = new InMemorySupportingDocumentsManager();
++        demonstrationCurationService0.variableFilter = new InMemoryVariableFilter();
++        demonstrationCurationService0.log = new Log();
++        demonstrationCurationService0.admin = new User("admin", "admin");
++
++        User user0 = new User("z41;0\"ii", "z41;0\"ii");
++
++        try {
++            demonstrationCurationService0.updateOntologyTerm(user0, null);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            // expected – method validates the ontologyTerm argument
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test53()  throws Throwable  {

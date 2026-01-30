@@ -1,0 +1,45 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -730,23 +730,25 @@
+       handballModel0.setHighLightedItem(offender0);
+       assertTrue(offender0.isHightlighted());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test59()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Offender offender0 = new Offender((-366), (-366));
+-      MoveEvent moveEvent0 = new MoveEvent(offender0, (-366));
+-      handballModel0.addMoveEvent(moveEvent0);
+-      handballModel0.setDestinationPointForEvent(moveEvent0, 1, 1, true);
+-      assertEquals(1, Offender.counter);
+-      assertEquals(1, moveEvent0.getDestinationX());
+-      assertEquals(1, moveEvent0.getDestinationY());
+-      assertFalse(moveEvent0.isDestinationPointSet());
+-      
+-      HandballModel handballModel1 = new HandballModel();
+-      handballModel1.initWithLoadedModel(handballModel0);
+-      assertEquals(0, handballModel1.getAcutalSequenceNr());
+-  }
++@Test(timeout = 4000)
++    public void test59() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        Offender offender0 = new Offender((-366), (-366));
++        MoveEvent moveEvent0 = new MoveEvent(offender0, (-366));
++        int seqBefore = handballModel0.getAcutalSequenceNr();
++        handballModel0.addMoveEvent(moveEvent0);
++        handballModel0.setDestinationPointForEvent(moveEvent0, 1, 1, true);
++        // Verify that adding the event does not unintentionally modify the sequence number
++        assertEquals(seqBefore, handballModel0.getAcutalSequenceNr());
++        assertEquals(1, moveEvent0.getDestinationX());
++        assertEquals(1, moveEvent0.getDestinationY());
++        assertFalse(moveEvent0.isDestinationPointSet());
++
++        HandballModel handballModel1 = new HandballModel();
++        handballModel1.initWithLoadedModel(handballModel0);
++        assertEquals(0, handballModel1.getAcutalSequenceNr());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test60()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
+@@ -224,13 +224,13 @@
+       iniWebConfiguration0.setFilterConfig((FilterConfig) null);
+       assertNull(iniWebConfiguration0.getConfig());
+   }
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test18()  throws Throwable  {
+       IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
+       HashMap<String, List<Filter>> hashMap0 = new HashMap<String, List<Filter>>();
+       LinkedList<Filter> linkedList0 = new LinkedList<Filter>();
+-      hashMap0.put("urls", linkedList0);
++      List<Filter> previous = hashMap0.put("urls", linkedList0);
++      assertNull(previous);
+       iniWebConfiguration0.chains = (Map<String, List<Filter>>) hashMap0;
+       ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+       ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
+@@ -239,7 +239,7 @@
+       try { 
+         iniWebConfiguration0.getChain(servletRequestWrapper0, servletResponse0, (FilterChain) null);
+         fail("Expecting exception: ClassCastException");
+-      
++
+       } catch(ClassCastException e) {
+          //
+          // javax.servlet.ServletRequestWrapper cannot be cast to javax.servlet.http.HttpServletRequest
+@@ -247,6 +247,7 @@
+          verifyException("org.jsecurity.web.WebUtils", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/src/GameCmdBean_ESTest.java
++++ b/evosuite-tests/src/GameCmdBean_ESTest.java
+@@ -32,13 +32,20 @@
+     ArrayList<String> arrayList1 = gameCmdBean0.getArgs();
+     assertTrue(arrayList1.contains("test"));
+ }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    java.util.ArrayList args = new java.util.ArrayList();
++    src.GameCmdBean bean = new src.GameCmdBean("src.GameCmdBean", args);
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(bean);
++    oos.flush();
++    byte[] bytes = baos.toByteArray();
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(bytes));
++    src.GameCmdBean deserialized = (src.GameCmdBean) ois.readObject();
++    assertEquals("src.GameCmdBean", deserialized.getMethodName());
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      String string0 = gameCmdBean0.getMethodName();
+-      assertEquals("src.GameCmdBean", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

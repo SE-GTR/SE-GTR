@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/heal/module/metadata/ThumbnailBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/ThumbnailBean_ESTest.java
+@@ -64,13 +64,26 @@
+       thumbnailBean0.setLocation("BI8o%u+*n9p}");
+       assertEquals("BI8o%u+*n9p}", thumbnailBean0.getLocation());
+   }
++@Test(timeout = 4000)
++  public void test06() throws Throwable {
++      ThumbnailBean thumbnailBean0 = new ThumbnailBean();
++      // Exercise non‑trivial behavior: serialization round‑trip after setting a value
++      thumbnailBean0.setFileWidth("200");
++      byte[] serialized;
++      try (java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
++           java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(bos)) {
++          out.writeObject(thumbnailBean0);
++          out.flush();
++          serialized = bos.toByteArray();
++      }
++      ThumbnailBean deserialized;
++      try (java.io.ByteArrayInputStream bis = new java.io.ByteArrayInputStream(serialized);
++           java.io.ObjectInputStream in = new java.io.ObjectInputStream(bis)) {
++          deserialized = (ThumbnailBean) in.readObject();
++      }
++      assertEquals("200", deserialized.getFileWidth());
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      ThumbnailBean thumbnailBean0 = new ThumbnailBean();
+-      String string0 = thumbnailBean0.getFileWidth();
+-      assertNull(string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

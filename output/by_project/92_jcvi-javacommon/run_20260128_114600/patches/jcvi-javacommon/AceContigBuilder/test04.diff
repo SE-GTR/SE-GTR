@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceContigBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceContigBuilder_ESTest.java
+@@ -99,26 +99,18 @@
+          verifyException("org.jcvi.jillion.assembly.consed.ace.AceContigBuilder", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      AceContigBuilder aceContigBuilder0 = new AceContigBuilder("", "");
+-      Direction direction0 = Direction.REVERSE;
+-      Range range0 = Range.of((long) 1806);
+-      MockDate mockDate0 = new MockDate(1806, 1806, 1806, 1806, 1806);
+-      PhdInfo phdInfo0 = new PhdInfo("", "", mockDate0);
+-      // Undeclared exception!
+-      try { 
+-        aceContigBuilder0.addRead("", (NucleotideSequence) null, 1806, direction0, range0, phdInfo0, 1806);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // valid bases can not be null
+-         //
+-         verifyException("org.jcvi.jillion.assembly.consed.ace.AceContigBuilder", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    AceContigBuilder aceContigBuilder0 = new AceContigBuilder("contig", "A");
++    Direction direction0 = Direction.REVERSE;
++    Range range0 = Range.of(0L);
++    MockDate mockDate0 = new MockDate(1806, 1806, 1806, 1806, 1806);
++    PhdInfo phdInfo0 = new PhdInfo("", "", mockDate0);
++    NucleotideSequence seq = new NucleotideSequenceBuilder("A").build();
++    AceContigBuilder result = aceContigBuilder0.addRead("read1", seq, 0, direction0, range0, phdInfo0, 1);
++    assertSame(aceContigBuilder0, result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

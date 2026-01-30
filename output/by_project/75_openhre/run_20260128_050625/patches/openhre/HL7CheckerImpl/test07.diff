@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerImpl_ESTest.java
+@@ -98,15 +98,27 @@
+       HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
+       hL7CheckerImpl0.component("hirty-Onf");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
+-      HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
+-      hL7CheckerStateImpl0.setSeriousError(true);
+-      hL7CheckerImpl0.setState(hL7CheckerStateImpl0);
+-      hL7CheckerImpl0.endComponent();
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    HL7CheckerImpl hL7CheckerImpl0 = new HL7CheckerImpl();
++    HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
++
++    // Act: set serious error flag
++    hL7CheckerStateImpl0.setSeriousError(true);
++    // Verify that the flag was set
++    assertTrue(hL7CheckerStateImpl0.isSeriousError());
++
++    // Act: associate state with the checker
++    hL7CheckerImpl0.setState(hL7CheckerStateImpl0);
++    // Verify that the state was correctly stored
++    assertSame(hL7CheckerStateImpl0, hL7CheckerImpl0.getState());
++
++    // Act: end component (no state change expected)
++    hL7CheckerImpl0.endComponent();
++    // Verify that the serious error flag remains unchanged
++    assertTrue(hL7CheckerStateImpl0.isSeriousError());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

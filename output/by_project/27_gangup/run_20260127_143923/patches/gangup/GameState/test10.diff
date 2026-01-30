@@ -1,0 +1,37 @@
+--- a/evosuite-tests/state/GameState_ESTest.java
++++ b/evosuite-tests/state/GameState_ESTest.java
+@@ -142,17 +142,23 @@
+     // verify that a core property retains its default value
+     assertEquals(1, gameState0.getTotalRounds());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      GameState gameState0 = new GameState();
+-      Player player0 = new Player(2);
+-      gameState0.setGameState(119);
+-      gameState0.removePlayer(player0);
+-      assertTrue(player0.isDead());
+-      assertEquals(0L, gameState0.getGamestart());
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        GameState gameState0 = new GameState();
++        Player player0 = new Player(2);
++        // Verify initial game state is not the value we will set
++        int initialState = gameState0.getGameState();
++        assertNotEquals(119, initialState);
++        // Change the game state and assert the side‑effect
++        gameState0.setGameState(119);
++        assertEquals(119, gameState0.getGameState());
++        // Remove a player and verify the expected side‑effects
++        gameState0.removePlayer(player0);
++        assertTrue(player0.isDead());
++        // Existing unrelated assertion retained
++        assertEquals(0L, gameState0.getGamestart());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/OperationOptions_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/OperationOptions_ESTest.java
+@@ -122,15 +122,21 @@
+         TypeDesc typeDesc1 = OperationOptions.getTypeDesc();
+         assertSame(typeDesc0, typeDesc1);
+     }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        OperationOptions operationOptions0 = new OperationOptions();
++        // initially the options should be null
++        assertNull(operationOptions0.getMOptions());
+ 
++        InstanceOptionsFlags[] instanceOptionsFlagsArray0 = new InstanceOptionsFlags[0];
++        operationOptions0.setMOptions(instanceOptionsFlagsArray0);
+ 
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      OperationOptions operationOptions0 = new OperationOptions();
+-      InstanceOptionsFlags[] instanceOptionsFlagsArray0 = new InstanceOptionsFlags[0];
+-      operationOptions0.setMOptions(instanceOptionsFlagsArray0);
+-      OperationOptions operationOptions1 = new OperationOptions();
+-      boolean boolean0 = operationOptions0.equals(operationOptions1);
+-      assertFalse(boolean0);
+-  }
++        // verify that the side‑effect of setMOptions is observable
++        assertSame(instanceOptionsFlagsArray0, operationOptions0.getMOptions());
++
++        OperationOptions operationOptions1 = new OperationOptions();
++        boolean boolean0 = operationOptions0.equals(operationOptions1);
++        assertFalse(boolean0);
++    }
++
+ }

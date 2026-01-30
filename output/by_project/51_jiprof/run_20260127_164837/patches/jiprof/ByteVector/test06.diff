@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/ByteVector_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/ByteVector_ESTest.java
+@@ -64,14 +64,19 @@
+     byteVector0.putLong((-4224L));
+     assertEquals(8, byteVector0.length);
+ }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        ByteVector byteVector = new ByteVector(0);
++        ByteVector returned = byteVector.putInt(0);
++        assertSame(byteVector, returned);
++        // The putInt operation should increase the length by 4 bytes.
++        assertEquals(4, byteVector.length);
++        // The written bytes for the integer value 0 should all be zero.
++        for (int i = 0; i < 4; i++) {
++            assertEquals((byte) 0, byteVector.data[i]);
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      ByteVector byteVector0 = new ByteVector(0);
+-      ByteVector byteVector1 = byteVector0.putInt(0);
+-      assertSame(byteVector1, byteVector0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

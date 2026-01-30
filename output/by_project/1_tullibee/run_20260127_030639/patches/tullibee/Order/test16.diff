@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/ib/client/Order_ESTest.java
++++ b/evosuite-tests/com/ib/client/Order_ESTest.java
+@@ -191,20 +191,20 @@
+     // Verify that an order equals itself
+     assertTrue(order0.equals(order0));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      Order order0 = new Order();
+-      order0.m_permId = (int) 'c';
+-      Order order1 = new Order();
+-      assertTrue(order1.equals((Object)order0));
+-      
++@Test(timeout = 4000)
++  public void test16() throws Throwable {
++      Order order0 = new Order();
++      order0.m_permId = (int) 'c';
++      Order order1 = new Order();
++      // Verify that orders are initially considered equal
++      assertTrue(order1.equals((Object) order0));
++
++      // Change a field that affects equality
+       order1.m_orderType = "0E0\"KQiZMst/~R";
+-      boolean boolean0 = order0.equals(order1);
+-      assertFalse(order1.equals((Object)order0));
+-      assertFalse(boolean0);
+-  }
++      // Now they should not be equal
++      assertFalse(order1.equals((Object) order0));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

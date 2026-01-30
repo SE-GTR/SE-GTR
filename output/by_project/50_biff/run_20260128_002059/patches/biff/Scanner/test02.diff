@@ -1,0 +1,40 @@
+--- a/evosuite-tests/Scanner_ESTest.java
++++ b/evosuite-tests/Scanner_ESTest.java
+@@ -37,23 +37,22 @@
+       FileSystemHandling.appendLineToFile(evoSuiteFile0, "<>");
+       Scanner scanner0 = new Scanner("[I<");
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-    evoSuiteFile0 = new EvoSuiteFile("[I<");
+-      FileSystemHandling.appendLineToFile(evoSuiteFile0, "<=");
+-      Scanner scanner0 = null;
+-      try {
++public void test02() throws Throwable {
++    evoSuiteFile0 = new EvoSuiteFile("[I<");
++    boolean result = FileSystemHandling.appendLineToFile(evoSuiteFile0, "<=");
++    assertTrue("appendLineToFile should return true", result);
++    Scanner scanner0 = null;
++    try {
+         scanner0 = new Scanner("[I<");
+         fail("Expecting exception: IndexOutOfBoundsException");
+-      
+-      } catch(IndexOutOfBoundsException e) {
+-         //
+-         // Index: 2, Size: 2
+-         //
+-         verifyException("java.util.ArrayList", e);
+-      }
+-  }
++    } catch (IndexOutOfBoundsException e) {
++        //
++        // Index: 2, Size: 2
++        //
++        verifyException("java.util.ArrayList", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

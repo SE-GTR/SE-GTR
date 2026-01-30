@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/configtypes/ConfigurationType_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/configtypes/ConfigurationType_ESTest.java
+@@ -140,25 +140,24 @@
+       assertFalse(projectConfigurationType0.isEditable());
+       assertFalse(projectConfigurationType0.isCreatable());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      ProjectConfigurationType projectConfigurationType0 = new ProjectConfigurationType();
+-      ExternalFileConfigurationType externalFileConfigurationType0 = new ExternalFileConfigurationType();
+-      CheckConfiguration checkConfiguration0 = new CheckConfiguration("&$;u$$B+`y]@-", "protect-config-file", "yc", projectConfigurationType0, false, (List) null, (Map) null);
+-      URL uRL0 = externalFileConfigurationType0.resolveLocation(checkConfiguration0);
+-      // Undeclared exception!
+-      try { 
+-        projectConfigurationType0.getAdditionPropertiesBundleBytes(uRL0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.atlassw.tools.eclipse.checkstyle.config.configtypes.ConfigurationType", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    ProjectConfigurationType projectConfigurationType0 = new ProjectConfigurationType();
++    ExternalFileConfigurationType externalFileConfigurationType0 = new ExternalFileConfigurationType();
++    CheckConfiguration checkConfiguration0 = new CheckConfiguration(
++            "&$;u$$B+`y]@-",
++            "protect-config-file",
++            "yc",
++            projectConfigurationType0,
++            false,
++            java.util.Collections.emptyList(),
++            java.util.Collections.emptyMap());
++    URL uRL0 = externalFileConfigurationType0.resolveLocation(checkConfiguration0);
++    assertNotNull("Resolved URL should not be null", uRL0);
++    byte[] bytes = projectConfigurationType0.getAdditionPropertiesBundleBytes(uRL0);
++    assertNotNull("Returned bytes should not be null", bytes);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

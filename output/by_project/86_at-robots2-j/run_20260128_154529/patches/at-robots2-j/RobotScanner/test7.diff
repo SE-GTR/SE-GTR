@@ -1,0 +1,41 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/robot/RobotScanner_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/robot/RobotScanner_ESTest.java
+@@ -163,21 +163,24 @@
+       robotScanner0.visit(robot1);
+       assertFalse(robot1.equals((Object)robot0));
+   }
++@Test(timeout = 4000)
++public void test7() throws Throwable {
++    Robot robot0 = new Robot("P", -15, null);
++    Position position0 = robot0.getPosition();
++    AngleBracket angleBracket0 = AngleBracket.all();
++    AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees(-15);
++    Vector vector0 = absoluteAngle0.toUnitVector();
++    Position position1 = new Position(vector0);
++    position0.copyFrom(position1);
++    Robot robot1 = new Robot("P", -15, null);
++    RobotScanner robotScanner0 = new RobotScanner(robot1, position1, angleBracket0, 0.0, false);
++    // Act
++    robotScanner0.visit(robot0);
++    // Verify that the visit does not alter the target robot's observable state
++    assertSame("Robot position should remain unchanged after scan", position0, robot0.getPosition());
++    assertEquals("Robot name should stay unchanged after scan", "P", robot0.getName());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      Robot robot0 = new Robot("P", (-15), (RobotScore) null);
+-      Position position0 = robot0.getPosition();
+-      AngleBracket angleBracket0 = AngleBracket.all();
+-      AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees((-15));
+-      Vector vector0 = absoluteAngle0.toUnitVector();
+-      Position position1 = new Position(vector0);
+-      position0.copyFrom(position1);
+-      Robot robot1 = new Robot("P", (-15), (RobotScore) null);
+-      RobotScanner robotScanner0 = new RobotScanner(robot1, position1, angleBracket0, 0.0, false);
+-      robotScanner0.visit(robot0);
+-      assertEquals("P", robot0.getName());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

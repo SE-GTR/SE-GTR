@@ -1,0 +1,47 @@
+--- a/evosuite-tests/module/BasicMessageRules_ESTest.java
++++ b/evosuite-tests/module/BasicMessageRules_ESTest.java
+@@ -17,20 +17,31 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class BasicMessageRules_ESTest extends BasicMessageRules_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        GameState gameState0 = new GameState();
++        // Verify initial state has no players
++        assertTrue(gameState0.getPlayers().isEmpty());
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      GameState gameState0 = new GameState();
+-      Player player0 = new Player(1);
+-      player0.setDead(0L);
+-      gameState0.addPlayer(player0);
+-      Player player1 = new Player(0, ",GOZP3n>WV#Q&<m", 0);
+-      gameState0.addPlayer(player1);
+-      BasicMessageRules basicMessageRules0 = new BasicMessageRules();
+-      TextMessage textMessage0 = new TextMessage(0, 1, 2, ",GOZP3n>WV#Q&<m");
+-      boolean boolean0 = basicMessageRules0.checkRules(textMessage0, gameState0);
+-      assertFalse(boolean0);
+-  }
++        Player player0 = new Player(1);
++        player0.setDead(0L);
++        gameState0.addPlayer(player0);
++        // Verify player0 was added
++        assertTrue(gameState0.getPlayers().contains(player0));
++        assertEquals(1, gameState0.getPlayers().size());
++
++        Player player1 = new Player(0, ",GOZP3n>WV#Q&<m", 0);
++        gameState0.addPlayer(player1);
++        // Verify player1 was added
++        assertTrue(gameState0.getPlayers().contains(player1));
++        assertEquals(2, gameState0.getPlayers().size());
++
++        BasicMessageRules basicMessageRules0 = new BasicMessageRules();
++        TextMessage textMessage0 = new TextMessage(0, 1, 2, ",GOZP3n>WV#Q&<m");
++        boolean boolean0 = basicMessageRules0.checkRules(textMessage0, gameState0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

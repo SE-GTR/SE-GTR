@@ -1,0 +1,73 @@
+--- a/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
++++ b/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
+@@ -150,21 +150,55 @@
+       geoUsAddress0.setCoordinate(geoCoordinate0);
+       assertEquals("", geoUsAddress0.getAddressLine1());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      GeoCoordinate geoCoordinate0 = new GeoCoordinate();
+-      GeoAddressAccuracy geoAddressAccuracy0 = GeoAddressAccuracy.UNKNOWN_LOCATION;
+-      GeoUsAddress geoUsAddress0 = new GeoUsAddress("l*`k$Ej]ko4`Xgk#<|", "l*`k$Ej]ko4`Xgk#<|", "l*`k$Ej]ko4`Xgk#<|", "", "1FdK>}m'eWy*", "l*`k$Ej]ko4`Xgk#<|", "", geoCoordinate0, geoAddressAccuracy0);
+-      String string0 = geoUsAddress0.getCountry();
+-      assertEquals("l*`k$Ej]ko4`Xgk#<|", geoUsAddress0.getAddressLine2());
+-      assertEquals("", string0);
+-      assertEquals("1FdK>}m'eWy*", geoUsAddress0.getState());
+-      assertEquals("l*`k$Ej]ko4`Xgk#<|", geoUsAddress0.getCity());
+-      assertEquals("l*`k$Ej]ko4`Xgk#<|", geoUsAddress0.getPostalCode());
+-      assertEquals("l*`k$Ej]ko4`Xgk#<|", geoUsAddress0.getAddressLine1());
+-      assertEquals("", geoUsAddress0.getCounty());
+-  }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        GeoCoordinate geoCoordinate0 = new GeoCoordinate();
++        GeoAddressAccuracy geoAddressAccuracy0 = GeoAddressAccuracy.UNKNOWN_LOCATION;
++        GeoUsAddress address1 = new GeoUsAddress(
++                "l*`k$Ej]ko4`Xgk#<|",
++                "l*`k$Ej]ko4`Xgk#<|",
++                "l*`k$Ej]ko4`Xgk#<|",
++                "",
++                "1FdK>}m'eWy*",
++                "l*`k$Ej]ko4`Xgk#<|",
++                "",
++                geoCoordinate0,
++                geoAddressAccuracy0);
++        // Minimal sanity check on a getter
++        assertEquals("", address1.getCountry());
++
++        // Act: create another instance with identical data
++        GeoUsAddress address2 = new GeoUsAddress(
++                "l*`k$Ej]ko4`Xgk#<|",
++                "l*`k$Ej]ko4`Xgk#<|",
++                "l*`k$Ej]ko4`Xgk#<|",
++                "",
++                "1FdK>}m'eWy*",
++                "l*`k$Ej]ko4`Xgk#<|",
++                "",
++                geoCoordinate0,
++                geoAddressAccuracy0);
++        // Verify that equality and hash code are based on the fields
++        assertEquals(address1, address2);
++        assertEquals(address1.hashCode(), address2.hashCode());
++
++        // Create a different address and ensure inequality
++        GeoUsAddress address3 = new GeoUsAddress(
++                "different",
++                "different",
++                "different",
++                "county",
++                "state",
++                "postal",
++                "country",
++                geoCoordinate0,
++                geoAddressAccuracy0);
++        assertNotEquals(address1, address3);
++
++        // toString should contain the provided address line value
++        assertTrue(address1.toString().contains("l*`k$Ej]ko4`Xgk#<|"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

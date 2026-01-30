@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AccessPoint_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AccessPoint_ESTest.java
+@@ -98,18 +98,22 @@
+         assertEquals(0, accessPoint1.getPort());
+         assertFalse(accessPoint1.equals((Object) accessPoint0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      AccessPoint accessPoint0 = new AccessPoint();
+-      accessPoint0.setProtocol("xr'<w");
+-      AccessPoint accessPoint1 = new AccessPoint();
+-      boolean boolean0 = accessPoint1.equals(accessPoint0);
+-      assertEquals(0, accessPoint1.getPort());
+-      assertFalse(boolean0);
+-      assertFalse(accessPoint0.equals((Object)accessPoint1));
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    AccessPoint accessPoint0 = new AccessPoint();
++    accessPoint0.setProtocol("xr'<w");
++    // Verify that the protocol side‑effect is observable: another AccessPoint with the same protocol should be equal
++    AccessPoint sameProtocolAP = new AccessPoint();
++    sameProtocolAP.setProtocol("xr'<w");
++    assertTrue(accessPoint0.equals(sameProtocolAP));
++
++    AccessPoint accessPoint1 = new AccessPoint();
++    boolean boolean0 = accessPoint1.equals(accessPoint0);
++    assertEquals(0, accessPoint1.getPort());
++    assertFalse(boolean0);
++    assertFalse(accessPoint0.equals((Object) accessPoint1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

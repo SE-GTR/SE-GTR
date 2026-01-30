@@ -1,0 +1,51 @@
+--- a/evosuite-tests/jigl/image/utils/ImageConverter_ESTest.java
++++ b/evosuite-tests/jigl/image/utils/ImageConverter_ESTest.java
+@@ -249,33 +249,21 @@
+          verifyException("jigl.image.utils.ImageConverter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      InterpolatedColorImage interpolatedColorImage0 = new InterpolatedColorImage(875, 875);
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
+-      assertEquals(875, interpolatedColorImage0.X());
+-      assertEquals(875, interpolatedColorImage0.Y());
+-      assertEquals(ColorModel.RGB, interpolatedColorImage0.getColorModel());
+-      
+-      ColorModel colorModel0 = ColorModel.CMY;
+-      interpolatedColorImage0.setColorModel(colorModel0);
+-      assertEquals(InterpolationMethod.NEIGHBOR, interpolatedColorImage0.getInterpolationMethod());
+-      assertEquals(875, interpolatedColorImage0.X());
+-      assertEquals(875, interpolatedColorImage0.Y());
+-      assertEquals(ColorModel.CMY, interpolatedColorImage0.getColorModel());
+-      
+-      try { 
+-        ImageConverter.toComplex((Image) interpolatedColorImage0);
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.image.utils.ImageConverter", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = Exception.class)
++public void test10() throws Throwable {
++    InterpolatedColorImage img = new InterpolatedColorImage(875, 875);
++    assertNotNull(img);
++    assertEquals(InterpolationMethod.NEIGHBOR, img.getInterpolationMethod());
++    assertEquals(875, img.X());
++    assertEquals(875, img.Y());
++    assertEquals(ColorModel.RGB, img.getColorModel());
++
++    img.setColorModel(ColorModel.CMY);
++    assertEquals(ColorModel.CMY, img.getColorModel());
++
++    ImageConverter.toComplex((Image) img);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

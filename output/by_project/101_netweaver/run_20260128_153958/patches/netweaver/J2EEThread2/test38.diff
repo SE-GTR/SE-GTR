@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread2_ESTest.java
+@@ -639,19 +639,29 @@
+       boolean boolean0 = j2EEThread2_0.equals(j2EEThread2_1);
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test38()  throws Throwable  {
+-      J2EEThread2 j2EEThread2_0 = new J2EEThread2();
+-      J2EEThread2 j2EEThread2_1 = new J2EEThread2();
+-      assertTrue(j2EEThread2_1.equals((Object)j2EEThread2_0));
+-      
+-      j2EEThread2_0.setProcessname("SAPControl-RED");
+-      boolean boolean0 = j2EEThread2_0.equals(j2EEThread2_1);
+-      assertFalse(j2EEThread2_1.equals((Object)j2EEThread2_0));
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test38() throws Throwable {
++        J2EEThread2 j2EEThread2_0 = new J2EEThread2();
++        J2EEThread2 j2EEThread2_1 = new J2EEThread2();
++        assertTrue(j2EEThread2_1.equals((Object) j2EEThread2_0));
++
++        // Verify initial state before setting process name
++        assertNull(j2EEThread2_0.getProcessname());
++        assertNull(j2EEThread2_1.getProcessname());
++
++        // Act: change process name of the first instance
++        j2EEThread2_0.setProcessname("SAPControl-RED");
++
++        // Observe side‑effect via getter
++        assertEquals("SAPControl-RED", j2EEThread2_0.getProcessname());
++        assertNull(j2EEThread2_1.getProcessname());
++
++        // Equality should now reflect the changed state
++        boolean boolean0 = j2EEThread2_0.equals(j2EEThread2_1);
++        assertFalse(j2EEThread2_1.equals((Object) j2EEThread2_0));
++        assertFalse(boolean0);
++    }
++
+ @Test(timeout = 4000)
+     public void test39() throws Throwable {
+         J2EEThread2 thread = new J2EEThread2();

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/umd/cs/shop/JSTerm_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSTerm_ESTest.java
+@@ -415,18 +415,26 @@
+       jSTerm0.print();
+       assertTrue(jSTerm0.isEval());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test32()  throws Throwable  {
+-      StringReader stringReader0 = new StringReader("?,$/");
+-      StreamTokenizer streamTokenizer0 = new StreamTokenizer(stringReader0);
+-      JSTerm jSTerm0 = new JSTerm(streamTokenizer0);
+-      jSTerm0.print();
+-      assertFalse(jSTerm0.isConstant());
+-      assertTrue(jSTerm0.isVariable());
+-      assertFalse(jSTerm0.isFunction());
+-      assertEquals("[?%%%]", jSTerm0.toString());
+-  }
++@Test(timeout = 4000)
++public void test32() throws Throwable {
++    StringReader stringReader0 = new StringReader("?,$/");
++    StreamTokenizer streamTokenizer0 = new StreamTokenizer(stringReader0);
++    JSTerm jSTerm0 = new JSTerm(streamTokenizer0);
++    // Capture the output of print()
++    PrintStream originalOut = System.out;
++    ByteArrayOutputStream baos = new ByteArrayOutputStream();
++    System.setOut(new PrintStream(baos));
++    jSTerm0.print();
++    System.out.flush();
++    System.setOut(originalOut);
++    String printed = baos.toString().trim();
++    assertEquals("[?%%%]", printed);
++    assertFalse(jSTerm0.isConstant());
++    assertTrue(jSTerm0.isVariable());
++    assertFalse(jSTerm0.isFunction());
++    assertEquals("[?%%%]", jSTerm0.toString());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test33()  throws Throwable  {

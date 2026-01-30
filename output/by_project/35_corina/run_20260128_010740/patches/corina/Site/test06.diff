@@ -1,0 +1,38 @@
+--- a/evosuite-tests/corina/site/Site_ESTest.java
++++ b/evosuite-tests/corina/site/Site_ESTest.java
+@@ -71,17 +71,24 @@
+       assertFalse(boolean0);
+       assertFalse(site0.equals((Object)site1));
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      Site site0 = new Site();
+-      Site site1 = new Site();
+-      assertTrue(site1.equals((Object)site0));
+-      
+-      site1.setAltitude((Integer) 1);
+-      boolean boolean0 = site1.equals(site0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        Site site0 = new Site();
++        Site site1 = new Site();
++        assertTrue(site1.equals((Object) site0));
++
++        // verify initial altitude is null (no altitude set yet)
++        assertNull(site1.getAltitude());
++
++        // set altitude and verify the side‑effect via the getter
++        site1.setAltitude(Integer.valueOf(1));
++        assertEquals(Integer.valueOf(1), site1.getAltitude());
++
++        // after changing altitude, the two sites should no longer be equal
++        boolean boolean0 = site1.equals(site0);
++        assertFalse(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

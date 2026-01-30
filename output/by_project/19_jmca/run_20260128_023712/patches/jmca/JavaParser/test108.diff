@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
+@@ -1575,23 +1575,16 @@
+          verifyException("com.soops.CEN4010.JMCA.JParser.JavaParser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test108()  throws Throwable  {
+-      JavaParserTokenManager javaParserTokenManager0 = new JavaParserTokenManager((JavaCharStream) null);
+-      JavaParser javaParser0 = new JavaParser(javaParserTokenManager0);
+-      // Undeclared exception!
+-      try { 
+-        javaParser0.EnumConstant();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.soops.CEN4010.JMCA.JParser.JavaParserTokenManager", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test108() throws Throwable {
++        // Provide a minimal, non‑null character stream for the token manager.
++        JavaCharStream charStream = new JavaCharStream(new java.io.StringReader("A"));
++        JavaParserTokenManager tokenManager = new JavaParserTokenManager(charStream);
++        JavaParser parser = new JavaParser(tokenManager);
++        // Invoke the method under test; any unexpected exception will cause the test to fail.
++        parser.EnumConstant();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test109()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/ANTLRNoCaseFileStream_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/ANTLRNoCaseFileStream_ESTest.java
+@@ -30,22 +30,18 @@
+       int int0 = aNTLRNoCaseFileStream0.LA(0);
+       assertEquals(0, int0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        java.io.File tempFile = java.io.File.createTempFile("antlrNoCaseTest", ".txt");
++        tempFile.deleteOnExit();
++        java.nio.file.Files.write(tempFile.toPath(),
++                "abc".getBytes(java.nio.charset.StandardCharsets.UTF_8));
++        ANTLRNoCaseFileStream stream = new ANTLRNoCaseFileStream(tempFile.getAbsolutePath(),
++                "UTF-8");
++        int firstChar = stream.LA(1);
++        assertEquals('a', firstChar);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      ANTLRNoCaseFileStream aNTLRNoCaseFileStream0 = new ANTLRNoCaseFileStream((String) null, "\u0007");
+-      // Undeclared exception!
+-      try { 
+-        aNTLRNoCaseFileStream0.LA((-40));
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.sql.parser.ANTLRNoCaseFileStream", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+     public void test3() throws Throwable {
+         ANTLRNoCaseFileStream stream = new ANTLRNoCaseFileStream((String) null);

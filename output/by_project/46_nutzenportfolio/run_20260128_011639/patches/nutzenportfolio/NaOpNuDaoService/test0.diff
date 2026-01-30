@@ -1,0 +1,46 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/fragebogen/NaOpNuDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/fragebogen/NaOpNuDaoService_ESTest.java
+@@ -35,27 +35,23 @@
+     naOpNuDaoService0 = new NaOpNuDaoService(naOpNuIbatisDao0, (ProjektService) null, (KategorieService) null, (NutzenkriteriumService) null, (AuswahlfeldService) null);
+       // Undeclared exception!
+   }
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
++    NaOpNuIbatisDao dao = new NaOpNuIbatisDao();
++    ProjektService projektService = mock(ProjektService.class);
++    KategorieService kService = mock(KategorieService.class);
++    NutzenkriteriumService nService = mock(NutzenkriteriumService.class);
++    AuswahlfeldService afService = mock(AuswahlfeldService.class);
++    NaOpNuDaoService service = new NaOpNuDaoService(dao, projektService, kService, nService, afService);
++    HttpServletRequest request = mock(HttpServletRequest.class);
++    HttpSession session = mock(HttpSession.class);
++    when(request.getSession()).thenReturn(session);
++    NaOpNuForm form = new NaOpNuForm();
++    service.prepare(request, form);
++    verify(request).getSession();
++    assertNotNull(form);
++  }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    naOpNuIbatisDao0 = new NaOpNuIbatisDao();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession();
+-      NaOpNuForm naOpNuForm0 = new NaOpNuForm();
+-    naOpNuDaoService0 = new NaOpNuDaoService(naOpNuIbatisDao0, (ProjektService) null, (KategorieService) null, (NutzenkriteriumService) null, (AuswahlfeldService) null);
+-      // Undeclared exception!
+-      try { 
+-        naOpNuDaoService0.prepare(httpServletRequest0, naOpNuForm0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.service.fragebogen.NaOpNuDaoService", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
+@@ -1081,14 +1081,16 @@
+          verifyException("com.soops.CEN4010.JMCA.JParser.JavaParser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test067()  throws Throwable  {
+-      StringReader stringReader0 = new StringReader("\"<<\"");
+-      JavaParser javaParser0 = new JavaParser(stringReader0);
+-      javaParser0.ConditionalAndExpression();
+-      assertFalse(javaParser0.lookingAhead);
+-  }
++@Test(timeout = 4000)
++    public void test067() throws Throwable {
++        StringReader stringReader0 = new StringReader("\"<<\"");
++        JavaParser javaParser0 = new JavaParser(stringReader0);
++        boolean before = javaParser0.lookingAhead;
++        javaParser0.ConditionalAndExpression();
++        // Verify that ConditionalAndExpression does not alter the lookingAhead flag for this input
++        assertEquals(before, javaParser0.lookingAhead);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test068()  throws Throwable  {

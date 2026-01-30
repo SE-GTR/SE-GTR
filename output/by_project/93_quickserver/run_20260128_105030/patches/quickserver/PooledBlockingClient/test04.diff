@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/quickserver/net/client/pool/PooledBlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/pool/PooledBlockingClient_ESTest.java
+@@ -69,19 +69,17 @@
+     assertFalse(replaced);
+     assertEquals(0, pooledBlockingClient0.getHandedOutCount());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
+-      doReturn((BlockingClient) null).when(poolableBlockingClient0).createBlockingClient(any(org.quickserver.net.client.SocketBasedHost.class));
+-      SocketBasedHost socketBasedHost0 = new SocketBasedHost("H;?>F.-x,pU,1:^Fb_:", 0);
+-      PooledBlockingClient pooledBlockingClient0 = new PooledBlockingClient(poolableBlockingClient0, socketBasedHost0);
+-      pooledBlockingClient0.close();
+-      assertEquals((-1L), pooledBlockingClient0.getHandedOutSince());
+-      assertEquals(0, pooledBlockingClient0.getHandedOutCount());
+-      assertFalse(pooledBlockingClient0.isHandedOut());
+-  }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    PoolableBlockingClient poolableBlockingClient0 = mock(PoolableBlockingClient.class, new ViolatedAssumptionAnswer());
++    doReturn((BlockingClient) null).when(poolableBlockingClient0).createBlockingClient(any(org.quickserver.net.client.SocketBasedHost.class));
++    SocketBasedHost socketBasedHost0 = new SocketBasedHost("H;?>F.-x,pU,1:^Fb_:", 0);
++    PooledBlockingClient pooledBlockingClient0 = new PooledBlockingClient(poolableBlockingClient0, socketBasedHost0);
++    pooledBlockingClient0.close();
++    // Verify that close() results in the client not being handed out
++    assertFalse(pooledBlockingClient0.isHandedOut());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

@@ -1,0 +1,51 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
+@@ -436,20 +436,34 @@
+       boolean boolean0 = iCMConnection0.equals(iCMConnection1);
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      ICMConnection iCMConnection0 = new ICMConnection();
+-      ICMConnection iCMConnection1 = new ICMConnection();
+-      iCMConnection0.setConid("(()DprA7 S*N\"n4sBf");
+-      assertFalse(iCMConnection0.equals((Object)iCMConnection1));
+-      
+-      iCMConnection1.setConid("(()DprA7 S*N\"n4sBf");
+-      boolean boolean0 = iCMConnection0.equals(iCMConnection1);
+-      assertTrue(boolean0);
+-      assertTrue(iCMConnection1.equals((Object)iCMConnection0));
+-  }
++@Test(timeout = 4000)
++    public void test25() throws Throwable {
++        ICMConnection iCMConnection0 = new ICMConnection();
++        ICMConnection iCMConnection1 = new ICMConnection();
++
++        // Verify initial state before setting conid
++        assertNull(iCMConnection0.getConid());
++        assertNull(iCMConnection1.getConid());
++
++        String conidValue = "(()DprA7 S*N\"n4sBf";
++
++        // Set conid on first instance and assert side‑effect
++        iCMConnection0.setConid(conidValue);
++        assertEquals(conidValue, iCMConnection0.getConid());
++
++        // Objects differ because second instance still has null conid
++        assertFalse(iCMConnection0.equals((Object) iCMConnection1));
++
++        // Set same conid on second instance and assert side‑effect
++        iCMConnection1.setConid(conidValue);
++        assertEquals(conidValue, iCMConnection1.getConid());
++
++        // Now both instances should be equal
++        boolean boolean0 = iCMConnection0.equals(iCMConnection1);
++        assertTrue(boolean0);
++        assertTrue(iCMConnection1.equals((Object) iCMConnection0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

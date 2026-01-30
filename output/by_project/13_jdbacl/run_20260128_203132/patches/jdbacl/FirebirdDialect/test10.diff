@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/FirebirdDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/FirebirdDialect_ESTest.java
+@@ -92,15 +92,22 @@
+       String string0 = firebirdDialect0.renderCreateSequence(dBSequence0);
+       assertEquals("CREATE GENERATOR RDB$w+", string0);
+   }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    FirebirdDialect firebirdDialect0 = new FirebirdDialect();
++    DBSequence dBSequence0 = new DBSequence("", "", "RDB$0");
++    // Capture the initial start value (expected to be null)
++    java.math.BigInteger before = dBSequence0.getStart();
++    // Invoke the void method whose side effect we want to verify
++    dBSequence0.setStart((java.math.BigInteger) null);
++    // Verify that the side effect took place
++    assertNull(dBSequence0.getStart());
++    // Additional check that the start was indeed null before the call (optional safety)
++    assertEquals(before, dBSequence0.getStart());
++    String string0 = firebirdDialect0.renderCreateSequence(dBSequence0);
++    assertEquals("CREATE GENERATOR ", string0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      FirebirdDialect firebirdDialect0 = new FirebirdDialect();
+-      DBSequence dBSequence0 = new DBSequence("", "", "RDB$0");
+-      dBSequence0.setStart((BigInteger) null);
+-      String string0 = firebirdDialect0.renderCreateSequence(dBSequence0);
+-      assertEquals("CREATE GENERATOR ", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

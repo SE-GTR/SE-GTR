@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/CIMObject_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/CIMObject_ESTest.java
+@@ -19,15 +19,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class CIMObject_ESTest extends CIMObject_ESTest_scaffolding {
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
++      CIMObject cIMObject0 = new CIMObject();
++      int hashBefore = cIMObject0.hashCode();
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      CIMObject cIMObject0 = new CIMObject();
+       CIMObject[] cIMObjectArray0 = new CIMObject[1];
+       cIMObjectArray0[0] = cIMObject0;
+       cIMObject0.setMMembers(cIMObjectArray0);
+-      cIMObject0.hashCode();
++
++      int hashAfter = cIMObject0.hashCode();
++      assertNotEquals("hashCode should change after setting members", hashBefore, hashAfter);
++
++      CIMObject[] members = cIMObject0.getMMembers();
++      assertNotNull("Members array should not be null after setMMembers", members);
++      assertEquals("Members array should contain exactly one element", 1, members.length);
++      assertSame("The member should be the original object", cIMObject0, members[0]);
+   }
++
+ @Test(timeout = 4000)
+   public void test01() throws Throwable {
+       CIMAttribute[] cIMAttributeArray0 = new CIMAttribute[5];

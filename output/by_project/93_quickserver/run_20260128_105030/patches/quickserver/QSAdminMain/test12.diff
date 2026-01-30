@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/qsadmin/gui/QSAdminMain_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/qsadmin/gui/QSAdminMain_ESTest.java
+@@ -114,14 +114,21 @@
+          verifyException("org.quickserver.net.qsadmin.gui.QSAdminMain", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    QSAdminMain qSAdminMain0 = new QSAdminMain();
++    // capture initial state
++    boolean initialAppend = qSAdminMain0.getAppendToConsole();
++    boolean initialLogged = qSAdminMain0.isLoggedIn();
++    assertTrue(initialAppend);
++    assertFalse(initialLogged);
++    // invoke a method that may change internal state
++    qSAdminMain0.setGUI(null);
++    // verify that the side‑effect (if any) does not alter the observed state
++    assertEquals(initialAppend, qSAdminMain0.getAppendToConsole());
++    assertEquals(initialLogged, qSAdminMain0.isLoggedIn());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      QSAdminMain qSAdminMain0 = new QSAdminMain();
+-      qSAdminMain0.setGUI((QSAdminGUI) null);
+-      assertTrue(qSAdminMain0.getAppendToConsole());
+-      assertFalse(qSAdminMain0.isLoggedIn());
+-  }
+ @Test(timeout = 4000)
+   public void test13() throws Throwable {
+       QSAdminMain qSAdminMain0 = new QSAdminMain();

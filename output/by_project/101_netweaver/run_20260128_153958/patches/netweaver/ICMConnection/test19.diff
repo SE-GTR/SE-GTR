@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMConnection_ESTest.java
+@@ -322,18 +322,25 @@
+         boolean boolean0 = iCMConnection0.equals(iCMConnection1);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      ICMConnection iCMConnection0 = new ICMConnection();
+-      ICMConnection iCMConnection1 = new ICMConnection();
+-      assertTrue(iCMConnection1.equals((Object)iCMConnection0));
+-      
+-      iCMConnection1.setRequesttype("b");
+-      boolean boolean0 = iCMConnection1.equals(iCMConnection0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        ICMConnection iCMConnection0 = new ICMConnection();
++        ICMConnection iCMConnection1 = new ICMConnection();
++        assertTrue(iCMConnection1.equals((Object) iCMConnection0));
++
++        // verify initial state of requesttype
++        assertNull(iCMConnection1.getRequesttype());
++
++        // act
++        iCMConnection1.setRequesttype("b");
++
++        // assert side‑effect observable via getter
++        assertEquals("b", iCMConnection1.getRequesttype());
++
++        // equality should now differ because requesttype contributes to equals
++        assertFalse(iCMConnection1.equals(iCMConnection0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

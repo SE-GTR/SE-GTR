@@ -1,0 +1,46 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryValueLabelManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryValueLabelManager_ESTest.java
+@@ -108,28 +108,24 @@
+     inMemoryValueLabelManager0.deleteValueLabels(user0, derivedVariable0, arrayList0);
+     assertTrue(arrayList0.contains(valueLabel0));
+ }
+-
+-@Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+-      User user0 = new User("", "");
+-      DerivedVariable derivedVariable0 = new DerivedVariable();
+-      ArrayList<ValueLabel> arrayList0 = new ArrayList<ValueLabel>();
+-      ValueLabel valueLabel0 = new ValueLabel();
+-      boolean added = arrayList0.add(valueLabel0);
+-      assertTrue(added);
+-      InMemoryValueLabelManager inMemoryValueLabelManager0 = new InMemoryValueLabelManager(inMemoryChangeEventManager0);
+-      try { 
++public void test5() throws Throwable {
++    InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
++    User user0 = new User("", "");
++    DerivedVariable derivedVariable0 = new DerivedVariable();
++    ArrayList<ValueLabel> arrayList0 = new ArrayList<>();
++    ValueLabel valueLabel0 = new ValueLabel();
++    assertTrue(arrayList0.add(valueLabel0));
++    assertEquals(1, arrayList0.size());
++    InMemoryValueLabelManager inMemoryValueLabelManager0 = new InMemoryValueLabelManager(inMemoryChangeEventManager0);
++    try {
+         inMemoryValueLabelManager0.deleteValueLabels(user0, derivedVariable0, arrayList0);
+         fail("Expecting exception: Exception");
++    } catch (Exception e) {
++        // "-" does not exist.
++        verifyException("macaw.persistenceLayer.demo.InMemoryValueLabelManager", e);
++    }
++}
+ 
+-      } catch(Exception e) {
+-         //
+-         // \"-\" does not exist.
+-         //
+-         verifyException("macaw.persistenceLayer.demo.InMemoryValueLabelManager", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+ public void test6() throws Throwable {
+     InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();

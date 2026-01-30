@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
+@@ -186,9 +186,7 @@
+     client.setCharset(null);
+     assertNull(client.getCharset());
+ }
+-
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test18()  throws Throwable  {
+     Future<?> future = executor.submit(new Runnable(){ 
+             @Override public void run() { 
+@@ -198,7 +196,7 @@
+           try { 
+             blockingClient0.connect("_", (-36));
+             fail("Expecting exception: SecurityException");
+-          
++
+           } catch(SecurityException e) {
+              //
+              // Security manager blocks (\"java.net.SocketPermission\" \"_\" \"resolve\")
+@@ -219,7 +217,7 @@
+              // org.evosuite.testcase.statements.MethodStatement$1.execute(MethodStatement.java:256)
+              // org.evosuite.testcase.statements.AbstractStatement.exceptionHandler(AbstractStatement.java:165)
+              // org.evosuite.testcase.statements.MethodStatement.execute(MethodStatement.java:219)
+-             // org.evosuite.testcase.execution.TestRunnable.executeStatements(TestRunnable.java:286)
++             // org.evosuite.testcase.execution.TestRunnable.execute(TestRunnable.java:286)
+              // org.evosuite.testcase.execution.TestRunnable.call(TestRunnable.java:192)
+              // org.evosuite.testcase.execution.TestRunnable.call(TestRunnable.java:49)
+              // java.util.concurrent.FutureTask.run(FutureTask.java:266)
+@@ -234,8 +232,10 @@
+         }
+       } 
+     });
+-    future.get(4000, TimeUnit.MILLISECONDS);
+-  }
++    Object result = future.get(4000, TimeUnit.MILLISECONDS);
++    assertNull(result);
++  }
++
+ @Test(expected = IOException.class, timeout = 4000)
+ public void test19() throws Throwable {
+     BlockingClient blockingClient0 = new BlockingClient();

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/macaw/businessLayer/Variable_ESTest.java
++++ b/evosuite-tests/macaw/businessLayer/Variable_ESTest.java
+@@ -262,18 +262,25 @@
+     assertEquals("Unknown", rawVariable0.getCleaningStatus());
+     assertTrue(changes.isEmpty());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      RawVariable rawVariable0 = new RawVariable();
+-      assertEquals("Unknown", rawVariable0.getCleaningStatus());
+-      
+-      rawVariable0.setCleaningStatus("");
+-      rawVariable0.setCleaned(true);
+-      ArrayList<String> arrayList0 = Variable.validateFields(rawVariable0);
+-      assertEquals(2, arrayList0.size());
+-  }
++public void test21() throws Throwable {
++    RawVariable rawVariable0 = new RawVariable();
++    // Verify initial state
++    assertEquals("Unknown", rawVariable0.getCleaningStatus());
++    assertFalse(rawVariable0.isCleaned());
++
++    // Change cleaning status and verify side‑effect
++    rawVariable0.setCleaningStatus("");
++    assertEquals("", rawVariable0.getCleaningStatus());
++
++    // Change cleaned flag and verify side‑effect
++    rawVariable0.setCleaned(true);
++    assertTrue(rawVariable0.isCleaned());
++
++    // Validate fields
++    ArrayList<String> arrayList0 = Variable.validateFields(rawVariable0);
++    assertEquals(2, arrayList0.size());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

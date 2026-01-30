@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/H2Dialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/H2Dialect_ESTest.java
+@@ -114,17 +114,20 @@
+          verifyException("org.hsqldb.jdbc.Util", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        H2Dialect h2Dialect0 = new H2Dialect();
++        Result result0 = new Result(268435453);
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
++        // Verify that the stubbed execute method returns the expected Result
++        Result execResult = session0.execute(new Result(0));
++        assertSame(result0, execResult);
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++        DBSequence[] dBSequenceArray0 = h2Dialect0.querySequences(jdbcConnection0);
++        assertEquals(0, dBSequenceArray0.length);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      H2Dialect h2Dialect0 = new H2Dialect();
+-      Result result0 = new Result(268435453);
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      DBSequence[] dBSequenceArray0 = h2Dialect0.querySequences(jdbcConnection0);
+-      assertEquals(0, dBSequenceArray0.length);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

@@ -1,0 +1,26 @@
+--- a/evosuite-tests/com/tivo/jipviewer/TableSorter_ESTest.java
++++ b/evosuite-tests/com/tivo/jipviewer/TableSorter_ESTest.java
+@@ -365,11 +365,16 @@
+          verifyException("com.tivo.jipviewer.TableSorter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      TableSorter tableSorter0 = new TableSorter();
+-      TableModel tableModel0 = tableSorter0.getTableModel();
+-      assertNull(tableModel0);
+-  }
++@Test(timeout = 4000)
++    public void test28() throws Throwable {
++        // Arrange: create a simple table model with sample data
++        Object[][] data = { { "A", "B" }, { "C", "D" } };
++        String[] columnNames = { "Col1", "Col2" };
++        TableModel model = new javax.swing.table.DefaultTableModel(data, columnNames);
++        // Act: construct a TableSorter with the model
++        TableSorter sorter = new TableSorter(model, null);
++        // Assert: the sorter should return the same model instance
++        assertSame(model, sorter.getTableModel());
++    }
++
+ }

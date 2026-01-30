@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -514,19 +514,22 @@
+     SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+     simpleAccountRealm0.clearCachedAuthorizationInfo((PrincipalCollection) null);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test41()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm("Cij0FWx:lr7|<D:WVR");
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection("Cij0FWx:lr7|<D:WVR", "Cij0FWx:lr7|<D:WVR");
+-      HashtableCache hashtableCache0 = new HashtableCache("Cij0FWx:lr7|<D:WVR");
+-      simpleAccountRealm0.setAuthorizationCache(hashtableCache0);
+-      simpleAccountRealm0.addAccount("Cij0FWx:lr7|<D:WVR", "Cij0FWx:lr7|<D:WVR");
+-      LinkedHashSet<String> linkedHashSet0 = new LinkedHashSet<String>();
+-      boolean boolean0 = simpleAccountRealm0.hasAllRoles(simplePrincipalCollection0, linkedHashSet0);
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test41() throws Throwable {
++    SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm("Cij0FWx:lr7|<D:WVR");
++    SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection("Cij0FWx:lr7|<D:WVR", "Cij0FWx:lr7|<D:WVR");
++    HashtableCache hashtableCache0 = new HashtableCache("Cij0FWx:lr7|<D:WVR");
++    // Verify initial state of the authorization cache
++    assertNull(simpleAccountRealm0.getAuthorizationCache());
++    // Set the authorization cache and assert the side‑effect
++    simpleAccountRealm0.setAuthorizationCache(hashtableCache0);
++    assertSame(hashtableCache0, simpleAccountRealm0.getAuthorizationCache());
++    simpleAccountRealm0.addAccount("Cij0FWx:lr7|<D:WVR", "Cij0FWx:lr7|<D:WVR");
++    LinkedHashSet<String> linkedHashSet0 = new LinkedHashSet<String>();
++    boolean boolean0 = simpleAccountRealm0.hasAllRoles(simplePrincipalCollection0, linkedHashSet0);
++    assertTrue(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test42()  throws Throwable  {

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
+@@ -188,14 +188,23 @@
+       Attributes2Impl attributes2Impl0 = new Attributes2Impl();
+       contentHandlerFixer0.startElement("", "0", "", attributes2Impl0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      XMLReaderAdapter xMLReaderAdapter0 = new XMLReaderAdapter();
+-      ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLReaderAdapter0);
+-      AttributesImpl attributesImpl0 = new AttributesImpl();
+-      contentHandlerFixer0.startElement((String) null, (String) null, (String) null, attributesImpl0);
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        XMLReaderAdapter xMLReaderAdapter0 = new XMLReaderAdapter();
++        ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLReaderAdapter0);
++        AttributesImpl attributesImpl0 = new AttributesImpl();
++        // Capture the state before invoking startElement
++        boolean before = contentHandlerFixer0.getContextPushed();
++        // Act
++        contentHandlerFixer0.startElement((String) null, (String) null, (String) null, attributesImpl0);
++        // Verify that the context was pushed as a result of the call
++        assertTrue("Context should be pushed after startElement", contentHandlerFixer0.getContextPushed());
++        // Ensure the state actually changed if it was initially false
++        if (!before) {
++            assertTrue(contentHandlerFixer0.getContextPushed());
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

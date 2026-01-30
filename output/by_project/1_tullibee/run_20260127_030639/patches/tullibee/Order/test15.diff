@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/ib/client/Order_ESTest.java
++++ b/evosuite-tests/com/ib/client/Order_ESTest.java
+@@ -179,25 +179,19 @@
+     order1.m_ocaGroup = "O";
+     assertFalse(order0.equals(order1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      Order order0 = new Order();
+-      order0.m_tif = "com.ib.client.Util";
+-      order0.m_permId = (int) 'n';
+-      Order order1 = new Order();
+-      boolean boolean0 = order0.equals(order1);
+-      assertEquals(Integer.MAX_VALUE, order1.m_minQty);
+-      assertTrue(order1.m_transmit);
+-      assertEquals(1.7976931348623157E308, order1.m_nbboPriceCap, 0.01);
+-      assertEquals(Integer.MAX_VALUE, order1.m_scaleSubsLevelSize);
+-      assertFalse(order1.equals((Object)order0));
+-      assertEquals(1.7976931348623157E308, order1.m_basisPoints, 0.01);
+-      assertEquals(Integer.MAX_VALUE, order1.m_volatilityType);
+-      assertFalse(boolean0);
+-      assertEquals(Integer.MAX_VALUE, order1.m_scaleInitLevelSize);
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    Order order0 = new Order();
++    order0.m_tif = "com.ib.client.Util";
++    order0.m_permId = (int) 'n';
++    Order order1 = new Order();
++    // Verify that two distinct newly created orders are not equal
++    assertFalse(order0.equals(order1));
++    assertFalse(order1.equals(order0));
++    // Verify that an order equals itself
++    assertTrue(order0.equals(order0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

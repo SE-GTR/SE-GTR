@@ -1,0 +1,38 @@
+--- a/evosuite-tests/fr/unice/gfarce/identity/Candidat_ESTest.java
++++ b/evosuite-tests/fr/unice/gfarce/identity/Candidat_ESTest.java
+@@ -217,13 +217,28 @@
+       candidat0.setNationalite("-");
+       assertNull(candidat0.getType());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-    candidat0 = new Candidat();
+-      String string0 = candidat0.getNationalite();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        java.util.Calendar cal = java.util.Calendar.getInstance();
++        java.io.File tempPhoto = java.io.File.createTempFile("photo", ".tmp");
++        tempPhoto.deleteOnExit();
++        String expectedNationalite = "French";
++        candidat0 = new Candidat(
++                "Doe",
++                "John",
++                "M",
++                "john.doe@example.com",
++                cal,
++                "BSc",
++                tempPhoto.getAbsolutePath(),
++                expectedNationalite,
++                0,
++                0,
++                null);
++        String actualNationalite = candidat0.getNationalite();
++        org.junit.Assert.assertEquals(expectedNationalite, actualNationalite);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

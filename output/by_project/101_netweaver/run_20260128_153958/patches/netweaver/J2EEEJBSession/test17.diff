@@ -1,0 +1,49 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -323,20 +323,32 @@
+     boolean boolean0 = j2EEEJBSession1.equals(j2EEEJBSession0);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      j2EEEJBSession0.setUser("lPoZG,J'Z4LNJ>");
+-      assertFalse(j2EEEJBSession0.equals((Object)j2EEEJBSession1));
+-      
+-      j2EEEJBSession1.setUser("lPoZG,J'Z4LNJ>");
+-      boolean boolean0 = j2EEEJBSession1.equals(j2EEEJBSession0);
+-      assertTrue(j2EEEJBSession0.equals((Object)j2EEEJBSession1));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++  public void test17() throws Throwable {
++      J2EEEJBSession session0 = new J2EEEJBSession();
++      J2EEEJBSession session1 = new J2EEEJBSession();
++
++      // Verify initial state
++      assertNull(session0.getUser());
++      assertNull(session1.getUser());
++
++      String user = "lPoZG,J'Z4LNJ>";
++      session0.setUser(user);
++      // Observe side‑effect of setUser
++      assertEquals(user, session0.getUser());
++
++      // Sessions with different users are not equal
++      assertFalse(session0.equals(session1));
++
++      session1.setUser(user);
++      // Observe side‑effect on the second instance
++      assertEquals(user, session1.getUser());
++
++      // Now both sessions have the same user and should be equal
++      assertTrue(session0.equals(session1));
++      assertTrue(session1.equals(session0));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

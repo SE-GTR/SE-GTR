@@ -1,0 +1,47 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
+@@ -283,21 +283,29 @@
+         boolean boolean0 = j2EEProcess1.equals(j2EEProcess0);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      J2EEProcess j2EEProcess0 = new J2EEProcess();
+-      J2EEPSTATE j2EEPSTATE0 = J2EEPSTATE.value4;
+-      J2EEProcess j2EEProcess1 = new J2EEProcess();
+-      j2EEProcess1.setState(j2EEPSTATE0);
+-      assertFalse(j2EEProcess1.equals((Object)j2EEProcess0));
+-      
+-      j2EEProcess0.setState(j2EEPSTATE0);
+-      boolean boolean0 = j2EEProcess0.equals(j2EEProcess1);
+-      assertTrue(j2EEProcess1.equals((Object)j2EEProcess0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test14() throws Throwable {
++        J2EEProcess j2EEProcess0 = new J2EEProcess();
++        // Verify initial state is null (or default)
++        assertNull(j2EEProcess0.getState());
++
++        J2EEPSTATE j2EEPSTATE0 = J2EEPSTATE.value4;
++        J2EEProcess j2EEProcess1 = new J2EEProcess();
++        j2EEProcess1.setState(j2EEPSTATE0);
++        // Assert side‑effect of setState
++        assertEquals(j2EEPSTATE0, j2EEProcess1.getState());
++
++        assertFalse(j2EEProcess1.equals((Object) j2EEProcess0));
++
++        j2EEProcess0.setState(j2EEPSTATE0);
++        // Assert side‑effect of setState on the second instance
++        assertEquals(j2EEPSTATE0, j2EEProcess0.getState());
++
++        boolean boolean0 = j2EEProcess0.equals(j2EEProcess1);
++        assertTrue(j2EEProcess1.equals((Object) j2EEProcess0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

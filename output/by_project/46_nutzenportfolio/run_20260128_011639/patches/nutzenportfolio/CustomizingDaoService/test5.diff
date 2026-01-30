@@ -1,0 +1,33 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/customizing/CustomizingDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/customizing/CustomizingDaoService_ESTest.java
+@@ -126,23 +126,13 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-    customizingIbatisDao0 = new CustomizingIbatisDao();
+-    customizingDaoService0 = new CustomizingDaoService(customizingIbatisDao0);
+-      // Undeclared exception!
+-      try { 
+-        customizingDaoService0.getByName((Customizing) null);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = IllegalArgumentException.class)
++public void test5() throws Throwable {
++    customizingIbatisDao0 = new CustomizingIbatisDao();
++    customizingDaoService0 = new CustomizingDaoService(customizingIbatisDao0);
++    customizingDaoService0.getByName((Customizing) null);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

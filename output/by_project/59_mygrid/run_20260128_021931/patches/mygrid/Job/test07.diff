@@ -1,0 +1,49 @@
+--- a/evosuite-tests/mygrid/web/Job_ESTest.java
++++ b/evosuite-tests/mygrid/web/Job_ESTest.java
+@@ -97,21 +97,31 @@
+     assertEquals(hashAfter, job0.hashCode());
+     assertEquals(0, job0.getProgress());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      Job job0 = new Job();
+-      GridJobStatus gridJobStatus0 = GridJobStatus.Available;
+-      job0.setStatus(gridJobStatus0);
+-      Job job1 = new Job();
+-      assertFalse(job1.equals((Object)job0));
+-      
+-      job1.setStatus(gridJobStatus0);
+-      boolean boolean0 = job1.equals(job0);
+-      assertTrue(job1.equals((Object)job0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        Job job0 = new Job();
++        GridJobStatus gridJobStatus0 = GridJobStatus.Available;
++
++        // Verify initial status is null (or default) before setting
++        assertNull(job0.getStatus());
++
++        // Act: set status on job0 and verify the side‑effect
++        job0.setStatus(gridJobStatus0);
++        assertEquals(gridJobStatus0, job0.getStatus());
++
++        Job job1 = new Job();
++        assertFalse(job1.equals((Object) job0));
++
++        // Act: set the same status on job1
++        job1.setStatus(gridJobStatus0);
++        assertEquals(gridJobStatus0, job1.getStatus());
++
++        // Verify that jobs are now equal because they share the same status
++        boolean boolean0 = job1.equals(job0);
++        assertTrue(job1.equals((Object) job0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

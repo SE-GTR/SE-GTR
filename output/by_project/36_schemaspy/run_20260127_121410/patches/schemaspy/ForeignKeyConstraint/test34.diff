@@ -1,0 +1,29 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/ForeignKeyConstraint_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/ForeignKeyConstraint_ESTest.java
+@@ -232,14 +232,18 @@
+          verifyException("net.sourceforge.schemaspy.model.TableColumn", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      ForeignKeyConstraint foreignKeyConstraint0 = new ForeignKeyConstraint((Table) null, "#3f'HL", 1179, 1179);
+-      foreignKeyConstraint0.getParentTable();
+-      assertEquals(1179, foreignKeyConstraint0.getUpdateRule());
+-      assertEquals(1179, foreignKeyConstraint0.getDeleteRule());
+-  }
++@Test(timeout = 4000)
++    public void test34() throws Throwable {
++        ForeignKeyConstraint fk0 = new ForeignKeyConstraint((Table) null, "#3f'HL", 1179, 1179);
++        ForeignKeyConstraint fk1 = new ForeignKeyConstraint((Table) null, "AAA", 1179, 1179);
++        // Verify constructor‑initialized state that is relevant for the behavior under test
++        assertNull(fk0.getParentTable());
++        assertEquals(1179, fk0.getUpdateRule());
++        // Exercise a non‑trivial method and assert its effect
++        int cmp = fk0.compareTo(fk1);
++        assertTrue("Expected fk0 to be ordered before fk1 based on name", cmp < 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test35()  throws Throwable  {

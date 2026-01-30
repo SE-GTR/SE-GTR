@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/tivo/jipviewer/JipRun_ESTest.java
++++ b/evosuite-tests/com/tivo/jipviewer/JipRun_ESTest.java
+@@ -18,15 +18,26 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class JipRun_ESTest extends JipRun_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      JipRun jipRun0 = new JipRun();
+-      jipRun0.startFrame("", "", 354L, 354L);
+-      jipRun0.endFrame();
+-      jipRun0.startFrame("", "", 354L, 354L);
+-      jipRun0.endFrame();
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    JipRun jipRun0 = new JipRun();
++
++    // Verify initial state: no current frame
++    assertNull(jipRun0.getCurFrame());
++
++    // First frame lifecycle
++    jipRun0.startFrame("", "", 354L, 354L);
++    assertNotNull(jipRun0.getCurFrame());
++    jipRun0.endFrame();
++    assertNull(jipRun0.getCurFrame());
++
++    // Second frame lifecycle
++    jipRun0.startFrame("", "", 354L, 354L);
++    assertNotNull(jipRun0.getCurFrame());
++    jipRun0.endFrame();
++    assertNull(jipRun0.getCurFrame());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

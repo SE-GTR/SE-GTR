@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/quickserver/util/pool/MakeQSObjectPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/MakeQSObjectPool_ESTest.java
+@@ -30,23 +30,24 @@
+     makeQSObjectPool0 = new MakeQSObjectPool();
+     stackObjectPool0 = new StackObjectPool((-2474));
+   }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    MakeQSObjectPool makeQSObjectPool0 = new MakeQSObjectPool();
++    StackObjectPool stackObjectPool0 = new StackObjectPool(-2474);
++    // Initialize required fields via reflection
++    java.lang.reflect.Field objectPoolField = MakeQSObjectPool.class.getDeclaredField("objectPool");
++    objectPoolField.setAccessible(true);
++    objectPoolField.set(makeQSObjectPool0, stackObjectPool0);
++    java.lang.reflect.Field listField = MakeQSObjectPool.class.getDeclaredField("list");
++    listField.setAccessible(true);
++    listField.set(makeQSObjectPool0, new java.util.ArrayList<>());
++    // Act: return an object to the pool; should not throw an exception
++    makeQSObjectPool0.returnObject(new Object());
++    // Verify that the internal fields remain properly initialized
++    org.junit.Assert.assertNotNull(objectPoolField.get(makeQSObjectPool0));
++    org.junit.Assert.assertNotNull(listField.get(makeQSObjectPool0));
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-    makeQSObjectPool0 = new MakeQSObjectPool();
+-    stackObjectPool0 = new StackObjectPool((-2474));
+-      try { 
+-        makeQSObjectPool0.returnObject(stackObjectPool0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.util.pool.MakeQSObjectPool", e);
+-      }
+-  }
+ @Test(timeout = 4000, expected = NullPointerException.class)
+ public void test01() throws Throwable {
+     makeQSObjectPool0 = new MakeQSObjectPool();

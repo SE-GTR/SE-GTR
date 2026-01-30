@@ -1,0 +1,30 @@
+--- a/evosuite-tests/net/sourceforge/shp2kml/GeomConverter_ESTest.java
++++ b/evosuite-tests/net/sourceforge/shp2kml/GeomConverter_ESTest.java
+@@ -47,16 +47,18 @@
+     assertTrue(kml.contains("<extrude>-2358.31</extrude>"));
+     assertTrue(kml.contains("<Polygon>"));
+ }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        PrecisionModel precisionModel0 = new PrecisionModel(-1.0);
++        Point[] pointArray0 = new Point[0];
++        MultiPoint multiPoint0 = new MultiPoint(pointArray0, precisionModel0, 527);
++        String result = GeomConverter.getPlacemarkKML((Geometry) multiPoint0, "e@(]xSR./ETHS", "Must have at least 2 dimensions", -1.0);
++        assertNotNull(result);
++        assertTrue(result.contains("<name>e@(]xSR./ETHS</name>"));
++        assertTrue(result.contains("<description><![CDATA[Must have at least 2 dimensions]]></description>"));
++        assertTrue(result.contains("<extrude>-1.0</extrude>"));
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      PrecisionModel precisionModel0 = new PrecisionModel((-1.0));
+-      Point[] pointArray0 = new Point[0];
+-      MultiPoint multiPoint0 = new MultiPoint(pointArray0, precisionModel0, 527);
+-      String string0 = GeomConverter.getPlacemarkKML((Geometry) multiPoint0, "e@(]xSR./ETHS", "Must have at least 2 dimensions", (-1.0));
+-      assertEquals("<Placemark><description><![CDATA[Must have at least 2 dimensions]]></description><name>e@(]xSR./ETHS</name><Point><extrude>-1.0</extrude><altitudeMode>relativeToGround</altitudeMode><coordinates></coordinates></Point></Placemark>", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Dspace2HubPackager_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/packager/Dspace2HubPackager_ESTest.java
+@@ -60,22 +60,12 @@
+         Dspace2HubPackager dspace2HubPackager0 = new Dspace2HubPackager();
+         dspace2HubPackager0.createHubPackage((ZipInputStream) null, "mets.xml", "http://www.loc.gov/standards/premis");
+     }
++@Test(timeout = 4000, expected = FileNotFoundException.class)
++    public void test3() throws Throwable {
++        Dspace2HubPackager dspace2HubPackager0 = new Dspace2HubPackager();
++        dspace2HubPackager0.createHubPackage("mets.xml", "mets.xml", "http://www.loc.gov/standards/premis");
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      Dspace2HubPackager dspace2HubPackager0 = new Dspace2HubPackager();
+-      try { 
+-        dspace2HubPackager0.createHubPackage("mets.xml", "mets.xml", "http://www.loc.gov/standards/premis");
+-        fail("Expecting exception: FileNotFoundException");
+-      
+-      } catch(FileNotFoundException e) {
+-         //
+-         // mets.xml (No such file or directory)
+-         //
+-         verifyException("java.util.zip.ZipFile", e);
+-      }
+-  }
+ @Test(timeout = 4000, expected = Exception.class)
+ public void test4() throws Throwable {
+     java.io.File tempFile = java.io.File.createTempFile("empty", ".zip");

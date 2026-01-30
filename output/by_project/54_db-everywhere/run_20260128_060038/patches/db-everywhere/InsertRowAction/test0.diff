@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/action/InsertRowAction_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/action/InsertRowAction_ESTest.java
+@@ -24,23 +24,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class InsertRowAction_ESTest extends InsertRowAction_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        InsertRowAction insertRowAction0 = new InsertRowAction();
++        DynaActionForm dynaActionForm0 = new DynaActionForm();
++        ActionMapping mapping = mock(ActionMapping.class);
++        HttpServletRequest request = mock(HttpServletRequest.class);
++        HttpSession session = mock(HttpSession.class);
++        doReturn(session).when(request).getSession();
++        HttpServletResponse response = mock(HttpServletResponse.class);
++        ActionForward forward = insertRowAction0.execute(mapping, dynaActionForm0, request, response);
++        assertNotNull(forward);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      InsertRowAction insertRowAction0 = new InsertRowAction();
+-      DynaActionForm dynaActionForm0 = new DynaActionForm();
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      try { 
+-        insertRowAction0.execute((ActionMapping) null, (ActionForm) dynaActionForm0, (HttpServletRequest) httpServletRequestWrapper0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.gbshape.dbe.struts.action.InsertRowAction", e);
+-      }
+-  }
+ }

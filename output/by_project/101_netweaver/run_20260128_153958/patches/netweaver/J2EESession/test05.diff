@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
+@@ -84,18 +84,26 @@
+     assertTrue(j2EESession1.equals((Object) j2EESession0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      J2EESession j2EESession0 = new J2EESession();
+-      J2EESession j2EESession1 = new J2EESession();
+-      assertTrue(j2EESession1.equals((Object)j2EESession0));
+-      
+-      j2EESession1.setBackingStore("S");
+-      boolean boolean0 = j2EESession0.equals(j2EESession1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    J2EESession j2EESession0 = new J2EESession();
++    J2EESession j2EESession1 = new J2EESession();
++    assertTrue(j2EESession1.equals((Object) j2EESession0));
++
++    // Verify initial state before setting backing store
++    assertNull(j2EESession1.getBackingStore());
++
++    // Act: set backing store
++    j2EESession1.setBackingStore("S");
++
++    // Assert side‑effect of setBackingStore
++    assertEquals("S", j2EESession1.getBackingStore());
++
++    // Ensure objects are no longer equal after the change
++    boolean boolean0 = j2EESession0.equals(j2EESession1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

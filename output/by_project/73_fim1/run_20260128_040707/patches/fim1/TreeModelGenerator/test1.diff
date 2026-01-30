@@ -1,0 +1,48 @@
+--- a/evosuite-tests/osa/ora/server/client/ui/utils/TreeModelGenerator_ESTest.java
++++ b/evosuite-tests/osa/ora/server/client/ui/utils/TreeModelGenerator_ESTest.java
+@@ -44,19 +44,34 @@
+ 
+     assertNull(user1.getName());
+ }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    User user0 = new User();
++    DefaultMutableTreeNode defaultMutableTreeNode0 = new DefaultMutableTreeNode();
++    Vector<User> vector0 = new Vector<User>();
++    User user1 = new User();
+ 
++    // Verify that adding to the vector reports success
++    boolean added = vector0.add(user0);
++    org.junit.Assert.assertTrue(added);
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      User user0 = new User();
+-      DefaultMutableTreeNode defaultMutableTreeNode0 = new DefaultMutableTreeNode();
+-      Vector<User> vector0 = new Vector<User>();
+-      User user1 = new User();
+-      user0.setId(2083);
+-      vector0.add(user0);
+-      TreeModelGenerator.setChildes(defaultMutableTreeNode0, vector0, user1, false);
+-      assertEquals(10, vector0.capacity());
+-  }
++    // Verify that setId correctly updates the user's id
++    user0.setId(2083);
++    org.junit.Assert.assertEquals(2083, user0.getId());
++
++    // Capture child count before invoking the method under test
++    int beforeChildCount = defaultMutableTreeNode0.getChildCount();
++
++    TreeModelGenerator.setChildes(defaultMutableTreeNode0, vector0, user1, false);
++
++    // After the call, the node should have a child for each user in the vector
++    org.junit.Assert.assertEquals(vector0.size(), defaultMutableTreeNode0.getChildCount());
++    org.junit.Assert.assertTrue(defaultMutableTreeNode0.getChildCount() > beforeChildCount);
++
++    // Retain the original capacity assertion
++    org.junit.Assert.assertEquals(10, vector0.capacity());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

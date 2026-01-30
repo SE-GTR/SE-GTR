@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -228,18 +228,23 @@
+     assertTrue(enqLock1.equals((Object) enqLock0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
+-      EnqLock enqLock1 = new EnqLock();
+-      assertTrue(enqLock1.equals((Object)enqLock0));
+-      
+-      enqLock1.setUser("javax.xml.namespace.QName");
+-      boolean boolean0 = enqLock0.equals(enqLock1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        EnqLock enqLock0 = new EnqLock();
++        EnqLock enqLock1 = new EnqLock();
++        assertEquals(enqLock0, enqLock1);
++
++        String userValue = "testUser123";
++        enqLock1.setUser(userValue);
++
++        // Verify the side‑effect of setUser
++        assertEquals(userValue, enqLock1.getUser());
++        assertNull(enqLock0.getUser());
++
++        // The two objects should now differ because their 'user' fields differ
++        assertNotEquals(enqLock0, enqLock1);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

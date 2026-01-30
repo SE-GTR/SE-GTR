@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/AbstractAlignedReadCasVisitor_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/AbstractAlignedReadCasVisitor_ESTest.java
+@@ -21,25 +21,27 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AbstractAlignedReadCasVisitor_ESTest extends AbstractAlignedReadCasVisitor_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       MockFile mockFile0 = new MockFile("", "org.jcvi.jillion.assembly.clc.cas.AbstractAlignedReadCasVisitor$1$1");
+       CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
+-      doReturn((StreamingIterator) null).when(casGappedReferenceDataStore0).idIterator();
+-      doReturn((StreamingIterator) null).when(casGappedReferenceDataStore0).iterator();
++      StreamingIterator<String> idIter = doReturn((StreamingIterator) null).when(casGappedReferenceDataStore0).idIterator();
++      assertNull(idIter);
++      StreamingIterator<?> iter = doReturn((StreamingIterator) null).when(casGappedReferenceDataStore0).iterator();
++      assertNull(iter);
+       Cas2Consed cas2Consed0 = null;
+       try {
+-        cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "org.jcvi.jillion.assembly.clc.cas.AbstractAlignedReadCasVisitor$1$1");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.assembly.clc.cas.consed.Cas2Consed", e);
++          cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0,
++                  "org.jcvi.jillion.assembly.clc.cas.AbstractAlignedReadCasVisitor$1$1");
++          fail("Expecting exception: NullPointerException");
++      } catch (NullPointerException e) {
++          //
++          // no message in exception (getMessage() returned null)
++          //
++          verifyException("org.jcvi.jillion.assembly.clc.cas.consed.Cas2Consed", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

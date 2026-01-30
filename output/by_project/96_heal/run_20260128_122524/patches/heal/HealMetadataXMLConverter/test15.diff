@@ -1,0 +1,46 @@
+--- a/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
+@@ -232,28 +232,21 @@
+     HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, byteArrayOutputStream0);
+     assertEquals(1115, byteArrayOutputStream0.size());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      completeMetadataBean0.setLocation("bTj?iX_L3#Coh!RPOv");
+-      CopyrightBean copyrightBean0 = new CopyrightBean();
+-      CopyrightTextBean copyrightTextBean0 = new CopyrightTextBean();
+-      copyrightBean0.setCopyrightText(copyrightTextBean0);
+-      completeMetadataBean0.addCopyright(copyrightBean0);
+-      FileLocator fileLocator0 = new FileLocator();
+-      try { 
+-        HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, (OutputStream) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // javax.xml.transform.TransformerException: Result object passed to ''{0}'' is invalid.
+-         //
+-         verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test15() throws Throwable {
++    CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++    completeMetadataBean0.setLocation("bTj?iX_L3#Coh!RPOv");
++    CopyrightBean copyrightBean0 = new CopyrightBean();
++    CopyrightTextBean copyrightTextBean0 = new CopyrightTextBean();
++    copyrightBean0.setCopyrightText(copyrightTextBean0);
++    completeMetadataBean0.addCopyright(copyrightBean0);
++    FileLocator fileLocator0 = new FileLocator();
++    java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
++    HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, out);
++    byte[] result = out.toByteArray();
++    assertTrue("Output should not be empty", result.length > 0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

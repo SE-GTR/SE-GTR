@@ -1,0 +1,29 @@
+--- a/evosuite-tests/framework/persistence/jdbc/pool/JDBCPool_ESTest.java
++++ b/evosuite-tests/framework/persistence/jdbc/pool/JDBCPool_ESTest.java
+@@ -38,21 +38,12 @@
+       oraclePoolImpl0.releaseConnection((Connection) null);
+       assertNull(oraclePoolImpl0.getQueryTimestamp());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      DBCPoolImpl dBCPoolImpl0 = new DBCPoolImpl();
+-      try { 
++@Test(timeout = 4000, expected = java.sql.SQLException.class)
++    public void test02() throws Throwable {
++        DBCPoolImpl dBCPoolImpl0 = new DBCPoolImpl();
+         dBCPoolImpl0.getConnection("dLNYXR JmGC", "dLNYXR JmGC");
+-        fail("Expecting exception: SQLException");
+-      
+-      } catch(SQLException e) {
+-         //
+-         // Must set the ConnectionPoolDataSource through setDataSourceName or setConnectionPoolDataSource before calling getConnection.
+-         //
+-         verifyException("org.apache.commons.dbcp.datasources.InstanceKeyDataSource", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

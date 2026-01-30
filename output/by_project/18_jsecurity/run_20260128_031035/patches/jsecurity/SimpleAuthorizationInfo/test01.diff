@@ -1,0 +1,44 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleAuthorizationInfo_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleAuthorizationInfo_ESTest.java
+@@ -36,24 +36,24 @@
+          verifyException("java.util.AbstractCollection", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        LinkedHashSet<String> linkedHashSet0 = new LinkedHashSet<String>();
++        SimpleAuthorizationInfo simpleAuthorizationInfo0 = new SimpleAuthorizationInfo(linkedHashSet0);
++        Permission perm = new Permission() {
++            @Override
++            public boolean implies(Permission p) {
++                return false;
++            }
++        };
++        simpleAuthorizationInfo0.addObjectPermission(perm);
++        java.util.Collection<Permission> perms = java.util.Collections.singleton(perm);
++        simpleAuthorizationInfo0.addObjectPermissions(perms);
++        java.util.Set<Permission> objPerms = simpleAuthorizationInfo0.getObjectPermissions();
++        org.junit.Assert.assertNotNull(objPerms);
++        org.junit.Assert.assertTrue(objPerms.contains(perm));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      LinkedHashSet<String> linkedHashSet0 = new LinkedHashSet<String>();
+-      SimpleAuthorizationInfo simpleAuthorizationInfo0 = new SimpleAuthorizationInfo(linkedHashSet0);
+-      simpleAuthorizationInfo0.addObjectPermission((Permission) null);
+-      // Undeclared exception!
+-      try { 
+-        simpleAuthorizationInfo0.addObjectPermissions((Collection<Permission>) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.util.AbstractCollection", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

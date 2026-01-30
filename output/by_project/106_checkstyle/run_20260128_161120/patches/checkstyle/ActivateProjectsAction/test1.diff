@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/actions/ActivateProjectsAction_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/actions/ActivateProjectsAction_ESTest.java
+@@ -29,12 +29,28 @@
+       activateProjectsAction0.selectionChanged(labelRetargetAction0, treeSelection0);
+       assertNull(labelRetargetAction0.getToolTipText());
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        ActivateProjectsAction action = new ActivateProjectsAction();
++        // Capture state before the call (expected to be null or empty)
++        java.util.Collection<?> before = action.getSelectedProjects();
++        int beforeSize = (before == null) ? 0 : before.size();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ActivateProjectsAction activateProjectsAction0 = new ActivateProjectsAction();
+-      activateProjectsAction0.selectionChanged((IAction) null, (ISelection) null);
+-  }
++        // Act: invoke the method under test
++        action.selectionChanged((IAction) null, (ISelection) null);
++
++        // Observe the side‑effect via the public accessor
++        java.util.Collection<?> after = action.getSelectedProjects();
++        int afterSize = (after == null) ? 0 : after.size();
++
++        // The selectionChanged call with a null selection should result in an empty collection
++        assertEquals(0, afterSize);
++        // Additionally, ensure the collection was modified (if it was non‑empty before)
++        if (beforeSize != 0) {
++            assertNotEquals(beforeSize, afterSize);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

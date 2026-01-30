@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo_ESTest.java
+@@ -180,17 +180,27 @@
+         boolean boolean0 = gCInfo1.equals(gCInfo0);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-    gCInfo0 = new GCInfo();
+-      gCInfo0.setType("GCInfo");
+-    gCInfo1 = new GCInfo();
+-      boolean boolean0 = gCInfo1.equals(gCInfo0);
+-      assertFalse(boolean0);
+-      assertFalse(gCInfo0.equals((Object)gCInfo1));
+-  }
++@Test(timeout = 4000)
++  public void test11() throws Throwable {
++    gCInfo0 = new GCInfo();
++    // Verify initial state before setting type
++    assertNull(gCInfo0.getType());
++    // Act: set the type
++    gCInfo0.setType("GCInfo");
++    // Assert side‑effect of setType
++    assertEquals("GCInfo", gCInfo0.getType());
++
++    gCInfo1 = new GCInfo();
++    boolean boolean0 = gCInfo1.equals(gCInfo0);
++    assertFalse(boolean0);
++    assertFalse(gCInfo0.equals((Object) gCInfo1));
++
++    // Additional check: two objects with the same type should be equal
++    GCInfo gCInfo2 = new GCInfo();
++    gCInfo2.setType("GCInfo");
++    assertTrue(gCInfo0.equals(gCInfo2));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

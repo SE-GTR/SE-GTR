@@ -1,0 +1,47 @@
+--- a/evosuite-tests/client/view/GameView_ESTest.java
++++ b/evosuite-tests/client/view/GameView_ESTest.java
+@@ -297,28 +297,22 @@
+     gameView0.paint();
+     gameView0.paint();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      FileSystemHandling.shouldThrowIOException((EvoSuiteFile) null);
+-      GameCanvas gameCanvas0 = new GameCanvas(1022, 809);
+-      GameView gameView0 = new GameView(gameCanvas0);
+-      Point point0 = new Point(987, 1022);
+-      Bomb bomb0 = new Bomb(point0);
+-      gameView0.addGameObjectView((GameObjectView) null);
+-      // Undeclared exception!
+-      try { 
+-        gameView0.paint();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("client.view.GameView", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        GameCanvas gameCanvas0 = new GameCanvas(1022, 809);
++        GameView gameView0 = new GameView(gameCanvas0);
++        GameObjectView view = new GameObjectView() {
++            @Override
++            public void draw(java.awt.Graphics2D g) {
++                // no-op
++            }
++        };
++        boolean added = gameView0.addGameObjectView(view);
++        assertTrue("addGameObjectView should return true", added);
++        // paint should execute without throwing an exception
++        gameView0.paint();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

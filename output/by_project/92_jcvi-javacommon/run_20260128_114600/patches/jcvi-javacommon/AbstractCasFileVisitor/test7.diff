@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/AbstractCasFileVisitor_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/AbstractCasFileVisitor_ESTest.java
+@@ -150,25 +150,29 @@
+       assertSame(streamingIterator0, casGappedReferenceDataStore0.idIterator());
+       assertSame(streamingIterator1, casGappedReferenceDataStore0.iterator());
+   }
++@Test(timeout = 4000)
++public void test7() throws Throwable {
++    MockFile mockFile0 = new MockFile("}@''86m-+~\"HR<?o&");
++    StreamingIterator<String> streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(streamingIterator0).hasNext();
++    StreamingIterator<NucleotideSequence> streamingIterator1 = (StreamingIterator<NucleotideSequence>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++    CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
++    doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
++    doReturn(streamingIterator1).when(casGappedReferenceDataStore0).iterator();
++    DefaultCasAlignmentScore defaultCasAlignmentScore0 = new DefaultCasAlignmentScore((-1), 1073, (-195), (-195), (-1), (-1), 10, (-195));
++    CasScoreType casScoreType0 = CasScoreType.NO_SCORE;
++    CasAlignmentType casAlignmentType0 = CasAlignmentType.GLOBAL;
++    DefaultCasScoringScheme defaultCasScoringScheme0 = new DefaultCasScoringScheme(casScoreType0, defaultCasAlignmentScore0, casAlignmentType0);
++    Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "}@''86m-+~\"HR<?o&");
++    cas2Consed0.visitScoringScheme(defaultCasScoringScheme0);
++    assertEquals(CasScoreType.NO_SCORE, defaultCasScoringScheme0.getScoreType());
+ 
++    // Verify stubbed behaviors
++    assertFalse(streamingIterator0.hasNext());
++    assertSame(streamingIterator0, casGappedReferenceDataStore0.idIterator());
++    assertSame(streamingIterator1, casGappedReferenceDataStore0.iterator());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("}@''86m-+~\"HR<?o&");
+-      StreamingIterator<String> streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(streamingIterator0).hasNext();
+-      StreamingIterator<NucleotideSequence> streamingIterator1 = (StreamingIterator<NucleotideSequence>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
+-      doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
+-      doReturn(streamingIterator1).when(casGappedReferenceDataStore0).iterator();
+-      DefaultCasAlignmentScore defaultCasAlignmentScore0 = new DefaultCasAlignmentScore((-1), 1073, (-195), (-195), (-1), (-1), 10, (-195));
+-      CasScoreType casScoreType0 = CasScoreType.NO_SCORE;
+-      CasAlignmentType casAlignmentType0 = CasAlignmentType.GLOBAL;
+-      DefaultCasScoringScheme defaultCasScoringScheme0 = new DefaultCasScoringScheme(casScoreType0, defaultCasAlignmentScore0, casAlignmentType0);
+-      Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "}@''86m-+~\"HR<?o&");
+-      cas2Consed0.visitScoringScheme(defaultCasScoringScheme0);
+-      assertEquals(CasScoreType.NO_SCORE, defaultCasScoringScheme0.getScoreType());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test8()  throws Throwable  {

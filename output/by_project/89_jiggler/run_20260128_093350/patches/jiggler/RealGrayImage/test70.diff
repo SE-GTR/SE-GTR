@@ -1,0 +1,81 @@
+--- a/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/RealGrayImage_ESTest.java
+@@ -4019,58 +4019,26 @@
+           // expected exception
+       }
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test70()  throws Throwable  {
+-      RealGrayImage realGrayImage0 = new RealGrayImage(16, 16);
+-      assertEquals(16, realGrayImage0.X());
+-      assertEquals(16, realGrayImage0.Y());
+-      
+-      ROI rOI0 = new ROI();
+-      assertEquals(0, rOI0.lx());
+-      assertEquals(0, rOI0.ly());
+-      assertEquals(1, rOI0.X());
+-      assertEquals(1, rOI0.Y());
+-      assertEquals(0, rOI0.ux());
+-      assertEquals(0, rOI0.uy());
+-      
+-      ROI rOI1 = new ROI();
+-      assertEquals(0, rOI1.ly());
+-      assertEquals(0, rOI1.ux());
+-      assertEquals(0, rOI1.uy());
+-      assertEquals(1, rOI1.X());
+-      assertEquals(1, rOI1.Y());
+-      assertEquals(0, rOI1.lx());
+-      assertFalse(rOI1.equals((Object)rOI0));
+-      
+-      ROI rOI2 = new ROI();
+-      assertEquals(0, rOI2.ux());
+-      assertEquals(0, rOI2.uy());
+-      assertEquals(1, rOI2.Y());
+-      assertEquals(0, rOI2.ly());
+-      assertEquals(0, rOI2.lx());
+-      assertEquals(1, rOI2.X());
+-      assertFalse(rOI2.equals((Object)rOI1));
+-      assertFalse(rOI2.equals((Object)rOI0));
+-      
+-      RealGrayImage realGrayImage1 = new RealGrayImage(16, 16);
+-      assertEquals(16, realGrayImage1.Y());
+-      assertEquals(16, realGrayImage1.X());
+-      assertFalse(realGrayImage1.equals((Object)realGrayImage0));
+-      
+-      // Undeclared exception!
+-      try { 
+-        realGrayImage1.multiply(realGrayImage0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.image.types.RealGrayImage", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test70() throws Throwable {
++        RealGrayImage img0 = new RealGrayImage(16, 16);
++        assertEquals(16, img0.X());
++        assertEquals(16, img0.Y());
++
++        RealGrayImage img1 = new RealGrayImage(16, 16);
++        assertEquals(16, img1.X());
++        assertEquals(16, img1.Y());
++        assertFalse(img1.equals((Object) img0));
++
++        // Expect NullPointerException when multiply is called with null ROI arguments
++        try {
++            img1.multiply(img0, null, null);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            verifyException("jigl.image.types.RealGrayImage", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test71()  throws Throwable  {

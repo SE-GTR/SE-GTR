@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/heal/module/metadata/MetadataBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/MetadataBean_ESTest.java
+@@ -340,13 +340,21 @@
+       metadataBean0.setSpecimenType("/r$8vt-!a\"qua");
+       assertFalse(metadataBean0.isInappropriate());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test42()  throws Throwable  {
+-    metadataBean0 = new MetadataBean();
+-      metadataBean0.setHidden("1");
+-      assertNull(metadataBean0.getSourceCollectionId());
+-  }
++@Test(timeout = 4000)
++public void test42() throws Throwable {
++    MetadataBean bean = new MetadataBean();
++    // Verify initial state of the hidden flag
++    assertNull(bean.getHidden());
++    // Exercise the setter
++    bean.setHidden("1");
++    // Assert the side‑effect of the setter
++    assertEquals("1", bean.getHidden());
++    // Assert the logical interpretation of the hidden flag
++    assertTrue(bean.isHidden());
++    // Existing assertion retained
++    assertNull(bean.getSourceCollectionId());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test43()  throws Throwable  {

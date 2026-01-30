@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
+@@ -308,13 +308,33 @@
+         boolean boolean0 = item0.isEqualTo(item0);
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      Item item0 = new Item(2910);
+-      item0.set(3, "", "", "");
+-  }
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        Item item0 = new Item(2910);
++        // capture initial state
++        int beforeHash = item0.hashCode;
++        int beforeType = item0.type;
++        String beforeStr1 = item0.strVal1;
++        String beforeStr2 = item0.strVal2;
++        String beforeStr3 = item0.strVal3;
++
++        // act
++        item0.set(3, "", "", "");
++
++        // assert that fields have been updated accordingly
++        assertEquals(3, item0.type);
++        assertEquals("", item0.strVal1);
++        assertEquals("", item0.strVal2);
++        assertEquals("", item0.strVal3);
++        // hashCode should reflect the new state (different from previous value)
++        assertNotEquals(beforeHash, item0.hashCode);
++        // ensure that at least one of the other fields changed
++        assertTrue(beforeType != item0.type || 
++                   (beforeStr1 != null && !beforeStr1.equals(item0.strVal1)) ||
++                   (beforeStr2 != null && !beforeStr2.equals(item0.strVal2)) ||
++                   (beforeStr3 != null && !beforeStr3.equals(item0.strVal3)));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

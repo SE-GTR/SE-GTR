@@ -1,0 +1,36 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/ProductDetails_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/ProductDetails_ESTest.java
+@@ -106,16 +106,23 @@
+     reviews0.avgCustomerRating = "864.00000";
+     assertEquals("864.00000", reviews0.avgCustomerRating);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      ProductDetails productDetails0 = new ProductDetails();
+-      Reviews reviews0 = productDetails0.reviews;
+-      reviews0.setAvgCustomerRating("1");
+-      String string0 = productDetails0.getRatingsImgURL();
+-      assertEquals("/images/stars-1.gif", string0);
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        ProductDetails productDetails0 = new ProductDetails();
++        Reviews reviews0 = productDetails0.reviews;
++        // capture the state before the rating is set
++        String beforeUrl = productDetails0.getRatingsImgURL();
++        // act: set a specific average customer rating
++        reviews0.setAvgCustomerRating("1");
++        // observe the state after the rating is set
++        String afterUrl = productDetails0.getRatingsImgURL();
++        // verify that the rating change affected the image URL
++        assertNotEquals(beforeUrl, afterUrl);
++        assertEquals("/images/stars-1.gif", afterUrl);
++        // directly verify the side‑effect on the Reviews object
++        assertEquals("1", reviews0.getAvgCustomerRating());
++    }
++
+ @Test(timeout = 4000)
+ public void test10() throws Throwable {
+     ProductDetails productDetails0 = new ProductDetails();

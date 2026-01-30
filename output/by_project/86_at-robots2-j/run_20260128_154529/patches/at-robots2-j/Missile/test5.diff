@@ -1,0 +1,46 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/hardware/missiles/Missile_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/hardware/missiles/Missile_ESTest.java
+@@ -91,22 +91,28 @@
+       missile0.update(duration0);
+       assertTrue(missile0.isDead());
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    RobotScoreKeeper robotScoreKeeper0 = new RobotScoreKeeper();
++    Robot robot0 = new Robot("", 0, robotScoreKeeper0);
++    Position position0 = Position.random(0, 0, 0, 0);
++    AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees(0);
++    Robot robot1 = new Robot("", -2054, robotScoreKeeper0);
++    Missile missile0 = robot1.createMissile(absoluteAngle0, position0, -2054);
++    Arena arena0 = new Arena();
++    // verify that setArena correctly registers the arena
++    missile0.setArena(arena0);
++    assertEquals(arena0, missile0.getArena());
++    // capture state before update
++    Position posBefore = missile0.getPosition();
++    Duration duration0 = robot1.getLastDamageTaken();
++    missile0.update(duration0);
++    // verify that update has some observable effect (e.g., position change)
++    assertNotEquals(posBefore, missile0.getPosition());
++    missile0.checkCollision(robot0);
++    assertFalse(robot0.equals((Object) robot1));
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      RobotScoreKeeper robotScoreKeeper0 = new RobotScoreKeeper();
+-      Robot robot0 = new Robot("", 0, robotScoreKeeper0);
+-      Position position0 = Position.random(0, 0, 0, 0);
+-      AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees(0);
+-      Robot robot1 = new Robot("", (-2054), robotScoreKeeper0);
+-      Missile missile0 = robot1.createMissile(absoluteAngle0, position0, (-2054));
+-      Arena arena0 = new Arena();
+-      missile0.setArena(arena0);
+-      Duration duration0 = robot1.getLastDamageTaken();
+-      missile0.update(duration0);
+-      missile0.checkCollision(robot0);
+-      assertFalse(robot0.equals((Object)robot1));
+-  }
+ @Test(timeout = 4000)
+   public void test6() throws Throwable {
+       RobotScoreKeeper robotScoreKeeper0 = new RobotScoreKeeper();

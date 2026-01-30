@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -668,14 +668,26 @@
+     SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+     simpleAccountRealm0.checkPermission(simplePrincipalCollection0, "SK2=$pN~kY6YiR4+bg");
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test54()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      HashtableCacheManager hashtableCacheManager0 = new HashtableCacheManager();
+-      simpleAccountRealm0.setCacheManager(hashtableCacheManager0);
+-      simpleAccountRealm0.initAuthorizationCache();
+-      assertEquals("org.jsecurity.realm.SimpleAccountRealm-0-authorization", simpleAccountRealm0.getAuthorizationCacheName());
+-  }
+-}
++@Test(timeout = 4000)
++    public void test54() throws Throwable {
++        SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
++        HashtableCacheManager hashtableCacheManager0 = new HashtableCacheManager();
++
++        // Verify initial state before setting cache manager
++        assertNull(simpleAccountRealm0.getCacheManager());
++        assertNull(simpleAccountRealm0.getAuthorizationCache());
++
++        // Set cache manager and assert the side effect
++        simpleAccountRealm0.setCacheManager(hashtableCacheManager0);
++        assertSame(hashtableCacheManager0, simpleAccountRealm0.getCacheManager());
++
++        // Initialise authorization cache and assert the side effect
++        simpleAccountRealm0.initAuthorizationCache();
++        assertNotNull(simpleAccountRealm0.getAuthorizationCache());
++
++        // Existing behavior verification
++        assertEquals("org.jsecurity.realm.SimpleAccountRealm-0-authorization",
++                simpleAccountRealm0.getAuthorizationCacheName());
++    }
++
++}

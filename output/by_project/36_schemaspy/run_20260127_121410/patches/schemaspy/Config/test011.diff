@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -161,17 +161,21 @@
+       config0.getRemainingParameters();
+       assertFalse(config0.hasOrphans());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test011()  throws Throwable  {
+-      String[] stringArray0 = new String[1];
+-      stringArray0[0] = "\"\"{usx?Tf@-R<^#bCJ\"";
+-      Config config0 = new Config(stringArray0);
+-      assertFalse(config0.isHelpRequired());
+-      assertFalse(config0.hasOrphans());
+-      assertFalse(config0.isDbHelpRequired());
+-      assertFalse(config0.hasRoutines());
+-  }
++@Test(timeout = 4000)
++    public void test011() throws Throwable {
++        // Default configuration – no help flag supplied
++        String[] defaultArgs = new String[1];
++        defaultArgs[0] = "\"\"{usx?Tf@-R<^#bCJ\"";
++        Config defaultConfig = new Config(defaultArgs);
++        // Minimal sanity check of the default state
++        assertFalse(defaultConfig.isHelpRequired());
++
++        // Configuration with a help flag – should trigger help requirement
++        String[] helpArgs = new String[] { "-h" };
++        Config helpConfig = new Config(helpArgs);
++        assertTrue(helpConfig.isHelpRequired());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test012()  throws Throwable  {

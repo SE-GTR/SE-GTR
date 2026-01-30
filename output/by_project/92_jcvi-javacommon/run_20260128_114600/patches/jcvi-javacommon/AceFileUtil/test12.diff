@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceFileUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/AceFileUtil_ESTest.java
+@@ -255,22 +255,12 @@
+          verifyException("java.text.DateFormat", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      QualitySequenceDataStore qualitySequenceDataStore0 = mock(QualitySequenceDataStore.class, new ViolatedAssumptionAnswer());
+-      // Undeclared exception!
+-      try { 
+-        AceFileUtil.computeConsensusQualities((Contig<? extends AssembledRead>) null, qualitySequenceDataStore0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // contig can not be null
+-         //
+-         verifyException("org.jcvi.jillion.assembly.consed.ace.ConsedConsensusQualityComputer", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class, timeout = 4000)
++    public void test12() throws Throwable {
++        QualitySequenceDataStore qualitySequenceDataStore0 = mock(QualitySequenceDataStore.class, new ViolatedAssumptionAnswer());
++        AceFileUtil.computeConsensusQualities(null, qualitySequenceDataStore0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

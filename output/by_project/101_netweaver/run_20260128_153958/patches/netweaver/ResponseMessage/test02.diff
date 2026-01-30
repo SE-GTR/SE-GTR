@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/ResponseMessage_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/ResponseMessage_ESTest.java
+@@ -32,17 +32,25 @@
+       // hashCode should be consistent across multiple invocations
+       assertEquals(hash, responseMessage0.hashCode());
+   }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    ResponseMessage responseMessage0 = new ResponseMessage();
++    // capture the initial message value (expected to be null)
++    String initialValue = responseMessage0.getMMessageValue();
++    // exercise the void method whose side‑effect we want to verify
++    responseMessage0.setMMessageValue("");
++    // verify that the side‑effect took place
++    assertEquals("", responseMessage0.getMMessageValue());
++    // if the initial value was not already the empty string, ensure it changed
++    if (initialValue != null && !initialValue.isEmpty()) {
++        assertNotEquals(initialValue, responseMessage0.getMMessageValue());
++    }
++    ResponseMessage responseMessage1 = new ResponseMessage();
++    boolean boolean0 = responseMessage1.equals(responseMessage0);
++    assertFalse(boolean0);
++    assertFalse(responseMessage0.equals((Object) responseMessage1));
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      ResponseMessage responseMessage0 = new ResponseMessage();
+-      responseMessage0.setMMessageValue("");
+-      ResponseMessage responseMessage1 = new ResponseMessage();
+-      boolean boolean0 = responseMessage1.equals(responseMessage0);
+-      assertFalse(boolean0);
+-      assertFalse(responseMessage0.equals((Object)responseMessage1));
+-  }
+ @Test(timeout = 4000)
+ public void test03() throws Throwable {
+     ResponseMessage responseMessage0 = new ResponseMessage("\"XYrb|zMc", "\"XYrb|zMc");

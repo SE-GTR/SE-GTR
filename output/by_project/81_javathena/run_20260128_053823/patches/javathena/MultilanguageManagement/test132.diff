@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/javathena/core/utiles/MultilanguageManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/core/utiles/MultilanguageManagement_ESTest.java
+@@ -807,13 +807,21 @@
+         String second = MultilanguageManagement.getWarning_38();
+         assertEquals(first, second);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test132()  throws Throwable  {
+-      String string0 = MultilanguageManagement.getFatal_error_1();
+-      assertNull(string0);
+-  }
++@Test(timeout = 4000)
++    public void test132() throws Throwable {
++        // Preserve original value to avoid side effects on other tests
++        String original = MultilanguageManagement.getFatal_error_1();
++
++        // Exercise a state‑changing operation (setter) and verify the effect
++        String testValue = "testFatalError";
++        MultilanguageManagement.setFatal_error_1(testValue);
++        String result = MultilanguageManagement.getFatal_error_1();
++        assertEquals(testValue, result);
++
++        // Restore original state
++        MultilanguageManagement.setFatal_error_1(original);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test133()  throws Throwable  {

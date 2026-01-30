@@ -1,0 +1,43 @@
+--- a/evosuite-tests/visu/handball/moves/controller/MouseController_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/controller/MouseController_ESTest.java
+@@ -116,19 +116,27 @@
+         assertEquals(handballModel_State0, handballModel0.getState());
+         assertFalse(mouseEvent0.isPopupTrigger());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      HandballModel.State handballModel_State0 = HandballModel.State.PLACE_BALL;
+-      handballModel0.setState(handballModel_State0);
+-      JInternalFrame jInternalFrame0 = new JInternalFrame();
+-      MouseEvent mouseEvent0 = new MouseEvent(jInternalFrame0, 565, 565, 565, 565, 565, 3, 3, 565, false, 3);
+-      MouseController mouseController0 = new MouseController(handballModel0, jInternalFrame0);
+-      mouseController0.mouseClicked(mouseEvent0);
+-      assertEquals(53, mouseEvent0.getModifiers());
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    HandballModel handballModel0 = new HandballModel();
++    HandballModel.State handballModel_State0 = HandballModel.State.PLACE_BALL;
++    handballModel0.setState(handballModel_State0);
++    // verify that setState correctly updates the model's state
++    assertEquals(handballModel_State0, handballModel0.getState());
++
++    JInternalFrame jInternalFrame0 = new JInternalFrame();
++    MouseEvent mouseEvent0 = new MouseEvent(jInternalFrame0, 565, 565, 565, 565, 565, 3, 3, 565, false, 3);
++    MouseController mouseController0 = new MouseController(handballModel0, jInternalFrame0);
++    // capture state before click
++    HandballModel.State beforeClickState = handballModel0.getState();
++    mouseController0.mouseClicked(mouseEvent0);
++    // verify that mouseClicked does not unintentionally change the model's state
++    assertEquals(beforeClickState, handballModel0.getState());
++
++    // existing check on the event's modifiers
++    assertEquals(53, mouseEvent0.getModifiers());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

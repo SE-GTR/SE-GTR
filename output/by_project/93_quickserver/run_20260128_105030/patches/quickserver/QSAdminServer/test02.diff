@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/quickserver/net/qsadmin/QSAdminServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/qsadmin/QSAdminServer_ESTest.java
+@@ -50,15 +50,29 @@
+     qSAdminServer0.setPromptName("admin>");
+     assertEquals("admin>", qSAdminServer0.getPromptName());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test02() throws Throwable {
+     quickServer0 = new QuickServer();
+     qSAdminServer0 = quickServer0.getQSAdminServer();
+-      qSAdminServer0.setPromptName((String) null);
+-      assertNull(qSAdminServer0.getPromptName());
++
++    // Capture initial prompt name (may be null)
++    String initialPrompt = qSAdminServer0.getPromptName();
++
++    // Set prompt name to null and verify
++    qSAdminServer0.setPromptName((String) null);
++    assertNull(qSAdminServer0.getPromptName());
++
++    // Set prompt name to a non‑null value and verify the change
++    String newPrompt = "admin>";
++    qSAdminServer0.setPromptName(newPrompt);
++    assertEquals(newPrompt, qSAdminServer0.getPromptName());
++
++    // Ensure the prompt name actually changed from the initial state when it was not null
++    if (initialPrompt != null) {
++      assertNotEquals(initialPrompt, qSAdminServer0.getPromptName());
++    }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

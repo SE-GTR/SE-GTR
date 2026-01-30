@@ -1,0 +1,36 @@
+--- a/evosuite-tests/jigl/signal/utils/SignalOps_ESTest.java
++++ b/evosuite-tests/jigl/signal/utils/SignalOps_ESTest.java
+@@ -24,15 +24,26 @@
+     assertEquals("-subtractconst", stringArray0[0]);
+     assertEquals("-debug", stringArray0[1]);
+ }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        String[] stringArray0 = new String[1];
++        stringArray0[0] = "-debug";
+ 
++        java.io.ByteArrayOutputStream outContent = new java.io.ByteArrayOutputStream();
++        java.io.PrintStream originalOut = System.out;
++        System.setOut(new java.io.PrintStream(outContent));
++        try {
++            SignalOps.main(stringArray0);
++        } finally {
++            System.setOut(originalOut);
++        }
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      String[] stringArray0 = new String[1];
+-      stringArray0[0] = "-debug";
+-      SignalOps.main(stringArray0);
+-      assertEquals(1, stringArray0.length);
+-  }
++        // Verify that the debug flag caused some output to be produced
++        assertTrue("Expected debug output to be printed", outContent.toString().length() > 0);
++        // Keep the original sanity check on the input array
++        assertEquals(1, stringArray0.length);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

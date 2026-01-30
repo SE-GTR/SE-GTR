@@ -1,0 +1,34 @@
+--- a/evosuite-tests/fr/unice/gfarce/interGraph/ModifTableStockage_ESTest.java
++++ b/evosuite-tests/fr/unice/gfarce/interGraph/ModifTableStockage_ESTest.java
+@@ -105,24 +105,13 @@
+       assertEquals(originalColumns - 1, tableStockage1.getColumnCount());
+       assertEquals(originalRows, tableStockage1.getRowCount());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      TableStockage tableStockage0 = new TableStockage();
+-      ModifTableStockage modifTableStockage0 = new ModifTableStockage(tableStockage0);
+-      // Undeclared exception!
+-      try { 
+-        modifTableStockage0.fusionnerColonnes(1152);
+-        fail("Expecting exception: HeadlessException");
+-      
+-      } catch(HeadlessException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("java.awt.GraphicsEnvironment", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = HeadlessException.class)
++public void test05() throws Throwable {
++    TableStockage tableStockage0 = new TableStockage();
++    ModifTableStockage modifTableStockage0 = new ModifTableStockage(tableStockage0);
++    modifTableStockage0.fusionnerColonnes(1152);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

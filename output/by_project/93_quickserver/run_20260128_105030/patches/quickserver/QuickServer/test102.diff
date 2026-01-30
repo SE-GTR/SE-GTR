@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -1226,17 +1226,23 @@
+     assertNull(handler);
+     assertEquals("QuickServer", quickServer0.getName());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test102()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer();
+-      quickServer0.getQSAdminServerPort();
+-      QuickServerConfig quickServerConfig0 = quickServer0.getConfig();
+-      quickServerConfig0.setApplicationJarPath("/byte-buffer-object-pool/max-active");
+-      quickServer0.initServer(quickServerConfig0);
+-      assertEquals(1, quickServer0.getServiceState());
+-  }
++@Test(timeout = 4000)
++public void test102() throws Throwable {
++    QuickServer quickServer0 = new QuickServer();
++    int adminPortBefore = quickServer0.getQSAdminServerPort();
++
++    QuickServerConfig quickServerConfig0 = quickServer0.getConfig();
++    String jarPath = "/byte-buffer-object-pool/max-active";
++    quickServerConfig0.setApplicationJarPath(jarPath);
++    assertEquals(jarPath, quickServerConfig0.getApplicationJarPath());
++
++    quickServer0.initServer(quickServerConfig0);
++    assertEquals(1, quickServer0.getServiceState());
++
++    int adminPortAfter = quickServer0.getQSAdminServerPort();
++    assertEquals(adminPortBefore, adminPortAfter);
++}
++
+ @Test(timeout = 4000)
+     public void test103() throws Throwable {
+         QuickServer quickServer0 = new QuickServer();

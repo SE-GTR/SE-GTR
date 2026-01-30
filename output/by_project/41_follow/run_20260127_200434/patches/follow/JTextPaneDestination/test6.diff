@@ -1,0 +1,35 @@
+--- a/evosuite-tests/ghm/follow/io/JTextPaneDestination_ESTest.java
++++ b/evosuite-tests/ghm/follow/io/JTextPaneDestination_ESTest.java
+@@ -68,15 +68,24 @@
+       assertNotNull(jTextPane1);
+       assertTrue(jTextPaneDestination0.autoPositionCaret());
+   }
++@Test(timeout = 4000)
++public void test6() throws Throwable {
++    DefaultStyledDocument defaultStyledDocument0 = new DefaultStyledDocument();
++    JTextPane jTextPane0 = new JTextPane(defaultStyledDocument0);
++    JTextPaneDestination jTextPaneDestination0 = new JTextPaneDestination(jTextPane0, true);
++    assertTrue(jTextPaneDestination0.autoPositionCaret());
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      DefaultStyledDocument defaultStyledDocument0 = new DefaultStyledDocument();
+-      JTextPane jTextPane0 = new JTextPane(defaultStyledDocument0);
+-      JTextPaneDestination jTextPaneDestination0 = new JTextPaneDestination(jTextPane0, true);
+-      jTextPaneDestination0.setJTextArea(jTextPane0);
+-      assertTrue(jTextPaneDestination0.autoPositionCaret());
+-  }
++    // Use a different JTextPane to verify that the setter really changes the target pane
++    JTextPane otherPane = new JTextPane(new DefaultStyledDocument());
++    jTextPaneDestination0.setJTextArea(otherPane);
++
++    // Write some text and verify that it appears in the pane set via the setter
++    String message = "test";
++    jTextPaneDestination0.write(message);
++    String paneText = otherPane.getDocument().getText(0, otherPane.getDocument().getLength());
++    assertEquals(message, paneText);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

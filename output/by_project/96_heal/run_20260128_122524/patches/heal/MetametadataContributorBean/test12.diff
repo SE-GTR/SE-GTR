@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/heal/module/metadata/MetametadataContributorBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/MetametadataContributorBean_ESTest.java
+@@ -131,12 +131,24 @@
+         String actual = bean.getvCard();
+         assertEquals(expected, actual);
+     }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        MetametadataContributorBean bean = new MetametadataContributorBean();
+ 
++        // Act: serialize and then deserialize the bean
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(bean);
++        oos.flush();
++        byte[] serialized = baos.toByteArray();
+ 
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      MetametadataContributorBean metametadataContributorBean0 = new MetametadataContributorBean();
+-      String string0 = metametadataContributorBean0.getMetametadataContributorId();
+-      assertNull(string0);
+-  }
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++                new java.io.ByteArrayInputStream(serialized));
++        MetametadataContributorBean deserialized = (MetametadataContributorBean) ois.readObject();
++
++        // Assert: the contributor ID remains null after the round‑trip
++        String id = deserialized.getMetametadataContributorId();
++        assertNull(id);
++    }
++
+ }

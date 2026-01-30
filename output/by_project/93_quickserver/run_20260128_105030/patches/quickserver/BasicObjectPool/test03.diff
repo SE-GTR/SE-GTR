@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/quickserver/util/pool/BasicObjectPool_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/BasicObjectPool_ESTest.java
+@@ -54,18 +54,17 @@
+       assertEquals((-1), basicObjectPool_Config0.maxActive);
+       assertEquals(10, basicObjectPool_Config0.maxIdle);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test03() throws Throwable {
+     byteBufferObjectFactory0 = new ByteBufferObjectFactory(360, false);
+     basicObjectPool_Config0 = new BasicObjectPool.Config();
+     basicObjectPool0 = new BasicObjectPool(byteBufferObjectFactory0, basicObjectPool_Config0);
+-      assertEquals((-1), basicObjectPool_Config0.maxActive);
+-      
+-      basicObjectPool_Config0.maxActive = 1;
+-      basicObjectPool0.borrowObject();
+-      assertEquals(10, basicObjectPool_Config0.maxIdle);
++    basicObjectPool_Config0.maxActive = 1;
++    Object borrowed = basicObjectPool0.borrowObject();
++    assertEquals(1, basicObjectPool_Config0.maxActive);
++    assertNotNull(borrowed);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

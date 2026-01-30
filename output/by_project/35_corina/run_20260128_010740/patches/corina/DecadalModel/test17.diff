@@ -1,0 +1,32 @@
+--- a/evosuite-tests/corina/editor/DecadalModel_ESTest.java
++++ b/evosuite-tests/corina/editor/DecadalModel_ESTest.java
+@@ -175,15 +175,20 @@
+       Class class0 = decadalModel0.getColumnClass(0);
+       assertEquals("class java.lang.String", class0.toString());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      DecadalModel decadalModel0 = new DecadalModel(sample0);
+-      decadalModel0.setValueAt(sample0, 0, 2);
+-      Sample sample1 = (Sample)decadalModel0.getValueAt(0, 2);
+-      assertTrue(sample1.isEditable());
+-  }
++@Test(timeout = 4000)
++public void test17() throws Throwable {
++    Sample sample0 = new Sample();
++    DecadalModel decadalModel0 = new DecadalModel(sample0);
++    Object previous = decadalModel0.getValueAt(0, 2);
++    decadalModel0.setValueAt(sample0, 0, 2);
++    Sample sample1 = (Sample) decadalModel0.getValueAt(0, 2);
++    assertSame("setValueAt should store the provided sample", sample0, sample1);
++    assertTrue(sample1.isEditable());
++    if (previous != null) {
++        assertNotSame("The stored value should be updated", previous, sample1);
++    }
++}
++
+ @Test(expected = NullPointerException.class, timeout = 4000)
+     public void test18() {
+         DecadalModel decadalModel0 = new DecadalModel();

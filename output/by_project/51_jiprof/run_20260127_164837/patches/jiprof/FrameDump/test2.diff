@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/output/FrameDump_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/output/FrameDump_ESTest.java
+@@ -68,13 +68,13 @@
+          verifyException("com.mentorgen.tools.profile.output.FrameDump", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test2()  throws Throwable  {
+       Controller._compactThreadDepth = true;
+-    linkedList0 = new LinkedList<Frame>();
+-    frame0 = mock(Frame.class, new ViolatedAssumptionAnswer());
+-      linkedList0.add(frame0);
++      linkedList0 = new LinkedList<Frame>();
++      frame0 = mock(Frame.class, new ViolatedAssumptionAnswer());
++      boolean added = linkedList0.add(frame0);
++      assertTrue(added);
+       Frame frame1 = mock(Frame.class, new ViolatedAssumptionAnswer());
+       doReturn(linkedList0).when(frame1).childIterator();
+       doReturn(true).when(frame1).hasChildren();
+@@ -82,7 +82,7 @@
+       try { 
+         FrameDump.dump((PrintWriter) null, frame1, (-1));
+         fail("Expecting exception: NullPointerException");
+-      
++
+       } catch(NullPointerException e) {
+          //
+          // no message in exception (getMessage() returned null)
+@@ -90,6 +90,7 @@
+          verifyException("com.mentorgen.tools.profile.output.FrameDump", e);
+       }
+   }
++
+ @Test(timeout = 4000)
+     public void test3() throws Throwable {
+         Controller._compactThreadDepth = true;

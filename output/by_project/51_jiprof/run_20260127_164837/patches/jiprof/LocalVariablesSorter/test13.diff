@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/LocalVariablesSorter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/LocalVariablesSorter_ESTest.java
+@@ -182,16 +182,20 @@
+          verifyException("org.objectweb.asm.jip.commons.LocalVariablesSorter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-    methodVisitor0 = mock(MethodVisitor.class, new ViolatedAssumptionAnswer());
+-    methodAdapter0 = new MethodAdapter(methodVisitor0);
+-      LocalVariablesSorter localVariablesSorter0 = new LocalVariablesSorter(49, "K)]*8-%hk,p_XHi7;f", methodAdapter0);
+-      Object[] objectArray0 = new Object[4];
+-      localVariablesSorter0.visitFrame((-1), (-1), objectArray0, 49, objectArray0);
+-      assertEquals(4, objectArray0.length);
+-  }
++@Test(timeout = 4000)
++public void test13() throws Throwable {
++    methodVisitor0 = mock(MethodVisitor.class, new ViolatedAssumptionAnswer());
++    methodAdapter0 = new MethodAdapter(methodVisitor0);
++    LocalVariablesSorter localVariablesSorter0 = new LocalVariablesSorter(49, "K)]*8-%hk,p_XHi7;f", methodAdapter0);
++    Object[] objectArray0 = new Object[4];
++    localVariablesSorter0.visitFrame(-1, -1, objectArray0, 49, objectArray0);
++    // Verify that the visitFrame call does not alter the provided local array
++    assertEquals(4, objectArray0.length);
++    for (Object element : objectArray0) {
++        assertNull(element);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

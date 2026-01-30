@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jsecurity/subject/SimplePrincipalCollection_ESTest.java
++++ b/evosuite-tests/org/jsecurity/subject/SimplePrincipalCollection_ESTest.java
+@@ -279,19 +279,14 @@
+       Iterator iterator0 = simplePrincipalCollection0.iterator();
+       assertNotNull(iterator0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      SimplePrincipalCollection simplePrincipalCollection0 = null;
+-      try {
+-        simplePrincipalCollection0 = new SimplePrincipalCollection((Collection) null, "Ji^c.Ap'/");
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // principals argument cannot be null.
+-         //
+-         verifyException("org.jsecurity.subject.SimplePrincipalCollection", e);
+-      }
+-  }
++@Test(timeout = 4000)
++  public void test30() throws Throwable {
++      List<String> principals = new ArrayList<>();
++      principals.add("principal");
++      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection((Collection) principals, "realm");
++      assertFalse(simplePrincipalCollection0.isEmpty());
++      assertTrue(simplePrincipalCollection0.getRealmNames().contains("realm"));
++      assertTrue(simplePrincipalCollection0.asSet().contains("principal"));
++  }
++
+ }

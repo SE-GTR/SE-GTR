@@ -1,0 +1,50 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -368,20 +368,33 @@
+       assertFalse(boolean0);
+       assertFalse(enqLock0.equals((Object) enqLock1));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test24()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
+-      EnqLock enqLock1 = new EnqLock();
+-      enqLock0.setLockMode("JV+J@)y cy][+y.&");
+-      assertFalse(enqLock0.equals((Object)enqLock1));
+-      
+-      enqLock1.setLockMode("JV+J@)y cy][+y.&");
+-      boolean boolean0 = enqLock1.equals(enqLock0);
+-      assertTrue(enqLock0.equals((Object)enqLock1));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test24() throws Throwable {
++        EnqLock enqLock0 = new EnqLock();
++        EnqLock enqLock1 = new EnqLock();
++        String mode = "JV+J@)y cy][+y.&";
++
++        // Verify initial state
++        assertNull(enqLock0.getLockMode());
++        assertNull(enqLock1.getLockMode());
++
++        // Set lock mode on first instance and assert side‑effect
++        enqLock0.setLockMode(mode);
++        assertEquals(mode, enqLock0.getLockMode());
++
++        // Objects differ because only one has lockMode set
++        assertFalse(enqLock0.equals((Object) enqLock1));
++
++        // Set same lock mode on second instance and assert side‑effect
++        enqLock1.setLockMode(mode);
++        assertEquals(mode, enqLock1.getLockMode());
++
++        // Now both objects should be equal
++        boolean boolean0 = enqLock1.equals(enqLock0);
++        assertTrue(enqLock0.equals((Object) enqLock1));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test25()  throws Throwable  {

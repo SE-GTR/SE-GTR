@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/quickserver/util/pool/thread/ClientThread_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/pool/thread/ClientThread_ESTest.java
+@@ -31,12 +31,22 @@
+       assertFalse(clientThread0.isAlive());
+       assertEquals(Thread.State.NEW, clientThread0.getState());
+   }
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
++      ClientThread.InstanceId id1 = new ClientThread.InstanceId();
++      ClientThread.InstanceId id2 = new ClientThread.InstanceId();
+ 
++      // The two instances should not be equal (different identifiers)
++      assertNotEquals(id1, id2);
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ClientThread.InstanceId clientThread_InstanceId0 = new ClientThread.InstanceId();
++      // An instance must be equal to itself
++      assertEquals(id1, id1);
++
++      // hashCode should be consistent for the same instance
++      int hash = id1.hashCode();
++      assertEquals(hash, id1.hashCode());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

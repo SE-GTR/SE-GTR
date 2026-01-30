@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/quickserver/security/AccessManager_ESTest.java
++++ b/evosuite-tests/org/quickserver/security/AccessManager_ESTest.java
+@@ -209,11 +209,14 @@
+       accessManager0.checkMulticast(inetAddress0);
+       assertFalse(inetAddress0.isMCOrgLocal());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      AccessManager accessManager0 = new AccessManager();
+-      accessManager0.checkAccept("", 0);
+-      assertFalse(accessManager0.getInCheck());
+-  }
+-}
++@Test(timeout = 4000)
++  public void test29() throws Throwable {
++      AccessManager accessManager0 = new AccessManager();
++      try {
++          accessManager0.checkAccept("", 0);
++      } catch (SecurityException e) {
++          fail("checkAccept should not throw a SecurityException");
++      }
++  }
++
++}

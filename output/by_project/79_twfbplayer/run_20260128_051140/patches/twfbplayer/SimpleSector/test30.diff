@@ -1,0 +1,33 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/model/impl/SimpleSector_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/model/impl/SimpleSector_ESTest.java
+@@ -393,17 +393,19 @@
+       assertFalse(simpleSector0.isFlag());
+       assertEquals((-115), simpleSector0.getHeight());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test30()  throws Throwable  {
+-      CharacterClass characterClass0 = CharacterClass.SOLDIER;
+-      SimpleSector simpleSector0 = new SimpleSector((-109), false, false, (-109), (-109), false, (-109), characterClass0);
+-      boolean boolean0 = simpleSector0.isAttackerSpawn();
+-      assertFalse(simpleSector0.isDefenderSpawn());
+-      assertFalse(boolean0);
+-      assertEquals((-109), simpleSector0.getHeight());
+-      assertFalse(simpleSector0.isFlag());
+-  }
++@Test(timeout = 4000)
++    public void test30() throws Throwable {
++        CharacterClass characterClass0 = CharacterClass.SOLDIER;
++        SimpleSector simpleSector0 = new SimpleSector(-109, false, false, -109, -109, false, -109, characterClass0);
++        // Verify a key property set by the constructor
++        assertEquals(-109, simpleSector0.getHeight());
++        // Exercise non‑trivial behavior: equality of two identical sectors
++        SimpleSector other = new SimpleSector(-109, false, false, -109, -109, false, -109, characterClass0);
++        assertEquals(simpleSector0, other);
++        // Consistent hashCode for equal objects
++        assertEquals(simpleSector0.hashCode(), other.hashCode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test31()  throws Throwable  {

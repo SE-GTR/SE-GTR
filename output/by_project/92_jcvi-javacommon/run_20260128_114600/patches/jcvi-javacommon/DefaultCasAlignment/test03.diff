@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/DefaultCasAlignment_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/DefaultCasAlignment_ESTest.java
+@@ -61,17 +61,22 @@
+          verifyException("org.jcvi.jillion.assembly.clc.cas.DefaultCasAlignment$Builder", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      DefaultCasAlignment.Builder defaultCasAlignment_Builder0 = new DefaultCasAlignment.Builder(3296L, 3296L, true);
+-      DefaultCasAlignment.Builder defaultCasAlignment_Builder1 = defaultCasAlignment_Builder0.addPhaseChange((byte) (-110));
+-      DefaultCasAlignment defaultCasAlignment0 = defaultCasAlignment_Builder1.build();
+-      DefaultCasAlignment.Builder defaultCasAlignment_Builder2 = new DefaultCasAlignment.Builder(defaultCasAlignment0);
+-      assertEquals(3296L, defaultCasAlignment0.getReferenceIndex());
+-      assertTrue(defaultCasAlignment0.readIsReversed());
+-      assertEquals(3296L, defaultCasAlignment0.getStartOfMatch());
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    DefaultCasAlignment.Builder builder0 = new DefaultCasAlignment.Builder(3296L, 3296L, true);
++    builder0.addPhaseChange((byte) (-110));
++    DefaultCasAlignment original = builder0.build();
++
++    // Act: create a new builder from the original alignment and build a copy
++    DefaultCasAlignment.Builder copyBuilder = new DefaultCasAlignment.Builder(original);
++    DefaultCasAlignment copy = copyBuilder.build();
++
++    // Verify that the copy preserves the original's core properties
++    assertEquals(original.getReferenceIndex(), copy.getReferenceIndex());
++    assertEquals(original.getStartOfMatch(), copy.getStartOfMatch());
++    assertTrue(copy.readIsReversed());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

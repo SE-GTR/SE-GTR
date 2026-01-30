@@ -1,0 +1,52 @@
+--- a/evosuite-tests/com/ib/client/ScannerSubscription_ESTest.java
++++ b/evosuite-tests/com/ib/client/ScannerSubscription_ESTest.java
+@@ -647,22 +647,33 @@
+         // Assert the return value of a getter that was previously ignored
+         assertNull(sub.maturityDateBelow());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test40()  throws Throwable  {
+-      ScannerSubscription scannerSubscription0 = new ScannerSubscription();
+-      double double0 = scannerSubscription0.belowPrice();
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.abovePrice(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.marketCapBelow(), 0.01);
+-      assertEquals(1.7976931348623157E308, double0, 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.couponRateBelow(), 0.01);
+-      assertEquals(Integer.MAX_VALUE, scannerSubscription0.averageOptionVolumeAbove());
+-      assertEquals(Integer.MAX_VALUE, scannerSubscription0.aboveVolume());
+-      assertEquals((-1), scannerSubscription0.numberOfRows());
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.couponRateAbove(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.marketCapAbove(), 0.01);
+-  }
++@Test(timeout = 4000)
++public void test40() throws Throwable {
++    ScannerSubscription sub = new ScannerSubscription();
++
++    // Set various fields using the public mutators
++    sub.abovePrice(100.5);
++    sub.belowPrice(50.2);
++    sub.marketCapAbove(1.0e9);
++    sub.marketCapBelow(5.0e8);
++    sub.couponRateAbove(2.5);
++    sub.couponRateBelow(1.0);
++    sub.aboveVolume(1000);
++    sub.averageOptionVolumeAbove(200);
++    sub.numberOfRows(10);
++
++    // Verify that the getters reflect the values that were set
++    assertEquals(100.5, sub.abovePrice(), 0.01);
++    assertEquals(50.2, sub.belowPrice(), 0.01);
++    assertEquals(1.0e9, sub.marketCapAbove(), 0.01);
++    assertEquals(5.0e8, sub.marketCapBelow(), 0.01);
++    assertEquals(2.5, sub.couponRateAbove(), 0.01);
++    assertEquals(1.0, sub.couponRateBelow(), 0.01);
++    assertEquals(1000, sub.aboveVolume());
++    assertEquals(200, sub.averageOptionVolumeAbove());
++    assertEquals(10, sub.numberOfRows());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test41()  throws Throwable  {

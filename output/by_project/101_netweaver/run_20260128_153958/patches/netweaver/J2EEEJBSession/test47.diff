@@ -1,0 +1,52 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -784,20 +784,35 @@
+       j2EEEJBSession0.setIdHash((-3777));
+       assertEquals((-3777), j2EEEJBSession0.getIdHash());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test47()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      j2EEEJBSession0.setApplication("K65Nr;");
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
+-      assertEquals(0, j2EEEJBSession1.getTotalRequests());
+-      assertFalse(boolean0);
+-      assertEquals(0, j2EEEJBSession1.getSize());
+-      assertEquals(0, j2EEEJBSession1.getIdHash());
+-      assertEquals(0, j2EEEJBSession1.getActiveRequests());
+-      assertEquals(0, j2EEEJBSession1.getResponseTime());
+-  }
++@Test(timeout = 4000)
++public void test47() throws Throwable {
++    J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
++    // Capture initial state before invoking setApplication
++    int beforeTotal = j2EEEJBSession0.getTotalRequests();
++    int beforeSize = j2EEEJBSession0.getSize();
++    int beforeIdHash = j2EEEJBSession0.getIdHash();
++    int beforeActive = j2EEEJBSession0.getActiveRequests();
++    int beforeResponse = j2EEEJBSession0.getResponseTime();
++
++    j2EEEJBSession0.setApplication("K65Nr;");
++
++    // Verify that setting the application does not alter other fields
++    assertEquals(beforeTotal, j2EEEJBSession0.getTotalRequests());
++    assertEquals(beforeSize, j2EEEJBSession0.getSize());
++    assertEquals(beforeIdHash, j2EEEJBSession0.getIdHash());
++    assertEquals(beforeActive, j2EEEJBSession0.getActiveRequests());
++    assertEquals(beforeResponse, j2EEEJBSession0.getResponseTime());
++
++    J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
++    boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
++    assertEquals(0, j2EEEJBSession1.getTotalRequests());
++    assertFalse(boolean0);
++    assertEquals(0, j2EEEJBSession1.getSize());
++    assertEquals(0, j2EEEJBSession1.getIdHash());
++    assertEquals(0, j2EEEJBSession1.getActiveRequests());
++    assertEquals(0, j2EEEJBSession1.getResponseTime());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test48()  throws Throwable  {

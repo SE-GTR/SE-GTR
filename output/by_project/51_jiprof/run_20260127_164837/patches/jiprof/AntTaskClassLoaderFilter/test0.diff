@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/mentorgen/tools/profile/instrument/clfilter/AntTaskClassLoaderFilter_ESTest.java
++++ b/evosuite-tests/com/mentorgen/tools/profile/instrument/clfilter/AntTaskClassLoaderFilter_ESTest.java
+@@ -15,22 +15,15 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AntTaskClassLoaderFilter_ESTest extends AntTaskClassLoaderFilter_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        AntTaskClassLoaderFilter filter = new AntTaskClassLoaderFilter();
++        ClassLoader loader = ClassLoader.getSystemClassLoader();
++        boolean result = filter.accept(loader);
++        // The filter should reject non‑Ant class loaders
++        assertFalse(result);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      AntTaskClassLoaderFilter antTaskClassLoaderFilter0 = new AntTaskClassLoaderFilter();
+-      // Undeclared exception!
+-      try { 
+-        antTaskClassLoaderFilter0.accept((ClassLoader) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.mentorgen.tools.profile.instrument.clfilter.AntTaskClassLoaderFilter", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

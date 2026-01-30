@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BlockingClientHandler_ESTest.java
+@@ -95,16 +95,17 @@
+     // After closing the connection, the connection flag should be false
+     assertFalse(blockingClientHandler0.connection);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
+-      blockingClientHandler0.closeOrLostNotified = true;
+-      blockingClientHandler0.connection = true;
+-      blockingClientHandler0.closeConnection();
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:56>", blockingClientHandler0.getName());
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
++    blockingClientHandler0.closeOrLostNotified = true;
++    blockingClientHandler0.connection = true;
++    boolean before = blockingClientHandler0.connection;
++    blockingClientHandler0.closeConnection();
++    assertTrue("precondition should be true", before);
++    assertFalse("connection should be cleared after closeConnection()", blockingClientHandler0.connection);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/DatabaseComponent_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/DatabaseComponent_ESTest.java
+@@ -49,20 +49,25 @@
+     int secondHash = databaseComponent0.hashCode();
+     org.junit.Assert.assertEquals(firstHash, secondHash);
+ }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    DatabaseComponent databaseComponent0 = new DatabaseComponent();
++    DatabaseComponent databaseComponent1 = new DatabaseComponent();
++    assertTrue(databaseComponent1.equals((Object) databaseComponent0));
+ 
++    // Verify initial status is null (default)
++    assertNull(databaseComponent1.getMStatus());
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      DatabaseComponent databaseComponent0 = new DatabaseComponent();
+-      DatabaseComponent databaseComponent1 = new DatabaseComponent();
+-      assertTrue(databaseComponent1.equals((Object)databaseComponent0));
+-      
+-      DatabaseStatus databaseStatus0 = DatabaseStatus.value6;
+-      databaseComponent1.setMStatus(databaseStatus0);
+-      boolean boolean0 = databaseComponent1.equals(databaseComponent0);
+-      assertFalse(databaseComponent1.equals((Object)databaseComponent0));
+-      assertFalse(boolean0);
+-  }
++    DatabaseStatus databaseStatus0 = DatabaseStatus.value6;
++    databaseComponent1.setMStatus(databaseStatus0);
++    // Observe side‑effect of setMStatus
++    assertEquals(databaseStatus0, databaseComponent1.getMStatus());
++
++    boolean boolean0 = databaseComponent1.equals(databaseComponent0);
++    assertFalse(databaseComponent1.equals((Object) databaseComponent0));
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

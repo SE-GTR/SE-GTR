@@ -1,0 +1,66 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/action/SQLQueryAction_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/action/SQLQueryAction_ESTest.java
+@@ -33,32 +33,38 @@
+     actionMapping0 = new ActionMapping();
+     dynaActionForm0 = new DynaActionForm();
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        actionMapping0 = new ActionMapping();
++        dynaActionForm0 = new DynaActionForm();
++        ArrayList<Integer> arrayList0 = new ArrayList<Integer>();
++        Object object0 = new Object();
++        HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++        doReturn(arrayList0, object0).when(httpSession0).getAttribute(anyString());
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("", "5\"EX%Ynoz :_8=2a]0|", "5\"EX%Ynoz :_8=2a]0|", "").when(httpServletRequest0).getParameter(anyString());
++        doReturn(httpSession0).when(httpServletRequest0).getSession();
++        // Verify stubbing behavior to eliminate NARV
++        Object attrFirst = httpSession0.getAttribute("anyKey");
++        assertSame(arrayList0, attrFirst);
++        Object attrSecond = httpSession0.getAttribute("anyKey");
++        assertSame(object0, attrSecond);
++        String paramFirst = httpServletRequest0.getParameter("anyParam");
++        assertEquals("", paramFirst);
++        HttpSession session = httpServletRequest0.getSession();
++        assertSame(httpSession0, session);
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        SQLQueryAction sQLQueryAction0 = new SQLQueryAction();
++        try {
++            sQLQueryAction0.execute(actionMapping0, (ActionForm) dynaActionForm0,
++                    (HttpServletRequest) httpServletRequestWrapper0, (HttpServletResponse) null);
++            fail("Expecting exception: ClassCastException");
++        } catch (ClassCastException e) {
++            // java.lang.Object cannot be cast to com.gbshape.dbe.struts.bean.DBDataBean
++            verifyException("com.gbshape.dbe.struts.action.SQLQueryAction", e);
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    actionMapping0 = new ActionMapping();
+-    dynaActionForm0 = new DynaActionForm();
+-      ArrayList<Integer> arrayList0 = new ArrayList<Integer>();
+-      Object object0 = new Object();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(arrayList0, object0).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("", "5\"EX%Ynoz :_8=2a]0|", "5\"EX%Ynoz :_8=2a]0|", "").when(httpServletRequest0).getParameter(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      SQLQueryAction sQLQueryAction0 = new SQLQueryAction();
+-      try { 
+-        sQLQueryAction0.execute(actionMapping0, (ActionForm) dynaActionForm0, (HttpServletRequest) httpServletRequestWrapper0, (HttpServletResponse) null);
+-        fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.lang.Object cannot be cast to com.gbshape.dbe.struts.bean.DBDataBean
+-         //
+-         verifyException("com.gbshape.dbe.struts.action.SQLQueryAction", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

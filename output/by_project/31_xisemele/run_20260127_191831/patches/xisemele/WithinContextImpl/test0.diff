@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/WithinContextImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/WithinContextImpl_ESTest.java
+@@ -14,13 +14,25 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class WithinContextImpl_ESTest extends WithinContextImpl_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        WithinContextImpl withinContextImpl0 = new WithinContextImpl();
++        // Verify the default state
++        assertFalse(withinContextImpl0.enabled());
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      WithinContextImpl withinContextImpl0 = new WithinContextImpl();
+-      boolean boolean0 = withinContextImpl0.enabled();
+-      assertFalse(boolean0);
+-  }
++        // Serialize the instance
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(withinContextImpl0);
++        oos.flush();
++
++        // Deserialize and verify the state is preserved
++        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++        WithinContextImpl deserialized = (WithinContextImpl) ois.readObject();
++        assertFalse(deserialized.enabled());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/LargeMailUserType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/LargeMailUserType_ESTest.java
+@@ -201,13 +201,23 @@
+       Thoroughfare thoroughfare0 = largeMailUserType0.getThoroughfare();
+       assertNull(thoroughfare0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-    largeMailUserType0 = new LargeMailUserType();
+-      largeMailUserType0.setLargeMailUserIdentifier((LargeMailUserType.LargeMailUserIdentifier) null);
+-      assertNull(largeMailUserType0.getType());
+-  }
++@Test(timeout = 4000)
++public void test23() throws Throwable {
++    largeMailUserType0 = new LargeMailUserType();
++    // Verify initial state
++    assertNull(largeMailUserType0.getLargeMailUserIdentifier());
++    assertNull(largeMailUserType0.getType());
++
++    // Exercise setter with a non‑null value
++    LargeMailUserType.LargeMailUserIdentifier identifier = new LargeMailUserType.LargeMailUserIdentifier();
++    largeMailUserType0.setLargeMailUserIdentifier(identifier);
++
++    // Observe the side effect via the corresponding getter
++    assertSame(identifier, largeMailUserType0.getLargeMailUserIdentifier());
++    // Ensure other fields remain unchanged
++    assertNull(largeMailUserType0.getType());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

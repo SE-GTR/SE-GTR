@@ -1,0 +1,35 @@
+--- a/evosuite-tests/bcry/battlecry_ESTest.java
++++ b/evosuite-tests/bcry/battlecry_ESTest.java
+@@ -66,15 +66,25 @@
+         assertFalse("Expected some output when invoking with -h", output.isEmpty());
+         assertEquals(1, args.length);
+     }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    String[] stringArray0 = new String[1];
++    stringArray0[0] = "-v";
+ 
++    java.io.ByteArrayOutputStream outContent = new java.io.ByteArrayOutputStream();
++    java.io.PrintStream originalOut = System.out;
++    System.setOut(new java.io.PrintStream(outContent));
++    try {
++        battlecry.main(stringArray0);
++    } finally {
++        System.setOut(originalOut);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      String[] stringArray0 = new String[1];
+-      stringArray0[0] = "-v";
+-      battlecry.main(stringArray0);
+-      assertEquals(1, stringArray0.length);
+-  }
++    String output = outContent.toString();
++    assertFalse("Expected some output from battlecry.main", output.isEmpty());
++    assertEquals(1, stringArray0.length);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

@@ -1,0 +1,23 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -1507,11 +1507,15 @@
+          verifyException("org.antlr.runtime.Lexer", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test113()  throws Throwable  {
+-      ANTLRStringStream aNTLRStringStream0 = new ANTLRStringStream("U%Vzv+_#7lxJ?*d:U");
+-  }
++@Test(timeout = 4000)
++    public void test113() throws Throwable {
++        ANTLRStringStream stream = new ANTLRStringStream("U%Vz\u007fv+_#7lxJ?*d:U");
++        // Verify that the first character read from the stream matches the input
++        assertEquals('U', stream.LA(1));
++        // Verify that the stream length corresponds to the input string length
++        assertEquals(18, stream.size());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test114()  throws Throwable  {

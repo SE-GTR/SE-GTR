@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/commons/LocalVariablesSorter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/commons/LocalVariablesSorter_ESTest.java
+@@ -59,15 +59,16 @@
+          verifyException("org.objectweb.asm.jip.Type", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      LocalVariablesSorter localVariablesSorter0 = new LocalVariablesSorter(3969, "K)3*8-%hP,p_XIi7;U", (MethodVisitor) null);
+-      localVariablesSorter0.nextLocal = 3969;
+-      Type type0 = Type.DOUBLE_TYPE;
+-      int int0 = localVariablesSorter0.newLocal(type0);
+-      assertEquals(3969, int0);
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        LocalVariablesSorter localVariablesSorter0 = new LocalVariablesSorter(3969, "K)3*8-%hP,p_XIi7;U", (MethodVisitor) null);
++        Type type0 = Type.DOUBLE_TYPE;
++        int int0 = localVariablesSorter0.newLocal(type0);
++        // For a double type the slot size is 2, so nextLocal should be incremented by 2.
++        assertEquals(int0 + 2, localVariablesSorter0.nextLocal);
++        assertTrue(int0 >= 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

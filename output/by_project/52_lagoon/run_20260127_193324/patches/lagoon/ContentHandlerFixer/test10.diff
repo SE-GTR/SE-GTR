@@ -1,0 +1,58 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
+@@ -143,15 +143,46 @@
+       Attributes2Impl attributes2Impl0 = new Attributes2Impl();
+       contentHandlerFixer0.startElement("0", "rv6+PaoKG3vf2s!5#JU", "", attributes2Impl0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
+-      ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0);
+-      Attributes2Impl attributes2Impl0 = new Attributes2Impl();
+-      attributes2Impl0.addAttribute("org.apche.log.output.io.otate.BaseFileNameFilter", "\"I2s5;NQOF", "", "org.apche.log.output.io.otate.BaseFileNameFilter", "\"I2s5;NQOF");
+-      contentHandlerFixer0.startElement("org.apche.log.output.io.otate.BaseFileNameFilter", "\"I2s5;NQOF", (String) null, attributes2Impl0);
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        class RecordingHandler implements ContentHandler {
++            boolean startElementCalled = false;
++            String nsURI;
++            String localName;
++            String qName;
++            Attributes attributes;
++
++            public void setDocumentLocator(Locator locator) {}
++            public void startDocument() throws SAXException {}
++            public void endDocument() throws SAXException {}
++            public void startPrefixMapping(String prefix, String uri) throws SAXException {}
++            public void endPrefixMapping(String prefix) throws SAXException {}
++            public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
++                startElementCalled = true;
++                this.nsURI = uri;
++                this.localName = localName;
++                this.qName = qName;
++                this.attributes = atts;
++            }
++            public void endElement(String uri, String localName, String qName) throws SAXException {}
++            public void characters(char[] ch, int start, int length) throws SAXException {}
++            public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {}
++            public void processingInstruction(String target, String data) throws SAXException {}
++            public void skippedEntity(String name) throws SAXException {}
++        }
++
++        RecordingHandler rec = new RecordingHandler();
++        ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(rec);
++        Attributes2Impl attributes2Impl0 = new Attributes2Impl();
++        attributes2Impl0.addAttribute("org.apche.log.output.io.otate.BaseFileNameFilter", "\"I2s5;NQOF", "", "org.apche.log.output.io.otate.BaseFileNameFilter", "\"I2s5;NQOF");
++        contentHandlerFixer0.startElement("org.apche.log.output.io.otate.BaseFileNameFilter", "\"I2s5;NQOF", null, attributes2Impl0);
++        assertTrue(rec.startElementCalled);
++        assertEquals("org.apche.log.output.io.otate.BaseFileNameFilter", rec.nsURI);
++        assertEquals("\"I2s5;NQOF", rec.localName);
++        assertNull(rec.qName);
++        assertSame(attributes2Impl0, rec.attributes);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

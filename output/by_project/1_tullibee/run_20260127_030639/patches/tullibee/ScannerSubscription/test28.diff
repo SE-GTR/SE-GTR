@@ -1,0 +1,33 @@
+--- a/evosuite-tests/com/ib/client/ScannerSubscription_ESTest.java
++++ b/evosuite-tests/com/ib/client/ScannerSubscription_ESTest.java
+@@ -472,16 +472,20 @@
+         assertEquals(-710.6763475, scannerSubscription0.marketCapBelow(), 0.01);
+         assertEquals(123.45, scannerSubscription0.marketCapAbove(), 0.01);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      ScannerSubscription scannerSubscription0 = new ScannerSubscription();
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.couponRateBelow(), 0.01);
+-      
+-      scannerSubscription0.couponRateBelow((double) (-1));
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.belowPrice(), 0.01);
+-  }
++@Test(timeout = 4000)
++public void test28() throws Throwable {
++    ScannerSubscription scannerSubscription0 = new ScannerSubscription();
++
++    // Verify that setting couponRateBelow updates the value
++    scannerSubscription0.couponRateBelow(-1.0);
++    assertEquals(-1.0, scannerSubscription0.couponRateBelow(), 0.01);
++
++    // Verify that setting belowPrice updates the value
++    double price = 123.45;
++    scannerSubscription0.belowPrice(price);
++    assertEquals(price, scannerSubscription0.belowPrice(), 0.01);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test29()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/corina/site/Site_ESTest.java
++++ b/evosuite-tests/corina/site/Site_ESTest.java
+@@ -277,15 +277,21 @@
+       String string0 = site0.getTypesAsString();
+       assertEquals("Medieval, Forests, Unknown", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
+-      Site site0 = new Site();
+-      Location location0 = new Location();
+-      site0.setLocation(location0);
+-      String string0 = site0.toString();
+-      assertEquals("[Site: name='' code='' id='' location=0\u00B00'S 0\u00B00'W ]", string0);
+-  }
++@Test(timeout = 4000)
++public void test27() throws Throwable {
++    Site site0 = new Site();
++    Location location0 = new Location();
++    // Verify initial state before setting location
++    assertNull(site0.getLocation());
++    // Act: set the location
++    site0.setLocation(location0);
++    // Verify that the side‑effect took place
++    assertSame(location0, site0.getLocation());
++    // Verify string representation reflects the new location
++    String string0 = site0.toString();
++    assertEquals("[Site: name='' code='' id='' location=0\u00B00'S 0\u00B00'W ]", string0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test28()  throws Throwable  {

@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/residue/nt/NucleotideSequenceBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/residue/nt/NucleotideSequenceBuilder_ESTest.java
+@@ -139,15 +139,17 @@
+       nucleotideSequenceBuilder0.ungap();
+       assertEquals(1L, nucleotideSequenceBuilder0.getLength());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      Nucleotide nucleotide0 = Nucleotide.NotAdenine;
+-      NucleotideSequenceBuilder nucleotideSequenceBuilder0 = new NucleotideSequenceBuilder(nucleotide0);
+-      nucleotideSequenceBuilder0.append(nucleotideSequenceBuilder0);
+-      nucleotideSequenceBuilder0.reverse();
+-      assertEquals(2L, nucleotideSequenceBuilder0.getUngappedLength());
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        Nucleotide nucleotide0 = Nucleotide.NotAdenine;
++        NucleotideSequenceBuilder builder = new NucleotideSequenceBuilder(nucleotide0);
++        NucleotideSequenceBuilder afterAppend = builder.append(builder);
++        assertSame(builder, afterAppend);
++        NucleotideSequenceBuilder afterReverse = builder.reverse();
++        assertSame(builder, afterReverse);
++        assertEquals(2L, builder.getUngappedLength());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

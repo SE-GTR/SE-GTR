@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/yahoo/platform/yui/compressor/JavaScriptCompressor_ESTest.java
++++ b/evosuite-tests/com/yahoo/platform/yui/compressor/JavaScriptCompressor_ESTest.java
+@@ -96,12 +96,19 @@
+       javaScriptCompressor0.compress(stringWriter0, 639, false, false, false, false);
+       assertEquals("eval;", stringWriter0.toString());
+   }
++@Test(timeout = 4000)
++    public void test8() throws Throwable {
++        StringReader stringReader0 = new StringReader("var a = 1;");
++        JavaScriptCompressor javaScriptCompressor0 = new JavaScriptCompressor(stringReader0, null);
++        StringWriter writer = new StringWriter();
++        // invoke a non‑trivial method on the compressor
++        javaScriptCompressor0.compress(writer, -1, false, false, false, false);
++        String result = writer.toString();
++        // verify that compression produced some output
++        assertNotNull(result);
++        assertFalse(result.isEmpty());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-      StringReader stringReader0 = new StringReader("nZJ|.1");
+-      JavaScriptCompressor javaScriptCompressor0 = new JavaScriptCompressor(stringReader0, (ErrorReporter) null);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test9()  throws Throwable  {

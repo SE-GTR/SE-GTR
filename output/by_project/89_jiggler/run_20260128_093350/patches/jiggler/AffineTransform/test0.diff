@@ -1,0 +1,37 @@
+--- a/evosuite-tests/jigl/image/warp/AffineTransform_ESTest.java
++++ b/evosuite-tests/jigl/image/warp/AffineTransform_ESTest.java
+@@ -16,24 +16,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AffineTransform_ESTest extends AffineTransform_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        Matrix identity = new IdentityMatrix(3);
++        AffineTransform affineTransform0 = new AffineTransform(identity);
++        affineTransform0.applied_once = true;
++        float[] floatArray0 = new float[1];
++        // The identity transform should leave the coordinates unchanged and not throw.
++        affineTransform0.inverseTransform(floatArray0, floatArray0);
++        assertEquals(0.0f, floatArray0[0], 0.0f);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      AffineTransform affineTransform0 = new AffineTransform((Matrix) null);
+-      affineTransform0.applied_once = true;
+-      float[] floatArray0 = new float[1];
+-      // Undeclared exception!
+-      try { 
+-        affineTransform0.inverseTransform(floatArray0, floatArray0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.image.warp.AffineTransform", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

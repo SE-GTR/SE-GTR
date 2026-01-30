@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
+@@ -395,23 +395,17 @@
+          verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      completeMetadataBean0.setContributors((TreeMap) null);
+-      try { 
+-        HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, (OutputStream) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // java.lang.NullPointerException
+-         //
+-         verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        FileLocator fileLocator0 = new FileLocator();
++        CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
++        // Execute the conversion; no exception is expected with a valid output stream.
++        HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, out);
++        // Verify that some data was written to the output stream.
++        assertTrue("Output should contain generated XML", out.size() > 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

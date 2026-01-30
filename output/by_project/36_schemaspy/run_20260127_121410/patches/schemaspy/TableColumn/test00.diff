@@ -1,0 +1,62 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/model/TableColumn_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/model/TableColumn_ESTest.java
+@@ -21,34 +21,32 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class TableColumn_ESTest extends TableColumn_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      TableColumnMeta tableColumnMeta0 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
+-      doReturn("' in XML metadata").when(tableColumnMeta0).getComments();
+-      doReturn("' in XML metadata").when(tableColumnMeta0).getDefaultValue();
+-      doReturn(0).when(tableColumnMeta0).getDigits();
+-      doReturn("' in XML metadata").when(tableColumnMeta0).getId();
+-      doReturn("' in XML metadata").when(tableColumnMeta0).getName();
+-      doReturn(0).when(tableColumnMeta0).getSize();
+-      doReturn("' in XML metadata").when(tableColumnMeta0).getType();
+-      doReturn(false).when(tableColumnMeta0).isAutoUpdated();
+-      doReturn(false).when(tableColumnMeta0).isNullable();
+-      TableColumn tableColumn0 = new TableColumn((Table) null, tableColumnMeta0);
+-      TableColumnMeta tableColumnMeta1 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
+-      doReturn("' in XML metadata").when(tableColumnMeta1).getComments();
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        TableColumnMeta tableColumnMeta0 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
++        doReturn("' in XML metadata").when(tableColumnMeta0).getComments();
++        doReturn("' in XML metadata").when(tableColumnMeta0).getDefaultValue();
++        doReturn(0).when(tableColumnMeta0).getDigits();
++        doReturn("' in XML metadata").when(tableColumnMeta0).getId();
++        doReturn("' in XML metadata").when(tableColumnMeta0).getName();
++        doReturn(0).when(tableColumnMeta0).getSize();
++        doReturn("' in XML metadata").when(tableColumnMeta0).getType();
++        doReturn(false).when(tableColumnMeta0).isAutoUpdated();
++        doReturn(false).when(tableColumnMeta0).isNullable();
++
++        Table table = mock(Table.class, new ViolatedAssumptionAnswer());
++        TableColumn tableColumn0 = new TableColumn(table, tableColumnMeta0);
++
++        TableColumnMeta tableColumnMeta1 = mock(TableColumnMeta.class, new ViolatedAssumptionAnswer());
++        doReturn("new comments").when(tableColumnMeta1).getComments();
++
++        // Act
+         tableColumn0.update(tableColumnMeta1);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.schemaspy.model.TableColumn", e);
+-      }
+-  }
++
++        // Verify that the update reflected the new metadata
++        assertEquals("new comments", tableColumn0.getComments());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

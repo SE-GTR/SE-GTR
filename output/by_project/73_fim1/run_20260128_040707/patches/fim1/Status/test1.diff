@@ -1,0 +1,35 @@
+--- a/evosuite-tests/osa/ora/server/beans/Status_ESTest.java
++++ b/evosuite-tests/osa/ora/server/beans/Status_ESTest.java
+@@ -26,14 +26,26 @@
+     status0.setCustomMessage("test");
+     assertEquals("test", status0.getCustomMessage());
+ }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        Status status0 = new Status();
++        // Verify default state
++        assertEquals(0, status0.getId());
+ 
++        // Change state and verify the side‑effect
++        status0.setId(1457);
++        assertEquals(1457, status0.getId());
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      Status status0 = new Status();
+-      status0.setId(1457);
+-      assertEquals(1457, status0.getId());
+-  }
++        // Ensure the change is observable and distinct from the default
++        assertNotEquals(0, status0.getId());
++
++        // Verify independence between instances
++        Status status1 = new Status();
++        status1.setId(2000);
++        assertEquals(2000, status1.getId());
++        assertEquals(1457, status0.getId());
++    }
++
+ @Test(timeout = 4000)
+ public void test2() throws Throwable {
+     Status status0 = new Status();

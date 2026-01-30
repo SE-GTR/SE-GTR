@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/FieldWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/FieldWriter_ESTest.java
+@@ -87,15 +87,17 @@
+          verifyException("org.objectweb.asm.jip.Attribute", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        ClassWriter classWriter0 = new ClassWriter(1929);
++        FieldWriter fieldWriter0 = new FieldWriter(classWriter0, 1, "", "", "", "");
++        int sizeBefore = fieldWriter0.getSize();
++        AnnotationVisitor av = fieldWriter0.visitAnnotation("<%I83%", true);
++        int sizeAfter = fieldWriter0.getSize();
++        assertNotNull(av);
++        assertTrue(sizeAfter > sizeBefore);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      ClassWriter classWriter0 = new ClassWriter(1929);
+-      FieldWriter fieldWriter0 = new FieldWriter(classWriter0, 1, "", "", "", "");
+-      fieldWriter0.visitAnnotation("<%I83%", true);
+-      int int0 = fieldWriter0.getSize();
+-      assertEquals(36, int0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

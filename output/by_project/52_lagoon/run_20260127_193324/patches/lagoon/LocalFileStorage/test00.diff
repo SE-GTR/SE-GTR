@@ -1,0 +1,38 @@
+--- a/evosuite-tests/nu/staldal/lagoon/filestorage/LocalFileStorage_ESTest.java
++++ b/evosuite-tests/nu/staldal/lagoon/filestorage/LocalFileStorage_ESTest.java
+@@ -31,24 +31,19 @@
+     mockFile0 = new MockFile("");
+     byteArrayOutputStream0 = new ByteArrayOutputStream();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      mockFile0.setReadOnly();
+-      ObjectOutputStream objectOutputStream0 = new ObjectOutputStream(byteArrayOutputStream0);
+-      LocalFileStorage.LocalOutputHandler localFileStorage_LocalOutputHandler0 = new LocalFileStorage.LocalOutputHandler(mockFile0, objectOutputStream0);
+-      try { 
+-        localFileStorage_LocalOutputHandler0.discard();
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Unable to delete file: 
+-         //
+-         verifyException("nu.staldal.lagoon.filestorage.LocalFileStorage$LocalOutputHandler", e);
++@Test(timeout = 4000)
++  public void test00() throws Throwable {
++      File file = new File("nonexistent_file.tmp");
++      ObjectOutputStream objectOutputStream0 = new ObjectOutputStream(new ByteArrayOutputStream());
++      LocalFileStorage.LocalOutputHandler localFileStorage_LocalOutputHandler0 = new LocalFileStorage.LocalOutputHandler(file, objectOutputStream0);
++      try {
++          localFileStorage_LocalOutputHandler0.discard();
++          fail("Expecting exception: IOException");
++      } catch (IOException e) {
++          // Expected exception when unable to delete the file
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletRequest_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletRequest_ESTest.java
+@@ -140,18 +140,21 @@
+       assertFalse(boolean1);
+       assertFalse(jSecurityHttpServletRequest0.isHttpSessions());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      Boolean boolean0 = Boolean.valueOf(true);
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(boolean0).when(httpServletRequest0).getAttribute(anyString());
+-    httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-    servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
+-    jSecurityHttpServletRequest0 = new JSecurityHttpServletRequest(httpServletRequestWrapper0, servletContext0, false);
+-      boolean boolean1 = jSecurityHttpServletRequest0.isRequestedSessionIdValid();
+-      assertTrue(boolean1);
+-  }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        Boolean boolean0 = Boolean.valueOf(true);
++        httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn(boolean0).when(httpServletRequest0).getAttribute(anyString());
++        // Verify that the stubbed method returns the expected value
++        Object attr = httpServletRequest0.getAttribute("testKey");
++        assertEquals(boolean0, attr);
++        httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
++        jSecurityHttpServletRequest0 = new JSecurityHttpServletRequest(httpServletRequestWrapper0, servletContext0, false);
++        boolean boolean1 = jSecurityHttpServletRequest0.isRequestedSessionIdValid();
++        assertTrue(boolean1);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/javathena/core/utiles/MultilanguageManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/core/utiles/MultilanguageManagement_ESTest.java
+@@ -18,23 +18,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class MultilanguageManagement_ESTest extends MultilanguageManagement_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test000()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test000() throws Throwable {
+       EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("lang/en.xml");
+-      FileSystemHandling.appendStringToFile(evoSuiteFile0, "feU(^b.)Pero/8]r5");
+-      // Undeclared exception!
+-      try { 
+-        MultilanguageManagement.init("V >~jwx7{33CLD");
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         //  : Content is not allowed in prolog.
+-         //
+-         verifyException("com.thoughtworks.xstream.io.xml.DomDriver", e);
++      boolean appendResult = FileSystemHandling.appendStringToFile(evoSuiteFile0, "feU(^b.)Pero/8]r5");
++      assertTrue(appendResult);
++      try {
++          MultilanguageManagement.init("V >~jwx7{33CLD");
++          fail("Expecting exception: RuntimeException");
++      } catch (RuntimeException e) {
++          //
++          //  : Content is not allowed in prolog.
++          //
++          verifyException("com.thoughtworks.xstream.io.xml.DomDriver", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test001()  throws Throwable  {

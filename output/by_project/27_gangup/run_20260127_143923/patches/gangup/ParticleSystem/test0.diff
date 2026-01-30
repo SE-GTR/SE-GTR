@@ -1,0 +1,33 @@
+--- a/evosuite-tests/gui/gl/ParticleSystem_ESTest.java
++++ b/evosuite-tests/gui/gl/ParticleSystem_ESTest.java
+@@ -18,16 +18,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ParticleSystem_ESTest extends ParticleSystem_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        ParticleManager particleManager0 = new ParticleManager();
++        Coord3f coord3f0 = new Coord3f();
++        ParticleSystem particleSystem0 = particleManager0.createParticleSystem(10, coord3f0, 10, 10);
++        // Capture the state before the update
++        long beforeNextTime = particleManager0.getNextTime();
++        particleManager0.updateSystems(particleSystem0.IDENTITY);
++        // Verify that the side‑effect of updateSystems is observable
++        long afterNextTime = particleManager0.getNextTime();
++        assertTrue("nextTime should advance after updateSystems", afterNextTime > beforeNextTime);
++        assertEquals(1.0F, particleSystem0.particleSize, 0.01F);
++        assertEquals(10, particleSystem0.getType());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ParticleManager particleManager0 = new ParticleManager();
+-      Coord3f coord3f0 = new Coord3f();
+-      ParticleSystem particleSystem0 = particleManager0.createParticleSystem(10, coord3f0, 10, 10);
+-      particleManager0.updateSystems(particleSystem0.IDENTITY);
+-      assertEquals(1.0F, particleSystem0.particleSize, 0.01F);
+-      assertEquals(10, particleSystem0.getType());
+-  }
+ @Test(timeout = 4000)
+ public void test1() throws Throwable {
+     Coord3f coord3f0 = new Coord3f(3, 3, 3);

@@ -1,0 +1,46 @@
+--- a/evosuite-tests/src/Knight_ESTest.java
++++ b/evosuite-tests/src/Knight_ESTest.java
+@@ -555,22 +555,27 @@
+     assertEquals("Ile-De-France", knight0.getLocation());
+     assertEquals("knight", knight0.getRank());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test48()  throws Throwable  {
+-      Knight knight0 = new Knight();
+-      ArrayList<String> arrayList0 = knight0.getVotes();
+-      knight0.setVotes(arrayList0);
+-      assertEquals(0, knight0.getHitsCounter());
+-      assertEquals("Ile-De-France", knight0.getLocation());
+-      assertFalse(knight0.isDead());
+-      assertEquals(0, knight0.getScore());
+-      assertEquals(0, knight0.getRebellionCounter());
+-      assertEquals("knight", knight0.getRank());
+-      assertEquals(0, knight0.getwound());
+-      assertEquals(0, knight0.getKills());
+-  }
++@Test(timeout = 4000)
++    public void test48() throws Throwable {
++        Knight knight0 = new Knight();
++        ArrayList<String> arrayList0 = knight0.getVotes();
++        // modify the votes list to create a meaningful state change
++        arrayList0.add("testVote");
++        knight0.setVotes(arrayList0);
++        // verify that the side‑effect of setVotes is observable
++        assertEquals(1, knight0.getVotes().size());
++        assertTrue(knight0.getVotes().contains("testVote"));
++        // existing field assertions
++        assertEquals(0, knight0.getHitsCounter());
++        assertEquals("Ile-De-France", knight0.getLocation());
++        assertFalse(knight0.isDead());
++        assertEquals(0, knight0.getScore());
++        assertEquals(0, knight0.getRebellionCounter());
++        assertEquals("knight", knight0.getRank());
++        assertEquals(0, knight0.getwound());
++        assertEquals(0, knight0.getKills());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test49()  throws Throwable  {

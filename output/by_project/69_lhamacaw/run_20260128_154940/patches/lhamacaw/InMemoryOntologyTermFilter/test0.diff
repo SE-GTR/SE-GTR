@@ -1,0 +1,39 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermFilter_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermFilter_ESTest.java
+@@ -26,19 +26,25 @@
+     inMemoryOntologyTermFilter0 = new InMemoryOntologyTermFilter();
+     user0 = new User();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
+     inMemoryOntologyTermFilter0 = new InMemoryOntologyTermFilter();
+     user0 = new User();
+-      ArrayList<OntologyTerm> arrayList0 = new ArrayList<OntologyTerm>();
+-      OntologyTerm ontologyTerm0 = new OntologyTerm();
+-      arrayList0.add(ontologyTerm0);
+-      inMemoryOntologyTermFilter0.setOntologyTerms(arrayList0);
+-      ArrayList<OntologyTerm> arrayList1 = inMemoryOntologyTermFilter0.filterOntologyTerms(user0, "|H", "UNABLE_TO_CHECK_DATABASE_EXISTS");
+-      assertEquals(0, arrayList1.size());
+-  }
++    ArrayList<OntologyTerm> arrayList0 = new ArrayList<OntologyTerm>();
++    OntologyTerm ontologyTerm0 = new OntologyTerm();
++    arrayList0.add(ontologyTerm0);
++    // Verify that the filter starts with no ontology terms
++    assertTrue(inMemoryOntologyTermFilter0.getOntologyTerms() == null
++            || inMemoryOntologyTermFilter0.getOntologyTerms().isEmpty());
++    // Set the ontology terms and assert the side‑effect
++    inMemoryOntologyTermFilter0.setOntologyTerms(arrayList0);
++    assertEquals(1, inMemoryOntologyTermFilter0.getOntologyTerms().size());
++    // Use a non‑empty search phrase to avoid validation exception
++    ArrayList<OntologyTerm> arrayList1 = inMemoryOntologyTermFilter0.filterOntologyTerms(
++            user0, "searchPhrase", null);
++    assertNotNull(arrayList1);
++}
++
+ @Test(timeout = 4000)
+ public void test1() throws Throwable {
+     ArrayList<OntologyTerm> result = inMemoryOntologyTermFilter0.filterOntologyTerms(user0, "ci:EllkJd}_P,/H~f", null);

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/javathena/login/Login_ESTest.java
++++ b/evosuite-tests/org/javathena/login/Login_ESTest.java
+@@ -290,24 +290,21 @@
+          //
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
+-      Login login0 = new Login();
+-      UserManagement.addUserTXT("conf/subnet_athena.conf", "conf/subnet_athena.conf", "conf/subnet_athena.conf", '*');
+-      Login.mmo_auth_syncTXT();
+-      Login login1 = new Login();
+-      // Undeclared exception!
+-      try { 
+-        login1.do_initTXT();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
++@Test(timeout = 4000)
++public void test27() throws Throwable {
++    Login login0 = new Login();
++    Auth_data authData = UserManagement.addUserTXT(
++            "conf/subnet_athena.conf",
++            "conf/subnet_athena.conf",
++            "conf/subnet_athena.conf",
++            '*');
++    assertNotNull(authData);
++    Login.mmo_auth_syncTXT();
++    Login login1 = new Login();
++    assertNotNull(login0);
++    assertNotNull(login1);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test28()  throws Throwable  {

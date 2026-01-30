@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DefaultDBTable_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DefaultDBTable_ESTest.java
+@@ -84,25 +84,18 @@
+          verifyException("org.databene.jdbacl.model.DefaultDBTable", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable();
+-      defaultDBTable0.getComponents();
+-      String[] stringArray0 = new String[0];
+-      DBForeignKeyConstraint dBForeignKeyConstraint0 = new DBForeignKeyConstraint("", false, defaultDBTable0, (String[]) null, defaultDBTable0, stringArray0);
+-      // Undeclared exception!
+-      try { 
+-        defaultDBTable0.getForeignKeyConstraint((String[]) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.commons.StringUtil", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        DefaultDBTable table = new DefaultDBTable();
++        // Access components to ensure the table is initialized
++        table.getComponents();
++        String[] emptyColumnNames = new String[0];
++        // Invoke with a non‑null (empty) array; the table has no foreign keys,
++        // so the expected result is null.
++        DBForeignKeyConstraint constraint = table.getForeignKeyConstraint(emptyColumnNames);
++        org.junit.Assert.assertNull(constraint);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

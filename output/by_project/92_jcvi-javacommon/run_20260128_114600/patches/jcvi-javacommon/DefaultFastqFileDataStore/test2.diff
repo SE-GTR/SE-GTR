@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/DefaultFastqFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/DefaultFastqFileDataStore_ESTest.java
+@@ -55,25 +55,21 @@
+          verifyException("org.jcvi.jillion.trace.fastq.DefaultFastqFileDataStore$DefaultFastqFileDataStoreBuilderVisitor2", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("`l]P!");
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("`l]P!");
+-      FileSystemHandling.appendStringToFile(evoSuiteFile0, "@3%3x[styQcV#[N}");
+-      FastqQualityCodec fastqQualityCodec0 = FastqQualityCodec.ILLUMINA;
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    MockFile mockFile0 = new MockFile("`l]P!");
++    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("`l]P!");
++    boolean result = FileSystemHandling.appendStringToFile(evoSuiteFile0, "@3%3x[styQcV#[N}");
++    assertTrue(result);
++    FastqQualityCodec fastqQualityCodec0 = FastqQualityCodec.ILLUMINA;
++    try {
+         DefaultFastqFileDataStore.create((File) mockFile0, fastqQualityCodec0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.trace.fastq.FastqFileParser", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        verifyException("org.jcvi.jillion.trace.fastq.FastqFileParser", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

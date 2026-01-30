@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/fixsuite/message/info/ComponentInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/ComponentInfo_ESTest.java
+@@ -80,16 +80,25 @@
+         ComponentInfo componentInfo0 = messageInfo0.getComponent(0);
+         // No assertion on default initialization; the test verifies that the call completes without throwing.
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      MessageInfo messageInfo0 = new MessageInfo();
+-      messageInfo0.setName(";");
+-      messageInfo0.addComponent(messageInfo0, (-1.0));
+-      messageInfo0.getComponents();
+-      assertEquals(0, messageInfo0.getId());
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        MessageInfo messageInfo0 = new MessageInfo();
++
++        // Verify setName side‑effect
++        messageInfo0.setName(";");
++        assertEquals(";", messageInfo0.getName());
++
++        // Verify addComponent side‑effect
++        int sizeBefore = messageInfo0.getComponents().size();
++        messageInfo0.addComponent(messageInfo0, -1.0);
++        List<ComponentInfo> componentsAfter = messageInfo0.getComponents();
++        assertEquals(sizeBefore + 1, componentsAfter.size());
++        assertTrue(componentsAfter.contains(messageInfo0));
++
++        // Existing assertion retained
++        assertEquals(0, messageInfo0.getId());
++    }
++
+ @Test(timeout = 4000)
+ public void test07() throws Throwable {
+     MessageInfo messageInfo0 = new MessageInfo();

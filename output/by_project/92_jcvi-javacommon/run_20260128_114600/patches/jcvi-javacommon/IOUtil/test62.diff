@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
+@@ -595,21 +595,12 @@
+          verifyException("org.jcvi.jillion.core.io.IOUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test62()  throws Throwable  {
+-      PipedInputStream pipedInputStream0 = new PipedInputStream();
+-      try { 
+-        IOUtil.readUnsignedLong((InputStream) pipedInputStream0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Pipe not connected
+-         //
+-         verifyException("java.io.PipedInputStream", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = IOException.class)
++public void test62() throws Throwable {
++    java.io.InputStream in = new java.io.ByteArrayInputStream(new byte[0]);
++    IOUtil.readUnsignedLong(in);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test63()  throws Throwable  {

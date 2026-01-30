@@ -1,0 +1,30 @@
+--- a/evosuite-tests/corina/editor/DecadalModel_ESTest.java
++++ b/evosuite-tests/corina/editor/DecadalModel_ESTest.java
+@@ -24,14 +24,19 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DecadalModel_ESTest extends DecadalModel_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      Sample sample0 = new Sample();
+-      DecadalModel decadalModel0 = new DecadalModel(sample0);
+-      decadalModel0.setValueAt((Object) null, 0, 2);
+-      assertEquals(12, decadalModel0.getColumnCount());
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    Sample sample0 = new Sample();
++    DecadalModel decadalModel0 = new DecadalModel(sample0);
++    // Capture the original value at the target cell (if any)
++    Object original = decadalModel0.getValueAt(0, 2);
++    decadalModel0.setValueAt(null, 0, 2);
++    // Verify that the cell value was updated to null
++    assertNull(decadalModel0.getValueAt(0, 2));
++    // Existing behavior check
++    assertEquals(12, decadalModel0.getColumnCount());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

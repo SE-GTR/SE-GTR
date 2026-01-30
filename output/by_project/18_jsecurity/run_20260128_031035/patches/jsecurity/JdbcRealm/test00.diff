@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jsecurity/realm/jdbc/JdbcRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/jdbc/JdbcRealm_ESTest.java
+@@ -32,23 +32,12 @@
+     jdbcRealm0 = new JdbcRealm();
+     linkedHashSet0 = new LinkedHashSet<String>();
+   }
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test00() throws Throwable {
++    assertTrue(linkedHashSet0.add(""));
++    jdbcRealm0.getPermissions((Connection) null, "", linkedHashSet0);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      linkedHashSet0.add("");
+-      // Undeclared exception!
+-      try { 
+-        jdbcRealm0.getPermissions((Connection) null, "", linkedHashSet0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.realm.jdbc.JdbcRealm", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

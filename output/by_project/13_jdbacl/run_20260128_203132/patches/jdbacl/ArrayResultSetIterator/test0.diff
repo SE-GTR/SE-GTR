@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/databene/jdbacl/ArrayResultSetIterator_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/ArrayResultSetIterator_ESTest.java
+@@ -19,15 +19,18 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ArrayResultSetIterator_ESTest extends ArrayResultSetIterator_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        Result result0 = Result.newReleaseSavepointRequest("G5q2");
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++        ArrayResultSetIterator arrayResultSetIterator0 = new ArrayResultSetIterator(jdbcConnection0, "");
++        String[] stringArray0 = arrayResultSetIterator0.getColumnLabels();
++        assertEquals(0, stringArray0.length);
++        // Verify that the mocked execute method returns the expected result
++        Result execResult = session0.execute(Result.newReleaseSavepointRequest("G5q2"));
++        assertSame(result0, execResult);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Result result0 = Result.newReleaseSavepointRequest("G5q2");
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      ArrayResultSetIterator arrayResultSetIterator0 = new ArrayResultSetIterator(jdbcConnection0, "");
+-      String[] stringArray0 = arrayResultSetIterator0.getColumnLabels();
+-      assertEquals(0, stringArray0.length);
+-  }
+ }

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -415,14 +415,19 @@
+     assertEquals(5, quickServer0.getServiceState());
+     assertFalse(started);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test031()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer();
+-      quickServer0.setLoggingLevel((Level) null);
+-      assertEquals("UNKNOWN", quickServer0.getConsoleLoggingLevel());
+-  }
++@Test(timeout = 4000)
++    public void test031() throws Throwable {
++        QuickServer quickServer0 = new QuickServer();
++        // capture the initial logging level (may be null or a default)
++        Level beforeLevel = quickServer0.getLoggingLevel();
++        quickServer0.setLoggingLevel(null);
++        // verify the side‑effects of setLoggingLevel
++        assertEquals("UNKNOWN", quickServer0.getConsoleLoggingLevel());
++        assertNull(quickServer0.getLoggingLevel());
++        // ensure the logging level actually changed
++        assertNotEquals(beforeLevel, quickServer0.getLoggingLevel());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test032()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/umd/cs/shop/JSTState_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSTState_ESTest.java
+@@ -17,22 +17,21 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class JSTState_ESTest extends JSTState_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        JSTState original = new JSTState();
++        // Initialise internal fields to avoid NPE in the copy constructor
++        original.state();
++        original.addList();
++        original.deleteList();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      JSTState jSTState0 = new JSTState();
+-      JSTState jSTState1 = null;
+-      try {
+-        jSTState1 = new JSTState(jSTState0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("umd.cs.shop.JSTState", e);
+-      }
+-  }
++        JSTState copy = new JSTState(original);
++        assertNotNull("Copy constructor should produce a non‑null instance", copy);
++        assertNotNull("State should be initialised in the copy", copy.state());
++        assertNotNull("Add list should be initialised in the copy", copy.addList());
++        assertNotNull("Delete list should be initialised in the copy", copy.deleteList());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

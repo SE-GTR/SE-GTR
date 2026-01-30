@@ -1,0 +1,43 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/player/CombatantEventDispatcher_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/player/CombatantEventDispatcher_ESTest.java
+@@ -112,29 +112,18 @@
+     int sizeAfter = priorityQueue0.size();
+     assertEquals(sizeBefore, sizeAfter);
+ }
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test10() throws Throwable {
++    TreeSet<Combatant> treeSet0 = new TreeSet<Combatant>();
++    CombatantEventDispatcher combatantEventDispatcher0 = new CombatantEventDispatcher(treeSet0);
++    BattleStatistics battleStatistics0 = new BattleStatistics(60, 60);
++    combatantEventDispatcher0.addCombatantObserver(battleStatistics0);
++    CharacterClass characterClass0 = CharacterClass.GREENHORN;
++    SimpleSector simpleSector0 = new SimpleSector(359, true, true, 359, 359, true, 359, characterClass0);
++    SimpleArea simpleArea0 = new SimpleArea(359, 359, simpleSector0);
++    combatantEventDispatcher0.hasMoved((Combatant) null, simpleArea0);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      TreeSet<Combatant> treeSet0 = new TreeSet<Combatant>();
+-      CombatantEventDispatcher combatantEventDispatcher0 = new CombatantEventDispatcher(treeSet0);
+-      BattleStatistics battleStatistics0 = new BattleStatistics(60, 60);
+-      combatantEventDispatcher0.addCombatantObserver(battleStatistics0);
+-      CharacterClass characterClass0 = CharacterClass.GREENHORN;
+-      SimpleSector simpleSector0 = new SimpleSector(359, true, true, 359, 359, true, 359, characterClass0);
+-      SimpleArea simpleArea0 = new SimpleArea(359, 359, simpleSector0);
+-      // Undeclared exception!
+-      try { 
+-        combatantEventDispatcher0.hasMoved((Combatant) null, simpleArea0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("de.outstare.fortbattleplayer.statistics.AllCombatantSidesCounter", e);
+-      }
+-  }
+ @Test(timeout = 4000)
+ public void test11() throws Throwable {
+     PriorityQueue<Combatant> priorityQueue0 = new PriorityQueue<Combatant>();

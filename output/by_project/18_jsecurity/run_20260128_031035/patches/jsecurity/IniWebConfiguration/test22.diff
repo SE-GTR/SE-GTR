@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
+@@ -283,24 +283,22 @@
+          verifyException("org.jsecurity.util.AntPathMatcher", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test22()  throws Throwable  {
+-      IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
+-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
+-      hashMap0.put("main", "roles");
+-      HashMap<String, Map<String, String>> hashMap1 = new HashMap<String, Map<String, String>>();
+-      hashMap1.put("urls", hashMap0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test22() throws Throwable {
++    IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
++    HashMap<String, String> hashMap0 = new HashMap<String, String>();
++    String previous0 = hashMap0.put("main", "roles");
++    assertNull(previous0);
++    HashMap<String, Map<String, String>> hashMap1 = new HashMap<String, Map<String, String>>();
++    Map<String, String> previous1 = hashMap1.put("urls", hashMap0);
++    assertNull(previous1);
++    try {
+         iniWebConfiguration0.afterSecurityManagerSet(hashMap1);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.servlet.OncePerRequestFilter", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        // no message in exception (getMessage() returned null)
++        verifyException("org.jsecurity.web.servlet.OncePerRequestFilter", e);
++    }
+ }
++
++}

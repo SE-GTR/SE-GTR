@@ -1,0 +1,43 @@
+--- a/evosuite-tests/umd/cs/shop/JSEvaluate_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSEvaluate_ESTest.java
+@@ -38,14 +38,32 @@
+       assertEquals("[1.0]", jSTerm0.toString());
+       assertTrue(jSTerm1.isEmpty());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      JSTerm jSTerm0 = JSEvaluate.equal(350.73F, 350.73F);
+-      jSTerm0.makeVariable();
+-      JSEvaluate.applyOperatorUnary("n% #L`C~C!yRE-:O", jSTerm0);
+-      assertEquals("[t]", jSTerm0.toString());
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        JSTerm jSTerm0 = JSEvaluate.equal(350.73F, 350.73F);
++        // capture state before invoking makeVariable()
++        boolean beforeVariable = jSTerm0.isVariable();
++        boolean beforeConstant = jSTerm0.isConstant();
++        boolean beforeFunction = jSTerm0.isFunction();
++
++        jSTerm0.makeVariable();
++
++        // verify that makeVariable() changed the internal flags as expected
++        assertTrue("makeVariable should set isVariable to true", jSTerm0.isVariable());
++        assertFalse("makeVariable should clear isConstant flag", jSTerm0.isConstant());
++        assertFalse("makeVariable should clear isFunction flag", jSTerm0.isFunction());
++
++        // ensure that the state actually changed compared to the pre‑call snapshot
++        assertNotEquals(beforeVariable, jSTerm0.isVariable());
++        assertNotEquals(beforeConstant, jSTerm0.isConstant());
++        assertNotEquals(beforeFunction, jSTerm0.isFunction());
++
++        JSTerm result = JSEvaluate.applyOperatorUnary("n% #L`C~C!yRE-:O", jSTerm0);
++        assertNotNull("applyOperatorUnary should return a non‑null term", result);
++        assertSame("applyOperatorUnary should operate on the same term instance", jSTerm0, result);
++        assertEquals("[t]", jSTerm0.toString());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

@@ -1,0 +1,36 @@
+--- a/evosuite-tests/umd/cs/shop/JSListLogicalAtoms_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSListLogicalAtoms_ESTest.java
+@@ -46,23 +46,16 @@
+       JSListLogicalAtoms jSListLogicalAtoms1 = jSListLogicalAtoms0.Cdr();
+       assertEquals("[]", jSListLogicalAtoms1.toString());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-    jSListLogicalAtoms0 = new JSListLogicalAtoms();
+-      jSListLogicalAtoms0.add((Object) null);
+-      // Undeclared exception!
+-      try { 
+-        jSListLogicalAtoms0.applySubstitutionListLogicalAtoms((JSSubstitution) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("umd.cs.shop.JSListLogicalAtoms", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test02() throws Throwable {
++    jSListLogicalAtoms0 = new JSListLogicalAtoms();
++    // Use a valid element to avoid unasserted return value
++    boolean added = jSListLogicalAtoms0.add(new Object());
++    assertTrue(added);
++    // Passing null should trigger NullPointerException as per contract
++    jSListLogicalAtoms0.applySubstitutionListLogicalAtoms(null);
++}
++
+ @Test(timeout = 4000)
+ public void test03() throws Throwable {
+     JSListLogicalAtoms original = new JSListLogicalAtoms();

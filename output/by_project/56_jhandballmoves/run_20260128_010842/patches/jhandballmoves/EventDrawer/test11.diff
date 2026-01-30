@@ -1,0 +1,39 @@
+--- a/evosuite-tests/visu/handball/moves/views/EventDrawer_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/views/EventDrawer_ESTest.java
+@@ -197,20 +197,22 @@
+       eventDrawer0.draw(pdfGraphics2D0);
+       assertEquals(1000, PdfGraphics2D.AFM_DIVISOR);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      Defender defender0 = new Defender((-4938), (-4938));
+-      PassEvent passEvent0 = new PassEvent(defender0, 0, 0);
+-      handballModel0.addMoveEvent(passEvent0);
+-      ColorModel colorModel0 = new ColorModel();
+-      EventDrawer eventDrawer0 = new EventDrawer(handballModel0, colorModel0);
+-      Graphic graphic0 = new Graphic();
+-      PdfGraphics2D pdfGraphics2D0 = (PdfGraphics2D)graphic0.createGraphicsShapes((float) 0, (float) 1);
+-      eventDrawer0.draw(pdfGraphics2D0);
+-      assertEquals(1000, PdfGraphics2D.AFM_DIVISOR);
+-  }
++@Test(timeout = 4000)
++public void test11() throws Throwable {
++    HandballModel handballModel0 = new HandballModel();
++    Defender defender0 = new Defender((-4938), (-4938));
++    PassEvent passEvent0 = new PassEvent(defender0, 0, 0);
++    int beforeSize = handballModel0.getMoveEvents().size();
++    handballModel0.addMoveEvent(passEvent0);
++    assertEquals(beforeSize + 1, handballModel0.getMoveEvents().size());
++    ColorModel colorModel0 = new ColorModel();
++    EventDrawer eventDrawer0 = new EventDrawer(handballModel0, colorModel0);
++    Graphic graphic0 = new Graphic();
++    PdfGraphics2D pdfGraphics2D0 = (PdfGraphics2D) graphic0.createGraphicsShapes((float) 0, (float) 1);
++    eventDrawer0.draw(pdfGraphics2D0);
++    assertNotNull(pdfGraphics2D0.getStroke());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -1207,23 +1207,22 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test083()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.setEvaluateAllEnabled(true);
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-u' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test083() throws Throwable {
++    Config config0 = Config.getInstance();
++    config0.setEvaluateAllEnabled(true);
++    // Provide required configuration parameters to avoid RuntimeException
++    config0.setUser("testUser");
++    config0.setPassword("testPass");
++    config0.setDb("testDb");
++    config0.setHost("localhost");
++    config0.setOutputDir(new java.io.File(System.getProperty("java.io.tmpdir")));
++    // Execute the method under test
++    java.util.List<String> result = config0.asList();
++    assertNotNull("Resulting list should not be null", result);
++    assertFalse("Resulting list should not be empty", result.isEmpty());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test084()  throws Throwable  {

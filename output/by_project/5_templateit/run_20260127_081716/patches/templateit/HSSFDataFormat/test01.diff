@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/apache/poi/hssf/usermodel/HSSFDataFormat_ESTest.java
++++ b/evosuite-tests/org/apache/poi/hssf/usermodel/HSSFDataFormat_ESTest.java
+@@ -43,24 +43,20 @@
+          verifyException("java.util.Vector", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test01() throws Throwable {
+     workbook0 = new Workbook();
+     hSSFDataFormat0 = new HSSFDataFormat(workbook0);
+-      hSSFDataFormat0.getFormat("mmm-yy");
+-      // Undeclared exception!
+-      try { 
+-        hSSFDataFormat0.getFormat((short)164);
+-        fail("Expecting exception: ArrayIndexOutOfBoundsException");
+-      
+-      } catch(ArrayIndexOutOfBoundsException e) {
+-         //
+-         // Array index out of range: 164
+-         //
+-         verifyException("java.util.Vector", e);
+-      }
++    short formatIdx = hSSFDataFormat0.getFormat("mmm-yy");
++    assertEquals((short) 0x11, formatIdx);
++    try {
++      hSSFDataFormat0.getFormat((short) 164);
++      fail("Expecting exception: ArrayIndexOutOfBoundsException");
++    } catch (ArrayIndexOutOfBoundsException e) {
++      verifyException("java.util.Vector", e);
++    }
+   }
++
+ @Test(timeout = 4000)
+     public void test02() throws Throwable {
+         String format = hSSFDataFormat0.getFormat((short) 17);

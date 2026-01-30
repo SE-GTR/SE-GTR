@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jsecurity/crypto/hash/Sha256Hash_ESTest.java
++++ b/evosuite-tests/org/jsecurity/crypto/hash/Sha256Hash_ESTest.java
+@@ -39,20 +39,11 @@
+       byte[] byteArray2 = sha256Hash0.hash(byteArray0, byteArray1, (byte) (-97));
+       assertNotSame(byteArray2, byteArray0);
+   }
++@Test(timeout = 4000, expected = RuntimeException.class)
++    public void test2() throws Throwable {
++        sha256Hash0 = new Sha256Hash("Og.fw+CB[", object0, -187);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      try {
+-        sha256Hash0 = new Sha256Hash("Og.fw+CB[", object0, (-187));
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // The org.jsecurity.crypto.hash.Sha256Hash implementation only supports conversion to byte[] if the source is of type byte[], char[] or String.  The instance provided as a method argument is of type [java.lang.Object].  If you would like to convert this argument type to a byte[], you can 1) convert the argument to a byte[], char[] or String yourself and then use that as the method argument or 2) subclass org.jsecurity.crypto.hash.Sha256Hash and override the objectToBytes(Object o) method.
+-         //
+-         verifyException("org.jsecurity.codec.CodecSupport", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

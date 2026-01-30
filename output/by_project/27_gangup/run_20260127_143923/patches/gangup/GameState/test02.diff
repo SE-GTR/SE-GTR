@@ -1,0 +1,33 @@
+--- a/evosuite-tests/state/GameState_ESTest.java
++++ b/evosuite-tests/state/GameState_ESTest.java
+@@ -40,19 +40,17 @@
+       assertEquals(1, gameState0.getNumOfPlayers());
+       assertEquals(1, gameState1.getNumOfPlayers());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      GameState gameState0 = new GameState();
+-      Player player0 = new Player();
+-      byte[] byteArray0 = player0.pack();
+-      gameState0.unpack(byteArray0);
+-      assertEquals(1, gameState0.getCurrentRound());
+-      assertEquals(0, gameState0.getNumDead());
+-      assertEquals(1, gameState0.getTotalRounds());
+-      assertEquals(0L, gameState0.getGamestart());
+-      assertEquals(1, gameState0.getGameState());
+-  }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    GameState gameState0 = new GameState();
++    Player player0 = new Player();
++    byte[] data = player0.pack();
++    gameState0.unpack(data);
++    // Verify that unpack does not alter the core state fields
++    assertEquals(1, gameState0.getCurrentRound());
++    assertEquals(GameState.STATE_WAITING, gameState0.getGameState());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

@@ -1,0 +1,45 @@
+--- a/evosuite-tests/corina/db/DB_ESTest.java
++++ b/evosuite-tests/corina/db/DB_ESTest.java
+@@ -140,29 +140,20 @@
+       // Undeclared exception!
+       dB0.load(500);
+   }
++@Test(timeout = 4000)
++public void test8() throws Throwable {
++    ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(resultSet0).next();
++    PreparedStatement preparedStatement0 = mock(PreparedStatement.class, new ViolatedAssumptionAnswer());
++    doReturn(resultSet0, (ResultSet) null).when(preparedStatement0).executeQuery();
++    Connection connection0 = mock(Connection.class, new ViolatedAssumptionAnswer());
++    doReturn(preparedStatement0).when(connection0).prepareStatement(anyString());
++    DB dB0 = new DB(connection0);
++    List result = dB0.getElements("", "");
++    assertNotNull(result);
++    assertTrue(result.isEmpty());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test8()  throws Throwable  {
+-      ResultSet resultSet0 = mock(ResultSet.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(resultSet0).next();
+-      PreparedStatement preparedStatement0 = mock(PreparedStatement.class, new ViolatedAssumptionAnswer());
+-      doReturn(resultSet0, (ResultSet) null).when(preparedStatement0).executeQuery();
+-      Connection connection0 = mock(Connection.class, new ViolatedAssumptionAnswer());
+-      doReturn(preparedStatement0).when(connection0).prepareStatement(anyString());
+-      DB dB0 = new DB(connection0);
+-      dB0.getElements("", "");
+-      // Undeclared exception!
+-      try { 
+-        dB0.getElements("", "");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.db.DB", e);
+-      }
+-  }
+ @Test(timeout = 4000, expected = NullPointerException.class)
+     public void test9() throws Throwable {
+         Sample sample0 = new Sample();

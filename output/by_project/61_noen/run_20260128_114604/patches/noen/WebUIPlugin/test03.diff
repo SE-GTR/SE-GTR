@@ -1,0 +1,40 @@
+--- a/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
++++ b/evosuite-tests/fi/vtt/noen/mfw/bundle/server/plugins/webui/WebUIPlugin_ESTest.java
+@@ -84,25 +84,18 @@
+     webUIPlugin0 = new WebUIPlugin(bundleContext0);
+       webUIPlugin0.subscribeToBM((-9223372036854775808L), (-9223372036854775808L), (-9223372036854775808L));
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((ServiceReference[]) null).when(bundleContext0).getAllServiceReferences(anyString() , anyString());
+-      doReturn((Object) null, (Object) null, (Object) null).when(bundleContext0).getServiceReferences(anyString() , anyString());
+-    webUIPlugin0 = new WebUIPlugin(bundleContext0);
+-      // Undeclared exception!
+-      try { 
+-        webUIPlugin0.init();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("fi.vtt.noen.mfw.bundle.server.plugins.webui.WebUIPlugin", e);
+-      }
+-  }
++@Test(timeout = 4000)
++  public void test03() throws Throwable {
++    BundleContext bundleContext0 = mock(BundleContext.class, new ViolatedAssumptionAnswer());
++    doReturn(new ServiceReference[0]).when(bundleContext0).getAllServiceReferences(anyString(), anyString());
++    doReturn(Collections.emptyList()).when(bundleContext0).getServiceReferences(anyString(), anyString());
++    WebUIPlugin webUIPlugin0 = new WebUIPlugin(bundleContext0);
++    webUIPlugin0.init();
++    verify(bundleContext0).getAllServiceReferences(anyString(), anyString());
++    verify(bundleContext0).getServiceReferences(anyString(), anyString());
++    assertNotNull(webUIPlugin0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

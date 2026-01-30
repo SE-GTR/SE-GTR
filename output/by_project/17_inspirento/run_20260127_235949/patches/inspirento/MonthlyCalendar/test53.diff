@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/allenstudio/ir/ui/calendar/MonthlyCalendar_ESTest.java
++++ b/evosuite-tests/com/allenstudio/ir/ui/calendar/MonthlyCalendar_ESTest.java
+@@ -611,15 +611,25 @@
+       assertEquals(2, monthlyCalendar0.getMonth());
+       assertTrue(monthlyCalendar0.getMouseListeningEnabled());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test53()  throws Throwable  {
+-      MonthlyCalendar monthlyCalendar0 = new MonthlyCalendar();
+-      monthlyCalendar0.setHeaderBackground(monthlyCalendar0.DEFAULT_HIGHLIGHT_FG);
+-      assertEquals(2014, monthlyCalendar0.getYear());
+-      assertTrue(monthlyCalendar0.getMouseListeningEnabled());
+-      assertEquals(2, monthlyCalendar0.getMonth());
+-  }
++@Test(timeout = 4000)
++    public void test53() throws Throwable {
++        MonthlyCalendar monthlyCalendar0 = new MonthlyCalendar();
++        // original assertions on default state
++        assertEquals(2014, monthlyCalendar0.getYear());
++        assertTrue(monthlyCalendar0.getMouseListeningEnabled());
++        assertEquals(2, monthlyCalendar0.getMonth());
++
++        // verify that setting the header background is observable
++        java.awt.Color newColor = java.awt.Color.RED;
++        monthlyCalendar0.setHeaderBackground(newColor);
++        assertEquals(newColor, monthlyCalendar0.getHeaderBackground());
++
++        // invoke a non‑trivial method to ensure behavior beyond simple accessors
++        java.awt.Dimension prefSize = monthlyCalendar0.getPreferredSize();
++        assertNotNull(prefSize);
++        assertTrue(prefSize.width > 0 && prefSize.height > 0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test54()  throws Throwable  {

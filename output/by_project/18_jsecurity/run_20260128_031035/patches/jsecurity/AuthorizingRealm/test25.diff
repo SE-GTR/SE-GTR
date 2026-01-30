@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -311,14 +311,16 @@
+     permSet.add(perm);
+     assertFalse(realm.isPermittedAll(permSet, null));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      boolean boolean0 = simpleAccountRealm0.isPermittedAll((Collection<Permission>) null, (AuthorizationInfo) null);
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test25() throws Throwable {
++    SimpleAccountRealm realm = new SimpleAccountRealm();
++    org.jsecurity.authz.Permission perm = new org.jsecurity.authz.permission.WildcardPermission("resource:action");
++    java.util.Collection<org.jsecurity.authz.Permission> perms = java.util.Collections.singletonList(perm);
++    org.jsecurity.authz.SimpleAuthorizationInfo info = new org.jsecurity.authz.SimpleAuthorizationInfo();
++    boolean result = realm.isPermittedAll(perms, info);
++    org.junit.Assert.assertFalse(result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

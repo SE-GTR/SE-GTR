@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Undeploy_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Undeploy_ESTest.java
+@@ -37,15 +37,20 @@
+     int hashAfter = undeploy0.hashCode();
+     assertNotEquals("hashCode should change after setting options", hashBefore, hashAfter);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      Undeploy undeploy0 = new Undeploy();
+-      Option[] optionArray0 = new Option[1];
+-      undeploy0.setOptions(optionArray0);
+-      undeploy0.hashCode();
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        Undeploy undeploy0 = new Undeploy();
++        Option[] optionArray0 = new Option[1];
++        undeploy0.setOptions(optionArray0);
++        // Verify that the options were set correctly
++        Option[] retrieved = undeploy0.getOptions();
++        assertArrayEquals(optionArray0, retrieved);
++        // Verify the return value of hashCode is deterministic
++        int hash1 = undeploy0.hashCode();
++        int hash2 = undeploy0.hashCode();
++        assertEquals(hash1, hash2);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

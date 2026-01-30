@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/SimpleSession_ESTest.java
+@@ -148,22 +148,17 @@
+       simpleSession0.touch();
+       assertEquals(1800000L, simpleSession0.getTimeout());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      SimpleSession simpleSession0 = new SimpleSession();
+-      simpleSession0.setExpired(true);
+-      try { 
+-        simpleSession0.validate();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Session with id [null] has expired. Last access time: 2/14/14 8:21 PM.  Current time: 2/14/14 8:21 PM.  Session timeout is set to 1800 seconds (30 minutes)
+-         //
+-         verifyException("org.jsecurity.session.mgt.SimpleSession", e);
+-      }
+-  }
++public void test15() throws Throwable {
++        SimpleSession simpleSession0 = new SimpleSession();
++        simpleSession0.setExpired(true);
++        try {
++            simpleSession0.validate();
++            fail("Expected ExpiredSessionException");
++        } catch (ExpiredSessionException e) {
++            assertTrue(e.getMessage().contains("has expired"));
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

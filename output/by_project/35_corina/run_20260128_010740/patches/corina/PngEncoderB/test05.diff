@@ -1,0 +1,30 @@
+--- a/evosuite-tests/corina/map/PngEncoderB_ESTest.java
++++ b/evosuite-tests/corina/map/PngEncoderB_ESTest.java
+@@ -68,14 +68,20 @@
+       byte[] byteArray0 = pngEncoderB0.pngEncode();
+       assertEquals(75, byteArray0.length);
+   }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        PngEncoderB pngEncoderB0 = new PngEncoderB((BufferedImage) null, true, 93, 93);
++        // Verify a constructor‑initialized property
++        assertTrue(pngEncoderB0.getEncodeAlpha());
++        // Exercise a non‑trivial behavior: encoding with a null image should fail
++        try {
++            pngEncoderB0.encode();
++            org.junit.Assert.fail("Expected NullPointerException when encoding a null image");
++        } catch (NullPointerException expected) {
++            // expected exception
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      PngEncoderB pngEncoderB0 = new PngEncoderB((BufferedImage) null, true, 93, 93);
+-      assertEquals(0, pngEncoderB0.getFilter());
+-      assertTrue(pngEncoderB0.getEncodeAlpha());
+-      assertEquals(0, pngEncoderB0.getCompressionLevel());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

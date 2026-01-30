@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
+@@ -48,14 +48,21 @@
+     int hashAfter = j2EEThread0.hashCode();
+     assertNotEquals("hashCode should change after setting pool", hashBefore, hashAfter);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      J2EEThread j2EEThread0 = new J2EEThread();
+-      j2EEThread0.setUser("b<X>IP&%k>(Zc|L");
+-      j2EEThread0.hashCode();
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        J2EEThread j2EEThread0 = new J2EEThread();
++        // initially the user should be null
++        assertNull(j2EEThread0.getUser());
++        // set a specific user value and verify the side‑effect
++        String expectedUser = "b<X>IP&%k>(Zc|L";
++        j2EEThread0.setUser(expectedUser);
++        assertEquals(expectedUser, j2EEThread0.getUser());
++        // verify that hashCode is stable (same value on repeated calls)
++        int firstHash = j2EEThread0.hashCode();
++        int secondHash = j2EEThread0.hashCode();
++        assertEquals(firstHash, secondHash);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

@@ -1,0 +1,42 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -1173,23 +1173,22 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test081()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.setRailsEnabled(true);
+-      // Undeclared exception!
+-      try { 
+-        config0.asList();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // Required parameter '-u' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test081() throws Throwable {
++    Config config0 = Config.getInstance();
++    config0.setRailsEnabled(true);
++    // Provide the required parameters so that asList() executes normally
++    config0.setUser("testUser");
++    config0.setDb("testDb");
++    java.util.List<String> options = config0.asList();
++    // Verify that the generated option list contains the supplied values
++    assertNotNull(options);
++    assertTrue(options.contains("-u"));
++    assertTrue(options.contains("testUser"));
++    assertTrue(options.contains("-db"));
++    assertTrue(options.contains("testDb"));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test082()  throws Throwable  {

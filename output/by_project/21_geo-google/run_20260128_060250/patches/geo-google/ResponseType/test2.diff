@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/google/earth/kml/_2/ResponseType_ESTest.java
++++ b/evosuite-tests/com/google/earth/kml/_2/ResponseType_ESTest.java
+@@ -32,13 +32,31 @@
+       String string0 = responseType0.getName();
+       assertNull(string0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        ResponseType response = new ResponseType();
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      ResponseType responseType0 = new ResponseType();
+-      responseType0.setName("");
+-      assertEquals("", responseType0.getName());
+-  }
++        // initial state
++        assertNull(response.getName());
++
++        // name setter/getter
++        response.setName("testName");
++        assertEquals("testName", response.getName());
++
++        // status setter/getter
++        StatusType status = new StatusType();
++        response.setStatus(status);
++        assertSame(status, response.getStatus());
++
++        // placemark list mutation
++        List<PlacemarkType> placemarks = response.getPlacemark();
++        int beforeSize = placemarks.size();
++        PlacemarkType pm = new PlacemarkType();
++        placemarks.add(pm);
++        assertEquals(beforeSize + 1, placemarks.size());
++        assertTrue(placemarks.contains(pm));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

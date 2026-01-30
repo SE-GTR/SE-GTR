@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jsecurity/authc/UsernamePasswordToken_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/UsernamePasswordToken_ESTest.java
+@@ -103,14 +103,20 @@
+       usernamePasswordToken0.setUsername("");
+       assertFalse(usernamePasswordToken0.isRememberMe());
+   }
++@Test(timeout = 4000)
++public void test12() throws Throwable {
++    char[] initialPassword = new char[] {'x', 'y'};
++    UsernamePasswordToken token = new UsernamePasswordToken("user", initialPassword);
++    char[] newPassword = new char[] {'a', 'b'};
++    token.setPassword(newPassword);
++    // Verify that the password was updated
++    assertArrayEquals(newPassword, token.getPassword());
++    // Verify the rememberMe flag defaults to false
++    assertFalse(token.isRememberMe());
++    // Verify the username is stored correctly
++    assertEquals("user", token.getUsername());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      char[] charArray0 = new char[2];
+-      UsernamePasswordToken usernamePasswordToken0 = new UsernamePasswordToken("5jM,", charArray0);
+-      usernamePasswordToken0.setPassword(charArray0);
+-      assertFalse(usernamePasswordToken0.isRememberMe());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

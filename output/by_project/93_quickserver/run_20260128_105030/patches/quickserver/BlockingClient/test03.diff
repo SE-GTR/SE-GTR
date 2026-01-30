@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
+@@ -53,20 +53,14 @@
+       BlockingClient.readInputStream((InputStream) byteArrayInputStream0);
+       assertEquals(0, byteArrayInputStream0.available());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      try { 
+-        BlockingClient.readInputStream((InputStream) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // InputStream can't be null!
+-         //
+-         verifyException("org.quickserver.net.client.BlockingClient", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        byte[] expected = new byte[] {10, 20, 30, 40, 50};
++        InputStream in = new java.io.ByteArrayInputStream(expected);
++        byte[] actual = BlockingClient.readInputStream(in);
++        assertArrayEquals(expected, actual);
++    }
++
+ @Test(timeout = 4000)
+ public void test04() throws Throwable {
+     byte[] empty = new byte[0];

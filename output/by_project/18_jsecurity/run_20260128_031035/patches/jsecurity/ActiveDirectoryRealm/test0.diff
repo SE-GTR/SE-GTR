@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jsecurity/realm/activedirectory/ActiveDirectoryRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/activedirectory/ActiveDirectoryRealm_ESTest.java
+@@ -31,19 +31,25 @@
+     activeDirectoryRealm0 = new ActiveDirectoryRealm();
+     linkedHashSet0 = new LinkedHashSet<String>();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+     activeDirectoryRealm0 = new ActiveDirectoryRealm();
+     linkedHashSet0 = new LinkedHashSet<String>();
+-      linkedHashSet0.add("/OZ");
+-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
+-      hashMap0.put("/OZ", "/OZ");
+-      activeDirectoryRealm0.setGroupRolesMap(hashMap0);
+-      Collection<String> collection0 = activeDirectoryRealm0.getRoleNamesForGroups(linkedHashSet0);
+-      assertTrue(collection0.contains("/OZ"));
++    boolean added = linkedHashSet0.add("/OZ");
++    assertTrue("LinkedHashSet.add should return true", added);
++
++    // Before setting the group‑roles map the realm should not resolve any roles
++    Collection<String> beforeCollection = activeDirectoryRealm0.getRoleNamesForGroups(linkedHashSet0);
++    assertTrue("No roles should be resolved before map is set", beforeCollection.isEmpty());
++
++    HashMap<String, String> hashMap0 = new HashMap<String, String>();
++    hashMap0.put("/OZ", "/OZ");
++    activeDirectoryRealm0.setGroupRolesMap(hashMap0);
++
++    Collection<String> collection0 = activeDirectoryRealm0.getRoleNamesForGroups(linkedHashSet0);
++    assertTrue("Role mapping should contain the expected entry after map is set", collection0.contains("/OZ"));
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

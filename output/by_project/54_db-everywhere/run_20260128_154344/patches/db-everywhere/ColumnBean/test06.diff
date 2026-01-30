@@ -1,0 +1,26 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
+@@ -65,13 +65,20 @@
+     ColumnBean bean = new ColumnBean();
+     // Verify the default value before any mutation
+     assertEquals(0, bean.getDec());
+-    // Set a value and verify the getter reflects it
++
++    // Set a value and verify the getter reflects it and that the state changed
++    int before = bean.getDec();
+     bean.setDec(2479);
+     assertEquals(2479, bean.getDec());
+-    // Change the value again to ensure the side‑effect is observable
++    assertNotEquals(before, bean.getDec());
++
++    // Change the value again to ensure the side‑effect is observable and state changes
++    int previous = bean.getDec();
+     bean.setDec(-10);
+     assertEquals(-10, bean.getDec());
+-}
++    assertNotEquals(previous, bean.getDec());
++}
++
+ 
+ @Test(timeout = 4000)
+     public void test07() throws Throwable {

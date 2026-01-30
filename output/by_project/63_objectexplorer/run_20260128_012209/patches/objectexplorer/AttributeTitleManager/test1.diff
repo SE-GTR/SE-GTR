@@ -1,0 +1,42 @@
+--- a/evosuite-tests/de/paragon/explorer/util/AttributeTitleManager_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/util/AttributeTitleManager_ESTest.java
+@@ -42,18 +42,30 @@
+       String string0 = attributeTitleManager0.getCompleteTitle(attributeModel0);
+       assertEquals(" java.lang.Object  null     [FULL]", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     attributeTitleManager0 = AttributeTitleManager.getSingleton();
+     attributeModel0 = new AttributeModel();
+     class0 = Object.class;
+-      attributeModel0.setType(class0);
+-      NullObject nullObject0 = NullObject.getNullObject();
+-      attributeModel0.setValue(nullObject0);
+-      String string0 = attributeTitleManager0.getCompleteTitle(attributeModel0);
+-      assertEquals(" java.lang.Object  null     null", string0);
+-  }
++
++    // Verify initial state before modifications
++    assertNull(attributeModel0.getType());
++    assertNull(attributeModel0.getValue());
++
++    // Set type and assert the side‑effect
++    attributeModel0.setType(class0);
++    assertEquals(class0, attributeModel0.getType());
++
++    // Set value and assert the side‑effect
++    NullObject nullObject0 = NullObject.getNullObject();
++    attributeModel0.setValue(nullObject0);
++    assertSame(nullObject0, attributeModel0.getValue());
++
++    // Verify the complete title reflects the set values
++    String string0 = attributeTitleManager0.getCompleteTitle(attributeModel0);
++    assertEquals(" java.lang.Object  null     null", string0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

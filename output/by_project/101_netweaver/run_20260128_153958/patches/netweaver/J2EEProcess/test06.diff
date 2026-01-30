@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
+@@ -127,19 +127,30 @@
+       assertEquals(1, j2EEProcess1.getErrorCount());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      J2EEProcess j2EEProcess0 = new J2EEProcess();
+-      j2EEProcess0.setElapsedTime("v}AeE8cmHHi=M{r(");
+-      J2EEProcess j2EEProcess1 = new J2EEProcess();
+-      assertFalse(j2EEProcess1.equals((Object)j2EEProcess0));
+-      
+-      j2EEProcess1.setElapsedTime("v}AeE8cmHHi=M{r(");
+-      boolean boolean0 = j2EEProcess0.equals(j2EEProcess1);
+-      assertTrue(j2EEProcess1.equals((Object)j2EEProcess0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        J2EEProcess j2EEProcess0 = new J2EEProcess();
++        // verify initial state (no elapsed time)
++        assertNull(j2EEProcess0.getElapsedTime());
++
++        // set elapsed time and assert the side‑effect
++        String elapsed = "v}AeE8cmHHi=M{r(";
++        j2EEProcess0.setElapsedTime(elapsed);
++        assertEquals(elapsed, j2EEProcess0.getElapsedTime());
++
++        J2EEProcess j2EEProcess1 = new J2EEProcess();
++        assertFalse(j2EEProcess1.equals((Object) j2EEProcess0));
++
++        // set the same elapsed time on the second instance and verify
++        j2EEProcess1.setElapsedTime(elapsed);
++        assertEquals(elapsed, j2EEProcess1.getElapsedTime());
++
++        // now the two instances should be equal
++        boolean boolean0 = j2EEProcess0.equals(j2EEProcess1);
++        assertTrue(j2EEProcess1.equals((Object) j2EEProcess0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

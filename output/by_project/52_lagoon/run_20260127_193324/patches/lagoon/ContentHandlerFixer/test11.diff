@@ -1,0 +1,36 @@
+--- a/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
++++ b/evosuite-tests/nu/staldal/xmlutil/ContentHandlerFixer_ESTest.java
+@@ -152,15 +152,24 @@
+       attributes2Impl0.addAttribute("org.apche.log.output.io.otate.BaseFileNameFilter", "\"I2s5;NQOF", "", "org.apche.log.output.io.otate.BaseFileNameFilter", "\"I2s5;NQOF");
+       contentHandlerFixer0.startElement("org.apche.log.output.io.otate.BaseFileNameFilter", "\"I2s5;NQOF", (String) null, attributes2Impl0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
+-      Attributes2Impl attributes2Impl0 = new Attributes2Impl();
+-      attributes2Impl0.addAttribute("9", "E<p<<;aAN$q", "", "E<p<<;aAN$q", "");
+-      ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0, true, true);
+-      contentHandlerFixer0.startElement("9", "BJbH4K\"D@Q6", "E<p<<;aAN$q", attributes2Impl0);
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        XMLFilterImpl xMLFilterImpl0 = new XMLFilterImpl();
++        Attributes2Impl attributes2Impl0 = new Attributes2Impl();
++        attributes2Impl0.addAttribute("9", "E<p<<;aAN$q", "", "E<p<<;aAN$q", "");
++        ContentHandlerFixer contentHandlerFixer0 = new ContentHandlerFixer(xMLFilterImpl0, true, true);
++        // Capture the initial state of the context flag
++        boolean before = contentHandlerFixer0.getContextPushed();
++        // Invoke the method under test
++        contentHandlerFixer0.startElement("9", "BJbH4K\"D@Q6", "E<p<<;aAN$q", attributes2Impl0);
++        // Verify that the side‑effect (context push) has occurred
++        assertTrue("Context should be pushed after startElement", contentHandlerFixer0.getContextPushed());
++        // Ensure the state actually changed if it was initially false
++        if (!before) {
++            assertTrue(contentHandlerFixer0.getContextPushed());
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

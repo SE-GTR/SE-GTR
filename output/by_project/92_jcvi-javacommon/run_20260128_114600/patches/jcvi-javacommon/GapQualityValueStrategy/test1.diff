@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/util/GapQualityValueStrategy_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/util/GapQualityValueStrategy_ESTest.java
+@@ -62,31 +62,26 @@
+          verifyException("org.jcvi.jillion.assembly.AssemblyUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
+     gapQualityValueStrategy0 = GapQualityValueStrategy.LOWEST_FLANKING;
+     direction0 = Direction.REVERSE;
+-      AssembledRead assembledRead0 = mock(AssembledRead.class, new ViolatedAssumptionAnswer());
+-      doReturn(direction0).when(assembledRead0).getDirection();
+-      MockDate mockDate0 = new MockDate((-1), 0, (-1));
+-      PhdInfo phdInfo0 = new PhdInfo("null qualities for ", "null qualities for ", mockDate0);
+-      AceAssembledReadAdapter aceAssembledReadAdapter0 = new AceAssembledReadAdapter(assembledRead0, phdInfo0);
+-      QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+-      doReturn((Iterator) null).when(qualitySequence0).iterator();
+-      doReturn(0L).when(qualitySequence0).getLength();
+-      // Undeclared exception!
+-      try { 
+-        gapQualityValueStrategy0.getQualityFor(aceAssembledReadAdapter0, qualitySequence0, 2);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.core.qual.QualitySequenceBuilder", e);
+-      }
++    AssembledRead assembledRead0 = mock(AssembledRead.class, new ViolatedAssumptionAnswer());
++    doReturn(direction0).when(assembledRead0).getDirection();
++    MockDate mockDate0 = new MockDate(-1, 0, -1);
++    PhdInfo phdInfo0 = new PhdInfo("null qualities for ", "null qualities for ", mockDate0);
++    AceAssembledReadAdapter aceAssembledReadAdapter0 = new AceAssembledReadAdapter(assembledRead0, phdInfo0);
++    QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
++    doReturn(java.util.Collections.emptyIterator()).when(qualitySequence0).iterator();
++    doReturn(0L).when(qualitySequence0).getLength();
++
++    // invoke the method under test with a valid iterator
++    org.jcvi.jillion.core.qual.PhredQuality result = gapQualityValueStrategy0.getQualityFor(
++        aceAssembledReadAdapter0, qualitySequence0, 2);
++    // verify that a quality value is returned
++    assertNotNull(result);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

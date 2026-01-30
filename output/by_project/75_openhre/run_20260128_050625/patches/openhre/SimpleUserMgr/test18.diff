@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/browsersoft/aacs/SimpleUserMgr_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/SimpleUserMgr_ESTest.java
+@@ -168,13 +168,17 @@
+         // Verify that parsing an empty line does not create a user
+         assertNull(simpleUserMgr0.getUser(""));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
+-      simpleUserMgr0.parseLine("//PassiveCallbackHandler.class");
+-  }
++@Test(timeout = 4000)
++    public void test18() throws Throwable {
++        SimpleUserMgr simpleUserMgr0 = new SimpleUserMgr();
++        // Verify initial state: no current user is set
++        assertNull(simpleUserMgr0.getUser());
++        // Act: parse a comment line (should not affect the current user)
++        simpleUserMgr0.parseLine("//PassiveCallbackHandler.class");
++        // Assert: the current user remains unchanged (still null)
++        assertNull(simpleUserMgr0.getUser());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

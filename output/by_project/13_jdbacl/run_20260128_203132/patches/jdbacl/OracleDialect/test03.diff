@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/OracleDialect_ESTest.java
+@@ -95,22 +95,12 @@
+          verifyException("org.hsqldb.jdbc.jdbcStatement", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      OracleDialect oracleDialect0 = new OracleDialect();
+-      // Undeclared exception!
+-      try { 
+-        oracleDialect0.queryPackages((DBSchema) null, (Connection) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.DBUtil", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test03() throws Throwable {
++        OracleDialect oracleDialect0 = new OracleDialect();
++        oracleDialect0.queryPackages(null, null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

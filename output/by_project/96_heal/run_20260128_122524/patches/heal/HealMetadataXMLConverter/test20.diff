@@ -1,0 +1,51 @@
+--- a/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/HealMetadataXMLConverter_ESTest.java
+@@ -297,25 +297,29 @@
+     // Verify that some XML content was written
+     assertTrue("Output should not be empty", out.size() > 0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      DiseaseDiagnosisBean diseaseDiagnosisBean0 = new DiseaseDiagnosisBean();
+-      completeMetadataBean0.addDiseaseDiagnosis(diseaseDiagnosisBean0);
+-      try { 
+-        HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, (OutputStream) null);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // java.lang.NullPointerException
+-         //
+-         verifyException("org.heal.module.metadata.HealMetadataXMLConverter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test20() throws Throwable {
++    FileLocator fileLocator0 = new FileLocator() {
++        @Override
++        public java.net.URL getContentURL(String path) {
++            try {
++                return new java.net.URL("file:/tmp");
++            } catch (java.net.MalformedURLException e) {
++                return null;
++            }
++        }
++    };
++    CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
++    DiseaseDiagnosisBean diseaseDiagnosisBean0 = new DiseaseDiagnosisBean();
++    completeMetadataBean0.addDiseaseDiagnosis(diseaseDiagnosisBean0);
++    java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
++    try {
++        HealMetadataXMLConverter.metadataToIMSXML(completeMetadataBean0, fileLocator0, out);
++    } catch (IOException e) {
++        org.junit.Assert.fail("Unexpected IOException: " + e.getMessage());
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

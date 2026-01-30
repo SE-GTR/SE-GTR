@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/PhdBuilder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/phd/PhdBuilder_ESTest.java
+@@ -113,13 +113,16 @@
+          verifyException("org.jcvi.jillion.assembly.consed.phd.PhdBuilder", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test04()  throws Throwable  {
+       NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+       doReturn(1L, 1L).when(nucleotideSequence0).getLength();
++      long lengthSeq = nucleotideSequence0.getLength();
++      assertEquals(1L, lengthSeq);
+       QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+       doReturn(1L, 1L).when(qualitySequence0).getLength();
++      long lengthQual = qualitySequence0.getLength();
++      assertEquals(1L, lengthQual);
+       PhdBuilder phdBuilder0 = new PhdBuilder("Fcb45|AM*m", nucleotideSequence0, qualitySequence0);
+       PhdBuilder phdBuilder1 = phdBuilder0.fakePeaks();
+       Phd phd0 = phdBuilder0.build();
+@@ -127,6 +130,7 @@
+       PhdBuilder phdBuilder2 = phdBuilder1.peaks(positionSequence0);
+       assertSame(phdBuilder2, phdBuilder1);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/gbshape/dbe/utils/DBEHelper_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/utils/DBEHelper_ESTest.java
+@@ -103,26 +103,17 @@
+       String string0 = DBEHelper.createInsertQuery((String[]) null, dBDataBean0, "", tableStructureBean0, "");
+       assertEquals("INSERT INTO  () VALUES () ", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      DBDataBean dBDataBean0 = new DBDataBean();
+-      ArrayList<Object> arrayList0 = new ArrayList<Object>();
+-      arrayList0.add((Object) null);
+-      TableStructureBean tableStructureBean0 = new TableStructureBean();
+-      tableStructureBean0.setColumns(arrayList0);
+-      // Undeclared exception!
+-      try { 
+-        DBEHelper.createInsertQuery((HttpServletRequest) null, dBDataBean0, "C;", tableStructureBean0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test13() throws Throwable {
++    DBDataBean dBDataBean0 = new DBDataBean();
++    ArrayList<Object> arrayList0 = new ArrayList<Object>();
++    boolean added = arrayList0.add((Object) null);
++    assertTrue(added);
++    TableStructureBean tableStructureBean0 = new TableStructureBean();
++    tableStructureBean0.setColumns(arrayList0);
++    DBEHelper.createInsertQuery((HttpServletRequest) null, dBDataBean0, "C;", tableStructureBean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

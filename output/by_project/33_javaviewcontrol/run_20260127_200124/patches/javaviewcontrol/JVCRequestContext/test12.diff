@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/pmdesigns/jvc/JVCRequestContext_ESTest.java
++++ b/evosuite-tests/com/pmdesigns/jvc/JVCRequestContext_ESTest.java
+@@ -206,21 +206,23 @@
+         JVCRequestContext jVCRequestContext0 = new JVCRequestContext(httpServletRequestWrapper0, httpServletResponseWrapper0, jVCDispatcher0, hashMap0, "pkg_prefix", "-/ <O1Z]Cy=8|% ?$");
+         jVCRequestContext0.getCookie("abL4q8%)M&t");
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("Vq7").when(httpServletRequest0).getMethod();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
+-      JVCDispatcher jVCDispatcher0 = new JVCDispatcher();
+-      JVCRequestContext jVCRequestContext0 = new JVCRequestContext(httpServletRequestWrapper0, httpServletResponseWrapper0, jVCDispatcher0, hashMap0, "pkg_prefix", "Vq7");
+-      Cookie cookie0 = jVCRequestContext0.getCookie((String) null);
+-      assertNull(cookie0);
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("Vq7").when(httpServletRequest0).getMethod();
++        Cookie expectedCookie = new Cookie("testName", "testValue");
++        when(httpServletRequest0.getCookies()).thenReturn(new Cookie[]{expectedCookie});
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++        HashMap<String, String> hashMap0 = new HashMap<String, String>();
++        JVCDispatcher jVCDispatcher0 = new JVCDispatcher();
++        JVCRequestContext jVCRequestContext0 = new JVCRequestContext(httpServletRequestWrapper0,
++                httpServletResponseWrapper0, jVCDispatcher0, hashMap0, "pkg_prefix", "Vq7");
++        Cookie actualCookie = jVCRequestContext0.getCookie("testName");
++        assertEquals(expectedCookie, actualCookie);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

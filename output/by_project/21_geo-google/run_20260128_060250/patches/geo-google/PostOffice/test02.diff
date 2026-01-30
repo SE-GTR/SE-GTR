@@ -1,0 +1,30 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostOffice_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostOffice_ESTest.java
+@@ -37,14 +37,19 @@
+       List<PostOffice.PostOfficeName> list1 = postOffice0.getPostOfficeName();
+       assertSame(list1, list0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      PostOffice postOffice0 = new PostOffice();
+-      List<AddressLine> list0 = postOffice0.getAddressLine();
+-      List<AddressLine> list1 = postOffice0.getAddressLine();
+-      assertSame(list1, list0);
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        PostOffice postOffice0 = new PostOffice();
++        List<AddressLine> list = postOffice0.getAddressLine();
++        int initialSize = list.size();
++        AddressLine addressLine = new AddressLine();
++        list.add(addressLine);
++        // Verify that the list reference remains the same and that the modification is reflected
++        assertSame(list, postOffice0.getAddressLine());
++        assertEquals(initialSize + 1, postOffice0.getAddressLine().size());
++        assertTrue(postOffice0.getAddressLine().contains(addressLine));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

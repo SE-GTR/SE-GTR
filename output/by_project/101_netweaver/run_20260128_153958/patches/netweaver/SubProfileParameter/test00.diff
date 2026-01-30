@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SubProfileParameter_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SubProfileParameter_ESTest.java
+@@ -19,14 +19,29 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SubProfileParameter_ESTest extends SubProfileParameter_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      SubProfileParameter subProfileParameter0 = new SubProfileParameter();
+-      ParameterRestriction parameterRestriction0 = new ParameterRestriction();
+-      subProfileParameter0.setRestriction(parameterRestriction0);
+-      subProfileParameter0.hashCode();
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        SubProfileParameter subProfileParameter0 = new SubProfileParameter();
++        ParameterRestriction parameterRestriction0 = new ParameterRestriction();
++
++        // Verify initial state (restriction should be null if getter exists)
++        // This also ensures the getter is exercised.
++        if (subProfileParameter0.getRestriction() != null) {
++            fail("Initial restriction should be null");
++        }
++
++        // Act: set the restriction
++        subProfileParameter0.setRestriction(parameterRestriction0);
++
++        // Assert: the restriction was correctly set
++        assertSame(parameterRestriction0, subProfileParameter0.getRestriction());
++
++        // Assert: hashCode is deterministic after the state change
++        int hash1 = subProfileParameter0.hashCode();
++        int hash2 = subProfileParameter0.hashCode();
++        assertEquals(hash1, hash2);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

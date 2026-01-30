@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Stop_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Stop_ESTest.java
+@@ -74,19 +74,26 @@
+       assertFalse(stop0.equals(stop1));
+       assertFalse(stop1.equals(stop0));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      Stop stop0 = new Stop();
+-      Stop stop1 = new Stop();
+-      assertTrue(stop1.equals((Object)stop0));
+-      
+-      Application[] applicationArray0 = new Application[0];
+-      stop1.setApps(applicationArray0);
+-      boolean boolean0 = stop0.equals(stop1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        Stop stop0 = new Stop();
++        Stop stop1 = new Stop();
++        assertTrue(stop1.equals((Object) stop0));
++
++        // Verify initial state of apps (should be null or empty)
++        Application[] beforeApps = stop1.getApps();
++
++        Application[] applicationArray0 = new Application[0];
++        stop1.setApps(applicationArray0);
++
++        // Assert that the side‑effect of setApps is observable via the getter
++        assertArrayEquals(applicationArray0, stop1.getApps());
++
++        // The original equality should now be false because the internal state differs
++        boolean boolean0 = stop0.equals(stop1);
++        assertFalse(boolean0);
++    }
++
+ @Test(timeout = 4000)
+     public void test05() throws Throwable {
+         Option[] optionArray0 = new Option[11];

@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESharedTableInfo_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESharedTableInfo_ESTest.java
+@@ -90,19 +90,28 @@
+     boolean boolean0 = j2EESharedTableInfo0.equals(j2EESharedTableInfo1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-    j2EESharedTableInfo0 = new J2EESharedTableInfo();
+-    j2EESharedTableInfo1 = new J2EESharedTableInfo();
+-      assertTrue(j2EESharedTableInfo1.equals((Object)j2EESharedTableInfo0));
+-      
+-      STATECOLOR sTATECOLOR0 = STATECOLOR.value4;
+-      j2EESharedTableInfo1.setDispstatus(sTATECOLOR0);
+-      boolean boolean0 = j2EESharedTableInfo1.equals(j2EESharedTableInfo0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    j2EESharedTableInfo0 = new J2EESharedTableInfo();
++    j2EESharedTableInfo1 = new J2EESharedTableInfo();
++    assertTrue(j2EESharedTableInfo1.equals((Object) j2EESharedTableInfo0));
++
++    // Verify initial state of dispstatus (should be null for a fresh instance)
++    assertNull(j2EESharedTableInfo1.getDispstatus());
++    assertNull(j2EESharedTableInfo0.getDispstatus());
++
++    STATECOLOR sTATECOLOR0 = STATECOLOR.value4;
++    j2EESharedTableInfo1.setDispstatus(sTATECOLOR0);
++
++    // Observe the side‑effect of setDispstatus via the getter
++    assertEquals(sTATECOLOR0, j2EESharedTableInfo1.getDispstatus());
++    // Ensure the other instance remains unchanged
++    assertNull(j2EESharedTableInfo0.getDispstatus());
++
++    boolean boolean0 = j2EESharedTableInfo1.equals(j2EESharedTableInfo0);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

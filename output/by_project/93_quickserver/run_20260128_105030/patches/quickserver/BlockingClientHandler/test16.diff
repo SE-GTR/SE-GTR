@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/BlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/BlockingClientHandler_ESTest.java
+@@ -202,22 +202,18 @@
+       BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
+       blockingClientHandler0.registerForRead();
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
+-      try { 
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    BlockingClientHandler blockingClientHandler0 = new BlockingClientHandler();
++    try {
+         blockingClientHandler0.readInputStream();
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // InputStream can't be null!
+-         //
+-         verifyException("org.quickserver.net.server.impl.BasicClientHandler", e);
+-      }
+-  }
++        fail("Expected IOException");
++    } catch (IOException e) {
++        // Expected exception due to missing input stream
++        assertNotNull(e.getMessage());
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

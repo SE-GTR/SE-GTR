@@ -1,0 +1,57 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/view/HtmlColumnsPage_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/view/HtmlColumnsPage_ESTest.java
+@@ -66,25 +66,37 @@
+       HtmlColumnsPage htmlColumnsPage0 = HtmlColumnsPage.getInstance();
+       htmlColumnsPage0.writeMainTableHeader(false, (HtmlColumnsPage.ColumnInfo) null, lineWriter0);
+   }
++@Test(timeout = 4000)
++  public void test4() throws Throwable {
++      // Prepare a non‑empty collection of tables
++      LinkedHashSet<Table> tables = new LinkedHashSet<>();
++      Table mockTable = mock(Table.class);
++      tables.add(mockTable);
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      LinkedHashSet<Table> linkedHashSet0 = new LinkedHashSet<Table>();
+-      HtmlColumnsPage.ColumnInfo htmlColumnsPage_ColumnInfo0 = mock(HtmlColumnsPage.ColumnInfo.class, new ViolatedAssumptionAnswer());
+-      linkedHashSet0.add((Table) null);
+-      HtmlColumnsPage htmlColumnsPage0 = HtmlColumnsPage.getInstance();
+-      // Undeclared exception!
+-      try { 
+-        htmlColumnsPage0.write((Database) null, linkedHashSet0, htmlColumnsPage_ColumnInfo0, (LineWriter) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sourceforge.schemaspy.view.HtmlColumnsPage", e);
+-      }
++      // Mock a Database with minimal required behavior
++      Database db = mock(Database.class);
++      when(db.getName()).thenReturn("testdb");
++
++      // Mock ColumnInfo (behavior not needed for this test)
++      HtmlColumnsPage.ColumnInfo columnInfo = mock(HtmlColumnsPage.ColumnInfo.class,
++              new ViolatedAssumptionAnswer());
++
++      // Use a real LineWriter that writes to a StringWriter
++      StringWriter stringWriter = new StringWriter();
++      LineWriter lineWriter = new LineWriter(stringWriter);
++
++      // Obtain the page instance
++      HtmlColumnsPage page = HtmlColumnsPage.getInstance();
++
++      // Execute the method under test with fully initialized arguments
++      page.write(db, tables, columnInfo, lineWriter);
++
++      // Verify that something was written (i.e., the method completed without error)
++      String output = stringWriter.toString();
++      assertNotNull(output);
++      assertTrue(output.length() > 0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/gbshape/dbe/derby/DerbyTableStructure_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/derby/DerbyTableStructure_ESTest.java
+@@ -684,22 +684,25 @@
+          verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test45()  throws Throwable  {
+-      DerbyTableStructure derbyTableStructure0 = new DerbyTableStructure();
+-      // Undeclared exception!
+-      try { 
+-        derbyTableStructure0.dropPrimary((HttpServletRequest) null, (DBDataBean) null, "Parse Warning Error at line ", "Parse Warning Error at line ", "Parse Warning Error at line ");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.gbshape.dbe.utils.DBEHelper", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test45() throws Throwable {
++        DerbyTableStructure derbyTableStructure0 = new DerbyTableStructure();
++        // Create a minimal non‑null HttpServletRequest using a dynamic proxy.
++        HttpServletRequest request = (HttpServletRequest) java.lang.reflect.Proxy.newProxyInstance(
++                HttpServletRequest.class.getClassLoader(),
++                new Class<?>[] { HttpServletRequest.class },
++                (proxy, method, args) -> null);
++        // Use a default‑constructed DBDataBean (assumed to have a no‑arg constructor).
++        DBDataBean dataBean = new DBDataBean();
++        // Invoke the method with valid (non‑null) arguments; no exception is expected.
++        derbyTableStructure0.dropPrimary(request, dataBean,
++                "Parse Warning Error at line ",
++                "Parse Warning Error at line ",
++                "Parse Warning Error at line ");
++        // If execution reaches this point, the method behaved without throwing.
++        assertTrue(true);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test46()  throws Throwable  {

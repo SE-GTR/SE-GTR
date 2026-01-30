@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sf/sugar/fspath/FSPathResultModificationListImpl_ESTest.java
++++ b/evosuite-tests/net/sf/sugar/fspath/FSPathResultModificationListImpl_ESTest.java
+@@ -46,16 +46,25 @@
+     assertSame(result, list.get(0));
+     assertSame(result, list.get(1));
+ }
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
++      FSPathResultModificationListImpl list = new FSPathResultModificationListImpl();
++      FSPathResult result = new FSPathResult("}!%mbMa/eA[@F=^|H");
+ 
++      // Verify initial state
++      FSPathResultList successesBefore = list.getSuccesses();
++      int sizeBefore = successesBefore.size();
++      assertEquals(0, sizeBefore);
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      FSPathResultModificationListImpl fSPathResultModificationListImpl0 = new FSPathResultModificationListImpl();
+-      FSPathResult fSPathResult0 = new FSPathResult("}!%mbMa/eA[@F=^|H");
+-      fSPathResultModificationListImpl0.addSuccess(fSPathResult0);
+-      FSPathResultList fSPathResultList0 = fSPathResultModificationListImpl0.getSuccesses();
+-      assertFalse(fSPathResultList0.isEmpty());
++      // Act
++      list.addSuccess(result);
++
++      // Verify side‑effects
++      FSPathResultList successesAfter = list.getSuccesses();
++      assertEquals(sizeBefore + 1, successesAfter.size());
++      assertTrue(successesAfter.contains(result));
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

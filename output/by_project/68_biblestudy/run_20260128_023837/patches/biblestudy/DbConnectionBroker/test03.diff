@@ -1,0 +1,32 @@
+--- a/evosuite-tests/bible/util/DbConnectionBroker_ESTest.java
++++ b/evosuite-tests/bible/util/DbConnectionBroker_ESTest.java
+@@ -39,17 +39,19 @@
+     // Verify that the broker's max limit remains unchanged after release
+     assertEquals(30, dbConnectionBroker0.getMax());
+ }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    DbConnectionBroker dbConnectionBroker0 = new DbConnectionBroker();
++    DbConnectionAttributes dbConnectionAttributes0 = new DbConnectionAttributes(1);
++    int beforeMaxReached = dbConnectionBroker0.getMaxReached();
++    dbConnectionBroker0.release(dbConnectionAttributes0);
++    dbConnectionBroker0.disconnectAll();
++    // Verify that after disconnectAll no connections remain
++    assertEquals(0, dbConnectionBroker0.getMaxReached());
++    // Ensure the maxReached count did not decrease below its initial value
++    assertTrue(dbConnectionBroker0.getMaxReached() >= beforeMaxReached);
++}
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      DbConnectionBroker dbConnectionBroker0 = new DbConnectionBroker();
+-      DbConnectionAttributes dbConnectionAttributes0 = new DbConnectionAttributes(1);
+-      dbConnectionBroker0.release(dbConnectionAttributes0);
+-      dbConnectionBroker0.disconnectAll();
+-      assertEquals(30, dbConnectionBroker0.getMax());
+-      assertEquals(0, dbConnectionBroker0.getMaxReached());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

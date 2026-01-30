@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
+@@ -93,16 +93,25 @@
+       assertFalse(user1.equals((Object)user0));
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-    user0 = new User();
+-      user0.addRole("*U>LV{+C;h~");
+-      user0.addGroup("*U>LV{+C;h~");
+-      String string0 = user0.toString("*U>LV{+C;h~");
+-      assertFalse(user0.getPasschange());
+-      assertEquals("dn: cn=, o=, c=*U>LV{+C;h~cn: *U>LV{+C;h~id: *U>LV{+C;h~sn: *U>LV{+C;h~userPassword: *U>LV{+C;h~role: *U>LV{+C;h~*U>LV{+C;h~group: *U>LV{+C;h~*U>LV{+C;h~objectClass: top*U>LV{+C;h~objectClass: person*U>LV{+C;h~", string0);
+-  }
++@Test(timeout = 4000)
++public void test05() throws Throwable {
++    user0 = new User();
++    int beforeRoles = user0.getRoles().size();
++    int beforeGroups = user0.getGroups().size();
++
++    user0.addRole("*U>LV{+C;h~");
++    user0.addGroup("*U>LV{+C;h~");
++
++    assertEquals(beforeRoles + 1, user0.getRoles().size());
++    assertTrue(user0.getRoles().contains("*U>LV{+C;h~"));
++    assertEquals(beforeGroups + 1, user0.getGroups().size());
++    assertTrue(user0.getGroups().contains("*U>LV{+C;h~"));
++
++    String string0 = user0.toString("*U>LV{+C;h~");
++    assertFalse(user0.getPasschange());
++    assertEquals("dn: cn=, o=, c=*U>LV{+C;h~cn: *U>LV{+C;h~id: *U>LV{+C;h~sn: *U>LV{+C;h~userPassword: *U>LV{+C;h~role: *U>LV{+C;h~*U>LV{+C;h~group: *U>LV{+C;h~*U>LV{+C;h~objectClass: top*U>LV{+C;h~objectClass: person*U>LV{+C;h~", string0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

@@ -1,0 +1,52 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/Cas2Consed_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/clc/cas/consed/Cas2Consed_ESTest.java
+@@ -51,33 +51,23 @@
+       Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "prefix can not be null");
+       cas2Consed0.visitEnd();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-    mockFile0 = new MockFile("prefix can not be null");
+-    streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(streamingIterator0).hasNext();
+-      StreamingIterator<NucleotideSequence> streamingIterator1 = (StreamingIterator<NucleotideSequence>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
+-      CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
+-      doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
+-      doReturn(streamingIterator1).when(casGappedReferenceDataStore0).iterator();
+-      Phd phd0 = mock(Phd.class, new ViolatedAssumptionAnswer());
+-      MockDate mockDate0 = new MockDate();
+-      PhdInfo phdInfo0 = new PhdInfo("prefix can not be null", "prefix can not be null", mockDate0);
+-      PhdReadRecord phdReadRecord0 = new PhdReadRecord(phd0, phdInfo0);
+-      Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "7");
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test01() throws Throwable {
++        mockFile0 = new MockFile("prefix can not be null");
++        streamingIterator0 = (StreamingIterator<String>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++        doReturn(false).when(streamingIterator0).hasNext();
++        StreamingIterator<NucleotideSequence> streamingIterator1 = (StreamingIterator<NucleotideSequence>) mock(StreamingIterator.class, new ViolatedAssumptionAnswer());
++        CasGappedReferenceDataStore casGappedReferenceDataStore0 = mock(CasGappedReferenceDataStore.class, new ViolatedAssumptionAnswer());
++        doReturn(streamingIterator0).when(casGappedReferenceDataStore0).idIterator();
++        doReturn(streamingIterator1).when(casGappedReferenceDataStore0).iterator();
++        Phd phd0 = mock(Phd.class, new ViolatedAssumptionAnswer());
++        MockDate mockDate0 = new MockDate();
++        PhdInfo phdInfo0 = new PhdInfo("prefix can not be null", "prefix can not be null", mockDate0);
++        PhdReadRecord phdReadRecord0 = new PhdReadRecord(phd0, phdInfo0);
++        Cas2Consed cas2Consed0 = new Cas2Consed(mockFile0, casGappedReferenceDataStore0, mockFile0, "7");
+         cas2Consed0.visitMatch("error reading fasta file ", (CasPlacedRead) null, phdReadRecord0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.assembly.clc.cas.consed.Cas2Consed", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

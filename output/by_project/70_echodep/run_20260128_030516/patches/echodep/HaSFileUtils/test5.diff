@@ -1,0 +1,28 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSFileUtils_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSFileUtils_ESTest.java
+@@ -82,15 +82,17 @@
+       String string0 = HaSFileUtils.getBase64MD5((InputStream) byteArrayInputStream0);
+       assertEquals("aT6a+E09/MceZA4AW9xeLg==", string0);
+   }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    Enumeration<ObjectInputStream> enumeration0 = (Enumeration<ObjectInputStream>) mock(Enumeration.class, new ViolatedAssumptionAnswer());
++    doReturn(false, false).when(enumeration0).hasMoreElements();
++    boolean hasMore = enumeration0.hasMoreElements();
++    assertFalse(hasMore);
++    SequenceInputStream sequenceInputStream0 = new SequenceInputStream(enumeration0);
++    File file0 = HaSFileUtils.saveStreamToTempFile((InputStream) sequenceInputStream0, "@@zL,5:A$)");
++    assertEquals("@@zL,5:A$)", file0.getName());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      Enumeration<ObjectInputStream> enumeration0 = (Enumeration<ObjectInputStream>) mock(Enumeration.class, new ViolatedAssumptionAnswer());
+-      doReturn(false, false).when(enumeration0).hasMoreElements();
+-      SequenceInputStream sequenceInputStream0 = new SequenceInputStream(enumeration0);
+-      File file0 = HaSFileUtils.saveStreamToTempFile((InputStream) sequenceInputStream0, "@@zL,5:A$)");
+-      assertEquals("@@zL,5:A$)", file0.getName());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

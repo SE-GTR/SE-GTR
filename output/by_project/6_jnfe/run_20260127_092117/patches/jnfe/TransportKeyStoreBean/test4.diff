@@ -1,0 +1,28 @@
+--- a/evosuite-tests/br/com/jnfe/base/TransportKeyStoreBean_ESTest.java
++++ b/evosuite-tests/br/com/jnfe/base/TransportKeyStoreBean_ESTest.java
+@@ -43,13 +43,19 @@
+       transportKeyStoreBean0.setKeyStorePassword("br.com.jnfe.base.TransportKeyStoreBean@1 [javax.net.ssl.keyStore='file:#{ systemProperties['user.home'] }/jnfe.pfx' javax.net.ssl.keyStoreType='pkcs12' javax.net.ssl.trustStoreType='=#q\"' javax.net.ssl.trustStore='p@8,z+qoJ\"ax;)Pe%' ]");
+       transportKeyStoreBean0.afterPropertiesSet();
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        TransportKeyStoreBean bean = new TransportKeyStoreBean();
++        // Verify initial state (no URI set)
++        assertNull(bean.getKeyStoreUri());
++        // Set an empty URI and assert the side‑effect
++        bean.setKeyStoreUri("");
++        assertEquals("", bean.getKeyStoreUri());
++        // Invoke initialization and ensure it does not alter the URI
++        bean.afterPropertiesSet();
++        assertEquals("", bean.getKeyStoreUri());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      TransportKeyStoreBean transportKeyStoreBean0 = new TransportKeyStoreBean();
+-      transportKeyStoreBean0.setKeyStoreUri("");
+-      transportKeyStoreBean0.afterPropertiesSet();
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

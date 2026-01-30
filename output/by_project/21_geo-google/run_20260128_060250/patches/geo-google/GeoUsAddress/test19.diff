@@ -1,0 +1,38 @@
+--- a/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
++++ b/evosuite-tests/geo/google/datamodel/GeoUsAddress_ESTest.java
+@@ -201,13 +201,28 @@
+       geoUsAddress0.setCountry("");
+       assertEquals("", geoUsAddress0.getAddressLine2());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      GeoUsAddress geoUsAddress0 = new GeoUsAddress();
+-      String string0 = geoUsAddress0.getCounty();
+-      assertEquals("", string0);
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        GeoUsAddress address1 = new GeoUsAddress(
++                "", // addressLine1
++                "", // addressLine2
++                "", // city
++                "SomeCounty", // county
++                "", // state
++                "", // postalCode
++                "", // country
++                null, // coordinate
++                GeoAddressAccuracy.UNKNOWN_LOCATION // accuracy
++        );
++        GeoUsAddress address2 = new GeoUsAddress(
++                "", "", "", "SomeCounty", "", "", "", null, GeoAddressAccuracy.UNKNOWN_LOCATION);
++        // Verify that the county was set correctly via the constructor/getter
++        assertEquals("SomeCounty", address1.getCounty());
++        // Verify non‑trivial behavior: equals and hashCode consider the county field
++        assertEquals(address1, address2);
++        assertEquals(address1.hashCode(), address2.hashCode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

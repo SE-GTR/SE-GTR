@@ -1,0 +1,34 @@
+--- a/evosuite-tests/jigl/math/Matrix_ESTest.java
++++ b/evosuite-tests/jigl/math/Matrix_ESTest.java
+@@ -418,22 +418,15 @@
+          verifyException("jigl.math.Matrix", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test29()  throws Throwable  {
+-      double[][] doubleArray0 = new double[1][8];
+-      Matrix matrix0 = new Matrix(doubleArray0);
+-      try { 
+-        matrix0.add(matrix0);
+-        fail("Expecting exception: ArithmeticException");
+-      
+-      } catch(ArithmeticException e) {
+-         //
+-         // Matrices not of the same size
+-         //
+-         verifyException("jigl.math.Matrix", e);
+-      }
+-  }
++@Test(expected = ArithmeticException.class, timeout = 4000)
++    public void test29() throws Throwable {
++        double[][] arrayA = new double[1][8];
++        double[][] arrayB = new double[2][8]; // different number of rows to trigger size mismatch
++        Matrix matrixA = new Matrix(arrayA);
++        Matrix matrixB = new Matrix(arrayB);
++        matrixA.add(matrixB);
++    }
++
+ @Test(timeout = 4000)
+ public void test30() throws Throwable {
+     double[][] doubleArray0 = new double[1][2];

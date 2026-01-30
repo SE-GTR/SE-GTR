@@ -1,0 +1,31 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostBox_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/PostBox_ESTest.java
+@@ -303,13 +303,21 @@
+       postBox0.setPostalCode((PostalCode) null);
+       assertNull(postBox0.getIndicator());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test40()  throws Throwable  {
+-      PostBox postBox0 = new PostBox();
+-      postBox0.setFirm((FirmType) null);
+-      assertNull(postBox0.getIndicator());
+-  }
++@Test(timeout = 4000)
++public void test40() throws Throwable {
++    PostBox postBox0 = new PostBox();
++    // Verify default indicator is null
++    assertNull(postBox0.getIndicator());
++
++    // Set a FirmType instance and verify the setter works
++    FirmType firm = new FirmType();
++    postBox0.setFirm(firm);
++    assertSame(firm, postBox0.getFirm());
++
++    // Ensure that setting firm does not affect indicator
++    assertNull(postBox0.getIndicator());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test41()  throws Throwable  {

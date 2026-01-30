@@ -1,0 +1,45 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/common/CommonDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/common/CommonDaoService_ESTest.java
+@@ -86,28 +86,20 @@
+          verifyException("ch.bfh.egov.nutzenportfolio.service.common.CommonDaoService", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    commonIbatisDao0 = new CommonIbatisDao();
+-    commonDaoService0 = new CommonDaoService(commonIbatisDao0);
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("true").when(httpServletRequest0).getAttribute(anyString());
+-      doReturn("true").when(httpServletRequest0).getParameter(anyString());
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      // Undeclared exception!
+-      try { 
+-        commonDaoService0.getNaOpNuId((HttpServletRequest) httpServletRequestWrapper0, (Integer) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("ch.bfh.egov.nutzenportfolio.service.common.CommonDaoService", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        commonIbatisDao0 = new CommonIbatisDao();
++        commonDaoService0 = new CommonDaoService(commonIbatisDao0);
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("true").when(httpServletRequest0).getAttribute(anyString());
++        doReturn("true").when(httpServletRequest0).getParameter(anyString());
++        HttpSession mockSession = mock(HttpSession.class);
++        doReturn(mockSession).when(httpServletRequest0).getSession();
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        Integer result = commonDaoService0.getNaOpNuId(httpServletRequestWrapper0, Integer.valueOf(1));
++        assertNull(result);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

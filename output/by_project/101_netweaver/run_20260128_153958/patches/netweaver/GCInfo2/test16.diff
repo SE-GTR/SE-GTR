@@ -1,0 +1,51 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
+@@ -269,21 +269,33 @@
+       boolean boolean0 = gCInfo2_1.equals(gCInfo2_0);
+       assertFalse(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
+-      GCInfo2 gCInfo2_0 = new GCInfo2();
+-      GCInfo2 gCInfo2_1 = new GCInfo2();
+-      gCInfo2_0.setType("objBytesAfter");
+-      assertFalse(gCInfo2_0.equals((Object)gCInfo2_1));
+-      
+-      gCInfo2_1.setType("objBytesAfter");
+-      boolean boolean0 = gCInfo2_1.equals(gCInfo2_0);
+-      assertTrue(gCInfo2_1.equals((Object)gCInfo2_0));
+-      assertTrue(gCInfo2_0.equals((Object)gCInfo2_1));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test16() throws Throwable {
++    GCInfo2 gCInfo2_0 = new GCInfo2();
++    GCInfo2 gCInfo2_1 = new GCInfo2();
++
++    // Verify initial state before setting type
++    assertNull(gCInfo2_0.getType());
++    assertNull(gCInfo2_1.getType());
++
++    // Set type on first instance and assert side‑effect
++    gCInfo2_0.setType("objBytesAfter");
++    assertEquals("objBytesAfter", gCInfo2_0.getType());
++
++    // Objects differ because second instance still has null type
++    assertFalse(gCInfo2_0.equals((Object) gCInfo2_1));
++
++    // Set same type on second instance and assert side‑effect
++    gCInfo2_1.setType("objBytesAfter");
++    assertEquals("objBytesAfter", gCInfo2_1.getType());
++
++    // Now both instances should be equal
++    boolean boolean0 = gCInfo2_1.equals(gCInfo2_0);
++    assertTrue(gCInfo2_1.equals((Object) gCInfo2_0));
++    assertTrue(gCInfo2_0.equals((Object) gCInfo2_1));
++    assertTrue(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/heal/util/AuthenticationTools_ESTest.java
++++ b/evosuite-tests/org/heal/util/AuthenticationTools_ESTest.java
+@@ -42,17 +42,20 @@
+       boolean boolean0 = AuthenticationTools.isAdministrator(httpServletRequest0);
+       assertTrue(boolean0);
+   }
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
++    HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    // Default: no role attribute
++    when(httpSession0.getAttribute(anyString())).thenReturn(null);
++    // Simulate an administrator role
++    when(httpSession0.getAttribute("role")).thenReturn("ADMIN");
++    HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    when(httpServletRequest0.getSession()).thenReturn(httpSession0);
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    boolean isAdmin = AuthenticationTools.isAdministrator(httpServletRequestWrapper0);
++    assertTrue(isAdmin);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      boolean boolean0 = AuthenticationTools.isAdministrator(httpServletRequestWrapper0);
+-      assertFalse(boolean0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

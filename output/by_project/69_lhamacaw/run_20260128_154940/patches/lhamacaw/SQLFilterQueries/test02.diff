@@ -1,0 +1,33 @@
+--- a/evosuite-tests/macaw/persistenceLayer/production/SQLFilterQueries_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/production/SQLFilterQueries_ESTest.java
+@@ -59,23 +59,13 @@
+          verifyException("macaw.persistenceLayer.production.SQLFilterQueries", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-    log0 = new Log();
+-    sQLFilterQueries0 = new SQLFilterQueries(log0, (SQLListChoiceManager) null);
+-      // Undeclared exception!
+-      try { 
+-        sQLFilterQueries0.filterOntologyTerms((Connection) null, "", " (label LIKE '%");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("macaw.persistenceLayer.production.SQLFilterQueries", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++public void test02() throws Throwable {
++    log0 = new Log();
++    sQLFilterQueries0 = new SQLFilterQueries(log0, (SQLListChoiceManager) null);
++    sQLFilterQueries0.filterOntologyTerms((Connection) null, "", " (label LIKE '%");
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

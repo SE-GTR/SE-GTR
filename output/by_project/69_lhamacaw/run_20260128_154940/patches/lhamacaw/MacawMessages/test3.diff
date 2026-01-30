@@ -1,0 +1,24 @@
+--- a/evosuite-tests/macaw/system/MacawMessages_ESTest.java
++++ b/evosuite-tests/macaw/system/MacawMessages_ESTest.java
+@@ -39,11 +39,17 @@
+         assertTrue(e.getMessage().contains("Yy\""));
+     }
+ }
++@Test(timeout = 4000)
++public void test3() {
++    try {
++        MacawMessages.getMessage("nonexistent.key", "param0", "param1");
++        fail("Expected MissingResourceException");
++    } catch (MissingResourceException e) {
++        // Ensure the exception message mentions the missing key
++        assertTrue(e.getMessage().contains("nonexistent.key"));
++    }
++}
+ 
+-@Test(timeout = 4000, expected = MissingResourceException.class)
+-  public void test3() throws Throwable {
+-      MacawMessages.getMessage("", "", "");
+-  }
+ @Test(timeout = 4000, expected = MissingResourceException.class)
+     public void test4() throws Throwable {
+         MacawMessages.getMessage(":Y,=os!#O{I9", ":Y,=os!#O{I9");

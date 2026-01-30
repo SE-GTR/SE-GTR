@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletRequest_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletRequest_ESTest.java
+@@ -152,17 +152,18 @@
+       boolean boolean1 = jSecurityHttpServletRequest0.isRequestedSessionIdValid();
+       assertTrue(boolean1);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(httpServletRequest0).isRequestedSessionIdValid();
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn(false).when(httpServletRequest0).isRequestedSessionIdValid();
+     httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+     servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
+     jSecurityHttpServletRequest0 = new JSecurityHttpServletRequest(httpServletRequestWrapper0, servletContext0, true);
+-      boolean boolean0 = jSecurityHttpServletRequest0.isRequestedSessionIdValid();
+-      assertFalse(boolean0);
+-  }
++    boolean result = jSecurityHttpServletRequest0.isRequestedSessionIdValid();
++    assertFalse(result);
++    verify(httpServletRequest0, times(1)).isRequestedSessionIdValid();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

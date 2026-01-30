@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/templateit/Poi2ItextUtil_ESTest.java
++++ b/evosuite-tests/org/templateit/Poi2ItextUtil_ESTest.java
+@@ -167,18 +167,27 @@
+       poi2ItextUtil0.copyCellHorisontalAlignment(hSSFCell0, pdfPCell0);
+       assertEquals((-1), pdfPCell0.getHorizontalAlignment());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      HSSFWorkbook hSSFWorkbook0 = new HSSFWorkbook();
+-      Poi2ItextUtil poi2ItextUtil0 = new Poi2ItextUtil(hSSFWorkbook0);
+-      HSSFSheet hSSFSheet0 = hSSFWorkbook0.createSheet();
+-      HSSFRow hSSFRow0 = hSSFSheet0.createRow(6);
+-      HSSFCell hSSFCell0 = hSSFRow0.createCell(7, (int) (byte)2);
++@Test(timeout = 4000)
++  public void test11() throws Throwable {
++      HSSFWorkbook hSSFWorkbook0 = new HSSFWorkbook();
++      Poi2ItextUtil poi2ItextUtil0 = new Poi2ItextUtil(hSSFWorkbook0);
++      HSSFSheet hSSFSheet0 = hSSFWorkbook0.createSheet();
++      HSSFRow hSSFRow0 = hSSFSheet0.createRow(6);
++      HSSFCell hSSFCell0 = hSSFRow0.createCell(7);
++      // Set a distinct background color on the POI cell
++      HSSFCellStyle style = hSSFWorkbook0.createCellStyle();
++      style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.RED.getIndex());
++      style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
++      hSSFCell0.setCellStyle(style);
+       PdfPCell pdfPCell0 = new PdfPCell();
+       poi2ItextUtil0.copyBackgroundColor(hSSFCell0, pdfPCell0);
+-      assertEquals(4, pdfPCell0.getVerticalAlignment());
+-  }
++      java.awt.Color expected = new java.awt.Color(
++              HSSFColor.HSSFColorPredefined.RED.getTriplet()[0],
++              HSSFColor.HSSFColorPredefined.RED.getTriplet()[1],
++              HSSFColor.HSSFColorPredefined.RED.getTriplet()[2]);
++      assertEquals(expected, pdfPCell0.getBackgroundColor());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

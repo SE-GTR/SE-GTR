@@ -1,0 +1,25 @@
+--- a/evosuite-tests/macaw/presentationLayer/VariableSearchTableModel_ESTest.java
++++ b/evosuite-tests/macaw/presentationLayer/VariableSearchTableModel_ESTest.java
+@@ -31,15 +31,18 @@
+       Object object0 = variableSearchTableModel0.getValueAt(2, 2);
+       assertEquals("1961", object0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test01() throws Throwable {
+       DemonstrationCurationService demonstrationCurationService0 = new DemonstrationCurationService(false);
+       VariableSearchTableModel variableSearchTableModel0 = new VariableSearchTableModel(demonstrationCurationService0);
++      int beforeSize = variableSearchTableModel0.getRowCount();
+       variableSearchTableModel0.showAllVariableSummaries((User) null);
+-      Object object0 = variableSearchTableModel0.getValueAt(2, (-1));
++      int afterSize = variableSearchTableModel0.getRowCount();
++      assertTrue("Variable summaries should not shrink after showAllVariableSummaries", afterSize >= beforeSize);
++      Object object0 = variableSearchTableModel0.getValueAt(2, -1);
+       assertNull(object0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

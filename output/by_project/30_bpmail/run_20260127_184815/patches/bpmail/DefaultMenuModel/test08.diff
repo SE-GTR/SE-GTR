@@ -1,0 +1,38 @@
+--- a/evosuite-tests/ch/bluepenguin/tapestry/components/menu/model/impl/DefaultMenuModel_ESTest.java
++++ b/evosuite-tests/ch/bluepenguin/tapestry/components/menu/model/impl/DefaultMenuModel_ESTest.java
+@@ -111,20 +111,23 @@
+     defaultMenuModel0.addMenuItem((IMenuItem) defaultMenuItem0);
+     assertEquals(0, defaultMenuItem0.getDepth());
+ }
++@Test(timeout = 4000)
++    public void test08() throws Throwable {
++        defaultMenuModel0 = new DefaultMenuModel();
++        defaultMenuItem0 = new DefaultMenuItem(defaultMenuModel0);
++        // Verify that setParent correctly registers the parent
++        defaultMenuItem0.setParent(defaultMenuModel0);
++        assertSame("Parent should be set correctly", defaultMenuModel0, defaultMenuItem0.getParent());
+ 
++        DefaultMenuItem defaultMenuItem1 = new DefaultMenuItem(defaultMenuItem0);
++        DirectLinkMenuItemRenderer directLinkMenuItemRenderer0 = new DirectLinkMenuItemRenderer();
++        defaultMenuModel0.addMenuItem((IMenuItem) defaultMenuItem0, (IMenuItemRenderer) directLinkMenuItemRenderer0);
++        defaultMenuModel0.addMenuItem((IMenuItem) defaultMenuItem1);
++        // Verify that depths are initialized as expected
++        assertEquals(0, defaultMenuItem1.getDepth());
++        assertEquals(0, defaultMenuItem0.getDepth());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-    defaultMenuModel0 = new DefaultMenuModel();
+-    defaultMenuItem0 = new DefaultMenuItem(defaultMenuModel0);
+-      defaultMenuItem0.setParent(defaultMenuModel0);
+-      DefaultMenuItem defaultMenuItem1 = new DefaultMenuItem(defaultMenuItem0);
+-      DirectLinkMenuItemRenderer directLinkMenuItemRenderer0 = new DirectLinkMenuItemRenderer();
+-      defaultMenuModel0.addMenuItem((IMenuItem) defaultMenuItem0, (IMenuItemRenderer) directLinkMenuItemRenderer0);
+-      defaultMenuModel0.addMenuItem((IMenuItem) defaultMenuItem1);
+-      assertEquals(0, defaultMenuItem1.getDepth());
+-      assertEquals(0, defaultMenuItem0.getDepth());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

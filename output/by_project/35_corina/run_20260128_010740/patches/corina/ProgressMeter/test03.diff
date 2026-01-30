@@ -1,0 +1,38 @@
+--- a/evosuite-tests/corina/gui/ProgressMeter_ESTest.java
++++ b/evosuite-tests/corina/gui/ProgressMeter_ESTest.java
+@@ -54,23 +54,18 @@
+       assertEquals(0, progressMeter0.getMinimum());
+       assertEquals(500, progressMeter0.getMillisToDecideToPopup());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      progressMeter0.setProgress(870);
+-      progressMeter0.addProgressListener((ProgressMeter.ProgressListener) null);
+-      // Undeclared exception!
+-      try { 
+-        progressMeter0.setNote((String) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.gui.ProgressMeter", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test03() throws Throwable {
++        progressMeter0.setProgress(870);
++        progressMeter0.addProgressListener(new ProgressMeter.ProgressListener() {
++            @Override
++            public void progressChanged(int progress) {
++                // no-op listener for testing
++            }
++        });
++        progressMeter0.setNote(null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

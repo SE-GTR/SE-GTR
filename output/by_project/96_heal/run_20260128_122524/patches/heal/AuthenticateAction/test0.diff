@@ -1,0 +1,42 @@
+--- a/evosuite-tests/org/heal/servlet/AuthenticateAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/AuthenticateAction_ESTest.java
+@@ -34,24 +34,23 @@
+     httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+     httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        doReturn("", "", "719{kz(P`A").when(httpServletRequest0).getParameter(anyString());
++        doReturn(httpSession0).when(httpServletRequest0).getSession();
+ 
++        HttpServletResponse response = mock(HttpServletResponse.class);
++        java.io.PrintWriter writer = new java.io.PrintWriter(new java.io.StringWriter());
++        when(response.getWriter()).thenReturn(writer);
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      doReturn("", "", "719{kz(P`A").when(httpServletRequest0).getParameter(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      // Undeclared exception!
+-      try { 
+-        authenticateAction0.perform(servlet0, httpServletRequest0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.AuthenticateAction", e);
+-      }
+-  }
++        // Execute the method under test with a valid (non‑null) response.
++        authenticateAction0.perform(servlet0, httpServletRequest0, response);
++
++        // Verify that the request parameters were accessed and that the response was used.
++        verify(httpServletRequest0, atLeastOnce()).getParameter(anyString());
++        verify(response, atLeastOnce()).getWriter();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

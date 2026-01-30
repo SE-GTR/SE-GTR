@@ -1,0 +1,37 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AddressDetails_ESTest.java
+@@ -237,14 +237,26 @@
+         String code = addressLatitude.getCode();
+         assertEquals("testCode", code);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test020()  throws Throwable  {
+-      AddressDetails.PostalServiceElements.AddressLatitude addressDetails_PostalServiceElements_AddressLatitude0 = new AddressDetails.PostalServiceElements.AddressLatitude();
+-      addressDetails_PostalServiceElements_AddressLatitude0.setType("1AEn!(,");
+-      assertEquals("1AEn!(,", addressDetails_PostalServiceElements_AddressLatitude0.getType());
+-  }
++@Test(timeout = 4000)
++    public void test020() throws Throwable {
++        AddressDetails.PostalServiceElements.AddressLatitude latitude = new AddressDetails.PostalServiceElements.AddressLatitude();
++
++        // initial state should have no type or value
++        assertNull(latitude.getType());
++        assertNull(latitude.getValue());
++
++        // set both type and value and verify they are stored correctly
++        latitude.setType("typeA");
++        latitude.setValue("12.3456");
++        assertEquals("typeA", latitude.getType());
++        assertEquals("12.3456", latitude.getValue());
++
++        // change only the type and ensure the value remains unchanged
++        latitude.setType("typeB");
++        assertEquals("typeB", latitude.getType());
++        assertEquals("12.3456", latitude.getValue());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test021()  throws Throwable  {

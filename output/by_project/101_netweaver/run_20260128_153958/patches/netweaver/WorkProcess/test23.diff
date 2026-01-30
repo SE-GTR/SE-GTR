@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -382,20 +382,31 @@
+         boolean boolean0 = workProcess1.equals(workProcess0);
+         assertFalse(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
+-      WorkProcess workProcess1 = new WorkProcess();
++@Test(timeout = 4000)
++  public void test23() throws Throwable {
++      WorkProcess workProcess0 = new WorkProcess();
++      WorkProcess workProcess1 = new WorkProcess();
++
++      // Verify initial state before any mutation
++      assertNull(workProcess0.getStart());
++
++      // Exercise setStart and assert its side‑effect
+       workProcess0.setStart("Header");
+-      assertFalse(workProcess0.equals((Object)workProcess1));
+-      
++      assertEquals("Header", workProcess0.getStart());
++
++      // Objects differ because only one has its start set
++      assertFalse(workProcess0.equals((Object) workProcess1));
++
++      // Apply the same mutation to the second instance and verify
+       workProcess1.setStart("Header");
+-      boolean boolean0 = workProcess0.equals(workProcess1);
+-      assertTrue(workProcess0.equals((Object)workProcess1));
++      assertEquals("Header", workProcess1.getStart());
++
++      // Now both objects should be equal
++      boolean boolean0 = workProcess0.equals(workProcess1);
++      assertTrue(workProcess0.equals((Object) workProcess1));
+       assertTrue(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

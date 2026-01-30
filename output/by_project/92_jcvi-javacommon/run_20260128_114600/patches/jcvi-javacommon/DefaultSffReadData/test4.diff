@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/DefaultSffReadData_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/DefaultSffReadData_ESTest.java
+@@ -84,27 +84,29 @@
+       boolean boolean0 = defaultSffReadData0.equals(defaultSffReadData0);
+       assertTrue(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test4() throws Throwable {
+       NucleotideSequence nucleotideSequence0 = mock(NucleotideSequence.class, new ViolatedAssumptionAnswer());
+       doReturn(0L).when(nucleotideSequence0).getLength();
+       byte[] byteArray0 = new byte[0];
+       short[] shortArray0 = new short[0];
+       QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+       doReturn(2409L).when(qualitySequence0).getLength();
++
++      // Verify that the stubbed return values are as expected
++      assertEquals(0L, nucleotideSequence0.getLength());
++      assertEquals(2409L, qualitySequence0.getLength());
++
+       DefaultSffReadData defaultSffReadData0 = null;
+       try {
+-        defaultSffReadData0 = new DefaultSffReadData(nucleotideSequence0, byteArray0, shortArray0, qualitySequence0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // basecalls, indexes and qualities must be the same length
+-         //
+-         verifyException("org.jcvi.jillion.trace.sff.DefaultSffReadData", e);
++          defaultSffReadData0 = new DefaultSffReadData(nucleotideSequence0, byteArray0, shortArray0, qualitySequence0);
++          fail("Expecting exception: IllegalArgumentException");
++      } catch (IllegalArgumentException e) {
++          // basecalls, indexes and qualities must be the same length
++          verifyException("org.jcvi.jillion.trace.sff.DefaultSffReadData", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

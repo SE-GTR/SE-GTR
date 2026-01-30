@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jsecurity/jndi/JndiLocator_ESTest.java
++++ b/evosuite-tests/org/jsecurity/jndi/JndiLocator_ESTest.java
+@@ -94,22 +94,13 @@
+       jndiLocator0.getJndiEnvironment();
+       assertFalse(jndiLocator0.isResourceRef());
+   }
++@Test(timeout = 4000, expected = NoInitialContextException.class)
++    public void test6() throws Throwable {
++        jndiLocator0 = new JndiLocator();
++        jndiLocator0.setResourceRef(true);
++        jndiLocator0.lookup("org.apache.log4j.helpers.Loader");
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-    jndiLocator0 = new JndiLocator();
+-      jndiLocator0.setResourceRef(true);
+-      try { 
+-        jndiLocator0.lookup("org.apache.log4j.helpers.Loader");
+-        fail("Expecting exception: NoInitialContextException");
+-      
+-      } catch(NoInitialContextException e) {
+-         //
+-         // Need to specify class name in environment or system property, or as an applet parameter, or in an application resource file:  java.naming.factory.initial
+-         //
+-         verifyException("javax.naming.spi.NamingManager", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

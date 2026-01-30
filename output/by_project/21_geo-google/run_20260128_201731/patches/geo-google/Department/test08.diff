@@ -1,0 +1,52 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Department_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Department_ESTest.java
+@@ -105,24 +105,39 @@
+     Department.DepartmentName name1 = new Department.DepartmentName();
+     Department.DepartmentName name2 = new Department.DepartmentName();
+ 
+-    // Initially both have no type set
++    // initial state – no type or value set
+     assertNull(name1.getType());
+     assertNull(name2.getType());
+-
+-    // Set a specific type on the first instance
++    assertNull(name1.getValue());
++    assertNull(name2.getValue());
++
++    // set type and value on the first instance
+     String type = "nHZ8MOW}*K;Cn";
++    String value1 = "value1";
+     name1.setType(type);
++    name1.setValue(value1);
++
++    // set a different value on the second instance (type remains null)
++    String value2 = "value2";
++    name2.setValue(value2);
++
++    // verify the side‑effects of the setters
+     assertEquals(type, name1.getType());
+-
+-    // The second instance should remain unchanged
++    assertEquals(value1, name1.getValue());
+     assertNull(name2.getType());
+-
+-    // Objects with different type values should not be equal
++    assertEquals(value2, name2.getValue());
++
++    // objects differ because their type/value differ
+     assertNotEquals(name1, name2);
+-
+-    // Their hash codes should also differ
+     assertNotEquals(name1.hashCode(), name2.hashCode());
+-}
++
++    // make the second instance match the first and verify equality
++    name2.setType(type);
++    name2.setValue(value1);
++    assertEquals(name1, name2);
++    assertEquals(name1.hashCode(), name2.hashCode());
++}
++
+ @Test(timeout = 4000)
+ public void test09() throws Throwable {
+     Department.DepartmentName department_DepartmentName0 = new Department.DepartmentName();

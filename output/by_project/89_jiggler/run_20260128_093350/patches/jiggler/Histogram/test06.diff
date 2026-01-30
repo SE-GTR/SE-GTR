@@ -1,0 +1,33 @@
+--- a/evosuite-tests/jigl/image/Histogram_ESTest.java
++++ b/evosuite-tests/jigl/image/Histogram_ESTest.java
+@@ -95,16 +95,20 @@
+          verifyException("jigl.image.Histogram", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      Histogram histogram0 = new Histogram((-979), (-979), (-979));
+-      Histogram histogram1 = new Histogram(histogram0);
+-      assertEquals((-979.0F), histogram1.min(), 0.01F);
+-      assertEquals((-979.0F), histogram1.max(), 0.01F);
+-      assertEquals(1, histogram1.length());
+-      assertEquals((-979.0F), histogram1.inc(), 0.01F);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        Histogram histogram0 = new Histogram((-979), (-979), (-979));
++        Histogram histogram1 = new Histogram(histogram0);
++        assertEquals((-979.0F), histogram1.min(), 0.01F);
++        assertEquals((-979.0F), histogram1.max(), 0.01F);
++        assertEquals(1, histogram1.length());
++        assertEquals((-979.0F), histogram1.inc(), 0.01F);
++        // Additional logical invariants to give the test more value
++        assertTrue("min should be less than or equal to max", histogram1.min() <= histogram1.max());
++        assertTrue("length should be positive", histogram1.length() > 0);
++        assertEquals("inc should match min when length is 1", histogram1.min(), histogram1.inc(), 0.01F);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

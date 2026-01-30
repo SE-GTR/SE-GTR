@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/heal/util/FileLocator_ESTest.java
++++ b/evosuite-tests/org/heal/util/FileLocator_ESTest.java
+@@ -704,15 +704,20 @@
+     // Verify max upload size matches expected constant
+     assertEquals(512L * 1024 * 1024, fileLocator.getMaxUploadSize());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test62()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      fileLocator0.setContentDirectory("Z5dYX,");
+-      fileLocator0.getRelativePath("/PATH/TO/SF110-20130704-src/96_heal/Z5dYX,/thumbnails/Z5dYX,");
+-      assertEquals("Z5dYX,", fileLocator0.getContentDirectory());
+-  }
++@Test(timeout = 4000)
++public void test62() throws Throwable {
++    FileLocator fileLocator0 = new FileLocator();
++    // verify initial content directory
++    assertEquals("content", fileLocator0.getContentDirectory());
++    // change content directory and verify side effect
++    fileLocator0.setContentDirectory("Z5dYX,");
++    assertEquals("Z5dYX,", fileLocator0.getContentDirectory());
++    // exercise getRelativePath and assert its return value
++    String relPath = fileLocator0.getRelativePath("/PATH/TO/SF110-20130704-src/96_heal/Z5dYX,/thumbnails/Z5dYX,");
++    assertNotNull(relPath);
++    assertTrue(relPath.contains("Z5dYX,"));
++}
++
+ @Test(timeout = 4000)
+ public void test63() throws Throwable {
+     FileLocator fileLocator0 = new FileLocator();

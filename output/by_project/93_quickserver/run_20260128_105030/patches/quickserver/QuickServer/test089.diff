@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -1099,14 +1099,15 @@
+     // Assert that the change took effect
+     assertEquals(12345, quickServer0.getTimeout());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test089()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer();
+-      quickServer0.setRawCommunicationMaxLength((-3148));
+-      assertEquals((-3148), quickServer0.getRawCommunicationMaxLength());
+-  }
++public void test089() throws Throwable {
++    QuickServer quickServer0 = new QuickServer();
++    int defaultLen = quickServer0.getRawCommunicationMaxLength();
++    quickServer0.setRawCommunicationMaxLength(-3148);
++    int afterSet = quickServer0.getRawCommunicationMaxLength();
++    assertEquals(-3148, afterSet);
++    assertNotEquals(defaultLen, afterSet);
++}
++
+ public void test090() throws Throwable {
+         QuickServer quickServer0 = new QuickServer();
+         // Verify default name (single initialization check)

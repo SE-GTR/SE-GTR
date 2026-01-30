@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jsecurity/session/mgt/eis/CachingSessionDAO_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/mgt/eis/CachingSessionDAO_ESTest.java
+@@ -46,15 +46,20 @@
+       memorySessionDAO0.delete(simpleSession0);
+       assertEquals("jsecurity-activeSessionCache", memorySessionDAO0.getActiveSessionsCacheName());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      SimpleSession simpleSession0 = new SimpleSession();
+-      MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
+-      memorySessionDAO0.assignSessionId(simpleSession0, simpleSession0);
+-      memorySessionDAO0.delete(simpleSession0);
+-      assertEquals("jsecurity-activeSessionCache", memorySessionDAO0.getActiveSessionsCacheName());
+-  }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        SimpleSession simpleSession0 = new SimpleSession();
++        MemorySessionDAO memorySessionDAO0 = new MemorySessionDAO();
++        memorySessionDAO0.assignSessionId(simpleSession0, simpleSession0);
++        memorySessionDAO0.delete(simpleSession0);
++        try {
++            memorySessionDAO0.readSession(simpleSession0.getId());
++            fail("Expected UnknownSessionException");
++        } catch (UnknownSessionException e) {
++            // expected exception after deletion
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

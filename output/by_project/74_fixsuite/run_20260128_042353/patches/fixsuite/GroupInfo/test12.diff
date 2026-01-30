@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/fixsuite/message/info/GroupInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/GroupInfo_ESTest.java
+@@ -158,17 +158,21 @@
+         // Exercise getField with an unknown name; ensure no exception is thrown.
+         groupInfo0.getField("");
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-    fieldInfo0 = new FieldInfo();
+-    groupInfo0 = new GroupInfo(fieldInfo0);
+-      fieldInfo0.setName("@:$");
+-      groupInfo0.addField(fieldInfo0, (-1024.697257190593));
+-      FieldInfo fieldInfo1 = groupInfo0.getField((-683));
+-      assertNull(fieldInfo1);
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        fieldInfo0 = new FieldInfo();
++        groupInfo0 = new GroupInfo(fieldInfo0);
++        // Verify that setName correctly updates the field's name
++        fieldInfo0.setName("@:$");
++        assertEquals("@:$", fieldInfo0.getName());
++        // Add the field to the group and verify the side‑effect
++        groupInfo0.addField(fieldInfo0, -1024.697257190593);
++        assertTrue(groupInfo0.getFields().contains(fieldInfo0));
++        // Existing assertion retained
++        FieldInfo fieldInfo1 = groupInfo0.getField(-683);
++        assertNull(fieldInfo1);
++    }
++
+ @Test(timeout = 4000)
+ public void test13() throws Throwable {
+     FieldInfo fieldInfo0 = new FieldInfo();

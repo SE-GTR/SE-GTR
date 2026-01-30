@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jsecurity/config/ReflectionBuilder_ESTest.java
++++ b/evosuite-tests/org/jsecurity/config/ReflectionBuilder_ESTest.java
+@@ -17,16 +17,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ReflectionBuilder_ESTest extends ReflectionBuilder_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      ReflectionBuilder reflectionBuilder0 = new ReflectionBuilder();
+-      HashMap<ReflectionBuilder, ReflectionBuilder> hashMap0 = new HashMap<ReflectionBuilder, ReflectionBuilder>();
+-      reflectionBuilder0.createNewInstance(hashMap0, "org.apache.log4j.xml.DOMConfigurator", "org.apache.log4j.xml.DOMConfigurator");
+-      ReflectionBuilder reflectionBuilder1 = new ReflectionBuilder(hashMap0);
+-      Object object0 = reflectionBuilder1.getReferencedObject("org.apache.log4j.xml.DOMConfigurator");
+-      assertNotNull(object0);
+-  }
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    ReflectionBuilder reflectionBuilder0 = new ReflectionBuilder();
++    HashMap<ReflectionBuilder, ReflectionBuilder> hashMap0 = new HashMap<ReflectionBuilder, ReflectionBuilder>();
++    int sizeBefore = hashMap0.size();
++    reflectionBuilder0.createNewInstance(hashMap0, "org.apache.log4j.xml.DOMConfigurator", "org.apache.log4j.xml.DOMConfigurator");
++    assertEquals(sizeBefore + 1, hashMap0.size());
++    assertTrue(hashMap0.containsKey("org.apache.log4j.xml.DOMConfigurator"));
++    Object created = hashMap0.get("org.apache.log4j.xml.DOMConfigurator");
++    assertNotNull(created);
++    ReflectionBuilder reflectionBuilder1 = new ReflectionBuilder(hashMap0);
++    Object object0 = reflectionBuilder1.getReferencedObject("org.apache.log4j.xml.DOMConfigurator");
++    assertNotNull(object0);
++    assertSame(created, object0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

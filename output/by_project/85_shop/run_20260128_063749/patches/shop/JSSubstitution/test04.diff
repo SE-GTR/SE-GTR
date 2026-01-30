@@ -1,0 +1,33 @@
+--- a/evosuite-tests/umd/cs/shop/JSSubstitution_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSSubstitution_ESTest.java
+@@ -85,16 +85,26 @@
+       jSSubstitution0.removeElements(jSSubstitution0);
+       assertEquals("[]", jSSubstitution0.toString());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test04() throws Throwable {
+       JSTerm jSTerm1 = new JSTerm();
+       JSPairVarTerm jSPairVarTerm1 = new JSPairVarTerm(jSTerm1, jSTerm1);
+-      jSSubstitution0.add((Object) jSPairVarTerm1);
++      JSSubstitution jSSubstitution0 = new JSSubstitution();
++      int sizeBeforeAdd = jSSubstitution0.size();
++      boolean addResult = jSSubstitution0.add((Object) jSPairVarTerm1);
++      assertTrue("add should return true", addResult);
++      assertEquals("size should increase by one after add", sizeBeforeAdd + 1, jSSubstitution0.size());
++
+       JSSubstitution jSSubstitution1 = new JSSubstitution();
++      int sizeBeforeAddElements = jSSubstitution1.size();
+       jSSubstitution1.addElements(jSSubstitution0);
++      assertEquals("addElements should copy all elements", jSSubstitution0.size(),
++              jSSubstitution1.size());
++      assertTrue("new substitution should contain the added element",
++              jSSubstitution1.contains(jSPairVarTerm1));
+       assertFalse(jSSubstitution1.isEmpty());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

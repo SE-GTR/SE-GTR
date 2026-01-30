@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/GCInfo2_ESTest.java
+@@ -331,19 +331,26 @@
+     // Objects should now be different
+     assertFalse(gCInfo2_0.equals(gCInfo2_1));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      GCInfo2 gCInfo2_0 = new GCInfo2();
+-      GCInfo2 gCInfo2_1 = new GCInfo2();
+-      assertTrue(gCInfo2_1.equals((Object)gCInfo2_0));
+-      
+-      gCInfo2_1.setProcessname("i(f!");
+-      boolean boolean0 = gCInfo2_1.equals(gCInfo2_0);
+-      assertFalse(gCInfo2_1.equals((Object)gCInfo2_0));
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test19() throws Throwable {
++    GCInfo2 gCInfo2_0 = new GCInfo2();
++    GCInfo2 gCInfo2_1 = new GCInfo2();
++    assertTrue(gCInfo2_1.equals((Object) gCInfo2_0));
++
++    // Verify initial state of the process name
++    assertNull(gCInfo2_1.getProcessname());
++
++    // Act: change the process name
++    gCInfo2_1.setProcessname("i(f!");
++
++    // Assert that the side effect is observable via the getter
++    assertEquals("i(f!", gCInfo2_1.getProcessname());
++
++    boolean boolean0 = gCInfo2_1.equals(gCInfo2_0);
++    assertFalse(gCInfo2_1.equals((Object) gCInfo2_0));
++    assertFalse(boolean0);
++}
++
+ @Test(timeout = 4000)
+   public void test20() throws Throwable {
+       GCInfo2 gCInfo2_0 = new GCInfo2();

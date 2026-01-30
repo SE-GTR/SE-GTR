@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Deploy_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Deploy_ESTest.java
+@@ -41,15 +41,23 @@
+         int afterHash = deploy0.hashCode();
+         assertNotEquals("Hash code should change after setting archive files", beforeHash, afterHash);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      Deploy deploy0 = new Deploy();
+-      ArchiveFile[] archiveFileArray0 = new ArchiveFile[1];
+-      deploy0.setArchiveFiles(archiveFileArray0);
+-      deploy0.hashCode();
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        Deploy deploy0 = new Deploy();
++        // Verify initial state before setting archive files
++        assertNull(deploy0.getArchiveFiles());
++
++        ArchiveFile[] archiveFileArray0 = new ArchiveFile[1];
++        deploy0.setArchiveFiles(archiveFileArray0);
++        // Assert that the side‑effect of setArchiveFiles is observable
++        assertSame(archiveFileArray0, deploy0.getArchiveFiles());
++
++        // Assert that the return value of hashCode is consistent
++        int hash1 = deploy0.hashCode();
++        int hash2 = deploy0.hashCode();
++        assertEquals(hash1, hash2);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

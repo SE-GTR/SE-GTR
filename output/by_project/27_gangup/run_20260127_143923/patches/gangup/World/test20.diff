@@ -1,0 +1,36 @@
+--- a/evosuite-tests/gui/gl/World_ESTest.java
++++ b/evosuite-tests/gui/gl/World_ESTest.java
+@@ -230,22 +230,17 @@
+       world0.save("glGetTexEnvfv");
+       assertEquals(15, Group.ALLOW_COLLISION_BOUNDS_READ);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      World world0 = new World(3, 3, 3);
+-      // Undeclared exception!
+-      try { 
+-        world0.findPath(3, 3, 34189, (-280));
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("gui.gl.World", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test20() throws Throwable {
++        World world0 = new World(3, 3, 3);
++        try {
++            map.Path path = world0.findPath(0, 0, 1, 1);
++            assertNotNull("Path should not be null for valid coordinates", path);
++        } catch (PathNotFoundException e) {
++            fail("Unexpected PathNotFoundException for valid coordinates");
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

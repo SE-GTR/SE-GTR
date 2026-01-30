@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
++++ b/evosuite-tests/org/mozilla/javascript/TokenStream_ESTest.java
+@@ -235,25 +235,15 @@
+          verifyException("org.mozilla.javascript.DefaultErrorReporter", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test015()  throws Throwable  {
+-      CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
+-      DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
+-      Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
+-      TokenStream tokenStream0 = new TokenStream(parser0, (Reader) null, "language version", 18);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test015() throws Throwable {
++        CompilerEnvirons compilerEnvirons0 = new CompilerEnvirons();
++        DefaultErrorReporter defaultErrorReporter0 = DefaultErrorReporter.instance;
++        Parser parser0 = new Parser(compilerEnvirons0, defaultErrorReporter0);
++        TokenStream tokenStream0 = new TokenStream(parser0, (Reader) null, "language version", 18);
+         tokenStream0.readRegExp(99);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.mozilla.javascript.Parser", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test016()  throws Throwable  {

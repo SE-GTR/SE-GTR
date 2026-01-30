@@ -1,0 +1,40 @@
+--- a/evosuite-tests/jigl/math/Matrix_ESTest.java
++++ b/evosuite-tests/jigl/math/Matrix_ESTest.java
+@@ -38,20 +38,23 @@
+         assertEquals(8, doubleArray2.length);
+         assertEquals(0.5, doubleArray2[0], 0.01);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      double[][] doubleArray0 = new double[1][2];
+-      Matrix matrix0 = new Matrix(doubleArray0);
+-      double[] doubleArray1 = new double[2];
+-      Matrix matrix1 = new Matrix(matrix0.mem);
+-      matrix0.svdcmp(matrix0, doubleArray1, matrix1);
+-      matrix1.svdcmp(matrix0, doubleArray1, matrix0);
+-      Vector vector0 = new Vector(doubleArray1);
+-      Matrix.svbksb(matrix1, doubleArray1, matrix1, vector0);
+-      assertArrayEquals(new double[] {1.0, 1.0}, doubleArray1, 0.01);
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        double[][] doubleArray0 = new double[1][2];
++        Matrix matrix0 = new Matrix(doubleArray0);
++        double[] doubleArray1 = new double[2];
++        Matrix matrix1 = new Matrix(matrix0.mem);
++        // exercise the SVD decomposition
++        matrix0.svdcmp(matrix0, doubleArray1, matrix1);
++        matrix1.svdcmp(matrix0, doubleArray1, matrix0);
++        Vector vector0 = new Vector(doubleArray1);
++        // solve the linear system and capture the result
++        Vector result = Matrix.svbksb(matrix1, doubleArray1, matrix1, vector0);
++        // verify observable effects
++        assertNotNull("svbksb should return a non‑null Vector", result);
++        assertArrayEquals(new double[] {1.0, 1.0}, doubleArray1, 0.01);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/qual/trim/BwaQualityTrimmer_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/qual/trim/BwaQualityTrimmer_ESTest.java
+@@ -20,19 +20,23 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class BwaQualityTrimmer_ESTest extends BwaQualityTrimmer_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        PhredQuality phredQuality0 = PhredQuality.valueOf(5);
++        BwaQualityTrimmer bwaQualityTrimmer0 = new BwaQualityTrimmer(phredQuality0);
++        Iterator<PhredQuality> iterator0 = (Iterator<PhredQuality>) mock(Iterator.class, new ViolatedAssumptionAnswer());
++        doReturn(false).when(iterator0).hasNext();
++        QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
++        doReturn(iterator0).when(qualitySequence0).iterator();
++        doReturn((long) (byte) 127, (long) (byte) 0).when(qualitySequence0).getLength();
++        Range range0 = bwaQualityTrimmer0.trim(qualitySequence0);
++        assertFalse(range0.isEmpty());
++        // Assert the previously unasserted return values
++        assertFalse(iterator0.hasNext());
++        assertNotNull(qualitySequence0.iterator());
++        assertEquals(0L, qualitySequence0.getLength());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      PhredQuality phredQuality0 = PhredQuality.valueOf(5);
+-      BwaQualityTrimmer bwaQualityTrimmer0 = new BwaQualityTrimmer(phredQuality0);
+-      Iterator<PhredQuality> iterator0 = (Iterator<PhredQuality>) mock(Iterator.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(iterator0).hasNext();
+-      QualitySequence qualitySequence0 = mock(QualitySequence.class, new ViolatedAssumptionAnswer());
+-      doReturn(iterator0).when(qualitySequence0).iterator();
+-      doReturn((long)(byte)127, (long)(byte)0).when(qualitySequence0).getLength();
+-      Range range0 = bwaQualityTrimmer0.trim(qualitySequence0);
+-      assertFalse(range0.isEmpty());
+-  }
+ @Test(timeout = 4000)
+   public void test1() throws Throwable {
+       PhredQuality phredQuality0 = PhredQuality.valueOf(0);

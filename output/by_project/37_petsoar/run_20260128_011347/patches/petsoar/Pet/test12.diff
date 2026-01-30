@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/petsoar/pets/Pet_ESTest.java
++++ b/evosuite-tests/org/petsoar/pets/Pet_ESTest.java
+@@ -116,13 +116,18 @@
+       pet0.getPrice();
+       assertEquals("Unknown", pet0.getGender());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      Pet pet0 = new Pet();
+-      String string0 = pet0.getGender();
+-      assertEquals("Unknown", string0);
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        Pet pet0 = new Pet();
++        // Change state using a setter (behavior under test)
++        pet0.setGender(Pet.FEMALE);
++        // Verify the getter reflects the updated state
++        assertEquals(Pet.FEMALE, pet0.getGender());
++        // Exercise a non‑trivial method (toString) that depends on internal state
++        String description = pet0.toString();
++        assertTrue(description.contains(Pet.FEMALE));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

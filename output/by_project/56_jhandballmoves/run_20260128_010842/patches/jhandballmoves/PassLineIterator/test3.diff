@@ -1,0 +1,36 @@
+--- a/evosuite-tests/visu/handball/moves/model/animation/PassLineIterator_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/animation/PassLineIterator_ESTest.java
+@@ -65,17 +65,23 @@
+     PassLineIterator passLineIterator0 = new PassLineIterator(passEvent0);
+     assertFalse(passLineIterator0.isDone());
+ }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        Defender defender0 = new Defender(0, 0);
++        PassEvent passEvent0 = new PassEvent(defender0, 3226, 1);
++        Offender offender0 = new Offender(123, 1);
++        // Verify that the destination player is initially unset
++        assertNull(passEvent0.getDestinationPlayer());
++        // Act: set the destination player
++        passEvent0.setDestinationPlayer(offender0, false);
++        // Assert side‑effects of setDestinationPlayer
++        assertSame(offender0, passEvent0.getDestinationPlayer());
++        assertNotNull(passEvent0.getDestinationPointTemporary());
++        // Continue with original behavior verification
++        PassLineIterator passLineIterator0 = new PassLineIterator(passEvent0);
++        assertFalse(passLineIterator0.isDone());
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      Defender defender0 = new Defender(0, 0);
+-      PassEvent passEvent0 = new PassEvent(defender0, 3226, 1);
+-      Offender offender0 = new Offender(123, 1);
+-      passEvent0.setDestinationPlayer(offender0, false);
+-      PassLineIterator passLineIterator0 = new PassLineIterator(passEvent0);
+-      assertFalse(passLineIterator0.isDone());
+-  }
+ @Test(expected = NullPointerException.class, timeout = 4000)
+ public void test4() throws Throwable {
+     Defender defender0 = new Defender(929, 929);

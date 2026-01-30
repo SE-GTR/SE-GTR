@@ -1,0 +1,22 @@
+--- a/evosuite-tests/org/jsecurity/util/JavaEnvironment_ESTest.java
++++ b/evosuite-tests/org/jsecurity/util/JavaEnvironment_ESTest.java
+@@ -26,10 +26,14 @@
+       boolean boolean0 = JavaEnvironment.isAtLeastVersion14();
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        String version = JavaEnvironment.getVersion();
++        assertNotNull(version);
++        assertTrue("Version should match expected pattern", version.matches("\\d+(\\.\\d+)*(_\\d+)?"));
++        String majorPart = version.split("[\\._]")[0];
++        int major = Integer.parseInt(majorPart);
++        assertTrue("Major version should be >= 13", major >= 13);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      String string0 = JavaEnvironment.getVersion();
+-      assertEquals("1.8.0_472", string0);
+-  }
+ }

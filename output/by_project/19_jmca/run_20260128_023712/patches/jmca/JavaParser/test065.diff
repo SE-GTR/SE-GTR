@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
+@@ -730,22 +730,21 @@
+     JavaParser javaParser0 = new JavaParser((JavaParserTokenManager) null);
+     javaParser0.UnaryExpressionNotPlusMinus();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test065()  throws Throwable  {
+-      JavaParser javaParser0 = new JavaParser("p");
+-      try { 
+-        javaParser0.PreDecrementExpression();
+-        fail("Expecting exception: Exception");
+-      
+-      } catch(Exception e) {
+-         //
+-         // Parse error at line 1, column 0.  Encountered: <EOF>
+-         //
+-         verifyException("com.soops.CEN4010.JMCA.JParser.JavaParser", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test065() throws Exception {
++    java.io.File tempFile = java.io.File.createTempFile("test065", ".java");
++    tempFile.deleteOnExit(); // ensure cleanup
++    // An empty file will cause a parse error (EOF) when PreDecrementExpression is invoked
++    com.soops.CEN4010.JMCA.JParser.JavaParser parser =
++        new com.soops.CEN4010.JMCA.JParser.JavaParser(tempFile.getAbsolutePath());
++    try {
++        parser.PreDecrementExpression();
++        fail("Expecting ParseException");
++    } catch (com.soops.CEN4010.JMCA.JParser.ParseException e) {
++        assertTrue(e.getMessage().contains("Parse error"));
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test066()  throws Throwable  {

@@ -1,0 +1,56 @@
+--- a/evosuite-tests/org/jsecurity/web/filter/authc/AuthenticatingFilter_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/filter/authc/AuthenticatingFilter_ESTest.java
+@@ -59,23 +59,35 @@
+       boolean boolean0 = basicHttpAuthenticationFilter0.onLoginSuccess((AuthenticationToken) null, (Subject) null, servletRequestWrapper0, servletResponseWrapper0);
+       assertTrue(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        // Create a spy of the filter to stub internal methods
++        FormAuthenticationFilter filter = spy(new FormAuthenticationFilter());
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      FormAuthenticationFilter formAuthenticationFilter0 = new FormAuthenticationFilter();
+-    servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null, (String) null, (String) null).when(servletRequest0).getParameter(anyString());
+-      doReturn((String) null).when(servletRequest0).getRemoteHost();
+-      ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
+-      try { 
+-        formAuthenticationFilter0.executeLogin(servletRequestWrapper0, (ServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jsecurity.web.filter.authc.AuthenticatingFilter", e);
+-      }
+-  }
++        // Mock request and provide required parameters
++        ServletRequest request = mock(ServletRequest.class);
++        when(request.getParameter("username")).thenReturn("user");
++        when(request.getParameter("password")).thenReturn("pass");
++        when(request.getRemoteHost()).thenReturn("localhost");
++
++        // Wrap the request as the filter expects
++        ServletRequestWrapper requestWrapper = new ServletRequestWrapper(request);
++
++        // Mock response (non‑null)
++        ServletResponse response = mock(ServletResponse.class);
++
++        // Stub getSubject to return a mock subject that accepts any token
++        Subject subject = mock(Subject.class);
++        doNothing().when(subject).login(any(AuthenticationToken.class));
++        doReturn(subject).when(filter).getSubject(any(ServletRequest.class), any(ServletResponse.class));
++
++        // Stub onLoginSuccess to return true so we can assert the result
++        doReturn(true).when(filter).onLoginSuccess(any(AuthenticationToken.class), any(Subject.class),
++                any(ServletRequest.class), any(ServletResponse.class));
++
++        // Execute the login and verify the returned value
++        boolean result = filter.executeLogin(requestWrapper, response);
++        assertTrue(result);
++    }
++
+ }

@@ -1,0 +1,52 @@
+--- a/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
+@@ -205,27 +205,28 @@
+       List<Object[]> list0 = DBUtil.query("Wnk@@:B.", jdbcConnection0);
+       assertEquals(0, list0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test12()  throws Throwable  {
+-      Result result0 = Result.newSetSavepointRequest("Wnk@@:B.");
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      result0.add((Object[]) null);
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      Class<DBCheckConstraint> class0 = DBCheckConstraint.class;
+-      // Undeclared exception!
+-      try { 
+-        DBUtil.queryScalarArray("%", class0, (Connection) jdbcConnection0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.hsqldb.jdbc.jdbcResultSet", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test12() throws Throwable {
++        Result result0 = Result.newSetSavepointRequest("Wnk@@:B.");
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        org.mockito.stubbing.OngoingStubbing<Result> stub = doReturn(result0).when(session0)
++                .execute(any(org.hsqldb.Result.class));
++        assertNotNull(stub);
++        result0.add((Object[]) null);
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++        Class<DBCheckConstraint> class0 = DBCheckConstraint.class;
++        // Undeclared exception!
++        try {
++            DBUtil.queryScalarArray("%", class0, (Connection) jdbcConnection0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            //
++            // no message in exception (getMessage() returned null)
++            //
++            verifyException("org.hsqldb.jdbc.jdbcResultSet", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test13()  throws Throwable  {

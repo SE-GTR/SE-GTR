@@ -1,0 +1,43 @@
+--- a/evosuite-tests/framework/persistence/jdbc/ComponentHelper_ESTest.java
++++ b/evosuite-tests/framework/persistence/jdbc/ComponentHelper_ESTest.java
+@@ -17,24 +17,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ComponentHelper_ESTest extends ComponentHelper_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Hashtable<ComponentHelper, Object> hashtable0 = new Hashtable<ComponentHelper, Object>();
+-      ComponentHelper componentHelper0 = new ComponentHelper();
+-      Object object0 = new Object();
+-      hashtable0.put(componentHelper0, object0);
+-      try { 
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    Hashtable<ComponentHelper, Object> hashtable0 = new Hashtable<ComponentHelper, Object>();
++    ComponentHelper componentHelper0 = new ComponentHelper();
++    Object object0 = new Object();
++    Object previous = hashtable0.put(componentHelper0, object0);
++    assertNull(previous);
++    try {
+         ComponentHelper.populate((ResultSet) null, hashtable0, object0);
+         fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.lang.Object cannot be cast to framework.persistence.jdbc.Attribute
+-         //
+-         verifyException("framework.persistence.jdbc.ComponentHelper", e);
+-      }
+-  }
++    } catch (ClassCastException e) {
++        //
++        // java.lang.Object cannot be cast to framework.persistence.jdbc.Attribute
++        //
++        verifyException("framework.persistence.jdbc.ComponentHelper", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

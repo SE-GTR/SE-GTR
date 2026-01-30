@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/module/metadata/MetadataDAO_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/MetadataDAO_ESTest.java
+@@ -80,25 +80,14 @@
+     MetadataDAO metadataDAO0 = new MetadataDAO();
+     metadataDAO0.savePublication("01001", "YysXAh2S0>~2Ba2Gq", null, sQLServerConnection0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      MetadataDAO metadataDAO0 = new MetadataDAO();
+-      Set<String> set0 = Calendar.getAvailableCalendarTypes();
+-      SQLServerConnection sQLServerConnection0 = new SQLServerConnection();
+-      // Undeclared exception!
+-      try { 
+-        metadataDAO0.deleteForeignKeyRecordsNotInSet("%o<[TV}3s^", "%o<[TV}3s^", "t5!JZITQr$=mg@,TZ", "%o<[TV}3s^", set0, sQLServerConnection0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.microsoft.jdbc.base.BaseConnection", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test06() throws Throwable {
++        MetadataDAO metadataDAO0 = new MetadataDAO();
++        Set<String> set0 = new java.util.HashSet<>();
++        // Invoke with a null connection to verify that the method fails as expected
++        metadataDAO0.deleteForeignKeyRecordsNotInSet("table", "fkField", "excludeField", "fkValue", set0, null);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

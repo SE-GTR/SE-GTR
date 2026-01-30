@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPInstance_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SAPInstance_ESTest.java
+@@ -148,18 +148,22 @@
+     assertTrue(sAPInstance0.equals((Object) sAPInstance1));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      SAPInstance sAPInstance0 = new SAPInstance();
+-      SAPInstance sAPInstance1 = new SAPInstance();
+-      assertTrue(sAPInstance1.equals((Object)sAPInstance0));
+-      
+-      sAPInstance1.setStartPriority("urn:SAPControl");
+-      boolean boolean0 = sAPInstance0.equals(sAPInstance1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    SAPInstance sAPInstance0 = new SAPInstance();
++    SAPInstance sAPInstance1 = new SAPInstance();
++    assertTrue(sAPInstance1.equals((Object) sAPInstance0));
++
++    // Verify that setStartPriority actually changes the startPriority field
++    String before = sAPInstance1.getStartPriority();
++    sAPInstance1.setStartPriority("urn:SAPControl");
++    assertEquals("urn:SAPControl", sAPInstance1.getStartPriority());
++    assertNotEquals(before, sAPInstance1.getStartPriority());
++
++    boolean boolean0 = sAPInstance0.equals(sAPInstance1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -303,19 +303,31 @@
+          verifyException("org.jsecurity.authz.SimpleAuthorizingAccount", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      LinkedList<Permission> linkedList0 = new LinkedList<Permission>();
+-      WildcardPermissionResolver wildcardPermissionResolver0 = new WildcardPermissionResolver();
+-      Permission permission0 = wildcardPermissionResolver0.resolvePermission("org.jsecurity.authc.credential.Sha512CredentialsMatcher");
+-      linkedList0.addFirst(permission0);
+-      SimpleAuthorizationInfo simpleAuthorizationInfo0 = new SimpleAuthorizationInfo();
+-      simpleAuthorizationInfo0.addObjectPermissions(linkedList0);
+-      boolean boolean0 = simpleAccountRealm0.isPermittedAll((Collection<Permission>) linkedList0, (AuthorizationInfo) simpleAuthorizationInfo0);
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test23() throws Throwable {
++    SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
++    LinkedList<Permission> linkedList0 = new LinkedList<Permission>();
++    assertTrue(linkedList0.isEmpty());
++
++    WildcardPermissionResolver wildcardPermissionResolver0 = new WildcardPermissionResolver();
++    Permission permission0 = wildcardPermissionResolver0.resolvePermission("org.jsecurity.authc.credential.Sha512CredentialsMatcher");
++
++    linkedList0.addFirst(permission0);
++    assertEquals(1, linkedList0.size());
++    assertSame(permission0, linkedList0.getFirst());
++
++    SimpleAuthorizationInfo simpleAuthorizationInfo0 = new SimpleAuthorizationInfo();
++    int before = simpleAuthorizationInfo0.getObjectPermissions() == null ? 0 : simpleAuthorizationInfo0.getObjectPermissions().size();
++
++    simpleAuthorizationInfo0.addObjectPermissions(linkedList0);
++    int after = simpleAuthorizationInfo0.getObjectPermissions().size();
++    assertEquals(before + linkedList0.size(), after);
++    assertTrue(simpleAuthorizationInfo0.getObjectPermissions().contains(permission0));
++
++    boolean boolean0 = simpleAccountRealm0.isPermittedAll((Collection<Permission>) linkedList0, (AuthorizationInfo) simpleAuthorizationInfo0);
++    assertTrue(boolean0);
++}
++
+ @Test(timeout = 4000)
+ public void test24() throws Throwable {
+     SimpleAccountRealm realm = new SimpleAccountRealm();

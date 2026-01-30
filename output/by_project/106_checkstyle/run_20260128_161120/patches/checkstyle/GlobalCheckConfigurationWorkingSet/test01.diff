@@ -1,0 +1,48 @@
+--- a/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/GlobalCheckConfigurationWorkingSet_ESTest.java
++++ b/evosuite-tests/com/atlassw/tools/eclipse/checkstyle/config/GlobalCheckConfigurationWorkingSet_ESTest.java
+@@ -48,22 +48,29 @@
+          verifyException("com.atlassw.tools.eclipse.checkstyle.util.CheckstylePluginException", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      ArrayList<FileSet> arrayList0 = new ArrayList<FileSet>();
+-      ExternalFileConfigurationType externalFileConfigurationType0 = new ExternalFileConfigurationType();
+-      CheckConfiguration checkConfiguration0 = new CheckConfiguration("property", "?MM>.K=77_opZ4>z1lh", "property", externalFileConfigurationType0, false, arrayList0, (Map) null);
+-      GlobalCheckConfigurationWorkingSet globalCheckConfigurationWorkingSet0 = new GlobalCheckConfigurationWorkingSet(arrayList0, checkConfiguration0);
+-      CheckConfigurationWorkingCopy checkConfigurationWorkingCopy0 = globalCheckConfigurationWorkingSet0.newWorkingCopy((IConfigurationType) externalFileConfigurationType0);
+-      checkConfigurationWorkingCopy0.setName("+WDupo4=ifP");
+-      LinkedList<Object> linkedList0 = new LinkedList<Object>();
+-      linkedList0.add((Object) checkConfigurationWorkingCopy0);
+-      GlobalCheckConfigurationWorkingSet globalCheckConfigurationWorkingSet1 = new GlobalCheckConfigurationWorkingSet(linkedList0, checkConfiguration0);
+-      boolean boolean0 = globalCheckConfigurationWorkingSet1.isNameCollision(checkConfigurationWorkingCopy0);
+-      assertTrue(boolean0);
+-      assertTrue(checkConfigurationWorkingCopy0.isGlobal());
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    ArrayList<FileSet> arrayList0 = new ArrayList<FileSet>();
++    ExternalFileConfigurationType externalFileConfigurationType0 = new ExternalFileConfigurationType();
++    CheckConfiguration checkConfiguration0 = new CheckConfiguration("property", "?MM>.K=77_opZ4>z1lh", "property", externalFileConfigurationType0, false, arrayList0, (Map) null);
++    GlobalCheckConfigurationWorkingSet globalCheckConfigurationWorkingSet0 = new GlobalCheckConfigurationWorkingSet(arrayList0, checkConfiguration0);
++    CheckConfigurationWorkingCopy checkConfigurationWorkingCopy0 = globalCheckConfigurationWorkingSet0.newWorkingCopy((IConfigurationType) externalFileConfigurationType0);
++
++    // Verify that setName correctly updates the configuration's name
++    String newName = "testName";
++    checkConfigurationWorkingCopy0.setName(newName);
++    assertEquals(newName, checkConfigurationWorkingCopy0.getName());
++
++    LinkedList<Object> linkedList0 = new LinkedList<Object>();
++    boolean added = linkedList0.add((Object) checkConfigurationWorkingCopy0);
++    assertTrue(added);
++
++    GlobalCheckConfigurationWorkingSet globalCheckConfigurationWorkingSet1 = new GlobalCheckConfigurationWorkingSet(linkedList0, checkConfiguration0);
++    boolean boolean0 = globalCheckConfigurationWorkingSet1.isNameCollision(checkConfigurationWorkingCopy0);
++    assertTrue(boolean0);
++    assertTrue(checkConfigurationWorkingCopy0.isGlobal());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

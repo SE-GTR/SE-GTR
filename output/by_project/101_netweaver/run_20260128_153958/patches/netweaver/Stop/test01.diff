@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Stop_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Stop_ESTest.java
+@@ -30,17 +30,25 @@
+     int hash = stop0.hashCode();
+     assertEquals(hash, stop0.hashCode());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      Stop stop0 = new Stop();
+-      Application[] applicationArray0 = new Application[1];
+-      Application application0 = new Application();
+-      applicationArray0[0] = application0;
+-      stop0.setApps(applicationArray0);
+-      stop0.hashCode();
+-  }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        Stop stop0 = new Stop();
++        int hashBefore = stop0.hashCode();
++
++        Application[] applicationArray0 = new Application[1];
++        Application application0 = new Application();
++        applicationArray0[0] = application0;
++
++        stop0.setApps(applicationArray0);
++
++        // Verify that the apps were set correctly
++        assertArrayEquals("Apps array should be stored in Stop", applicationArray0, stop0.getApps());
++
++        int hashAfter = stop0.hashCode();
++        // The hash code should reflect the changed state
++        assertNotEquals("Hash code should change after setting apps", hashBefore, hashAfter);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

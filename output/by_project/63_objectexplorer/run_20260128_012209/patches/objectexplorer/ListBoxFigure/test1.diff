@@ -1,0 +1,39 @@
+--- a/evosuite-tests/de/paragon/explorer/figure/ListBoxFigure_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/figure/ListBoxFigure_ESTest.java
+@@ -50,17 +50,27 @@
+       TextBoxFigure textBoxFigure1 = (TextBoxFigure)explorerFieldListBoxFigure0.getTextBoxFigureForPoint(point0);
+       assertEquals("", textBoxFigure1.getText());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     explorerFieldListBoxFigure0 = new ExplorerFieldListBoxFigure();
+     textBoxFigure0 = new TextBoxFigure();
+-      textBoxFigure0.setVisible();
+-      explorerFieldListBoxFigure0.add(textBoxFigure0);
+-      Point point0 = new Point();
+-      Figure figure0 = explorerFieldListBoxFigure0.getTextBoxFigureForPoint(point0);
+-      assertNull(figure0);
+-  }
++
++    // verify initial visibility state (expected false)
++    assertFalse(textBoxFigure0.isVisible());
++
++    // exercise setVisible and assert its effect
++    textBoxFigure0.setVisible();
++    assertTrue(textBoxFigure0.isVisible());
++
++    // add the figure to the list box and assert that it is now contained
++    explorerFieldListBoxFigure0.add(textBoxFigure0);
++    assertTrue(explorerFieldListBoxFigure0.getChildren().contains(textBoxFigure0));
++
++    Point point0 = new Point();
++    Figure figure0 = explorerFieldListBoxFigure0.getTextBoxFigureForPoint(point0);
++    assertNull(figure0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

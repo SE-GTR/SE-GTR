@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/databene/jdbacl/ResultSetIterator_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/ResultSetIterator_ESTest.java
+@@ -35,24 +35,20 @@
+       ResultSet resultSet0 = resultSetIterator0.next();
+       assertSame(resultSet0, errorMessages0);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        SimpleResultSet simpleResultSet0 = new SimpleResultSet();
++        ResultSetIterator resultSetIterator0 = new ResultSetIterator(simpleResultSet0);
++        boolean hasNext = resultSetIterator0.hasNext();
++        assertFalse(hasNext);
++        try {
++            resultSetIterator0.next();
++            fail("Expecting exception: IllegalStateException");
++        } catch (IllegalStateException e) {
++            verifyException("org.databene.jdbacl.ResultSetIterator", e);
++        }
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      SimpleResultSet simpleResultSet0 = new SimpleResultSet();
+-      ResultSetIterator resultSetIterator0 = new ResultSetIterator(simpleResultSet0);
+-      resultSetIterator0.hasNext();
+-      // Undeclared exception!
+-      try { 
+-        resultSetIterator0.next();
+-        fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // No more row available. Use hasNext() for checking availability.
+-         //
+-         verifyException("org.databene.jdbacl.ResultSetIterator", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/hf/sfm/util/BasePara_ESTest.java
++++ b/evosuite-tests/com/hf/sfm/util/BasePara_ESTest.java
+@@ -75,15 +75,23 @@
+         String groupsql = basePara0.getGroupsql();
+         assertNull(groupsql);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      BasePara basePara0 = new BasePara();
+-      basePara0.setStart(0);
+-      assertEquals(0, basePara0.getStart());
+-      assertFalse(basePara0.isPaging());
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        BasePara basePara0 = new BasePara();
++        // Capture the initial paging state
++        boolean initialPaging = basePara0.isPaging();
++
++        // Set start to 0 and verify the value and that paging state is unchanged
++        basePara0.setStart(0);
++        assertEquals(0, basePara0.getStart());
++        assertEquals(initialPaging, basePara0.isPaging());
++
++        // Change start to a different value and verify the new value and paging state
++        basePara0.setStart(5);
++        assertEquals(5, basePara0.getStart());
++        assertEquals(initialPaging, basePara0.isPaging());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

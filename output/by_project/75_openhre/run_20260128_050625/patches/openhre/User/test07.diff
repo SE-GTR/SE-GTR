@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/User_ESTest.java
+@@ -112,15 +112,19 @@
+       assertEquals("dn: cn=, o=, c=\ncn: \nid: \nsn: \nuserPassword: \nip: \nobjectClass: top\nobjectClass: person\n", string0);
+       assertFalse(user0.getPasschange());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-    user0 = new User();
+-      user0.addGroup("r|e&)]5_\".B[3`@8-IY");
+-      String string0 = user0.toString();
+-      assertFalse(user0.getPasschange());
+-      assertEquals("dn: cn=, o=, c=\ncn: \nid: \nsn: \nuserPassword: \ngroup: r|e&)]5_\".B[3`@8-IY\nobjectClass: top\nobjectClass: person\n", string0);
+-  }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        user0 = new User();
++        int beforeSize = (user0.getGroups() == null) ? 0 : user0.getGroups().size();
++        user0.addGroup("r|e&)]5_\".B[3`@8-IY");
++        String string0 = user0.toString();
++        assertFalse(user0.getPasschange());
++        assertEquals("dn: cn=, o=, c=\ncn: \nid: \nsn: \nuserPassword: \ngroup: r|e&)]5_\".B[3`@8-IY\nobjectClass: top\nobjectClass: person\n", string0);
++        assertNotNull(user0.getGroups());
++        assertEquals(beforeSize + 1, user0.getGroups().size());
++        assertTrue(user0.getGroups().contains("r|e&)]5_\".B[3`@8-IY"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

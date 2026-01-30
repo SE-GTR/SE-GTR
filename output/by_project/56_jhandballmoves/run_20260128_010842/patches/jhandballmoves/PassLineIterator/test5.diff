@@ -1,0 +1,33 @@
+--- a/evosuite-tests/visu/handball/moves/model/animation/PassLineIterator_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/animation/PassLineIterator_ESTest.java
+@@ -83,17 +83,21 @@
+     passEvent0.setGoalPass(true);
+     new PassLineIterator(passEvent0);
+ }
++@Test(timeout = 4000)
++public void test5() throws Throwable {
++    Offender offender0 = new Offender(1, 1);
++    PassEvent passEvent0 = new PassEvent(offender0, 1, -1582);
++    passEvent0.setDestinationPlayer(offender0, false);
++    // Verify side‑effect of setDestinationPlayer
++    assertSame(offender0, passEvent0.getDestinationPlayer());
+ 
++    PassLineIterator passLineIterator0 = new PassLineIterator(passEvent0);
++    int windingRule = passLineIterator0.getWindingRule();
++    assertTrue(windingRule == java.awt.geom.PathIterator.WIND_EVEN_ODD ||
++               windingRule == java.awt.geom.PathIterator.WIND_NON_ZERO);
++    assertFalse(passLineIterator0.isDone());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      Offender offender0 = new Offender(1, 1);
+-      PassEvent passEvent0 = new PassEvent(offender0, 1, (-1582));
+-      passEvent0.setDestinationPlayer(offender0, false);
+-      PassLineIterator passLineIterator0 = new PassLineIterator(passEvent0);
+-      passLineIterator0.getWindingRule();
+-      assertFalse(passLineIterator0.isDone());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodWriter_ESTest.java
+@@ -370,20 +370,22 @@
+     byte[] after = classWriter0.toByteArray();
+     assertTrue("Class bytecode should grow after visitMultiANewArrayInsn", after.length > before.length);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
+-      ClassWriter classWriter0 = new ClassWriter(classReader0, 2);
+-      String[] stringArray0 = new String[4];
+-      stringArray0[0] = "";
+-      stringArray0[1] = "org.yasl.jars.JarFileFilter";
+-      stringArray0[2] = "org.yasl.jars.JarFileFilter";
+-      stringArray0[3] = "Exceptions";
+-      MethodWriter methodWriter0 = new MethodWriter(classWriter0, 8, "org.yasl.jars.JarFileFilter", "", "Exceptions", stringArray0, false, false);
+-      methodWriter0.visitMultiANewArrayInsn("Exceptions", 8);
+-  }
++@Test(timeout = 4000)
++    public void test26() throws Throwable {
++        ClassReader classReader0 = new ClassReader("org.yasl.jars.JarFileFilter");
++        ClassWriter classWriter0 = new ClassWriter(classReader0, 2);
++        String[] stringArray0 = new String[4];
++        stringArray0[0] = "";
++        stringArray0[1] = "org.yasl.jars.JarFileFilter";
++        stringArray0[2] = "org.yasl.jars.JarFileFilter";
++        stringArray0[3] = "Exceptions";
++        MethodWriter methodWriter0 = new MethodWriter(classWriter0, 8, "org.yasl.jars.JarFileFilter", "", "Exceptions", stringArray0, false, false);
++        int sizeBefore = classWriter0.toByteArray().length;
++        methodWriter0.visitMultiANewArrayInsn("Exceptions", 8);
++        int sizeAfter = classWriter0.toByteArray().length;
++        assertTrue("Class byte array size should increase after visitMultiANewArrayInsn", sizeAfter > sizeBefore);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

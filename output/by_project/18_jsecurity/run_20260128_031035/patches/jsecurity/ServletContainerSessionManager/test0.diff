@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jsecurity/web/session/ServletContainerSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/session/ServletContainerSessionManager_ESTest.java
+@@ -36,17 +36,20 @@
+     servletContainerSessionManager0 = new ServletContainerSessionManager();
+     httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+   }
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    doReturn((HttpSession) null).when(httpServletRequest0).getSession(anyBoolean());
++    // Verify that the stubbed getSession returns null as expected
++    HttpSession stubbedSession = httpServletRequest0.getSession(true);
++    assertNull(stubbedSession);
+ 
++    HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++    ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
++    ServletResponseWrapper servletResponseWrapper0 = new ServletResponseWrapper(servletResponse0);
++    Session session0 = servletContainerSessionManager0.getSession(httpServletRequestWrapper0, servletResponseWrapper0);
++    assertNull(session0);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      doReturn((HttpSession) null).when(httpServletRequest0).getSession(anyBoolean());
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
+-      ServletResponseWrapper servletResponseWrapper0 = new ServletResponseWrapper(servletResponse0);
+-      Session session0 = servletContainerSessionManager0.getSession(httpServletRequestWrapper0, servletResponseWrapper0);
+-      assertNull(session0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DatabaseDialect_ESTest.java
+@@ -92,20 +92,22 @@
+       assertTrue(h2Dialect0.isSequenceSupported());
+       assertEquals("insert into null () values ()", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      DBSchema dBSchema0 = new DBSchema("");
+-      DefaultDBTable defaultDBTable0 = new DefaultDBTable("", dBSchema0);
+-      DBCatalog dBCatalog0 = new DBCatalog();
+-      dBSchema0.setCatalog(dBCatalog0);
+-      ConstraintDescriptorList constraintDescriptorList0 = new ConstraintDescriptorList();
+-      H2Dialect h2Dialect0 = new H2Dialect();
+-      String string0 = h2Dialect0.insert(defaultDBTable0, constraintDescriptorList0);
+-      assertEquals("h2", h2Dialect0.getSystem());
+-      assertTrue(h2Dialect0.isSequenceSupported());
+-      assertEquals("insert into . () values ()", string0);
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        DBSchema dBSchema0 = new DBSchema("");
++        DefaultDBTable defaultDBTable0 = new DefaultDBTable("", dBSchema0);
++        DBCatalog dBCatalog0 = new DBCatalog();
++        dBSchema0.setCatalog(dBCatalog0);
++        // Verify that the catalog was correctly associated with the schema
++        assertSame("Catalog should be set on the schema", dBCatalog0, dBSchema0.getCatalog());
++        ConstraintDescriptorList constraintDescriptorList0 = new ConstraintDescriptorList();
++        H2Dialect h2Dialect0 = new H2Dialect();
++        String string0 = h2Dialect0.insert(defaultDBTable0, constraintDescriptorList0);
++        assertEquals("h2", h2Dialect0.getSystem());
++        assertTrue(h2Dialect0.isSequenceSupported());
++        assertEquals("insert into . () values ()", string0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

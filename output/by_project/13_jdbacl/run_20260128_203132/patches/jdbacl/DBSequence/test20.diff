@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/DBSequence_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/DBSequence_ESTest.java
+@@ -186,14 +186,19 @@
+         DBSequence other = new DBSequence("other", "cat", "sch");
+         assertFalse(dBSequence0.equals(other));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-    dBSequence0 = new DBSequence("org.databene.jdbacl.model.DBSequence", (DBSchema) null);
+-      dBSequence0.setLastNumber((BigInteger) null);
+-      assertNull(dBSequence0.isCycle());
+-  }
++@Test(timeout = 4000)
++public void test20() throws Throwable {
++    DBSequence seq = new DBSequence("org.databene.jdbacl.model.DBSequence", (DBSchema) null);
++    // Verify the default lastNumber
++    assertEquals(BigInteger.ZERO, seq.getLastNumber());
++    // Change the lastNumber and verify the change
++    BigInteger newValue = new BigInteger("42");
++    seq.setLastNumber(newValue);
++    assertEquals(newValue, seq.getLastNumber());
++    // The cycle flag should still be null
++    assertNull(seq.isCycle());
++}
++
+ @Test(timeout = 4000)
+ public void test21() throws Throwable {
+     DBSequence dBSequence0 = new DBSequence("", "", "");

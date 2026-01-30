@@ -1,0 +1,33 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/detailziele/DetailzieleDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/detailziele/DetailzieleDaoService_ESTest.java
+@@ -190,23 +190,13 @@
+          verifyException("org.springframework.util.Assert", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    detailzieleIbatisDao0 = new DetailzieleIbatisDao();
+-    detailzieleDaoService0 = new DetailzieleDaoService(detailzieleIbatisDao0);
+-      // Undeclared exception!
+-      try { 
+-        detailzieleDaoService0.getAll((Integer) null);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = IllegalArgumentException.class)
++  public void test09() throws Throwable {
++    detailzieleIbatisDao0 = new DetailzieleIbatisDao();
++    detailzieleDaoService0 = new DetailzieleDaoService(detailzieleIbatisDao0);
++    detailzieleDaoService0.getAll((Integer) null);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

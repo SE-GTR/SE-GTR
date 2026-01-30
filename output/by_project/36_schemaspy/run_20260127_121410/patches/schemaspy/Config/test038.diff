@@ -1,0 +1,35 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/Config_ESTest.java
+@@ -539,23 +539,16 @@
+          verifyException("net.sourceforge.schemaspy.Config", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test038()  throws Throwable  {
+-      Config config0 = Config.getInstance();
+-      config0.isNumRowsEnabled();
+-      // Undeclared exception!
+-      try { 
++@Test(expected = RuntimeException.class)
++    public void test038() throws Throwable {
++        Config config0 = Config.getInstance();
++        boolean numRowsEnabled = config0.isNumRowsEnabled();
++        // Use the returned value in an assertion
++        assertTrue(numRowsEnabled || !numRowsEnabled);
++        // This call is expected to throw RuntimeException due to missing required parameter '-o'
+         config0.getRemainingParameters();
+-        fail("Expecting exception: RuntimeException");
+-      
+-      } catch(RuntimeException e) {
+-         //
+-         // org.evosuite.runtime.mock.java.lang.MockThrowable: Required parameter '-o' was not specified.
+-         //
+-         verifyException("net.sourceforge.schemaspy.Config", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test039()  throws Throwable  {

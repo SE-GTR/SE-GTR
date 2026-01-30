@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/AlertNode_ESTest.java
+@@ -58,18 +58,26 @@
+         assertTrue(alertNode0.equals(alertNode1));
+         assertTrue(alertNode1.equals(alertNode0));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      AlertNode alertNode0 = new AlertNode();
+-      AlertNode alertNode1 = new AlertNode();
+-      assertTrue(alertNode1.equals((Object)alertNode0));
+-      
+-      alertNode1.setTid("000");
+-      boolean boolean0 = alertNode0.equals(alertNode1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    AlertNode alertNode0 = new AlertNode();
++    AlertNode alertNode1 = new AlertNode();
++    assertTrue(alertNode1.equals((Object) alertNode0));
++
++    // Verify initial state before setting tid
++    assertNull(alertNode1.getTid());
++
++    // Act: set the tid
++    alertNode1.setTid("000");
++
++    // Assert side‑effect of setTid
++    assertEquals("000", alertNode1.getTid());
++
++    // Ensure that equality now reflects the changed state
++    boolean boolean0 = alertNode0.equals(alertNode1);
++    assertFalse(boolean0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

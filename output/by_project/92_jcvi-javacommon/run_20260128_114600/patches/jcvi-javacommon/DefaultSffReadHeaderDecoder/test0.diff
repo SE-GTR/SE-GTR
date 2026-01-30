@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/sff/DefaultSffReadHeaderDecoder_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/sff/DefaultSffReadHeaderDecoder_ESTest.java
+@@ -17,20 +17,11 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DefaultSffReadHeaderDecoder_ESTest extends DefaultSffReadHeaderDecoder_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() {
++        DefaultSffReadHeaderDecoder decoder = DefaultSffReadHeaderDecoder.INSTANCE;
++        ByteBuffer buffer = ByteBuffer.allocateDirect(1394);
++        assertThrows(IOException.class, () -> decoder.decodeReadHeader(buffer));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      DefaultSffReadHeaderDecoder defaultSffReadHeaderDecoder0 = DefaultSffReadHeaderDecoder.INSTANCE;
+-      ByteBuffer byteBuffer0 = ByteBuffer.allocateDirect(1394);
+-      try { 
+-        defaultSffReadHeaderDecoder0.decodeReadHeader(byteBuffer0);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // error trying to decode read header
+-         //
+-         verifyException("org.jcvi.jillion.trace.sff.DefaultSffReadHeaderDecoder", e);
+-      }
+-  }
+ }

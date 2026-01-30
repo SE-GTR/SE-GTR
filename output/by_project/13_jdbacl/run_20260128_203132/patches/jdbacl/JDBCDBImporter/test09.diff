@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/jdbc/JDBCDBImporter_ESTest.java
+@@ -127,14 +127,29 @@
+       assertTrue(jDBCDBImporter0.isImportingIndexes());
+       assertFalse(jDBCDBImporter0.isImportingPackages());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      JDBCDBImporter jDBCDBImporter0 = new JDBCDBImporter("org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact", "org.apache.derby.iapi.store.access.GlobalXact");
+-      jDBCDBImporter0.setIncludeTables("org.apache.derby.iapi.store.access.GlobalXact");
+-      assertTrue(jDBCDBImporter0.isImportingIndexes());
+-      assertFalse(jDBCDBImporter0.isImportingPackages());
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        JDBCDBImporter importer = new JDBCDBImporter(
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact",
++                "org.apache.derby.iapi.store.access.GlobalXact");
++        // valid include tables pattern
++        importer.setIncludeTables("org.apache.derby.iapi.store.access.GlobalXact");
++        assertTrue(importer.isImportingIndexes());
++        assertFalse(importer.isImportingPackages());
++
++        // verify that an invalid pattern triggers a PatternSyntaxException
++        try {
++            importer.setIncludeTables("(");
++            org.junit.Assert.fail("Expected PatternSyntaxException");
++        } catch (java.util.regex.PatternSyntaxException e) {
++            // expected exception
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

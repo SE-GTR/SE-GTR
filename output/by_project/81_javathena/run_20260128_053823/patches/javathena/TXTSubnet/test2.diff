@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/character/data/subnet/TXTSubnet_ESTest.java
++++ b/evosuite-tests/org/character/data/subnet/TXTSubnet_ESTest.java
+@@ -54,22 +54,19 @@
+     fastTable0 = tXTSubnet0.load();
+       assertNull(fastTable0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      fastTable0.add((Subnet) null);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    boolean added = fastTable0.add((Subnet) null);
++    assertTrue(added);
++    try {
+         tXTSubnet0.save(fastTable0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.character.data.subnet.TXTSubnet", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        // no message in exception (getMessage() returned null)
++        verifyException("org.character.data.subnet.TXTSubnet", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

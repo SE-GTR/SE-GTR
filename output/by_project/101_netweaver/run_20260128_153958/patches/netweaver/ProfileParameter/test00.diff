@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
+@@ -20,15 +20,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ProfileParameter_ESTest extends ProfileParameter_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      ProfileParameter profileParameter0 = new ProfileParameter();
+-      String[] stringArray0 = new String[4];
+-      stringArray0[0] = "d";
+-      profileParameter0.setDynamicValues(stringArray0);
+-      profileParameter0.hashCode();
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        ProfileParameter profileParameter0 = new ProfileParameter();
++        String[] stringArray0 = new String[4];
++        stringArray0[0] = "d";
++
++        int hashBefore = profileParameter0.hashCode();
++        profileParameter0.setDynamicValues(stringArray0);
++        int hashAfter = profileParameter0.hashCode();
++
++        // Verify that setting dynamic values has an observable effect on hashCode
++        assertTrue("hashCode should change after setting dynamic values", hashBefore != hashAfter);
++        // Verify the hashCode is stable after the change
++        assertEquals(hashAfter, profileParameter0.hashCode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

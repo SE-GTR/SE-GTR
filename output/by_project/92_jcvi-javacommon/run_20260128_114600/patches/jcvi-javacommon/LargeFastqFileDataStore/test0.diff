@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/LargeFastqFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/LargeFastqFileDataStore_ESTest.java
+@@ -32,19 +32,20 @@
+     mockFile0 = new MockFile("could not find ");
+     fastqQualityCodec0 = FastqQualityCodec.SOLEXA;
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        mockFile0 = new MockFile("could not find ");
++        fastqQualityCodec0 = FastqQualityCodec.SOLEXA;
++        boolean mkdirResult = mockFile0.mkdirs();
++        assertTrue(mkdirResult);
++        DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
++        boolean stubResult = doReturn(false).when(dataStoreFilter0).accept(anyString());
++        assertFalse(stubResult);
++        FastqDataStore fastqDataStore0 = LargeFastqFileDataStore.create((File) mockFile0, dataStoreFilter0, fastqQualityCodec0);
++        FastqRecord fastqRecord0 = ((LargeFastqFileDataStore) fastqDataStore0).get("`!-9oP");
++        assertNull(fastqRecord0);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-    mockFile0 = new MockFile("could not find ");
+-    fastqQualityCodec0 = FastqQualityCodec.SOLEXA;
+-      mockFile0.mkdirs();
+-      DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(dataStoreFilter0).accept(anyString());
+-      FastqDataStore fastqDataStore0 = LargeFastqFileDataStore.create((File) mockFile0, dataStoreFilter0, fastqQualityCodec0);
+-      FastqRecord fastqRecord0 = ((LargeFastqFileDataStore) fastqDataStore0).get("`!-9oP");
+-      assertNull(fastqRecord0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

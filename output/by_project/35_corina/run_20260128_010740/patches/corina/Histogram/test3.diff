@@ -1,0 +1,33 @@
+--- a/evosuite-tests/corina/cross/Histogram_ESTest.java
++++ b/evosuite-tests/corina/cross/Histogram_ESTest.java
+@@ -49,14 +49,23 @@
+       assertEquals(30, histogram0.getNumberOfBuckets());
+       assertEquals(14, int0);
+   }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        float[] floatArray0 = new float[1];
++        floatArray0[0] = Float.NEGATIVE_INFINITY;
++        Histogram histogram0 = new Histogram(floatArray0, ".CLASS");
++        // Verify that the number of buckets is the expected constant.
++        assertEquals(30, histogram0.getNumberOfBuckets());
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      float[] floatArray0 = new float[1];
+-      floatArray0[0] = Float.NEGATIVE_INFINITY;
+-      Histogram histogram0 = new Histogram(floatArray0, ".CLASS");
+-      assertEquals(30, histogram0.getNumberOfBuckets());
+-  }
++        // Construct another histogram with different data and ensure the bucket count
++        // remains consistent, demonstrating that the bucket count is independent of the
++        // input values.
++        float[] floatArray1 = new float[1];
++        floatArray1[0] = 1.0f;
++        Histogram histogram1 = new Histogram(floatArray1, ".CLASS");
++        assertEquals(histogram0.getNumberOfBuckets(), histogram1.getNumberOfBuckets());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

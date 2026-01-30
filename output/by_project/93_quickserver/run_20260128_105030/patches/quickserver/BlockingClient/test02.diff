@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/BlockingClient_ESTest.java
+@@ -45,14 +45,17 @@
+       byte[] byteArray1 = BlockingClient.readInputStream((InputStream) byteArrayInputStream0);
+       assertNull(byteArray1);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test02() throws Throwable {
+       byte[] byteArray0 = new byte[2];
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0, (byte)0, (byte)12);
+-      BlockingClient.readInputStream((InputStream) byteArrayInputStream0);
++      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0, (byte) 0, (byte) 12);
++      byte[] result = BlockingClient.readInputStream((InputStream) byteArrayInputStream0);
++      assertNotNull(result);
++      assertEquals(2, result.length);
++      assertArrayEquals(byteArray0, result);
+       assertEquals(0, byteArrayInputStream0.available());
+   }
++
+ @Test(timeout = 4000)
+     public void test03() throws Throwable {
+         byte[] expected = new byte[] {10, 20, 30, 40, 50};

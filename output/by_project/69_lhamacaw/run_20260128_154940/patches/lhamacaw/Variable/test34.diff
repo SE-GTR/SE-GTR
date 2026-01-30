@@ -1,0 +1,33 @@
+--- a/evosuite-tests/macaw/businessLayer/Variable_ESTest.java
++++ b/evosuite-tests/macaw/businessLayer/Variable_ESTest.java
+@@ -445,14 +445,19 @@
+       assertEquals("0", rawVariable0.getDisplayItemIdentifier());
+       assertFalse(rawVariable0.isNewRecord());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test34() throws Throwable {
+       DerivedVariable derivedVariable0 = new DerivedVariable();
+       SupportingDocument supportingDocument0 = new SupportingDocument();
+       derivedVariable0.addSupportingDocument(supportingDocument0);
++      // Verify that the document was added
++      assertTrue(derivedVariable0.containsSupportingDocument(supportingDocument0));
++
+       SupportingDocument supportingDocument1 = new SupportingDocument();
++      // Observe the side‑effect of setIdentifier
+       supportingDocument1.setIdentifier(15);
++      assertEquals(15, supportingDocument1.getIdentifier());
++
+       boolean boolean0 = derivedVariable0.containsSupportingDocument(supportingDocument1);
+       assertFalse(derivedVariable0.isCleaned());
+       assertFalse(boolean0);
+@@ -460,6 +465,7 @@
+       assertEquals(0, derivedVariable0.getIdentifier());
+       assertFalse(derivedVariable0.isCoded());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test35()  throws Throwable  {

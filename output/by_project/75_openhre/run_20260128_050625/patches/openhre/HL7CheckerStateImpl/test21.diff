@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerStateImpl_ESTest.java
++++ b/evosuite-tests/com/browsersoft/openhre/hl7/impl/parser/HL7CheckerStateImpl_ESTest.java
+@@ -345,17 +345,23 @@
+     // Verify that the field length remains at its initial value after beginning a sub-component
+     assertEquals(0, state.getActualFieldLength());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();
+-      hL7CheckerStateImpl0.setSeriousError(false);
+-      assertEquals(0, hL7CheckerStateImpl0.getActualDataTypePartsPossition());
+-      assertEquals(0, hL7CheckerStateImpl0.getActualFieldLength());
+-      assertEquals(0, hL7CheckerStateImpl0.getActualDataTypeSubPartsPossition());
+-      assertFalse(hL7CheckerStateImpl0.isSeriousError());
+-  }
++@Test(timeout = 4000)
++public void test21() throws Throwable {
++    HL7CheckerStateImpl state = new HL7CheckerStateImpl();
++    // Verify initial seriousError flag is false
++    assertFalse(state.isSeriousError());
++    // Explicitly set to false and verify
++    state.setSeriousError(false);
++    assertFalse(state.isSeriousError());
++    // Verify default positions and length
++    assertEquals(0, state.getActualDataTypePartsPossition());
++    assertEquals(0, state.getActualFieldLength());
++    assertEquals(0, state.getActualDataTypeSubPartsPossition());
++    // Change seriousError to true and verify side effect
++    state.setSeriousError(true);
++    assertTrue(state.isSeriousError());
++}
++
+ @Test(timeout = 4000, expected = NullPointerException.class)
+     public void test22() throws Throwable {
+         HL7CheckerStateImpl hL7CheckerStateImpl0 = new HL7CheckerStateImpl();

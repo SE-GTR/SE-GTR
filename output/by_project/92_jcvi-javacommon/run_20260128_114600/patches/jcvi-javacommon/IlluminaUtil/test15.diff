@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/jcvi/jillion/trace/fastq/IlluminaUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/trace/fastq/IlluminaUtil_ESTest.java
+@@ -240,21 +240,14 @@
+          verifyException("org.jcvi.jillion.trace.fastq.IlluminaUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test15()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        IlluminaUtil.getFlowcellId((String) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.trace.fastq.IlluminaUtil", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test15() throws Throwable {
++        // Provide a valid Illumina read identifier and verify that a flowcell ID is returned.
++        String readId = "HWUSI-EAS100R:6:73:941:1973#0/1";
++        String flowcellId = IlluminaUtil.getFlowcellId(readId);
++        assertNotNull("Flowcell ID should not be null for a valid read identifier", flowcellId);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test16()  throws Throwable  {

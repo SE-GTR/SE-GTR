@@ -1,0 +1,39 @@
+--- a/evosuite-tests/common/GameModel_ESTest.java
++++ b/evosuite-tests/common/GameModel_ESTest.java
+@@ -49,18 +49,26 @@
+     int int0 = gameModel0.checkForWinner();
+     assertEquals(-1, int0);
+ }
++@Test(timeout = 4000)
++    public void test03() throws Throwable {
++        Point point0 = new Point();
++        GameModel gameModel0 = new GameModel();
++        ClientPlayer clientPlayer0 = new ClientPlayer(point0, 0);
++        clientPlayer0.die();
+ 
++        // Verify that adding a game object does not unintentionally modify the model's time
++        long timeBeforeAdd = gameModel0.getTime();
++        gameModel0.addGameObject(0, clientPlayer0);
++        assertEquals(timeBeforeAdd, gameModel0.getTime());
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      Point point0 = new Point();
+-      GameModel gameModel0 = new GameModel();
+-      ClientPlayer clientPlayer0 = new ClientPlayer(point0, 0);
+-      clientPlayer0.die();
+-      gameModel0.addGameObject(0, clientPlayer0);
+-      gameModel0.update();
+-      assertEquals(360000L, gameModel0.getTime());
+-  }
++        // Verify that update changes the model's time as expected
++        long timeBeforeUpdate = gameModel0.getTime();
++        gameModel0.update();
++        long timeAfterUpdate = gameModel0.getTime();
++        assertTrue(timeAfterUpdate >= timeBeforeUpdate);
++        assertEquals(360000L, timeAfterUpdate);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

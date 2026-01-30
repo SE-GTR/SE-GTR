@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -91,16 +91,22 @@
+         assertEquals(0, enqLock0.getUseCountOwner());
+         assertEquals(0, enqLock0.getUseCountOwnerVb());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
+-      enqLock0.setLockMode("Could not instantiate class [");
+-      enqLock0.hashCode();
+-      assertEquals(0, enqLock0.getUseCountOwner());
+-      assertEquals(0, enqLock0.getUseCountOwnerVb());
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        EnqLock enqLock0 = new EnqLock();
++        String mode = "Could not instantiate class [";
++        enqLock0.setLockMode(mode);
++        // Verify that the lock mode was set correctly
++        assertEquals(mode, enqLock0.getLockMode());
++        // Verify hashCode behavior (return value is observed)
++        int hash1 = enqLock0.hashCode();
++        int hash2 = enqLock0.hashCode();
++        assertEquals(hash1, hash2);
++        // Existing assertions
++        assertEquals(0, enqLock0.getUseCountOwner());
++        assertEquals(0, enqLock0.getUseCountOwnerVb());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/ib/client/Util_ESTest.java
++++ b/evosuite-tests/com/ib/client/Util_ESTest.java
+@@ -40,26 +40,23 @@
+       String string0 = Util.IntMaxString(18);
+       assertEquals("18", string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      Vector<Object> vector0 = new Vector<Object>();
+-      Object object0 = new Object();
+-      vector0.add(object0);
+-      vector0.add((Object) null);
+-      Vector<Object> vector1 = new Vector<Object>(vector0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    Vector<Object> vector0 = new Vector<Object>();
++    Object object0 = new Object();
++    boolean addedObject = vector0.add(object0);
++    assertTrue(addedObject);
++    boolean addedNull = vector0.add((Object) null);
++    assertTrue(addedNull);
++    Vector<Object> vector1 = new Vector<Object>(vector0);
++    try {
+         Util.VectorEqualsUnordered(vector1, vector0);
+         fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("com.ib.client.Util", e);
+-      }
+-  }
++    } catch (NullPointerException e) {
++        verifyException("com.ib.client.Util", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/io/IOUtil_ESTest.java
+@@ -268,22 +268,16 @@
+          verifyException("org.jcvi.jillion.core.io.IOUtil", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      byte[] byteArray0 = new byte[0];
+-      ByteArrayInputStream byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      try { 
+-        IOUtil.blockingSkip(byteArrayInputStream0, 56L);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // end of file reached before entire block was skipped
+-         //
+-         verifyException("org.jcvi.jillion.core.io.IOUtil", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test25() throws Throwable {
++    byte[] empty = new byte[0];
++    ByteArrayInputStream in = new ByteArrayInputStream(empty);
++    // Skipping zero bytes should complete without throwing an exception.
++    IOUtil.blockingSkip(in, 0L);
++    // Verify that the stream remains at EOF.
++    assertEquals(0, in.available());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test26()  throws Throwable  {

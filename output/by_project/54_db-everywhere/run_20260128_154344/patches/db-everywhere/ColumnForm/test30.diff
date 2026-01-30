@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/form/ColumnForm_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/form/ColumnForm_ESTest.java
+@@ -280,14 +280,20 @@
+     assertTrue(representation.contains(defaultVal));
+ }
+ @Test(timeout = 4000)
+-    public void test30() throws Throwable {
+-        ColumnForm columnForm0 = new ColumnForm();
+-        columnForm0.setMode("edit");
+-        String description = columnForm0.toString();
+-        assertTrue(description.contains("edit"));
+-        assertEquals(0, columnForm0.getDec());
+-        assertEquals(0, columnForm0.getLen());
+-    }
++public void test30() throws Throwable {
++    ColumnForm columnForm0 = new ColumnForm();
++    String initial = columnForm0.toString();
++    columnForm0.setMode("edit");
++    String afterEdit = columnForm0.toString();
++    assertFalse(initial.equals(afterEdit));
++    assertTrue(afterEdit.contains("edit"));
++    columnForm0.setMode("view");
++    String afterView = columnForm0.toString();
++    assertTrue(afterView.contains("view"));
++    assertEquals(0, columnForm0.getDec());
++    assertEquals(0, columnForm0.getLen());
++}
++
+ 
+ public void test31() throws Throwable {
+     ColumnForm columnForm0 = new ColumnForm();

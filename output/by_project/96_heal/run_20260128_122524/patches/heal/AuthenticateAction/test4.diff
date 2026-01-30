@@ -1,0 +1,57 @@
+--- a/evosuite-tests/org/heal/servlet/AuthenticateAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/AuthenticateAction_ESTest.java
+@@ -107,29 +107,33 @@
+     verify(httpServletRequest0, atLeastOnce()).getParameter(anyString());
+     verify(httpServletRequest0).getSession();
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        // Arrange
++        AuthenticateAction action = new AuthenticateAction();
++        Servlet servlet = mock(Servlet.class);
++        ServletContext servletContext = mock(ServletContext.class);
++        when(servlet.getServletContext()).thenReturn(servletContext);
++        when(servletContext.getRealPath(anyString())).thenReturn("/tmp");
+ 
++        HttpSession session = mock(HttpSession.class);
++        HttpServletRequest request = mock(HttpServletRequest.class);
++        HttpServletResponse response = mock(HttpServletResponse.class);
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    authenticateAction0 = new AuthenticateAction();
+-    servlet0 = new Servlet();
+-    httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-    httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null, (String) null, (String) null).when(httpServletRequest0).getParameter(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      // Undeclared exception!
+-      try { 
+-        authenticateAction0.perform(servlet0, httpServletRequestWrapper0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.AuthenticateAction", e);
+-      }
+-  }
++        // Provide non‑null request parameters expected by the action
++        when(request.getParameter(anyString())).thenReturn("value");
++        when(request.getSession()).thenReturn(session);
++
++        HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(request);
++
++        // Act
++        action.perform(servlet, wrapper, response);
++
++        // Assert – verify that the request was used and no exception was thrown
++        verify(request, atLeastOnce()).getParameter(anyString());
++        verify(request, atLeastOnce()).getSession();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

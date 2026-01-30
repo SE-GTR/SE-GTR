@@ -1,0 +1,37 @@
+--- a/evosuite-tests/nu/staldal/lagoon/filestorage/LocalFileStorage_ESTest.java
++++ b/evosuite-tests/nu/staldal/lagoon/filestorage/LocalFileStorage_ESTest.java
+@@ -91,14 +91,26 @@
+     // Verify that the storage does not require a password by default.
+     assertFalse(localFileStorage0.needPassword());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      LocalFileStorage localFileStorage0 = new LocalFileStorage();
+-      localFileStorage0.deleteFile("p/iQj15E,AXlUP2");
+-      assertTrue(localFileStorage0.isReentrant());
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        LocalFileStorage storage = new LocalFileStorage();
++        java.io.File tempFile = new java.io.File("tempDeleteTest.txt");
++        try {
++            // arrange: create a temporary file that will be deleted
++            assertTrue(tempFile.createNewFile());
++            assertTrue(tempFile.exists());
++            // act: invoke the method under test
++            storage.deleteFile("tempDeleteTest.txt");
++            // assert: the file should no longer exist
++            assertFalse(tempFile.exists());
++        } finally {
++            // cleanup in case deletion failed
++            if (tempFile.exists()) {
++                tempFile.delete();
++            }
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

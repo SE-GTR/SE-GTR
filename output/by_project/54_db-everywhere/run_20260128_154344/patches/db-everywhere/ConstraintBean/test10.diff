@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ConstraintBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ConstraintBean_ESTest.java
+@@ -106,13 +106,24 @@
+       constraintBean0.setUnique(true);
+       assertTrue(constraintBean0.isUnique());
+   }
++@Test
+ public void test10() throws Throwable {
+-    ConstraintBean constraintBean0 = new ConstraintBean();
++    ConstraintBean bean = new ConstraintBean();
+     String expected = "columnA";
+-    constraintBean0.setColumnName(expected);
+-    String actual = constraintBean0.getColumnName();
+-    assertEquals(expected, actual);
++    bean.setColumnName(expected);
++    // Serialize the bean
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(bean);
++    oos.flush();
++    byte[] serialized = baos.toByteArray();
++    // Deserialize the bean
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(serialized));
++    ConstraintBean deserialized = (ConstraintBean) ois.readObject();
++    // Verify that the column name was preserved through serialization
++    assertEquals(expected, deserialized.getColumnName());
+ }
++
+ public void test11() throws Throwable {
+         ConstraintBean constraintBean0 = new ConstraintBean();
+         constraintBean0.setConstraintType("~Nc~");

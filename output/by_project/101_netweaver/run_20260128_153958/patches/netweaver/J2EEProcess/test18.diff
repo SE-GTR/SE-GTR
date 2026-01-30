@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
+@@ -358,18 +358,26 @@
+     assertTrue(j2EEProcess1.equals((Object) j2EEProcess0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      J2EEProcess j2EEProcess0 = new J2EEProcess();
++@Test(timeout = 4000)
++  public void test18() throws Throwable {
++      J2EEProcess j2EEProcess0 = new J2EEProcess();
++      // Observe initial state (expected to be null or empty)
++      String initialExitCode = j2EEProcess0.getExitCode();
++      // Act: set exit code to empty string
+       j2EEProcess0.setExitCode("");
+-      J2EEProcess j2EEProcess1 = new J2EEProcess();
+-      boolean boolean0 = j2EEProcess0.equals(j2EEProcess1);
+-      assertEquals(0, j2EEProcess1.getPid());
+-      assertEquals(0, j2EEProcess1.getTelnetPort());
+-      assertFalse(boolean0);
+-  }
++      // Verify that the side‑effect is observable via the getter
++      assertEquals("", j2EEProcess0.getExitCode());
++      // The value should have changed unless it was already empty
++      if (initialExitCode != null && !initialExitCode.isEmpty()) {
++          assertNotEquals(initialExitCode, j2EEProcess0.getExitCode());
++      }
++      J2EEProcess j2EEProcess1 = new J2EEProcess();
++      boolean boolean0 = j2EEProcess0.equals(j2EEProcess1);
++      assertEquals(0, j2EEProcess1.getPid());
++      assertEquals(0, j2EEProcess1.getTelnetPort());
++      assertFalse(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

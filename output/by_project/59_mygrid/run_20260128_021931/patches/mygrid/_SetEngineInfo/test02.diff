@@ -1,0 +1,43 @@
+--- a/evosuite-tests/mygrid/web/_SetEngineInfo_ESTest.java
++++ b/evosuite-tests/mygrid/web/_SetEngineInfo_ESTest.java
+@@ -46,20 +46,28 @@
+     assertEquals(0.0F, _SetEngineInfo0.getCpu(), 0.01F);
+     assertEquals(0.0F, _SetEngineInfo0.getRam(), 0.01F);
+ }
++@Test(timeout = 4000)
++public void test02() throws Throwable {
++    _SetEngineInfo0 = new _SetEngineInfo();
++    // initial state should have no OS set
++    assertNull(_SetEngineInfo0.getOs());
++    _SetEngineInfo0.setOs("[|-o-");
++    // verify side‑effect of setOs
++    assertEquals("[|-o-", _SetEngineInfo0.getOs());
+ 
++    _SetEngineInfo1 = new _SetEngineInfo();
++    // objects with different OS values are not equal
++    assertFalse(_SetEngineInfo1.equals(_SetEngineInfo0));
+ 
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-    _SetEngineInfo0 = new _SetEngineInfo();
+-      _SetEngineInfo0.setOs("[|-o-");
+-    _SetEngineInfo1 = new _SetEngineInfo();
+-      assertFalse(_SetEngineInfo1.equals((Object)_SetEngineInfo0));
+-      
+-      _SetEngineInfo1.setOs("[|-o-");
+-      boolean boolean0 = _SetEngineInfo0.equals(_SetEngineInfo1);
+-      assertTrue(_SetEngineInfo1.equals((Object)_SetEngineInfo0));
+-      assertTrue(boolean0);
+-  }
++    _SetEngineInfo1.setOs("[|-o-");
++    // verify side‑effect on second instance
++    assertEquals("[|-o-", _SetEngineInfo1.getOs());
++
++    // now both objects have the same state and should be equal
++    assertTrue(_SetEngineInfo0.equals(_SetEngineInfo1));
++    assertTrue(_SetEngineInfo1.equals(_SetEngineInfo0));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

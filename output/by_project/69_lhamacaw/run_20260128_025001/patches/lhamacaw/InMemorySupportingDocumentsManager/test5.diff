@@ -1,0 +1,24 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemorySupportingDocumentsManager_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemorySupportingDocumentsManager_ESTest.java
+@@ -81,11 +81,15 @@
+          verifyException("macaw.businessLayer.SupportingDocument", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
++        InMemorySupportingDocumentsManager inMemorySupportingDocumentsManager0 = new InMemorySupportingDocumentsManager(inMemoryChangeEventManager0);
++        int keyBefore = inMemorySupportingDocumentsManager0.getSupportingDocumentKey();
++        inMemorySupportingDocumentsManager0.clear();
++        int keyAfter = inMemorySupportingDocumentsManager0.getSupportingDocumentKey();
++        // After a clear the key should be reset (typically to 0) or at least not greater than before
++        assertTrue(keyAfter == 0 || keyAfter < keyBefore);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      InMemoryChangeEventManager inMemoryChangeEventManager0 = new InMemoryChangeEventManager();
+-      InMemorySupportingDocumentsManager inMemorySupportingDocumentsManager0 = new InMemorySupportingDocumentsManager(inMemoryChangeEventManager0);
+-      inMemorySupportingDocumentsManager0.clear();
+-  }
+ }

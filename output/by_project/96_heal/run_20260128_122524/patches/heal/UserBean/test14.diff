@@ -1,0 +1,49 @@
+--- a/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/user/UserBean_ESTest.java
+@@ -176,18 +176,34 @@
+     userBean0.setLastName("yS*]u4)WR6E2jQk");
+     assertEquals("yS*]u4)WR6E2jQk", userBean0.getLastName());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-    userBean0 = new UserBean();
+-      userBean0.setMailingList(true);
+-      assertFalse(userBean0.isCataloger());
+-      assertFalse(userBean0.isApprover());
+-      assertTrue(userBean0.isMinor());
+-      assertFalse(userBean0.isAdministrator());
+-      assertTrue(userBean0.getMailingList());
+-  }
++@Test(timeout = 4000)
++  public void test14() throws Throwable {
++    userBean0 = new UserBean();
++    userBean0.setMailingList(true);
++    assertFalse(userBean0.isCataloger());
++    assertFalse(userBean0.isApprover());
++    assertTrue(userBean0.isMinor());
++    assertFalse(userBean0.isAdministrator());
++    assertTrue(userBean0.getMailingList());
++
++    // Serialize and deserialize the object to exercise non‑trivial behavior
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(userBean0);
++    oos.flush();
++    byte[] data = baos.toByteArray();
++
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++    UserBean deserialized = (UserBean) ois.readObject();
++
++    // Verify that the state is preserved after the round‑trip
++    assertEquals(userBean0.getMailingList(), deserialized.getMailingList());
++    assertEquals(userBean0.isCataloger(), deserialized.isCataloger());
++    assertEquals(userBean0.isApprover(), deserialized.isApprover());
++    assertEquals(userBean0.isMinor(), deserialized.isMinor());
++    assertEquals(userBean0.isAdministrator(), deserialized.isAdministrator());
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

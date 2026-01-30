@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/form/SequenceForm_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/form/SequenceForm_ESTest.java
+@@ -46,15 +46,23 @@
+       assertEquals("1", sequenceForm0.getIncrement());
+       assertEquals("no", sequenceForm0.getCycle());
+   }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        SequenceForm form = new SequenceForm();
++        // verify default values
++        assertEquals("1", form.getIncrement());
++        assertEquals("no", form.getCycle());
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      SequenceForm sequenceForm0 = new SequenceForm();
+-      assertEquals("1", sequenceForm0.getIncrement());
+-      
+-      sequenceForm0.setIncrement("");
+-      assertEquals("no", sequenceForm0.getCycle());
+-  }
++        // change increment and verify the side‑effect
++        form.setIncrement("");
++        assertEquals("", form.getIncrement());
++
++        // invoke a non‑trivial method and assert its observable result
++        String representation = form.toString();
++        assertNotNull(representation);
++        assertTrue(representation.contains("increment"));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

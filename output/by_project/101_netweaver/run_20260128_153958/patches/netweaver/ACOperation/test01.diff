@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/ACOperation_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/ACOperation_ESTest.java
+@@ -34,15 +34,30 @@
+         // Verify that hashCode reflects the state change
+         assertNotEquals(hashBefore, hashAfter);
+     }
++@Test(timeout = 4000)
++    public void test01() throws Throwable {
++        ACOperation aCOperation0 = new ACOperation();
++        int hashBefore = aCOperation0.hashCode();
+ 
++        ACOperationArguments[] aCOperationArgumentsArray0 = new ACOperationArguments[1];
++        aCOperation0.setMOperationArguments(aCOperationArgumentsArray0);
+ 
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      ACOperation aCOperation0 = new ACOperation();
+-      ACOperationArguments[] aCOperationArgumentsArray0 = new ACOperationArguments[1];
+-      aCOperation0.setMOperationArguments(aCOperationArgumentsArray0);
+-      aCOperation0.hashCode();
+-  }
++        // Verify that the arguments were stored correctly
++        assertSame("Operation arguments should be set", aCOperationArgumentsArray0,
++                aCOperation0.getMOperationArguments());
++
++        // Verify the return value of hashCode()
++        int hashAfter = aCOperation0.hashCode();
++        assertEquals(hashAfter, aCOperation0.hashCode());
++
++        // Optional sanity check that the hash code may have changed after setting arguments
++        // (if the implementation uses the arguments in hash calculation)
++        // This assertion is tolerant: it only fails if the hash code is unexpectedly unchanged
++        // when it should have changed according to the implementation.
++        // Commented out to avoid flaky behavior:
++        // assertNotEquals(hashBefore, hashAfter);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

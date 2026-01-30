@@ -1,0 +1,33 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/ThoroughfareNumberPrefix_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/ThoroughfareNumberPrefix_ESTest.java
+@@ -44,13 +44,24 @@
+       thoroughfareNumberPrefix0.setNumberPrefixSeparator("");
+       assertNull(thoroughfareNumberPrefix0.getType());
+   }
++@Test(timeout = 4000)
++    public void test4() throws Throwable {
++        ThoroughfareNumberPrefix prefix = new ThoroughfareNumberPrefix();
++        // default content should be null
++        assertNull(prefix.getContent());
++        // set and verify content
++        prefix.setContent("");
++        assertEquals("", prefix.getContent());
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      ThoroughfareNumberPrefix thoroughfareNumberPrefix0 = new ThoroughfareNumberPrefix();
+-      thoroughfareNumberPrefix0.setContent("");
+-      assertEquals("", thoroughfareNumberPrefix0.getContent());
+-  }
++        // exercise non‑trivial behavior: mutable otherAttributes map
++        java.util.Map<javax.xml.namespace.QName, java.lang.String> attrs = prefix.getOtherAttributes();
++        int before = attrs.size();
++        javax.xml.namespace.QName key = new javax.xml.namespace.QName("test");
++        attrs.put(key, "value");
++        assertEquals(before + 1, attrs.size());
++        assertEquals("value", attrs.get(key));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

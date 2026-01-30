@@ -1,0 +1,37 @@
+--- a/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/MoveEvent_ESTest.java
+@@ -343,17 +343,23 @@
+         assertTrue(description.contains("5"));
+         assertTrue(description.contains("999"));
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      Defender defender0 = new Defender(0, 0);
+-      PassEvent passEvent0 = new PassEvent(defender0, 0, (-3246));
+-      passEvent0.setDestinationPoint(1, 1, false);
+-      MovePoint movePoint0 = passEvent0.getDestinationPoint();
+-      passEvent0.setPoint(movePoint0, 0, 3873);
+-      assertEquals(3873, passEvent0.getDestinationY());
+-  }
++@Test(timeout = 4000)
++public void test23() throws Throwable {
++    Defender defender0 = new Defender(0, 0);
++    PassEvent passEvent0 = new PassEvent(defender0, 0, -3246);
++    // verify that setDestinationPoint updates the destination coordinates
++    passEvent0.setDestinationPoint(1, 1, false);
++    int destXBefore = passEvent0.getDestinationX();
++    int destYBefore = passEvent0.getDestinationY();
++    assertEquals(1, destXBefore);
++    assertEquals(1, destYBefore);
++    // now exercise setPoint and verify that it changes the destination coordinates as expected
++    MovePoint movePoint0 = passEvent0.getDestinationPoint();
++    passEvent0.setPoint(movePoint0, 0, 3873);
++    assertEquals(0, passEvent0.getDestinationX());
++    assertEquals(3873, passEvent0.getDestinationY());
++}
++
+ @Test(timeout = 4000)
+ public void test24() throws Throwable {
+     Offender offender0 = new Offender(5, 5);

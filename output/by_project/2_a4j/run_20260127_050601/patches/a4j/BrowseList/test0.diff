@@ -1,0 +1,26 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/BrowseList_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/BrowseList_ESTest.java
+@@ -17,17 +17,20 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class BrowseList_ESTest extends BrowseList_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       BrowseList browseList0 = new BrowseList();
+       BrowseNode[] browseNodeArray0 = new BrowseNode[4];
+       BrowseNode browseNode0 = new BrowseNode();
+       browseNodeArray0[0] = browseNode0;
+       browseList0.setBrowseNode(browseNodeArray0);
++      // Verify that the side‑effect of setting the browse nodes is observable
++      assertEquals(4, browseList0.nodes.size());
++      assertSame(browseNode0, browseList0.nodes.get(0));
+       String string0 = browseList0.toString();
+       assertEquals("# of nodes = 4\nName: null\nID: null\n", string0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

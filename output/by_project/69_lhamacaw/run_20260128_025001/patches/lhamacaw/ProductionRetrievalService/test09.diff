@@ -1,0 +1,36 @@
+--- a/evosuite-tests/macaw/persistenceLayer/production/ProductionRetrievalService_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/production/ProductionRetrievalService_ESTest.java
+@@ -147,25 +147,14 @@
+     User user0 = new User();
+     productionRetrievalService0.getAliasFilePaths(user0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    sessionProperties0 = new SessionProperties();
+-    productionRetrievalService0 = new ProductionRetrievalService(sessionProperties0);
+-      User user0 = new User();
+-      // Undeclared exception!
+-      try { 
+-        productionRetrievalService0.getAliasFilePathsMatchingName(user0, ",[po}-'CUFpz");
+-        fail("Expecting exception: NoClassDefFoundError");
+-      
+-      } catch(NoClassDefFoundError e) {
+-         //
+-         // Could not initialize class com.mysql.jdbc.CharsetMapping
+-         //
+-         verifyException("com.mysql.jdbc.Connection", e);
+-      }
+-  }
++@Test(expected = NoClassDefFoundError.class, timeout = 4000)
++public void test09() throws Throwable {
++    sessionProperties0 = new SessionProperties();
++    productionRetrievalService0 = new ProductionRetrievalService(sessionProperties0);
++    User user0 = new User();
++    productionRetrievalService0.getAliasFilePathsMatchingName(user0, ",[po}-'CUFpz");
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

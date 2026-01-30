@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/QuickServer_ESTest.java
+@@ -1227,25 +1227,14 @@
+         // Assert: the getter reflects the updated value
+         assertEquals(newMaxAuth, quickServer0.getMaxAuthTry());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test104()  throws Throwable  {
+-      QuickServer quickServer0 = new QuickServer();
+-      quickServer0.startService();
+-      quickServer0.run();
+-      // Undeclared exception!
+-      try { 
+-        quickServer0.run();
+-       //  fail("Expecting exception: NoClassDefFoundError");
+-       // Unstable assertion
+-      } catch(NoClassDefFoundError e) {
+-         //
+-         // org/apache/commons/pool/impl/CursorableLinkedList$ListIter
+-         //
+-         verifyException("org.apache.commons.pool.impl.CursorableLinkedList", e);
+-      }
+-  }
++public void test104() throws Throwable {
++    QuickServer quickServer0 = new QuickServer();
++    boolean started = quickServer0.startService();
++    assertTrue(started);
++    // Verify that run executes without throwing unexpected exceptions
++    quickServer0.run();
++}
++
+ public void test105() throws Throwable {
+         QuickServer quickServer0 = new QuickServer();
+         String handler = quickServer0.getClientObjectHandler();

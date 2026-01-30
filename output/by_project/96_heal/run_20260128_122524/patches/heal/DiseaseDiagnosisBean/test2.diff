@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/heal/module/metadata/DiseaseDiagnosisBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/DiseaseDiagnosisBean_ESTest.java
+@@ -28,13 +28,27 @@
+       diseaseDiagnosisBean0.setDiseaseDiagnosisId("T&F2%'owXqC5B=*U6#$");
+       assertNull(diseaseDiagnosisBean0.getMetadataId());
+   }
++@Test(timeout = 4000)
++public void test2() throws Throwable {
++    DiseaseDiagnosisBean bean = new DiseaseDiagnosisBean();
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      DiseaseDiagnosisBean diseaseDiagnosisBean0 = new DiseaseDiagnosisBean();
+-      String string0 = diseaseDiagnosisBean0.getMetadataId();
+-      assertNull(string0);
+-  }
++    // Serialize the bean
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    try (java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos)) {
++        oos.writeObject(bean);
++    }
++
++    // Deserialize the bean
++    java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++    DiseaseDiagnosisBean deserialized;
++    try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais)) {
++        deserialized = (DiseaseDiagnosisBean) ois.readObject();
++    }
++
++    // Verify that the deserialized object retains the default state
++    assertNull(deserialized.getMetadataId());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

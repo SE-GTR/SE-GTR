@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
+@@ -387,22 +387,19 @@
+       Object object0 = DBUtil.queryAndSimplify("Wnk@@:B.", jdbcConnection0);
+       assertNotNull(object0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test26()  throws Throwable  {
+-      jdbcConnection jdbcConnection0 = new jdbcConnection((Session) null);
+-      // Undeclared exception!
+-      try { 
+-        DBUtil.queryWithMetadata("ycY^JC@MIq", jdbcConnection0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.hsqldb.jdbc.jdbcStatement", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test26() throws Throwable {
++    // Initialize HSQLDB in‑memory database
++    Class.forName("org.hsqldb.jdbc.JDBCDriver");
++    java.sql.Connection conn = java.sql.DriverManager.getConnection("jdbc:hsqldb:mem:testdb", "SA", "");
++    try {
++        org.databene.jdbacl.ResultsWithMetadata result = org.databene.jdbacl.DBUtil.queryWithMetadata("SELECT 1", conn);
++        org.junit.Assert.assertNotNull("Result should not be null", result);
++    } finally {
++        conn.close();
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test27()  throws Throwable  {

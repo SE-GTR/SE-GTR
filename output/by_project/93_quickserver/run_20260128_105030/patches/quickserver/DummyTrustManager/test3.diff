@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/quickserver/net/client/DummyTrustManager_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/client/DummyTrustManager_ESTest.java
+@@ -48,10 +48,17 @@
+       } catch(IllegalArgumentException e) {
+       }
+   }
++@Test(timeout = 4000)
++public void test3() throws Throwable {
++    DummyTrustManager dm1 = DummyTrustManager.getInstance();
++    assertNotNull(dm1);
++    DummyTrustManager dm2 = DummyTrustManager.getInstance();
++    assertSame(dm1, dm2);
++    // Verify that trust checks do not throw exceptions
++    dm1.checkClientTrusted(new java.security.cert.X509Certificate[0], "RSA");
++    dm1.checkServerTrusted(new java.security.cert.X509Certificate[0], "RSA");
++    // The list of accepted issuers should be non‑null (may be empty)
++    assertNotNull(dm1.getAcceptedIssuers());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-      DummyTrustManager dummyTrustManager0 = DummyTrustManager.getInstance();
+-      assertNotNull(dummyTrustManager0);
+-  }
+ }

@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ICMCacheEntry_ESTest.java
+@@ -127,18 +127,26 @@
+     assertEquals(0, iCMCacheEntry1.getVersion());
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
+-      ICMCacheEntry iCMCacheEntry1 = new ICMCacheEntry();
+-      assertTrue(iCMCacheEntry1.equals((Object)iCMCacheEntry0));
+-      
+-      iCMCacheEntry0.setCacheurl("");
+-      boolean boolean0 = iCMCacheEntry0.equals(iCMCacheEntry1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    ICMCacheEntry iCMCacheEntry0 = new ICMCacheEntry();
++    ICMCacheEntry iCMCacheEntry1 = new ICMCacheEntry();
++
++    // Both freshly created entries should be equal
++    assertTrue(iCMCacheEntry1.equals((Object) iCMCacheEntry0));
++
++    // Verify the initial cacheurl (expected to be null)
++    assertNull(iCMCacheEntry0.getCacheurl());
++
++    // Set a specific cache URL and assert the side‑effect
++    String url = "http://example.com";
++    iCMCacheEntry0.setCacheurl(url);
++    assertEquals(url, iCMCacheEntry0.getCacheurl());
++
++    // Changing the cache URL should break equality with the untouched entry
++    assertFalse(iCMCacheEntry0.equals(iCMCacheEntry1));
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

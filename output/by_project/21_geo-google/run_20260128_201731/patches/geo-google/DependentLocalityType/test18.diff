@@ -1,0 +1,31 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/DependentLocalityType_ESTest.java
+@@ -207,15 +207,24 @@
+     // Verify initial state
+     assertNull(dependentLocalityType0.getType());
+ 
+-    // Set a non‑null PostalCode and verify it is stored correctly
++    // Set and verify a non‑null type
++    String type = "example";
++    dependentLocalityType0.setType(type);
++    assertEquals(type, dependentLocalityType0.getType());
++
++    // PostalCode handling
+     oasis.names.tc.ciq.xsdschema.xal._2.PostalCode pc = new oasis.names.tc.ciq.xsdschema.xal._2.PostalCode();
+     dependentLocalityType0.setPostalCode(pc);
+     assertSame(pc, dependentLocalityType0.getPostalCode());
+-
+-    // Setting null should clear the PostalCode field
+     dependentLocalityType0.setPostalCode(null);
+     assertNull(dependentLocalityType0.getPostalCode());
+-}
++
++    // Mutate the live addressLine list and verify the change
++    oasis.names.tc.ciq.xsdschema.xal._2.AddressLine addressLine = new oasis.names.tc.ciq.xsdschema.xal._2.AddressLine();
++    dependentLocalityType0.getAddressLine().add(addressLine);
++    assertTrue(dependentLocalityType0.getAddressLine().contains(addressLine));
++}
++
+ 
+ 
+   @Test(timeout = 4000)

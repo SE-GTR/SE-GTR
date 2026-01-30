@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/heal/servlet/EmailFormServlet_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/EmailFormServlet_ESTest.java
+@@ -31,23 +31,15 @@
+     emailFormServlet0 = new EmailFormServlet();
+     httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+   }
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        doReturn("").when(httpServletRequest0).getParameter(anyString());
++        PrintWriter writer = new PrintWriter(new StringWriter());
++        doReturn(writer).when(httpServletResponse0).getWriter();
++        emailFormServlet0.doPost(httpServletRequest0, httpServletResponse0);
++        verify(httpServletResponse0).getWriter();
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      doReturn("").when(httpServletRequest0).getParameter(anyString());
+-      // Undeclared exception!
+-      try { 
+-        emailFormServlet0.doPost(httpServletRequest0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.EmailFormServlet", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

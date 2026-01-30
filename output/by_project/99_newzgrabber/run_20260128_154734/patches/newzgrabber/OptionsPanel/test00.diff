@@ -1,0 +1,45 @@
+--- a/evosuite-tests/Newzgrabber/OptionsPanel_ESTest.java
++++ b/evosuite-tests/Newzgrabber/OptionsPanel_ESTest.java
+@@ -26,19 +26,30 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class OptionsPanel_ESTest extends OptionsPanel_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("null/Newzgrabber.ini");
++    FileSystemHandling.appendLineToFile(evoSuiteFile0, "*SgR2xV!MWc%$n-S/EU");
++    OptionsPanel optionsPanel0 = new OptionsPanel((Frame) null);
++    DefaultFormatterFactory defaultFormatterFactory0 = new DefaultFormatterFactory(
++            (JFormattedTextField.AbstractFormatter) null,
++            (JFormattedTextField.AbstractFormatter) null,
++            (JFormattedTextField.AbstractFormatter) null);
++    JFormattedTextField jFormattedTextField0 = new JFormattedTextField(defaultFormatterFactory0,
++            "*SgR2xV!MWc%$n-S/EU");
++    optionsPanel0.ServerText = (JTextField) jFormattedTextField0;
++    // Verify that the ServerText field holds the expected value before updateIni()
++    assertEquals("*SgR2xV!MWc%$n-S/EU", optionsPanel0.ServerText.getText());
++    optionsPanel0.updateIni();
++    // Verify that updateIni() wrote the expected content to the ini file
++    String fileContent = new String(
++            java.nio.file.Files.readAllBytes(evoSuiteFile0.toPath()),
++            java.nio.charset.StandardCharsets.UTF_8);
++    assertTrue(fileContent.contains("*SgR2xV!MWc%$n-S/EU"));
++    OptionsPanel optionsPanel1 = new OptionsPanel((Frame) null);
++    assertFalse(optionsPanel1.isFocusTraversalPolicySet());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      EvoSuiteFile evoSuiteFile0 = new EvoSuiteFile("null/Newzgrabber.ini");
+-      FileSystemHandling.appendLineToFile(evoSuiteFile0, "*SgR2xV!MWc%$n-S/EU");
+-      OptionsPanel optionsPanel0 = new OptionsPanel((Frame) null);
+-      DefaultFormatterFactory defaultFormatterFactory0 = new DefaultFormatterFactory((JFormattedTextField.AbstractFormatter) null, (JFormattedTextField.AbstractFormatter) null, (JFormattedTextField.AbstractFormatter) null);
+-      JFormattedTextField jFormattedTextField0 = new JFormattedTextField(defaultFormatterFactory0, "*SgR2xV!MWc%$n-S/EU");
+-      optionsPanel0.ServerText = (JTextField) jFormattedTextField0;
+-      optionsPanel0.updateIni();
+-      OptionsPanel optionsPanel1 = new OptionsPanel((Frame) null);
+-      assertFalse(optionsPanel1.isFocusTraversalPolicySet());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

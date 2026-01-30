@@ -1,0 +1,40 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Application_ESTest.java
+@@ -126,18 +126,25 @@
+     boolean boolean0 = application0.equals(application1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-    application0 = new Application();
+-    application1 = new Application();
+-      assertTrue(application1.equals((Object)application0));
+-      
+-      application1.setName("43y");
+-      boolean boolean0 = application1.equals(application0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        application0 = new Application();
++        application1 = new Application();
++
++        // Verify initial state
++        assertNull(application1.getName());
++        assertTrue(application1.equals((Object) application0));
++
++        // Exercise the void method
++        application1.setName("43y");
++
++        // Observe the side‑effect
++        assertEquals("43y", application1.getName());
++
++        // The change should affect equality
++        assertFalse(application1.equals(application0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

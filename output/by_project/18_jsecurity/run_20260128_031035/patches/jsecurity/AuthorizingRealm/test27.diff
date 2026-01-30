@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/AuthorizingRealm_ESTest.java
+@@ -363,18 +363,27 @@
+       boolean boolean0 = simpleAccountRealm0.isPermittedAll((PrincipalCollection) simplePrincipalCollection0, (Collection<Permission>) linkedList0);
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test27() throws Throwable {
+       SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm("}");
+       SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection("}", "}");
+       HashtableCache hashtableCache0 = new HashtableCache("}");
++
++      // Verify that the authorization cache is initially null and is set correctly
++      assertNull(simpleAccountRealm0.getAuthorizationCache());
+       simpleAccountRealm0.setAuthorizationCache(hashtableCache0);
++      assertSame(hashtableCache0, simpleAccountRealm0.getAuthorizationCache());
++
++      // Verify that adding an account actually stores it
+       simpleAccountRealm0.addAccount("}", "}");
++      assertNotNull(simpleAccountRealm0.getAccount("}"));
++
+       LinkedList<Permission> linkedList0 = new LinkedList<Permission>();
+-      boolean boolean0 = simpleAccountRealm0.isPermittedAll((PrincipalCollection) simplePrincipalCollection0, (Collection<Permission>) linkedList0);
++      boolean boolean0 = simpleAccountRealm0.isPermittedAll((PrincipalCollection) simplePrincipalCollection0,
++              (Collection<Permission>) linkedList0);
+       assertTrue(boolean0);
+   }
++
+ @Test(timeout = 4000)
+ public void test28() throws Throwable {
+     SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm("msRQ>G>2t ");

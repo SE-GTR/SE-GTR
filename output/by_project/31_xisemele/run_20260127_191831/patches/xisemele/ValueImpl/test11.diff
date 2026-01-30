@@ -1,0 +1,39 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/ValueImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/ValueImpl_ESTest.java
+@@ -186,25 +186,17 @@
+         String string0 = valueImpl0.toString();
+         assertNotNull(string0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-    formatterProviderImpl0 = new FormatterProviderImpl();
+-    factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+-      ValueImpl valueImpl0 = new ValueImpl(factoryImpl0, formatterProviderImpl0, (String) null);
+-      // Undeclared exception!
+-      try { 
+-        valueImpl0.hashCode();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.xisemele.impl.ValueImpl", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        formatterProviderImpl0 = new FormatterProviderImpl();
++        factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
++        ValueImpl valueImpl0 = new ValueImpl(factoryImpl0, formatterProviderImpl0, "test");
++        int hash = valueImpl0.hashCode();
++        // Verify that hashCode is deterministic and consistent for equal values
++        ValueImpl another = new ValueImpl(factoryImpl0, formatterProviderImpl0, "test");
++        assertEquals(hash, another.hashCode());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test12()  throws Throwable  {

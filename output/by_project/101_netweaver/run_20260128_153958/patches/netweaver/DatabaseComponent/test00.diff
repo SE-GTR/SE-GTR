@@ -1,0 +1,27 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/DatabaseComponent_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/saphostcontrol/DatabaseComponent_ESTest.java
+@@ -20,14 +20,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DatabaseComponent_ESTest extends DatabaseComponent_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        DatabaseComponent databaseComponent0 = new DatabaseComponent();
++        DatabaseStatus databaseStatus0 = DatabaseStatus.value3;
++        int beforeHash = databaseComponent0.hashCode();
++        databaseComponent0.setMStatus(databaseStatus0);
++        int afterHash = databaseComponent0.hashCode();
++        // Verify that setting the status changes the observable state (hash code)
++        org.junit.Assert.assertNotEquals("Hash code should change after setting status", beforeHash, afterHash);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      DatabaseComponent databaseComponent0 = new DatabaseComponent();
+-      DatabaseStatus databaseStatus0 = DatabaseStatus.value3;
+-      databaseComponent0.setMStatus(databaseStatus0);
+-      databaseComponent0.hashCode();
+-  }
+ @Test(timeout = 4000)
+ public void test01() throws Throwable {
+     Property[] propertyArray0 = new Property[1];

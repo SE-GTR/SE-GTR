@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/ib/client/EReader_ESTest.java
++++ b/evosuite-tests/com/ib/client/EReader_ESTest.java
+@@ -846,24 +846,21 @@
+         // expected exception due to failing input stream
+     }
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test55()  throws Throwable  {
+-      PushbackInputStream pushbackInputStream0 = new PushbackInputStream((InputStream) null, (byte)2);
+-      DataInputStream dataInputStream0 = new DataInputStream(pushbackInputStream0);
+-      EReader eReader0 = new EReader(dataInputStream0, (EWrapper) null, (byte)2);
+-      try { 
+-        eReader0.processMsg((byte)2);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Stream closed
+-         //
+-         verifyException("java.io.PushbackInputStream", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test55() throws Throwable {
++    byte[] empty = new byte[0];
++    PushbackInputStream pushbackInputStream0 = new PushbackInputStream(new java.io.ByteArrayInputStream(empty), 2);
++    DataInputStream dataInputStream0 = new DataInputStream(pushbackInputStream0);
++    EReader eReader0 = new EReader(dataInputStream0, null, (byte) 2);
++    try {
++        eReader0.processMsg((byte) 2);
++        fail("Expected IOException");
++    } catch (IOException e) {
++        // Expected exception due to empty input stream
++        assertTrue(e.getMessage() == null || e.getMessage().isEmpty() || e.getMessage().contains("EOF"));
++    }
++}
++
+ @Test(timeout = 4000)
+   public void test56() throws Throwable {
+       DataInputStream dataInputStream0 = new DataInputStream((InputStream) null);

@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/servlet/JSecurityHttpServletResponse_ESTest.java
+@@ -413,17 +413,19 @@
+          verifyException("org.jsecurity.web.servlet.JSecurityHttpServletResponse", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(servletContext0).toString();
+-      JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(httpServletResponseWrapper0, servletContext0, (JSecurityHttpServletRequest) null);
+-      ServletContext servletContext1 = jSecurityHttpServletResponse0.getContext();
+-      assertSame(servletContext1, servletContext0);
+-  }
++@Test(timeout = 4000)
++public void test21() throws Throwable {
++    HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++    org.mockito.Mockito.when(httpServletResponse0.encodeURL(org.mockito.ArgumentMatchers.anyString()))
++            .thenReturn("encoded");
++    HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++    ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
++    doReturn((String) null).when(servletContext0).toString();
++    JSecurityHttpServletResponse jSecurityHttpServletResponse0 = new JSecurityHttpServletResponse(httpServletResponseWrapper0, servletContext0, (JSecurityHttpServletRequest) null);
++    String result = jSecurityHttpServletResponse0.encodeURL("test");
++    assertEquals("encoded", result);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

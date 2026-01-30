@@ -1,0 +1,38 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/projektgruppe/ProjektgruppeDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/projektgruppe/ProjektgruppeDaoService_ESTest.java
+@@ -101,26 +101,15 @@
+          verifyException("ch.bfh.egov.nutzenportfolio.service.projektgruppe.ProjektgruppeDaoService", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      Integer integer0 = new Integer(1);
+-      Projektgruppe projektgruppe0 = new Projektgruppe();
+-      projektgruppe0.setProjektgruppeId(integer0);
+-      ProjektgruppeIbatisDao projektgruppeIbatisDao0 = new ProjektgruppeIbatisDao();
+-      ProjektgruppeDaoService projektgruppeDaoService0 = new ProjektgruppeDaoService(projektgruppeIbatisDao0);
+-      // Undeclared exception!
+-      try { 
+-        projektgruppeDaoService0.save((HttpServletRequest) null, projektgruppe0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = IllegalArgumentException.class)
++public void test04() throws Throwable {
++    Projektgruppe projektgruppe0 = new Projektgruppe(); // no ID set
++    ProjektgruppeIbatisDao dao = new ProjektgruppeIbatisDao();
++    ProjektgruppeDaoService service = new ProjektgruppeDaoService(dao);
++    HttpServletRequest request = org.mockito.Mockito.mock(HttpServletRequest.class);
++    service.save(request, projektgruppe0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

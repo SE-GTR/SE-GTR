@@ -1,0 +1,38 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -513,18 +513,24 @@
+     assertTrue(j2EEEJBSession1.equals((Object) j2EEEJBSession0));
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test27()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
+-      assertTrue(j2EEEJBSession1.equals((Object)j2EEEJBSession0));
+-      
++@Test(timeout = 4000)
++  public void test27() throws Throwable {
++      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
++      J2EEEJBSession j2EEEJBSession1 = new J2EEEJBSession();
++      // initially both sessions are equal (default state)
++      assertTrue(j2EEEJBSession1.equals((Object) j2EEEJBSession0));
++
++      // change process name in the second session
+       j2EEEJBSession1.setProcessname("-?1dmI={5<8w EzI");
+-      boolean boolean0 = j2EEEJBSession0.equals(j2EEEJBSession1);
+-      assertFalse(boolean0);
+-  }
++      // the sessions should no longer be equal
++      assertFalse(j2EEEJBSession0.equals(j2EEEJBSession1));
++
++      // another session with the same process name should be equal to the modified one
++      J2EEEJBSession j2EEEJBSession2 = new J2EEEJBSession();
++      j2EEEJBSession2.setProcessname("-?1dmI={5<8w EzI");
++      assertTrue(j2EEEJBSession1.equals((Object) j2EEEJBSession2));
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test28()  throws Throwable  {

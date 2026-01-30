@@ -1,0 +1,33 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/hardware/throttle/Throttle_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/hardware/throttle/Throttle_ESTest.java
+@@ -59,18 +59,22 @@
+       throttle0.update(duration0);
+       assertEquals((-1404), throttle0.getPower());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++public void test2() throws Throwable {
+     throttle0 = new Throttle(262.9161255);
+     duration0 = Duration.ONE_CYCLE;
+     robotScoreKeeper0 = new RobotScoreKeeper();
+     robot0 = new Robot("//E", 1, robotScoreKeeper0);
+-      robot0.setThrottle(throttle0);
+-      throttle0.setOverburner(robot0);
+-      throttle0.update(duration0);
+-      assertEquals(0, throttle0.getPower());
+-  }
++    robot0.setThrottle(throttle0);
++    assertSame(throttle0, robot0.getThrottle());
++    throttle0.setOverburner(robot0);
++    int powerBefore = throttle0.getPower();
++    throttle0.update(duration0);
++    int powerAfter = throttle0.getPower();
++    assertTrue(powerAfter >= powerBefore);
++    assertEquals(0, powerAfter);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/WorkProcess_ESTest.java
+@@ -640,18 +640,20 @@
+       assertTrue(workProcess1.equals((Object) workProcess0));
+       assertTrue(boolean0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test40()  throws Throwable  {
+-      WorkProcess workProcess0 = new WorkProcess();
+-      workProcess0.setCpu("X];zK+7");
+-      WorkProcess workProcess1 = new WorkProcess();
+-      boolean boolean0 = workProcess0.equals(workProcess1);
+-      assertFalse(boolean0);
+-      assertEquals(0, workProcess1.getNo());
+-      assertEquals(0, workProcess1.getPid());
+-  }
++@Test(timeout = 4000)
++    public void test40() throws Throwable {
++        WorkProcess workProcess0 = new WorkProcess();
++        workProcess0.setCpu("X];zK+7");
++        WorkProcess workProcess1 = new WorkProcess();
++        assertFalse(workProcess0.equals(workProcess1));
++        // Verify that the cpu side‑effect influences equality
++        WorkProcess workProcess2 = new WorkProcess();
++        workProcess2.setCpu("X];zK+7");
++        assertTrue(workProcess0.equals(workProcess2));
++        assertEquals(0, workProcess1.getNo());
++        assertEquals(0, workProcess1.getPid());
++    }
++
+ @Test(timeout = 4000)
+     public void test41() throws Throwable {
+         TypeDesc td1 = WorkProcess.getTypeDesc();

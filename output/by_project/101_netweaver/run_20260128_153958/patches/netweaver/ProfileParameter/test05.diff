@@ -1,0 +1,36 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
+@@ -107,17 +107,22 @@
+         assertTrue(profileParameter1.equals((Object) profileParameter0));
+         assertTrue(boolean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test05()  throws Throwable  {
+-      String[] stringArray0 = new String[3];
+-      ProfileParameter profileParameter0 = new ProfileParameter();
+-      profileParameter0.setDynamicValues(stringArray0);
+-      ProfileParameter profileParameter1 = new ProfileParameter();
+-      boolean boolean0 = profileParameter1.equals(profileParameter0);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test05() throws Throwable {
++        String[] stringArray0 = new String[3];
++        ProfileParameter profileParameter0 = new ProfileParameter();
++        // verify initial state (no dynamic values)
++        assertNull(profileParameter0.getDynamicValues());
++        // act
++        profileParameter0.setDynamicValues(stringArray0);
++        // verify side‑effect
++        assertArrayEquals(stringArray0, profileParameter0.getDynamicValues());
++        assertEquals(3, profileParameter0.getDynamicValues().length);
++        // additional behavior check
++        ProfileParameter profileParameter1 = new ProfileParameter();
++        assertFalse(profileParameter1.equals(profileParameter0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test06()  throws Throwable  {

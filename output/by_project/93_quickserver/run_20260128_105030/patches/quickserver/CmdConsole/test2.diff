@@ -1,0 +1,25 @@
+--- a/evosuite-tests/org/quickserver/net/qsadmin/gui/CmdConsole_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/qsadmin/gui/CmdConsole_ESTest.java
+@@ -33,12 +33,17 @@
+   public void test1() throws Throwable {
+       CmdConsole.writeFile(null, null);
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        try {
++            CmdConsole.writeFile("@&C", "@&C");
++            fail("Expected an IOException to be thrown");
++        } catch (java.io.IOException e) {
++            // Expected exception due to invalid file name or write failure
++            assertNotNull(e.getMessage());
++        }
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      CmdConsole.writeFile("@&C", "@&C");
+-  }
+ @Test(timeout = 4000, expected = HeadlessException.class)
+   public void test3() throws Throwable {
+     qSAdminMain0 = new QSAdminMain();

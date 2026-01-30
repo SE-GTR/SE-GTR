@@ -1,0 +1,28 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/DBDataBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/DBDataBean_ESTest.java
+@@ -47,11 +47,20 @@
+         assertEquals("FR", dBDataBean0.getLanguage());
+     }
+ @Test(timeout = 4000)
+-  public void test04() throws Throwable {
+-      DBDataBean dBDataBean0 = new DBDataBean();
+-      assertEquals("ISO-8859-1", dBDataBean0.getEncoding());
+-      assertEquals("FR", dBDataBean0.getLanguage());
+-  }
++public void test04() throws Throwable {
++    DBDataBean bean = new DBDataBean();
++    // Verify default values
++    assertEquals("ISO-8859-1", bean.getEncoding());
++    assertEquals("FR", bean.getLanguage());
++
++    // Perform a side‑effect operation
++    bean.setPasswd("secret");
++
++    // Ensure the side effect does not alter other observable state
++    assertEquals("ISO-8859-1", bean.getEncoding());
++    assertEquals("FR", bean.getLanguage());
++}
++
+ 
+ @Test(timeout = 4000)
+     public void test05() throws Throwable {

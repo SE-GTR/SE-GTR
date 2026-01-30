@@ -1,0 +1,64 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/iter/IteratorUtil_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/iter/IteratorUtil_ESTest.java
+@@ -42,21 +42,47 @@
+       PeekableStreamingIterator<Integer> peekableStreamingIterator1 = IteratorUtil.createPeekableStreamingIterator((StreamingIterator<Integer>) peekableStreamingIterator0);
+       assertNotSame(peekableStreamingIterator0, peekableStreamingIterator1);
+   }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        // Provide a minimal non‑null StreamingIterator
++        StreamingIterator<Object> iter = new StreamingIterator<Object>() {
++            private boolean consumed = false;
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        IteratorUtil.createPeekableStreamingIterator((StreamingIterator<Object>) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.jcvi.jillion.core.util.iter.IteratorUtil$PeekableStreamingIteratorImpl", e);
+-      }
+-  }
++            @Override
++            public boolean hasNext() {
++                return !consumed;
++            }
++
++            @Override
++            public Object next() {
++                if (consumed) {
++                    throw new NoSuchElementException();
++                }
++                consumed = true;
++                return new Object();
++            }
++
++            @Override
++            public void close() {
++                // no resources to release
++            }
++        };
++
++        // Invoke the method under test with a valid argument
++        PeekableStreamingIterator<Object> peekable = IteratorUtil.createPeekableStreamingIterator(iter);
++        assertNotNull(peekable);
++
++        // Verify basic peekable behavior
++        assertTrue(peekable.hasNext());
++        Object peeked = peekable.peek();
++        Object next = peekable.next();
++        assertSame(peeked, next);
++        assertFalse(peekable.hasNext());
++
++        // Clean up
++        peekable.close();
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

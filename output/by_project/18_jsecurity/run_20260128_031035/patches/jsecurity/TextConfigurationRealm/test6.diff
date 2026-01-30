@@ -1,0 +1,36 @@
+--- a/evosuite-tests/org/jsecurity/realm/text/TextConfigurationRealm_ESTest.java
++++ b/evosuite-tests/org/jsecurity/realm/text/TextConfigurationRealm_ESTest.java
+@@ -75,14 +75,24 @@
+       textConfigurationRealm0.onLogout(simplePrincipalCollection0);
+       assertEquals("org.jsecurity.realm.text.TextConfigurationRealm_0", textConfigurationRealm0.getName());
+   }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        textConfigurationRealm0 = new TextConfigurationRealm();
++        hashtableCacheManager0 = new HashtableCacheManager();
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-    textConfigurationRealm0 = new TextConfigurationRealm();
+-    hashtableCacheManager0 = new HashtableCacheManager();
+-      textConfigurationRealm0.setCacheManager(hashtableCacheManager0);
+-      textConfigurationRealm0.setUserDefinitions("l qm|a0UOG,A\"jBo[@");
+-      textConfigurationRealm0.processUserDefinitions();
+-      assertEquals("org.jsecurity.realm.text.TextConfigurationRealm-0-authorization", textConfigurationRealm0.getAuthorizationCacheName());
+-  }
++        // Verify that the cache manager is correctly set
++        textConfigurationRealm0.setCacheManager(hashtableCacheManager0);
++        assertSame(hashtableCacheManager0, textConfigurationRealm0.getCacheManager());
++
++        // Verify that user definitions are stored as provided
++        String defs = "l qm|a0UOG,A\"jBo[@";
++        textConfigurationRealm0.setUserDefinitions(defs);
++        assertEquals(defs, textConfigurationRealm0.getUserDefinitions());
++
++        // Process the definitions and verify a related observable state
++        textConfigurationRealm0.processUserDefinitions();
++        assertEquals("org.jsecurity.realm.text.TextConfigurationRealm-0-authorization",
++                textConfigurationRealm0.getAuthorizationCacheName());
++    }
++
+ }

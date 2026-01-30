@@ -1,0 +1,41 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/RegisterChannelRequest_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/RegisterChannelRequest_ESTest.java
+@@ -64,22 +64,21 @@
+     registerChannelRequest0.setChannel(serverSocketChannel0);
+     assertSame(serverSocketChannel0, registerChannelRequest0.getChannel());
+ }
++@Test(timeout = 4000)
++    public void test7() throws Throwable {
++        Selector selector = Selector.open();
++        ServerSocketChannel channel = ServerSocketChannel.open();
++        channel.configureBlocking(false);
++        int ops = SelectionKey.OP_ACCEPT;
++        Object attachment = new Object();
++        RegisterChannelRequest request = new RegisterChannelRequest(channel, ops, attachment);
++        request.register(selector);
++        SelectionKey key = channel.keyFor(selector);
++        assertNotNull(key);
++        assertEquals(ops, key.interestOps());
++        assertEquals(attachment, key.attachment());
++        channel.close();
++        selector.close();
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
+-      RegisterChannelRequest registerChannelRequest0 = new RegisterChannelRequest((SelectableChannel) null, 0, (Object) null);
+-      Selector selector0 = Selector.open();
+-      // Undeclared exception!
+-      try { 
+-        registerChannelRequest0.register(selector0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.quickserver.net.server.impl.RegisterChannelRequest", e);
+-      }
+-  }
+ }

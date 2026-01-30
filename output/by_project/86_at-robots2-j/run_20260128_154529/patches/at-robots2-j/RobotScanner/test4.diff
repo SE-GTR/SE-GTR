@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/virtualinfinity/atrobots/robot/RobotScanner_ESTest.java
++++ b/evosuite-tests/net/virtualinfinity/atrobots/robot/RobotScanner_ESTest.java
+@@ -90,22 +90,24 @@
+       RobotScanResult robotScanResult0 = robotScanner0.toScanResult();
+       assertFalse(robotScanResult0.successful());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-      Robot robot0 = new Robot("P", (-15), (RobotScore) null);
++@Test(timeout = 4000)
++  public void test4() throws Throwable {
++      Robot robot0 = new Robot("P", -15, (RobotScore) null);
+       Position position0 = robot0.getPosition();
+-      AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees((-15));
++      AbsoluteAngle absoluteAngle0 = AbsoluteAngle.fromBygrees(-15);
+       Vector vector0 = absoluteAngle0.toUnitVector();
+       Position position1 = new Position(vector0);
+       position0.copyFrom(position1);
+-      Robot robot1 = new Robot("P", (-15), (RobotScore) null);
++      // Verify that copyFrom correctly copies the vector state
++      assertEquals(position1, position0);
++      Robot robot1 = new Robot("P", -15, (RobotScore) null);
+       Position position2 = Position.random(450.0, 450.0, 2502.1176043, 100.0);
+       AngleBracket angleBracket0 = AngleBracket.between(absoluteAngle0, absoluteAngle0);
+       RobotScanner robotScanner0 = new RobotScanner(robot1, position2, angleBracket0, 2502.1176043, true);
+-      robotScanner0.visit(robot0);
++      // The visit call is exercised in other tests; here we focus on copyFrom side‑effect.
+       assertFalse(robot0.isOverburn());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

@@ -1,0 +1,55 @@
+--- a/evosuite-tests/ghm/follow/FileFollower_ESTest.java
++++ b/evosuite-tests/ghm/follow/FileFollower_ESTest.java
+@@ -34,27 +34,31 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class FileFollower_ESTest extends FileFollower_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("1FdK>}m'eWy*", "1FdK>}m'eWy*");
+-      OutputDestination[] outputDestinationArray0 = new OutputDestination[2];
+-      JTextPane jTextPane0 = new JTextPane();
+-      JTextPaneDestination jTextPaneDestination0 = new JTextPaneDestination(jTextPane0, false);
+-      outputDestinationArray0[0] = (OutputDestination) jTextPaneDestination0;
+-      SearchEngine searchEngine0 = new SearchEngine((-1618));
+-      FilteredDestination filteredDestination0 = new FilteredDestination(jTextPane0, searchEngine0, "1FdK>}m'eWy*", false);
+-      outputDestinationArray0[1] = (OutputDestination) filteredDestination0;
+-      FileFollower fileFollower0 = new FileFollower(file0, outputDestinationArray0);
+-      FileFollower.Runner fileFollower_Runner0 = fileFollower0.new Runner();
+-      fileFollower_Runner0.runAction();
+-      fileFollower0.isPaused();
+-      fileFollower0.getBufferSize();
+-      fileFollower0.start();
+-      fileFollower0.setBufferSize(149);
+-      System.setCurrentTimeMillis(1);
+-      fileFollower_Runner0.runAction();
+-  }
++@Test(timeout = 4000)
++    public void test00() throws Throwable {
++        File file0 = MockFile.createTempFile("1FdK>}m'eWy*", "1FdK>}m'eWy*");
++        OutputDestination[] outputDestinationArray0 = new OutputDestination[2];
++        JTextPane jTextPane0 = new JTextPane();
++        JTextPaneDestination jTextPaneDestination0 = new JTextPaneDestination(jTextPane0, false);
++        outputDestinationArray0[0] = jTextPaneDestination0;
++        SearchEngine searchEngine0 = new SearchEngine((-1618));
++        FilteredDestination filteredDestination0 = new FilteredDestination(jTextPane0, searchEngine0, "1FdK>}m'eWy*", false);
++        outputDestinationArray0[1] = filteredDestination0;
++        FileFollower fileFollower0 = new FileFollower(file0, outputDestinationArray0);
++        // Observe initial state
++        int initialBufferSize = fileFollower0.getBufferSize();
++        boolean pausedBeforeStart = fileFollower0.isPaused();
++        // Change buffer size and verify the change
++        fileFollower0.setBufferSize(149);
++        assertEquals(149, fileFollower0.getBufferSize());
++        // Start the follower and verify that start does not alter buffer size
++        fileFollower0.start();
++        assertEquals(149, fileFollower0.getBufferSize());
++        // Verify that the paused flag remains consistent (or changes as expected)
++        // Assuming start does not change the paused state; adjust if semantics differ
++        assertEquals(pausedBeforeStart, fileFollower0.isPaused());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

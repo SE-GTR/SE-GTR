@@ -1,0 +1,43 @@
+--- a/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/types/GrayImage_ESTest.java
+@@ -1295,15 +1295,31 @@
+          verifyException("jigl.image.types.GrayImage", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test53()  throws Throwable  {
+-      InterpolatedGrayImage interpolatedGrayImage0 = new InterpolatedGrayImage(1, 1);
+-      ROI rOI0 = new ROI();
+-      interpolatedGrayImage0.median(1, rOI0);
+-      ImageProducer imageProducer0 = interpolatedGrayImage0.getJavaImage();
+-      assertNotNull(imageProducer0);
+-  }
++@Test(timeout = 4000)
++public void test53() throws Throwable {
++    InterpolatedGrayImage img = new InterpolatedGrayImage(1, 1);
++    ROI roi = new ROI();
++
++    // Record state before invoking the method under test
++    int widthBefore = img.getXSize();
++    int heightBefore = img.getYSize();
++    Integer pixelBefore = img.getPixel(0, 0);
++
++    // Act
++    img.median(1, roi);
++
++    // Assert that the median operation does not alter image dimensions
++    assertEquals(widthBefore, img.getXSize());
++    assertEquals(heightBefore, img.getYSize());
++
++    // Assert that a median filter of size 1 leaves the pixel unchanged
++    assertEquals(pixelBefore, img.getPixel(0, 0));
++
++    // Verify that a Java image representation is still available after the operation
++    ImageProducer javaImg = img.getJavaImage();
++    assertNotNull(javaImg);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test54()  throws Throwable  {

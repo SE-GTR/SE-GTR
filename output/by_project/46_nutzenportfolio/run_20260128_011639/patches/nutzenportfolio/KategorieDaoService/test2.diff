@@ -1,0 +1,35 @@
+--- a/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/kategorie/KategorieDaoService_ESTest.java
++++ b/evosuite-tests/ch/bfh/egov/nutzenportfolio/service/kategorie/KategorieDaoService_ESTest.java
+@@ -66,24 +66,14 @@
+       NutzenkriteriumDaoService nutzenkriteriumDaoService0 = new NutzenkriteriumDaoService(nutzenkriteriumIbatisDao0);
+       kategorieDaoService0.init(commonDaoService0, customizingDaoService0, nutzenkriteriumDaoService0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    kategorieIbatisDao0 = new KategorieIbatisDao();
+-    kategorieDaoService0 = new KategorieDaoService(kategorieIbatisDao0);
+-      Kategorie kategorie0 = new Kategorie();
+-      // Undeclared exception!
+-      try { 
+-        kategorieDaoService0.getAssignments(kategorie0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No SqlMapClient specified
+-         //
+-         verifyException("org.springframework.util.Assert", e);
+-      }
+-  }
++@Test(timeout = 4000, expected = IllegalArgumentException.class)
++  public void test2() throws Throwable {
++    kategorieIbatisDao0 = new KategorieIbatisDao();
++    kategorieDaoService0 = new KategorieDaoService(kategorieIbatisDao0);
++    // Trigger IllegalArgumentException by passing a null argument
++    kategorieDaoService0.getAssignments(null);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

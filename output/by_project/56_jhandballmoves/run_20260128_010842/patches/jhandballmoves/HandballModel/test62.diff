@@ -1,0 +1,44 @@
+--- a/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
++++ b/evosuite-tests/visu/handball/moves/model/HandballModel_ESTest.java
+@@ -782,18 +782,29 @@
+         handballModel1.initWithLoadedModel(handballModel0);
+         assertEquals(0, handballModel0.getAcutalSequenceNr());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test62()  throws Throwable  {
+-      HandballModel handballModel0 = new HandballModel();
+-      handballModel0.addDefender(96, 96);
+-      HandballModel handballModel1 = new HandballModel();
+-      handballModel1.initWithLoadedModel(handballModel0);
+-      boolean boolean0 = handballModel1.isSaved();
+-      assertTrue(boolean0);
+-      assertEquals(0, handballModel1.getAcutalSequenceNr());
+-  }
++@Test(timeout = 4000)
++    public void test62() throws Throwable {
++        HandballModel handballModel0 = new HandballModel();
++        handballModel0.addDefender(96, 96);
++        // Verify that the defender was added to the source model
++        int expectedDefenders = handballModel0.getDefenders().size();
++
++        HandballModel handballModel1 = new HandballModel();
++        // The target model should start with no defenders
++        assertEquals(0, handballModel1.getDefenders().size());
++
++        // Act: copy state from handballModel0
++        handballModel1.initWithLoadedModel(handballModel0);
++
++        // Verify that the defenders were transferred
++        assertEquals(expectedDefenders, handballModel1.getDefenders().size());
++
++        // Existing assertions
++        boolean boolean0 = handballModel1.isSaved();
++        assertTrue(boolean0);
++        assertEquals(0, handballModel1.getAcutalSequenceNr());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test63()  throws Throwable  {

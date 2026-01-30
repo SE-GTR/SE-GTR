@@ -1,0 +1,57 @@
+--- a/evosuite-tests/org/jsecurity/web/session/ServletContainerSessionManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/session/ServletContainerSessionManager_ESTest.java
+@@ -65,30 +65,33 @@
+          verifyException("org.jsecurity.web.WebUtils", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test2() throws Throwable {
+     servletContainerSessionManager0 = new ServletContainerSessionManager();
+     httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
+-      JSecurityHttpSession jSecurityHttpSession0 = new JSecurityHttpSession((Session) null, httpServletRequest0, servletContext0);
+-      HttpServletRequest httpServletRequest1 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn((String) null).when(httpServletRequest1).getRemoteHost();
+-      doReturn(jSecurityHttpSession0).when(httpServletRequest1).getSession(anyBoolean());
+-      ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
+-      ServletResponseWrapper servletResponseWrapper0 = new ServletResponseWrapper(servletResponse0);
+-      // Undeclared exception!
+-      try { 
+-        servletContainerSessionManager0.getSession(httpServletRequest1, servletResponseWrapper0);
+-        fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // HttpSession constructor argument cannot be an instance of JSecurityHttpSession.  This is enforced to prevent circular dependencies and infinite loops.
+-         //
+-         verifyException("org.jsecurity.web.session.WebSession", e);
+-      }
++    ServletContext servletContext0 = mock(ServletContext.class, new ViolatedAssumptionAnswer());
++    JSecurityHttpSession jSecurityHttpSession0 = new JSecurityHttpSession((Session) null, httpServletRequest0,
++        servletContext0);
++    HttpServletRequest httpServletRequest1 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn((String) null).when(httpServletRequest1).getRemoteHost();
++    doReturn(jSecurityHttpSession0).when(httpServletRequest1).getSession(anyBoolean());
++    // Assert the stubbed return values
++    assertNull(httpServletRequest1.getRemoteHost());
++    assertSame(jSecurityHttpSession0, httpServletRequest1.getSession(true));
++    ServletResponse servletResponse0 = mock(ServletResponse.class, new ViolatedAssumptionAnswer());
++    ServletResponseWrapper servletResponseWrapper0 = new ServletResponseWrapper(servletResponse0);
++    // Undeclared exception!
++    try {
++      servletContainerSessionManager0.getSession(httpServletRequest1, servletResponseWrapper0);
++      fail("Expecting exception: IllegalArgumentException");
++    } catch (IllegalArgumentException e) {
++      //
++      // HttpSession constructor argument cannot be an instance of JSecurityHttpSession.  This is enforced to prevent circular dependencies and infinite loops.
++      //
++      verifyException("org.jsecurity.web.session.WebSession", e);
++    }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

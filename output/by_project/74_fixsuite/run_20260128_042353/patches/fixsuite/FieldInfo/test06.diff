@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/fixsuite/message/info/FieldInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/FieldInfo_ESTest.java
+@@ -111,16 +111,21 @@
+         List<ValueInfo> list0 = fieldInfo0.getValidValues();
+         // No assertion on the default value to avoid redundant initialization checks.
+     }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        FieldInfo fieldInfo0 = new FieldInfo();
++        ComponentInfo componentInfo0 = new ComponentInfo();
++        // Verify initial state: component and null are not required
++        assertFalse(fieldInfo0.isRequiredInComponent(componentInfo0));
++        assertFalse(fieldInfo0.isRequiredInComponent(null));
++        // Add a null requiring component
++        fieldInfo0.addRequiringComponent(null);
++        // The null component should now be considered required
++        assertTrue(fieldInfo0.isRequiredInComponent(null));
++        // The original component should still not be required
++        assertFalse(fieldInfo0.isRequiredInComponent(componentInfo0));
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      FieldInfo fieldInfo0 = new FieldInfo();
+-      ComponentInfo componentInfo0 = new ComponentInfo();
+-      fieldInfo0.addRequiringComponent((ComponentInfo) null);
+-      boolean boolean0 = fieldInfo0.isRequiredInComponent(componentInfo0);
+-      assertFalse(boolean0);
+-  }
+ @Test(timeout = 4000)
+     public void test07() throws Throwable {
+         FieldInfo fieldInfo = new FieldInfo();

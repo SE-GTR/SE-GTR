@@ -1,0 +1,46 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEThread_ESTest.java
+@@ -173,21 +173,28 @@
+         int hash2 = j2EEThread0.hashCode();
+         assertEquals(hash1, hash2);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      J2EEThread j2EEThread0 = new J2EEThread();
+-      STATECOLOR sTATECOLOR0 = new STATECOLOR("ML[\"`v~r|");
+-      j2EEThread0.setDispstatus(sTATECOLOR0);
+-      J2EEThread j2EEThread1 = new J2EEThread();
+-      assertFalse(j2EEThread1.equals((Object)j2EEThread0));
+-      
+-      j2EEThread1.setDispstatus(sTATECOLOR0);
+-      boolean boolean0 = j2EEThread0.equals(j2EEThread1);
+-      assertTrue(j2EEThread1.equals((Object)j2EEThread0));
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        J2EEThread j2EEThread0 = new J2EEThread();
++        // Verify initial state before setting dispstatus
++        assertNull(j2EEThread0.getDispstatus());
++
++        STATECOLOR sTATECOLOR0 = new STATECOLOR("ML[\"`v~r|");
++        j2EEThread0.setDispstatus(sTATECOLOR0);
++        // Assert that the side‑effect of setDispstatus is observable
++        assertSame(sTATECOLOR0, j2EEThread0.getDispstatus());
++
++        J2EEThread j2EEThread1 = new J2EEThread();
++        assertFalse(j2EEThread1.equals((Object) j2EEThread0));
++
++        j2EEThread1.setDispstatus(sTATECOLOR0);
++        assertSame(sTATECOLOR0, j2EEThread1.getDispstatus());
++
++        boolean boolean0 = j2EEThread0.equals(j2EEThread1);
++        assertTrue(j2EEThread1.equals((Object) j2EEThread0));
++        assertTrue(boolean0);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

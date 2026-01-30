@@ -1,0 +1,34 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/FeedBack_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/FeedBack_ESTest.java
+@@ -53,14 +53,25 @@
+         // Invoke getter to ensure it does not throw
+         feedBack0.getFeedbackRating();
+     }
++@Test(timeout = 4000)
++    public void test6() throws Throwable {
++        FeedBack feedBack0 = new FeedBack();
++        // Exercise a non‑trivial operation: serialization round‑trip
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(feedBack0);
++        oos.flush();
++        oos.close();
+ 
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++                new java.io.ByteArrayInputStream(baos.toByteArray()));
++        FeedBack deserialized = (FeedBack) ois.readObject();
++        ois.close();
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      FeedBack feedBack0 = new FeedBack();
+-      String string0 = feedBack0.getFeedbackComments();
+-      assertNull(string0);
+-  }
++        // Verify that the state is preserved (null feedback comments)
++        assertNull(deserialized.getFeedbackComments());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

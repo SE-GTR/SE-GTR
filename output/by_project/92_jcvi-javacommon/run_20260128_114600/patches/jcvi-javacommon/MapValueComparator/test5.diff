@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/util/MapValueComparator_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/util/MapValueComparator_ESTest.java
+@@ -108,21 +108,22 @@
+          verifyException("org.jcvi.jillion.core.util.MapValueComparator", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        java.util.Map<Integer, Integer> map = new java.util.HashMap<>();
++        map.put(2, 20);
++        map.put(1, 10);
++        map.put(3, 15);
++        java.util.SortedMap<Integer, Integer> sorted = MapValueComparator.sortAscending(map);
++        java.util.Iterator<Integer> it = sorted.keySet().iterator();
++        assertEquals(Integer.valueOf(1), it.next());
++        assertEquals(Integer.valueOf(3), it.next());
++        assertEquals(Integer.valueOf(2), it.next());
++        assertEquals(Integer.valueOf(10), sorted.get(1));
++        assertEquals(Integer.valueOf(15), sorted.get(3));
++        assertEquals(Integer.valueOf(20), sorted.get(2));
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        MapValueComparator.sortAscending((Map<Integer, Integer>) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // map can not be null
+-         //
+-         verifyException("org.jcvi.jillion.core.util.MapValueComparator", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

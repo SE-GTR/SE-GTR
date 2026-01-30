@@ -1,0 +1,35 @@
+--- a/evosuite-tests/client/gui/HighscoreLobby_ESTest.java
++++ b/evosuite-tests/client/gui/HighscoreLobby_ESTest.java
+@@ -114,13 +114,24 @@
+       highscoreLobby0.mousePressed(mouseEvent0);
+       assertTrue(mouseEvent0.isMetaDown());
+   }
++@Test(timeout = 4000)
++    public void test11() throws Throwable {
++        HighscoreLobby highscoreLobby0 = new HighscoreLobby();
+ 
+-  @Test(timeout = 4000)
+-  public void test11()  throws Throwable  {
+-      HighscoreLobby highscoreLobby0 = new HighscoreLobby();
+-      HashMap<String, Integer> hashMap0 = new HashMap<String, Integer>();
+-      highscoreLobby0.setSessionTable(hashMap0);
+-      highscoreLobby0.setSessionTable(hashMap0);
+-      assertEquals(0, hashMap0.size());
+-  }
++        // First call with an empty map (no session data)
++        HashMap<String, Integer> emptyMap = new HashMap<>();
++        highscoreLobby0.setSessionTable(emptyMap);
++
++        // Second call with a populated map – this is the side‑effect we want to verify
++        HashMap<String, Integer> populatedMap = new HashMap<>();
++        populatedMap.put("player1", 42);
++        highscoreLobby0.setSessionTable(populatedMap);
++
++        // Verify that the call produced a visible change in the lobby state
++        assertNotNull(highscoreLobby0.rowSessionData);
++        assertEquals(1, highscoreLobby0.rowSessionData.length);
++        assertEquals("player1", highscoreLobby0.rowSessionData[0][0]);
++        assertEquals("42", highscoreLobby0.rowSessionData[0][1]);
++    }
++
+ }

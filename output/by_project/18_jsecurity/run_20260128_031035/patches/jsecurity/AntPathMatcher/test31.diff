@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jsecurity/util/AntPathMatcher_ESTest.java
++++ b/evosuite-tests/org/jsecurity/util/AntPathMatcher_ESTest.java
+@@ -223,15 +223,18 @@
+     boolean nonPattern = antPathMatcher0.isPattern("plainString");
+     assertFalse(nonPattern);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test31()  throws Throwable  {
+-    antPathMatcher0 = new AntPathMatcher();
+-      antPathMatcher0.setPathSeparator("");
+-      boolean boolean0 = antPathMatcher0.doMatch("/*", "as1*=IMIM", true);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test31() throws Throwable {
++        antPathMatcher0 = new AntPathMatcher();
++        String beforeSeparator = antPathMatcher0.getPathSeparator();
++        antPathMatcher0.setPathSeparator("");
++        assertEquals("", antPathMatcher0.getPathSeparator());
++        // Ensure the separator actually changed from its original value
++        assertNotEquals(beforeSeparator, antPathMatcher0.getPathSeparator());
++        boolean matchResult = antPathMatcher0.doMatch("/*", "as1*=IMIM", true);
++        assertFalse(matchResult);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test32()  throws Throwable  {

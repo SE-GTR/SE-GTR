@@ -1,0 +1,36 @@
+--- a/evosuite-tests/jigl/image/warp/AffineTransform_ESTest.java
++++ b/evosuite-tests/jigl/image/warp/AffineTransform_ESTest.java
+@@ -86,23 +86,17 @@
+          verifyException("jigl.image.warp.AffineTransform", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test5() throws Throwable {
++        // Use a valid identity matrix so the transform is a no‑op
++        AffineTransform affineTransform0 = new AffineTransform(new IdentityMatrix(2));
++        float[] coords = new float[] {5.0f, 10.0f};
++        // Inverse transform should leave the coordinates unchanged for an identity matrix
++        affineTransform0.inverseTransform(coords, coords);
++        assertEquals(5.0f, coords[0], 0.0f);
++        assertEquals(10.0f, coords[1], 0.0f);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test5()  throws Throwable  {
+-      AffineTransform affineTransform0 = new AffineTransform((Matrix) null);
+-      float[] floatArray0 = new float[1];
+-      // Undeclared exception!
+-      try { 
+-        affineTransform0.inverseTransform(floatArray0, floatArray0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("jigl.image.warp.AffineTransform", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test6()  throws Throwable  {

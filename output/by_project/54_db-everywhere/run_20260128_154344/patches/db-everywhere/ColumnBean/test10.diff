@@ -1,0 +1,31 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ColumnBean_ESTest.java
+@@ -93,13 +93,21 @@
+         assertEquals("", comment);
+     }
+ @Test(timeout = 4000)
+-    public void test10() throws Throwable {
+-        ColumnBean columnBean0 = new ColumnBean();
+-        columnBean0.setLen(10);
+-        columnBean0.setDec(3);
+-        assertEquals(10, columnBean0.getLen());
+-        assertEquals(3, columnBean0.getDec());
+-    }
++public void test10() throws Throwable {
++    ColumnBean columnBean0 = new ColumnBean();
++    columnBean0.setLen(10);
++    columnBean0.setDec(3);
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(columnBean0);
++    oos.flush();
++    java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++    ColumnBean deserialized = (ColumnBean) ois.readObject();
++    assertEquals(10, deserialized.getLen());
++    assertEquals(3, deserialized.getDec());
++}
++
+ public void test11() throws Throwable {
+     ColumnBean columnBean0 = new ColumnBean();
+     columnBean0.setName("z%Zdq0w.");

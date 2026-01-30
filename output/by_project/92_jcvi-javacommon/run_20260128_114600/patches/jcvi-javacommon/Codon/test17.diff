@@ -1,0 +1,31 @@
+--- a/evosuite-tests/org/jcvi/jillion/core/residue/aa/Codon_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/core/residue/aa/Codon_ESTest.java
+@@ -228,12 +228,22 @@
+       Map<List<Nucleotide>, Codon> map0 = Codon.getCodonMap();
+       assertEquals(175, map0.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      Codon codon0 = Codon.getStartCodon();
+-      codon0.hashCode();
+-  }
++@Test(timeout = 4000)
++public void test17() throws Throwable {
++    Codon start1 = Codon.getStartCodon();
++    Codon start2 = Codon.getStartCodon();
++
++    int hash1 = start1.hashCode();
++    int hash2 = start2.hashCode();
++
++    // Verify that two start codons are equal and have identical hash codes
++    assertEquals(start1, start2);
++    assertEquals(hash1, hash2);
++
++    // Verify hashCode is consistent across multiple invocations
++    assertEquals(hash1, start1.hashCode());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test18()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Locality_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/Locality_ESTest.java
+@@ -163,14 +163,19 @@
+       locality0.setPostalRoute(postalRouteType0);
+       assertNull(locality0.getUsageType());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      Locality locality0 = new Locality();
+-      PostalCode postalCode0 = new PostalCode();
+-      locality0.setPostalCode(postalCode0);
+-      assertNull(postalCode0.getType());
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        Locality locality0 = new Locality();
++        PostalCode postalCode0 = new PostalCode();
++        // Verify that the locality initially has no postal code
++        assertNull(locality0.getPostalCode());
++        // Set the postal code and verify the side‑effect
++        locality0.setPostalCode(postalCode0);
++        assertSame(postalCode0, locality0.getPostalCode());
++        // The newly created PostalCode should have a null type by default
++        assertNull(postalCode0.getType());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

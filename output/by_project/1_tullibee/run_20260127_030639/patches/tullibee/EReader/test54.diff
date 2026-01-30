@@ -1,0 +1,44 @@
+--- a/evosuite-tests/com/ib/client/EReader_ESTest.java
++++ b/evosuite-tests/com/ib/client/EReader_ESTest.java
+@@ -829,24 +829,24 @@
+          verifyException("java.io.DataInputStream", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test54()  throws Throwable  {
+-      PipedInputStream pipedInputStream0 = new PipedInputStream();
+-      PushbackInputStream pushbackInputStream0 = new PushbackInputStream(pipedInputStream0);
+-      DataInputStream dataInputStream0 = new DataInputStream(pushbackInputStream0);
+-      EReader eReader0 = new EReader(dataInputStream0, (EWrapper) null, 147);
+-      try { 
+-        eReader0.processMsg((byte)3);
++@Test(timeout = 4000)
++public void test54() throws Throwable {
++    java.io.InputStream failingInput = new java.io.InputStream() {
++        @Override
++        public int read() throws java.io.IOException {
++            throw new java.io.IOException("forced");
++        }
++    };
++    DataInputStream dataInputStream0 = new DataInputStream(failingInput);
++    EReader eReader0 = new EReader(dataInputStream0, null, 147);
++    try {
++        eReader0.processMsg((byte) 3);
+         fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Pipe not connected
+-         //
+-         verifyException("java.io.PipedInputStream", e);
+-      }
+-  }
++    } catch (IOException e) {
++        // expected exception due to failing input stream
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test55()  throws Throwable  {

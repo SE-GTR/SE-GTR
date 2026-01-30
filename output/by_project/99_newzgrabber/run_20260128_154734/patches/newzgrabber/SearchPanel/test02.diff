@@ -1,0 +1,29 @@
+--- a/evosuite-tests/Newzgrabber/SearchPanel_ESTest.java
++++ b/evosuite-tests/Newzgrabber/SearchPanel_ESTest.java
+@@ -43,16 +43,18 @@
+     // Verify that the action does not alter the focus‑traversal‑keys‑enabled state
+     assertEquals(before, after);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
++@Test(timeout = 4000)
++public void test02() throws Throwable {
+     actionEvent0 = new ActionEvent("STOPSEARCH", 3, "STOPSEARCH", 3);
+     searchPanel0 = new SearchPanel((JFrame) null);
+-      Newzgrabber.debug = true;
+-      searchPanel0.actionPerformed(actionEvent0);
+-      assertEquals(0L, actionEvent0.getWhen());
+-  }
++    Newzgrabber.debug = true;
++    int beforeSize = (SearchPanel.NewsVector == null) ? 0 : SearchPanel.NewsVector.size();
++    searchPanel0.actionPerformed(actionEvent0);
++    assertNotNull("NewsVector should be initialized", SearchPanel.NewsVector);
++    assertTrue("NewsVector should be cleared after STOPSEARCH", SearchPanel.NewsVector.isEmpty());
++    assertEquals(0L, actionEvent0.getWhen());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

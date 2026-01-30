@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/form/DBDataForm_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/form/DBDataForm_ESTest.java
+@@ -46,14 +46,20 @@
+       dBDataForm0.setEncoding("POST");
+       assertEquals("FR", dBDataForm0.getLanguage());
+   }
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    DBDataForm form = new DBDataForm();
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(form);
++    oos.flush();
++    byte[] data = baos.toByteArray();
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
++    DBDataForm deserialized = (DBDataForm) ois.readObject();
++    assertEquals(form.getLanguage(), deserialized.getLanguage());
++    assertEquals(form.getEncoding(), deserialized.getEncoding());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      DBDataForm dBDataForm0 = new DBDataForm();
+-      String string0 = dBDataForm0.getLanguage();
+-      assertEquals("FR", string0);
+-      assertEquals("ISO-8859-1", dBDataForm0.getEncoding());
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

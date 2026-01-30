@@ -1,0 +1,42 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/EnqLock_ESTest.java
+@@ -38,16 +38,29 @@
+     assertEquals(0, enqLock0.getUseCountOwnerVb());
+     assertEquals(0, enqLock0.getUseCountOwner());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test02()  throws Throwable  {
+-      EnqLock enqLock0 = new EnqLock();
+-      enqLock0.setUser("transaction");
+-      enqLock0.hashCode();
+-      assertEquals(0, enqLock0.getUseCountOwner());
+-      assertEquals(0, enqLock0.getUseCountOwnerVb());
+-  }
++@Test(timeout = 4000)
++    public void test02() throws Throwable {
++        EnqLock enqLock0 = new EnqLock();
++        // Verify initial state (optional sanity check)
++        assertEquals(0, enqLock0.getUseCountOwner());
++        assertEquals(0, enqLock0.getUseCountOwnerVb());
++
++        // Act: set the user
++        enqLock0.setUser("transaction");
++
++        // Observe side‑effect of setUser
++        assertEquals("transaction", enqLock0.getUser());
++
++        // Observe return value of hashCode
++        int hc1 = enqLock0.hashCode();
++        int hc2 = enqLock0.hashCode();
++        assertEquals(hc1, hc2);
++
++        // Ensure other fields remain unchanged
++        assertEquals(0, enqLock0.getUseCountOwner());
++        assertEquals(0, enqLock0.getUseCountOwnerVb());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test03()  throws Throwable  {

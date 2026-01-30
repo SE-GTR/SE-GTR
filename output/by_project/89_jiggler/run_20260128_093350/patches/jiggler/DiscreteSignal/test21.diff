@@ -1,0 +1,33 @@
+--- a/evosuite-tests/jigl/signal/DiscreteSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/DiscreteSignal_ESTest.java
+@@ -196,17 +196,19 @@
+     int minAfter = discreteSignal0.min();
+     assertNotEquals("Median should affect the minimum value", minBefore, minAfter);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      short[] shortArray0 = new short[8];
+-      shortArray0[0] = (short) (-844);
+-      DiscreteSignal discreteSignal0 = new DiscreteSignal(shortArray0);
+-      discreteSignal0.convolve(discreteSignal0);
+-      assertEquals(0, discreteSignal0.max());
+-      assertEquals((-844), discreteSignal0.min());
+-  }
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        short[] shortArray0 = new short[8];
++        shortArray0[0] = (short) (-844);
++        DiscreteSignal discreteSignal0 = new DiscreteSignal(shortArray0);
++        int originalMax = discreteSignal0.max();
++        int originalMin = discreteSignal0.min();
++        discreteSignal0.convolve(discreteSignal0);
++        int newMax = discreteSignal0.max();
++        int newMin = discreteSignal0.min();
++        assertTrue("Convolution should modify signal values", newMax != originalMax || newMin != originalMin);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EESession_ESTest.java
+@@ -320,17 +320,31 @@
+       assertEquals((-530), j2EESession1.getIdHash());
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test17()  throws Throwable  {
+-      J2EESession j2EESession0 = new J2EESession();
+-      J2EESession j2EESession1 = new J2EESession();
+-      assertTrue(j2EESession1.equals((Object)j2EESession0));
+-      
+-      j2EESession1.setProcessname("$<0Hn L>as+");
+-      boolean boolean0 = j2EESession0.equals(j2EESession1);
+-      assertFalse(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test17() throws Throwable {
++        J2EESession j2EESession0 = new J2EESession();
++        J2EESession j2EESession1 = new J2EESession();
++        assertTrue(j2EESession1.equals((Object) j2EESession0));
++
++        // Verify initial state of processname is null for both instances
++        assertNull(j2EESession0.getProcessname());
++        assertNull(j2EESession1.getProcessname());
++
++        // Act: change processname on the second instance
++        String newName = "$<0Hn L>as+";
++        j2EESession1.setProcessname(newName);
++
++        // Observe side‑effect via the getter
++        assertEquals(newName, j2EESession1.getProcessname());
++
++        // Ensure the first instance remains unchanged
++        assertNull(j2EESession0.getProcessname());
++
++        // Equality should now reflect the difference in processname
++        boolean boolean0 = j2EESession0.equals(j2EESession1);
++        assertFalse(boolean0);
++    }
++
+ @Test(timeout = 4000)
+   public void test18() throws Throwable {
+       J2EESession j2EESession0 = new J2EESession();

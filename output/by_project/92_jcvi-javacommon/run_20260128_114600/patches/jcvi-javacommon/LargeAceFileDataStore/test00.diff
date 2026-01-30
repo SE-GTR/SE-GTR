@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/LargeAceFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/consed/ace/LargeAceFileDataStore_ESTest.java
+@@ -20,22 +20,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class LargeAceFileDataStore_ESTest extends LargeAceFileDataStore_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    File file0 = MockFile.createTempFile("@rbj}x/iS90l%", "@rbj}x/iS90l%");
++    String aceContent = "AS 0 0\n";
++    java.nio.file.Files.write(file0.toPath(),
++            aceContent.getBytes(java.nio.charset.StandardCharsets.UTF_8));
++    AceFileContigDataStore aceFileContigDataStore0 = LargeAceFileDataStore.create(file0);
++    long records = ((LargeAceFileDataStore) aceFileContigDataStore0).getNumberOfRecords();
++    org.junit.Assert.assertEquals(0L, records);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("@rbj}x/iS90l%", "@rbj}x/iS90l%");
+-      AceFileContigDataStore aceFileContigDataStore0 = LargeAceFileDataStore.create(file0);
+-      // Undeclared exception!
+-      try { 
+-        ((LargeAceFileDataStore) aceFileContigDataStore0).getNumberOfRecords();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test01()  throws Throwable  {

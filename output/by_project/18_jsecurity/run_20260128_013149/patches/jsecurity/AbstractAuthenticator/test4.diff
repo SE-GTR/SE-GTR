@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/jsecurity/authc/AbstractAuthenticator_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authc/AbstractAuthenticator_ESTest.java
+@@ -103,12 +103,21 @@
+          verifyException("org.jsecurity.authc.AbstractAuthenticator", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test4() throws Throwable {
++    modularRealmAuthenticator0 = new ModularRealmAuthenticator();
++    // Verify initial state: listeners collection should be empty
++    assertNotNull(modularRealmAuthenticator0.getAuthenticationListeners());
++    assertEquals(0, modularRealmAuthenticator0.getAuthenticationListeners().size());
+ 
+-  @Test(timeout = 4000)
+-  public void test4()  throws Throwable  {
+-    modularRealmAuthenticator0 = new ModularRealmAuthenticator();
+-      modularRealmAuthenticator0.setAuthenticationListeners((Collection<AuthenticationListener>) null);
+-  }
++    // Set listeners to null (should result in an empty collection)
++    modularRealmAuthenticator0.setAuthenticationListeners((Collection<AuthenticationListener>) null);
++
++    // Verify side‑effect: listeners collection remains empty and non‑null
++    assertNotNull(modularRealmAuthenticator0.getAuthenticationListeners());
++    assertEquals(0, modularRealmAuthenticator0.getAuthenticationListeners().size());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test5()  throws Throwable  {

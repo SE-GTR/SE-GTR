@@ -1,0 +1,33 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/SimilarProducts_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/SimilarProducts_ESTest.java
+@@ -39,16 +39,22 @@
+         assertNotNull(after);
+         assertNotEquals("toString should reflect the change after setProduct", before, after);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     similarProducts0 = new SimilarProducts();
+     stringArray0 = new String[0];
+-      similarProducts0.setProduct(stringArray0);
+-      String string0 = similarProducts0.toString();
+-      assertEquals("Similar Products is null or size 0\n", string0);
+-  }
++    similarProducts0.setProduct(stringArray0);
++    String string0 = similarProducts0.toString();
++    assertEquals("Similar Products is null or size 0\n", string0);
++
++    // Verify that setProduct actually changes internal state
++    String before = string0;
++    String[] nonEmpty = new String[] { "item" };
++    similarProducts0.setProduct(nonEmpty);
++    String after = similarProducts0.toString();
++    assertNotEquals(before, after);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

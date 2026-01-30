@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/fixsuite/message/info/ComponentInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/ComponentInfo_ESTest.java
+@@ -57,16 +57,22 @@
+     // Verify that requesting a non‑existent component does not cause an exception.
+     messageInfo0.getComponent("");
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      MessageInfo messageInfo0 = new MessageInfo();
+-      messageInfo0.setName(";");
+-      messageInfo0.addComponent(messageInfo0, (-1.0));
+-      messageInfo0.getComponent((-18));
+-      assertEquals(0, messageInfo0.getId());
+-  }
++@Test(timeout = 4000)
++    public void test04() throws Throwable {
++        MessageInfo messageInfo0 = new MessageInfo();
++        messageInfo0.setName(";");
++        assertEquals(";", messageInfo0.getName());
++
++        messageInfo0.addComponent(messageInfo0, -1.0);
++        ComponentInfo retrieved = messageInfo0.getComponent(";");
++        assertSame(messageInfo0, retrieved);
++
++        ComponentInfo notFound = messageInfo0.getComponent(-18);
++        assertNull(notFound);
++
++        assertEquals(0, messageInfo0.getId());
++    }
++
+ @Test(timeout = 4000)
+     public void test05() throws Throwable {
+         MessageInfo messageInfo0 = new MessageInfo();

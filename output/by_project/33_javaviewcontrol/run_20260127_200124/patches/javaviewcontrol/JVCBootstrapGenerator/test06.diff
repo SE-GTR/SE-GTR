@@ -1,0 +1,39 @@
+--- a/evosuite-tests/com/pmdesigns/jvc/tools/JVCBootstrapGenerator_ESTest.java
++++ b/evosuite-tests/com/pmdesigns/jvc/tools/JVCBootstrapGenerator_ESTest.java
+@@ -68,17 +68,27 @@
+         JVCBootstrapGenerator.main(stringArray0);
+         org.junit.Assert.assertArrayEquals("Input array should remain unchanged after main execution", before, stringArray0);
+     }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    String[] stringArray0 = new String[4];
++    stringArray0[0] = "J@rmCfAe";
++    stringArray0[1] = "genPage";
++    stringArray0[2] = "-debug";
+ 
++    java.io.ByteArrayOutputStream outContent = new java.io.ByteArrayOutputStream();
++    java.io.PrintStream originalOut = System.out;
++    System.setOut(new java.io.PrintStream(outContent));
++    try {
++        JVCBootstrapGenerator.main(stringArray0);
++    } finally {
++        System.setOut(originalOut);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      String[] stringArray0 = new String[4];
+-      stringArray0[0] = "J@rmCfAe";
+-      stringArray0[1] = "genPage";
+-      stringArray0[2] = "-debug";
+-      JVCBootstrapGenerator.main(stringArray0);
+-      assertEquals(4, stringArray0.length);
+-  }
++    assertEquals(4, stringArray0.length);
++    String output = outContent.toString();
++    assertTrue("Expected some output from main", output.length() > 0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

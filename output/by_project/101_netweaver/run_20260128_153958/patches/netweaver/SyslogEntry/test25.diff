@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SyslogEntry_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/SyslogEntry_ESTest.java
+@@ -342,15 +342,22 @@
+       syslogEntry0.setTime("M");
+       assertNull(syslogEntry0.getTcode());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test25() throws Throwable {
+       SyslogEntry syslogEntry0 = new SyslogEntry();
+       syslogEntry0.setTcode("hK/DC_22[Vr[th0B");
+-      SyslogEntry syslogEntry1 = new SyslogEntry();
+-      boolean boolean0 = syslogEntry0.equals(syslogEntry1);
+-      assertFalse(boolean0);
+-  }
++
++      // Verify that the tcode was set by comparing with another entry having the same tcode
++      SyslogEntry syslogEntrySame = new SyslogEntry();
++      syslogEntrySame.setTcode("hK/DC_22[Vr[th0B");
++      assertTrue(syslogEntry0.equals(syslogEntrySame));
++
++      // Ensure that an entry without a tcode is not equal
++      SyslogEntry syslogEntry1 = new SyslogEntry();
++      boolean boolean0 = syslogEntry0.equals(syslogEntry1);
++      assertFalse(boolean0);
++  }
++
+ @Test(timeout = 4000)
+   public void test26() throws Throwable {
+       STATECOLOR sTATECOLOR0 = STATECOLOR.value2;

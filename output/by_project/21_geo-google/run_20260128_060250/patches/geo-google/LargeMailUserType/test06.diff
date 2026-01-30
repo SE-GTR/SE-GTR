@@ -1,0 +1,28 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/LargeMailUserType_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/LargeMailUserType_ESTest.java
+@@ -81,12 +81,19 @@
+       String string0 = largeMailUserType_LargeMailUserIdentifier0.getType();
+       assertNull(string0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      largeMailUserType0.largeMailUserIdentifier.setCode((String) null);
+-      assertNull(largeMailUserType0.getType());
+-  }
++@Test(timeout = 4000)
++public void test06() throws Throwable {
++    // Use a distinct, non‑null value to exercise the setter meaningfully
++    String expectedCode = "XYZ";
++    largeMailUserType0.largeMailUserIdentifier.setCode(expectedCode);
++
++    // Verify that the side‑effect of setCode is observable via the corresponding getter
++    assertEquals(expectedCode, largeMailUserType0.largeMailUserIdentifier.getCode());
++
++    // Ensure that setting the code does not unintentionally affect the unrelated 'type' property
++    assertNull(largeMailUserType0.getType());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/StatementDS_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/StatementDS_ESTest.java
+@@ -26,15 +26,24 @@
+       statementDS0.setType(statementDS_statementType0);
+       statementDS0.setLVal("R#X");
+   }
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    // Verify that setting the L‑value and type actually affect the object's state
++    StatementDS.statementType type = StatementDS.statementType.values()[0];
++    statementDS0.setType(type);
++    statementDS0.setLVal("NEW_LVAL");
++    String before = statementDS0.toString();
++    assertTrue(before.contains("NEW_LVAL"));
++    assertTrue(before.contains(type.name()));
+ 
++    // Add a right‑hand side value and check the full string representation
++    StatementElement statementElement0 = new StatementElement("sA\u0005z5e1z");
++    statementDS0.addRVal(statementElement0);
++    String after = statementDS0.toString();
++    String expected = "NEW_LVAL : " + type.name() + " := sA\u0005z5e1z";
++    assertEquals(expected, after);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      StatementElement statementElement0 = new StatementElement("sA\u0005z5e1z");
+-      statementDS0.addRVal(statementElement0);
+-      String string0 = statementDS0.toString();
+-      assertEquals("R#X : PostInc := sA\u0005z5e1z", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

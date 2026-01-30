@@ -1,0 +1,70 @@
+--- a/evosuite-tests/org/heal/servlet/ShowRegistrationInfoAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/ShowRegistrationInfoAction_ESTest.java
+@@ -211,35 +211,38 @@
+         // Invoke with a non‑null request; the test verifies that no NullPointerException is thrown.
+         showRegistrationInfoAction0.setUserAttributes(request, userBean0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      ShowRegistrationInfoAction showRegistrationInfoAction0 = new ShowRegistrationInfoAction();
+-      UserBean userBean0 = new UserBean();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn(userBean0).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("FK_NAME").when(httpServletRequest0).getParameter(anyString());
+-      doReturn((RequestDispatcher) null).when(httpServletRequest0).getRequestDispatcher(anyString());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-      Servlet servlet0 = new Servlet();
+-      userBean0.setLoginModified(true);
+-      HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
+-      HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
+-      // Undeclared exception!
+-      try { 
+-        showRegistrationInfoAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.ShowRegistrationInfoAction", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        ShowRegistrationInfoAction showRegistrationInfoAction0 = new ShowRegistrationInfoAction();
++        UserBean userBean0 = new UserBean();
++        HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++        doReturn(userBean0).when(httpSession0).getAttribute(anyString());
++        HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++        doReturn("FK_NAME").when(httpServletRequest0).getParameter(anyString());
++        doReturn((RequestDispatcher) null).when(httpServletRequest0).getRequestDispatcher(anyString());
++        doReturn(httpSession0).when(httpServletRequest0).getSession();
++        // Assert the stubbed return values to avoid NARV
++        Object attr = httpSession0.getAttribute("anyKey");
++        assertNotNull(attr);
++        String param = httpServletRequest0.getParameter("anyParam");
++        assertEquals("FK_NAME", param);
++        RequestDispatcher rd = httpServletRequest0.getRequestDispatcher("anyPath");
++        assertNull(rd);
++        HttpSession sess = httpServletRequest0.getSession();
++        assertSame(httpSession0, sess);
++        HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
++        Servlet servlet0 = new Servlet();
++        userBean0.setLoginModified(true);
++        HttpServletResponse httpServletResponse0 = mock(HttpServletResponse.class, new ViolatedAssumptionAnswer());
++        HttpServletResponseWrapper httpServletResponseWrapper0 = new HttpServletResponseWrapper(httpServletResponse0);
++        try {
++            showRegistrationInfoAction0.perform(servlet0, httpServletRequestWrapper0, httpServletResponseWrapper0);
++            fail("Expecting exception: NullPointerException");
++        } catch (NullPointerException e) {
++            verifyException("org.heal.servlet.ShowRegistrationInfoAction", e);
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

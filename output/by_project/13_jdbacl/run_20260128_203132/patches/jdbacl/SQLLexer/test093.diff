@@ -1,0 +1,34 @@
+--- a/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/sql/parser/SQLLexer_ESTest.java
+@@ -1036,23 +1036,14 @@
+         // Verify that the lexer has advanced in the input without throwing an exception
+         assertTrue(lexer.getCharIndex() > 0);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test093()  throws Throwable  {
+-      SQLLexer sQLLexer0 = new SQLLexer();
+-      // Undeclared exception!
+-      try { 
+-        sQLLexer0.mT__121();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.antlr.runtime.Lexer", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test093() throws Throwable {
++    // Properly initialize the lexer with a non‑null input to avoid NullPointerException.
++    SQLLexer lexer = new SQLLexer(new org.antlr.runtime.ANTLRStringStream("BETWEEN"));
++    // Invoke the token method; the test succeeds if no exception is thrown.
++    lexer.mT__121();
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test094()  throws Throwable  {

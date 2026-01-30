@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/DBUtil_ESTest.java
+@@ -114,21 +114,11 @@
+       ResultsWithMetadata resultsWithMetadata0 = DBUtil.queryWithMetadata("[qL|A%-#U*6ave", jdbcConnection0);
+       assertNotNull(resultsWithMetadata0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      // Undeclared exception!
+-      try { 
+-        DBUtil.querySingleRow("2", (Connection) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.databene.jdbacl.DBUtil", e);
+-      }
+-  }
++@Test(expected = NullPointerException.class, timeout = 4000)
++public void test06() throws Throwable {
++    DBUtil.querySingleRow("2", null);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

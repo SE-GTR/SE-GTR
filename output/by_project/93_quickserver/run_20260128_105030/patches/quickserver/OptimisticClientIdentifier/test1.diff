@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/OptimisticClientIdentifier_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/OptimisticClientIdentifier_ESTest.java
+@@ -38,19 +38,25 @@
+     assertNotNull(iterator0);
+     assertFalse(iterator0.hasNext());
+ }
++@Test(timeout = 4000)
++    public void test1() throws Throwable {
++        optimisticClientIdentifier0 = new OptimisticClientIdentifier();
++        clientHandlerObjectFactory0 = new ClientHandlerObjectFactory(true);
++        genericObjectPool0 = new GenericObjectPool(clientHandlerObjectFactory0, 2033);
++        makeQSObjectPool0 = new MakeQSObjectPool(genericObjectPool0);
++        // Verify that the pool is initially unset
++        assertNull(optimisticClientIdentifier0.getClientHandlerPool());
++        // Borrow an object and assert that borrowing succeeded
++        Object borrowed = makeQSObjectPool0.borrowObject();
++        assertNotNull(borrowed);
++        // Set the client handler pool and verify the side‑effect
++        optimisticClientIdentifier0.setClientHandlerPool(makeQSObjectPool0);
++        assertSame(makeQSObjectPool0, optimisticClientIdentifier0.getClientHandlerPool());
++        // Ensure that looking up a non‑existent client returns null
++        ClientHandler clientHandler0 = optimisticClientIdentifier0.findClientByKey("d5RoX");
++        assertNull(clientHandler0);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-    optimisticClientIdentifier0 = new OptimisticClientIdentifier();
+-    clientHandlerObjectFactory0 = new ClientHandlerObjectFactory(true);
+-    genericObjectPool0 = new GenericObjectPool(clientHandlerObjectFactory0, 2033);
+-    makeQSObjectPool0 = new MakeQSObjectPool(genericObjectPool0);
+-      makeQSObjectPool0.borrowObject();
+-      optimisticClientIdentifier0.setClientHandlerPool(makeQSObjectPool0);
+-      ClientHandler clientHandler0 = optimisticClientIdentifier0.findClientByKey("d5RoX");
+-      assertNull(clientHandler0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

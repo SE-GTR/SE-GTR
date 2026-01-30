@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEProcess_ESTest.java
+@@ -324,19 +324,25 @@
+     // Equality should now reflect the state change
+     assertFalse(j2EEProcess1.equals(j2EEProcess0));
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test16()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test16() throws Throwable {
+       J2EEProcess j2EEProcess0 = new J2EEProcess();
+       J2EEPSTATE j2EEPSTATE0 = J2EEPSTATE.value4;
+       J2EEProcess j2EEProcess1 = new J2EEProcess();
+-      assertTrue(j2EEProcess1.equals((Object)j2EEProcess0));
+-      
++      assertTrue(j2EEProcess1.equals((Object) j2EEProcess0));
++
++      // Verify initial state is null (default)
++      assertNull(j2EEProcess0.getState());
++
++      // Change state and assert the side‑effect
+       j2EEProcess0.setState(j2EEPSTATE0);
+-      boolean boolean0 = j2EEProcess0.equals(j2EEProcess1);
+-      assertFalse(boolean0);
+-  }
++      assertEquals(j2EEPSTATE0, j2EEProcess0.getState());
++
++      // Equality should now reflect the state difference
++      boolean boolean0 = j2EEProcess0.equals(j2EEProcess1);
++      assertFalse(boolean0);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test17()  throws Throwable  {

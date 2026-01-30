@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/MetadataRecordModifier_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/MetadataRecordModifier_ESTest.java
+@@ -155,21 +155,25 @@
+          verifyException("org.heal.servlet.cataloger.MetadataRecordModifier", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test7()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test7() throws Throwable {
+       String[] stringArray0 = new String[6];
+       stringArray0[2] = "copyights";
+       HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn("copyights", "copyights", "clinicalHistory", "copyights", "clinicalHistory").when(httpServletRequest0).getParameter(anyString());
+-      doReturn((Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0).when(httpServletRequest0).getParameterValues(anyString());
++      doReturn("copyights", "copyights", "clinicalHistory", "copyights", "clinicalHistory")
++          .when(httpServletRequest0).getParameter(anyString());
++      doReturn((Object) stringArray0, (Object) stringArray0, (Object) stringArray0, (Object) stringArray0,
++          (Object) stringArray0).when(httpServletRequest0).getParameterValues(anyString());
+       HttpServletRequestWrapper httpServletRequestWrapper0 = new HttpServletRequestWrapper(httpServletRequest0);
+-    metadataRecordModifier0 = new MetadataRecordModifier();
++      metadataRecordModifier0 = new MetadataRecordModifier();
+       ContextURLBean contextURLBean0 = new ContextURLBean();
+       contextURLBean0.setContextURLId("copyights");
+-    completeMetadataBean0 = new CompleteMetadataBean();
++      // Verify side‑effect of setContextURLId
++      assertEquals("copyights", contextURLBean0.getContextURLId());
++      completeMetadataBean0 = new CompleteMetadataBean();
+       completeMetadataBean0.addContextURL(contextURLBean0);
+       metadataRecordModifier0.updateMetadata(completeMetadataBean0, httpServletRequestWrapper0);
+       assertFalse(completeMetadataBean0.isArchived());
+   }
++
+ }

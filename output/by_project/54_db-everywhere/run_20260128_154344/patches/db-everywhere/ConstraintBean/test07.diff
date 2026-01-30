@@ -1,0 +1,45 @@
+--- a/evosuite-tests/com/gbshape/dbe/struts/bean/ConstraintBean_ESTest.java
++++ b/evosuite-tests/com/gbshape/dbe/struts/bean/ConstraintBean_ESTest.java
+@@ -83,17 +83,31 @@
+         assertTrue(constraintBean0.isKey());
+     }
+ @Test(timeout = 4000)
+-    public void test07() throws Throwable {
+-        ConstraintBean bean = new ConstraintBean();
+-        // default state should be false
+-        assertFalse(bean.isIndex());
+-        // set to true and verify
+-        bean.setIndex(true);
+-        assertTrue(bean.isIndex());
+-        // set back to false and verify again
+-        bean.setIndex(false);
+-        assertFalse(bean.isIndex());
+-    }
++public void test07() throws Throwable {
++    ConstraintBean bean = new ConstraintBean();
++    // initial state
++    assertFalse(bean.isIndex());
++
++    // change state and verify
++    bean.setIndex(true);
++    assertTrue(bean.isIndex());
++
++    // serialize and deserialize to exercise non‑trivial behavior
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(bean);
++    oos.flush();
++    oos.close();
++
++    java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(baos.toByteArray());
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(bais);
++    ConstraintBean deserialized = (ConstraintBean) ois.readObject();
++    ois.close();
++
++    // verify that the side effect (index flag) survived the round‑trip
++    assertTrue(deserialized.isIndex());
++}
++
+ 
+ @Test(timeout = 4000)
+   public void test08() throws Throwable {

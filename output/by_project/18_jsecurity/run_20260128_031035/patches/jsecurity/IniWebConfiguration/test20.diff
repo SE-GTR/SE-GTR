@@ -1,0 +1,37 @@
+--- a/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
++++ b/evosuite-tests/org/jsecurity/web/config/IniWebConfiguration_ESTest.java
+@@ -254,19 +254,21 @@
+       DefaultWebSecurityManager defaultWebSecurityManager0 = (DefaultWebSecurityManager)iniWebConfiguration0.newSecurityManagerInstance();
+       assertTrue(defaultWebSecurityManager0.isHttpSessionMode());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test20()  throws Throwable  {
+-      IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
+-      HashMap<String, List<Filter>> hashMap0 = new HashMap<String, List<Filter>>();
+-      LinkedList<Filter> linkedList0 = new LinkedList<Filter>();
+-      SpringJSecurityFilter springJSecurityFilter0 = new SpringJSecurityFilter();
+-      linkedList0.add((Filter) springJSecurityFilter0);
+-      hashMap0.put("urls", linkedList0);
+-      iniWebConfiguration0.chains = (Map<String, List<Filter>>) hashMap0;
+-      FilterChain filterChain0 = iniWebConfiguration0.getChain("urls", (FilterChain) null);
+-      assertNotNull(filterChain0);
+-  }
++@Test(timeout = 4000)
++public void test20() throws Throwable {
++    IniWebConfiguration iniWebConfiguration0 = new IniWebConfiguration();
++    HashMap<String, List<Filter>> hashMap0 = new HashMap<String, List<Filter>>();
++    LinkedList<Filter> linkedList0 = new LinkedList<Filter>();
++    SpringJSecurityFilter springJSecurityFilter0 = new SpringJSecurityFilter();
++    boolean added = linkedList0.add((Filter) springJSecurityFilter0);
++    assertTrue(added);
++    List<Filter> previous = hashMap0.put("urls", linkedList0);
++    assertNull(previous);
++    iniWebConfiguration0.chains = (Map<String, List<Filter>>) hashMap0;
++    FilterChain filterChain0 = iniWebConfiguration0.getChain("urls", (FilterChain) null);
++    assertNotNull(filterChain0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test21()  throws Throwable  {

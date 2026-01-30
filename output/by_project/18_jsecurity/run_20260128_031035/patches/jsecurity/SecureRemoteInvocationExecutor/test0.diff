@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jsecurity/spring/remoting/SecureRemoteInvocationExecutor_ESTest.java
++++ b/evosuite-tests/org/jsecurity/spring/remoting/SecureRemoteInvocationExecutor_ESTest.java
+@@ -33,9 +33,7 @@
+     secureRemoteInvocationExecutor0 = new SecureRemoteInvocationExecutor();
+     remoteInvocation0 = new RemoteInvocation();
+   }
+-
+-
+-  @Test(timeout = 4000)
++@Test(timeout = 4000)
+   public void test0()  throws Throwable  {
+     secureRemoteInvocationExecutor0 = new SecureRemoteInvocationExecutor();
+     remoteInvocation0 = new RemoteInvocation();
+@@ -46,7 +44,8 @@
+       DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager(simpleAccountRealm0);
+       InetAddress inetAddress0 = secureRemoteInvocationExecutor0.getInetAddress(remoteInvocation0, "org.jsecurity.authz.permission.WildcardPermission");
+       Session session0 = defaultSecurityManager0.start(inetAddress0);
+-      secureRemoteInvocationExecutor0.isAuthenticated(remoteInvocation0, object0, session0, simplePrincipalCollection0);
++      boolean isAuth = secureRemoteInvocationExecutor0.isAuthenticated(remoteInvocation0, object0, session0, simplePrincipalCollection0);
++      org.junit.Assert.assertFalse(isAuth);
+       Object object1 = new Object();
+       DefaultSecurityManager defaultSecurityManager1 = new DefaultSecurityManager();
+       Class<Object>[] classArray0 = (Class<Object>[]) Array.newInstance(Class.class, 0);
+@@ -54,7 +53,7 @@
+       try { 
+         defaultSecurityManager0.getSession(simplePrincipalCollection0);
+         fail("Expecting exception: RuntimeException");
+-      
++
+       } catch(RuntimeException e) {
+          //
+          // Specified id [org.jsecurity.subject.SimplePrincipalCollection@38c074fc] does not correspond to a valid Session  It either does not exist or the corresponding session has been stopped or expired.
+@@ -62,6 +61,7 @@
+          verifyException("org.jsecurity.mgt.SessionsSecurityManager", e);
+       }
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

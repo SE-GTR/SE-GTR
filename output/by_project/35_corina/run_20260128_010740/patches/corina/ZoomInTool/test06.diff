@@ -1,0 +1,34 @@
+--- a/evosuite-tests/corina/map/tools/ZoomInTool_ESTest.java
++++ b/evosuite-tests/corina/map/tools/ZoomInTool_ESTest.java
+@@ -123,15 +123,22 @@
+       zoomInTool0.mouseReleased(mouseWheelEvent0);
+       assertEquals((-804), mouseWheelEvent0.getScrollType());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-    view0 = new View();
+-    mapPanel0 = new MapPanel((MapFrame) null, (LabelSet) null);
+-    zoomInTool0 = new ZoomInTool(mapPanel0, view0, (ToolBox) null);
+-      zoomInTool0.aborted = true;
+-      zoomInTool0.mouseDragged((MouseEvent) null);
+-  }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        view0 = new View();
++        mapPanel0 = new MapPanel((MapFrame) null, (LabelSet) null);
++        zoomInTool0 = new ZoomInTool(mapPanel0, view0, (ToolBox) null);
++        zoomInTool0.aborted = true;
++        // Capture the state before invoking the method.
++        java.awt.Point beforeP2 = zoomInTool0.p2;
++        boolean beforeDraw = zoomInTool0.draw;
++        // Act
++        zoomInTool0.mouseDragged((MouseEvent) null);
++        // Verify that, when aborted, the method does not alter the observable state.
++        org.junit.Assert.assertEquals(beforeP2, zoomInTool0.p2);
++        org.junit.Assert.assertEquals(beforeDraw, zoomInTool0.draw);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

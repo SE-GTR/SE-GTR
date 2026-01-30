@@ -1,0 +1,43 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache_ESTest.java
+@@ -371,20 +371,29 @@
+     assertEquals(0, j2EECache1.getUsedObjects());
+     assertEquals(0, j2EECache1.getRemoves());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test28()  throws Throwable  {
+-      J2EECache j2EECache0 = new J2EECache();
+-      j2EECache0.setUpdateTime("+xW(Fue}}7`VS");
+-      J2EECache j2EECache1 = new J2EECache();
+-      assertFalse(j2EECache1.equals((Object)j2EECache0));
+-      
+-      j2EECache1.setUpdateTime("+xW(Fue}}7`VS");
++@Test(timeout = 4000)
++  public void test28() throws Throwable {
++      J2EECache j2EECache0 = new J2EECache();
++      // verify initial state before setting updateTime
++      assertNull(j2EECache0.getUpdateTime());
++      String expectedTime = "+xW(Fue}}7`VS";
++      j2EECache0.setUpdateTime(expectedTime);
++      // assert side‑effect of setUpdateTime
++      assertEquals(expectedTime, j2EECache0.getUpdateTime());
++
++      J2EECache j2EECache1 = new J2EECache();
++      assertNull(j2EECache1.getUpdateTime());
++      assertFalse(j2EECache1.equals((Object) j2EECache0));
++
++      j2EECache1.setUpdateTime(expectedTime);
++      // assert side‑effect on the second instance
++      assertEquals(expectedTime, j2EECache1.getUpdateTime());
++
+       boolean boolean0 = j2EECache1.equals(j2EECache0);
+-      assertTrue(j2EECache1.equals((Object)j2EECache0));
++      assertTrue(j2EECache1.equals((Object) j2EECache0));
+       assertTrue(boolean0);
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test29()  throws Throwable  {

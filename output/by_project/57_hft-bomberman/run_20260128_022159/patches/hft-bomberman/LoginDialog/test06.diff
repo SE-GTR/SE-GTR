@@ -1,0 +1,33 @@
+--- a/evosuite-tests/client/gui/LoginDialog_ESTest.java
++++ b/evosuite-tests/client/gui/LoginDialog_ESTest.java
+@@ -98,23 +98,14 @@
+          verifyException("client.BomberClient", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      FileSystemHandling.shouldAllThrowIOExceptions();
+-    loginDialog0 = LoginDialog.init();
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000, expected = NullPointerException.class)
++    public void test06() throws Throwable {
++        boolean allThrow = FileSystemHandling.shouldAllThrowIOExceptions();
++        org.junit.Assert.assertTrue(allThrow);
++        loginDialog0 = LoginDialog.init();
+         loginDialog0.loginSession("", "");
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("client.BomberClient", e);
+-      }
+-  }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

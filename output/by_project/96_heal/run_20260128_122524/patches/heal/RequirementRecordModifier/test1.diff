@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/RequirementRecordModifier_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/RequirementRecordModifier_ESTest.java
+@@ -37,19 +37,21 @@
+         // Verify that the call does not unintentionally modify the radiograph type
+         assertNull(completeMetadataBean0.getRadiographType());
+     }
++@Test(timeout = 4000)
++public void test1() throws Throwable {
++    ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn(".", ".", ".", ".", ".").when(servletRequest0).getParameter(anyString());
++    ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
++    RequirementRecordModifier requirementRecordModifier0 = new RequirementRecordModifier();
++    CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+ 
++    boolean beforeRejected = completeMetadataBean0.isRejected();
++    requirementRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      ServletRequest servletRequest0 = mock(ServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(".", ".", ".", ".", ".").when(servletRequest0).getParameter(anyString());
+-      ServletRequestWrapper servletRequestWrapper0 = new ServletRequestWrapper(servletRequest0);
+-      RequirementRecordModifier requirementRecordModifier0 = new RequirementRecordModifier();
+-      CompleteMetadataBean completeMetadataBean0 = new CompleteMetadataBean();
+-      requirementRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
+-      requirementRecordModifier0.updateMetadata(completeMetadataBean0, servletRequestWrapper0);
+-      assertFalse(completeMetadataBean0.isRejected());
+-  }
++    assertFalse(completeMetadataBean0.isRejected());
++    assertEquals(beforeRejected, completeMetadataBean0.isRejected());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

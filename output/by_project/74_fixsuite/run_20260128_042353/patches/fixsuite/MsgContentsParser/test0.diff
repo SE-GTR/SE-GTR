@@ -1,0 +1,43 @@
+--- a/evosuite-tests/org/fixsuite/message/parsers/fpl/MsgContentsParser_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/parsers/fpl/MsgContentsParser_ESTest.java
+@@ -18,26 +18,22 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class MsgContentsParser_ESTest extends MsgContentsParser_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      Element element0 = new Element("ReqY", "ReqY", "ReqY");
+-      Element element1 = new Element("ReqY");
+-      element0.setContent((Content) element1);
+-      MsgContentsParser msgContentsParser0 = new MsgContentsParser();
+-      DictionaryInfo dictionaryInfo0 = new DictionaryInfo("ReqY");
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    Element element0 = new Element("ReqY", "ReqY", "ReqY");
++    Element element1 = new Element("ReqY");
++    Element returned = element0.setContent((Content) element1);
++    assertSame(element0, returned);
++    MsgContentsParser msgContentsParser0 = new MsgContentsParser();
++    DictionaryInfo dictionaryInfo0 = new DictionaryInfo("ReqY");
++    try {
+         msgContentsParser0.load(dictionaryInfo0, element0);
+         fail("Expecting exception: NumberFormatException");
+-      
+-      } catch(NumberFormatException e) {
+-         //
+-         // null
+-         //
+-         verifyException("java.lang.Integer", e);
+-      }
+-  }
++    } catch (NumberFormatException e) {
++        verifyException("java.lang.Integer", e);
++    }
++}
++
+ @Test(timeout = 4000)
+     public void test1() throws Throwable {
+         MsgContentsParser msgContentsParser0 = new MsgContentsParser();

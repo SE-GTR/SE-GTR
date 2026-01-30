@@ -1,0 +1,26 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
+@@ -85,13 +85,16 @@
+       //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:206>", nonBlockingClientHandler0.getName());
+       //  // Unstable assertion: assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-    nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      nonBlockingClientHandler0.run();
+-      //  // Unstable assertion: assertEquals("<ClientHandler-Pool#-1-ID:198>", nonBlockingClientHandler0.getName());
+-  }
++@Test(timeout = 4000)
++public void test07() throws Throwable {
++    nonBlockingClientHandler0 = new NonBlockingClientHandler();
++    nonBlockingClientHandler0.run();
++    String name = nonBlockingClientHandler0.getName();
++    assertNotNull(name);
++    assertTrue(name.startsWith("<ClientHandler-Pool#-1-ID:"));
++    assertTrue(name.endsWith(">"));
++}
++
+ @Test(expected = IllegalStateException.class, timeout = 4000)
+     public void test08() throws Throwable {
+         nonBlockingClientHandler0 = new NonBlockingClientHandler();

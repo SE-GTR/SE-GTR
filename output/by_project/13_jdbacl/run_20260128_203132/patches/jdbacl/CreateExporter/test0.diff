@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/databene/jdbacl/model/sql/CreateExporter_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/model/sql/CreateExporter_ESTest.java
+@@ -17,14 +17,16 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class CreateExporter_ESTest extends CreateExporter_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        MockFile mockFile0 = new MockFile("insertMode");
++        CreateExporter createExporter0 = new CreateExporter(mockFile0);
++        VersionNumber versionNumber0 = VersionNumber.valueOf("insertMode");
++        DefaultDatabase defaultDatabase0 = new DefaultDatabase("insertMode", "insertMode", versionNumber0);
++        createExporter0.export(defaultDatabase0);
++        // Verify that the export operation created or modified the target file
++        assertTrue("Export should create or modify the file", mockFile0.exists());
++        assertFalse(defaultDatabase0.isImportedUKs());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      MockFile mockFile0 = new MockFile("insertMode");
+-      CreateExporter createExporter0 = new CreateExporter(mockFile0);
+-      VersionNumber versionNumber0 = VersionNumber.valueOf("insertMode");
+-      DefaultDatabase defaultDatabase0 = new DefaultDatabase("insertMode", "insertMode", versionNumber0);
+-      createExporter0.export(defaultDatabase0);
+-      assertFalse(defaultDatabase0.isImportedUKs());
+-  }
+ }

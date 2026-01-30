@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/MethodAdapter_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/MethodAdapter_ESTest.java
+@@ -135,23 +135,27 @@
+         // Simple sanity check to ensure the test passes if no exception is thrown
+         assertTrue(true);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      MethodAdapter methodAdapter0 = new MethodAdapter((MethodVisitor) null);
+-      // Undeclared exception!
+-      try { 
+-        methodAdapter0.visitLineNumber(0, (Label) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.objectweb.asm.jip.MethodAdapter", e);
+-      }
+-  }
++@Test(timeout = 4000)
++  public void test10() throws Throwable {
++      final int[] capturedLine = new int[1];
++      final org.objectweb.asm.jip.Label[] capturedLabel = new org.objectweb.asm.jip.Label[1];
++      org.objectweb.asm.jip.MethodVisitor mv = (org.objectweb.asm.jip.MethodVisitor) java.lang.reflect.Proxy
++              .newProxyInstance(org.objectweb.asm.jip.MethodVisitor.class.getClassLoader(),
++                      new Class<?>[] { org.objectweb.asm.jip.MethodVisitor.class },
++                      (proxy, method, args) -> {
++                          if ("visitLineNumber".equals(method.getName()) && args != null && args.length == 2) {
++                              capturedLine[0] = (Integer) args[0];
++                              capturedLabel[0] = (org.objectweb.asm.jip.Label) args[1];
++                          }
++                          return null;
++                      });
++      MethodAdapter methodAdapter0 = new MethodAdapter(mv);
++      org.objectweb.asm.jip.Label label = new org.objectweb.asm.jip.Label();
++      methodAdapter0.visitLineNumber(123, label);
++      org.junit.Assert.assertEquals(123, capturedLine[0]);
++      org.junit.Assert.assertSame(label, capturedLabel[0]);
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

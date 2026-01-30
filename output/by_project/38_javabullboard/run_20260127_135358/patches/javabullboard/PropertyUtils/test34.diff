@@ -1,0 +1,35 @@
+--- a/evosuite-tests/framework/util/PropertyUtils_ESTest.java
++++ b/evosuite-tests/framework/util/PropertyUtils_ESTest.java
+@@ -251,23 +251,17 @@
+ public void test33() throws Throwable {
+     PropertyUtils.getMappedPropertyDescriptors((Object) null);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test34()  throws Throwable  {
+-      PropertyUtils.getMappedProperty((Object) "class", "class", "class");
+-      // Undeclared exception!
+-      try { 
++public void test34() throws Throwable {
++    Object result = PropertyUtils.getMappedProperty((Object) "class", "class", "class");
++    assertNull(result);
++    try {
+         PropertyUtils.isWriteable((Object) null, "class");
+         fail("Expecting exception: IllegalArgumentException");
+-      
+-      } catch(IllegalArgumentException e) {
+-         //
+-         // No bean specified
+-         //
+-         verifyException("framework.util.PropertyUtils", e);
+-      }
+-  }
++    } catch (IllegalArgumentException e) {
++        verifyException("framework.util.PropertyUtils", e);
++    }
++}
++
+ @Test(expected = IllegalArgumentException.class, timeout = 4000)
+     public void test35() throws Throwable {
+         PropertyUtils.getMappedProperty((Object) "j.ko5Kd", "j.ko5Kd", (String) null);

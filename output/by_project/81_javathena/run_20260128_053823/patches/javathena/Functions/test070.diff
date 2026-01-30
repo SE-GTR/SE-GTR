@@ -1,0 +1,29 @@
+--- a/evosuite-tests/org/javathena/core/utiles/Functions_ESTest.java
++++ b/evosuite-tests/org/javathena/core/utiles/Functions_ESTest.java
+@@ -532,14 +532,18 @@
+         assertArrayEquals(before, intArray0);
+         assertEquals(2, intArray0.length);
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test070()  throws Throwable  {
+-      byte[] byteArray0 = new byte[3];
+-      Functions.intToByteTab(0, 0, 1716, byteArray0);
+-      assertArrayEquals(new byte[] {(byte)0, (byte)0, (byte)0}, byteArray0);
+-  }
++@Test(timeout = 4000)
++    public void test070() throws Throwable {
++        byte[] byteArray = new byte[4];
++        int intValue = 0x01020304;
++        byte[] expected = new byte[4];
++        for (int i = 0; i < 4; i++) {
++            expected[i] = (byte) ((intValue >> (8 * i)) & 0xFF);
++        }
++        Functions.intToByteTab(intValue, 0, 4, byteArray);
++        assertArrayEquals(expected, byteArray);
++    }
++
+ @Test(timeout = 4000)
+     public void test071() throws Throwable {
+         // Provide a valid byte array and reasonable indices to exercise the method

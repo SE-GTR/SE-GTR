@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
++++ b/evosuite-tests/org/quickserver/net/server/impl/NonBlockingClientHandler_ESTest.java
+@@ -187,22 +187,16 @@
+     nonBlockingClientHandler0 = new NonBlockingClientHandler();
+     nonBlockingClientHandler0.getBufferedReader();
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-    nonBlockingClientHandler0 = new NonBlockingClientHandler();
+-      try { 
+-        nonBlockingClientHandler0.readInputStream();
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // InputStream can't be null!
+-         //
+-         verifyException("org.quickserver.net.server.impl.BasicClientHandler", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test18() throws Throwable {
++    nonBlockingClientHandler0 = new NonBlockingClientHandler();
++    byte[] expected = "test-data".getBytes(java.nio.charset.StandardCharsets.UTF_8);
++    java.io.InputStream in = new java.io.ByteArrayInputStream(expected);
++    nonBlockingClientHandler0.setInputStream(in);
++    byte[] actual = nonBlockingClientHandler0.readInputStream();
++    org.junit.Assert.assertArrayEquals(expected, actual);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

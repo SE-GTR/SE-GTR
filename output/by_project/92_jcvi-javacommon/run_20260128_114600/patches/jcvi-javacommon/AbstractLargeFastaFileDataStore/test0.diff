@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/jcvi/jillion/internal/fasta/AbstractLargeFastaFileDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/internal/fasta/AbstractLargeFastaFileDataStore_ESTest.java
+@@ -20,22 +20,12 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class AbstractLargeFastaFileDataStore_ESTest extends AbstractLargeFastaFileDataStore_ESTest_scaffolding {
++@Test(timeout = 4000, expected = NullPointerException.class)
++  public void test0() throws Throwable {
++      File file0 = MockFile.createTempFile(".Nrgb\u0001?/", ".Nrgb\u0001?/");
++      LargeQualityFastaFileDataStore.create(file0, (DataStoreFilter) null);
++  }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      File file0 = MockFile.createTempFile(".Nrgb\u0001?/", ".Nrgb\u0001?/");
+-      // Undeclared exception!
+-      try { 
+-        LargeQualityFastaFileDataStore.create(file0, (DataStoreFilter) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // filter file can not be null
+-         //
+-         verifyException("org.jcvi.jillion.internal.fasta.AbstractLargeFastaFileDataStore", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

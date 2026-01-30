@@ -1,0 +1,32 @@
+--- a/evosuite-tests/org/databene/jdbacl/dialect/HSQLDialect_ESTest.java
++++ b/evosuite-tests/org/databene/jdbacl/dialect/HSQLDialect_ESTest.java
+@@ -100,17 +100,19 @@
+          verifyException("org.hsqldb.jdbc.Util", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test09() throws Throwable {
++        HSQLDialect hSQLDialect0 = new HSQLDialect();
++        Result result0 = Result.newReleaseSavepointRequest("SYS_IDX_w+");
++        Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++        org.mockito.stubbing.OngoingStubbing<Result> stubbing = doReturn(result0)
++                .when(session0).execute(any(org.hsqldb.Result.class));
++        assertNotNull(stubbing);
++        jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
++        DBSequence[] dBSequenceArray0 = hSQLDialect0.querySequences(jdbcConnection0);
++        assertEquals(0, dBSequenceArray0.length);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-      HSQLDialect hSQLDialect0 = new HSQLDialect();
+-      Result result0 = Result.newReleaseSavepointRequest("SYS_IDX_w+");
+-      Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn(result0).when(session0).execute(any(org.hsqldb.Result.class));
+-      jdbcConnection jdbcConnection0 = new jdbcConnection(session0);
+-      DBSequence[] dBSequenceArray0 = hSQLDialect0.querySequences(jdbcConnection0);
+-      assertEquals(0, dBSequenceArray0.length);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

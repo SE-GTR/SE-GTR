@@ -1,0 +1,54 @@
+--- a/evosuite-tests/org/jsecurity/mgt/DefaultSecurityManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/mgt/DefaultSecurityManager_ESTest.java
+@@ -106,29 +106,30 @@
+       assertFalse(subject0.isAuthenticated());
+       assertNotNull(subject0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test04()  throws Throwable  {
+-      SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
+-      DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager(simpleAccountRealm0);
+-      defaultSecurityManager0.getSubject(true);
+-      UsernamePasswordToken usernamePasswordToken0 = new UsernamePasswordToken("S`+1zA#", "] class must implement java.io.Serializable.");
+-      System.setCurrentTimeMillis(1376L);
+-      Subject subject0 = defaultSecurityManager0.createSubject((PrincipalCollection) null, (Session) null, true);
+-      defaultSecurityManager0.unbind(subject0);
+-      defaultSecurityManager0.createSubject((PrincipalCollection) null, (Session) null);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test04() throws Throwable {
++    SimpleAccountRealm simpleAccountRealm0 = new SimpleAccountRealm();
++    DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager(simpleAccountRealm0);
++    Subject subject1 = defaultSecurityManager0.getSubject(true);
++    assertNotNull(subject1);
++    UsernamePasswordToken usernamePasswordToken0 = new UsernamePasswordToken("S`+1zA#", "] class must implement java.io.Serializable.");
++    System.setCurrentTimeMillis(1376L);
++    Subject subject0 = defaultSecurityManager0.createSubject((PrincipalCollection) null, (Session) null, true);
++    defaultSecurityManager0.unbind(subject0);
++    Subject subject2 = defaultSecurityManager0.createSubject((PrincipalCollection) null, (Session) null);
++    assertNotNull(subject2);
++    // Undeclared exception!
++    try {
+         defaultSecurityManager0.setRememberMeDecryptionCipherKeyBase64("Tls8?2!");
+         fail("Expecting exception: IllegalStateException");
+-      
+-      } catch(IllegalStateException e) {
+-         //
+-         // The convenience passthrough methods for setting remember me cipher attributes are only available when the underlying RememberMeManager implementation is a subclass of org.jsecurity.subject.AbstractRememberMeManager.
+-         //
+-         verifyException("org.jsecurity.mgt.DefaultSecurityManager", e);
+-      }
+-  }
++    } catch (IllegalStateException e) {
++        //
++        // The convenience passthrough methods for setting remember me cipher attributes are only available when the underlying RememberMeManager implementation is a subclass of org.jsecurity.subject.AbstractRememberMeManager.
++        //
++        verifyException("org.jsecurity.mgt.DefaultSecurityManager", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test05()  throws Throwable  {

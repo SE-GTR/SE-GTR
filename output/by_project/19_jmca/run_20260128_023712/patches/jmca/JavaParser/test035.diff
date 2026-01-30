@@ -1,0 +1,35 @@
+--- a/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
++++ b/evosuite-tests/com/soops/CEN4010/JMCA/JParser/JavaParser_ESTest.java
+@@ -536,21 +536,17 @@
+          verifyException("com.soops.CEN4010.JMCA.JParser.JavaParser", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test035()  throws Throwable  {
+-      JavaParser javaParser0 = new JavaParser((Reader) null);
+-      // Undeclared exception!
+-      try { 
+-        javaParser0.StatementExpression();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test035() throws Throwable {
++        JavaParser javaParser0 = new JavaParser(new StringReader(""));
++        try {
++            javaParser0.StatementExpression();
++            fail("Expecting exception: ParseException");
++        } catch (ParseException e) {
++            // expected exception for empty input
++        }
++    }
++
+ @Test(timeout = 4000)
+ public void test036() throws Throwable {
+     StringReader stringReader0 = new StringReader("WW-WOAMq=,]#");

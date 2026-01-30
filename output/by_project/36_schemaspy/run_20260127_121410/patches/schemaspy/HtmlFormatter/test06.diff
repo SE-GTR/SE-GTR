@@ -1,0 +1,38 @@
+--- a/evosuite-tests/net/sourceforge/schemaspy/view/HtmlFormatter_ESTest.java
++++ b/evosuite-tests/net/sourceforge/schemaspy/view/HtmlFormatter_ESTest.java
+@@ -74,15 +74,27 @@
+     htmlFormatter0 = new HtmlFormatter();
+       htmlFormatter0.writeTableOfContents(lineWriter0);
+   }
++@Test(timeout = 4000)
++    public void test06() throws Throwable {
++        Config config0 = new Config();
++        // verify default value before mutation
++        assertFalse(config0.isHasOrphans());
+ 
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      Config config0 = new Config();
+-    lineWriter0 = new LineWriter("UTF-8", "UTF-8");
+-      config0.setHasOrphans(true);
+-    htmlFormatter0 = new HtmlFormatter();
+-      htmlFormatter0.writeTableOfContents(lineWriter0);
+-  }
++        lineWriter0 = new LineWriter("UTF-8", "UTF-8");
++        // writer should be empty initially
++        assertEquals("", lineWriter0.toString());
++
++        // mutate config and verify side‑effect
++        config0.setHasOrphans(true);
++        assertTrue(config0.isHasOrphans());
++
++        htmlFormatter0 = new HtmlFormatter();
++        htmlFormatter0.writeTableOfContents(lineWriter0);
++
++        // ensure the formatter produced some output
++        assertFalse(lineWriter0.toString().isEmpty());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

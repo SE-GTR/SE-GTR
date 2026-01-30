@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/ProfileParameter_ESTest.java
+@@ -389,17 +389,23 @@
+     boolean boolean0 = profileParameter0.equals(profileParameter1);
+     assertFalse(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test21()  throws Throwable  {
+-      ProfileParameter profileParameter0 = new ProfileParameter();
+-      profileParameter0.setGroup("iE:ZX~>D8J,CGyO");
+-      ProfileParameter profileParameter1 = new ProfileParameter();
+-      boolean boolean0 = profileParameter1.equals(profileParameter0);
+-      assertFalse(boolean0);
+-      assertFalse(profileParameter0.equals((Object)profileParameter1));
+-  }
++@Test(timeout = 4000)
++    public void test21() throws Throwable {
++        ProfileParameter profileParameter0 = new ProfileParameter();
++        // initial state should have no group assigned
++        assertNull(profileParameter0.getGroup());
++
++        String groupValue = "iE:ZX~>D8J,CGyO";
++        profileParameter0.setGroup(groupValue);
++        // verify that setGroup correctly updates the internal state
++        assertEquals(groupValue, profileParameter0.getGroup());
++
++        ProfileParameter profileParameter1 = new ProfileParameter();
++        // different objects with different group values should not be equal
++        assertFalse(profileParameter0.equals(profileParameter1));
++        assertFalse(profileParameter1.equals(profileParameter0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test22()  throws Throwable  {

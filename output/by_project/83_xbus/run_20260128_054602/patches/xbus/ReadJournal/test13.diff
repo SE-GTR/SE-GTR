@@ -1,0 +1,44 @@
+--- a/evosuite-tests/net/sf/xbus/admin/html/ReadJournal_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/admin/html/ReadJournal_ESTest.java
+@@ -149,24 +149,23 @@
+           verifyException("org.evosuite.runtime.System", e);
+       }
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      HashMap<String, String> hashMap0 = new HashMap<String, String>();
+-      hashMap0.put("RequestTimeMax", "RequestTimeMax");
+-      // Undeclared exception!
+-      try { 
+-        ReadJournal.readSelected(hashMap0, "?", "?");
+-        fail("Expecting exception: System.SystemExitException");
+-      
+-      } catch(System.SystemExitException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.evosuite.runtime.System", e);
+-      }
+-  }
++@Test(timeout = 4000)
++  public void test13() throws Throwable {
++      HashMap<String, String> hashMap0 = new HashMap<String, String>();
++      String previous = hashMap0.put("RequestTimeMax", "RequestTimeMax");
++      assertNull(previous);
++      // Undeclared exception!
++      try {
++          ReadJournal.readSelected(hashMap0, "?", "?");
++          fail("Expecting exception: System.SystemExitException");
++      } catch (System.SystemExitException e) {
++          //
++          // no message in exception (getMessage() returned null)
++          //
++          verifyException("org.evosuite.runtime.System", e);
++      }
++  }
++
+ 
+   @Test(timeout = 4000)
+   public void test14()  throws Throwable  {

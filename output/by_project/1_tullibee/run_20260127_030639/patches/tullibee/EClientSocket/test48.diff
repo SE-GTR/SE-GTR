@@ -1,0 +1,41 @@
+--- a/evosuite-tests/com/ib/client/EClientSocket_ESTest.java
++++ b/evosuite-tests/com/ib/client/EClientSocket_ESTest.java
+@@ -342,21 +342,23 @@
+          verifyException("org.evosuite.runtime.mock.java.net.MockSocket", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test48()  throws Throwable  {
+-    eClientSocket0 = new EClientSocket();
+-      try { 
+-        eClientSocket0.eConnect("f\"I8IqTNZD", 2, 2);
+-        fail("Expecting exception: IOException");
+-      
+-      } catch(IOException e) {
+-         //
+-         // Remote address/port is not opened: org.evosuite.runtime.vnet.EndPointInfo@8337f2e4
+-         //
+-         verifyException("org.evosuite.runtime.vnet.VirtualNetwork", e);
+-      }
+-  }
++@Test(timeout = 4000)
++public void test48() throws Throwable {
++    EClientSocket client = new EClientSocket() {
++        @Override
++        Socket createSocket(String host, int port) throws IOException {
++            throw new IOException("simulated");
++        }
++    };
++    try {
++        client.eConnect("anyhost", 1234, 2);
++        fail("Expecting IOException");
++    } catch (IOException e) {
++        // Expected exception from overridden createSocket
++        assertEquals("simulated", e.getMessage());
++    }
++}
++
+ @Test(timeout = 4000)
+ public void test49() throws Throwable {
+     eClientSocket0 = new EClientSocket();

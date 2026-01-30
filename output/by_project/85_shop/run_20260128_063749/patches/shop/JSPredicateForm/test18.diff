@@ -1,0 +1,40 @@
+--- a/evosuite-tests/umd/cs/shop/JSPredicateForm_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSPredicateForm_ESTest.java
+@@ -227,24 +227,21 @@
+         assertNotNull(stringBuffer0);
+         assertEquals("(ns]<X)", stringBuffer0.toString());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test18()  throws Throwable  {
+-      JSPredicateForm jSPredicateForm0 = new JSPredicateForm("(ts><+X()");
+-      jSPredicateForm0.addAll((Collection) jSPredicateForm0);
+-      // Undeclared exception!
+-      try { 
++@Test(timeout = 4000)
++public void test18() throws Throwable {
++    JSPredicateForm jSPredicateForm0 = new JSPredicateForm("(ts><+X()");
++    int beforeSize = jSPredicateForm0.size();
++    boolean added = jSPredicateForm0.addAll((Collection) jSPredicateForm0);
++    assertEquals(beforeSize > 0, added);
++    assertEquals(beforeSize * 2, jSPredicateForm0.size());
++    try {
+         jSPredicateForm0.print();
+         fail("Expecting exception: ClassCastException");
+-      
+-      } catch(ClassCastException e) {
+-         //
+-         // java.lang.String cannot be cast to umd.cs.shop.JSTerm
+-         //
+-         verifyException("umd.cs.shop.JSPredicateForm", e);
+-      }
+-  }
++    } catch (ClassCastException e) {
++        verifyException("umd.cs.shop.JSPredicateForm", e);
++    }
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test19()  throws Throwable  {

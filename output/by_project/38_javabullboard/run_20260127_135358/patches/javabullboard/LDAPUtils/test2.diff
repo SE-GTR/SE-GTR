@@ -1,0 +1,47 @@
+--- a/evosuite-tests/framework/util/LDAPUtils_ESTest.java
++++ b/evosuite-tests/framework/util/LDAPUtils_ESTest.java
+@@ -34,25 +34,26 @@
+       BasicAttributes basicAttributes0 = new BasicAttributes("", "");
+       LDAPUtils.dumpAttributes(basicAttributes0);
+   }
++public void test2() throws Throwable {
++    Future<?> future = executor.submit(new Runnable() {
++        @Override
++        public void run() {
++            try {
++                try {
++                    LDAPUtils.getAttributes("");
++                    fail("Expecting exception: CommunicationException");
++                } catch (CommunicationException e) {
++                    // expected
++                }
++            } catch (Throwable t) {
++                // Need to catch declared exceptions
++            }
++        }
++    });
++    Object result = future.get(4000, TimeUnit.MILLISECONDS);
++    assertNull(result);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-    Future<?> future = executor.submit(new Runnable(){ 
+-            @Override public void run() { 
+-        try {
+-          try { 
+-            LDAPUtils.getAttributes("");
+-            fail("Expecting exception: CommunicationException");
+-          
+-          } catch(CommunicationException e) {
+-          }
+-        } catch(Throwable t) {
+-            // Need to catch declared exceptions
+-        }
+-      } 
+-    });
+-    future.get(4000, TimeUnit.MILLISECONDS);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

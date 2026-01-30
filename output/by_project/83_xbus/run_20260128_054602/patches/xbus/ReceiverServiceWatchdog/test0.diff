@@ -1,0 +1,23 @@
+--- a/evosuite-tests/net/sf/xbus/technical/ReceiverServiceWatchdog_ESTest.java
++++ b/evosuite-tests/net/sf/xbus/technical/ReceiverServiceWatchdog_ESTest.java
+@@ -14,10 +14,15 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ReceiverServiceWatchdog_ESTest extends ReceiverServiceWatchdog_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    ReceiverServiceWatchdog watchdog = new ReceiverServiceWatchdog();
++    // Verify initial state is running
++    assertTrue(watchdog.isRunning());
++    // Stop the watchdog
++    watchdog.stopWatchdog();
++    // Verify it is no longer running
++    assertFalse(watchdog.isRunning());
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ReceiverServiceWatchdog receiverServiceWatchdog0 = new ReceiverServiceWatchdog();
+-      receiverServiceWatchdog0.stopWatchdog();
+-  }
+ }

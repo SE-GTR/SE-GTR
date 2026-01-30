@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/SecureStore_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/SecureStore_ESTest.java
+@@ -16,14 +16,17 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SecureStore_ESTest extends SecureStore_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test00() throws Throwable {
++    SecureStore secureStore0 = new SecureStore();
++    String xmlBefore = secureStore0.toXML("");
++    assertFalse(xmlBefore.contains("<provider>"));
++    secureStore0.setProvider("&Ik6/^Z0;");
++    String xmlAfter = secureStore0.toXML("");
++    assertTrue(xmlAfter.contains("<provider>&Ik6/^Z0;</provider>"));
++    assertEquals("<secure-store>\n\t<type>JKS</type>\n\t<algorithm>SunX509</algorithm>\n\t<provider>&Ik6/^Z0;</provider>\n\t<secure-store-manager>org.quickserver.security.SecureStoreManager</secure-store-manager>\n</secure-store>\n", xmlAfter);
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test00()  throws Throwable  {
+-      SecureStore secureStore0 = new SecureStore();
+-      secureStore0.setProvider("&Ik6/^Z0;");
+-      String string0 = secureStore0.toXML("");
+-      assertEquals("<secure-store>\n\t<type>JKS</type>\n\t<algorithm>SunX509</algorithm>\n\t<provider>&Ik6/^Z0;</provider>\n\t<secure-store-manager>org.quickserver.security.SecureStoreManager</secure-store-manager>\n</secure-store>\n", string0);
+-  }
+ @Test(timeout = 4000)
+     public void test01() throws Throwable {
+         SecureStore secureStore0 = new SecureStore();

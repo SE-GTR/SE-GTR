@@ -1,0 +1,49 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EEEJBSession_ESTest.java
+@@ -31,19 +31,33 @@
+     assertEquals(0, session.getResponseTime());
+     assertEquals(0, session.getIdHash());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
+-      j2EEEJBSession0.setTransaction("hPoZ|i_'Z4LNJ>");
+-      j2EEEJBSession0.hashCode();
+-      assertEquals(0, j2EEEJBSession0.getIdHash());
+-      assertEquals(0, j2EEEJBSession0.getResponseTime());
+-      assertEquals(0, j2EEEJBSession0.getTotalRequests());
+-      assertEquals(0, j2EEEJBSession0.getActiveRequests());
+-      assertEquals(0, j2EEEJBSession0.getSize());
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    J2EEEJBSession j2EEEJBSession0 = new J2EEEJBSession();
++
++    // Capture initial state
++    int idHashBefore = j2EEEJBSession0.getIdHash();
++    int responseTimeBefore = j2EEEJBSession0.getResponseTime();
++    int totalRequestsBefore = j2EEEJBSession0.getTotalRequests();
++    int activeRequestsBefore = j2EEEJBSession0.getActiveRequests();
++    int sizeBefore = j2EEEJBSession0.getSize();
++
++    // Act
++    j2EEEJBSession0.setTransaction("hPoZ|i_'Z4LNJ>");
++
++    // Verify that unrelated fields remain unchanged (side‑effect of setTransaction)
++    assertEquals(idHashBefore, j2EEEJBSession0.getIdHash());
++    assertEquals(responseTimeBefore, j2EEEJBSession0.getResponseTime());
++    assertEquals(totalRequestsBefore, j2EEEJBSession0.getTotalRequests());
++    assertEquals(activeRequestsBefore, j2EEEJBSession0.getActiveRequests());
++    assertEquals(sizeBefore, j2EEEJBSession0.getSize());
++
++    // Assert return value of hashCode (NARV)
++    int hash1 = j2EEEJBSession0.hashCode();
++    int hash2 = j2EEEJBSession0.hashCode();
++    assertEquals(hash1, hash2);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

@@ -1,0 +1,49 @@
+--- a/evosuite-tests/de/outstare/fortbattleplayer/model/impl/SimpleCombatant_ESTest.java
++++ b/evosuite-tests/de/outstare/fortbattleplayer/model/impl/SimpleCombatant_ESTest.java
+@@ -143,19 +143,33 @@
+       simpleCombatant0.hashCode();
+       assertEquals(391, simpleCombatant0._maxHealth());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      CharacterClass characterClass0 = CharacterClass.SOLDIER;
+-      SimpleSector simpleSector0 = new SimpleSector(506, true, true, 506, 506, true, 506, characterClass0);
+-      SimpleArea simpleArea0 = new SimpleArea(506, 506, simpleSector0);
+-      CombatantState combatantState0 = new CombatantState(simpleArea0, 506, simpleArea0, true);
+-      CombatantSide combatantSide0 = CombatantSide.DEFENDER;
+-      SimpleWeapon simpleWeapon0 = new SimpleWeapon(506, ">tHS\"++$`0`6#", 506, 506);
+-      SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState0, 506, ">tHS\"++$`0`6#", characterClass0, simpleWeapon0, ">tHS\"++$`0`6#");
+-      simpleCombatant0.setOnline(false);
+-      assertFalse(simpleCombatant0.isOnline());
+-  }
++@Test(timeout = 4000)
++public void test08() throws Throwable {
++    CharacterClass characterClass0 = CharacterClass.SOLDIER;
++    SimpleSector simpleSector0 = new SimpleSector(506, true, true, 506, 506, true, 506, characterClass0);
++    SimpleArea simpleArea0 = new SimpleArea(506, 506, simpleSector0);
++    CombatantState combatantState0 = new CombatantState(simpleArea0, 506, simpleArea0, true);
++    CombatantSide combatantSide0 = CombatantSide.DEFENDER;
++    SimpleWeapon simpleWeapon0 = new SimpleWeapon(506, ">tHS\"++$`0`6#", 506, 506);
++    SimpleCombatant simpleCombatant0 = new SimpleCombatant(combatantSide0, combatantState0, 506,
++            ">tHS\"++$`0`6#", characterClass0, simpleWeapon0, ">tHS\"++$`0`6#");
++
++    // Verify initial online status (default should be true)
++    assertTrue(simpleCombatant0.isOnline());
++
++    // Capture an invariant property before the state change
++    String nameBefore = simpleCombatant0.getName();
++
++    // Act: change online status
++    simpleCombatant0.setOnline(false);
++
++    // Assert the side‑effect is observed
++    assertFalse(simpleCombatant0.isOnline());
++
++    // Assert that unrelated properties remain unchanged
++    assertEquals(nameBefore, simpleCombatant0.getName());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

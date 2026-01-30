@@ -1,0 +1,39 @@
+--- a/evosuite-tests/org/fixsuite/message/info/GroupInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/GroupInfo_ESTest.java
+@@ -61,18 +61,24 @@
+     groupInfo0.addComponent(componentInfo0, 236.71);
+     assertEquals(lengthBefore, groupInfo0.getLength());
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-    fieldInfo0 = new FieldInfo();
+-    groupInfo0 = new GroupInfo(fieldInfo0);
+-      ComponentInfo componentInfo0 = new ComponentInfo();
+-      componentInfo0.setName("");
+-      groupInfo0.addComponent(componentInfo0, 1006.7832447604);
+-      ComponentInfo componentInfo1 = groupInfo0.getComponent("{GR#mcp$");
+-      assertNull(componentInfo1);
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    fieldInfo0 = new FieldInfo();
++    groupInfo0 = new GroupInfo(fieldInfo0);
++    ComponentInfo componentInfo0 = new ComponentInfo();
++    componentInfo0.setName("");
++    // Verify that setName correctly updates the name field
++    assertEquals("", componentInfo0.getName());
++
++    groupInfo0.addComponent(componentInfo0, 1006.7832447604);
++    // Verify that the component was added and can be retrieved by its name
++    ComponentInfo retrieved = groupInfo0.getComponent("");
++    assertSame(componentInfo0, retrieved);
++
++    ComponentInfo componentInfo1 = groupInfo0.getComponent("{GR#mcp$");
++    assertNull(componentInfo1);
++}
++
+ @Test(timeout = 4000)
+ public void test04() throws Throwable {
+     fieldInfo0 = new FieldInfo();

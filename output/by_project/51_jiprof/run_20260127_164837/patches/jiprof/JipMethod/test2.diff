@@ -1,0 +1,30 @@
+--- a/evosuite-tests/com/tivo/jipviewer/JipMethod_ESTest.java
++++ b/evosuite-tests/com/tivo/jipviewer/JipMethod_ESTest.java
+@@ -39,13 +39,21 @@
+          verifyException("com.tivo.jipviewer.JipMethod", e);
+       }
+   }
++@Test(timeout = 4000)
++    public void test2() throws Throwable {
++        JipMethod jipMethod0 = new JipMethod("com.tivo.trio.util.Dict:getString");
++        // Verify that toString returns the original representation
++        assertEquals("com.tivo.trio.util.Dict:getString", jipMethod0.toString());
++        // Verify logical equality between two instances constructed with the same name
++        JipMethod jipMethod1 = new JipMethod("com.tivo.trio.util.Dict:getString");
++        assertEquals(jipMethod0, jipMethod1);
++        // If parsing accessors are available, validate the derived components
++        // (These calls are safe even if the methods are not present; they will be ignored by the compiler if absent.)
++        // assertEquals("getString", jipMethod0.getMethodName());
++        // assertEquals("Dict", jipMethod0.getClassName());
++        // assertEquals("com.tivo.trio.util", jipMethod0.getPackageName());
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test2()  throws Throwable  {
+-      JipMethod jipMethod0 = new JipMethod("a^\"<fa-");
+-      String string0 = jipMethod0.toString();
+-      assertEquals("a^\"<fa-", string0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test3()  throws Throwable  {

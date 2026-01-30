@@ -1,0 +1,53 @@
+--- a/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermFilter_ESTest.java
++++ b/evosuite-tests/macaw/persistenceLayer/demo/InMemoryOntologyTermFilter_ESTest.java
+@@ -57,21 +57,38 @@
+       ArrayList<OntologyTerm> arrayList1 = inMemoryOntologyTermFilter0.filterOntologyTerms(user0, "Y", "Y");
+       assertEquals(0, arrayList1.size());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test3() throws Throwable {
+     inMemoryOntologyTermFilter0 = new InMemoryOntologyTermFilter();
+     user0 = new User();
+-      ArrayList<OntologyTerm> arrayList0 = inMemoryOntologyTermFilter0.filterOntologyTerms(user0, "|H", "|H");
+-      OntologyTerm ontologyTerm0 = new OntologyTerm();
+-      arrayList0.add(ontologyTerm0);
+-      OntologyTerm ontologyTerm1 = new OntologyTerm();
+-      ontologyTerm1.setOntologyName("macaw.persistenceLayer.demo.InMemoryOntologyTermFilter");
+-      arrayList0.add(ontologyTerm1);
+-      inMemoryOntologyTermFilter0.setOntologyTerms(arrayList0);
+-      ArrayList<OntologyTerm> arrayList1 = inMemoryOntologyTermFilter0.filterOntologyTerms(user0, "|H", "|H");
+-      assertFalse(arrayList1.isEmpty());
++
++    // Verify that the filter initially returns an empty list
++    ArrayList<OntologyTerm> initialList = inMemoryOntologyTermFilter0.filterOntologyTerms(user0, "|H", "|H");
++    assertTrue(initialList.isEmpty());
++
++    // Prepare ontology terms and add them to a local list
++    ArrayList<OntologyTerm> arrayList0 = new ArrayList<>();
++    OntologyTerm ontologyTerm0 = new OntologyTerm();
++    arrayList0.add(ontologyTerm0);
++    OntologyTerm ontologyTerm1 = new OntologyTerm();
++    ontologyTerm1.setOntologyName("macaw.persistenceLayer.demo.InMemoryOntologyTermFilter");
++    arrayList0.add(ontologyTerm1);
++
++    // Assert that the ontology name was set correctly (NASE)
++    assertEquals("macaw.persistenceLayer.demo.InMemoryOntologyTermFilter", ontologyTerm1.getOntologyName());
++
++    // Verify the local list contains the expected number of terms (NARV)
++    assertEquals(2, arrayList0.size());
++
++    // Apply the terms to the filter (void method under test)
++    inMemoryOntologyTermFilter0.setOntologyTerms(arrayList0);
++
++    // Retrieve the filtered list after setting terms and assert the side‑effect
++    ArrayList<OntologyTerm> arrayList1 = inMemoryOntologyTermFilter0.filterOntologyTerms(user0, "|H", "|H");
++    assertEquals(2, arrayList1.size());
++    assertFalse(arrayList1.isEmpty());
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {

@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
++++ b/evosuite-tests/org/javathena/utiles/ConfigurationManagement_ESTest.java
+@@ -410,11 +410,20 @@
+       long long0 = ConfigurationManagement.getStartLimitedTime();
+       assertEquals((-1L), long0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test54()  throws Throwable  {
+-      ConfigurationManagement.setConsole_silent(true);
+-  }
++@Test(timeout = 4000)
++    public void test54() throws Throwable {
++        // Record the initial silent flag state
++        boolean initialState = ConfigurationManagement.isConsole_silent();
++        // Change the flag
++        ConfigurationManagement.setConsole_silent(true);
++        // Verify that the flag was updated
++        assertTrue(ConfigurationManagement.isConsole_silent());
++        // If the initial state was different, ensure the change is observable
++        if (initialState != true) {
++            assertNotEquals(initialState, ConfigurationManagement.isConsole_silent());
++        }
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test55()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
++++ b/evosuite-tests/org/objectweb/asm/jip/Item_ESTest.java
+@@ -169,15 +169,18 @@
+     boolean boolean0 = item0.isEqualTo(item0);
+     assertTrue(boolean0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-      Item item0 = new Item();
+-      item0.set((-3223.702));
+-      boolean boolean0 = item0.isEqualTo(item0);
+-      assertTrue(boolean0);
+-  }
++@Test(timeout = 4000)
++    public void test10() throws Throwable {
++        Item item0 = new Item();
++        int beforeHash = item0.hashCode;
++        item0.set(-3223.702);
++        // Verify that the set operation changed the internal state
++        assertNotEquals(beforeHash, item0.hashCode);
++        assertEquals(Double.doubleToLongBits(-3223.702), item0.longVal);
++        // The item should be equal to itself
++        assertTrue(item0.isEqualTo(item0));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

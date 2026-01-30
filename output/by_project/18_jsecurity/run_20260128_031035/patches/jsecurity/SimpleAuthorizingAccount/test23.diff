@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
++++ b/evosuite-tests/org/jsecurity/authz/SimpleAuthorizingAccount_ESTest.java
+@@ -251,17 +251,24 @@
+       boolean boolean0 = simpleAuthorizingAccount0.hasAllRoles(linkedHashSet0);
+       assertFalse(boolean0);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount("<6l^d8", "<6l^d8", "<6l^d8");
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
+-      SimpleAuthorizingAccount simpleAuthorizingAccount1 = new SimpleAuthorizingAccount(simplePrincipalCollection0, "<6l^d8");
+-      simpleAuthorizingAccount0.addRole("<6l^d8");
+-      Set<SimpleRole> set0 = simpleAuthorizingAccount0.simpleRoles;
+-      simpleAuthorizingAccount1.addAll(set0);
+-      assertFalse(simpleAuthorizingAccount1.isCredentialsExpired());
+-  }
++@Test(timeout = 4000)
++public void test23() throws Throwable {
++    SimpleAuthorizingAccount simpleAuthorizingAccount0 = new SimpleAuthorizingAccount("<6l^d8", "<6l^d8", "<6l^d8");
++    SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
++    SimpleAuthorizingAccount simpleAuthorizingAccount1 = new SimpleAuthorizingAccount(simplePrincipalCollection0, "<6l^d8");
++    // Verify that addRole modifies the internal role set
++    int beforeSize0 = simpleAuthorizingAccount0.simpleRoles.size();
++    simpleAuthorizingAccount0.addRole("<6l^d8");
++    assertEquals(beforeSize0 + 1, simpleAuthorizingAccount0.simpleRoles.size());
++    Set<SimpleRole> set0 = simpleAuthorizingAccount0.simpleRoles;
++    // Verify that addAll copies the roles into the second account
++    int beforeSize1 = simpleAuthorizingAccount1.simpleRoles.size();
++    simpleAuthorizingAccount1.addAll(set0);
++    assertEquals(beforeSize1 + set0.size(), simpleAuthorizingAccount1.simpleRoles.size());
++    assertTrue(simpleAuthorizingAccount1.simpleRoles.containsAll(set0));
++    assertFalse(simpleAuthorizingAccount1.isCredentialsExpired());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

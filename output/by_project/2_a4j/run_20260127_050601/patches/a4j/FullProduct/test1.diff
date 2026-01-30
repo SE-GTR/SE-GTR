@@ -1,0 +1,31 @@
+--- a/evosuite-tests/net/kencochrane/a4j/beans/FullProduct_ESTest.java
++++ b/evosuite-tests/net/kencochrane/a4j/beans/FullProduct_ESTest.java
+@@ -24,13 +24,24 @@
+       fullProduct0.addSimilarItem((MiniProduct) null);
+       fullProduct0.printFullProduct();
+   }
++@Test(timeout = 4000)
++  public void test1() throws Throwable {
++      FullProduct fullProduct0 = new FullProduct();
+ 
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
+-      FullProduct fullProduct0 = new FullProduct();
+-      fullProduct0.setSimilarItems((ArrayList) null);
++      // Prepare a non‑null list and verify the setter updates the state
++      ArrayList<String> list = new ArrayList<>();
++      list.add("sample");
++      fullProduct0.setSimilarItems(list);
++      assertNotNull(fullProduct0.getSimilarItems());
++
++      // Set the similar items to null and verify the side‑effect
++      fullProduct0.setSimilarItems(null);
++      assertNull(fullProduct0.getSimilarItems());
++
++      // Invoke the method under test to keep the original behavior
+       fullProduct0.printFullProduct();
+   }
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

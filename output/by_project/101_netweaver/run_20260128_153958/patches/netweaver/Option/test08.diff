@@ -1,0 +1,32 @@
+--- a/evosuite-tests/com/sap/engine/services/dc/wsgate/Option_ESTest.java
++++ b/evosuite-tests/com/sap/engine/services/dc/wsgate/Option_ESTest.java
+@@ -89,17 +89,21 @@
+     Serializer serializer0 = Option.getSerializer("}.IrNSN[n;s-m>u&(c", class0, qName0);
+     assertNotNull(serializer0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test08() throws Throwable {
+     option0 = new Option();
+     option1 = new Option(option0, option0);
+-      option0.setKey(option1);
+-      boolean boolean0 = option0.equals(option1);
+-      assertFalse(option1.equals((Object)option0));
+-      assertFalse(boolean0);
++    // verify initial state before setting the key
++    assertNull(option0.getKey());
++    // act: set the key
++    option0.setKey(option1);
++    // assert side‑effect of setKey
++    assertSame(option1, option0.getKey());
++    boolean boolean0 = option0.equals(option1);
++    assertFalse(option1.equals((Object) option0));
++    assertFalse(boolean0);
+   }
++
+ @Test(timeout = 4000)
+   public void test09() throws Throwable {
+       TypeDesc typeDesc0 = Option.getTypeDesc();

@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache_ESTest.java
++++ b/evosuite-tests/com/sap/managementconsole/soap/axis/sapcontrol/J2EECache_ESTest.java
+@@ -319,17 +319,23 @@
+       TypeDesc typeDesc0 = J2EECache.getTypeDesc();
+       assertNotNull(typeDesc0);
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test25()  throws Throwable  {
+-      J2EECache j2EECache0 = new J2EECache();
+-      j2EECache0.setCachename("=z9?veE");
+-      J2EECache j2EECache1 = new J2EECache();
+-      boolean boolean0 = j2EECache1.equals(j2EECache0);
+-      assertFalse(boolean0);
+-      assertFalse(j2EECache0.equals((Object)j2EECache1));
+-  }
++@Test(timeout = 4000)
++public void test25() throws Throwable {
++    J2EECache j2EECache0 = new J2EECache();
++    // Verify initial state before setting the cache name
++    assertNull(j2EECache0.getCachename());
++
++    String expectedName = "=z9?veE";
++    j2EECache0.setCachename(expectedName);
++    // Assert that the side‑effect of setCachename is observable
++    assertEquals(expectedName, j2EECache0.getCachename());
++
++    J2EECache j2EECache1 = new J2EECache();
++    boolean boolean0 = j2EECache1.equals(j2EECache0);
++    assertFalse(boolean0);
++    assertFalse(j2EECache0.equals((Object) j2EECache1));
++}
++
+ @Test(timeout = 4000)
+ public void test26() throws Throwable {
+     STATECOLOR sTATECOLOR0 = STATECOLOR.value4;

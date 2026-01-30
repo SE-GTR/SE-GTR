@@ -1,0 +1,35 @@
+--- a/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
++++ b/evosuite-tests/oasis/names/tc/ciq/xsdschema/xal/_2/AdministrativeArea_ESTest.java
+@@ -151,15 +151,27 @@
+ @Test(timeout = 4000)
+ public void test13() throws Throwable {
+     AdministrativeArea.SubAdministrativeArea.SubAdministrativeAreaName name = new AdministrativeArea.SubAdministrativeArea.SubAdministrativeAreaName();
+-    // Verify initial state before setting the type
++    // Verify initial state
+     assertNull(name.getType());
+-    // Exercise the setter
+-    name.setType("oasis.names.tc.ciq.xsdschema.xal._2.AdministrativeArea$AdministrativeAreaName");
++    assertNull(name.getContent());
++    String beforeToString = name.toString();
++
++    // Use a distinct type value to differentiate from other tests
++    String newType = "custom.TypeValue";
++    name.setType(newType);
++
+     // Assert the side‑effect of the setter
+-    assertEquals("oasis.names.tc.ciq.xsdschema.xal._2.AdministrativeArea$AdministrativeAreaName", name.getType());
+-    // Existing behavior check
++    assertEquals(newType, name.getType());
++
++    // Verify that the object's string representation reflects the change
++    String afterToString = name.toString();
++    assertNotEquals(beforeToString, afterToString);
++    assertTrue(afterToString.contains(newType));
++
++    // Content should remain unchanged
+     assertNull(name.getContent());
+ }
++
+ @Test(timeout = 4000)
+ public void test14() throws Throwable {
+     AdministrativeArea.SubAdministrativeArea.SubAdministrativeAreaName name = new AdministrativeArea.SubAdministrativeArea.SubAdministrativeAreaName();

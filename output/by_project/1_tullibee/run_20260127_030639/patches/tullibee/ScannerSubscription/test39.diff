@@ -1,0 +1,48 @@
+--- a/evosuite-tests/com/ib/client/ScannerSubscription_ESTest.java
++++ b/evosuite-tests/com/ib/client/ScannerSubscription_ESTest.java
+@@ -625,22 +625,29 @@
+         assertEquals(1.5, scannerSubscription0.couponRateBelow(), 0.01);
+         assertEquals(10, scannerSubscription0.numberOfRows());
+     }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test39()  throws Throwable  {
+-      ScannerSubscription scannerSubscription0 = new ScannerSubscription();
+-      scannerSubscription0.maturityDateBelow();
+-      assertEquals(Integer.MAX_VALUE, scannerSubscription0.averageOptionVolumeAbove());
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.couponRateAbove(), 0.01);
+-      assertEquals((-1), scannerSubscription0.numberOfRows());
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.marketCapAbove(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.abovePrice(), 0.01);
+-      assertEquals(Integer.MAX_VALUE, scannerSubscription0.aboveVolume());
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.marketCapBelow(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.belowPrice(), 0.01);
+-      assertEquals(1.7976931348623157E308, scannerSubscription0.couponRateBelow(), 0.01);
+-  }
++@Test(timeout = 4000)
++    public void test39() throws Throwable {
++        ScannerSubscription sub = new ScannerSubscription();
++
++        // Act: change a few fields using the setters
++        sub.abovePrice(100.5);
++        sub.belowPrice(50.25);
++        sub.aboveVolume(200);
++        sub.numberOfRows(10);
++
++        // Assert that the setters affected the corresponding getters
++        assertEquals(100.5, sub.abovePrice(), 0.01);
++        assertEquals(50.25, sub.belowPrice(), 0.01);
++        assertEquals(200, sub.aboveVolume());
++        assertEquals(10, sub.numberOfRows());
++
++        // Verify a default value that was not modified
++        assertEquals(Double.MAX_VALUE, sub.couponRateAbove(), 0.01);
++
++        // Assert the return value of a getter that was previously ignored
++        assertNull(sub.maturityDateBelow());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test40()  throws Throwable  {

@@ -1,0 +1,22 @@
+--- a/evosuite-tests/osa/ora/server/client/threads/SendChatThread_ESTest.java
++++ b/evosuite-tests/osa/ora/server/client/threads/SendChatThread_ESTest.java
+@@ -17,10 +17,16 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class SendChatThread_ESTest extends SendChatThread_ESTest_scaffolding {
+-
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
++@Test(timeout = 4000)
++  public void test0() throws Throwable {
+       TextMessage textMessage0 = new TextMessage();
+       SendChatThread sendChatThread0 = new SendChatThread((ChatWindowPanel) null, textMessage0, (ChatClientApp) null);
++      // Exercise the thread by starting it
++      sendChatThread0.start();
++      // Wait briefly for the thread to finish execution
++      sendChatThread0.join(1000);
++      // Verify that the thread has completed its run method
++      org.junit.Assert.assertFalse(sendChatThread0.isAlive());
+   }
++
+ }

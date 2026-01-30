@@ -1,0 +1,24 @@
+--- a/evosuite-tests/jigl/image/warp/WarpedRealGrayImage_ESTest.java
++++ b/evosuite-tests/jigl/image/warp/WarpedRealGrayImage_ESTest.java
+@@ -32,13 +32,15 @@
+       // Verify that the returned value is a valid finite float (behavioral check)
+       assertTrue(Float.isFinite(value));
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     interpolatedRealGrayImage0 = new InterpolatedRealGrayImage(1345, 1345);
+     scaleTransform0 = new ScaleTransform(1345, 1345);
+     warpedRealGrayImage0 = new WarpedRealGrayImage(interpolatedRealGrayImage0, scaleTransform0);
+-      warpedRealGrayImage0.setDefaultColor((-246.945F));
+-  }
++    warpedRealGrayImage0.setDefaultColor(-246.945F);
++    // Verify that the default color is returned for a coordinate outside the image bounds
++    float value = warpedRealGrayImage0.get(-10.0F, -10.0F);
++    assertEquals(-246.945F, value, 0.0001F);
+ }
++
++}

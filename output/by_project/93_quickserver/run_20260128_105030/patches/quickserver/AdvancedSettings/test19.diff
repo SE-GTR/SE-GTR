@@ -1,0 +1,38 @@
+--- a/evosuite-tests/org/quickserver/util/xmlreader/AdvancedSettings_ESTest.java
++++ b/evosuite-tests/org/quickserver/util/xmlreader/AdvancedSettings_ESTest.java
+@@ -280,15 +280,26 @@
+       advancedSettings0.toXML("");
+       assertEquals(65536, advancedSettings0.getClientSocketSendBufferSize());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test19()  throws Throwable  {
+-      AdvancedSettings advancedSettings0 = new AdvancedSettings();
+-      assertFalse(advancedSettings0.getClientSocketTcpNoDelay());
+-      
+-      advancedSettings0.setClientSocketTcpNoDelay(true);
+-      assertTrue(advancedSettings0.getClientSocketTcpNoDelay());
+-  }
++@Test(timeout = 4000)
++    public void test19() throws Throwable {
++        AdvancedSettings advancedSettings0 = new AdvancedSettings();
++        assertFalse(advancedSettings0.getClientSocketTcpNoDelay());
++
++        advancedSettings0.setClientSocketTcpNoDelay(true);
++        assertTrue(advancedSettings0.getClientSocketTcpNoDelay());
++
++        // Verify that the setting survives serialization/deserialization
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(advancedSettings0);
++        oos.flush();
++
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++                new java.io.ByteArrayInputStream(baos.toByteArray()));
++        AdvancedSettings deserialized = (AdvancedSettings) ois.readObject();
++        assertTrue(deserialized.getClientSocketTcpNoDelay());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test20()  throws Throwable  {

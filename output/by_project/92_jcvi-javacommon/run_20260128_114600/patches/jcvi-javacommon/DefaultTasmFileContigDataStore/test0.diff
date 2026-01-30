@@ -1,0 +1,28 @@
+--- a/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/DefaultTasmFileContigDataStore_ESTest.java
++++ b/evosuite-tests/org/jcvi/jillion/assembly/tigr/tasm/DefaultTasmFileContigDataStore_ESTest.java
+@@ -21,14 +21,16 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class DefaultTasmFileContigDataStore_ESTest extends DefaultTasmFileContigDataStore_ESTest_scaffolding {
++@Test(timeout = 4000)
++    public void test0() throws Throwable {
++        File file0 = MockFile.createTempFile("org.jcvi.jillion.internal.fasta.qual.LargeQualityFastaFileDataStore", "org.jcvi.jillion.internal.fasta.qual.LargeQualityFastaFileDataStore");
++        DataStore<Long> dataStore0 = (DataStore<Long>) mock(DataStore.class, new ViolatedAssumptionAnswer());
++        DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
++        doReturn(false).when(dataStoreFilter0).accept(anyString());
++        boolean acceptResult = dataStoreFilter0.accept("testString");
++        assertFalse(acceptResult);
++        Proxy proxy0 = (Proxy) DefaultTasmFileContigDataStore.create(file0, dataStore0, dataStoreFilter0);
++        assertNotNull(proxy0);
++    }
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      File file0 = MockFile.createTempFile("org.jcvi.jillion.internal.fasta.qual.LargeQualityFastaFileDataStore", "org.jcvi.jillion.internal.fasta.qual.LargeQualityFastaFileDataStore");
+-      DataStore<Long> dataStore0 = (DataStore<Long>) mock(DataStore.class, new ViolatedAssumptionAnswer());
+-      DataStoreFilter dataStoreFilter0 = mock(DataStoreFilter.class, new ViolatedAssumptionAnswer());
+-      doReturn(false).when(dataStoreFilter0).accept(anyString());
+-      Proxy proxy0 = (Proxy)DefaultTasmFileContigDataStore.create(file0, dataStore0, dataStoreFilter0);
+-      assertNotNull(proxy0);
+-  }
+ }

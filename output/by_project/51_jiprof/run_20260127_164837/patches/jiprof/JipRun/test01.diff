@@ -1,0 +1,34 @@
+--- a/evosuite-tests/com/tivo/jipviewer/JipRun_ESTest.java
++++ b/evosuite-tests/com/tivo/jipviewer/JipRun_ESTest.java
+@@ -27,14 +27,23 @@
+       jipRun0.startFrame("", "", 354L, 354L);
+       jipRun0.endFrame();
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test01()  throws Throwable  {
+-      JipRun jipRun0 = new JipRun();
+-      jipRun0.startFrame("ChiY5s86b#", "ChiY5s86b#", 354L, 354L);
+-      jipRun0.startFrame("ChiY5s86b#", "ChiY5s86b#", 354L, 354L);
+-      jipRun0.endFrame();
+-  }
++@Test(timeout = 4000)
++public void test01() throws Throwable {
++    JipRun jipRun0 = new JipRun();
++    jipRun0.startFrame("ChiY5s86b#", "ChiY5s86b#", 354L, 354L);
++    // Verify that a frame was started
++    assertNotNull(jipRun0.getCurFrame());
++    // Verify frame properties
++    JipFrame cur = jipRun0.getCurFrame();
++    assertEquals("ChiY5s86b#", cur.getClassName());
++    assertEquals("ChiY5s86b#", cur.getMethodName());
++    assertEquals(354L, cur.getCount());
++    assertEquals(354L, cur.getTime());
++    // End the frame and verify it is cleared
++    jipRun0.endFrame();
++    assertNull(jipRun0.getCurFrame());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test02()  throws Throwable  {

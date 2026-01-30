@@ -1,0 +1,28 @@
+--- a/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSChecksummer_ESTest.java
++++ b/evosuite-tests/edu/uiuc/ndiipp/hubandspoke/utils/HaSChecksummer_ESTest.java
+@@ -109,14 +109,18 @@
+     // Assert that the side‑effect of update is as expected
+     assertEquals(expected, checksummer.getLongCRC32());
+ }
++@Test(timeout = 4000)
++  public void test08() throws Throwable {
++      HaSChecksummer haSChecksummer0 = new HaSChecksummer();
++      byte[] data = "checksum".getBytes("UTF-8");
++      haSChecksummer0.update(data, 0, data.length);
++      java.util.zip.CRC32 reference = new java.util.zip.CRC32();
++      reference.update(data, 0, data.length);
++      long expected = reference.getValue();
++      long actual = haSChecksummer0.getLongCRC32();
++      assertEquals(expected, actual);
++  }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test08()  throws Throwable  {
+-      HaSChecksummer haSChecksummer0 = new HaSChecksummer();
+-      long long0 = haSChecksummer0.getLongCRC32();
+-      assertEquals(0L, long0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test09()  throws Throwable  {

@@ -1,0 +1,40 @@
+--- a/evosuite-tests/org/jsecurity/mgt/DefaultSecurityManager_ESTest.java
++++ b/evosuite-tests/org/jsecurity/mgt/DefaultSecurityManager_ESTest.java
+@@ -93,19 +93,24 @@
+          verifyException("org.jsecurity.web.WebUtils", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager();
+-      defaultSecurityManager0.getRememberedIdentity();
+-      defaultSecurityManager0.rememberMeLogout((PrincipalCollection) null);
+-      AllPermission allPermission0 = new AllPermission();
+-      SimplePrincipalCollection simplePrincipalCollection0 = new SimplePrincipalCollection();
+-      defaultSecurityManager0.logout((PrincipalCollection) null);
+-      Subject subject0 = defaultSecurityManager0.getSubject();
+-      assertFalse(subject0.isAuthenticated());
+-      assertNotNull(subject0);
+-  }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    DefaultSecurityManager defaultSecurityManager0 = new DefaultSecurityManager();
++    // Verify that no remembered identity exists initially
++    assertNull(defaultSecurityManager0.getRememberedIdentity());
++
++    // Invoke rememberMeLogout with null (no effect expected)
++    defaultSecurityManager0.rememberMeLogout((PrincipalCollection) null);
++
++    // Perform logout with null principals
++    defaultSecurityManager0.logout((PrincipalCollection) null);
++
++    Subject subject0 = defaultSecurityManager0.getSubject();
++    // After logout the subject should not be authenticated
++    assertFalse(subject0.isAuthenticated());
++    assertNotNull(subject0);
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

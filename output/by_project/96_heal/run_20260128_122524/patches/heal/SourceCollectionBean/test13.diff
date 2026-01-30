@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/heal/module/metadata/SourceCollectionBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/SourceCollectionBean_ESTest.java
+@@ -173,12 +173,26 @@
+         // Ensure other properties remain unaffected
+         assertNull(bean.getLocation());
+     }
++@Test(timeout = 4000)
++    public void test13() throws Throwable {
++        SourceCollectionBean sourceCollectionBean0 = new SourceCollectionBean();
++        sourceCollectionBean0.setSourceName("Ib!cqw");
++        assertNull(sourceCollectionBean0.getLocation());
+ 
++        // Serialize the bean and deserialize it back to exercise non‑trivial behavior
++        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++        java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++        oos.writeObject(sourceCollectionBean0);
++        oos.flush();
++        byte[] serialized = baos.toByteArray();
+ 
+-  @Test(timeout = 4000)
+-  public void test13()  throws Throwable  {
+-      SourceCollectionBean sourceCollectionBean0 = new SourceCollectionBean();
+-      sourceCollectionBean0.setSourceName("Ib!cqw");
+-      assertNull(sourceCollectionBean0.getLocation());
+-  }
++        java.io.ObjectInputStream ois = new java.io.ObjectInputStream(
++                new java.io.ByteArrayInputStream(serialized));
++        SourceCollectionBean deserialized = (SourceCollectionBean) ois.readObject();
++
++        // Verify that deserialization produced a distinct object with the same observable state
++        assertNotSame(sourceCollectionBean0, deserialized);
++        assertNull(deserialized.getLocation());
++    }
++
+ }

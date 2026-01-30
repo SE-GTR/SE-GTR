@@ -1,0 +1,27 @@
+--- a/evosuite-tests/org/jsecurity/session/ProxiedSession_ESTest.java
++++ b/evosuite-tests/org/jsecurity/session/ProxiedSession_ESTest.java
+@@ -115,15 +115,16 @@
+       proxiedSession0.setTimeout((-1L));
+       assertEquals(0L, proxiedSession0.getTimeout());
+   }
++@Test(timeout = 4000)
++public void test09() throws Throwable {
++    Session session0 = mock(Session.class, new ViolatedAssumptionAnswer());
++    doReturn((Date) null).when(session0).getLastAccessTime();
++    ProxiedSession proxiedSession0 = new ProxiedSession(session0);
++    Date date0 = proxiedSession0.getLastAccessTime();
++    assertNull(date0);
++    verify(session0).getLastAccessTime();
++}
+ 
+-  @Test(timeout = 4000)
+-  public void test09()  throws Throwable  {
+-    session0 = mock(Session.class, new ViolatedAssumptionAnswer());
+-      doReturn((Date) null).when(session0).getLastAccessTime();
+-    proxiedSession0 = new ProxiedSession(session0);
+-      Date date0 = proxiedSession0.getLastAccessTime();
+-      assertNull(date0);
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test10()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/jigl/signal/ComplexSignal_ESTest.java
++++ b/evosuite-tests/jigl/signal/ComplexSignal_ESTest.java
+@@ -411,14 +411,19 @@
+          verifyException("jigl.signal.RealSignal", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test37()  throws Throwable  {
+-      ComplexSignal complexSignal0 = new ComplexSignal(2);
+-      RealSignal realSignal0 = complexSignal0.imaginary();
+-      complexSignal0.setReal(realSignal0);
+-      assertEquals(2, realSignal0.length());
+-  }
++@Test(timeout = 4000)
++    public void test37() throws Throwable {
++        ComplexSignal complexSignal0 = new ComplexSignal(2);
++        RealSignal realSignal0 = complexSignal0.imaginary();
++        complexSignal0.setReal(realSignal0);
++        // Verify that the real plane was set to the provided signal
++        RealSignal realSignal1 = complexSignal0.real();
++        assertSame(realSignal0, realSignal1);
++        // Verify length consistency
++        assertEquals(2, complexSignal0.length());
++        assertEquals(2, realSignal0.length());
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test38()  throws Throwable  {

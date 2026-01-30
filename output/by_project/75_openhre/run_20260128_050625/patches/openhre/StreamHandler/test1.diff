@@ -1,0 +1,28 @@
+--- a/evosuite-tests/com/browsersoft/aacs/StreamHandler_ESTest.java
++++ b/evosuite-tests/com/browsersoft/aacs/StreamHandler_ESTest.java
+@@ -34,16 +34,17 @@
+       // Verify that no stack frames were recorded during processing
+       assertEquals(0, streamHandler0.countStackFrames());
+   }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test1()  throws Throwable  {
++@Test(timeout = 4000)
++public void test1() throws Throwable {
+     byteArray0 = new byte[7];
+     byteArrayInputStream0 = new ByteArrayInputStream(byteArray0);
+-      StreamHandler streamHandler0 = new StreamHandler(byteArrayInputStream0, "ERROR");
+-      streamHandler0.run();
+-      //  // Unstable assertion: assertFalse(streamHandler0.isDaemon());
+-  }
++    StreamHandler streamHandler0 = new StreamHandler(byteArrayInputStream0, "ERROR");
++    streamHandler0.run();
++    // Verify observable state after invoking the void method
++    assertFalse(streamHandler0.isDaemon());
++    assertEquals(Thread.NORM_PRIORITY, streamHandler0.getPriority());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test2()  throws Throwable  {

@@ -1,0 +1,30 @@
+--- a/evosuite-tests/org/heal/module/oai/heal/HEALOAIDCRecordAdapter_ESTest.java
++++ b/evosuite-tests/org/heal/module/oai/heal/HEALOAIDCRecordAdapter_ESTest.java
+@@ -185,15 +185,18 @@
+          verifyException("org.heal.module.oai.heal.HEALXMLHelper", e);
+       }
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test10()  throws Throwable  {
+-    completeMetadataBean0 = new CompleteMetadataBean();
+-      completeMetadataBean0.setFileSize("0");
+-    hEALOAIDCRecordAdapter0 = new HEALOAIDCRecordAdapter(completeMetadataBean0, (HEALProviderConfig) null);
+-      hEALOAIDCRecordAdapter0.appendFormatElements((Element) null, (Document) null);
+-      assertTrue(hEALOAIDCRecordAdapter0.hasCustomAbout());
+-  }
++@Test(timeout = 4000)
++public void test10() throws Throwable {
++    completeMetadataBean0 = new CompleteMetadataBean();
++    // Verify that the fileSize is initially unset (null) and then set correctly.
++    assertNull(completeMetadataBean0.getFileSize());
++    completeMetadataBean0.setFileSize("0");
++    assertEquals("0", completeMetadataBean0.getFileSize());
++    hEALOAIDCRecordAdapter0 = new HEALOAIDCRecordAdapter(completeMetadataBean0, (HEALProviderConfig) null);
++    hEALOAIDCRecordAdapter0.appendFormatElements((Element) null, (Document) null);
++    assertTrue(hEALOAIDCRecordAdapter0.hasCustomAbout());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test11()  throws Throwable  {

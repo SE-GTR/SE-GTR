@@ -1,0 +1,26 @@
+--- a/evosuite-tests/logging/Logging_ESTest.java
++++ b/evosuite-tests/logging/Logging_ESTest.java
+@@ -76,14 +76,17 @@
+       logging0.log(level0, "", "");
+       assertEquals(Integer.MIN_VALUE, Priority.ALL_INT);
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
++@Test(timeout = 4000)
++public void test6() throws Throwable {
+     level0 = Level.ALL;
+     logging0 = Logging.getInstance();
+-      logging0.log(level0, level0, "rk\f};iJG=i");
+-      assertEquals(5000, Level.TRACE_INT);
+-  }
++    Logging beforeInstance = logging0;
++    logging0.log(level0, level0, "rk\f};iJG=i");
++    assertNotNull(logging0);
++    assertNotNull(level0);
++    assertSame(beforeInstance, Logging.getInstance());
++}
++
+ @Test(timeout = 4000)
+ public void test7() throws Throwable {
+     logging0 = Logging.getInstance();

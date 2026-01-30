@@ -1,0 +1,47 @@
+--- a/evosuite-tests/org/heal/servlet/cataloger/ShowCatalogQueueAction_ESTest.java
++++ b/evosuite-tests/org/heal/servlet/cataloger/ShowCatalogQueueAction_ESTest.java
+@@ -21,27 +21,24 @@
+ 
+ @RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true) 
+ public class ShowCatalogQueueAction_ESTest extends ShowCatalogQueueAction_ESTest_scaffolding {
++@Test(timeout = 4000)
++public void test0() throws Throwable {
++    ShowCatalogQueueAction action = new ShowCatalogQueueAction();
++    HttpSession session = mock(HttpSession.class, new ViolatedAssumptionAnswer());
++    doReturn(null).when(session).getAttribute(anyString());
++    HttpServletRequest request = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
++    doReturn(session).when(request).getSession();
++    HttpServletResponse response = mock(HttpServletResponse.class);
++    Servlet servlet = new Servlet();
+ 
+-  @Test(timeout = 4000)
+-  public void test0()  throws Throwable  {
+-      ShowCatalogQueueAction showCatalogQueueAction0 = new ShowCatalogQueueAction();
+-      HttpSession httpSession0 = mock(HttpSession.class, new ViolatedAssumptionAnswer());
+-      doReturn((Object) null).when(httpSession0).getAttribute(anyString());
+-      HttpServletRequest httpServletRequest0 = mock(HttpServletRequest.class, new ViolatedAssumptionAnswer());
+-      doReturn(httpSession0).when(httpServletRequest0).getSession();
+-      Servlet servlet0 = new Servlet();
+-      // Undeclared exception!
+-      try { 
+-        showCatalogQueueAction0.perform(servlet0, httpServletRequest0, (HttpServletResponse) null);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("org.heal.servlet.cataloger.ShowCatalogQueueAction", e);
+-      }
+-  }
++    // The method should execute without throwing a NullPointerException
++    action.perform(servlet, request, response);
++
++    // Verify interactions to ensure the method exercised expected paths
++    verify(request).getSession();
++    verify(session, atLeastOnce()).getAttribute(anyString());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test1()  throws Throwable  {

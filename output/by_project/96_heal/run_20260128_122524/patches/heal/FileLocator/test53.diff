@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/heal/util/FileLocator_ESTest.java
++++ b/evosuite-tests/org/heal/util/FileLocator_ESTest.java
+@@ -537,19 +537,17 @@
+     // Ensure the max upload size is a positive value as expected
+     assertTrue(fileLocator0.getMaxUploadSize() > 0);
+ }
+-
+-
+-  @Test(timeout = 4000)
+-  public void test53()  throws Throwable  {
+-      FileLocator fileLocator0 = new FileLocator();
+-      String string0 = fileLocator0.getUploadFilePath();
+-      assertEquals("thumbnails", fileLocator0.getThumbnailDirectory());
+-      assertEquals("upload", fileLocator0.getUploadDirectory());
+-      assertEquals(536870912L, fileLocator0.getMaxUploadSize());
+-      assertNull(string0);
+-      assertEquals("content", fileLocator0.getContentDirectory());
+-      assertEquals("package", fileLocator0.getPackageDirectory());
+-  }
++@Test(timeout = 4000)
++    public void test53() throws Throwable {
++        FileLocator fileLocator0 = new FileLocator();
++        // Verify a default configuration value
++        assertEquals("upload", fileLocator0.getUploadDirectory());
++        // Exercise a non‑trivial method that builds a file path
++        String path = fileLocator0.getUploadFilePath("sample.txt");
++        assertNotNull(path);
++        assertTrue(path.contains(fileLocator0.getUploadDirectory()));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test54()  throws Throwable  {

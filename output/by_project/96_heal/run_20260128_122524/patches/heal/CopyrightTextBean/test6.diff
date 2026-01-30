@@ -1,0 +1,35 @@
+--- a/evosuite-tests/org/heal/module/metadata/CopyrightTextBean_ESTest.java
++++ b/evosuite-tests/org/heal/module/metadata/CopyrightTextBean_ESTest.java
+@@ -83,14 +83,26 @@
+       bean.setCost("123");
+       assertEquals("123", bean.getCost());
+   }
++@Test(timeout = 4000)
++public void test6() throws Throwable {
++    CopyrightTextBean bean = new CopyrightTextBean();
++    bean.setCopyrightTextId("gp");
++    assertEquals("gp", bean.getCopyrightTextId());
+ 
++    // Serialize the bean and then deserialize it to verify state persistence
++    java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
++    java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
++    oos.writeObject(bean);
++    oos.flush();
++    byte[] serialized = baos.toByteArray();
+ 
+-  @Test(timeout = 4000)
+-  public void test6()  throws Throwable  {
+-      CopyrightTextBean copyrightTextBean0 = new CopyrightTextBean();
+-      copyrightTextBean0.setCopyrightTextId("gp");
+-      assertEquals("gp", copyrightTextBean0.getCopyrightTextId());
+-  }
++    java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(serialized));
++    Object deserializedObj = ois.readObject();
++    assertTrue(deserializedObj instanceof CopyrightTextBean);
++    CopyrightTextBean deserialized = (CopyrightTextBean) deserializedObj;
++    assertEquals("gp", deserialized.getCopyrightTextId());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test7()  throws Throwable  {

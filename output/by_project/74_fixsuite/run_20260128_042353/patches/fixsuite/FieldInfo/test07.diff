@@ -1,0 +1,33 @@
+--- a/evosuite-tests/org/fixsuite/message/info/FieldInfo_ESTest.java
++++ b/evosuite-tests/org/fixsuite/message/info/FieldInfo_ESTest.java
+@@ -106,13 +106,24 @@
+       boolean boolean0 = fieldInfo0.isRequiredInComponent(componentInfo0);
+       assertFalse(boolean0);
+   }
++@Test(timeout = 4000)
++    public void test07() throws Throwable {
++        FieldInfo fieldInfo = new FieldInfo();
++        // Verify default behavior with a null component
++        assertFalse(fieldInfo.isRequiredInComponent(null));
+ 
+-  @Test(timeout = 4000)
+-  public void test07()  throws Throwable  {
+-      FieldInfo fieldInfo0 = new FieldInfo();
+-      boolean boolean0 = fieldInfo0.isRequiredInComponent((ComponentInfo) null);
+-      assertFalse(boolean0);
+-  }
++        // Prepare a non‑null ComponentInfo and register it via reflection
++        ComponentInfo component = new ComponentInfo();
++        java.lang.reflect.Field requiringField = FieldInfo.class.getDeclaredField("requiringComponents");
++        requiringField.setAccessible(true);
++        java.util.List<ComponentInfo> list = new java.util.ArrayList<>();
++        list.add(component);
++        requiringField.set(fieldInfo, list);
++
++        // Now the field should be required for the registered component
++        assertTrue(fieldInfo.isRequiredInComponent(component));
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test08()  throws Throwable  {

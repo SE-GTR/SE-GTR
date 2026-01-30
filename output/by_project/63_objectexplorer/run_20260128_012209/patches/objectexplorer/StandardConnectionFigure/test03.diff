@@ -1,0 +1,41 @@
+--- a/evosuite-tests/de/paragon/explorer/figure/StandardConnectionFigure_ESTest.java
++++ b/evosuite-tests/de/paragon/explorer/figure/StandardConnectionFigure_ESTest.java
+@@ -54,15 +54,30 @@
+          verifyException("de.paragon.explorer.figure.StandardConnectionFigure", e);
+       }
+   }
++@Test(timeout = 4000)
++public void test03() throws Throwable {
++    StandardConnectionFigure standardConnectionFigure0 = new StandardConnectionFigure();
++    TextBoxFigure textBoxFigure0 = new TextBoxFigure();
+ 
+-  @Test(timeout = 4000)
+-  public void test03()  throws Throwable  {
+-      StandardConnectionFigure standardConnectionFigure0 = new StandardConnectionFigure();
+-      TextBoxFigure textBoxFigure0 = new TextBoxFigure();
+-      standardConnectionFigure0.setStartFigure(textBoxFigure0);
+-      DebugGraphics debugGraphics0 = new DebugGraphics();
+-      standardConnectionFigure0.drawLine(debugGraphics0);
+-  }
++    // Verify initial state before setting the start figure
++    org.junit.Assert.assertNull("startFigure should be null before setting", standardConnectionFigure0.getStartFigure());
++
++    // Act: set the start figure
++    standardConnectionFigure0.setStartFigure(textBoxFigure0);
++
++    // Assert: the side‑effect of setStartFigure is observable via the getter
++    org.junit.Assert.assertSame("startFigure should be set to the provided figure", textBoxFigure0,
++            standardConnectionFigure0.getStartFigure());
++
++    // Act: draw the line (void method)
++    DebugGraphics debugGraphics0 = new DebugGraphics();
++    standardConnectionFigure0.drawLine(debugGraphics0);
++
++    // Assert: drawing the line does not alter the start figure
++    org.junit.Assert.assertSame("startFigure should remain unchanged after drawLine", textBoxFigure0,
++            standardConnectionFigure0.getStartFigure());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test04()  throws Throwable  {

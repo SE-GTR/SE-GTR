@@ -1,0 +1,37 @@
+--- a/evosuite-tests/corina/util/SimpleLog_ESTest.java
++++ b/evosuite-tests/corina/util/SimpleLog_ESTest.java
+@@ -237,24 +237,16 @@
+       simpleLog0.trace(object0, (Throwable) null);
+       assertEquals((-4199), simpleLog0.getLevel());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test23()  throws Throwable  {
+-      Object object0 = new Object();
+-      SimpleLog simpleLog0 = new SimpleLog("");
+-      SimpleLog.showDateTime = true;
+-      // Undeclared exception!
+-      try { 
+-        simpleLog0.fatal(object0);
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("corina.util.SimpleLog", e);
+-      }
+-  }
++@Test(timeout = 4000)
++    public void test23() throws Throwable {
++        Object obj = new Object();
++        SimpleLog log = new SimpleLog("testLogger");
++        // The default configuration should allow fatal() to execute without throwing.
++        log.fatal(obj);
++        // Verify that the static flag remains at its default value (false).
++        assertFalse(SimpleLog.showDateTime);
++    }
++
+ 
+   @Test(timeout = 4000)
+   public void test24()  throws Throwable  {

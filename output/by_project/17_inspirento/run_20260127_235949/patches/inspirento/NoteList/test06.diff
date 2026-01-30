@@ -1,0 +1,37 @@
+--- a/evosuite-tests/com/allenstudio/ir/ui/NoteList_ESTest.java
++++ b/evosuite-tests/com/allenstudio/ir/ui/NoteList_ESTest.java
+@@ -94,17 +94,23 @@
+       assertEquals(0, noteList0.getSelectedIndex());
+       assertEquals(5, noteList0.getCellCount());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test06()  throws Throwable  {
+-      NoteList noteList0 = new NoteList();
+-      NoteListEventListener noteListEventListener0 = mock(NoteListEventListener.class, new ViolatedAssumptionAnswer());
+-      noteList0.addNoteListEventListener(noteListEventListener0);
+-      Point point0 = new Point();
+-      noteList0.fireRightClick(point0, point0);
+-      assertEquals(0, noteList0.getSelectedIndex());
+-      assertEquals(5, noteList0.getCellCount());
+-  }
++public void test06() throws Throwable {
++    NoteList noteList0 = new NoteList();
++    NoteListEventListener noteListEventListener0 = mock(NoteListEventListener.class, new ViolatedAssumptionAnswer());
++    noteList0.addNoteListEventListener(noteListEventListener0);
++    // Verify that the listener was registered
++    assertEquals(1, noteList0.getListeners(NoteListEventListener.class).length);
++
++    Point point0 = new Point();
++    int selectedBefore = noteList0.getSelectedIndex();
++    noteList0.fireRightClick(point0, point0);
++    // fireRightClick should not change the selected index
++    assertEquals(selectedBefore, noteList0.getSelectedIndex());
++
++    assertEquals(0, noteList0.getSelectedIndex());
++    assertEquals(5, noteList0.getCellCount());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test07()  throws Throwable  {

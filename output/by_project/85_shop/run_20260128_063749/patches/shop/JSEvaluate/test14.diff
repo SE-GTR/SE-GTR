@@ -1,0 +1,32 @@
+--- a/evosuite-tests/umd/cs/shop/JSEvaluate_ESTest.java
++++ b/evosuite-tests/umd/cs/shop/JSEvaluate_ESTest.java
+@@ -124,15 +124,20 @@
+       JSEvaluate.applyOperator("member", jSTerm0, jSTerm0);
+       assertEquals("[293.9]", jSTerm0.toString());
+   }
+-
+-  @Test(timeout = 4000)
+-  public void test14()  throws Throwable  {
+-      JSTerm jSTerm0 = new JSTerm();
+-      jSTerm0.makeVariable();
+-      JSTerm jSTerm1 = JSEvaluate.applyOperator("85*19/dC[6`v:/wwB", jSTerm0, jSTerm0);
+-      JSTerm jSTerm2 = JSEvaluate.applyOperator("0{YwrxX31", jSTerm1, jSTerm0);
+-      assertFalse(jSTerm2.isEval());
+-  }
++@Test(timeout = 4000)
++public void test14() throws Throwable {
++    JSTerm jSTerm0 = new JSTerm();
++    jSTerm0.makeVariable();
++    // Verify side effects of makeVariable
++    assertTrue(jSTerm0.isVariable());
++    assertFalse(jSTerm0.isConstant());
++    assertFalse(jSTerm0.isFunction());
++
++    JSTerm jSTerm1 = JSEvaluate.applyOperator("85*19/dC[6`v:/wwB", jSTerm0, jSTerm0);
++    JSTerm jSTerm2 = JSEvaluate.applyOperator("0{YwrxX31", jSTerm1, jSTerm0);
++    assertFalse(jSTerm2.isEval());
++}
++
+ 
+   @Test(timeout = 4000)
+   public void test15()  throws Throwable  {

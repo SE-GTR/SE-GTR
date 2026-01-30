@@ -1,0 +1,38 @@
+--- a/evosuite-tests/net/sf/xisemele/impl/ReaderImpl_ESTest.java
++++ b/evosuite-tests/net/sf/xisemele/impl/ReaderImpl_ESTest.java
+@@ -62,25 +62,17 @@
+     boolean result = readerImpl0.containsElement("nonexistent");
+     assertFalse(result);
+ }
++@Test(timeout = 4000)
++    public void test3() throws Throwable {
++        formatterProviderImpl0 = new FormatterProviderImpl();
++        factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
++        Document doc = javax.xml.parsers.DocumentBuilderFactory.newInstance()
++                .newDocumentBuilder().newDocument();
++        readerImpl0 = new ReaderImpl(factoryImpl0, doc);
++        String encoding = readerImpl0.encoding();
++        assertNull(encoding);
++    }
+ 
+-
+-  @Test(timeout = 4000)
+-  public void test3()  throws Throwable  {
+-    formatterProviderImpl0 = new FormatterProviderImpl();
+-    factoryImpl0 = new FactoryImpl(formatterProviderImpl0);
+-    readerImpl0 = new ReaderImpl(factoryImpl0, (Document) null);
+-      // Undeclared exception!
+-      try { 
+-        readerImpl0.encoding();
+-        fail("Expecting exception: NullPointerException");
+-      
+-      } catch(NullPointerException e) {
+-         //
+-         // no message in exception (getMessage() returned null)
+-         //
+-         verifyException("net.sf.xisemele.impl.ReaderImpl", e);
+-      }
+-  }
+ 
+   @Test(timeout = 4000)
+   public void test4()  throws Throwable  {
