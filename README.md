@@ -33,8 +33,7 @@ outputs, smell detector (`Smelly-E`) warning files for all
 conditions, and the aggregate CSVs for every paper figure and
 table all live in the companion Zenodo archive:
 
-> DOI: **`10.5281/zenodo.19743169`** (anonymous; will be updated at
-> camera-ready)
+DOI: **`10.5281/zenodo.19743169`**
 
 Downloading the Zenodo archive is required to run `verify_numbers.py`
 end-to-end; this repository alone is sufficient to inspect and re-run
