@@ -33,7 +33,7 @@ outputs, smell detector (`Smelly-E`) warning files for all
 conditions, and the aggregate CSVs for every paper figure and
 table all live in the companion Zenodo archive:
 
-DOI: **`10.5281/zenodo.19743169`**
+DOI: [`10.5281/zenodo.19743169`](https://doi.org/10.5281/zenodo.19743169)
 
 Downloading the Zenodo archive is required to run `verify_numbers.py`
 end-to-end; this repository alone is sufficient to inspect and re-run
@@ -87,8 +87,7 @@ repository. Install them from their upstream distributions:
 - PIT 1.17.4 (https://pitest.org/)
 - JaCoCo (https://www.jacoco.org/jacoco/)
 - JUnit 4.11 (standard Maven/Ivy dependency)
-- Smelly-E, the 13-issue detector (upstream release URL TBD at
-  camera-ready)
+- Smelly-E, the 13-issue detector
 - UTRefactor (the LLM-based smell refactoring baseline; install per
   upstream authors' instructions)
 
