@@ -1,0 +1,45 @@
+# SE-GTR Full — Phase-4 RQ1/RQ2 configuration.
+# All four tiers enabled; 7-gate validator; no budget filter.
+# Derived from the Phase-4 main-run config. Endpoints are placeholders for
+# double-blind review — any OpenAI-compatible provider that serves
+# "openai/gpt-oss-20b" works.
+
+llm:
+  base_url: "<OPENAI_COMPATIBLE_ENDPOINT>"
+  api_key: "${LLM_API_KEY}"   # set via environment; never commit
+  model: "openai/gpt-oss-20b"
+  temperature: 0.2
+  top_p: 0.9
+  max_tokens: 2048
+  request_timeout_sec: 300
+
+pipeline:
+  tiers_enabled: [1, 2, 3, 4]
+  validator_gates: [1, 2, 3, 4, 5, 6, 7]
+  max_llm_attempts_per_plan: 3
+  enable_deterministic_rules: true
+  # Coverage proxy guard; 0 indicates deactivated statement-loss check.
+  gate5_coverage_max_pct_drop: 30
+
+repair:
+  allow_reflection_asserts: false
+  limit_tests: 0
+  cut_context_mode: "signature"
+  cut_context_max_chars: 12000
+  cut_signature_include_fields: true
+  cut_signature_max_methods: 80
+
+smelly:
+  # Relative paths. Point these at your Smelly-E fork (link in top-level README).
+  jar: "tools/smelly-evidence/target/smelly-1.0-shaded.jar"
+  evosuite_runtime_jar: "tools/smelly-evidence/evosuite-standalone-runtime-1.2.0.jar"
+  junit_jar: "tools/smelly-evidence/junit-4.11.jar"
+  detectors: 0
+  mode: 0
+  sufix: " "
+
+ant:
+  ant_cmd: "ant"
+  targets_compile: ["clean", "compile", "compile-evosuite"]
+  targets_test: []
+  shared_lib_dir: "tools/minlib"

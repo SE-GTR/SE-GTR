@@ -1,0 +1,50 @@
+# Phase 4 — SF110 main experiment configuration.
+#
+# The parallel runner (scripts/run_phase4_parallel.py) reads this file.
+# Project list comes from output/runs/phase4_main/project_classification.csv,
+# not duplicated here.
+
+dev_projects:
+  - 1_tullibee
+  - 29_apbsmem
+  - 71_ext4j
+  - 88_jopenchart
+  - 31_xisemele
+
+# Prior runs whose per-project artefacts can be copied into this run's output
+# tree (dev set reuse). Key = project, value = path to the source run dir.
+# The runner verifies config compatibility before reusing.
+dev_reuse_sources:
+  1_tullibee: output/runs/phase2_4c_initial
+  29_apbsmem: output/runs/phase2_4c_initial
+
+parallel:
+  # Phase 4 resume run (post timeout-exclusion): N=6 for conservative
+  # throughput. The first run hit a Tier 4 LLM response stall at N=8,
+  # so we back off now that the long-tail 3 projects are permanently
+  # excluded. ramp path is disabled (see phase 4 run notes).
+  initial_workers: 6
+  max_workers: 6
+  ramp_up_after: 999
+  throttle_down_after_failures: 3
+
+budget:
+  total_usd: 50.0
+  per_project_usd: 2.0
+  # B-2: extended timeout for 8 long-tail retry projects (4 drain-timeouts
+  # + 4 not-admitted). The 6 permanent exclusions (13/18/21/35/81/86)
+  # stay failed and are skipped by the pending scheduler.
+  timeout_per_project_min: 180
+
+interim_summary_every: 10     # write interim_summary_N.md every N projects
+
+pipeline:
+  model_key: gpt_oss_20b
+  reasoning_effort_tier4: low
+  enable_tier1: true
+  enable_tier2: true
+  enable_tier3: true
+  enable_tier4: true
+  enable_project_jacoco: true
+  max_attempts: 3
+  run_smelly_after: true

@@ -1,0 +1,63 @@
+# SE-GTR v2 multi-model runtime config — TEMPLATE.
+# Copy to llm_config.yaml (gitignored) and replace PLACEHOLDER_SET_BY_USER.
+
+openrouter:
+  api_key: "PLACEHOLDER_SET_BY_USER"
+  base_url: "https://openrouter.ai/api/v1"
+  timeout_sec: 120
+  default_headers:
+    HTTP-Referer: "https://github.com/anonymous/se-gtr-v2"
+    X-Title: "SE-GTR v2 Dev Evaluation"
+
+# The five candidate models for Phase 2.2 comparison. OpenRouter IDs are
+# verified at smoke-test time; adjust the `id` field if OpenRouter renames a
+# model.
+models:
+  qwen35_9b:
+    id: "qwen/qwen3.5-9b"
+    display_name: "Qwen 3.5 9B"
+    pricing: { input: 0.05, output: 0.15 }
+    context_window: 256000
+    notes: "Dense, multimodal, most efficient"
+  qwen35_27b:
+    id: "qwen/qwen3.5-27b"
+    display_name: "Qwen 3.5 27B"
+    pricing: { input: 0.195, output: 1.56 }
+    context_window: 262144
+    notes: "IFEval 95.0, main candidate"
+  qwen_coder_next:
+    id: "qwen/qwen3-coder-next"
+    display_name: "Qwen3 Coder Next 80B"
+    pricing: { input: 0.12, output: 0.75 }
+    context_window: 262144
+    notes: "80B MoE 3B active, coding-specialized"
+  gemma4_31b:
+    id: "google/gemma-4-31b-it"
+    display_name: "Gemma 4 31B"
+    pricing: { input: 0.14, output: 0.40 }
+    context_window: 262144
+    notes: "Dense, Gemini 3 research, different family"
+  gpt_oss_20b:
+    id: "openai/gpt-oss-20b"
+    display_name: "gpt-oss-20b"
+    pricing: { input: 0.04, output: 0.15 }
+    context_window: 131072
+    notes: "Harmony format, different family"
+
+dev_experiment:
+  projects:
+    - "1_tullibee"
+    - "29_apbsmem"
+    - "71_ext4j"
+    - "88_jopenchart"
+    - "31_xisemele"
+  tier2_smells: ["ENET", "EDIS", "EDED", "TSES", "AC"]
+  max_requests_per_method: 3
+  cost_budget_per_model_usd: 10.0
+  temperature: 0.2
+  max_output_tokens: 2000
+  # Tier 2 is structured transformation (operator plan JSON), not deep
+  # reasoning. `MultiModelClient` injects per-model flags to disable
+  # thinking/reasoning regardless of this field; it's here for documentation
+  # only so downstream tooling knows the intent.
+  enable_thinking: false

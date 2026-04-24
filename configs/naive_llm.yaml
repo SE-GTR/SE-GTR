@@ -1,0 +1,20 @@
+# Naive LLM baseline — no tiered routing, no smell evidence, no gate chain
+# except the minimal compile-and-run check. Used for Phase B (RQ3 baseline).
+
+llm:
+  base_url: "<OPENAI_COMPATIBLE_ENDPOINT>"
+  api_key: "${LLM_API_KEY}"
+  model: "openai/gpt-oss-20b"     # model parity with SE-GTR Full
+  temperature: 0.2
+  top_p: 0.9
+  max_tokens: 2048
+  request_timeout_sec: 300
+
+pipeline:
+  mode: "naive_llm"               # one-shot method-level rewrite; no tiers
+  validator_gates: [3, 4]         # compile + test pass only
+  max_llm_attempts_per_plan: 3
+
+repair:
+  cut_context_mode: "signature"
+  cut_context_max_chars: 12000
