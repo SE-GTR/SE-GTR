@@ -41,5 +41,7 @@ configure.
 
 - Phase-4 main run used 90-minute wall-clock per project, retried at
   180-minute for 8 stragglers (of which 6 finished).
-- PIT runs use a 60-minute wall-clock per project.
+- PIT runs use a 30-minute wall-clock per project
+  (`run_phase4_pit.py`, `TIMEOUT_SEC = 30 * 60`; `phaseE_run_pit.py`,
+  `--timeout-min` default `30`).
 - Memory: `-Xmx4g` is sufficient for every SF110 project in the cohort.

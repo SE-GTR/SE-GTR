@@ -46,8 +46,11 @@ A symlink tree at
 
 - SF110 IDs are upstream from Fraser & Arcuri's benchmark; IDs 1–117
   map 1:1 to the SF110 project numbering. Never re-numbered.
-- No random seed is used for cohort draws in `selected_15.csv` —
-  stratification is deterministic by `tests_total` bins (see
-  `selection_log.md`).
+- The draw for `selected_15.csv` is stratified into `tests_total` bins and
+  then sampled with a fixed seed: `random.Random(42).sample(..., 5)` per bin,
+  over a bin order sorted by numeric project id so the draw is
+  platform-independent (`phaseB_select_15.py`, `SEED = 42`; see
+  `selection_log.md` §2.2). The selection is therefore deterministic given
+  the pool content plus the seed.
 - EvoSuite test generation used seed `1`; this is in the project-level
   `evosuite-files/evosuite.properties` for each project.
