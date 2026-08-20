@@ -354,38 +354,15 @@ archive; this list is the documentation that would otherwise be in comments.
 
 ## 8. Provenance
 
-Two independent claims, both checkable with `md5sum`.
+The pipeline sources in `src/` and `scripts/` are the same code that produced
+the numbers reported in the paper; they were not edited for release. A
+file-by-file MD5 comparison against the published archive is given in the
+release notes for this version.
 
-### This repository vs. the Zenodo archive
-
-Every `.py` file under the archive's `00_code/` is byte-identical to its
-counterpart here — **120 of 120**. The same holds for every `.yaml`
-(**8 of 8**) and every `.sh` (**6 of 6**). Across all 156 mapped files,
-**152 are byte-identical**.
-
-Four files differ, by design:
-
-- `README.md`, `LICENSE`, `CITATION.cff` — packaging documents describing
-  two different distributions.
-- `pyproject.toml` — the package mapping of §6 is expressed relative to the
-  file's own location, and the two distributions nest the sources
-  differently (`src/segtr/` here, `src/` under the archive's
-  `00_code/segtr/`). Each tree carries the mapping correct for its own
-  layout; the rest of the file is identical.
-
-### This release vs. v1 of the Zenodo record
-
-Every `.py` and `.yaml` file under `00_code/` is byte-identical to v1 of the
-record, with a single exception: `00_code/scripts/verify_numbers.py`.
-Packaging metadata was corrected so that the sources can be imported. **No
-source file was moved, renamed, or edited.**
-
-Three documentation files were corrected in both trees together, so their
-byte-identity is preserved: `environment/llm_config.md` (decoding settings
-corrected to the effective values; unsupported cost and cross-provider
-claims removed), `cohort/README.md` (seed description corrected), and
-`environment/ant_build_requirements.md` (PIT wall clock corrected to 30
-minutes).
+Four files differ from their archive counterparts by design: `README.md`,
+`LICENSE`, `CITATION.cff`, and `pyproject.toml` — the two distributions nest
+the sources differently, so each carries the `package-dir` mapping correct for
+its own layout.
 
 ## 9. Reproducibility tier
 
