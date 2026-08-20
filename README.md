@@ -26,6 +26,14 @@ Zenodo archive (a single `replication_package.zip`, ≈109 MB):
 **https://doi.org/10.5281/zenodo.19743168** — concept DOI; always
 resolves to the latest version.
 
+> **Path convention.** Throughout this repository's documentation, any path
+> beginning `00_code/`, `01_cohort/`, `02_phase4_segtr_full/`,
+> `03_baselines_3way/`, `04_ablation/`, `05_phase_e_pit/`,
+> `06_paper_claim_map/`, `07_environment/`, or naming `CHANGELOG_v2.md`
+> refers to the **extracted Zenodo archive**, not to this repository. Several
+> documentation files are kept byte-identical between the two distributions,
+> so they use the archive's layout.
+
 ### Layout
 
 | Path | Contents |
