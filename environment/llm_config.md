@@ -10,7 +10,8 @@ placeholders.
 
 ## Endpoint
 
-In the provided configs (`00_code/configs/*.yaml`), the endpoint is:
+In the provided configs — `configs/*.yaml` in the GitHub repository,
+`00_code/configs/*.yaml` in the Zenodo archive — the endpoint is:
 
 ```yaml
 llm:
@@ -38,10 +39,10 @@ configuration file the pipeline reads at run time (see the tree layout in the
 top-level README) — `openrouter.timeout_sec`, `dev_experiment.temperature`,
 `dev_experiment.max_output_tokens` — with the same defaults hard-coded in the
 config loader; `top_p` is set in the multi-model client. The `llm:` blocks in
-the `configs/*.yaml` files are NOT read at runtime; they still read 2048 / 300
-and were deliberately left untouched. See "Vestigial and non-executed
-configuration" in the top-level README for why, and CHANGELOG_v2.md for what
-v1 documented here.
+those `configs/*.yaml` files are NOT read at runtime; they still read
+2048 / 300 and were deliberately left untouched. See "Vestigial and
+non-executed configuration" in the top-level README for why, and
+`CHANGELOG_v2.md` in the Zenodo archive for what v1 documented here.
 
 ## Retries
 
@@ -62,10 +63,11 @@ The Phase-4 main run made **24,542 LLM calls** on the held-out cohort and
 The paper reports cost as plan-and-tier activity, not in currency.
 `openai/gpt-oss-20b` is an open-weights model, so any dollar amount is a
 property of one hosting provider's price list on the run dates rather than
-of SE-GTR, and will not reproduce elsewhere. Per-plan and per-tier counts
-are in `02_phase4_segtr_full/plan_log_all.jsonl` (31,811 plans) and in each
-project's `summary.json`. v1 of this package quoted dollar figures here;
-see CHANGELOG_v2.md for what they were and why they were withdrawn.
+of SE-GTR, and will not reproduce elsewhere. Per-plan and per-tier counts are
+in the Zenodo archive, in `02_phase4_segtr_full/plan_log_all.jsonl` (31,811
+plans) and in each project's `summary.json`. v1 of the archive quoted dollar
+figures here; see `CHANGELOG_v2.md` in the Zenodo archive for what they were
+and why they were withdrawn.
 
 ## No secrets
 
