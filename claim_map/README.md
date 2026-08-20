@@ -19,14 +19,21 @@ Columns:
 
 - **VERIFIED** — `verify_numbers.py` checks the claim against the
   `source` cell and the check passes within the stated tolerance.
-- **TODO_CAMERA_READY** — a discrepancy or open editorial decision
-  that must be resolved before camera-ready. Currently one entry:
-  Table III UTRef class regressions (raw = 8 source-level flags,
-  runtime = 0; paper uses 0 under runtime semantics — see detailed
-  note in `03_baselines_3way/aggregate/class_regressions_detail.csv`
-  and `utref_compile_errors.csv`). A suggested one-sentence caption
-  addition is provided in
-  `03_baselines_3way/aggregate/utref_compile_errors.csv`.
+- **NOT_MEASURABLE** — the quantity could not be observed for that
+  condition, so the paper prints `—` rather than a number.
+  UTRefactor emits both a JUnit 4 and a JUnit 5 `Test` import, which
+  `javac` rejects as ambiguous; 12 of 12 completed projects therefore
+  fail to compile and 0 tests ever run
+  (`03_baselines_3way/aggregate/utref_compile_errors.csv`:
+  `compiled=0`, `pit_success=0/15`). Class regressions, coverage delta
+  and mutation score are all unmeasurable for UTRefactor as a result.
+  The 8 source-level flags in the raw `per_project.json` (6 in
+  `7_sfmis`, 2 in `41_follow`) are pre-existing failures in the
+  unrepaired workdir, not repair-induced regressions.
+  `verify_numbers.py` reports these two claims as SKIP.
+  Also used for ARPM in Figure 3, which is 0 before and 0 after on
+  every project, so no percentage is defined.
+- **TODO_CAMERA_READY** — none remaining.
 - **NOTE** — descriptive pointer, not a check (none currently).
 
 ## Adding a new claim
