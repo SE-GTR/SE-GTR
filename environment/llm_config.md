@@ -4,9 +4,9 @@
 
 SE-GTR Full and the Naive baseline both use **`openai/gpt-oss-20b`**
 (a publicly available 20B-parameter open-weights model, hosted by any
-OpenAI-compatible inference provider). The model name is not
-anonymised because it is a public identifier; only endpoint URLs and
-API keys have been replaced with placeholders.
+OpenAI-compatible inference provider). The model name is a public
+identifier and is given verbatim. Endpoint URLs and API keys are
+placeholders.
 
 ## Endpoint
 
@@ -19,19 +19,19 @@ llm:
 ```
 
 Replace `<OPENAI_COMPATIBLE_ENDPOINT>` with any provider that serves
-`openai/gpt-oss-20b` over the OpenAI Chat Completions API. We verified
-the paper's runs on a few provider backbones; all produced numerically
-equivalent aggregates (per-smell Δ%, per-plan accept rate) to within
-±0.3 pp.
+`openai/gpt-oss-20b` over the OpenAI Chat Completions API. All reported
+runs use `openai/gpt-oss-20b` served through OpenRouter. This archive
+contains no cross-provider comparison.
 
-## Temperature schedule
+## Decoding settings
 
-All four tiers use the same decoding settings:
+Tier 1 is LLM-free (deterministic operators, no request is made). Tiers 2–4
+share one flat decoding profile — there is no per-tier temperature schedule:
 
 - temperature = 0.2
 - top_p = 0.9
-- max_tokens = 2048
-- request_timeout_sec = 300
+- max_output_tokens = 2000
+- request_timeout_sec = 120
 
 ## Retries
 
@@ -43,11 +43,6 @@ Retries are triggered by:
 
 Retries are NOT triggered by a compile-gate or run-gate rejection —
 those are considered semantic failures and the plan is rejected as-is.
-
-## Cost
-
-Per the Phase-4 run: **$9.10 total** across 86 projects, $6.31 for the
-81 held-out cohort, $0.77 mean per project, $0.23 95th-percentile.
 
 ## No secrets
 
