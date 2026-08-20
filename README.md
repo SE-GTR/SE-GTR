@@ -411,7 +411,7 @@ Referenced but not redistributed here; install from upstream:
                proceedings.}
 }
 
-@dataset{kim2026segtr_artifact,
+@misc{kim2026segtr_artifact,
   title     = {SE-GTR: Smell Evidence-Guided Repair of Automatically
                Generated Unit Tests --- replication package},
   author    = {Kim, Seungho and Lee, Scott Uk-Jin},
